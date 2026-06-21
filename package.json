@@ -1,0 +1,12 @@
+{
+  "name": "nazareth-holly-cross",
+  "version": "1.0.0",
+  "description": "Nazareth Holy Cross - monorepo with client and server",
+  "scripts": {
+    "start:client": "cd client && npm start",
+    "start:server": "cd server && npm start",
+    "install:client": "cd client && npm install",
+    "install:server": "cd server && npm install",
+    "install:all": "npm run install:client && npm run install:server"
+  }
+}

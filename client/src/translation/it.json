@@ -1,0 +1,298 @@
+{
+    "about": {
+        "title": "Benvenuti al portale ufficiale di Nazareth",
+        "description1": "Il cuore della fede cristiana. Sappiamo che non tutti possono visitare fisicamente Nazareth, una città dove è cresciuto Gesù e dove ogni visitatore riceve esperienze spirituali. Pertanto, siamo lieti di offrirti l'opportunità di portare Nazareth da te.",
+        "description2": "Tramite il nostro sito web, puoi fare un tour virtuale delle principali chiese e dei luoghi sacri di Nazareth, entrare in contatto con la ricca storia e la tradizione religiosa che caratterizzano il luogo. Inoltre, ti offriamo un'opportunità unica di acquistare souvenir locali e persino accendere una candela in memoria o in onore dei tuoi cari, come se fossi qui con noi.",
+        "description3": "Nel nostro negozio online, puoi trovare un'ampia gamma di prodotti: croci realizzate in legno di ulivo locale, gioielli ispirati ai simboli cristiani, dipinti e mosaici che riflettono la ricca arte religiosa e molto altro. Ora, puoi anche acquistare acqua dalla leggendaria sorgente di Nazareth, sabbia dalle sabbie di Nazareth e olive locali, tutto per sentire la grandezza della città di Nazareth e di Gesù. Puoi anche scegliere di accendere una candela virtuale, un atto che trasmette preghiera e ricordo a distanza.",
+        "description4": "Ti invitiamo ad aprire i tuoi cuori e a sentire il calore della nostra comunità attraverso ogni prodotto che scegli di acquistare. Ogni acquisto sostiene la comunità locale e aiuta a preservare il ricco patrimonio di Nazareth per le generazioni future. Visita il nostro sito Web e trova il modo di connetterti con Nazareth, sempre e ovunque."
+    },
+    "whatIsNew": {
+        "title": "Riferimenti biblici a Nazaret",
+        "scriptureNotes": {
+            "matthew": "Matteo 2:23: \"E venne ad abitare in una città chiamata Nazaret, affinché si adempisse ciò che era stato detto dai profeti: 'Sarà chiamato Nazareno'.\"",
+            "luke1": "Luca 1:26-27: \"Ora, nel sesto mese, l'angelo Gabriele fu mandato da Dio in una città della Galilea, chiamata Nazaret, a una vergine, promessa sposa di un uomo di nome Giuseppe, della casa di Davide. Il nome della vergine era Maria.\"",
+            "john": "Giovanni 1:46: \"E Natanaele gli disse: 'Può venire qualcosa di buono da Nazaret?' Filippo gli disse: 'Vieni e vedi.'\"",
+            "luke4": "Luca 4:16: \"Così venne a Nazaret, dove era stato allevato. E, come era sua abitudine, entrò nella sinagoga in giorno di sabato e si alzò per leggere.\""
+        },
+        "touchingTheSacred": "Toccare il sacro, sentire il battito del cuore",
+        "introParagraphs": {
+            "part1": "Nazaret, la città dove si è svolto il miracolo, è il luogo in cui Gesù ha mosso i primi passi, dove la Vergine Maria ha abbracciato suo Figlio e ha pregato per la sua salvezza. Qui, nelle antiche chiese, alla sorgente sacra dove Maria ha nutrito Gesù e nel vivace mercato della città vecchia, troverai la tua fede tornare a vivere.",
+            "part2": "Immagina di camminare per le strette vie, seguendo le orme di Gesù verso le chiese, condividendo momenti di riflessione alla Fonte di Maria, dove gli occhi della santa madre hanno incontrato le antiche acque. Ogni pietra, ogni vicolo, racconta una storia di fede incrollabile, di un viaggio spirituale che trascende il tempo.",
+            "part3": "Quando accendi una candela nella Basilica dell'Annunciazione, ti riconnetti con il luogo in cui Gesù ha sentito per la prima volta la sua chiamata divina. Mentre il tuo cuore anela a Nazareth, i nostri souvenir portano lo spirito santo della città, ricordandoti il ​​tuo profondo legame con il luogo in cui tutto ha avuto inizio.",
+            "part4": "Permettici di portarti Nazareth, direttamente a casa tua. Con ogni ricordo, conservi un profondo legame con Nazareth, la città in cui hanno camminato Gesù e Maria, la città in cui è nata la fede. Ricorda i momenti che sono accaduti qui, i cuori che si sono aperti in preghiera e le lacrime che sono cadute silenziosamente sulle antiche pietre.",
+            "part5": "Nazareth ti aspetta, abbracciandoti da lontano, portandoti la sua santità. Mantieni la fiamma accesa nel tuo cuore, fino al giorno in cui tornerai da noi, nella città dove batte la fede."
+        }
+    },
+    "live": {
+        "event_ongoing": "Evento live in corso",
+        "upcoming_event": "Prossimo evento live",
+        "nazareth_date_time": "Data e ora di Nazareth:",
+        "time_remaining": "Tempo rimanente:",
+        "join_live": "Unisciti al live",
+        "no_upcoming_events": "Nessun evento disponibile in arrivo.",
+        "past_live_events": "Eventi live passati",
+        "refresh_note": "Nota: aggiorna la pagina prima di premere il pulsante 'Unisciti al live'.",
+        "live_note": "Nota: il pulsante 'Unisciti al live' è disponibile solo dopo l'inizio dell'evento live."
+    },
+    "common": {
+        "home": "Home",
+        "live": "Live",
+        "tour": "Tour",
+        "candle": "Candela",
+        "shop": "Negozio",
+        "reviews": "Recensioni"
+    },
+    "candle": {
+        "howToLightACandle": "Come accendere una candela?",
+        "itsSimple": "È semplice:",
+        "step1": "Scegli una chiesa in cui vorresti che la candela fosse accesa.",
+        "step2": "Scrivi una preghiera o una richiesta personale che vorresti che accompagnasse l'accensione della candela.",
+        "step3": "Andremo alla church, accendi la candela per te, registra un video con il tuo nome e invialo direttamente a te.",
+        "note": "Nota: questo video è solo a scopo illustrativo, mostra il processo di accensione di una candela nella chiesa greco-ortodossa.",
+        "lightAPrayCandle": "ACCENDI UNA CANDELA PER PREGARE",
+        "selectChurch": "Seleziona la chiesa in cui accendere la candela:",
+        "toLightACandlePay": "Per accendere una candela, paga 3$",
+        "light": "ACCENDI",
+        "emailMatchError": "Le email non corrispondono",
+        "inputWarning": "Seleziona una chiesa.",
+        "firstName": "Nome",
+        "lastName": "Cognome",
+        "yourEmail": "La tua email",
+        "confirmEmail": "Conferma email",
+        "yourPrayer": "La tua preghiera"
+    },
+    "heroSection": {
+        "heading": "LA CITTÀ DI GESÙ TI ASPETTA",
+        "subHeading": "GRAZIA IN OGNI CLIC",
+        "lightCandle": "ACCENDI UNA CANDELA",
+        "shopButton": "Negozio",
+        "tourButton": "TOUR DI NAZARETH",
+        "shopIcon": "fa fa-shopping-cart",
+        "tourIcon": "far fa-play-circle",
+        "discount":"Goditi uno sconto del 10% su tutti gli articoli del nostro negozio—solo sul nostro sito!"
+
+    },
+    "cards": {
+        "title": "Scopri queste destinazioni EPICHE!",
+        "latinChurch": "Esplora la Chiesa dell'Annunciazione",
+        "greekChurch": "Esplora la Chiesa greco-ortodossa",
+        "marysWell": "Esplora il pozzo di Maria nelle profondità di Nazareth",
+        "oldCity": "Esplora la Città Vecchia di",
+        "cityOfNazareth": "La Città di Nazareth, la Città di Gesù"
+    },
+    "videos": {
+        "interview_nazareth": {
+            "title": "Intervista con la Comunità di Nazareth",
+            "description": "Guarda l'intervista esclusiva trasmessa in streaming live da Nazareth."
+        },
+        "live_prayer_latin": {
+            "title": "Preghiera in diretta dalla Chiesa latina",
+            "description": "Scopri una trasmissione in diretta di preghiere sentite dalla Chiesa latina."
+        }
+    },
+    "nazarethTour": {
+        "pageHeading": "Esplora Nazareth",
+        "videoMessage": "Facciamo un giro a Nazareth, una città ricca di storia e cultura. Scopri mercati vivaci, chiese storiche e monumenti unici per un'esperienza indimenticabile.",
+        "videoDescription": "Goditi le viste e i suoni di Nazareth in questo tour video immersivo. Dai mercati affollati ai sereni siti storici, dai un'occhiata alla bellezza e al fascino di questa antica città.",
+        "ctaButton": "Scopri di più su Nazareth"
+    },
+    "pray": {
+        "formTitle": "Condividi la tua recensione",
+        "formDescription": "Condividi la tua esperienza con il nostro sito web. Il tuo feedback ci aiuta a migliorare e a fornire un servizio migliore. Compila il modulo sottostante e la tua recensione verrà pubblicata una volta approvata dal nostro team.",
+        "placeholderFullName": "Nome completo",
+        "placeholderCountry": "Da dove vieni?",
+        "placeholderMessage": "Raccontaci la tua esperienza con il nostro sito web",
+        "submitButton": "Invia",
+        "successMessage": "Messaggio inviato con successo!",
+        "confirmationMessage": "Il tuo messaggio apparirà sul muro una volta confermato dal team di Nazareth Holy Cross.",
+        "messagesTitle": "Clienti recensiti",
+        "messagesDescription": "Ecco le recensioni che sono state approvate dal nostro team. Grazie per aver condiviso il tuo feedback con noi.",
+        "noMessages": "Nessun messaggio inviato ancora."
+    },
+    "confirmationCandle": {
+        "thankYou": "Grazie!",
+        "paymentSuccess": "Il tuo pagamento è stato elaborato correttamente.",
+        "receipt": "Una ricevuta è stata inviata al tuo indirizzo email.",
+        "gratitude": "Grazie per il tuo ordine!"
+    },
+    "thankYou": {
+        "thankYou": "Grazie!",
+        "paymentSuccess": "Il tuo pagamento è stato elaborato correttamente.",
+        "receipt": "Una ricevuta è stata inviata al tuo indirizzo email.",
+        "gratitude": "Grazie per il tuo ordine!"
+    },
+    "footer": {
+        "aboutUs": "Chi siamo",
+        "aboutUsDescription": "Ci impegniamo a preservare lo spirito di Nazareth e a diffondere il messaggio di speranza. Visita il nostro sito Web per esplorare il viaggio.",
+        "learnMore": "Scopri di più",
+        "contactUs": "Contattaci",
+        "email": "nazarethholycross@gmail.com",
+        "followInstagram": "Seguici su Instagram",
+        "followFacebook": "Seguici su Facebook",
+        "subscribeYoutube": "Unisciti a noi su YouTube",
+        "credits": "Crediti",
+        "creditLink1": "Saher Saadi",
+        "creditLink2": "Haytham Taweel",
+        "copyright": "Copyright © 2024 - Tutti i diritti riservati da NazarethHolyCross"
+    },
+    "headerGreek": {
+        "title": "Esplora la bellezza della chiesa greca",
+        "mapButton": "Visualizza su Google Maps"
+    },
+    "contentGreek": {
+        "paragraph1": "La chiesa greco-ortodossa dell'Annunciazione si trova sopra la sorgente dove i cristiani ortodossi credono che abbia avuto luogo l'Annunciazione. Mentre la Vergine Maria andava ad attingere acqua dalla sorgente, l'Arcangelo Gabriele le apparve e le comunicò che avrebbe concepito e dato alla luce un figlio che avrebbe chiamato Gesù. L'attuale chiesa risale al 1750, quando Daher al-Omar, il sovrano beduino della Galilea, diede alla comunità greco-ortodossa il permesso di costruirla.",
+        "paragraph2": "La chiesa ha una navata centrale con due navate laterali e contiene una bellissima iconostasi in legno donata da un mercante greco nel 1767. La chiesa è stata ristrutturata da artisti rumeni dal 1977 al 1978. Un passaggio ad arco conduce a una piccola cappella, chech è decorata con piastrelle armene e ha sette gradini che conducono alla sorgente, che si ritiene sia stata costruita dai Crociati nel XII secolo.",
+        "paragraph3": "A circa 140 metri dalla chiesa si trova il Pozzo di Maria, che un tempo era alimentato dalla sorgente e ha servito come fonte d'acqua locale per diversi secoli. La fontana è stata riparata nel 1967 e di nuovo nel 2000, ma oggi non è più in funzione."
+    },
+    "headerLatin": {
+        "title": "Esplora la bellezza della Chiesa Latina"
+    },
+    "contentLatin": {
+        "paragraph1": "La Chiesa Latina, nota anche come Basilica dell'Annunciazione, è un importante sito religioso situato a Nazareth, Israele. È una delle chiese più grandi del Medio Oriente e ha un profondo significato religioso per i cristiani di tutto il mondo.",
+        "history": {
+            "title": "Contesto storico",
+            "text": "Si ritiene tradizionalmente che il sito sia il luogo in cui l'angelo Gabriele annunciò alla Vergine Maria che avrebbe concepito e dato alla luce Gesù, un evento noto come Annunciazione. La basilica ha una lunga storia che risale ai primi secoli del cristianesimo, con chiese successive costruite sul sito nel corso del tempo."
+        },
+        "architecture": {
+            "title": "Caratteristiche architettoniche",
+            "text": "L'attuale basilica, costruita tra il 1955 e il 1969, presenta una caratteristica struttura a due piani. La chiesa superiore è utilizzata per i servizi di culto, mentre la chiesa inferiore racchiude la Grotta dell'Annunciazione, ritenuta il luogo effettivo dell'Annunciazione. L'architettura della basilica fonde stili moderni con elementi tradizionali e il suo interno è decorato con mosaici, affreschi e opere d'arte raffiguranti scene della vita di Cristo."
+        },
+        "visiting": {
+            "title": "Visitare la Basilica",
+            "text": "La Basilica dell'Annunciazione è una destinazione popolare per pellegrini e turisti in visita a Nazareth. I visitatori possono esplorare sia la chiesa superiore che quella inferiore, ammirare le caratteristiche artistiche e architettoniche e partecipare alle cerimonie e agli eventi religiosi che si tengono nella basilica. Il sito offre una profonda esperienza spirituale e funge da simbolo di fede e patrimonio."
+        }
+    },
+    "headerMary": {
+        "title": "Esplora la bellezza del Pozzo di Maria"
+    },
+    "contentMary": {
+        "intro": "Il Pozzo di Maria, noto anche come Pozzo della Vergine, è un importante sito storico e religioso situato a Nazareth, Israele. Si ritiene tradizionalmente che sia il luogo in cui l'angelo Gabriele annunciò alla Vergine Maria che avrebbe partorito Gesù, un evento noto come Annunciazione.",
+        "significance": {
+            "title": "Significato storico e religioso",
+            "biblical": "Collegamento biblico",
+            "biblicalText": "Secondo la tradizione cristiana, il pozzo di Maria è il luogo in cui Maria stava attingendo acqua quando l'angelo Gabriele le apparve e le annunciò che avrebbe concepito e dato alla luce Gesù Cristo. Questo evento è una parte centrale della storia cristiana dell'Annunciazione.",
+            "cultural": "Importanza culturale",
+            "culturalText": "Il pozzo è stato una fonte vitale di acqua per la comunità locale per secoli. È servito come luogo di ritrovo per la gente di Nazareth, rendendolo parte integrante della vita quotidiana della città.",
+            "architecture": "Caratteristiche architettoniche",
+            "architectureText": "Il pozzo stesso fa parte di un complesso più ampio che include la chiesa greco-ortodossa dell'Annunciazione. L'attuale struttura della chiesa risale al XVIII secolo, ma il pozzo e il sito hanno radici molto più antiche."
+        },
+        "modern": {
+            "title": "Sito moderno",
+            "restoration": "Sforzi di restauro",
+            "restorationText": "La fontana del Pozzo di Maria ha subito diversi restauri nel corso degli anni, in particolare nel 1967 e nel 2000. Nonostante questi sforzi, il pozzo oggi non funziona più come un tempo.",
+            "attraction": "Attrazione turistica",
+            "attractionText": "Il Pozzo di Maria è una destinazione popolare per pellegrini e turisti. I visitatori vengono per vedere il sito storico e per vivere l'esperienza del luogo in cui, secondo la tradizione, ebbe luogo l'Annunciazione.",
+            "surroundings": "Area circostante",
+            "surroundingsText": "Il pozzo si trova nella Città Vecchia di Nazareth, un'area ricca di monumenti storici e religiosi. Le attrazioni vicine includono la Basilica dell'Annunciazione, la Chiesa greco-ortodossa dell'Annunciazione e vari altri siti legati alla vita di Gesù e Maria."
+        },
+        "visiting": {
+            "title": "Visita al Pozzo di Maria",
+            "location": "Posizione",
+            "locationText": "Il Pozzo di Maria si trova nel cuore di Nazareth, rendendolo facilmente accessibile ai visitatori che esplorano la Città Vecchia.",
+            "accessibility": "Accessibilità",
+            "accessibilityText": "Il sito è aperto al pubblico e può essere visitato durante tutto l'anno. Si consiglia di controllare le informazioni turistiche locali per eventuali orari di visita o linee guida specifiche.",
+            "culturalExperience": "Esperienza culturale",
+            "culturalExperienceText": "Visita al Pozzo di MariaWell offre un'opportunità unica per entrare in contatto con il ricco patrimonio religioso e culturale di Nazareth. Il sito offre approfondimenti sulla vita quotidiana delle persone nei tempi antichi e sulle loro pratiche spirituali."
+        }
+    },
+    "headerTitleNaz": "Esplora la bellezza della città di Nazareth",
+    "mapButton": "Apri mappa",
+    "contentNaz": {
+        "introduction": "La città vecchia di Nazareth è famosa soprattutto per il suo shuk (mercato all'aperto) che attrae israeliani da tutto il paese alla ricerca di prodotti tradizionali arabi. Questo di per sé è un'esperienza e un grande contrasto con i centri commerciali con aria condizionata sparsi in tutto il paese. Per coloro che sono interessati al cristianesimo, la città vecchia e i dintorni sono pieni di importanti siti cristiani, tra cui la Chiesa dell'Annunciazione.",
+        "historicalSignificance": {
+            "title": "Significato storico e religioso",
+            "text": "Nazareth è menzionata in modo prominente nel Nuovo Testamento. Secondo la tradizione cristiana, è il luogo in cui l'angelo Gabriele annunciò a Maria che avrebbe partorito Gesù, un evento commemorato dalla Basilica dell'Annunciazione. Le prove archeologiche indicano che Nazareth era un piccolo villaggio ebraico al tempo di Gesù. È stata abitata ininterrottamente fin dall'antichità."
+        },
+        "modernNazareth": {
+            "title": "Nazareth moderna",
+            "text": "La città ha una popolazione eterogenea, prevalentemente araba musulmana e cristiana. Secondo stime recenti, Nazareth ha circa 77.000 residenti. Nazareth è un vivace centro culturale con varie istituzioni religiose, culturali ed educative. Ospita festival ed eventi che riflettono il suo ricco patrimonio e la sua comunità eterogenea. Il turismo è una parte significativa dell'economia di Nazareth, trainata dai suoi siti religiosi e monumenti storici. Inoltre, la città ha un mix di piccole attività commerciali, negozi e mercati che contribuiscono alla sua economia locale."
+        },
+        "accessibility": {
+            "title": "Accessibilità e turismo",
+            "text": "Nazareth è ben collegata via strada, con frequenti servizi di autobus dalle principali città come Tel Aviv, Haifa e Gerusalemme. La città offre varie opzioni di alloggio, dagli hotel alle pensioni, per soddisfare le esigenze di turisti e pellegrini."
+        }
+    },
+    "headerTitleOld": "Esplora la bellezza della Città Vecchia di Nazareth",
+    "mapDescriptionOld": "La Città Vecchia di Nazareth è famosa soprattutto per il suo shuk (mercato all'aperto) che attrae israeliani da tutto il paese in cerca di prodotti tradizionali arabi. Questo di per sé è un'esperienza e un grande contrasto con i centri commerciali con aria condizionata sparsi in tutto il paese. Per chi è interessato al cristianesimo, la Città Vecchia e i dintorni sono pieni di importanti siti cristiani, tra cui la Chiesa dell'Annunciazione.",
+    "churchDescriptionOld": "La Chiesa greco-ortodossa dell'Annunciazione si trova sopra la sorgente dove i cristiani ortodossi credono che abbia avuto luogo l'Annunciazione. Mentre la Vergine Maria andava ad attingere acqua dalla sorgente, l'Arcangelo Gabriele le apparve e le comunicò che avrebbe concepito e dato alla luce un figlio che avrebbe chiamato Gesù. L'attuale chiesa risale al 1750, quando Daher al-Omar, il sovrano beduino della Galilea, diede alla comunità greco-ortodossa il permesso di costruirla.",
+    "waterSourceOld": "A circa 140 metri dalla chiesa si trova il Pozzo di Maria, che un tempo era alimentato dalla sorgente e servì come fonte d'acqua locale per diversi secoli. La fontana è stata riparata nel 1967 e di nuovo nel 2000, ma oggi non funziona.",
+    "orderSummary": "Riepilogo ordine",
+    "firstName": "Nome:",
+    "lastName": "Cognome:",
+    "email": "Email:",
+    "prayerAt": "Preghiera a:",
+    "cost": "Costo:",
+    "confirmDetails": "Conferma dettagli e paga",
+    "confirmed": "Confermato",
+    "orderCancelled": "Ordine annullato!",
+    "paypalComponent": {
+        "contactInfo": "Informazioni di contatto e consegna",
+        "firstName": "Nome",
+        "lastName": "Cognome",
+        "email": "Email",
+        "confirmEmail": "Email di conferma",
+        "emailsDontMatch": "Email non corrispondenti",
+        "city": "Città",
+        "street": "Indirizzo",
+        "postal": "Codice postale",
+        "state": "State/Province",
+        "paymentMethod": "Metodo di pagamento",
+        "pleaseFillAllDetails": "Inserisci tutti i dettagli per continuare.",
+        "orderCancelled": "Ordine annullato!",
+        "thankYou": "Grazie per il tuo ordine!",
+        "summary": "Riepilogo ordine",
+        "cost": "Costo: $",
+        "country": "Seleziona il tuo paese"
+    },
+    "navbar": {
+        "home": "Home",
+        "live": "Live",
+        "tour": "Tour",
+        "candle": "Candela",
+        "shop": "Negozio",
+        "reviews": "Recensioni"
+    },
+    "product": {
+        "button": {
+            "addToCart": "Aggiungi al carrello"
+        },
+        "message": {
+            "productAdded": "Prodotto aggiunto al carrello!",
+            "error": {
+                "fetchProduct": "Impossibile recuperare il prodotto.",
+                "selectColor": "Seleziona un colore."
+            }
+        },
+        "note": {
+            "shippingFee": "Nota: sono previsti 5 $ aggiuntivi per la spedizione."
+        },
+        "error": {
+            "productNotFound": "Prodotto non trovato."
+        }
+    },
+    "cart": {
+        "shipping": "Shipping: $5",
+        "subtotal": "Subtotale: ${{amount}}",
+        "subtotalDiscount": "Dopo lo sconto del 10%: ${{amount}}",
+        "emptyCart": "Il tuo carrello è vuoto",
+        "continueShopping": "Continua a fare acquisti",
+        "backToShopping": "Torna a fare acquisti",
+        "remove": "Rimuovi",
+        "price": "Prezzo: ${{price}}",
+        "quantity": "Quantità",
+        "checkout": "Checkout"
+    },
+    "shop": {
+        "searchPlaceholder": "Cerca prodotti...",
+        "noProducts": "Nessun prodotto trovato che corrisponda ai tuoi criteri.",
+        "sortNone": "Nessuno",
+        "sortLowToHigh": "Prezzo: dal più basso al più alto",
+        "sortHighToLow": "Prezzo: dal più alto al più basso",
+        "resetFilters": "Reimposta filtri",
+        "pagination": "Pagina {{currentPage}} di {{totalPages}}"
+    },
+    "pagination": {
+        "prev": "Precedente",
+        "next": "Prossimo"
+    }
+}

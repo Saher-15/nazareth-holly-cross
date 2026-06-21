@@ -1,0 +1,294 @@
+{
+    "about": {
+        "title": "Willkommen auf dem offiziellen Portal von Nazareth",
+        "description1": "Das Herz des christlichen Glaubens. Wir verstehen, dass nicht jeder Nazareth physisch besuchen kann, eine Stadt, in der Jesus aufwuchs und wo spirituelle Erfahrungen auf jeden Besucher warten. Daher freuen wir uns, Ihnen die Möglichkeit zu bieten, Nazareth zu Ihnen zu bringen.",
+        "description2": "Über unsere Website können Sie einen virtuellen Rundgang durch die wichtigsten Kirchen und heiligen Stätten von Nazareth machen und sich mit der reichen Geschichte und religiösen Tradition verbinden, die den Ort charakterisiert. Darüber hinaus bieten wir Ihnen eine einzigartige Gelegenheit, lokale Souvenirs zu kaufen und sogar eine Kerze zum Gedenken oder zu Ehren Ihrer Lieben anzuzünden, als ob Sie hier bei uns wären.",
+        "description3": "In unserem Online-Shop finden Sie eine breite Produktpalette: Kreuze aus lokalem Olivenholz, von christlichen Symbolen inspirierter Schmuck, Gemälde und Mosaike, die die reiche religiöse Kunst widerspiegeln, und mehr. Jetzt können Sie auch Wasser aus der legendären Nazareth-Quelle, Sand aus dem Sand von Nazareth und lokales Oliven – alles, um die Größe der Stadt Nazareth und Jesu zu spüren. Sie können auch eine virtuelle Kerze anzünden, eine Handlung, die Gebet und Erinnerung über Entfernungen hinweg vermittelt.",
+        "description4": "Wir laden Sie ein, Ihre Herzen zu öffnen und die Wärme unserer Gemeinschaft durch jedes Produkt zu spüren, das Sie kaufen. Jeder Kauf unterstützt die lokale Gemeinschaft und hilft, das reiche Erbe von Nazareth für zukünftige Generationen zu bewahren. Besuchen Sie unsere Website und finden Sie heraus, wie Sie jederzeit und überall mit Nazareth in Verbindung treten können."
+    },
+    "whatIsNew": {
+        "title": "Biblische Verweise auf Nazareth",
+        "scriptureNotes": {
+            "matthew": "Matthäus 2:23: \"Und er kam und wohnte in einer Stadt namens Nazareth, damit erfüllt würde, was durch die Propheten gesagt ist: ‚Er wird ein Nazarener genannt werden.‘\"",
+            "luke1": "Lukas 1:26-27: \"Im sechsten Monat aber wurde der Engel Gabriel von Gott in eine Stadt in Galiläa namens Nazareth gesandt, zu einer Jungfrau, die mit einem Mann namens Josef aus dem Hause Davids verlobt war. Der Name der Jungfrau war Maria.\"",
+            "john": "Johannes 1:46: \"Und Nathanael sprach zu ihm: Kann aus Nazareth etwas Gutes kommen? Philippus sagte zu ihm: „Komm und sieh.“\"",
+            "luke4": "Lukas 4:16: \"So kam er nach Nazareth, wo er aufgewachsen war. Und wie es seine Gewohnheit war, ging er am Sabbat in die Synagoge und stand auf, um vorzulesen.\""
+        },
+        "touchingTheSacred": "Das Heilige berühren, den Herzschlag spüren",
+        "introParagraphs": {
+            "part1": "Nazareth, die Stadt, in der sich das Wunder ereignete, ist der Ort, an dem Jesus seine ersten Schritte machte, wo die Jungfrau Maria ihren Sohn umarmte und für seine Sicherheit betete. Hier, in den alten Kirchen, an der heiligen Quelle, wo Maria Jesus nährte, und auf dem lebhaften Markt der Altstadt – werden Sie feststellen, dass Ihr Glaube wieder zum Leben erwacht.“, „Teil 2“: „Stellen Sie sich vor, Sie gehen durch die engen Gassen, folgen den Spuren Jesu zu den Kirchen und verbringen Momente der Besinnung an der Marienquelle, wo die Augen der Heiligen Mutter auf das alte Wasser trafen. Jeder Stein, jede Gasse erzählt eine Geschichte von unerschütterlichem Glauben, von einer spirituellen Reise, die die Zeit überdauert.“ „Teil 3“: „Wenn Sie in der Verkündigungsbasilika eine Kerze anzünden, verbinden Sie sich wieder mit dem Ort, an dem Jesus zum ersten Mal seine göttliche Berufung hörte. Während Ihr Herz sich nach Nazareth sehnt, tragen unsere Souvenirs den heiligen Geist der Stadt in sich und erinnern Sie an Ihre tiefe Verbindung mit dem Ort, an dem alles begann.“ „Teil 4“: „Erlauben Sie uns, Nazareth zu Ihnen zu bringen, direkt in Ihr Zuhause. Mit jedem Andenken bewahren Sie eine tiefe Verbindung mit Nazareth – der Stadt, in der Jesus und Maria wandelten, der Stadt, in der der Glaube geboren wurde. Erinnern Sie sich an die Momente, die sich hier ereigneten, an die Herzen, die sich im Gebet öffneten, und an die Tränen, die leise auf die alten Steine ​​fielen.",
+            "part5": "Nazareth erwartet Sie, umarmt Sie aus der Ferne und bringt Ihnen seine Heiligkeit. Lass die Flamme in deinem Herzen brennen, bis zu dem Tag, an dem du zu uns zurückkehrst – in die Stadt, in der der Glaube schlägt."
+        }
+    },
+    "live": {
+        "event_ongoing": "Live-Event läuft",
+        "upcoming_event": "Bevorstehendes Live-Event",
+        "nazareth_date_time": "Datum und Uhrzeit in Nazareth:",
+        "time_remaining": "Verbleibende Zeit:",
+        "join_live": "Live teilnehmen",
+        "no_upcoming_events": "Keine bevorstehenden Events verfügbar.",
+        "past_live_events": "Vergangene Live-Events",
+        "refresh_note": "Hinweis: Bitte aktualisieren Sie die Seite, bevor Sie auf die Schaltfläche Live teilnehmen klicken.",
+        "live_note": "Hinweis: Die Schaltfläche Live teilnehmen ist erst verfügbar, nachdem das Live-Event begonnen hat."
+    },
+    "common": {
+        "home": "Home",
+        "live": "Live",
+        "tour": "Tour",
+        "candle": "Kerze",
+        "shop": "Shop",
+        "reviews": "Bewertungen"
+    },
+    "candle": {
+        "howToLightACandle": "Wie zündet man eine Kerze an?",
+        "itsSimple": "Es ist ganz einfach:",
+        "step1": "Wählen Sie eine Kirche aus, in der die Kerze angezündet werden soll.",
+        "step2": "Schreiben Sie ein Gebet oder eine persönliche Bitte, die Sie mit dem Anzünden der Kerze verbinden möchten.",
+        "step3": "Wir gehen zur Kirchehurch, zünde die Kerze für dich an, nimm ein Video mit deinem Namen auf und schicke dir das Video direkt.",
+        "note": "Hinweis: Dieses Video dient nur zu Illustrationszwecken und zeigt den Vorgang des Anzündens einer Kerze in der griechisch-orthodoxen Kirche.",
+        "lightAPrayCandle": "ZÜNDE EINE GEBETSKERZE AN",
+        "selectChurch": "Wähle die Kirche aus, in der die Kerze angezündet werden soll:",
+        "toLightACandlePay": "Zahle 3 $, um eine Kerze anzuzünden",
+        "light": "ANZÜNDEN",
+        "emailMatchError": "E-Mails stimmen nicht überein",
+        "inputWarning": "Bitte wähle eine Kirche.",
+        "firstName": "Vorname",
+        "lastName": "Nachname",
+        "yourEmail": "Deine E-Mail",
+        "confirmEmail": "E-Mail bestätigen",
+        "yourPrayer": "Dein Gebet"
+    },
+    "heroSection": {
+        "heading": "JESUS ​​CITY ERWARTET",
+        "subHeading": "GNADE IN JEDER KLICK",
+        "lightCandle": "ZÜNDE EINE KERZE AN",
+        "shopButton": "Shop",
+        "tourButton": "NAZARETH-TOUR",
+        "shopIcon": "fa fa-shopping-cart",
+        "tourIcon": "far fa-play-circle",
+        "discount": "Genieße 10 % Rabatt auf alle Artikel in unserem Shop – exklusiv auf unserer Website!"
+    },
+    "cards": {
+        "title": "Schau dir diese EPISCHEN Reiseziele an!",
+        "latinChurch": "Erkunde die Verkündigungskirche",
+        "greekChurch": "Erkunde die griechisch-orthodoxe Kirche",
+        "marysWell": "Erkunde den Marienbrunnen tief in Nazareth",
+        "oldCity": "Erkunde die Altstadt von",
+        "cityOfNazareth": "Die Stadt Nazareth, die Stadt Jesu"
+    },
+    "videos": {
+        "interview_nazareth": {
+            "title": "Interview mit dem Nazareth Community",
+            "description": "Sehen Sie sich das exklusive Interview an, das live aus Nazareth gestreamt wird."
+        },
+        "live_prayer_latin": {
+            "title": "Live-Gebet der lateinischen Kirche",
+            "description": "Erleben Sie eine Live-Übertragung herzlicher Gebete der lateinischen Kirche."
+        }
+    },
+    "nazarethTour": {
+        "pageHeading": "Erkunden Sie Nazareth",
+        "videoMessage": "Machen wir eine Tour durch Nazareth, eine Stadt voller Geschichte und Kultur. Entdecken Sie lebhafte Märkte, historische Kirchen und einzigartige Sehenswürdigkeiten für ein unvergessliches Erlebnis.",
+        "videoDescription": "Genießen Sie die Sehenswürdigkeiten und Klänge von Nazareth bei dieser umfassenden Videotour. Von geschäftigen Marktplätzen bis hin zu ruhigen historischen Stätten erhalten Sie einen Einblick in die Schönheit und den Charme dieser alten Stadt.",
+        "ctaButton": "Erfahren Sie mehr über Nazareth"
+    },
+    "pray": {
+        "formTitle": "Teilen Sie Ihre Bewertung",
+        "formDescription": "Bitte teilen Sie Ihre Erfahrungen mit unserer Website. Ihr Feedback hilft uns, uns zu verbessern und einen besseren Service anzubieten. Füllen Sie das untenstehende Formular aus und Ihre Bewertung wird veröffentlicht, sobald sie von unserem Team genehmigt wurde.",
+        "placeholderFullName": "Vollständiger Name",
+        "placeholderCountry": "Woher kommen Sie?",
+        "placeholderMessage": "Erzählen Sie uns von Ihren Erfahrungen mit unserer Website",
+        "submitButton": "Senden",
+        "successMessage": "Nachricht erfolgreich übermittelt!",
+        "confirmationMessage": "Ihre Nachricht wird auf der Pinnwand angezeigt, sobald sie vom Team von Nazareth Holy Cross bestätigt wurde.",
+        "messagesTitle": "Bewertete Kunden",
+        "messagesDescription": "Hier sind die Bewertungen, die von unserem Team genehmigt wurden. Vielen Dank, dass Sie uns Ihr Feedback mitgeteilt haben.",
+        "noMessages": "Noch keine Nachrichten übermittelt."
+    },
+    "confirmationCandle": {
+        "thankYou": "Vielen Dank!",
+        "paymentSuccess": "Ihre Zahlung wurde erfolgreich verarbeitet.",
+        "receipt": "Eine Quittung wurde an Ihre E-Mail-Adresse gesendet.",
+        "gratitude": "Vielen Dank für Ihre Bestellung!"
+    },
+    "thankYou": {
+        "thankYou": "Vielen Dank!",
+        "paymentSuccess": "Ihre Zahlung wurde erfolgreich verarbeitet.",
+        "receipt": "Eine Quittung wurde an Ihre E-Mail-Adresse gesendet.",
+        "gratitude": "Vielen Dank für Ihre Bestellung!"
+    },
+    "footer": {
+        "aboutUs": "Über uns",
+        "aboutUsDescription": "Wir haben uns der Bewahrung des Geistes von Nazareth und der Verbreitung der Botschaft der Hoffnung verschrieben. Besuchen Sie unsere Website, um die Reise zu erkunden.",
+        "learnMore": "Mehr erfahren",
+        "contactUs": "Kontaktieren Sie uns",
+        "email": "nazarethholycross@gmail.com",
+        "followInstagram": "Folgen Sie uns auf Instagram",
+        "followFacebook": "Folgen Sie uns auf Facebook",
+        "subscribeYoutube": "Besuchen Sie uns auf YouTube",
+        "credits": "Credits",
+        "creditLink1": "Saher Saadi",
+        "creditLink2": "Haytham Taweel",
+        "copyright": "Copyright © 2024 - Alle Rechte vorbehalten von NazarethHolyCross"
+    },
+    "headerGreek": {
+        "title": "Entdecken Sie die Schönheit der griechischen Kirche",
+        "mapButton": "Auf Google Maps anzeigen"
+    },
+    "contentGreek": {
+        "paragraph1": "Die griechisch-orthodoxe Verkündigungskirche befindet sich über der Quelle, an der nach orthodoxen Christen die Verkündigung stattgefunden hat. Als die Jungfrau Maria Wasser aus der Quelle schöpfen wollte, erschien ihr der Erzengel Gabriel und teilte ihr mit, dass sie schwanger werden und einen Sohn gebären werde, den sie Jesus nennen werde. Die heutige Kirche stammt aus dem Jahr 1750, als Daher al-Omar, der Beduinenherrscher von Galiläa, der griechisch-orthodoxen Gemeinde die Erlaubnis zum Bau erteilte.",
+        "paragraph2": "Die Kirche hat ein Mittelschiff mit zwei Seitenschiffen und enthält eine wunderschöne hölzerne Ikonostase, die von einem Griechen gestiftet wurde.Kaufmann im Jahr 1767. Die Kirche wurde von 1977 bis 1978 von rumänischen Künstlern neu dekoriert. Ein gewölbter Durchgang führt hinunter zu einer kleinen Kapelle, die mit armenischen Fliesen verziert ist und über sieben Stufen zu einer Quelle führt, die vermutlich im 12. Jahrhundert von den Kreuzfahrern erbaut wurde.",
+        "paragraph3": "Etwa 140 Meter von der Kirche entfernt befindet sich der Marienbrunnen, der einst von der Quelle gespeist wurde und mehrere Jahrhunderte lang als lokale Wasserquelle diente. Der Brunnen wurde 1967 und erneut im Jahr 2000 repariert, funktioniert heute aber nicht mehr."
+    },
+    "headerLatin": {
+        "title": "Entdecken Sie die Schönheit der Lateinischen Kirche"
+    },
+    "contentLatin": {
+        "paragraph1": "Die Lateinische Kirche, auch bekannt als Verkündigungsbasilika, ist eine bedeutende religiöse Stätte in Nazareth, Israel. Sie ist eine der größten Kirchen im Nahen Osten und hat für Christen weltweit eine tiefe religiöse Bedeutung.",
+        "history": {
+            "title": "Historischer Hintergrund",
+            "text": "Der Ort ist der Überlieferung zufolge der Ort, an dem der Engel Gabriel der Jungfrau Maria verkündete, dass sie Jesus empfangen und gebären würde, ein Ereignis, das als Verkündigung bekannt ist. Die Basilika hat eine lange Geschichte, die bis in die frühen Jahrhunderte des Christentums zurückreicht. Im Laufe der Zeit wurden an dieser Stelle mehrere Kirchen errichtet."
+        },
+        "architecture": {
+            "title": "Architektonische Merkmale",
+            "text": "Die aktuelle Basilika, die zwischen 1955 und 1969 erbaut wurde, weist eine markante zweistöckige Struktur auf. Die obere Kirche wird für Gottesdienste genutzt, während die untere Kirche die Verkündigungsgrotte umschließt, die als der eigentliche Ort der Verkündigung gilt. Die Architektur der Basilika verbindet moderne Stile mit traditionellen Elementen und ihr Inneres ist mit Mosaiken, Fresken und Kunstwerken geschmückt, die Szenen aus dem Leben Christi darstellen."
+        },
+        "visiting": {
+            "title": "Besuch der Basilika",
+            "text": "Die Verkündigungsbasilika ist ein beliebtes Ziel für Pilger und Touristen, die Nazareth besuchen. Besucher können sowohl die Ober- als auch die Unterkirche erkunden, die künstlerischen und architektonischen Besonderheiten bewundern und an religiösen Zeremonien und Veranstaltungen in der Basilika teilnehmen. Der Ort bietet eine tiefgreifende spirituelle Erfahrung und dient als Symbol für Glauben und Erbe."
+        }
+    },
+    "headerMary": {
+        "title": "Entdecken Sie die Schönheit von Marienbrunnen"
+    },
+    "contentMary": {
+        "intro": "Marienbrunnen, auch bekannt als Jungfrauenbrunnen, ist eine bedeutende historische und religiöse Stätte in Nazareth, Israel. Es wird traditionell angenommen, dass dies der Ort ist, an dem der Engel Gabriel der Jungfrau Maria verkündete, dass sie Jesus gebären würde, ein Ereignis, das als Verkündigung bekannt ist.",
+        "significance": {
+            "title": "Historische und religiöse Bedeutung",
+            "biblical": "Biblischer Zusammenhang",
+            "biblicalText": "Der christlichen Tradition zufolge war der Marienbrunnen der Ort, an dem Maria Wasser schöpfte, als ihr der Engel Gabriel erschien und verkündete, dass sie Jesus Christus empfangen und gebären würde. Dieses Ereignis ist ein zentraler Teil der christlichen Geschichte der Verkündigung.",
+            "cultural": "Kulturelle Bedeutung",
+            "culturalText": "Der Brunnen ist seit Jahrhunderten eine wichtige Wasserquelle für die örtliche Gemeinde. Er diente als Versammlungsort für die Menschen von Nazareth und war somit ein wesentlicher Bestandteil des täglichen Lebens in der Stadt.",
+            "architecture": "Architektonische Merkmale",
+            "architectureText": "Der Brunnen selbst ist Teil eines größeren Komplexes, zu dem auch die griechisch-orthodoxe Verkündigungskirche gehört. Die heutige Struktur der Kirche stammt aus dem 18. Jahrhundert, aber der Brunnen und der Standort haben viel ältere Wurzeln."
+        },
+        "modern": {
+            "title": "Moderner Standort",
+            "restoration": "Restaurierungsbemühungen",
+            "restorationText": "Der Brunnen am Marienbrunnen wurde im Laufe der Jahre mehrfach restauriert, insbesondere 1967 und 2000. Trotz dieser Bemühungen funktioniert der Brunnen heute nicht mehr so ​​wie früher.",
+            "attraction": "Touristenattraktion",
+            "attractionText": "Der Marienbrunnen ist ein beliebtes Ziel für Pilger und Touristen. Besucher kommen, um die historische Stätte zu besichtigen und den Ort zu erleben, an dem der Überlieferung zufolge die Verkündigung stattfand.",
+            "surroundings": "Umgebung",
+            "surroundingsText": "Der Brunnen befindet sich in der Altstadt von Nazareth, einem Gebiet voller historischer und religiöser Sehenswürdigkeiten. Zu den Sehenswürdigkeiten in der Nähe zählen die Verkündigungsbasilika, die griechisch-orthodoxe Verkündigungskirche und verschiedene andere Stätten, die mit dem Leben von Jesus und Maria in Verbindung stehen."
+        },
+        "visiting": {
+            "title": "Besuch von Marienbrunnen",
+            "location": "Standort",
+            "locationText": "Marienbrunnen liegt im Herzen von Nazareth und ist daher für Besucher, die die Altstadt erkunden, leicht erreichbar.",
+            "accessibility": "Zugänglichkeit",
+            "accessibilityText": "Die Stätte ist für die Öffentlichkeit zugänglich und kann das ganze Jahr über besichtigt werden. Es ist ratsam, die örtlichen Besucherinformationen für besonderespezifische Besuchszeiten oder Richtlinien.",
+            "culturalExperience": "Kulturelles Erlebnis",
+            "culturalExperienceText": "Der Besuch von Mary's Well bietet eine einzigartige Gelegenheit, das reiche religiöse und kulturelle Erbe von Nazareth kennenzulernen. Die Stätte bietet Einblicke in das tägliche Leben der Menschen in der Antike und ihre spirituellen Praktiken."
+        }
+    },
+    "headerTitleNaz": "Entdecken Sie die Schönheit der Stadt Nazareth",
+    "mapButton": "Karte öffnen",
+    "contentNaz": {
+        "introduction": "Die Altstadt von Nazareth ist vor allem für ihren Shuk (Freiluftmarkt) bekannt, der Israelis aus dem ganzen Land anzieht, die auf der Suche nach traditionellen arabischen Produkten sind. Dies ist an sich schon ein Erlebnis und ein toller Kontrast zu den klimatisierten Einkaufszentren, die im ganzen Land verstreut sind. Für diejenigen, die sich für das Christentum interessieren, sind die Altstadt und die Umgebung voller wichtiger christlicher Stätten, darunter die Verkündigungskirche.",
+        "historicalSignificance": {
+            "title": "Historische und religiöse Bedeutung",
+            "text": "Nazareth wird im Neuen Testament prominent erwähnt. Der christlichen Tradition zufolge ist es der Ort, an dem der Engel Gabriel Maria verkündete, dass sie Jesus gebären würde, ein Ereignis, an das die Verkündigungsbasilika erinnert. Archäologische Funde deuten darauf hin, dass Nazareth zur Zeit Jesu ein kleines jüdisches Dorf war. Es ist seit der Antike ununterbrochen bewohnt."
+        },
+        "modernNazareth": {
+            "title": "Das moderne Nazareth",
+            "text": "Die Stadt hat eine vielfältige Bevölkerung, vorwiegend arabische Muslime und Christen. Jüngsten Schätzungen zufolge hat Nazareth etwa 77.000 Einwohner. Nazareth ist ein lebendiges Kulturzentrum mit verschiedenen religiösen, kulturellen und pädagogischen Einrichtungen. Es veranstaltet Festivals und Veranstaltungen, die sein reiches Erbe und seine vielfältige Gemeinschaft widerspiegeln. Der Tourismus ist ein wichtiger Teil der Wirtschaft von Nazareth, angetrieben von seinen religiösen Stätten und historischen Wahrzeichen. Darüber hinaus gibt es in der Stadt eine Mischung aus kleinen Unternehmen, Geschäften und Märkten, die zur lokalen Wirtschaft beitragen."
+        },
+        "accessibility": {
+            "title": "Erreichbarkeit und Tourismus",
+            "text": "Nazareth ist gut an das Straßennetz angebunden, mit regelmäßigen Busverbindungen von Großstädten wie Tel Aviv, Haifa und Jerusalem. Die Stadt bietet verschiedene Unterkunftsmöglichkeiten, von Hotels bis zu Pensionen, die den Bedürfnissen von Touristen und Pilgern gerecht werden."
+        }
+    },
+    "headerTitleOld": "Entdecken Sie die Schönheit der Altstadt von Nazareth",
+    "mapDescriptionOld": "Die Altstadt von Nazareth ist vor allem für ihren Shuk (Freiluftmarkt) bekannt, der Israelis aus dem ganzen Land anzieht, die auf der Suche nach traditionellen arabischen Produkten sind. Dies ist an sich schon ein Erlebnis und ein toller Kontrast zu den klimatisierten Einkaufszentren, die im ganzen Land verstreut sind. Für diejenigen, die sich für das Christentum interessieren, sind die Altstadt und die Umgebung voller wichtiger christlicher Stätten, darunter die Verkündigungskirche.",
+    "churchDescriptionOld": "Die griechisch-orthodoxe Verkündigungskirche steht über der Quelle, an der nach orthodoxen Christen die Verkündigung stattgefunden hat. Als die Jungfrau Maria Wasser aus der Quelle schöpfen wollte, erschien der Erzengel Gabriel und teilte ihr mit, dass sie schwanger werden und einen Sohn zur Welt bringen werde, den sie Jesus nennen werde. Die heutige Kirche stammt aus dem Jahr 1750, als Daher al-Omar, der Beduinenherrscher von Galiläa, der griechisch-orthodoxen Gemeinde die Erlaubnis zum Bau erteilte.",
+    "waterSourceOld": "Etwa 140 Meter von der Kirche entfernt befindet sich der Marienbrunnen, der einst von der Quelle gespeist wurde und mehrere Jahrhunderte lang als lokale Wasserquelle diente. Der Brunnen wurde 1967 und erneut 2000 repariert, funktioniert aber heute nicht mehr.",
+    "orderSummary": "Bestellübersicht",
+    "firstName": "Vorname:",
+    "lastName": "Nachname:",
+    "email": "E-Mail:",
+    "prayerAt": "Gebet um:",
+    "cost": "Kosten:",
+    "confirmDetails": "Details bestätigen & bezahlen",
+    "confirmed": "Bestätigt",
+    "orderCancelled": "Bestellung storniert!",
+    "paypalComponent": {
+        "contactInfo": "Kontakt- und Lieferinformationen",
+        "firstName": "Vorname",
+        "lastName": "Nachname",
+        "email": "E-Mail",
+        "confirmEmail": "Bestätigungs-E-Mail",
+        "emailsDontMatch": "E-Mails stimmen nicht überein",
+        "city": "Stadt",
+        "street": "Straßenadresse",
+        "postal": "Postleitzahl",
+        "state": "Bundesland/ Provinz",
+        "paymentMethod": "Zahlungsmethode",
+        "pleaseFillAllDetails": "Bitte geben Sie alle Details ein, um fortzufahren.",
+        "orderCancelled": "Bestellung storniert!",
+        "thankYou": "Vielen Dank für Ihre Bestellung!",
+        "summary": "Bestellübersicht",
+        "cost": "Kosten: $",
+        "country": "Wählen Sie Ihr Land aus"
+    },
+    "navbar": {
+        "home": "Home",
+        "live": "Live",
+        "tour": "Tour",
+        "candle": "Kerze",
+        "shop": "Shop",
+        "reviews": "Bewertungen"
+    },
+    "product": {
+        "button": {
+            "addToCart": "Zum Warenkorb hinzufügen"
+        },
+        "message": {
+            "productAdded": "Produkt zum Warenkorb hinzugefügt!",
+            "error": {
+                "fetchProduct": "Produkt konnte nicht abgerufen werden.",
+                "selectColor": "Bitte wählen Sie eine Farbe aus."
+            }
+        },
+        "note": {
+            "shippingFee": "Hinweis: Es gibt eine Anzeigezusätzlich 5 $ für den Versand."
+        },
+        "error": {
+            "productNotFound": "Produkt nicht gefunden."
+        }
+    },
+    "cart": {
+        "shipping": "Versand: 5 $",
+        "subtotal": "Zwischensumme: ${{amount}}",
+        "subtotalDiscount": "Nach 10 % Rabatt: ${{amount}}",
+        "emptyCart": "Ihr Warenkorb ist leer",
+        "continueShopping": "Weiter einkaufen",
+        "backToShopping": "Zurück zum Einkaufen",
+        "remove": "Entfernen",
+        "price": "Preis: ${{price}}",
+        "quantity": "Menge",
+        "checkout": "Zur Kasse"
+    },
+    "shop": {
+        "searchPlaceholder": "Produkte suchen...",
+        "noProducts": "Keine Produkte gefunden, die Ihren Kriterien entsprechen.",
+        "sortNone": "Keine",
+        "sortLowToHigh": "Preis: Niedrig bis Hoch",
+        "sortHighToLow": "Preis: Hoch zu Niedrig",
+        "resetFilters": "Filter zurücksetzen",
+        "pagination": "Seite {{currentPage}} von {{totalPages}}"
+    },
+    "pagination": {
+        "prev": "Vorherige",
+        "next": "Nächste"
+    }
+}

@@ -1,0 +1,26 @@
+{
+  "name": "Nazareth Holy Cross",
+  "short_name": "NHC",
+  "description": "Experience the sacred city of Nazareth. Light a candle, shop holy souvenirs, take a virtual tour.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#07050A",
+  "theme_color": "#C9A84C",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/images/logo.webp",
+      "sizes": "192x192",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/logo.webp",
+      "sizes": "512x512",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["lifestyle", "religion", "shopping"],
+  "lang": "en"
+}

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="/images/logo.webp" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#07050A" />
+  <meta name="description" content="Nazareth Holy Cross — Experience the sacred city of Nazareth. Light a candle, shop holy souvenirs, take a virtual tour." />
+  <meta property="og:title" content="Nazareth Holy Cross" />
+  <meta property="og:description" content="Bring Nazareth to you. Light a candle, virtual tour, holy souvenirs." />
+  <meta property="og:image" content="/images/logo.webp" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Nazareth Holy Cross" />
+  <link rel="apple-touch-icon" href="/images/logo.webp" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;900&family=Lato:ital,wght@0,300;0,400;0,700;1,300&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.1/css/all.css" crossorigin="anonymous" />
+
+  <!-- GTM -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-WV4WJDPC');</script>
+
+  <title>Nazareth Holy Cross — The Sacred City</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    html, body { min-height: 100%; }
+    body { background-color: #07050A; color: #F5F0E8; }
+    #root { display: flex; flex-direction: column; min-height: 100vh; }
+    /* Prevent flash of unstyled content */
+    #root:empty::before {
+      content: '';
+      display: block;
+      position: fixed;
+      inset: 0;
+      background: #07050A;
+    }
+  </style>
+</head>
+<body>
+  <!-- GTM noscript -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WV4WJDPC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <div id="root"></div>
+  <script type="module" src="/src/index.js"></script>
+</body>
+</html>

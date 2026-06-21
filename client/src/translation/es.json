@@ -1,0 +1,297 @@
+{
+  "about": {
+    "title": "Bienvenido al portal oficial de Nazaret",
+    "description1": "El corazón de la fe cristiana. Entendemos que no todos pueden visitar físicamente Nazaret, una ciudad donde Jesús creció y donde las experiencias espirituales esperan a cada visitante.",
+    "description2": "A través de nuestro sitio web, puedes realizar un recorrido virtual por las principales iglesias y sitios sagrados de Nazaret, conectándote con la rica historia y tradición religiosa que caracteriza el lugar.",
+    "description3": "Además, te ofrecemos una oportunidad única de comprar recuerdos locales e incluso encender una vela en memoria u honor de tus seres queridos, como si estuvieras aquí con nosotros.",
+    "description4": "En nuestra tienda en línea, puedes encontrar una amplia gama de productos: cruces hechas de madera de olivo local, joyería inspirada en símbolos cristianos, pinturas y mosaicos que reflejan la rica arte religiosa, y más. Ahora, también puedes comprar agua de la legendaria fuente de Nazaret, arena de las arenas de Nazaret y aceitunas locales, todo para sentir la grandeza de la ciudad de Nazaret y de Jesús. También puedes elegir encender una vela virtual, un acto que transmite oración y recuerdo a través de distancias."
+  },
+  "whatIsNew": {
+    "title": "Referencias bíblicas a Nazaret",
+    "scriptureNotes": {
+      "matthew": "Mateo 2:23: \"Y vino y habitó en una ciudad llamada Nazaret, para que se cumpliese lo que fue dicho por los profetas: 'Sería llamado Nazareno.'\"",
+      "luke1": "Lucas 1:26-27: \"En el sexto mes, el ángel Gabriel fue enviado por Dios a una ciudad de Galilea llamada Nazaret, a una virgen desposada con un hombre que se llamaba José, de la casa de David. El nombre de la virgen era María.\"",
+      "john": "Juan 1:46: \"Y Nathanael le dijo: '¿De Nazaret puede salir algo bueno?' Felipe le dijo: 'Ven y ve.'\"",
+      "luke4": "Lucas 4:16: \"Y vino a Nazaret, donde había sido criado; y, según su costumbre, entró en la sinagoga el día de reposo y se levantó a leer.\""
+    },
+    "touchingTheSacred": "Tocando lo sagrado, sintiendo el latido",
+    "introParagraphs": {
+      "part1": "Nazaret, la ciudad donde se desarrolló lo milagroso, es el lugar donde Jesús dio sus primeros pasos, donde la Virgen María abrazó a su Hijo y oró por su seguridad. Aquí, dentro de las antiguas iglesias, en la fuente sagrada donde María alimentó a Jesús, y en el vibrante mercado de la ciudad antigua, encontrarás tu fe cobrando vida una vez más.",
+      "part2": "Imagínate caminando por las estrechas calles, siguiendo los pasos de Jesús hacia las iglesias, compartiendo momentos de reflexión en la fuente de María, donde los ojos de la madre santa encontraron las antiguas aguas. Cada piedra, cada callejón, cuenta una historia de fe inquebrantable, de un viaje espiritual que trasciende el tiempo.",
+      "part3": "Cuando enciendes una vela en la Basílica de la Anunciación, te reconectas con el lugar donde Jesús escuchó por primera vez su llamado divino. A medida que tu corazón anhela Nazaret, nuestros recuerdos llevan el espíritu sagrado de la ciudad, recordándote tu profunda conexión con el lugar donde todo comenzó.",
+      "part4": "Permítenos traerte Nazaret, directamente a tu hogar. Con cada recuerdo, preservas un vínculo profundo con Nazaret, la ciudad donde caminaron Jesús y María, la ciudad donde nació la fe. Recuerda los momentos que ocurrieron aquí, los corazones que se abrieron en oración y las lágrimas que calladamente cayeron sobre las piedras antiguas.",
+      "part5": "Nazaret te espera, abrazándote desde lejos, trayendo su santidad a ti. Mantén la llama ardiendo en tu corazón, hasta el día en que regreses a nosotros – a la ciudad donde late la fe."
+    }
+  },
+  "live": {
+    "event_ongoing": "Evento en Vivo en Curso",
+    "upcoming_event": "Evento en Vivo Próximo",
+    "nazareth_date_time": "Fecha y Hora de Nazaret:",
+    "time_remaining": "Tiempo Restante:",
+    "join_live": "Unirse en Vivo",
+    "no_upcoming_events": "No hay eventos próximos disponibles.",
+    "past_live_events": "Eventos Pasados en Vivo",
+    "refresh_note": "Nota: Por favor, actualiza la página antes de presionar el botón 'Unirse en Vivo'.",
+    "live_note": "Nota: El botón 'Unirse en Vivo' está disponible solo después de que comience el evento en vivo."
+  },
+  "common": {
+    "home": "Inicio",
+    "live": "En Vivo",
+    "tour": "Tour",
+    "candle": "Vela",
+    "shop": "Tienda",
+    "reviews": "Reseñas"
+  },
+  "candle": {
+    "howToLightACandle": "¿Cómo encender una vela?",
+    "itsSimple": "Es simple:",
+    "step1": "Elige una iglesia donde te gustaría que se encendiera la vela.",
+    "step2": "Escribe una oración o una solicitud personal que te gustaría acompañar a la iluminación de la vela.",
+    "step3": "Iremos a la iglesia, encenderemos la vela por ti, grabaremos un video con tu nombre y te enviaremos el video directamente.",
+    "note": "Nota: Este video es solo para fines ilustrativos, mostrando el proceso de encender una vela en la iglesia ortodoxa griega.",
+    "lightAPrayCandle": "ENCENDER UNA VELA DE ORACIÓN",
+    "selectChurch": "Selecciona la iglesia para encender la vela:",
+    "toLightACandlePay": "Para encender una vela, paga 3$",
+    "light": "ENCENDER",
+    "emailMatchError": "Los correos electrónicos no coinciden",
+    "inputWarning": "Por favor selecciona una iglesia.",
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "yourEmail": "Tu correo electrónico",
+    "confirmEmail": "Confirma tu correo electrónico",
+    "yourPrayer": "Tu oración"
+  },
+  "heroSection": {
+    "heading": "LA CIUDAD DE JESÚS TE ESPERA",
+    "subHeading": "GRACIA EN CADA CLIC",
+    "lightCandle": "ENCENDER UNA VELA",
+    "shopButton": "Tienda",
+    "tourButton": "TOUR POR NAZARET",
+    "shopIcon": "fa fa-shopping-cart",
+    "tourIcon": "far fa-play-circle",
+    "discount":"Disfruta de un 10% de descuento en todos los artículos de nuestra tienda—¡exclusivamente en nuestro sitio web!"
+  },
+  "cards": {
+    "title": "¡Descubre estos destinos ÉPICOS!",
+    "latinChurch": "Explora la Iglesia de la Anunciación",
+    "greekChurch": "Explora la Iglesia Ortodoxa Griega",
+    "marysWell": "Explora el Pozo de María en Nazaret",
+    "oldCity": "Explora la Ciudad Vieja de",
+    "cityOfNazareth": "La ciudad de Nazaret, la ciudad de Jesús"
+  },
+  "videos": {
+    "interview_nazareth": {
+      "title": "Entrevista con la Comunidad de Nazaret",
+      "description": "Mira la entrevista exclusiva transmitida en vivo desde Nazaret."
+    },
+    "live_prayer_latin": {
+      "title": "Oración en vivo desde la Iglesia Latina",
+      "description": "Experimenta una transmisión en vivo de oraciones sentidas desde la Iglesia Latina."
+    }
+  },
+  "nazarethTour": {
+    "pageHeading": "Explora Nazaret",
+    "videoMessage": "Hagamos un recorrido por Nazaret, una ciudad llena de historia y cultura. Descubre mercados vibrantes, iglesias históricas y monumentos únicos para una experiencia inolvidable.",
+    "videoDescription": "Disfruta de los sonidos y vistas de Nazaret en este recorrido en video inmersivo. Desde los bulliciosos mercados hasta los sitios históricos serenos, obtén una visión de la belleza y el encanto de esta antigua ciudad.",
+    "ctaButton": "Aprende Más Sobre Nazaret"
+  },
+  "pray": {
+    "formTitle": "Comparte tu Reseña",
+    "formDescription": "Por favor, comparte tu experiencia con nuestro sitio web. Tu opinión nos ayuda a mejorar y ofrecer un mejor servicio. Completa el formulario a continuación y tu reseña se publicará una vez que sea aprobada por nuestro equipo.",
+    "placeholderFullName": "Nombre Completo",
+    "placeholderCountry": "¿De dónde eres?",
+    "placeholderMessage": "Cuéntanos sobre tu experiencia con nuestro sitio web",
+    "submitButton": "Enviar",
+    "successMessage": "¡Mensaje enviado exitosamente!",
+    "confirmationMessage": "Tu mensaje aparecerá en la pared una vez que sea confirmado por el equipo de Nazareth Holy Cross.",
+    "messagesTitle": "Clientes Revisados",
+    "messagesDescription": "Aquí están las reseñas que han sido aprobadas por nuestro equipo. Gracias por compartir tu opinión con nosotros.",
+    "noMessages": "Aún no se han enviado mensajes."
+  },
+  "confirmationCandle": {
+    "thankYou": "¡Gracias!",
+    "paymentSuccess": "Tu pago ha sido procesado con éxito.",
+    "receipt": "Se ha enviado un recibo a tu dirección de correo electrónico.",
+    "gratitude": "¡Gracias por tu pedido!"
+  },
+  "thankYou": {
+    "thankYou": "¡Gracias!",
+    "paymentSuccess": "Tu pago ha sido procesado con éxito.",
+    "receipt": "Se ha enviado un recibo a tu dirección de correo electrónico.",
+    "gratitude": "¡Gracias por tu pedido!"
+  },
+  "footer": {
+    "aboutUs": "Sobre nosotros",
+    "aboutUsDescription": "Estamos dedicados a preservar el espíritu de Nazaret y difundir el mensaje de esperanza. Visite nuestro sitio web para explorar el viaje.",
+    "learnMore": "Aprender más",
+    "contactUs": "Contáctenos",
+    "email": "nazarethholycross@gmail.com",
+    "followInstagram": "Síguenos en Instagram",
+    "followFacebook": "Síguenos en Facebook",
+    "subscribeYoutube": "Únete a nosotros en YouTube",
+    "credits": "Créditos",
+    "creditLink1": "Saher Saadi",
+    "creditLink2": "Haytham Taweel",
+    "copyright": "Derechos de autor © 2024 - Todos los derechos reservados por NazarethHolyCross"
+  },
+  "headerGreek": {
+    "title": "Explora la belleza de la Iglesia Griega",
+    "mapButton": "Ver en Google Maps"
+  },
+  "contentGreek": {
+    "paragraph1": "La Iglesia Ortodoxa Griega de la Anunciación se encuentra sobre el manantial donde los cristianos ortodoxos creen que tuvo lugar la Anunciación. Cuando la Virgen María fue a sacar agua del manantial, el Arcángel Gabriel se apareció y le informó que concebiría y daría a luz a un hijo al que llamaría Jesús. La iglesia actual data de 1750, cuando Daher al-Omar, el gobernante beduino de Galilea, dio permiso a la comunidad ortodoxa griega para construirla.",
+    "paragraph2": "La iglesia tiene una nave central con dos pasillos y contiene un hermoso iconostasio de madera donado por un comerciante griego en 1767. La iglesia fue redecorada por artistas rumanos de 1977 a 1978. Un pasaje arqueado lleva a una pequeña capilla, que está decorada con azulejos armenios y tiene siete escalones que conducen al manantial, que se cree fue construido por los cruzados en el siglo XII.",
+    "paragraph3": "A unos 140 metros de la iglesia se encuentra el Pozo de María, que una vez fue alimentado por el manantial y sirvió como fuente local de agua durante varios siglos. La fuente fue reparada en 1967 y nuevamente en 2000, pero no funciona hoy."
+  },
+  "headerLatin": {
+    "title": "Explora la belleza de la Iglesia Latina"
+  },
+  "contentLatin": {
+    "paragraph1": "La Iglesia Latina, también conocida como la Basílica de la Anunciación, es un importante sitio religioso ubicado en Nazaret, Israel. Es una de las iglesias más grandes de Oriente Medio y tiene una profunda significación religiosa para los cristianos de todo el mundo.",
+    "history": {
+      "title": "Contexto Histórico",
+      "text": "Se cree tradicionalmente que el sitio es el lugar donde el ángel Gabriel anunció a la Virgen María que concebiría y daría a luz a Jesús, un evento conocido como la Anunciación. La basílica tiene una larga historia que se remonta a los primeros siglos del cristianismo, con sucesivas iglesias construidas en el sitio a lo largo del tiempo."
+    },
+    "architecture": {
+      "title": "Características Arquitectónicas",
+      "text": "La actual basílica, construida entre 1955 y 1969, presenta una estructura distintiva de dos pisos. La iglesia superior se utiliza para servicios de adoración, mientras que la iglesia inferior alberga la Gruta de la Anunciación, que se cree que es el sitio real de la Anunciación. La arquitectura de la basílica combina estilos modernos con elementos tradicionales, y su interior está adornado con mosaicos, frescos y obras de arte que representan escenas de la vida de Cristo."
+    },
+    "visiting": {
+      "title": "Visita la Basílica",
+      "text": "La Basílica de la Anunciación es un destino popular para peregrinos y turistas que visitan Nazaret. Los visitantes pueden explorar tanto las iglesias superior como inferior, admirar las características artísticas y arquitectónicas, y participar en ceremonias religiosas y eventos que se celebran en la basílica. El sitio ofrece una experiencia espiritual profunda y sirve como símbolo de fe y herencia."
+    }
+  },
+  "headerMary": {
+    "title": "Explora la belleza del Pozo de María"
+  },
+  "contentMary": {
+    "intro": "El Pozo de María, también conocido como el Pozo de la Virgen, es un sitio histórico y religioso significativo ubicado en Nazaret, Israel. Se cree tradicionalmente que es el lugar donde el Ángel Gabriel anunció a la Virgen María que daría a luz a Jesús, un evento conocido como la Anunciación.",
+    "significance": {
+      "title": "Significado Histórico y Religioso",
+      "biblical": "Conexión Bíblica",
+      "biblicalText": "Según la tradición cristiana, el Pozo de María es donde María estaba sacando agua cuando el Ángel Gabriel se le apareció y le anunció que concebiría y daría a luz a Jesucristo. Este evento es una parte central de la historia cristiana de la Anunciación.",
+      "cultural": "Importancia Cultural",
+      "culturalText": "El pozo ha sido una fuente vital de agua para la comunidad local durante siglos. Sirvió como un lugar de encuentro para el pueblo de Nazaret, convirtiéndose en una parte integral de la vida diaria en la ciudad.",
+      "architecture": "Características Arquitectónicas",
+      "architectureText": "El pozo en sí es parte de un complejo más grande que incluye la Iglesia Ortodoxa Griega de la Anunciación. La estructura actual de la iglesia data del siglo XVIII, pero el pozo y el sitio tienen raíces mucho más antiguas."
+    },
+    "modern": {
+      "title": "Sitio Moderno",
+      "restoration": "Esfuerzos de Restauración",
+      "restorationText": "La fuente del Pozo de María ha pasado por varias restauraciones a lo largo de los años, notablemente en 1967 y 2000. A pesar de estos esfuerzos, el pozo no funciona hoy como lo hacía antes.",
+      "attraction": "Atracción Turística",
+      "attractionText": "El Pozo de María es un destino popular para peregrinos y turistas. Los visitantes vienen a ver el sitio histórico y a experimentar el lugar donde, según la tradición, ocurrió la Anunciación.",
+      "surroundings": "Área Circundante",
+      "surroundingsText": "El pozo está ubicado en la Ciudad Vieja de Nazaret, un área rica en hitos históricos y religiosos. Las atracciones cercanas incluyen la Basílica de la Anunciación, la Iglesia Ortodoxa Griega de la Anunciación y varios otros sitios relacionados con la vida de Jesús y María."
+    },
+    "visiting": {
+      "title": "Visitar el Pozo de María",
+      "location": "Ubicación",
+      "locationText": "El Pozo de María está situado en el corazón de Nazaret, lo que lo hace fácilmente accesible para los visitantes que exploran la Ciudad Vieja.",
+      "accessibility": "Accesibilidad",
+      "accessibilityText": "El sitio está abierto al público y se puede visitar durante todo el año. Se aconseja consultar la información local de los visitantes para conocer las horas de visita específicas o las pautas.",
+      "culturalExperience": "Experiencia Cultural",
+      "culturalExperienceText": "Visitar el Pozo de María ofrece una oportunidad única para conectarse con el rico patrimonio religioso y cultural de Nazaret. El sitio proporciona información sobre la vida cotidiana de las personas en tiempos antiguos y sus prácticas espirituales."
+    }
+  },
+  "headerTitleNaz": "Explora la belleza de la ciudad de Nazaret",
+  "mapButton": "Abrir Mapa",
+  "contentNaz": {
+    "introduction": "La Ciudad Vieja de Nazaret es más famosa por su shuk (mercado al aire libre) que atrae a israelíes de todo el país en busca de productos árabes tradicionales. Esta experiencia contrasta con los centros comerciales con aire acondicionado repartidos por todo el país. Para aquellos interesados en el cristianismo, la Ciudad Vieja y sus alrededores están llenos de importantes sitios cristianos, incluida la Iglesia de la Anunciación.",
+    "historicalSignificance": {
+      "title": "Importancia Histórica y Religiosa",
+      "text": "Nazaret se menciona prominentemente en el Nuevo Testamento. Según la tradición cristiana, es el sitio donde el ángel Gabriel anunció a María que tendría a Jesús, un evento conmemorado por la Basílica de la Anunciación. La evidencia arqueológica indica que Nazaret era una pequeña aldea judía durante la época de Jesús. Ha estado habitada de manera continua desde la antigüedad."
+    },
+    "modernNazareth": {
+      "title": "Nazaret Moderno",
+      "text": "La ciudad tiene una población diversa, predominantemente musulmanes y cristianos árabes. Según estimaciones recientes, Nazaret tiene alrededor de 77,000 residentes. Nazaret es un vibrante centro cultural con diversas instituciones religiosas, culturales y educativas. Alberga festivales y eventos que reflejan su rica herencia y comunidad diversa. El turismo es una parte significativa de la economía de Nazaret, impulsada por sus sitios religiosos y monumentos históricos. Además, la ciudad tiene una mezcla de pequeños negocios, tiendas y mercados que contribuyen a su economía local."
+    },
+    "accessibility": {
+      "title": "Accesibilidad y Turismo",
+      "text": "Nazaret está bien conectado por carretera, con servicios de autobús frecuentes desde ciudades principales como Tel Aviv, Haifa y Jerusalén. La ciudad ofrece varias opciones de alojamiento, desde hoteles hasta casas de huéspedes, que satisfacen las necesidades de turistas y peregrinos."
+    }
+  },
+  "headerTitleOld": "Explora la belleza de la Ciudad Vieja de Nazaret",
+  "mapDescriptionOld": "La Ciudad Vieja de Nazaret es más famosa por su shuk (mercado al aire libre) que atrae a israelíes de todo el país en busca de productos árabes tradicionales. Esto en sí mismo es una experiencia y un gran contraste con los centros comerciales con aire acondicionado que salpican el país. Para aquellos interesados en el cristianismo, la Ciudad Vieja y sus alrededores están llenos de sitios cristianos importantes, incluida la Iglesia de la Anunciación.",
+  "churchDescriptionOld": "La Iglesia Ortodoxa Griega de la Anunciación se encuentra sobre el manantial donde los cristianos ortodoxos creen que tuvo lugar la Anunciación. Cuando la Virgen María fue a sacar agua del manantial, el Arcángel Gabriel apareció e informó que concebiría y daría a luz a un hijo que llamaría Jesús. La iglesia actual data de 1750, cuando Daher al-Omar, el gobernante beduino de Galilea, dio a la comunidad ortodoxa griega permiso para construirla.",
+  "waterSourceOld": "A unos 140 metros de la iglesia se encuentra el Pozo de María, que una vez fue alimentado por el manantial y sirvió como fuente local de agua durante varios siglos. La fuente fue reparada en 1967 y nuevamente en 2000, pero hoy no funciona.",
+  "orderSummary": "Resumen del Pedido",
+  "firstName": "Nombre:",
+  "lastName": "Apellido:",
+  "email": "Correo Electrónico:",
+  "prayerAt": "Oración en:",
+  "cost": "Costo:",
+  "confirmDetails": "Confirmar Detalles y Pagar",
+  "confirmed": "Confirmado",
+  "orderCancelled": "¡Pedido cancelado!",
+  "paypalComponent": {
+    "contactInfo": "Información de contacto y entrega",
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "email": "Correo electrónico",
+    "confirmEmail": "Confirmación de correo electrónico",
+    "emailsDontMatch": "Los correos electrónicos no coinciden",
+    "city": "Ciudad",
+    "street": "Dirección",
+    "postal": "Código postal",
+    "state": "Estado/ Provincia",
+    "paymentMethod": "Método de pago",
+    "pleaseFillAllDetails": "Por favor complete todos los detalles para continuar.",
+    "orderCancelled": "¡Orden cancelada!",
+    "thankYou": "¡Gracias por su pedido!",
+    "summary": "Resumen del pedido",
+    "cost": "Costo: $",
+    "country": "Selecciona tu país"
+  },
+  "navbar": {
+    "home": "Inicio",
+    "live": "En Vivo",
+    "tour": "Tour",
+    "candle": "Vela",
+    "shop": "Tienda",
+    "reviews": "Reseñas"
+  },
+  "product": {
+    "button": {
+      "addToCart": "Agregar al carrito"
+    },
+    "message": {
+      "productAdded": "¡Producto agregado al carrito!",
+      "error": {
+        "fetchProduct": "Error al obtener el producto.",
+        "selectColor": "Por favor, selecciona un color."
+      }
+    },
+    "note": {
+      "shippingFee": "Nota: Hay un costo adicional de $5 por envío."
+    },
+    "error": {
+      "productNotFound": "Producto no encontrado."
+    }
+  },
+  "cart": {
+    "shipping": "Envío: $5",
+    "subtotal": "Subtotal: ${{amount}}",
+    "subtotalDiscount": "Después del 10% de descuento: ${{amount}}",
+    "emptyCart": "Tu carrito está vacío",
+    "continueShopping": "Continuar comprando",
+    "backToShopping": "Volver a comprar",
+    "remove": "Eliminar",
+    "price": "Precio: ${{price}}",
+    "quantity": "Cantidad",
+    "checkout": "Pagar"
+  },
+  "shop": {
+    "searchPlaceholder": "Buscar productos...",
+    "noProducts": "No se encontraron productos que coincidan con tus criterios.",
+    "sortNone": "Ninguno",
+    "sortLowToHigh": "Precio: De bajo a alto",
+    "sortHighToLow": "Precio: De alto a bajo",
+    "resetFilters": "Restablecer filtros",
+    "pagination": "Página {{currentPage}} de {{totalPages}}"
+  },
+  "pagination": {
+    "prev": "Anterior",
+    "next":"Siguiente"
+  }
+}
