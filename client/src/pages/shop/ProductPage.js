@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '../../config.js';
 import { useParams } from 'react-router-dom';
 import { useShopContext } from '../../context/shop-context';
 import LoadingLogo from './loading';
@@ -36,7 +37,7 @@ const ProductPage = () => {
     window.scrollTo(0, 0);
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`https://nazareth-holy-cross-c5896e0462c5.herokuapp.com/product/getProduct/${id}`);
+        const response = await fetch(`${API_URL}/product/getProduct/${id}`);
         if (!response.ok) throw new Error('Failed to fetch product');
         const data = await response.json();
         setProduct(data);

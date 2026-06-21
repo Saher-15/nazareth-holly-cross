@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '../config.js';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Box from '@mui/material/Box';
@@ -20,7 +21,7 @@ const ItemDetailsPage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     axios
-      .get(`https://nazareth-holy-cross-c5896e0462c5.herokuapp.com/product/getNProducts?_id=${_id}`)
+      .get(`${API_URL}/product/getNProducts?_id=${_id}`)
       .then(res => { setItem(res.data); setLoading(false); })
       .catch(err => { console.error('Error fetching item:', err); setLoading(false); });
   }, [_id]);

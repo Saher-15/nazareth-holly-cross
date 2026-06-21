@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '../../config.js';
 import axios from 'axios';
 import Product from './product';
 import LoadingLogo from './loading';
@@ -36,7 +37,7 @@ const Shop = () => {
     async function fetchData() {
       setLoading(true);
       try {
-        const res = await axios.get('https://nazareth-holy-cross-c5896e0462c5.herokuapp.com/product/getAllProducts');
+        const res = await axios.get(`${API_URL}/product/getAllProducts`);
         window.scrollTo(0, 0);
         setAllProducts(res.data);
       } catch (error) {

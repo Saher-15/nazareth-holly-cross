@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '../../config.js';
 import axios from 'axios';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -41,7 +42,7 @@ export default function Contact() {
     if (!form.fullName || !form.email || !form.phone || !form.msg) return;
     setLoading(true);
     try {
-      await axios.post('https://nazareth-holy-cross-c5896e0462c5.herokuapp.com/contact/contact_us_request', form);
+      await axios.post(`${API_URL}/contact/contact_us_request`, form);
       setForm({ fullName: '', email: '', phone: '', msg: '' });
       setSuccess(true);
       setTimeout(() => setSuccess(false), 4000);

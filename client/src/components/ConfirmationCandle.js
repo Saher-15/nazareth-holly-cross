@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { API_URL } from '../config.js';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
@@ -17,7 +18,7 @@ const ConfirmationCandle = ({ firstName, lastName, email, prayer }) => {
   useEffect(() => {
     const send = async () => {
       try {
-        await axios.post('https://nazareth-holy-cross-c5896e0462c5.herokuapp.com/candle/lightACandle', {
+        await axios.post(`${API_URL}/candle/lightACandle`, {
           firstName, lastName, email, prayer,
         });
         setTimeout(() => navigate('/'), 5000);

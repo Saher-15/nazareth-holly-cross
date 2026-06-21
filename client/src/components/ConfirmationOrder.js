@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { API_URL } from '../config.js';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useShopContext } from '../context/shop-context';
@@ -20,7 +21,7 @@ function ConfirmationOrder({ cartItems, firstName, lastName, phone, email, stree
   useEffect(() => {
     const send = async () => {
       try {
-        await axios.post('https://nazareth-holy-cross-c5896e0462c5.herokuapp.com/order/newOrder', {
+        await axios.post(`${API_URL}/order/newOrder`, {
           firstName, lastName, phone, email, street, city, state, postal, country, totalPrice,
           products: cartItems.map(item => ({
             productID: item._id,

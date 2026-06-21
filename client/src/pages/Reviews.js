@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '../../config.js';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
@@ -37,7 +38,7 @@ function Reviews() {
 
   const fetchMessages = async () => {
     try {
-      const response = await axios.get('https://nazareth-holy-cross-c5896e0462c5.herokuapp.com/contact/get_all_contact_us');
+      const response = await axios.get(`${API_URL}/contact/get_all_contact_us`);
       const reviewed = response.data.filter((m) => m.done).reverse();
       setMessages(reviewed);
     } catch (error) {
@@ -54,7 +55,7 @@ function Reviews() {
     e.preventDefault();
     if (!formData.fullName || !formData.email || !formData.msg) return;
     try {
-      await axios.post('https://nazareth-holy-cross-c5896e0462c5.herokuapp.com/contact/contact_us_request', formData);
+      await axios.post(`${API_URL}/contact/contact_us_request`, formData);
       setFormData({ fullName: '', email: '', phone: '000', msg: '' });
       setShowSuccess(true);
       setTimeout(() => setShowSuccess(false), 3500);

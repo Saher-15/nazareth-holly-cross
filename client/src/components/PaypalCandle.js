@@ -1,3 +1,4 @@
+import { API_URL } from '../config.js';
 import React, { useState } from 'react';
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { useTranslation } from 'react-i18next';
@@ -32,7 +33,7 @@ const PayPalCandle = ({ form }) => {
 
   const createOrder = async () => {
     try {
-      const response = await fetch("https://nazareth-holy-cross-c5896e0462c5.herokuapp.com/order/create_order", {
+      const response = await fetch(`${API_URL}/order/create_order`, {
         method: "POST",
         headers: { "Content-Type": "application/json; charset=utf-8" },
         body: JSON.stringify({ intent, amount: "3" })
@@ -46,7 +47,7 @@ const PayPalCandle = ({ form }) => {
   };
 
   const onApprove = async (data) => {
-    await fetch("https://nazareth-holy-cross-c5896e0462c5.herokuapp.com/order/complete_order", {
+    await fetch(`${API_URL}/order/complete_order`, {
       method: "POST",
       headers: { "Content-Type": "application/json; charset=utf-8" },
       body: JSON.stringify({ intent, order_id: data.orderID })
