@@ -3,6 +3,7 @@ import Order from "../model/order.js";
 import nodemailer from "nodemailer"
 import dotenv from "dotenv"
 import { v4 as uuidv4 } from 'uuid';
+import { requireAdmin } from '../middleware/auth.js';
 
 dotenv.config()
 
@@ -24,7 +25,7 @@ const endpoint_url = environment === 'sandbox' ? 'https://api-m.sandbox.paypal.c
 
 const routerOrder = express.Router();
 
-routerOrder.get('/getAllOrders', async (req, res) => {
+routerOrder.get('/getAllOrders', requireAdmin, async (req, res) => {
     try {
         const orders = await Order.find();
         res.status(200).send(orders);
@@ -33,7 +34,7 @@ routerOrder.get('/getAllOrders', async (req, res) => {
     }
 })
 
-routerOrder.get('/getOrder/:id', async (req, res) => {
+routerOrder.get('/getOrder/:id', requireAdmin, async (req, res) => {
     try {
         const order = await Order.findById(req.params.id)
 
@@ -133,7 +134,7 @@ routerOrder.post('/newOrder', async (req, res) => {
     }
 })
 
-routerOrder.patch('/orderSent/:id', async (req, res) => {
+routerOrder.patch('/orderSent/:id', requireAdmin, async (req, res) => {
     try {
         const orderId = req.params.id;
 
@@ -166,7 +167,7 @@ routerOrder.patch('/orderSent/:id', async (req, res) => {
     }
 })
 
-routerOrder.delete('/deleteOrder/:id', async (req, res) => {
+routerOrder.delete('/deleteOrder/:id', requireAdmin, async (req, res) => {
     try {
         await Order.findByIdAndDelete(req.params.id);
         res.status(200).send("Success");
@@ -203,14 +204,20 @@ async function get_access_token() {
 }
 
 routerOrder.post('/create_order', (req, res) => {
+    const amount = parseFloat(req.body.amount);
+    if (!amount || isNaN(amount) || amount <= 0) {
+        return res.status(400).json({ error: 'Invalid amount' });
+    }
+    const intent = 'CAPTURE';
+
     get_access_token()
         .then(access_token => {
             let order_data_json = {
-                'intent': req.body.intent.toUpperCase(),
+                'intent': intent,
                 'purchase_units': [{
                     'amount': {
                         'currency_code': 'USD',
-                        'value': req.body.amount
+                        'value': amount.toFixed(2)
                     }
                 }]
             };
@@ -237,9 +244,14 @@ routerOrder.post('/create_order', (req, res) => {
 });
 
 routerOrder.post('/complete_order', (req, res) => {
+    const order_id = req.body.order_id;
+    if (!order_id || !/^[A-Z0-9]{17}$/.test(order_id)) {
+        return res.status(400).json({ error: 'Invalid order ID' });
+    }
+
     get_access_token()
         .then(access_token => {
-            fetch(endpoint_url + '/v2/checkout/orders/' + req.body.order_id + '/' + req.body.intent.toLowerCase(), {
+            fetch(endpoint_url + '/v2/checkout/orders/' + order_id + '/capture', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -19,6 +19,7 @@ const languages = [
   { code: 'pt', label: 'Portuguese', native: 'Português' },
   { code: 'it', label: 'Italian', native: 'Italiano' },
   { code: 'pl', label: 'Polish', native: 'Polski' },
+  { code: 'el', label: 'Greek', native: 'Ελληνικά' },
 ];
 
 const LanguageSwitcher = () => {

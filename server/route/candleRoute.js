@@ -2,6 +2,7 @@ import express from "express"
 import Candle from "../model/candle.js";
 import nodemailer from "nodemailer"
 import dotenv from "dotenv"
+import { requireAdmin } from '../middleware/auth.js';
 
 dotenv.config()
 
@@ -18,7 +19,7 @@ const transporter = nodemailer.createTransport({
 
 const routerCandle = express.Router();
 
-routerCandle.get('/getAllCandleRequests', async(req,res)=>{
+routerCandle.get('/getAllCandleRequests', requireAdmin, async(req,res)=>{
     try{
         const requests = await Candle.find();
         res.status(200).send(requests);
@@ -27,7 +28,7 @@ routerCandle.get('/getAllCandleRequests', async(req,res)=>{
     }
 })
 
-routerCandle.put('/set_request_done/:id', async(req, res)=>{
+routerCandle.put('/set_request_done/:id', requireAdmin, async(req, res)=>{
     try{
         const requestId = req.params.id;
         const updateRequest = await Candle.findByIdAndUpdate(requestId, { done: true }, { new: true });
@@ -43,7 +44,7 @@ routerCandle.put('/set_request_done/:id', async(req, res)=>{
     }
 })
 
-routerCandle.delete('/delete_lighting_request/:id', async(req, res)=>{
+routerCandle.delete('/delete_lighting_request/:id', requireAdmin, async(req, res)=>{
     try{
         await Candle.findByIdAndDelete(req.params.id);
         res.status(200).send("Success");
@@ -89,12 +90,9 @@ routerCandle.post('/lightACandle', async(req, res)=>{
             email: email,
             prayer: prayer
         });
-        
-        if(!SendMail(emailMsg)){
-            return res.status(500).send("Error: Couldn't send email")
-        }
 
         await newPrayer.save();
+        await SendMail(emailMsg);
 
         res.status(200).send("Success")
     }catch(err){

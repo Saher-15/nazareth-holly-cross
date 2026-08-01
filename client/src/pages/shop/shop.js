@@ -16,7 +16,6 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import Pagination from '@mui/material/Pagination';
 import InputAdornment from '@mui/material/InputAdornment';
 import { alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
@@ -31,15 +30,18 @@ const Shop = () => {
   const [sortOrder, setSortOrder] = useState(localStorage.getItem('sortOrder') || 'rateDesc');
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState(localStorage.getItem('searchQuery') || '');
-  const itemsPerPage = 15;
+  const [hasNext, setHasNext] = useState(false);
+  const [hasPrev, setHasPrev] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
       try {
-        const res = await axios.get(`${API_URL}/product/getAllProducts`);
+        const res = await axios.get(`${API_URL}/product/getNProducts?page=${currentPage}&size=15`);
         window.scrollTo(0, 0);
-        setAllProducts(res.data);
+        setAllProducts(res.data.data);
+        setHasNext(!!res.data.next);
+        setHasPrev(!!res.data.previous);
       } catch (error) {
         console.error('Error fetching products:', error);
       } finally {
@@ -74,9 +76,6 @@ const Shop = () => {
     if (sortOrder === 'rateDesc') return b.rate - a.rate;
     return 0;
   });
-
-  const totalPages = Math.ceil(sortedProducts.length / itemsPerPage);
-  const paginatedProducts = sortedProducts.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   if (loading) return <LoadingLogo />;
 
@@ -183,7 +182,7 @@ const Shop = () => {
         </Box>
 
         {/* Products Grid */}
-        {paginatedProducts.length === 0 ? (
+        {sortedProducts.length === 0 ? (
           <Box sx={{ textAlign: 'center', py: 10 }}>
             <Typography
               sx={{
@@ -199,7 +198,7 @@ const Shop = () => {
         ) : (
           <>
             <Grid container spacing={2.5}>
-              {paginatedProducts.map((item) => (
+              {sortedProducts.map((item) => (
                 <Grid size={{ xs: 6, sm: 4, md: 3, lg: 2.4 }} key={item._id}>
                   <Product item={item} />
                 </Grid>
@@ -207,28 +206,43 @@ const Shop = () => {
             </Grid>
 
             {/* Pagination */}
-            {totalPages > 1 && (
-              <Box sx={{ display: 'flex', justifyContent: 'center', mt: 6 }}>
-                <Pagination
-                  count={totalPages}
-                  page={currentPage}
-                  onChange={(_, page) => { setCurrentPage(page); window.scrollTo(0, 0); }}
+            {(hasPrev || hasNext) && (
+              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2, mt: 6 }}>
+                <Button
+                  disabled={!hasPrev}
+                  onClick={() => { setCurrentPage((p) => p - 1); window.scrollTo(0, 0); }}
+                  variant="outlined"
+                  size="small"
                   sx={{
-                    '& .MuiPaginationItem-root': {
-                      color: alpha(goldLight, 0.6),
-                      fontFamily: '"Cinzel", serif',
-                      fontSize: '0.75rem',
-                      border: `1px solid ${alpha(gold, 0.15)}`,
-                      '&:hover': { backgroundColor: alpha(gold, 0.1), borderColor: alpha(gold, 0.4) },
-                      '&.Mui-selected': {
-                        backgroundColor: alpha(gold, 0.2),
-                        color: gold,
-                        borderColor: alpha(gold, 0.5),
-                        '&:hover': { backgroundColor: alpha(gold, 0.28) },
-                      },
-                    },
+                    borderColor: alpha(gold, hasPrev ? 0.4 : 0.1),
+                    color: hasPrev ? goldLight : alpha(goldLight, 0.25),
+                    fontFamily: '"Cinzel", serif',
+                    fontSize: '0.72rem',
+                    letterSpacing: '0.1em',
+                    '&:hover': { borderColor: gold, backgroundColor: alpha(gold, 0.08) },
                   }}
-                />
+                >
+                  {t('shop.prevPage') || 'Previous'}
+                </Button>
+                <Typography sx={{ fontFamily: '"Cinzel", serif', fontSize: '0.75rem', color: alpha(gold, 0.7), letterSpacing: '0.1em' }}>
+                  {currentPage}
+                </Typography>
+                <Button
+                  disabled={!hasNext}
+                  onClick={() => { setCurrentPage((p) => p + 1); window.scrollTo(0, 0); }}
+                  variant="outlined"
+                  size="small"
+                  sx={{
+                    borderColor: alpha(gold, hasNext ? 0.4 : 0.1),
+                    color: hasNext ? goldLight : alpha(goldLight, 0.25),
+                    fontFamily: '"Cinzel", serif',
+                    fontSize: '0.72rem',
+                    letterSpacing: '0.1em',
+                    '&:hover': { borderColor: gold, backgroundColor: alpha(gold, 0.08) },
+                  }}
+                >
+                  {t('shop.nextPage') || 'Next'}
+                </Button>
               </Box>
             )}
           </>

@@ -1,11 +1,17 @@
-import rateLimit from "express-rate-limit";
+import rateLimit from 'express-rate-limit';
 
-const globalLimiter = rateLimit({
-    windowMs: 1000,
-    limit: 5,
-    handler: (req, res) => {
-        return res.status(429).json({ error: 'Too many requests, please try again later.' });
-    },
+export const globalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  limit: 200,
+  standardHeaders: 'draft-7',
+  legacyHeaders: false,
+  message: { error: 'Too many requests, please try again later.' },
 });
 
-export { globalLimiter };
+export const strictLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 10,
+  standardHeaders: 'draft-7',
+  legacyHeaders: false,
+  message: { error: 'Too many requests, please try again later.' },
+});

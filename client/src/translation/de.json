@@ -11,12 +11,15 @@
         "scriptureNotes": {
             "matthew": "Matthäus 2:23: \"Und er kam und wohnte in einer Stadt namens Nazareth, damit erfüllt würde, was durch die Propheten gesagt ist: ‚Er wird ein Nazarener genannt werden.‘\"",
             "luke1": "Lukas 1:26-27: \"Im sechsten Monat aber wurde der Engel Gabriel von Gott in eine Stadt in Galiläa namens Nazareth gesandt, zu einer Jungfrau, die mit einem Mann namens Josef aus dem Hause Davids verlobt war. Der Name der Jungfrau war Maria.\"",
-            "john": "Johannes 1:46: \"Und Nathanael sprach zu ihm: Kann aus Nazareth etwas Gutes kommen? Philippus sagte zu ihm: „Komm und sieh.“\"",
+            "john": "Johannes 1:46: \"Und Nathanael sprach zu ihm: Kann aus Nazareth etwas Gutes kommen? Philippus sagte zu ihm: „Komm und sieh.\"\"",
             "luke4": "Lukas 4:16: \"So kam er nach Nazareth, wo er aufgewachsen war. Und wie es seine Gewohnheit war, ging er am Sabbat in die Synagoge und stand auf, um vorzulesen.\""
         },
         "touchingTheSacred": "Das Heilige berühren, den Herzschlag spüren",
         "introParagraphs": {
-            "part1": "Nazareth, die Stadt, in der sich das Wunder ereignete, ist der Ort, an dem Jesus seine ersten Schritte machte, wo die Jungfrau Maria ihren Sohn umarmte und für seine Sicherheit betete. Hier, in den alten Kirchen, an der heiligen Quelle, wo Maria Jesus nährte, und auf dem lebhaften Markt der Altstadt – werden Sie feststellen, dass Ihr Glaube wieder zum Leben erwacht.“, „Teil 2“: „Stellen Sie sich vor, Sie gehen durch die engen Gassen, folgen den Spuren Jesu zu den Kirchen und verbringen Momente der Besinnung an der Marienquelle, wo die Augen der Heiligen Mutter auf das alte Wasser trafen. Jeder Stein, jede Gasse erzählt eine Geschichte von unerschütterlichem Glauben, von einer spirituellen Reise, die die Zeit überdauert.“ „Teil 3“: „Wenn Sie in der Verkündigungsbasilika eine Kerze anzünden, verbinden Sie sich wieder mit dem Ort, an dem Jesus zum ersten Mal seine göttliche Berufung hörte. Während Ihr Herz sich nach Nazareth sehnt, tragen unsere Souvenirs den heiligen Geist der Stadt in sich und erinnern Sie an Ihre tiefe Verbindung mit dem Ort, an dem alles begann.“ „Teil 4“: „Erlauben Sie uns, Nazareth zu Ihnen zu bringen, direkt in Ihr Zuhause. Mit jedem Andenken bewahren Sie eine tiefe Verbindung mit Nazareth – der Stadt, in der Jesus und Maria wandelten, der Stadt, in der der Glaube geboren wurde. Erinnern Sie sich an die Momente, die sich hier ereigneten, an die Herzen, die sich im Gebet öffneten, und an die Tränen, die leise auf die alten Steine ​​fielen.",
+            "part1": "Nazareth, die Stadt, in der sich das Wunder ereignete, ist der Ort, an dem Jesus seine ersten Schritte machte, wo die Jungfrau Maria ihren Sohn umarmte und für seine Sicherheit betete. Hier, in den alten Kirchen, an der heiligen Quelle, wo Maria Jesus nährte, und auf dem lebhaften Markt der Altstadt – werden Sie feststellen, dass Ihr Glaube wieder zum Leben erwacht.",
+            "part2": "Stellen Sie sich vor, Sie gehen durch die engen Gassen, folgen den Spuren Jesu zu den Kirchen und verbringen Momente der Besinnung an der Marienquelle, wo die Augen der Heiligen Mutter auf das alte Wasser trafen. Jeder Stein, jede Gasse erzählt eine Geschichte von unerschütterlichem Glauben, von einer spirituellen Reise, die die Zeit überdauert.",
+            "part3": "Wenn Sie in der Verkündigungsbasilika eine Kerze anzünden, verbinden Sie sich wieder mit dem Ort, an dem Jesus zum ersten Mal seine göttliche Berufung hörte. Während Ihr Herz sich nach Nazareth sehnt, tragen unsere Souvenirs den heiligen Geist der Stadt in sich und erinnern Sie an Ihre tiefe Verbindung mit dem Ort, an dem alles begann.",
+            "part4": "Erlauben Sie uns, Nazareth zu Ihnen zu bringen, direkt in Ihr Zuhause. Mit jedem Andenken bewahren Sie eine tiefe Verbindung mit Nazareth – der Stadt, in der Jesus und Maria wandelten, der Stadt, in der der Glaube geboren wurde. Erinnern Sie sich an die Momente, die sich hier ereigneten, an die Herzen, die sich im Gebet öffneten, und an die Tränen, die leise auf die alten Steine fielen.",
             "part5": "Nazareth erwartet Sie, umarmt Sie aus der Ferne und bringt Ihnen seine Heiligkeit. Lass die Flamme in deinem Herzen brennen, bis zu dem Tag, an dem du zu uns zurückkehrst – in die Stadt, in der der Glaube schlägt."
         }
     },
@@ -29,7 +32,8 @@
         "no_upcoming_events": "Keine bevorstehenden Events verfügbar.",
         "past_live_events": "Vergangene Live-Events",
         "refresh_note": "Hinweis: Bitte aktualisieren Sie die Seite, bevor Sie auf die Schaltfläche Live teilnehmen klicken.",
-        "live_note": "Hinweis: Die Schaltfläche Live teilnehmen ist erst verfügbar, nachdem das Live-Event begonnen hat."
+        "live_note": "Hinweis: Die Schaltfläche Live teilnehmen ist erst verfügbar, nachdem das Live-Event begonnen hat.",
+        "event_has_started": "Das Event hat begonnen! Klicken Sie unten, um beizutreten."
     },
     "common": {
         "home": "Home",
@@ -51,6 +55,7 @@
         "toLightACandlePay": "Zahle 3 $, um eine Kerze anzuzünden",
         "light": "ANZÜNDEN",
         "emailMatchError": "E-Mails stimmen nicht überein",
+        "emailsDontMatch": "E-Mails stimmen nicht überein",
         "inputWarning": "Bitte wähle eine Kirche.",
         "firstName": "Vorname",
         "lastName": "Nachname",

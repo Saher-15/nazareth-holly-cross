@@ -1,5 +1,6 @@
 import express from "express"
 import Product from "../model/product.js";
+import { requireAdmin } from '../middleware/auth.js';
 
 const routerProduct = express.Router();
 
@@ -51,7 +52,7 @@ routerProduct.get('/getProduct/:id', async (req, res) => {
     }
 })
 
-routerProduct.delete('/deleteProduct/:id', async (req, res) => {
+routerProduct.delete('/deleteProduct/:id', requireAdmin, async (req, res) => {
     try {
         await Product.findByIdAndDelete(req.params.id);
         res.status(200).send("Success");
@@ -60,7 +61,7 @@ routerProduct.delete('/deleteProduct/:id', async (req, res) => {
     }
 })
 
-routerProduct.post('/addProduct', async (req, res) => {
+routerProduct.post('/addProduct', requireAdmin, async (req, res) => {
     try {
         const { name, price, img, additionalImgsURL, description, uuidv4_ } = req.body;
 
@@ -104,7 +105,7 @@ routerProduct.post('/addProduct', async (req, res) => {
     }
 })
 
-routerProduct.put('/updateProduct/:id', async (req, res) => {
+routerProduct.put('/updateProduct/:id', requireAdmin, async (req, res) => {
     try {
         const productId = req.params.id;
         const { name, price, img, additionalImageUrls, description, uuidv4_ } = req.body;

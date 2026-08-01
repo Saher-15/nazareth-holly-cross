@@ -1,6 +1,7 @@
 import express from "express"
 import Contact from "../model/contact.js"
 import dotenv from "dotenv"
+import { requireAdmin } from '../middleware/auth.js';
 
 dotenv.config()
 
@@ -40,7 +41,7 @@ routerContact.post('/contact_us_request', async (req, res) => {
     }
 })
 
-routerContact.get('/get_all_contact_us', async (req, res) => {
+routerContact.get('/get_all_contact_us', requireAdmin, async (req, res) => {
     try {
         const requests = await Contact.find();
 
@@ -55,7 +56,7 @@ routerContact.get('/get_all_contact_us', async (req, res) => {
     }
 })
 
-routerContact.get('/get_request/:id', async (req, res) => {
+routerContact.get('/get_request/:id', requireAdmin, async (req, res) => {
     try {
         const request = await Contact.findById(req.params.id)
 
@@ -69,7 +70,7 @@ routerContact.get('/get_request/:id', async (req, res) => {
     }
 })
 
-routerContact.patch('/request_done/:id', async (req, res) => {
+routerContact.patch('/request_done/:id', requireAdmin, async (req, res) => {
     try {
         const requestId = req.params.id;
 
@@ -86,7 +87,7 @@ routerContact.patch('/request_done/:id', async (req, res) => {
     }
 })
 
-routerContact.delete('/delete_request/:id', async (req, res) => {
+routerContact.delete('/delete_request/:id', requireAdmin, async (req, res) => {
     try {
         await Contact.findByIdAndDelete(req.params.id);
         res.status(200).send("Success");

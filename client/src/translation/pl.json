@@ -32,7 +32,8 @@
         "no_upcoming_events": "Brak dostępnych nadchodzących wydarzeń.",
         "past_live_events": "Poprzednie wydarzenia na żywo",
         "refresh_note": "Uwaga: Odśwież stronę przed naciśnięciem przycisku 'Dołącz do transmisji na żywo'.",
-        "live_note": "Uwaga: Przycisk 'Dołącz do transmisji na żywo' jest dostępny dopiero po rozpoczęciu wydarzenia na żywo."
+        "live_note": "Uwaga: Przycisk 'Dołącz do transmisji na żywo' jest dostępny dopiero po rozpoczęciu wydarzenia na żywo.",
+        "event_has_started": "Wydarzenie się rozpoczęło! Kliknij poniżej, aby dołączyć."
     },
     "common": {
         "home": "Strona główna",
@@ -54,6 +55,7 @@
         "toLightACandlePay": "Aby zapalić świeczkę, zapłać 3$",
         "light": "LIGHT",
         "emailMatchError": "Adresy e-mail nie pasują",
+        "emailsDontMatch": "Adresy e-mail nie są zgodne",
         "inputWarning": "Wybierz kościół.",
         "firstName": "Imię",
         "lastName": "Nazwisko",
@@ -231,7 +233,7 @@
         "lastName": "Nazwisko",
         "email": "E-mail",
         "confirmEmail": "E-mail potwierdzający",
-        "emailsDontMatch": "E-maile nie match",
+        "emailsDontMatch": "E-maile nie są zgodne",
         "city": "Miasto",
         "street": "Adres ulicy",
         "postal": "Kod pocztowy",

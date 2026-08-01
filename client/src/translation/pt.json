@@ -32,7 +32,8 @@
         "no_upcoming_events": "Nenhum evento futuro disponível.",
         "past_live_events": "Eventos ao vivo anteriores",
         "refresh_note": "Observação: atualize a página antes de clicar no botão 'Participe ao vivo'.",
-        "live_note": "Observação: o botão 'Participe ao vivo' estará disponível somente após o início do evento ao vivo."
+        "live_note": "Observação: o botão 'Participe ao vivo' estará disponível somente após o início do evento ao vivo.",
+        "event_has_started": "O evento começou! Clique abaixo para participar."
     },
     "common": {
         "home": "Página inicial",
@@ -54,6 +55,7 @@
         "toLightACandlePay": "Para acender uma vela, pague 3$",
         "light": "ACENDA",
         "emailMatchError": "E-mails não correspondem",
+        "emailsDontMatch": "E-mails não correspondem",
         "inputWarning": "Selecione uma igreja.",
         "firstName": "Primeiro nome",
         "lastName": "Sobrenome",

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'nhc-v1';
+const CACHE_NAME = 'nhc-v2';
 const STATIC_ASSETS = [
   '/',
   '/manifest.json',
@@ -25,10 +25,11 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(request.url);
 
   // Network-first for API/Firebase requests
+  const isApiCall = ['/product/', '/order/', '/candle/', '/contact/', '/live/', '/auth/'].some(p => url.pathname.startsWith(p));
   if (
     url.hostname.includes('firebasestorage') ||
     url.hostname.includes('googleapis') ||
-    url.pathname.startsWith('/api')
+    isApiCall
   ) {
     event.respondWith(
       fetch(request).catch(() => caches.match(request))

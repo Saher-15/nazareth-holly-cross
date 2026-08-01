@@ -32,7 +32,8 @@
         "no_upcoming_events": "Nessun evento disponibile in arrivo.",
         "past_live_events": "Eventi live passati",
         "refresh_note": "Nota: aggiorna la pagina prima di premere il pulsante 'Unisciti al live'.",
-        "live_note": "Nota: il pulsante 'Unisciti al live' è disponibile solo dopo l'inizio dell'evento live."
+        "live_note": "Nota: il pulsante 'Unisciti al live' è disponibile solo dopo l'inizio dell'evento live.",
+        "event_has_started": "L'evento è iniziato! Clicca sotto per unirti."
     },
     "common": {
         "home": "Home",
@@ -54,6 +55,7 @@
         "toLightACandlePay": "Per accendere una candela, paga 3$",
         "light": "ACCENDI",
         "emailMatchError": "Le email non corrispondono",
+        "emailsDontMatch": "Le email non corrispondono",
         "inputWarning": "Seleziona una chiesa.",
         "firstName": "Nome",
         "lastName": "Cognome",

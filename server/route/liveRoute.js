@@ -1,34 +1,35 @@
-import express from "express"
+import express from 'express';
+import { requireAdmin } from '../middleware/auth.js';
 
 const routerLive = express.Router();
+let live_room_id = '';
 
-let live_room_id = "";
+routerLive.post('/create_room', requireAdmin, (req, res) => {
+  try {
+    const { roomID } = req.body;
+    if (!roomID) return res.status(400).json({ error: 'roomID is required' });
+    live_room_id = roomID;
+    res.json({ success: true, roomID: live_room_id });
+  } catch {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
 
-routerLive.post('/create_room', async (req, res) => {
-    try {
-        const { roomID } = req.body;
-        live_room_id = roomID;
-        res.status(200).send('Room ID broadcasted to clients.');
-    } catch (error) {
-        res.status(500).write(`data: ${JSON.stringify({ error: 'Failed to stream data' })}\n\n`);
-    }
-})
+routerLive.get('/room_id', (req, res) => {
+  try {
+    res.json({ roomID: live_room_id });
+  } catch {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
 
-routerLive.get('/room_id', async (req, res) => {
-    try {
-        res.status(200).json({roomID: live_room_id});
-    } catch (error) {
-        res.status(500).write(`data: ${JSON.stringify({ error: 'Failed to stream data' })}\n\n`);
-    }
-})
+routerLive.post('/close_room', requireAdmin, (req, res) => {
+  try {
+    live_room_id = '';
+    res.json({ success: true });
+  } catch {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
 
-routerLive.post('/close_room', async (req, res) => {
-    try {
-        live_room_id = "";
-        res.status(200).send('Live Stream closed');
-    } catch (error) {
-        res.status(500).write(`data: ${JSON.stringify({ error: 'Failed to stream data' })}\n\n`);
-    }
-})
-
-export default routerLive
+export default routerLive;

@@ -32,7 +32,8 @@
         "no_upcoming_events": "Aucun événement à venir disponible.",
         "past_live_events": "Événements Passés en Direct",
         "refresh_note": "Remarque : Veuillez actualiser la page avant d'appuyer sur le bouton 'Rejoindre en Direct'.",
-        "live_note": "Remarque : Le bouton 'Rejoindre en Direct' est disponible uniquement après le début de l'événement en direct."
+        "live_note": "Remarque : Le bouton 'Rejoindre en Direct' est disponible uniquement après le début de l'événement en direct.",
+        "event_has_started": "L'événement a commencé ! Cliquez ci-dessous pour rejoindre."
     },
     "common": {
         "home": "Accueil",
@@ -54,6 +55,7 @@
         "toLightACandlePay": "Pour allumer une bougie, payez 3$",
         "light": "ALLUMER",
         "emailMatchError": "Les emails ne correspondent pas",
+        "emailsDontMatch": "Les emails ne correspondent pas",
         "inputWarning": "Veuillez sélectionner une église.",
         "firstName": "Prénom",
         "lastName": "Nom de famille",

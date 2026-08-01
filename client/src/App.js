@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 import Layout from './components/Layout';
+import ErrorBoundary from './components/ErrorBoundary';
 import ShopContextProvider from './context/shop-context';
 import ReactGA from 'react-ga4';
 import { gold } from './theme';
@@ -98,19 +99,21 @@ function App() {
 
   return (
     <ShopContextProvider>
-      <Routes>
-        {routes.map(({ path, element }) => (
-          <Route
-            key={path}
-            path={path}
-            element={
-              <Suspense fallback={<PageLoader />}>
-                <Layout>{element}</Layout>
-              </Suspense>
-            }
-          />
-        ))}
-      </Routes>
+      <ErrorBoundary>
+        <Routes>
+          {routes.map(({ path, element }) => (
+            <Route
+              key={path}
+              path={path}
+              element={
+                <Suspense fallback={<PageLoader />}>
+                  <Layout>{element}</Layout>
+                </Suspense>
+              }
+            />
+          ))}
+        </Routes>
+      </ErrorBoundary>
     </ShopContextProvider>
   );
 }

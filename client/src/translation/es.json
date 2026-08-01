@@ -32,7 +32,8 @@
     "no_upcoming_events": "No hay eventos próximos disponibles.",
     "past_live_events": "Eventos Pasados en Vivo",
     "refresh_note": "Nota: Por favor, actualiza la página antes de presionar el botón 'Unirse en Vivo'.",
-    "live_note": "Nota: El botón 'Unirse en Vivo' está disponible solo después de que comience el evento en vivo."
+    "live_note": "Nota: El botón 'Unirse en Vivo' está disponible solo después de que comience el evento en vivo.",
+    "event_has_started": "¡El evento ha comenzado! Haga clic a continuación para unirse."
   },
   "common": {
     "home": "Inicio",
@@ -54,6 +55,7 @@
     "toLightACandlePay": "Para encender una vela, paga 3$",
     "light": "ENCENDER",
     "emailMatchError": "Los correos electrónicos no coinciden",
+    "emailsDontMatch": "Los correos electrónicos no coinciden",
     "inputWarning": "Por favor selecciona una iglesia.",
     "firstName": "Nombre",
     "lastName": "Apellido",
