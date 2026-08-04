@@ -7,7 +7,13 @@ let live_room_id = '';
 routerLive.post('/create_room', requireAdmin, (req, res) => {
   try {
     const { roomID } = req.body;
-    if (!roomID) return res.status(400).json({ error: 'roomID is required' });
+    if (!roomID || typeof roomID !== 'string') {
+      return res.status(400).json({ error: 'roomID is required' });
+    }
+    // Validate roomID: alphanumeric + hyphens/underscores, max 100 chars
+    if (!/^[A-Za-z0-9_-]{1,100}$/.test(roomID)) {
+      return res.status(400).json({ error: 'Invalid roomID format' });
+    }
     live_room_id = roomID;
     res.json({ success: true, roomID: live_room_id });
   } catch {

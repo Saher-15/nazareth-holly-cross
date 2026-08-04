@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import { xss } from 'express-xss-sanitizer';
+import mongoSanitize from 'express-mongo-sanitize';
 import routerOrder from './route/orderRoute.js';
 import routerProduct from './route/productRoute.js';
 import routerCandle from './route/candleRoute.js';
@@ -49,9 +50,10 @@ app.use(cors({
   },
   credentials: true,
 }));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '10kb' }));
+app.use(express.urlencoded({ limit: '10kb', extended: true }));
 app.use(xss());
+app.use(mongoSanitize()); // strip MongoDB operators ($where, $gt, etc.) from req.body/params/query
 app.use(globalLimiter);
 
 app.use('/auth', routerAuth);
@@ -63,5 +65,15 @@ app.use('/live', routerLive);
 app.use('/admin', routerAdmin);
 
 app.get('/health', (req, res) => res.json({ status: 'ok', timestamp: new Date().toISOString() }));
+
+// Global error handler — never expose stack traces or internal messages in production
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
+  const isProd = process.env.NODE_ENV === 'production';
+  console.error(`[${new Date().toISOString()}] Unhandled error: ${err.message}`, isProd ? '' : err.stack);
+  res.status(err.status || 500).json({
+    error: isProd ? 'Internal server error' : err.message,
+  });
+});
 
 app.listen(process.env.PORT || 5000, () => console.log(`Server running on port ${process.env.PORT || 5000}`));

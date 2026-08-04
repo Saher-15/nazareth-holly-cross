@@ -40,7 +40,7 @@ routerCandle.put('/set_request_done/:id', requireAdmin, async(req, res)=>{
         res.status(200).send("Success")
 
     }catch(err){
-        res.status(500).json({error: err})
+        res.status(500).json({error: 'Internal server error'})
     }
 })
 
@@ -57,20 +57,24 @@ routerCandle.post('/lightACandle', async(req, res)=>{
     try{
         const { firstName, lastName, email, prayer } = req.body;
 
-        if(firstName === null || firstName === undefined || firstName === ""){
-            return res.status(422).json({error:"Bad input"})
+        if(!firstName || typeof firstName !== 'string' || firstName.trim() === ''){
+            return res.status(422).json({error:"Bad input: firstName is required"})
         }
 
-        if(lastName === null || lastName === undefined || lastName === ""){
-            return res.status(422).json({error:"Bad input"})
+        if(!lastName || typeof lastName !== 'string' || lastName.trim() === ''){
+            return res.status(422).json({error:"Bad input: lastName is required"})
         }
 
-        if(email === null || email === undefined || email === ""){
-            return res.status(422).json({error:"Bad input"})
+        if(!email || typeof email !== 'string' || email.trim() === ''){
+            return res.status(422).json({error:"Bad input: email is required"})
+        }
+        // Validate email format
+        if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())){
+            return res.status(422).json({error:"Bad input: invalid email format"})
         }
 
-        if(prayer === null || prayer === undefined || prayer === ""){
-            return res.status(422).json({error:"Bad input"})
+        if(!prayer || typeof prayer !== 'string' || prayer.trim() === ''){
+            return res.status(422).json({error:"Bad input: prayer is required"})
         }
 
         const emailMsg = {
@@ -96,7 +100,7 @@ routerCandle.post('/lightACandle', async(req, res)=>{
 
         res.status(200).send("Success")
     }catch(err){
-        res.status(500).json({error:err})
+        res.status(500).json({error: 'Internal server error'})
     }
 })
 

@@ -9,19 +9,23 @@ routerProduct.get('/getAllProducts', async (req, res) => {
         const products = await Product.find();
         res.status(200).send(products);
     } catch (err) {
-        res.status(500).send("Error")
+        res.status(500).json({ error: 'Internal server error' })
     }
 })
 
 routerProduct.get('/getNProducts', async (req, res) => {
     try {
-        let { page, size } = req.query
-        if (!page) page = 1;
-        if (!size) size = 10;
-        const limit = parseInt(size)
-        const skip = (page - 1) * size
+        let page = parseInt(req.query.page) || 1;
+        let size = parseInt(req.query.size) || 10;
 
-        const po = await Product.find().sort({ rate: -1 }).limit(limit).skip(skip);
+        // Bounds-check to prevent DoS via extreme pagination values
+        if (page < 1) page = 1;
+        if (size < 1) size = 1;
+        if (size > 100) size = 100; // cap at 100 items per page
+
+        const skip = (page - 1) * size;
+
+        const po = await Product.find().sort({ rate: -1 }).limit(size).skip(skip);
         const total_documents = await Product.countDocuments();
 
         const previous_pages = page - 1;
@@ -35,8 +39,7 @@ routerProduct.get('/getNProducts', async (req, res) => {
             next: next_pages
         })
     } catch (error) {
-        console.log("error", error)
-        return res.status(400).json({ error: error })
+        return res.status(400).json({ error: 'Bad request' })
     }
 })
 

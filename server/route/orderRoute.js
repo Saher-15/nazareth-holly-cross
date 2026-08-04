@@ -30,7 +30,7 @@ routerOrder.get('/getAllOrders', requireAdmin, async (req, res) => {
         const orders = await Order.find();
         res.status(200).send(orders);
     } catch (err) {
-        res.status(500).json({ error: err })
+        res.status(500).json({ error: 'Internal server error' })
     }
 })
 
@@ -44,7 +44,7 @@ routerOrder.get('/getOrder/:id', requireAdmin, async (req, res) => {
 
         res.status(200).send(order);
     } catch (err) {
-        res.status(500).json({ error: err })
+        res.status(500).json({ error: 'Internal server error' })
     }
 })
 
@@ -130,7 +130,7 @@ routerOrder.post('/newOrder', async (req, res) => {
         res.status(201).send("Created");
 
     } catch (error) {
-        res.status(500).json({ error: error })
+        res.status(500).json({ error: 'Internal server error' })
     }
 })
 
@@ -163,7 +163,7 @@ routerOrder.patch('/orderSent/:id', requireAdmin, async (req, res) => {
         res.status(200).send("Success")
 
     } catch (error) {
-        res.status(500).json({ error: error })
+        res.status(500).json({ error: 'Internal server error' })
     }
 })
 
@@ -238,8 +238,8 @@ routerOrder.post('/create_order', (req, res) => {
                 }) //Send minimal data to client
         })
         .catch(err => {
-            console.log(err);
-            res.status(500).send(err)
+            console.error(`[${new Date().toISOString()}] PayPal create_order error:`, err.message || err);
+            res.status(500).json({ error: 'Payment processing error' });
         })
 });
 
@@ -261,13 +261,12 @@ routerOrder.post('/complete_order', (req, res) => {
             })
                 .then(res => res.json())
                 .then(json => {
-                    console.log(json);
                     res.send(json);
                 }) //Send minimal data to client
         })
         .catch(err => {
-            console.log(err);
-            res.status(500).send(err)
+            console.error(`[${new Date().toISOString()}] PayPal complete_order error:`, err.message || err);
+            res.status(500).json({ error: 'Payment processing error' });
         })
 });
 

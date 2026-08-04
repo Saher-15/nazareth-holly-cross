@@ -11,20 +11,24 @@ routerContact.post('/contact_us_request', async (req, res) => {
     try {
         const { fullName, email, phone, msg } = req.body;
 
-        if(fullName === null || fullName === undefined || fullName === ""){
-            return res.status(422).json({error:"Bad input"})
+        if(!fullName || typeof fullName !== 'string' || fullName.trim() === ''){
+            return res.status(422).json({error:"Bad input: fullName is required"})
         }
 
-        if(email === null || email === undefined || email === ""){
-            return res.status(422).json({error:"Bad input"})
+        if(!email || typeof email !== 'string' || email.trim() === ''){
+            return res.status(422).json({error:"Bad input: email is required"})
+        }
+        // Validate email format
+        if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())){
+            return res.status(422).json({error:"Bad input: invalid email format"})
         }
 
-        if(phone === null || phone === undefined || phone === ""){
-            return res.status(422).json({error:"Bad input"})
+        if(!phone || typeof phone !== 'string' || phone.trim() === ''){
+            return res.status(422).json({error:"Bad input: phone is required"})
         }
 
-        if(msg === null || msg === undefined || msg === ""){
-            return res.status(422).json({error:"Bad input"})
+        if(!msg || typeof msg !== 'string' || msg.trim() === ''){
+            return res.status(422).json({error:"Bad input: message is required"})
         }
 
         const newContact = new Contact({
@@ -37,7 +41,7 @@ routerContact.post('/contact_us_request', async (req, res) => {
         await newContact.save();
         res.status(201).send("Created")
     } catch (err) {
-        res.status(500).json({ error: err })
+        res.status(500).json({ error: 'Internal server error' })
     }
 })
 
@@ -52,7 +56,7 @@ routerContact.get('/get_all_contact_us', requireAdmin, async (req, res) => {
         res.status(200).send(requests)
 
     } catch (err) {
-        res.status(500).json({ error: err })
+        res.status(500).json({ error: 'Internal server error' })
     }
 })
 
@@ -66,7 +70,7 @@ routerContact.get('/get_request/:id', requireAdmin, async (req, res) => {
 
         res.status(200).send(request);
     } catch (err) {
-        res.status(500).json({ error: err })
+        res.status(500).json({ error: 'Internal server error' })
     }
 })
 
@@ -83,7 +87,7 @@ routerContact.patch('/request_done/:id', requireAdmin, async (req, res) => {
         res.status(200).send("Success")
 
     } catch (error) {
-        res.status(500).json({ error: error })
+        res.status(500).json({ error: 'Internal server error' })
     }
 })
 
