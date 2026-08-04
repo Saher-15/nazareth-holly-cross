@@ -1,0 +1,300 @@
+{
+    "about": {
+        "title": "Witamy na oficjalnym portalu Nazaretu",
+        "description1": "Serce wiary chrześcijańskiej. Rozumiemy, że nie każdy może fizycznie odwiedzić Nazaret, miasto, w którym dorastał Jezus i gdzie na każdego odwiedzającego czekają duchowe przeżycia. Dlatego z przyjemnością oferujemy Ci możliwość zabrania Nazaretu do Ciebie.",
+        "description2": "Dzięki naszej stronie internetowej możesz odbyć wirtualną wycieczkę po głównych kościołach i miejscach świętych Nazaretu, połączyć się z bogatą historią i tradycją religijną, która charakteryzuje to miejsce. Ponadto oferujemy Ci wyjątkową okazję do zakupu lokalnych pamiątek, a nawet zapalenia świecy na pamiątkę lub cześć Twoich bliskich, tak jakbyś był tutaj z nami.",
+        "description3": "W naszym sklepie internetowym znajdziesz szeroką gamę produktów: krzyże wykonane z lokalnego drewna oliwnego, biżuterię inspirowaną symbolami chrześcijańskimi, obrazy i mozaiki odzwierciedlające bogatą sztukę religijną i wiele więcej. Teraz możesz również kupić wodę z legendarnego źródła w Nazarecie, piasek z piasków Nazaret i lokalne oliwki – wszystko po to, aby poczuć wielkość miasta Nazaret i Jezusa. Możesz również zapalić wirtualną świecę, akt, który przekazuje modlitwę i pamięć na odległość.",
+        "description4": "Zapraszamy do otwarcia serc i poczucia ciepła naszej społeczności poprzez każdy produkt, który zdecydujesz się kupić. Każdy zakup wspiera lokalną społeczność i pomaga zachować bogate dziedzictwo Nazaretu dla przyszłych pokoleń. Odwiedź naszą stronę internetową i znajdź sposób na połączenie się z Nazaretem, kiedykolwiek i gdziekolwiek."
+    },
+    "whatIsNew": {
+        "title": "Biblijne odniesienia do Nazaretu",
+        "scriptureNotes": {
+            "matthew": "Mateusz 2:23: \"I przybył i zamieszkał w mieście zwanym Nazaret, aby się spełniło, co powiedziano przez proroków: 'Będzie nazwany Nazarejczykiem.'\"",
+            "luke1": "Łukasz 1:26-27: \"A w szóstym miesiącu Bóg posłał anioła Gabriela do miasta w Galilei, zwanego Nazaret, do dziewicy poślubionej mężowi, imieniem Józef, z domu Dawida; dziewicy zaś było na imię Maria.\"",
+            "john": "Jan 1:46: \"I rzekł do niego Natanael: 'Czy może być coś dobrego z Nazaretu?' Filip powiedział do niego: „Chodź i zobacz”.\"",
+            "luke4": "Łukasz 4:16: \"Przyszedł więc do Nazaretu, gdzie się wychował. I według swego zwyczaju wszedł w dzień szabatu do synagogi i powstał, aby czytać.\""
+        },
+        "touchingTheSacred": "Dotykanie sacrum, odczuwanie bicia serca",
+        "introParagraphs": {
+            "part1": "Nazaret, miasto, w którym dokonał się cud, jest miejscem, w którym Jezus stawiał pierwsze kroki, gdzie Dziewica Maryja objęła swego Syna i modliła się o Jego bezpieczeństwo. Tutaj, w starożytnych kościołach, przy świętym źródle, gdzie Maryja karmiła Jezusa, i na tętniącym życiem rynku starego miasta – znajdziesz swoją wiarę, która znów ożyje.",
+            "part2": "Wyobraź sobie, że spacerujesz wąskimi uliczkami, podążając śladami Jezusa do kościołów, dzieląc chwile refleksji przy źródle Maryi, gdzie oczy świętej matki spotkały się ze starożytnymi wodami. Każdy kamień, każda alejka opowiada historię niezachwianej wiary, duchowej podróży, która przekracza czas.",
+            "part3": "Kiedy zapalasz świecę w Bazylice Zwiastowania, nawiązujesz kontakt z miejscem, w którym Jezus po raz pierwszy usłyszał swoje boskie powołanie. Podczas gdy twoje serce tęskni za Nazaretem, nasze pamiątki niosą świętego ducha miasta, przypominając ci o twojej głębokiej więzi z miejscem, w którym wszystko się zaczęło.",
+            "part4": "Pozwól nam przynieść Nazaret do ciebie, prosto do twojego domu. Z każdą pamiątką zachowujesz głęboką więź z Nazaretem – miastem, w którym chodzili Jezus i Maryja, miastem, w którym narodziła się wiara. Pamiętaj o chwilach, które się tu wydarzyły, sercach, które otworzyły się w modlitwie i łzach, które cicho spadły na starożytne kamienie.",
+            "part5": "Nazaret czeka na ciebie, obejmując cię z daleka, przynosząc ci swoją świętość. Podtrzymuj płomień płonący w twoim sercu, aż do dnia, w którym wrócisz do nas – do miasta, w którym bije wiara."
+        }
+    },
+    "live": {
+        "event_ongoing": "Wydarzenie na żywo w toku",
+        "upcoming_event": "Nadchodzące wydarzenie na żywo",
+        "nazareth_date_time": "Data i godzina Nazaret:",
+        "time_remaining": "Pozostały czas:",
+        "join_live": "Dołącz do transmisji na żywo",
+        "no_upcoming_events": "Brak dostępnych nadchodzących wydarzeń.",
+        "past_live_events": "Poprzednie wydarzenia na żywo",
+        "refresh_note": "Uwaga: Odśwież stronę przed naciśnięciem przycisku 'Dołącz do transmisji na żywo'.",
+        "live_note": "Uwaga: Przycisk 'Dołącz do transmisji na żywo' jest dostępny dopiero po rozpoczęciu wydarzenia na żywo.",
+        "event_has_started": "Wydarzenie się rozpoczęło! Kliknij poniżej, aby dołączyć."
+    },
+    "common": {
+        "home": "Strona główna",
+        "live": "Na żywo",
+        "tour": "Wycieczka",
+        "candle": "Świeca",
+        "shop": "Sklep",
+        "reviews": "Recenzje"
+    },
+    "candle": {
+        "howToLightACandle": "Jak zapalić świecę?",
+        "itsSimple": "To proste:",
+        "step1": "Wybierz kościół, w którym chcesz zapalić świecę.",
+        "step2": "Napisz modlitwę lub osobistą prośbę, którą chcesz dołączyć do zapalenia świecy.",
+        "step3": "Pójdziemy dohurch, zapal świeczkę za Ciebie, nagraj filmik ze swoim imieniem i wyślij go bezpośrednio do Ciebie.",
+        "note": "Uwaga: Ten filmik ma charakter poglądowy i przedstawia proces zapalania świecy w greckim kościele prawosławnym.",
+        "lightAPrayCandle": "ZAPAL ŚWIECĘ MODLITEWNĄ",
+        "selectChurch": "Wybierz kościół, w którym zapalisz świeczkę:",
+        "toLightACandlePay": "Aby zapalić świeczkę, zapłać 3$",
+        "light": "LIGHT",
+        "emailMatchError": "Adresy e-mail nie pasują",
+        "emailsDontMatch": "Adresy e-mail nie są zgodne",
+        "inputWarning": "Wybierz kościół.",
+        "firstName": "Imię",
+        "lastName": "Nazwisko",
+        "yourEmail": "Twój adres e-mail",
+        "confirmEmail": "Potwierdź adres e-mail",
+        "yourPrayer": "Twoja modlitwa"
+    },
+    "heroSection": {
+        "heading": "MIASTO JEZUSA CZEKAJĄ",
+        "subHeading": "ŁASKA W KAŻDYM KLIKNIĘCIU",
+        "lightCandle": "ZAPAL ŚWIECĘ",
+        "shopButton": "Sklep",
+        "tourButton": "WYCIECZKA DO NAZARETU",
+        "shopIcon": "fa fa-shopping-cart",
+        "tourIcon": "far fa-play-circle",
+        "discount":"Skorzystaj z 10% zniżki na wszystkie produkty w naszym sklepie—wyłącznie na naszej stronie!"
+
+    },
+    "cards": {
+        "title": "Sprawdź te EPICKIE miejsca!",
+        "latinChurch": "Zwiedzaj Kościół Zwiastowania",
+        "greekChurch": "Zwiedzaj Grecki Kościół Prawosławny",
+        "marysWell": "Zwiedzaj studnię Maryi głęboko w Nazarecie",
+        "oldCity": "Zwiedzaj Stare Miasto",
+        "cityOfNazareth": "Miasto Nazaret, Jesus City"
+    },
+    "videos": {
+        "interview_nazareth": {
+            "title": "Wywiad ze Wspólnotą Nazaret",
+            "description": "Zobacz ekskluzywny wywiad transmitowany na żywo z Nazaretu."
+        },
+        "live_prayer_latin": {
+            "title": "Modlitwa na żywo z Kościoła łacińskiego",
+            "description": "Przeżyj transmisję na żywo szczerych modlitw Kościoła łacińskiego."
+        }
+    },
+    "nazarethTour": {
+        "pageHeading": "Odkryj Nazaret",
+        "videoMessage": "Wybierzmy się na wycieczkę do Nazaretu, miasta pełnego historii i kultury. Odkryj tętniące życiem rynki, zabytkowe kościoły i wyjątkowe zabytki, aby przeżyć niezapomniane wrażenia.",
+        "videoDescription": "Podziwiaj widoki i dźwięki Nazaretu w tej wciągającej wycieczce wideo. Od gwarnych targowisk po spokojne zabytki, rzuć okiem na piękno i urok tego starożytnego miasta.",
+        "ctaButton": "Dowiedz się więcej o Nazarecie"
+    },
+    "pray": {
+        "formTitle": "Podziel się swoją opinią",
+        "formDescription": "Podziel się swoimi doświadczeniami z naszą witryną. Twoja opinia pomaga nam ją ulepszać i zapewniać lepsze usługi. Wypełnij poniższy formularz, a Twoja opinia zostanie opublikowana po zatwierdzeniu przez nasz zespół.",
+        "placeholderFullName": "Imię i nazwisko",
+        "placeholderCountry": "Skąd pochodzisz?",
+        "placeholderMessage": "Opowiedz nam o swoich doświadczeniach z naszą witryną",
+        "submitButton": "Prześlij",
+        "successMessage": "Wiadomość została pomyślnie wysłana!",
+        "confirmationMessage": "Twoja wiadomość pojawi się na ścianie po jej potwierdzeniu przez zespół Nazareth Holy Cross.",
+        "messagesTitle": "Opinie klientów",
+        "messagesDescription": "Oto opinie, które zostały zatwierdzone przez nasz zespół. Dziękujemy za podzielenie się z nami swoją opinią.",
+        "noMessages": "Nie wysłano jeszcze żadnych wiadomości."
+    },
+    "confirmationCandle": {
+        "thankYou": "Dziękujemy!",
+        "paymentSuccess": "Twoja płatność została pomyślnie przetworzona.",
+        "receipt": "Potwierdzenie zostało wysłane na Twój adres e-mail.",
+        "gratitude": "Dziękujemy za zamówienie!"
+    },
+    "thankYou": {
+        "thankYou": "Dziękujemy!",
+        "paymentSuccess": "Twoja płatność została pomyślnie przetworzona.",
+        "receipt": "Potwierdzenie zostało wysłane na Twój adres e-mail.",
+        "gratitude": "Dziękujemy za zamówienie!"
+    },
+    "footer": {
+        "aboutUs": "O nas",
+        "aboutUsDescription": "Jesteśmy oddani zachowaniu ducha Nazaretu i szerzeniu przesłania nadziei. Odwiedź naszą stronę internetową, aby poznać podróż.",
+        "learnMore": "Dowiedz się więcej",
+        "contactUs": "Skontaktuj się z nami",
+        "email": "nazarethholycross@gmail.com",
+        "followInstagram": "Obserwuj nas na Instagramie",
+        "followFacebook": "Obserwuj nas na Facebooku",
+        "subscribeYoutube": "Dołącz do nas na YouTube",
+        "credits": "Credits",
+        "creditLink1": "Saher Saadi",
+        "creditLink2": "Haytham Taweel",
+        "copyright": "Copyright © 2024 - Wszelkie prawa zastrzeżone przez NazarethHolyCross"
+    },
+    "headerGreek": {
+        "title": "Odkryj piękno greckiego kościoła",
+        "mapButton": "Zobacz na Mapach Google"
+    },
+    "contentGreek": {
+        "paragraph1": "Grecki Kościół Prawosławny Zwiastowania znajduje się nad źródło, w którym według prawosławnych chrześcijan miało miejsce Zwiastowanie. Gdy Maryja Dziewica poszła zaczerpnąć wody ze źródła, ukazał się jej Archanioł Gabriel i poinformował ją, że pocznie i urodzi syna, któremu nada imię Jezus. Obecny kościół pochodzi z 1750 roku, kiedy Daher al-Omar, beduiński władca Galilei, udzielił greckiej wspólnocie prawosławnej pozwolenia na jego budowę.",
+        "paragraph2": "Kościół ma centralną nawę z dwoma nawami bocznymi i zawiera piękny drewniany ikonostas podarowany przez greckiego kupca w 1767 roku. Kościół został odnowiony przez rumuńskich artystów w latach 1977-1978. Łukowate przejście prowadzi w dół do małej kaplicy, w którejch jest ozdobiony ormiańskimi płytkami i ma siedem stopni prowadzących do źródła, które prawdopodobnie zostało zbudowane przez krzyżowców w XII wieku.",
+        "paragraph3": "Około 140 metrów od kościoła znajduje się Studnia Marii, która kiedyś była zasilana przez źródło i służyła jako lokalne źródło wody przez kilka stuleci. Fontanna została naprawiona w 1967 roku i ponownie w 2000 roku, ale obecnie nie działa."
+    },
+    "headerLatin": {
+        "title": "Odkryj piękno Kościoła Łacińskiego"
+    },
+    "contentLatin": {
+        "paragraph1": "Kościół Łaciński, znany również jako Bazylika Zwiastowania, jest ważnym miejscem kultu religijnego położonym w Nazarecie w Izraelu. Jest to jeden z największych kościołów na Bliskim Wschodzie i ma głębokie znaczenie religijne dla chrześcijan na całym świecie.",
+        "history": {
+            "title": "Tło historyczne",
+            "text": "Tradycyjnie uważa się, że to miejsce jest miejscem, w którym Anioł Gabriel oznajmił Maryi Dziewicy, że pocznie i urodzi Jezusa, wydarzenie znane jako Zwiastowanie. Bazylika ma długą historię sięgającą wczesnych wieków chrześcijaństwa, z kolejnymi kościołami budowanymi na tym miejscu z biegiem czasu."
+        },
+        "architecture": {
+            "title": "Cechy architektoniczne",
+            "text": "Obecna bazylika, zbudowana w latach 1955-1969, ma charakterystyczną dwupiętrową konstrukcję. Górny kościół jest wykorzystywany do nabożeństw, podczas gdy dolny kościół otacza Grotę Zwiastowania, uważaną za rzeczywiste miejsce Zwiastowania. Architektura bazyliki łączy w sobie nowoczesne style z tradycyjnymi elementami, a jej wnętrze zdobią mozaiki, freski i dzieła sztuki przedstawiające sceny z życia Chrystusa."
+        },
+        "visiting": {
+            "title": "Wizyta w bazylice",
+            "text": "Bazylika Zwiastowania jest popularnym celem pielgrzymów i turystów odwiedzających Nazaret. Zwiedzający mogą zwiedzać zarówno górne, jak i dolne kościoły, podziwiać artystyczne i architektoniczne cechy oraz uczestniczyć w ceremoniach religijnych i wydarzeniach odbywających się w bazylice. Miejsce to oferuje głębokie duchowe doświadczenie i jest symbolem wiary i dziedzictwa."
+        }
+    },
+    "headerMary": {
+        "title": "Odkryj piękno Studni Maryi"
+    },
+    "contentMary": {
+        "intro": "Studnia Maryi, znana również jako Studnia Dziewicy, jest ważnym miejscem historycznym i religijnym położonym w Nazarecie w Izraelu. Tradycyjnie uważa się, że jest to miejsce, w którym Anioł Gabriel ogłosił Maryi Dziewicy, że urodzi Jezusa, wydarzenie znane jako Zwiastowanie.",
+        "significance": {
+            "title": "Znaczenie historyczne i religijne",
+            "biblical": "Powiązanie biblijne",
+            "biblicalText": "Według tradycji chrześcijańskiej, Studnia Maryi to miejsce, w którym Maryja czerpała wodę, gdy ukazał się jej Anioł Gabriel i ogłosił, że pocznie i urodzi Jezusa Chrystusa. Wydarzenie to jest centralną częścią chrześcijańskiej historii Zwiastowania.",
+            "cultural": "Znaczenie kulturowe",
+            "culturalText": "Studnia jest ważnym źródłem wody dla lokalnej społeczności od wieków. Służyła jako miejsce spotkań mieszkańców Nazaretu, co czyniło ją integralną częścią codziennego życia w mieście.",
+            "architecture": "Cechy architektoniczne",
+            "architectureText": "Sama studnia jest częścią większego kompleksu, który obejmuje Grecki Kościół Prawosławny Zwiastowania. Obecna struktura kościoła pochodzi z XVIII wieku, ale studnia i miejsce mają znacznie starsze korzenie."
+        },
+        "modern": {
+            "title": "Nowoczesne miejsce",
+            "restoration": "Wysiłki restauracyjne",
+            "restorationText": "Fontanna przy studni Maryi przeszła kilka renowacji na przestrzeni lat, zwłaszcza w 1967 i 2000 roku. Pomimo tych wysiłków studnia nie funkcjonuje dziś tak, jak kiedyś.",
+            "attraction": "Atrakcja turystyczna",
+            "attractionText": "Studnia Maryi jest popularnym celem pielgrzymów i turystów. Odwiedzający przyjeżdżają, aby zobaczyć zabytkowe miejsce i doświadczyć miejsca, w którym według tradycji miało miejsce Zwiastowanie.",
+            "surroundings": "Otoczenie",
+            "surroundingsText": "Studnia znajduje się w Starym Mieście Nazaretu, obszarze bogatym w zabytki historyczne i religijne. W pobliżu znajdują się takie atrakcje jak Bazylika Zwiastowania, Grecki Kościół Prawosławny Zwiastowania i różne inne miejsca związane z życiem Jezusa i Maryi."
+        },
+        "visiting": {
+            "title": "Wizyta przy Studni Maryi",
+            "location": "Lokalizacja",
+            "locationText": "Studnia Maryi znajduje się w sercu Nazaretu, dzięki czemu jest łatwo dostępna dla odwiedzających Stare Miasto.",
+            "accessibility": "Dostępność",
+            "accessibilityText": "Miejsce jest otwarte dla publiczności i można je zwiedzać przez cały rok. Zaleca się sprawdzenie lokalnych informacji dla odwiedzających w celu uzyskania szczegółowych godzin odwiedzin lub wytycznych.",
+            "culturalExperience": "Doświadczenie kulturalne",
+            "culturalExperienceText": "Wizyta w Mary'sWell oferuje wyjątkową okazję do nawiązania kontaktu z bogatym dziedzictwem religijnym i kulturowym Nazaretu. Witryna ta daje wgląd w codzienne życie ludzi w czasach starożytnych i ich praktyki duchowe."
+        }
+    },
+    "headerTitleNaz": "Odkryj piękno miasta Nazaret",
+    "mapButton": "Otwórz mapę",
+    "contentNaz": {
+        "introduction": "Stare Miasto Nazaret jest najbardziej znane ze swojego shuk (targu na świeżym powietrzu), który przyciąga Izraelczyków z całego kraju poszukujących tradycyjnych arabskich produktów. To samo w sobie jest doświadczeniem i wielkim kontrastem dla klimatyzowanych centrów handlowych rozsianych po całym kraju. Dla osób zainteresowanych chrześcijaństwem Stare Miasto i okolice są wypełnione ważnymi miejscami chrześcijańskimi, w tym Kościołem Zwiastowania.",
+        "historicalSignificance": {
+            "title": "Znaczenie historyczne i religijne",
+            "text": "Nazaret jest widocznie wymieniony w Nowym Testamencie. Według tradycji chrześcijańskiej jest to miejsce, w którym Anioł Gabriel oznajmił Maryi, że urodzi Jezusa, wydarzenie upamiętnione przez Bazylikę Zwiastowania. Dowody archeologiczne wskazują, że Nazaret był małą żydowską wioską w czasach Jezusa. Jest nieprzerwanie zamieszkiwany od czasów starożytnych."
+        },
+        "modernNazareth": {
+            "title": "Modern Nazareth",
+            "text": "Miasto ma zróżnicowaną populację, głównie arabskich muzułmanów i chrześcijan. Według ostatnich szacunków Nazaret ma około 77 000 mieszkańców. Nazaret jest tętniącym życiem ośrodkiem kulturalnym z różnymi instytucjami religijnymi, kulturalnymi i edukacyjnymi. Organizuje festiwale i wydarzenia, które odzwierciedlają bogate dziedzictwo i różnorodną społeczność. Turystyka jest znaczącą częścią gospodarki Nazaretu, napędzaną przez miejsca kultu religijnego i zabytki. Ponadto w mieście działa mieszanka małych firm, sklepów i targowisk, które przyczyniają się do lokalnej gospodarki."
+        },
+        "accessibility": {
+            "title": "Dostępność i turystyka",
+            "text": "Nazaret jest dobrze skomunikowany drogą lądową, z częstymi połączeniami autobusowymi z głównych miast, takich jak Tel Awiw, Hajfa i Jerozolima. Miasto oferuje różne opcje zakwaterowania, od hoteli po pensjonaty, zaspokajając potrzeby turystów i pielgrzymów."
+        }
+    },
+    "headerTitleOld": "Odkryj piękno Starego Miasta w Nazarecie",
+    "mapDescriptionOld": "Stare Miasto w Nazarecie jest najbardziej znane ze swojego shuk (targu na świeżym powietrzu), który przyciąga Izraelczyków z całego kraju poszukujących tradycyjnych arabskich produktów. To samo w sobie jest doświadczeniem i świetnym kontrastem dla klimatyzowanych centrów handlowych rozsianych po całym kraju. Dla zainteresowanych chrześcijaństwem Stare Miasto i okolice są pełne ważnych miejsc chrześcijańskich, w tym Kościoła Zwiastowania.",
+    "churchDescriptionOld": "Grecki prawosławny kościół Zwiastowania znajduje się nad źródłem, w którym według prawosławnych chrześcijan miało miejsce Zwiastowanie. Gdy Dziewica Maryja poszła zaczerpnąć wody ze źródła, ukazał się jej Archanioł Gabriel i poinformował ją, że pocznie i urodzi syna, któremu nada imię Jezus. Obecny kościół pochodzi z 1750 roku, kiedy Daher al-Omar, beduiński władca Galilei, udzielił greckiej wspólnocie prawosławnej pozwolenia na jego budowę.",
+    "waterSourceOld": "Około 140 metrów od kościoła znajduje się Studnia Marii, która kiedyś była zasilana przez źródło i przez kilka stuleci służyła jako lokalne źródło wody. Fontanna została naprawiona w 1967 r. i ponownie w 2000 r., ale obecnie nie działa.",
+    "orderSummary": "Podsumowanie zamówienia",
+    "firstName": "Imię:",
+    "lastName": "Nazwisko:",
+    "email": "E-mail:",
+    "prayerAt": "Modlitwa o:",
+    "cost": "Koszt:",
+    "confirmDetails": "Potwierdź szczegóły i zapłać",
+    "confirmed": "Potwierdzono",
+    "orderCancelled": "Zamówienie anulowane!",
+    "paypalComponent": {
+        "contactInfo": "Dane kontaktowe i dotyczące dostawy",
+        "firstName": "Imię",
+        "lastName": "Nazwisko",
+        "email": "E-mail",
+        "confirmEmail": "E-mail potwierdzający",
+        "emailsDontMatch": "E-maile nie są zgodne",
+        "city": "Miasto",
+        "street": "Adres ulicy",
+        "postal": "Kod pocztowy",
+        "state": "Stan/prowincja",
+        "paymentMethod": "Metoda płatności",
+        "pleaseFillAllDetails": "Wypełnij wszystkie szczegóły, aby kontynuować.",
+        "orderCancelled": "Zamówienie anulowane!",
+        "thankYou": "Dziękujemy za zamówienie!",
+        "summary": "Podsumowanie zamówienia",
+        "cost": "Koszt: $",
+        "country": "Wybierz swój kraj"
+    },
+    "navbar": {
+        "home": "Strona główna",
+        "live": "Na żywo",
+        "tour": "Wycieczka",
+        "candle": "Świeca",
+        "shop": "Sklep",
+        "reviews": "Opinie"
+    },
+    "product": {
+        "button": {
+            "addToCart": "Dodaj do koszyka"
+        },
+        "message": {
+            "productAdded": "Produkt dodany do koszyka!",
+            "error": {
+                "fetchProduct": "Nie udało się pobrać produktu.",
+                "selectColor": "Wybierz kolor."
+            }
+        },
+        "note": {
+            "shippingFee": "Uwaga: Koszt wysyłki wynosi 5 USD."
+        },
+        "error": {
+            "productNotFound": "Produkt nie został znaleziony."
+        }
+    },
+    "cart": {
+        "shipping": "Shipping: $5",
+        "subtotal": "Suma częściowa: ${{amount}}",
+        "subtotalDiscount": "Po 10% zniżce: ${{amount}}",
+        "emptyCart": "Twój koszyk jest pusty",
+        "continueShopping": "Kontynuuj zakupy",
+        "backToShopping": "Powrót do zakupów",
+        "remove": "Usuń",
+        "price": "Cena: ${{price}}",
+        "quantity": "Ilość",
+        "checkout": "Przejdź do kasy"
+    },
+    "shop": {
+        "searchPlaceholder": "Wyszukaj produkty...",
+        "noProducts": "Nie znaleziono produktów spełniających Twoje kryteria.",
+        "sortNone": "Brak",
+        "sortLowToHigh": "Cena: od najniższej do najwyższej",
+        "sortHighToLow": "Cena: od najwyższej do najniższej",
+        "resetFilters": "Zresetuj filtry",
+        "pagination": "Strona {{currentPage}} z {{totalPages}}"
+    },
+    "pagination": {
+        "prev": "Poprzedni",
+        "next": "Następny"
+    }
+}
