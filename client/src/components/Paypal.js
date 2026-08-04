@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Alert from '@mui/material/Alert';
 import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import { alpha } from '@mui/material/styles';
 import { gold, goldDark, goldGradientText } from '../theme';
 
@@ -146,13 +146,13 @@ const PayPalComponent = ({ discountAmount, cartItems }) => {
                     Checkout
                 </Typography>
                 <Grid container spacing={4} alignItems="flex-start">
-                    <Grid size={{ xs: 12, md: 7 }}>
+                    <Grid item xs={12} md={7}>
                         <Paper elevation={0} component="form" onSubmit={handleSubmit} sx={{ p: { xs: 3, md: 4 }, background: '#FFFFFF', border: `1px solid ${alpha(gold, 0.2)}`, borderRadius: '12px', position: 'relative', '&::before': { content: '""', position: 'absolute', top: 0, left: 0, right: 0, height: '2px', borderRadius: '12px 12px 0 0', background: `linear-gradient(90deg, transparent, ${gold}, transparent)` } }}>
                             <Typography sx={{ fontFamily: '"Cinzel", serif', fontSize: '0.75rem', letterSpacing: '0.2em', color: goldDark, textTransform: 'uppercase', mb: 3 }}>{t('paypalComponent.contactInfo')}</Typography>
                             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                                 <Grid container spacing={2}>
-                                    <Grid size={{ xs: 6 }}><TextField fullWidth label={t('paypalComponent.firstName')} name="firstname" value={form.firstname} onChange={handleChangeForm} required size="small" sx={inputSx} /></Grid>
-                                    <Grid size={{ xs: 6 }}><TextField fullWidth label={t('paypalComponent.lastName')} name="lastname" value={form.lastname} onChange={handleChangeForm} required size="small" sx={inputSx} /></Grid>
+                                    <Grid item xs={6}><TextField fullWidth label={t('paypalComponent.firstName')} name="firstname" value={form.firstname} onChange={handleChangeForm} required size="small" sx={inputSx} /></Grid>
+                                    <Grid item xs={6}><TextField fullWidth label={t('paypalComponent.lastName')} name="lastname" value={form.lastname} onChange={handleChangeForm} required size="small" sx={inputSx} /></Grid>
                                 </Grid>
                                 <TextField fullWidth label={t('paypalComponent.email')} name="email" value={form.email} onChange={(e) => { handleChangeForm(e); setEmailMatchError(e.target.value === form.confirmEmail ? '' : t('paypalComponent.emailsDontMatch')); }} required size="small" sx={inputSx} />
                                 <TextField fullWidth label={t('paypalComponent.confirmEmail')} name="confirmEmail" value={form.confirmEmail} onChange={(e) => { handleChangeForm(e); setEmailMatchError(e.target.value === form.email ? '' : t('paypalComponent.emailsDontMatch')); }} required size="small" sx={inputSx} />
@@ -164,17 +164,17 @@ const PayPalComponent = ({ discountAmount, cartItems }) => {
                                     <Select options={options} onChange={changeHandler} value={value} placeholder={t('paypalComponent.country')} classNamePrefix="country-select" />
                                 </Box>
                                 <Grid container spacing={2}>
-                                    <Grid size={{ xs: 6 }}><TextField fullWidth label={t('paypalComponent.city')} name="city" value={form.city} onChange={handleChangeForm} required size="small" sx={inputSx} /></Grid>
-                                    <Grid size={{ xs: 6 }}><TextField fullWidth label={t('paypalComponent.street')} name="street" value={form.street} onChange={handleChangeForm} required size="small" sx={inputSx} /></Grid>
+                                    <Grid item xs={6}><TextField fullWidth label={t('paypalComponent.city')} name="city" value={form.city} onChange={handleChangeForm} required size="small" sx={inputSx} /></Grid>
+                                    <Grid item xs={6}><TextField fullWidth label={t('paypalComponent.street')} name="street" value={form.street} onChange={handleChangeForm} required size="small" sx={inputSx} /></Grid>
                                 </Grid>
                                 <Grid container spacing={2}>
-                                    <Grid size={{ xs: 6 }}><TextField fullWidth label={t('paypalComponent.postal')} name="postal" value={form.postal} onChange={handleChangeForm} required size="small" sx={inputSx} /></Grid>
-                                    <Grid size={{ xs: 6 }}><TextField fullWidth label={t('paypalComponent.state')} name="state" value={form.state} onChange={handleChangeForm} required size="small" sx={inputSx} /></Grid>
+                                    <Grid item xs={6}><TextField fullWidth label={t('paypalComponent.postal')} name="postal" value={form.postal} onChange={handleChangeForm} required size="small" sx={inputSx} /></Grid>
+                                    <Grid item xs={6}><TextField fullWidth label={t('paypalComponent.state')} name="state" value={form.state} onChange={handleChangeForm} required size="small" sx={inputSx} /></Grid>
                                 </Grid>
                             </Box>
                         </Paper>
                     </Grid>
-                    <Grid size={{ xs: 12, md: 5 }}>
+                    <Grid item xs={12} md={5}>
                         <Paper elevation={0} sx={{ p: { xs: 3, md: 4 }, background: '#FFFFFF', border: `1px solid ${alpha(gold, 0.2)}`, borderRadius: '12px', position: 'sticky', top: '90px', boxShadow: `0 4px 24px ${alpha('#8A6107', 0.08)}` }}>
                             <Typography sx={{ fontFamily: '"Cinzel", serif', fontSize: '0.75rem', letterSpacing: '0.2em', color: goldDark, textTransform: 'uppercase', mb: 3 }}>{t('paypalComponent.paymentMethod')}</Typography>
                             {isFormIncomplete && <Alert severity="warning" sx={{ mb: 2, backgroundColor: alpha('#B8860B', 0.08), border: `1px solid ${alpha(gold, 0.3)}`, '& .MuiAlert-icon': { color: gold } }}>{t('paypalComponent.pleaseFillAllDetails')}</Alert>}

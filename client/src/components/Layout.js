@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { Outlet } from 'react-router-dom';
 import Box from '@mui/material/Box';
-import Footer from './Footer';
-import Navbar from './Navbar';
-import LiveBanner from './LiveBanner';
-import BackToTop from './BackToTop';
 import { alpha } from '@mui/material/styles';
+import Navbar from './Navbar';
+import Footer from './Footer';
+import BackToTop from './BackToTop';
+import LiveBanner from './LiveBanner';
+import WhatsAppButton from './WhatsAppButton';
+import CookieConsent from './CookieConsent';
 import { gold, goldDark } from '../theme';
 
 function ScrollProgress() {
@@ -41,25 +44,25 @@ function ScrollProgress() {
   );
 }
 
-const Layout = ({ children }) => {
+export default function Layout() {
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: '#F7F2E8' }}>
       <ScrollProgress />
+      <LiveBanner />
       <Navbar />
       <Box
         component="main"
         sx={{
-          flex: 1,
+          flexGrow: 1,
           pt: { xs: '64px', md: '72px' },
         }}
       >
-        <LiveBanner />
-        {children}
+        <Outlet />
       </Box>
       <Footer />
       <BackToTop />
+      <WhatsAppButton />
+      <CookieConsent />
     </Box>
   );
-};
-
-export default Layout;
+}

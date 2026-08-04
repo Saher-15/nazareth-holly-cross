@@ -3,44 +3,39 @@ import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
-import Fade from '@mui/material/Fade';
 import { alpha } from '@mui/material/styles';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
-import ExploreIcon from '@mui/icons-material/Explore';
 import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useTranslation } from 'react-i18next';
-import { gold, goldLight, goldDark, crimson, goldGradientText } from '../theme';
+import { gold, goldDark, crimson, goldGradient, goldGradientText } from '../theme';
 
 export default function HeroSection() {
   const { t } = useTranslation();
   const [mounted,   setMounted]   = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef(new Audio('/sounds/christians.mp3'));
+  const audioRef = useRef(null);
   const videoRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-    const t = setTimeout(() => setMounted(true), 100);
-    const audio = audioRef.current;
-    audio.loop = true;
-
-    // Force play on client-side navigation (browser autoplay policy workaround)
-    const vid = videoRef.current;
-    if (vid) {
-      vid.play().catch(() => {});
-    }
-
-    return () => { audio.pause(); audio.currentTime = 0; clearTimeout(t); };
+    const timer = setTimeout(() => setMounted(true), 100);
+    audioRef.current = new Audio('/sounds/christians.mp3');
+    audioRef.current.loop = true;
+    if (videoRef.current) videoRef.current.play().catch(() => {});
+    return () => {
+      clearTimeout(timer);
+      if (audioRef.current) { audioRef.current.pause(); audioRef.current.currentTime = 0; }
+    };
   }, []);
 
   const toggleAudio = () => {
-    const audio = audioRef.current;
-    isPlaying ? audio.pause() : audio.play();
+    if (!audioRef.current) return;
+    isPlaying ? audioRef.current.pause() : audioRef.current.play();
     setIsPlaying(!isPlaying);
   };
 
@@ -63,261 +58,176 @@ export default function HeroSection() {
         alignItems: 'center',
         justifyContent: 'center',
         overflow: 'hidden',
-        backgroundColor: '#07050A',
+        backgroundColor: '#1C0E06',
+        mt: '-64px',
       }}
     >
-      {/* ── Background video ── */}
+      {/* Background video */}
       <Box
         ref={videoRef}
         component="video"
         src="https://firebasestorage.googleapis.com/v0/b/nazareth-holy-cross.appspot.com/o/videos%2Fvideo-7.mp4?alt=media&token=b0173721-21a1-46d0-b15b-f2001b912e72"
-        autoPlay loop muted playsInline
+        autoPlay
+        loop
+        muted
+        playsInline
         sx={{
           position: 'absolute', inset: 0,
           width: '100%', height: '100%',
           objectFit: 'cover',
           opacity: 0.85,
-          filter: 'brightness(0.72) saturate(0.9)',
-          zIndex: 0,
-          transform: 'scale(1.02)',
+          filter: 'brightness(0.55) saturate(0.85)',
         }}
       />
 
-      {/* ── Gradient overlays — slightly lighter than before ── */}
+      {/* Gradient overlays */}
       <Box sx={{
-        position: 'absolute', inset: 0, zIndex: 1,
-        background: `
-          linear-gradient(to bottom,
-            rgba(0,0,0,0.38) 0%,
-            rgba(0,0,0,0.04) 25%,
-            rgba(0,0,0,0.04) 68%,
-            rgba(0,0,0,0.52) 100%),
-          linear-gradient(to right,
-            rgba(0,0,0,0.18) 0%,
-            transparent 30%,
-            transparent 70%,
-            rgba(0,0,0,0.18) 100%)
-        `,
+        position: 'absolute', inset: 0,
+        background: 'linear-gradient(160deg, rgba(28,14,6,0.72) 0%, rgba(44,24,16,0.45) 50%, rgba(28,14,6,0.75) 100%)',
+      }} />
+      <Box sx={{
+        position: 'absolute', bottom: 0, left: 0, right: 0, height: '30%',
+        background: 'linear-gradient(to bottom, transparent, #F7F2E8)',
       }} />
 
-      {/* ── Radial glow center ── */}
-      <Box sx={{
-        position: 'absolute', inset: 0, zIndex: 1,
-        background: `radial-gradient(ellipse at center 45%, ${alpha(crimson, 0.08)} 0%, transparent 65%)`,
-        pointerEvents: 'none',
-      }} />
-
-      {/* ── Gold line top ── */}
-      <Box sx={{
-        position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
-        width: '50%', height: '1px',
-        background: `linear-gradient(90deg, transparent, ${alpha(gold, 0.5)}, transparent)`,
-        zIndex: 2,
-      }} />
-
-      {/* ── Main content ── */}
+      {/* Content */}
       <Box
         sx={{
-          position: 'relative', zIndex: 3,
-          display: 'flex', flexDirection: 'column', alignItems: 'center',
-          textAlign: 'center',
-          px: { xs: 3, sm: 4, md: 6 },
-          maxWidth: '960px', mx: 'auto',
+          position: 'relative', zIndex: 2, textAlign: 'center', px: { xs: 3, md: 5 },
+          maxWidth: 900, mx: 'auto',
+          opacity: mounted ? 1 : 0,
+          transform: mounted ? 'translateY(0)' : 'translateY(30px)',
+          transition: 'all 0.9s cubic-bezier(0.4, 0, 0.2, 1)',
         }}
       >
-        {/* Overline row */}
-        <Fade in={mounted} timeout={700}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2.5 }}>
-            <Box sx={{ width: 36, height: '1px', background: `linear-gradient(90deg, transparent, ${alpha(gold, 0.55)})` }} />
-            <Typography sx={{ fontFamily: '"Cinzel", serif', fontSize: '0.6rem', letterSpacing: '0.42em', color: alpha(gold, 0.75), textTransform: 'uppercase' }}>
-              The Sacred City
-            </Typography>
-            <Box sx={{ width: 36, height: '1px', background: `linear-gradient(90deg, ${alpha(gold, 0.55)}, transparent)` }} />
-          </Box>
-        </Fade>
-
-        {/* Main heading */}
-        <Fade in={mounted} timeout={900}>
-          <Typography
-            component="h1"
-            sx={{
-              fontFamily: '"Cinzel", serif',
-              fontWeight: 900,
-              fontSize: { xs: '2.6rem', sm: '3.8rem', md: '5.2rem', lg: '6.5rem' },
-              lineHeight: 1.02,
-              mb: 0.5,
-              ...goldGradientText,
-              filter: `drop-shadow(0 4px 40px ${alpha(gold, 0.2)})`,
-            }}
-          >
-            {t('heroSection.heading')}
-          </Typography>
-        </Fade>
-
-        {/* Subheading — gold tone readable on dark video */}
-        <Fade in={mounted} timeout={1100}>
+        {/* Overline */}
+        <Box sx={{ display: 'inline-flex', alignItems: 'center', gap: 2, mb: 3 }}>
+          <Box sx={{ width: 50, height: '1px', background: `linear-gradient(90deg, transparent, ${alpha(gold, 0.8)})` }} />
           <Typography
             sx={{
-              fontFamily: '"Playfair Display", serif',
-              fontStyle: 'italic',
-              color: alpha(gold, 0.88),
-              fontSize: { xs: '1rem', sm: '1.25rem', md: '1.45rem' },
-              fontWeight: 400,
-              letterSpacing: '0.03em',
-              mb: 5,
+              fontFamily: '"Cinzel", serif', fontSize: { xs: '0.6rem', md: '0.7rem' },
+              letterSpacing: '0.35em', color: alpha(gold, 0.85), textTransform: 'uppercase',
             }}
           >
-            {t('heroSection.subHeading')}
+            THE HOLY LAND
           </Typography>
-        </Fade>
+          <Box sx={{ width: 50, height: '1px', background: `linear-gradient(90deg, ${alpha(gold, 0.8)}, transparent)` }} />
+        </Box>
 
-        {/* CTA buttons */}
-        <Fade in={mounted} timeout={1300}>
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: { xs: 1.5, sm: 2 }, justifyContent: 'center', mb: 4.5 }}>
-            {/* Primary — candle */}
-            <Button
-              variant="contained"
-              startIcon={<LocalFireDepartmentIcon />}
-              onClick={() => navigate('/candle')}
-              sx={{
-                px: { xs: 3, sm: 4.5 }, py: 1.6,
-                fontSize: { xs: '0.68rem', sm: '0.74rem' },
-                background: `linear-gradient(135deg, ${gold} 0%, ${goldDark} 100%)`,
-                color: '#07050A', fontWeight: 700,
-                boxShadow: `0 4px 24px ${alpha(gold, 0.42)}`,
-                '&:hover': {
-                  background: `linear-gradient(135deg, ${alpha(gold, 0.95)} 0%, ${gold} 100%)`,
-                  boxShadow: `0 8px 36px ${alpha(gold, 0.6)}`,
-                  transform: 'translateY(-3px)',
-                },
-              }}
-            >
-              {t('heroSection.lightCandle')}
-            </Button>
+        {/* Headline */}
+        <Typography
+          variant="h1"
+          sx={{
+            fontFamily: '"Cinzel", serif', fontWeight: 900,
+            fontSize: { xs: '2.4rem', sm: '3.5rem', md: '5rem', lg: '6rem' },
+            lineHeight: 1.05, mb: 2,
+            ...goldGradientText,
+            letterSpacing: '0.04em',
+          }}
+        >
+          {t('heroSection.heading')}
+        </Typography>
 
-            {/* Secondary — shop */}
-            <Button
-              variant="outlined"
-              startIcon={<StorefrontOutlinedIcon />}
-              onClick={handleShopClick}
-              sx={{
-                px: { xs: 3, sm: 4.5 }, py: 1.6,
-                fontSize: { xs: '0.68rem', sm: '0.74rem' },
-                borderColor: alpha(gold, 0.45),
-                color: alpha(gold, 0.92),
-                backdropFilter: 'blur(10px)',
-                background: alpha(gold, 0.05),
-                '&:hover': {
-                  borderColor: gold,
-                  background: alpha(gold, 0.1),
-                  boxShadow: `0 0 28px ${alpha(gold, 0.2)}`,
-                  transform: 'translateY(-3px)',
-                },
-              }}
-            >
-              {t('heroSection.shopButton')}
-            </Button>
+        {/* Divider */}
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2, mb: 3 }}>
+          <Box sx={{ width: 80, height: '1px', background: `linear-gradient(90deg, transparent, ${alpha(gold, 0.6)})` }} />
+          <Box sx={{ fontSize: '1rem', color: alpha(crimson, 0.8) }}>✝</Box>
+          <Box sx={{ width: 80, height: '1px', background: `linear-gradient(90deg, ${alpha(gold, 0.6)}, transparent)` }} />
+        </Box>
 
-            {/* Tertiary — tour */}
-            <Button
-              variant="text"
-              startIcon={<ExploreIcon />}
-              onClick={() => navigate('/tour')}
-              sx={{
-                px: { xs: 3, sm: 4.5 }, py: 1.6,
-                fontSize: { xs: '0.68rem', sm: '0.74rem' },
-                color: alpha(gold, 0.75),
-                backdropFilter: 'blur(6px)',
-                '&:hover': { color: gold, background: alpha(gold, 0.07), transform: 'translateY(-3px)' },
-              }}
-            >
-              {t('heroSection.tourButton')}
-            </Button>
-          </Box>
-        </Fade>
+        {/* Subtitle */}
+        <Typography
+          sx={{
+            fontFamily: '"Playfair Display", serif', fontStyle: 'italic',
+            fontSize: { xs: '1rem', md: '1.25rem' },
+            color: alpha('#F7F2E8', 0.75), mb: 5,
+            letterSpacing: '0.05em',
+          }}
+        >
+          {t('heroSection.subHeading')}
+        </Typography>
 
-        {/* Discount banner — warm cream on dark video */}
-        <Fade in={mounted} timeout={1500}>
-          <Box
+        {/* CTAs */}
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} justifyContent="center" alignItems="center">
+          <Button
+            variant="contained"
+            startIcon={<StorefrontOutlinedIcon />}
             onClick={handleShopClick}
-            role="button" tabIndex={0}
             sx={{
-              cursor: 'pointer', position: 'relative', overflow: 'hidden',
-              border: `1px solid ${alpha(gold, 0.45)}`,
-              borderRadius: '6px',
-              px: { xs: 3, sm: 5 }, py: 1.8,
-              maxWidth: '700px', width: '100%',
-              backdropFilter: 'blur(12px)',
-              background: alpha('#EDE6D4', 0.93),
-              transition: 'all 0.35s ease',
+              background: goldGradient,
+              color: '#1C1208',
+              py: 1.6, px: 4,
+              fontSize: '0.75rem',
+              letterSpacing: '0.18em',
+              boxShadow: `0 4px 24px ${alpha(gold, 0.45)}`,
               '&:hover': {
-                borderColor: gold,
-                background: '#EDE6D4',
-                boxShadow: `0 0 32px ${alpha(gold, 0.22)}`,
-                transform: 'translateY(-2px)',
-              },
-              '&::before': {
-                content: '""', position: 'absolute',
-                top: 0, left: 0, width: '90px', height: '100%',
-                background: `linear-gradient(140deg, ${alpha(crimson, 0.85)} 0%, ${alpha(crimson, 0.45)} 100%)`,
-                clipPath: 'polygon(0 0, 75% 0, 100% 100%, 0 100%)',
-              },
-              '&::after': {
-                content: '"10% OFF"',
-                position: 'absolute', left: '12px', top: '50%',
-                transform: 'translateY(-50%)',
-                fontFamily: '"Cinzel", serif', fontWeight: 900,
-                fontSize: '0.6rem', letterSpacing: '0.08em',
-                color: '#FFFFFF', zIndex: 1,
+                background: `linear-gradient(135deg, #D4B060 0%, ${gold} 100%)`,
+                boxShadow: `0 8px 36px ${alpha(gold, 0.6)}`,
+                transform: 'translateY(-3px)',
               },
             }}
           >
-            <Typography sx={{
-              position: 'relative', zIndex: 1, pl: { xs: 6, sm: 5 },
-              fontFamily: '"Lato", sans-serif', fontWeight: 400,
-              fontSize: { xs: '0.82rem', sm: '0.92rem' },
-              color: '#5D3E2C',
-            }}>
-              {t('heroSection.discount')}
-            </Typography>
-          </Box>
-        </Fade>
+            {t('heroSection.shopButton')}
+          </Button>
+          <Button
+            variant="outlined"
+            startIcon={<LocalFireDepartmentIcon />}
+            href="/candle"
+            sx={{
+              border: `1px solid ${alpha(gold, 0.55)}`,
+              color: alpha('#F7F2E8', 0.88),
+              py: 1.6, px: 4,
+              fontSize: '0.75rem',
+              letterSpacing: '0.18em',
+              '&:hover': {
+                border: `1px solid ${gold}`,
+                background: alpha(gold, 0.1),
+                color: gold,
+                transform: 'translateY(-3px)',
+              },
+            }}
+          >
+            {t('heroSection.lightCandle')}
+          </Button>
+        </Stack>
       </Box>
 
-      {/* ── Audio toggle — slightly lighter background ── */}
+      {/* Audio toggle */}
       <IconButton
         onClick={toggleAudio}
-        aria-label={isPlaying ? 'Mute' : 'Unmute'}
+        aria-label="Toggle audio"
         sx={{
-          position: 'absolute', bottom: { xs: 24, md: 32 }, right: { xs: 16, md: 28 },
-          zIndex: 4,
-          width: 42, height: 42,
-          background: alpha('#000', 0.35),
-          backdropFilter: 'blur(10px)',
-          border: `1px solid ${alpha(gold, 0.28)}`,
-          color: alpha(gold, 0.75),
-          '&:hover': { background: alpha(gold, 0.12), color: gold, borderColor: gold, boxShadow: `0 0 16px ${alpha(gold, 0.3)}` },
+          position: 'absolute', bottom: { xs: 80, md: 100 }, right: { xs: 16, md: 30 },
+          zIndex: 3,
+          color: alpha('#F7F2E8', 0.55),
+          border: `1px solid ${alpha(gold, 0.2)}`,
+          width: 38, height: 38,
+          transition: 'all 0.25s ease',
+          '&:hover': { color: gold, borderColor: alpha(gold, 0.55), background: alpha(gold, 0.08) },
         }}
       >
         {isPlaying ? <VolumeUpIcon sx={{ fontSize: '1rem' }} /> : <VolumeOffIcon sx={{ fontSize: '1rem' }} />}
       </IconButton>
 
-      {/* ── Scroll indicator ── */}
+      {/* Scroll indicator */}
       <Box
         sx={{
-          position: 'absolute', bottom: { xs: 20, md: 28 }, left: '50%',
-          transform: 'translateX(-50%)', zIndex: 4,
+          position: 'absolute', bottom: { xs: 20, md: 32 }, left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 3,
           display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5,
-          opacity: 0.55,
-          animation: 'bounce 2.4s ease-in-out infinite',
+          opacity: 0.6,
+          animation: 'bounce 2s ease-in-out infinite',
           '@keyframes bounce': {
             '0%,100%': { transform: 'translateX(-50%) translateY(0)' },
-            '50%':      { transform: 'translateX(-50%) translateY(10px)' },
+            '50%': { transform: 'translateX(-50%) translateY(8px)' },
           },
         }}
       >
-        <Box sx={{ width: '1px', height: 36, background: `linear-gradient(to bottom, ${alpha(gold, 0.6)}, transparent)` }} />
-        <KeyboardArrowDownIcon sx={{ fontSize: '0.9rem', color: alpha(gold, 0.6) }} />
+        <Typography sx={{ fontFamily: '"Cinzel", serif', fontSize: '0.55rem', letterSpacing: '0.25em', color: alpha(gold, 0.7) }}>
+          SCROLL
+        </Typography>
+        <KeyboardArrowDownIcon sx={{ color: alpha(gold, 0.7), fontSize: '1.1rem' }} />
       </Box>
     </Box>
   );

@@ -1,135 +1,123 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { alpha } from '@mui/material/styles';
-import HomeIcon from '@mui/icons-material/Home';
-import { gold, goldLight, goldDark, crimson, goldGradientText } from '../theme';
+import ExploreIcon from '@mui/icons-material/Explore';
+import { useTranslation } from 'react-i18next';
+import { gold, goldDark, crimson, textSecondary, goldGradientText } from '../theme';
 
-const NazarethTour = () => {
+const SITES = [
+  { title: 'Latin Church',         subtitle: 'Basilica of the Annunciation', path: '/gallery/latin',    img: '/images/latinChurch.jpg',   icon: '⛪' },
+  { title: 'Greek Orthodox Church', subtitle: 'Church of the Annunciation', path: '/gallery/greek',    img: '/images/greekChurch.jpg',   icon: '⛪' },
+  { title: "Mary's Well",           subtitle: 'The Sacred Spring',           path: '/gallery/maryswell', img: '/images/maryswell.jpg',     icon: '💧' },
+  { title: 'Old City',              subtitle: 'Historic Heart of Nazareth',  path: '/gallery/old-city',  img: '/images/oldcity.jpg',       icon: '🏛' },
+  { title: 'Nazareth',              subtitle: 'The City of Jesus',           path: '/gallery/nazareth',  img: '/images/nazareth.jpg',      icon: '🌿' },
+];
+
+export default function NazarethTour() {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-
-  useEffect(() => { window.scrollTo(0, 0); }, []);
 
   return (
-    <Box sx={{ minHeight: '80vh', py: { xs: 6, md: 10 }, px: { xs: 2, sm: 3 } }}>
-      <Container maxWidth="md">
-        {/* Header */}
-        <Box sx={{ textAlign: 'center', mb: { xs: 5, md: 7 } }}>
-          <Box sx={{ display: 'inline-flex', alignItems: 'center', gap: 2, mb: 2 }}>
-            <Box sx={{ width: 40, height: 1, background: `linear-gradient(90deg, transparent, ${alpha(gold, 0.6)})` }} />
-            <Typography variant="overline" sx={{ color: alpha(gold, 0.7), letterSpacing: '0.35em', fontSize: '0.62rem', fontFamily: '"Cinzel", serif' }}>
-              Virtual Experience
+    <Box sx={{ backgroundColor: '#F7F2E8', minHeight: '80vh' }}>
+      {/* Header */}
+      <Box sx={{
+        position: 'relative', py: { xs: 10, md: 14 },
+        background: 'linear-gradient(160deg, #1C0E06 0%, #2C1810 50%, #1C0E06 100%)',
+        textAlign: 'center', overflow: 'hidden',
+        '&::after': { content: '""', position: 'absolute', bottom: 0, left: 0, right: 0, height: '35%', background: 'linear-gradient(to bottom, transparent, #F7F2E8)' },
+      }}>
+        <Box sx={{ position: 'relative', zIndex: 1 }}>
+          <Box sx={{ display: 'inline-flex', alignItems: 'center', gap: 1.5, mb: 2 }}>
+            <ExploreIcon sx={{ color: gold, fontSize: '1.2rem' }} />
+            <Typography sx={{ fontFamily: '"Cinzel", serif', fontSize: '0.65rem', letterSpacing: '0.35em', color: alpha(gold, 0.7), textTransform: 'uppercase' }}>
+              Virtual Tour
             </Typography>
-            <Box sx={{ width: 40, height: 1, background: `linear-gradient(90deg, ${alpha(gold, 0.6)}, transparent)` }} />
           </Box>
-
-          <Typography
-            component="h1"
-            sx={{
-              fontFamily: '"Cinzel", serif',
-              fontWeight: 700,
-              fontSize: { xs: '2rem', sm: '2.6rem', md: '3.2rem' },
-              ...goldGradientText,
-              mb: 2,
-            }}
-          >
+          <Typography variant="h1" sx={{ fontFamily: '"Cinzel", serif', fontWeight: 700, fontSize: { xs: '2rem', md: '3rem' }, ...goldGradientText, mb: 2 }}>
             {t('nazarethTour.pageHeading')}
           </Typography>
-
-          <Box sx={{ width: 60, height: 2, mx: 'auto', background: `linear-gradient(90deg, transparent, ${gold}, transparent)` }} />
-        </Box>
-
-        {/* Video */}
-        <Box
-          sx={{
-            borderRadius: '12px',
-            overflow: 'hidden',
-            border: `1px solid ${alpha(gold, 0.2)}`,
-            boxShadow: `0 20px 60px ${alpha('#000', 0.7)}, 0 0 40px ${alpha(gold, 0.08)}`,
-            mb: 5,
-            position: 'relative',
-            '&::before': {
-              content: '""',
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              height: '3px',
-              background: `linear-gradient(90deg, transparent, ${gold}, transparent)`,
-              zIndex: 1,
-            },
-          }}
-        >
-          <Box
-            component="video"
-            src="https://firebasestorage.googleapis.com/v0/b/nazareth-holy-cross.appspot.com/o/videos%2Ftour.mp4?alt=media&token=af5c1463-2e97-4ae3-b205-a7566f45f9be"
-            controls
-            poster="images/jesus_city_tour.png"
-            sx={{ width: '100%', display: 'block' }}
-          />
-        </Box>
-
-        {/* Description */}
-        <Box
-          sx={{
-            p: { xs: 3, md: 4 },
-            background: `linear-gradient(145deg, ${alpha('#1A1215', 0.7)} 0%, ${alpha('#0D0810', 0.8)} 100%)`,
-            border: `1px solid ${alpha(gold, 0.1)}`,
-            borderRadius: '12px',
-            mb: 4,
-            textAlign: 'center',
-            position: 'relative',
-            '&::before': {
-              content: '""',
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              height: '2px',
-              borderRadius: '12px 12px 0 0',
-              background: `linear-gradient(90deg, transparent, ${gold}, transparent)`,
-            },
-          }}
-        >
-          <Typography sx={{ fontFamily: '"Playfair Display", serif', fontStyle: 'italic', fontSize: { xs: '1rem', md: '1.15rem' }, color: alpha(goldLight, 0.7), lineHeight: 1.9, mb: 2 }}>
+          <Typography sx={{ fontFamily: '"Playfair Display", serif', fontStyle: 'italic', color: alpha('#F7F2E8', 0.65), maxWidth: 560, mx: 'auto', px: 3, fontSize: '0.95rem' }}>
             {t('nazarethTour.videoMessage')}
           </Typography>
-          <Typography sx={{ fontFamily: '"Lato", sans-serif', fontWeight: 300, fontSize: '0.92rem', color: alpha(goldLight, 0.55), lineHeight: 1.8 }}>
-            {t('nazarethTour.videoDescription')}
-          </Typography>
         </Box>
+      </Box>
 
-        <Box sx={{ textAlign: 'center' }}>
-          <Button
-            variant="outlined"
-            startIcon={<HomeIcon />}
-            onClick={() => navigate('/')}
-            sx={{
-              borderColor: alpha(gold, 0.4),
-              color: alpha(goldLight, 0.75),
-              px: 4,
-              py: 1.5,
-              fontFamily: '"Cinzel", serif',
-              fontSize: '0.75rem',
-              letterSpacing: '0.15em',
-              '&:hover': {
-                borderColor: gold,
-                backgroundColor: alpha(gold, 0.08),
-                color: gold,
-              },
-            }}
-          >
-            {t('nazarethTour.ctaButton')}
-          </Button>
-        </Box>
+      {/* Video intro */}
+      <Container maxWidth="md" sx={{ py: { xs: 5, md: 7 } }}>
+        <Box
+          component="video"
+          src="https://firebasestorage.googleapis.com/v0/b/nazareth-holy-cross.appspot.com/o/videos%2Fvideo-7.mp4?alt=media&token=b0173721-21a1-46d0-b15b-f2001b912e72"
+          controls
+          poster="/images/nazareth.jpg"
+          sx={{
+            width: '100%', borderRadius: '12px',
+            border: `1px solid ${alpha(gold, 0.2)}`,
+            boxShadow: `0 8px 32px ${alpha('#8A6107', 0.15)}`,
+            display: 'block',
+          }}
+        />
+        <Typography sx={{ fontFamily: '"Lato", sans-serif', fontSize: '0.82rem', color: textSecondary, textAlign: 'center', mt: 2, fontStyle: 'italic' }}>
+          {t('nazarethTour.videoDescription')}
+        </Typography>
       </Container>
+
+      {/* Holy Sites Grid */}
+      <Box sx={{ py: { xs: 6, md: 10 }, backgroundColor: '#EDE6D4' }}>
+        <Container maxWidth="lg">
+          <Box sx={{ textAlign: 'center', mb: { xs: 5, md: 7 } }}>
+            <Typography variant="h2" sx={{ fontFamily: '"Cinzel", serif', fontWeight: 700, fontSize: { xs: '1.6rem', md: '2.2rem' }, ...goldGradientText }}>
+              Explore Holy Sites
+            </Typography>
+          </Box>
+          <Grid container spacing={3}>
+            {SITES.map((site) => (
+              <Grid item xs={12} sm={6} md={4} key={site.path}>
+                <Box
+                  component={Link}
+                  to={site.path}
+                  sx={{
+                    display: 'block', position: 'relative', overflow: 'hidden',
+                    borderRadius: '12px', textDecoration: 'none',
+                    border: `1px solid ${alpha(gold, 0.2)}`,
+                    boxShadow: `0 2px 16px ${alpha('#8A6107', 0.08)}`,
+                    transition: 'all 0.35s ease',
+                    '&:hover': { transform: 'translateY(-8px)', boxShadow: `0 12px 40px ${alpha('#8A6107', 0.18)}`, borderColor: alpha(gold, 0.45) },
+                    '&:hover .site-img': { transform: 'scale(1.06)' },
+                  }}
+                >
+                  <Box sx={{ position: 'relative', height: 220, overflow: 'hidden', backgroundColor: '#1C0E06' }}>
+                    <Box
+                      className="site-img"
+                      sx={{
+                        position: 'absolute', inset: 0,
+                        backgroundImage: `url(${site.img})`,
+                        backgroundSize: 'cover', backgroundPosition: 'center',
+                        filter: 'brightness(0.65)',
+                        transition: 'transform 0.5s ease',
+                      }}
+                    />
+                    <Box sx={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <Box sx={{ fontSize: '2.5rem' }}>{site.icon}</Box>
+                    </Box>
+                  </Box>
+                  <Box sx={{ p: 2.5, backgroundColor: '#FFFFFF' }}>
+                    <Typography sx={{ fontFamily: '"Cinzel", serif', fontWeight: 700, fontSize: '0.85rem', color: '#1C1208', mb: 0.5, letterSpacing: '0.05em' }}>
+                      {site.title}
+                    </Typography>
+                    <Typography sx={{ fontFamily: '"Lato", sans-serif', fontSize: '0.78rem', color: textSecondary }}>
+                      {site.subtitle}
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </Box>
     </Box>
   );
-};
-
-export default NazarethTour;
+}

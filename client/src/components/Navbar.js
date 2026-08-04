@@ -1,54 +1,58 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import Divider from '@mui/material/Divider';
-import Badge from '@mui/material/Badge';
-import useScrollTrigger from '@mui/material/useScrollTrigger';
-import Slide from '@mui/material/Slide';
+import {
+  AppBar, Toolbar, Box, Container, IconButton, Drawer, List, ListItem,
+  ListItemButton, ListItemText, Typography, Button, Badge, Collapse,
+  Divider, Menu, MenuItem,
+} from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useShopContext } from '../context/shop-context';
 import LanguageSwitcher from './LanguageSwitcher';
-import { gold, goldDark, crimson, textPrimary, textSecondary, textMuted } from '../theme';
+import { colors, gold, goldDark, crimson, textSecondary, textMuted } from '../theme';
 
-function HideOnScroll({ children }) {
-  const trigger = useScrollTrigger();
-  return <Slide appear={false} direction="down" in={!trigger}>{children}</Slide>;
-}
-
-const navLinks = [
+const NAV_LINKS = [
   { key: 'navbar.home',    path: '/' },
   { key: 'navbar.tour',    path: '/tour' },
   { key: 'navbar.candle',  path: '/candle' },
-  { key: 'navbar.shop',    path: '/shop', isShop: true },
+  { key: 'navbar.shop',    path: '/shop',        isShop: true },
   { key: 'navbar.reviews', path: '/reviews' },
-  { key: 'about',          path: '/about',  labelOverride: 'About' },
+  { label: 'About',        path: '/about' },
+  { label: 'Contact',      path: '/contact' },
+];
+
+const GALLERY_LINKS = [
+  { label: 'Latin Church',  path: '/gallery/latin' },
+  { label: 'Greek Church',  path: '/gallery/greek' },
+  { label: "Mary's Well",   path: '/gallery/maryswell' },
+  { label: 'Old City',      path: '/gallery/old-city' },
+  { label: 'Nazareth',      path: '/gallery/nazareth' },
 ];
 
 export default function Navbar() {
-  const { t } = useTranslation();
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [scrolled,   setScrolled]   = useState(false);
-  const navigate  = useNavigate();
-  const location  = useLocation();
+  const { t }        = useTranslation();
+  const navigate     = useNavigate();
+  const location     = useLocation();
   const { getTotalCartQuantity } = useShopContext();
-  const cartCount = getTotalCartQuantity?.() ?? 0;
+  const cartCount    = getTotalCartQuantity?.() ?? 0;
+
+  const [scrolled,         setScrolled]         = useState(false);
+  const [drawerOpen,       setDrawerOpen]       = useState(false);
+  const [galleryExpanded,  setGalleryExpanded]  = useState(false);
+  const [anchorEl,         setAnchorEl]         = useState(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  const isActive = (path) =>
+    path === '/' ? location.pathname === '/' : location.pathname.startsWith(path);
 
   const handleShopClick = () => {
     localStorage.removeItem('searchQuery');
@@ -58,131 +62,182 @@ export default function Navbar() {
     navigate('/shop');
   };
 
-  const isActive = (path) => location.pathname === path;
-
-  const linkSx = (path) => ({
-    fontFamily: '"Cinzel", serif',
-    fontSize: '0.7rem',
-    fontWeight: isActive(path) ? 700 : 500,
-    letterSpacing: '0.18em',
-    textTransform: 'uppercase',
-    color: isActive(path) ? goldDark : textSecondary,
-    textDecoration: 'none',
-    padding: '6px 0',
-    position: 'relative',
-    cursor: 'pointer',
-    display: 'inline-block',
-    transition: 'color 0.25s ease',
-    '&::after': {
-      content: '""',
-      position: 'absolute',
-      bottom: 0, left: 0,
-      width: isActive(path) ? '100%' : '0%',
-      height: '1px',
-      background: `linear-gradient(90deg, transparent, ${gold}, transparent)`,
-      transition: 'width 0.3s ease',
-    },
-    '&:hover': { color: goldDark },
-    '&:hover::after': { width: '100%' },
-  });
-
   return (
     <>
-      <HideOnScroll>
-        <AppBar
-          position="fixed"
-          elevation={0}
-          sx={{
-            background: scrolled
-              ? `rgba(247,242,232,0.96)`
-              : 'transparent',
-            backdropFilter: scrolled ? 'blur(20px)' : 'none',
-            WebkitBackdropFilter: scrolled ? 'blur(20px)' : 'none',
-            borderBottom: scrolled
-              ? `1px solid ${alpha(gold, 0.2)}`
-              : '1px solid transparent',
-            transition: 'all 0.4s cubic-bezier(0.4,0,0.2,1)',
-            boxShadow: scrolled ? `0 4px 24px ${alpha('#8A6107', 0.1)}` : 'none',
-          }}
-        >
+      <AppBar
+        position="fixed"
+        elevation={scrolled ? 4 : 0}
+        sx={{
+          backgroundColor: scrolled ? 'rgba(28,14,6,0.97)' : 'transparent',
+          backdropFilter: scrolled ? 'blur(12px)' : 'none',
+          WebkitBackdropFilter: scrolled ? 'blur(12px)' : 'none',
+          borderBottom: scrolled ? `1px solid ${alpha(gold, 0.2)}` : 'none',
+          transition: 'all 0.3s ease',
+          boxShadow: scrolled ? `0 4px 24px ${alpha('#000', 0.25)}` : 'none',
+        }}
+      >
+        <Container maxWidth="xl">
           <Toolbar
-            sx={{
-              maxWidth: '1440px', width: '100%', mx: 'auto',
-              px: { xs: 2, sm: 3, md: 5 },
-              minHeight: { xs: '64px', md: '70px' },
-              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            }}
+            disableGutters
+            sx={{ py: { xs: 1, md: 0.5 }, minHeight: { xs: 64, md: 70 } }}
           >
-            {/* ── Logo ── */}
+            {/* Logo */}
             <Box
-              component={Link} to="/"
-              sx={{ display: 'flex', alignItems: 'center', gap: 1.5, textDecoration: 'none', flexShrink: 0 }}
+              component={Link}
+              to="/"
+              sx={{
+                display: 'flex', alignItems: 'center', gap: 1.5,
+                textDecoration: 'none',
+                flexGrow: { xs: 1, lg: 0 },
+                mr: { lg: 4 },
+              }}
             >
-              <Box sx={{ position: 'relative', width: 30, height: 30, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <i className="fas fa-cross" style={{ color: crimson, fontSize: '1.4rem', filter: `drop-shadow(0 0 8px ${alpha(crimson, 0.5)})` }} />
+              <Box sx={{ fontSize: '1.5rem', color: crimson, lineHeight: 1, filter: `drop-shadow(0 0 8px ${alpha(crimson, 0.5)})` }}>
+                ✝
               </Box>
               <Box>
-                <Box sx={{ fontFamily: '"Cinzel", serif', fontWeight: 700, fontSize: { xs: '0.78rem', md: '0.88rem' }, letterSpacing: '0.14em', color: textPrimary, lineHeight: 1.1 }}>
+                <Typography
+                  sx={{
+                    fontFamily: '"Cinzel", serif', fontWeight: 700,
+                    fontSize: { xs: '0.82rem', md: '0.92rem' },
+                    color: gold, lineHeight: 1.1, letterSpacing: '0.14em',
+                  }}
+                >
                   NAZARETH
-                </Box>
-                <Box sx={{ fontFamily: '"Cinzel", serif', fontWeight: 400, fontSize: { xs: '0.55rem', md: '0.62rem' }, letterSpacing: '0.22em', color: alpha(gold, 0.75), lineHeight: 1 }}>
+                </Typography>
+                <Typography
+                  sx={{
+                    fontFamily: '"Cinzel", serif', fontWeight: 400,
+                    fontSize: { xs: '0.52rem', md: '0.60rem' },
+                    color: alpha(gold, 0.7), lineHeight: 1, letterSpacing: '0.22em',
+                  }}
+                >
                   HOLY CROSS
-                </Box>
+                </Typography>
               </Box>
             </Box>
 
-            {/* ── Desktop Nav ── */}
-            <Box component="nav" sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: { md: 3, lg: 3.5 } }}>
-              {/* Live — special red pulsing */}
-              <Box
-                component={Link} to="/live"
+            {/* Desktop links */}
+            <Box
+              sx={{
+                display: { xs: 'none', lg: 'flex' },
+                alignItems: 'center', gap: 0.5, flexGrow: 1,
+              }}
+            >
+              {/* Live — special */}
+              <Button
+                component={Link}
+                to="/live"
                 sx={{
-                  fontFamily: '"Cinzel", serif', fontSize: '0.7rem', fontWeight: 700,
-                  letterSpacing: '0.18em', color: crimson, textDecoration: 'none',
+                  color: crimson, fontFamily: '"Cinzel", serif',
+                  fontSize: '0.70rem', letterSpacing: '0.18em',
+                  px: 1.5, borderRadius: 0,
                   display: 'flex', alignItems: 'center', gap: 0.6,
-                  transition: 'all 0.25s ease',
-                  '&:hover': { color: '#C02020', textShadow: `0 0 8px ${alpha(crimson, 0.4)}` },
+                  '&:hover': { color: '#C02020', backgroundColor: 'transparent' },
                 }}
               >
-                <Box sx={{
-                  width: 5, height: 5, borderRadius: '50%', backgroundColor: crimson,
-                  animation: 'livePulse 1.6s ease-in-out infinite',
-                  '@keyframes livePulse': { '0%,100%': { opacity: 1 }, '50%': { opacity: 0.25 } },
-                }} />
-                {t('navbar.live')}
-              </Box>
-
-              {navLinks.map(({ key, path, isShop, labelOverride }) => (
                 <Box
+                  sx={{
+                    width: 5, height: 5, borderRadius: '50%',
+                    backgroundColor: crimson,
+                    animation: 'livePulse 1.6s ease-in-out infinite',
+                    '@keyframes livePulse': {
+                      '0%,100%': { opacity: 1 },
+                      '50%': { opacity: 0.25 },
+                    },
+                  }}
+                />
+                {t('navbar.live')}
+              </Button>
+
+              {NAV_LINKS.map(({ key, label, path, isShop }) => (
+                <Button
                   key={path}
-                  component={isShop ? 'span' : Link}
+                  component={isShop ? 'button' : Link}
                   to={isShop ? undefined : path}
                   onClick={isShop ? handleShopClick : undefined}
-                  sx={linkSx(path)}
+                  sx={{
+                    color: isActive(path) ? gold : 'rgba(247,242,232,0.85)',
+                    fontFamily: '"Cinzel", serif',
+                    fontSize: '0.70rem',
+                    letterSpacing: '0.14em',
+                    px: 1.5,
+                    borderBottom: isActive(path) ? `2px solid ${gold}` : '2px solid transparent',
+                    borderRadius: 0,
+                    transition: 'all 0.25s ease',
+                    '&:hover': { color: gold, backgroundColor: 'transparent' },
+                  }}
                 >
-                  {labelOverride || t(key)}
-                </Box>
+                  {label || t(key)}
+                </Button>
               ))}
+
+              {/* Gallery dropdown */}
+              <Button
+                onClick={(e) => setAnchorEl(e.currentTarget)}
+                endIcon={<ExpandMoreIcon sx={{ fontSize: '0.9rem !important', color: 'inherit' }} />}
+                sx={{
+                  color: 'rgba(247,242,232,0.85)', fontFamily: '"Cinzel", serif',
+                  fontSize: '0.70rem', letterSpacing: '0.14em', px: 1.5, borderRadius: 0,
+                  '&:hover': { color: gold, backgroundColor: 'transparent' },
+                }}
+              >
+                Gallery
+              </Button>
+              <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={() => setAnchorEl(null)}
+                PaperProps={{
+                  sx: {
+                    backgroundColor: '#1C0E06',
+                    border: `1px solid ${alpha(gold, 0.2)}`,
+                    mt: 1,
+                    minWidth: 180,
+                    '&::before': {
+                      content: '""', position: 'absolute', top: 0, left: 0, right: 0,
+                      height: '2px',
+                      background: `linear-gradient(90deg, transparent, ${gold}, transparent)`,
+                    },
+                  },
+                }}
+              >
+                {GALLERY_LINKS.map((g) => (
+                  <MenuItem
+                    key={g.path}
+                    component={Link}
+                    to={g.path}
+                    onClick={() => setAnchorEl(null)}
+                    sx={{
+                      color: 'rgba(247,242,232,0.85)',
+                      fontFamily: '"Cinzel", serif',
+                      fontSize: '0.76rem',
+                      letterSpacing: '0.08em',
+                      '&:hover': { color: gold, backgroundColor: alpha(gold, 0.08) },
+                    }}
+                  >
+                    {g.label}
+                  </MenuItem>
+                ))}
+              </Menu>
             </Box>
 
-            {/* ── Right controls ── */}
+            {/* Right controls */}
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+              <LanguageSwitcher />
               <IconButton
-                component={Link} to="/cart"
+                component={Link}
+                to="/cart"
                 size="small"
-                sx={{ color: textSecondary, '&:hover': { color: goldDark, background: alpha(gold, 0.1) } }}
                 aria-label="Cart"
+                sx={{ color: 'rgba(247,242,232,0.85)', '&:hover': { color: gold } }}
               >
                 <Badge badgeContent={cartCount} color="secondary">
                   <ShoppingCartOutlinedIcon sx={{ fontSize: '1.2rem' }} />
                 </Badge>
               </IconButton>
-
-              <LanguageSwitcher />
-
-              {/* Hamburger — mobile only */}
               <IconButton
-                sx={{ display: { md: 'none' }, color: textSecondary, '&:hover': { background: alpha(gold, 0.1), color: goldDark } }}
+                sx={{ display: { xs: 'flex', lg: 'none' }, color: 'rgba(247,242,232,0.85)', '&:hover': { color: gold } }}
                 onClick={() => setDrawerOpen(true)}
                 aria-label="Open menu"
               >
@@ -190,10 +245,10 @@ export default function Navbar() {
               </IconButton>
             </Box>
           </Toolbar>
-        </AppBar>
-      </HideOnScroll>
+        </Container>
+      </AppBar>
 
-      {/* ── Mobile Drawer ── */}
+      {/* Mobile drawer */}
       <Drawer
         anchor="right"
         open={drawerOpen}
@@ -201,78 +256,119 @@ export default function Navbar() {
         PaperProps={{
           sx: {
             width: 290,
-            background: '#FFFFFF',
-            borderLeft: `1px solid ${alpha(gold, 0.18)}`,
+            backgroundColor: '#1C0E06',
+            color: '#F7F2E8',
+            border: `none`,
           },
         }}
       >
-        {/* Drawer header */}
-        <Box sx={{ px: 3, pt: 3, pb: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-            <i className="fas fa-cross" style={{ color: crimson, fontSize: '1.1rem', filter: `drop-shadow(0 0 5px ${alpha(crimson, 0.4)})` }} />
-            <Box sx={{ fontFamily: '"Cinzel", serif', fontWeight: 700, fontSize: '0.8rem', letterSpacing: '0.2em', color: textPrimary }}>
-              NAZARETH
-            </Box>
-          </Box>
-          <IconButton onClick={() => setDrawerOpen(false)} sx={{ color: textMuted, '&:hover': { color: textSecondary, background: alpha(gold, 0.08) } }}>
+        <Box sx={{ p: 2.5, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Typography sx={{ fontFamily: '"Cinzel", serif', color: gold, fontWeight: 700, letterSpacing: '0.2em', fontSize: '0.8rem' }}>
+            MENU
+          </Typography>
+          <IconButton onClick={() => setDrawerOpen(false)} sx={{ color: alpha('#F7F2E8', 0.6) }}>
             <CloseIcon fontSize="small" />
           </IconButton>
         </Box>
+        <Divider sx={{ borderColor: alpha(gold, 0.15) }} />
 
-        <Divider sx={{ borderColor: alpha(gold, 0.15), mx: 2 }} />
-
-        {/* Nav items */}
-        <List sx={{ pt: 2, px: 1 }}>
-          {[
-            { label: t('navbar.live'),    path: '/live',    isLive: true },
-            { label: t('navbar.home'),    path: '/' },
-            { label: t('navbar.tour'),    path: '/tour' },
-            { label: t('navbar.candle'),  path: '/candle' },
-            { label: t('navbar.shop'),    path: '/shop',    isShop: true },
-            { label: t('navbar.reviews'), path: '/reviews' },
-            { label: 'About',             path: '/about' },
-          ].map(({ label, path, isShop, isLive }) => (
-            <ListItem
-              key={path}
-              component={isShop ? 'div' : Link}
-              to={isShop ? undefined : path}
-              onClick={isShop ? handleShopClick : () => setDrawerOpen(false)}
+        <List sx={{ pt: 1 }}>
+          {/* Live */}
+          <ListItem disablePadding>
+            <ListItemButton
+              component={Link}
+              to="/live"
+              onClick={() => setDrawerOpen(false)}
               sx={{
-                py: 1.4, px: 2, mb: 0.5,
-                borderRadius: '8px',
-                cursor: 'pointer',
-                border: isActive(path) ? `1px solid ${alpha(gold, 0.3)}` : '1px solid transparent',
-                background: isActive(path) ? alpha(gold, 0.07) : 'transparent',
-                transition: 'all 0.25s ease',
-                textDecoration: 'none',
-                '&:hover': { background: alpha(gold, 0.05), borderColor: alpha(gold, 0.18) },
+                '&:hover': { backgroundColor: alpha(gold, 0.06) },
+                display: 'flex', gap: 1, alignItems: 'center',
               }}
             >
-              {isLive && (
-                <Box sx={{
-                  width: 5, height: 5, borderRadius: '50%', backgroundColor: crimson, mr: 1.2,
-                  animation: 'livePulse 1.6s ease-in-out infinite',
-                  '@keyframes livePulse': { '0%,100%': { opacity: 1 }, '50%': { opacity: 0.25 } },
-                }} />
-              )}
+              <Box sx={{
+                width: 5, height: 5, borderRadius: '50%', backgroundColor: crimson, flexShrink: 0,
+                animation: 'livePulse 1.6s ease-in-out infinite',
+                '@keyframes livePulse': { '0%,100%': { opacity: 1 }, '50%': { opacity: 0.25 } },
+              }} />
               <ListItemText
-                primary={label}
+                primary={t('navbar.live')}
                 primaryTypographyProps={{
-                  fontFamily: '"Cinzel", serif',
-                  fontSize: '0.78rem',
-                  letterSpacing: '0.16em',
-                  fontWeight: isActive(path) ? 700 : 500,
-                  color: isLive ? crimson : isActive(path) ? goldDark : textSecondary,
+                  fontFamily: '"Cinzel", serif', fontSize: '0.82rem',
+                  color: crimson, letterSpacing: '0.16em',
                 }}
               />
+            </ListItemButton>
+          </ListItem>
+
+          {NAV_LINKS.map(({ key, label, path, isShop }) => (
+            <ListItem key={path} disablePadding>
+              <ListItemButton
+                component={isShop ? 'div' : Link}
+                to={isShop ? undefined : path}
+                onClick={isShop ? handleShopClick : () => setDrawerOpen(false)}
+                selected={isActive(path)}
+                sx={{
+                  '&.Mui-selected': { backgroundColor: alpha(gold, 0.08) },
+                  '&:hover': { backgroundColor: alpha(gold, 0.06) },
+                }}
+              >
+                <ListItemText
+                  primary={label || t(key)}
+                  primaryTypographyProps={{
+                    fontFamily: '"Cinzel", serif', fontSize: '0.82rem',
+                    color: isActive(path) ? gold : 'rgba(247,242,232,0.8)',
+                    letterSpacing: '0.14em',
+                  }}
+                />
+              </ListItemButton>
             </ListItem>
           ))}
+
+          {/* Gallery accordion */}
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => setGalleryExpanded(!galleryExpanded)} sx={{ '&:hover': { backgroundColor: alpha(gold, 0.06) } }}>
+              <ListItemText
+                primary="Gallery"
+                primaryTypographyProps={{
+                  fontFamily: '"Cinzel", serif', fontSize: '0.82rem',
+                  color: 'rgba(247,242,232,0.8)', letterSpacing: '0.14em',
+                }}
+              />
+              <ExpandMoreIcon
+                sx={{
+                  color: alpha(gold, 0.6), fontSize: '1.1rem',
+                  transform: galleryExpanded ? 'rotate(180deg)' : 'none',
+                  transition: '0.25s',
+                }}
+              />
+            </ListItemButton>
+          </ListItem>
+          <Collapse in={galleryExpanded}>
+            {GALLERY_LINKS.map((g) => (
+              <ListItem key={g.path} disablePadding>
+                <ListItemButton
+                  component={Link}
+                  to={g.path}
+                  onClick={() => setDrawerOpen(false)}
+                  sx={{ pl: 5, '&:hover': { backgroundColor: alpha(gold, 0.06) } }}
+                >
+                  <ListItemText
+                    primary={g.label}
+                    primaryTypographyProps={{
+                      fontFamily: '"Lato", sans-serif', fontSize: '0.80rem',
+                      color: 'rgba(247,242,232,0.65)', letterSpacing: '0.05em',
+                    }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </Collapse>
         </List>
 
-        {/* Cart shortcut at bottom */}
+        {/* Cart shortcut */}
         <Box sx={{ mt: 'auto', p: 3, borderTop: `1px solid ${alpha(gold, 0.12)}` }}>
           <Box
-            component={Link} to="/cart"
+            component={Link}
+            to="/cart"
             onClick={() => setDrawerOpen(false)}
             sx={{
               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -282,9 +378,9 @@ export default function Navbar() {
               '&:hover': { background: alpha(gold, 0.1), borderColor: alpha(gold, 0.35) },
             }}
           >
-            <Box sx={{ fontFamily: '"Cinzel", serif', fontSize: '0.7rem', letterSpacing: '0.15em', color: goldDark }}>
+            <Typography sx={{ fontFamily: '"Cinzel", serif', fontSize: '0.7rem', letterSpacing: '0.18em', color: goldDark }}>
               CART
-            </Box>
+            </Typography>
             <Badge badgeContent={cartCount} color="secondary">
               <ShoppingCartOutlinedIcon sx={{ fontSize: '1.1rem', color: textSecondary }} />
             </Badge>

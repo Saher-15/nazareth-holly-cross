@@ -4,7 +4,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Zoom from '@mui/material/Zoom';
 import { alpha } from '@mui/material/styles';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { gold, goldLight, goldGradient, darkBg } from '../theme';
+import { gold, goldDark, goldGradient, darkBg } from '../theme';
 
 export default function BackToTop() {
   const [show, setShow] = useState(false);
@@ -30,16 +30,15 @@ export default function BackToTop() {
             background: goldGradient,
             color: darkBg,
             boxShadow: `0 4px 24px ${alpha(gold, 0.5)}`,
-            border: `1px solid ${alpha(goldLight, 0.25)}`,
+            border: `1px solid ${alpha(goldDark, 0.25)}`,
             transition: 'all 0.3s cubic-bezier(0.4,0,0.2,1)',
             '&:hover': {
               transform: 'translateY(-4px)',
               boxShadow: `0 8px 36px ${alpha(gold, 0.7)}`,
-              background: `linear-gradient(135deg, ${goldLight} 0%, ${gold} 100%)`,
             },
           }}
         >
-          <KeyboardArrowUpIcon sx={{ fontSize: '1.4rem', color: darkBg }} />
+          <KeyboardArrowUpIcon sx={{ fontSize: '1.4rem' }} />
         </IconButton>
       </Tooltip>
     </Zoom>

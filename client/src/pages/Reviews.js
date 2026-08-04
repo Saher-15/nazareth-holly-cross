@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { API_URL } from '../config.js';
-import axios from 'axios';
-import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -14,256 +11,163 @@ import Alert from '@mui/material/Alert';
 import Divider from '@mui/material/Divider';
 import { alpha } from '@mui/material/styles';
 import SendIcon from '@mui/icons-material/Send';
+import StarIcon from '@mui/icons-material/Star';
 import ForumIcon from '@mui/icons-material/Forum';
 import PersonIcon from '@mui/icons-material/Person';
 import PublicIcon from '@mui/icons-material/Public';
-import StarIcon from '@mui/icons-material/Star';
-import { gold, goldLight, goldDark, crimson, goldGradientText } from '../theme';
+import { useTranslation } from 'react-i18next';
+import api from '../api';
+import { gold, goldDark, crimson, textSecondary, goldGradientText } from '../theme';
 
-const inputSx = {
-  '& .MuiOutlinedInput-root': {
-    color: goldLight,
-    fontSize: '0.9rem',
-    '& fieldset': { borderColor: alpha(gold, 0.2) },
-    '&:hover fieldset': { borderColor: alpha(gold, 0.4) },
-    '&.Mui-focused fieldset': { borderColor: gold },
-  },
-  '& .MuiInputLabel-root': { color: alpha(goldLight, 0.5), '&.Mui-focused': { color: gold } },
-};
+function StarRating({ count = 5 }) {
+  return (
+    <Box sx={{ display: 'flex', gap: 0.25 }}>
+      {Array.from({ length: 5 }).map((_, i) => (
+        <StarIcon key={i} sx={{ fontSize: '0.9rem', color: i < count ? gold : alpha(gold, 0.2) }} />
+      ))}
+    </Box>
+  );
+}
 
-function Reviews() {
+export default function Reviews() {
   const { t } = useTranslation();
-  const [formData, setFormData] = useState({ fullName: '', email: '', phone: '000', msg: '' });
-  const [messages, setMessages] = useState([]);
+  const [formData,    setFormData]    = useState({ fullName: '', email: '', phone: '000', msg: '' });
+  const [messages,    setMessages]    = useState([]);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [loading,     setLoading]     = useState(false);
 
   const fetchMessages = async () => {
     try {
-      const response = await axios.get(`${API_URL}/contact/get_all_contact_us`);
-      const reviewed = response.data.filter((m) => m.done).reverse();
-      setMessages(reviewed);
-    } catch (error) {
-      console.error('Error fetching messages:', error);
-    }
+      const { data } = await api.get('/review/getReviews');
+      setMessages(Array.isArray(data) ? data : []);
+    } catch { setMessages([]); }
   };
+
+  useEffect(() => { fetchMessages(); }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.fullName || !formData.email || !formData.msg) return;
+    setLoading(true);
     try {
-      await axios.post(`${API_URL}/contact/contact_us_request`, formData);
+      await api.post('/review/addReview', formData);
       setFormData({ fullName: '', email: '', phone: '000', msg: '' });
       setShowSuccess(true);
-      setTimeout(() => setShowSuccess(false), 3500);
+      setTimeout(() => setShowSuccess(false), 4000);
       fetchMessages();
-    } catch (error) {
-      console.error('Error sending form data:', error);
-    }
+    } catch { /* ignore */ } finally { setLoading(false); }
   };
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    fetchMessages();
-  }, []);
-
   return (
-    <Box sx={{ minHeight: '80vh', py: { xs: 6, md: 10 }, px: { xs: 2, sm: 3 } }}>
-      <Container maxWidth="xl">
-        {/* Header */}
-        <Box sx={{ textAlign: 'center', mb: { xs: 5, md: 7 } }}>
-          <Typography variant="h2" sx={{ fontFamily: '"Cinzel", serif', fontWeight: 700, fontSize: { xs: '1.8rem', md: '2.5rem' }, ...goldGradientText, mb: 1 }}>
-            {t('pray.formTitle')}
+    <Box sx={{ backgroundColor: '#F7F2E8', minHeight: '80vh' }}>
+      {/* Header */}
+      <Box sx={{
+        position: 'relative', py: { xs: 10, md: 14 },
+        background: 'linear-gradient(160deg, #1C0E06 0%, #2C1810 50%, #1C0E06 100%)',
+        textAlign: 'center', overflow: 'hidden',
+        '&::after': { content: '""', position: 'absolute', bottom: 0, left: 0, right: 0, height: '35%', background: 'linear-gradient(to bottom, transparent, #F7F2E8)' },
+      }}>
+        <Box sx={{ position: 'relative', zIndex: 1 }}>
+          <Typography sx={{ fontFamily: '"Cinzel", serif', fontSize: '0.65rem', letterSpacing: '0.35em', color: alpha(gold, 0.7), textTransform: 'uppercase', mb: 2 }}>
+            Testimonials
           </Typography>
-          <Box sx={{ width: 60, height: 2, mx: 'auto', background: `linear-gradient(90deg, transparent, ${gold}, transparent)` }} />
-          <Typography sx={{ fontFamily: '"Playfair Display", serif', fontStyle: 'italic', color: alpha(goldLight, 0.55), mt: 2, fontSize: '0.95rem', maxWidth: 500, mx: 'auto' }}>
-            {t('pray.formDescription')}
+          <Typography variant="h1" sx={{ fontFamily: '"Cinzel", serif', fontWeight: 700, fontSize: { xs: '2rem', md: '3rem' }, ...goldGradientText }}>
+            Reviews & Testimonials
           </Typography>
         </Box>
+      </Box>
 
-        <Grid container spacing={5} alignItems="flex-start">
-          {/* Form */}
-          <Grid size={{ xs: 12, md: 4 }}>
+      <Container maxWidth="lg" sx={{ py: { xs: 7, md: 10 } }}>
+        <Grid container spacing={{ xs: 4, md: 6 }}>
+          {/* Review Form */}
+          <Grid item xs={12} md={4}>
             <Paper
               elevation={0}
               component="form"
               onSubmit={handleSubmit}
               sx={{
-                p: { xs: 3, md: 4 },
-                background: `linear-gradient(145deg, ${alpha('#1A1215', 0.9)} 0%, ${alpha('#0D0810', 0.95)} 100%)`,
-                border: `1px solid ${alpha(gold, 0.15)}`,
-                borderRadius: '12px',
-                position: { md: 'sticky' },
-                top: '90px',
-                '&::before': {
-                  content: '""',
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  height: '2px',
-                  borderRadius: '12px 12px 0 0',
-                  background: `linear-gradient(90deg, transparent, ${gold}, transparent)`,
-                },
+                p: { xs: 3, md: 4 }, borderRadius: '12px',
+                border: `1px solid ${alpha(gold, 0.2)}`,
+                boxShadow: `0 4px 24px ${alpha('#8A6107', 0.1)}`,
+                position: { md: 'sticky' }, top: { md: 90 },
+                '&::before': { content: '""', position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: `linear-gradient(90deg, transparent, ${gold}, transparent)`, borderRadius: '12px 12px 0 0' },
               }}
             >
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <TextField
-                  fullWidth
-                  label={t('pray.placeholderFullName')}
-                  name="fullName"
-                  value={formData.fullName}
-                  onChange={handleChange}
-                  required
-                  size="small"
-                  InputProps={{ startAdornment: <PersonIcon sx={{ color: alpha(gold, 0.4), mr: 1, fontSize: '1rem' }} /> }}
-                  sx={inputSx}
-                />
-                <TextField
-                  fullWidth
-                  label={t('pray.placeholderCountry')}
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  size="small"
-                  InputProps={{ startAdornment: <PublicIcon sx={{ color: alpha(gold, 0.4), mr: 1, fontSize: '1rem' }} /> }}
-                  sx={inputSx}
-                />
-                <TextField
-                  fullWidth
-                  label={t('pray.placeholderMessage')}
-                  name="msg"
-                  value={formData.msg}
-                  onChange={handleChange}
-                  required
-                  multiline
-                  rows={5}
-                  sx={inputSx}
-                />
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 3 }}>
+                <ForumIcon sx={{ color: gold, fontSize: '1.4rem' }} />
+                <Typography sx={{ fontFamily: '"Cinzel", serif', fontWeight: 700, fontSize: '0.9rem', color: '#1C1208', letterSpacing: '0.05em' }}>
+                  Leave a Review
+                </Typography>
               </Box>
-
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <TextField fullWidth label="Full Name" name="fullName" value={formData.fullName} onChange={handleChange} required size="small" InputProps={{ startAdornment: <PersonIcon sx={{ fontSize: '1rem', color: alpha(goldDark, 0.5), mr: 0.5 }} /> }} />
+                <TextField fullWidth label="Email" type="email" name="email" value={formData.email} onChange={handleChange} required size="small" />
+                <TextField fullWidth label="Country (optional)" name="phone" value={formData.phone === '000' ? '' : formData.phone} onChange={(e) => setFormData(p => ({ ...p, phone: e.target.value || '000' }))} size="small" InputProps={{ startAdornment: <PublicIcon sx={{ fontSize: '1rem', color: alpha(goldDark, 0.5), mr: 0.5 }} /> }} />
+                <TextField fullWidth label="Your Review" name="msg" value={formData.msg} onChange={handleChange} required multiline rows={4} />
+              </Box>
               <Collapse in={showSuccess}>
-                <Alert severity="success" sx={{ mt: 2, backgroundColor: alpha('#2E7D32', 0.12), border: `1px solid ${alpha('#2E7D32', 0.3)}`, color: goldLight }}>
-                  {t('pray.successMessage')}
-                </Alert>
+                <Alert severity="success" sx={{ mt: 2 }}>Thank you for your review!</Alert>
               </Collapse>
-
               <Button
                 type="submit"
-                fullWidth
                 variant="contained"
+                fullWidth
+                disabled={loading}
                 startIcon={<SendIcon />}
                 sx={{
-                  mt: 3,
-                  background: `linear-gradient(135deg, ${gold} 0%, ${goldDark} 100%)`,
-                  color: '#0a0608',
-                  py: 1.5,
-                  fontFamily: '"Cinzel", serif',
-                  fontSize: '0.78rem',
-                  letterSpacing: '0.15em',
-                  boxShadow: `0 4px 20px ${alpha(gold, 0.35)}`,
-                  '&:hover': { background: `linear-gradient(135deg, ${goldLight} 0%, ${gold} 100%)`, boxShadow: `0 8px 30px ${alpha(gold, 0.55)}`, transform: 'translateY(-2px)' },
+                  mt: 3, background: `linear-gradient(135deg, ${gold} 0%, ${goldDark} 100%)`,
+                  color: '#1C1208', py: 1.3,
+                  '&:hover': { boxShadow: `0 6px 20px ${alpha(gold, 0.45)}`, transform: 'translateY(-2px)' },
                 }}
               >
-                {t('pray.submitButton')}
+                {loading ? 'Submitting...' : 'Submit Review'}
               </Button>
             </Paper>
           </Grid>
 
-          {/* Messages */}
-          <Grid size={{ xs: 12, md: 8 }}>
-            <Box sx={{ mb: 3 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1 }}>
-                <ForumIcon sx={{ color: alpha(gold, 0.6), fontSize: '1.2rem' }} />
-                <Typography sx={{ fontFamily: '"Cinzel", serif', fontWeight: 600, fontSize: '1rem', letterSpacing: '0.1em', color: goldLight }}>
-                  {t('pray.messagesTitle')}
+          {/* Reviews list */}
+          <Grid item xs={12} md={8}>
+            {messages.length === 0 ? (
+              <Box sx={{ textAlign: 'center', py: 8 }}>
+                <Box sx={{ fontSize: '3rem', mb: 2 }}>✝</Box>
+                <Typography sx={{ fontFamily: '"Cinzel", serif', color: goldDark, fontSize: '1rem' }}>
+                  Be the first to share your experience
                 </Typography>
               </Box>
-              <Typography sx={{ fontFamily: '"Lato", sans-serif', fontWeight: 300, fontSize: '0.82rem', color: alpha(goldLight, 0.45) }}>
-                {t('pray.messagesDescription')}
-              </Typography>
-            </Box>
-
-            {messages.length > 0 ? (
-              <Grid container spacing={2}>
-                {messages.map((message, index) => (
-                  <Grid size={{ xs: 12, sm: 6 }} key={index}>
-                    <Paper
-                      elevation={0}
-                      sx={{
-                        p: 3,
-                        background: `linear-gradient(145deg, ${alpha('#1A1215', 0.75)} 0%, ${alpha('#0D0810', 0.85)} 100%)`,
-                        border: `1px solid ${alpha(gold, 0.1)}`,
-                        borderRadius: '12px',
-                        transition: 'all 0.4s cubic-bezier(0.4,0,0.2,1)',
-                        position: 'relative',
-                        overflow: 'hidden',
-                        '&:hover': {
-                          border: `1px solid ${alpha(gold, 0.3)}`,
-                          boxShadow: `0 12px 32px ${alpha('#000', 0.5)}, 0 0 20px ${alpha(gold, 0.07)}`,
-                          transform: 'translateY(-4px)',
-                          '&::after': { opacity: 1 },
-                        },
-                        '&::before': {
-                          content: '""', position: 'absolute', top: 0, left: 0, right: 0,
-                          height: '2px', borderRadius: '12px 12px 0 0',
-                          background: `linear-gradient(90deg, transparent, ${alpha(gold, 0.5)}, transparent)`,
-                        },
-                        '&::after': {
-                          content: '""', position: 'absolute', inset: 0,
-                          background: `radial-gradient(ellipse at 80% 20%, ${alpha(gold, 0.035)} 0%, transparent 60%)`,
-                          opacity: 0, transition: 'opacity 0.4s ease', pointerEvents: 'none',
-                        },
-                      }}
-                    >
-                      {/* Large decorative quote */}
-                      <Typography aria-hidden sx={{
-                        position: 'absolute', top: -6, left: 10,
-                        fontFamily: '"Playfair Display", serif',
-                        fontSize: '4.5rem', lineHeight: 1,
-                        color: alpha(gold, 0.05), userSelect: 'none', pointerEvents: 'none',
-                      }}>
-                        "
-                      </Typography>
-
-                      {/* Stars */}
-                      <Box sx={{ display: 'flex', gap: 0.3, mb: 1.5 }}>
-                        {[...Array(5)].map((_, i) => (
-                          <StarIcon key={i} sx={{ fontSize: '0.85rem', color: alpha(gold, 0.75) }} />
-                        ))}
-                      </Box>
-
-                      <Typography sx={{ fontFamily: '"Lato", sans-serif', fontWeight: 300, fontSize: '0.88rem', color: alpha(goldLight, 0.68), lineHeight: 1.75, fontStyle: 'italic', mb: 2, position: 'relative', zIndex: 1 }}>
-                        "{message.msg}"
-                      </Typography>
-
-                      <Divider sx={{ borderColor: alpha(gold, 0.08), mb: 1.5 }} />
-
-                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <Typography sx={{ fontFamily: '"Playfair Display", serif', fontWeight: 600, fontSize: '0.88rem', color: goldLight }}>
-                          {message.fullName}
-                        </Typography>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                          <PublicIcon sx={{ fontSize: '0.75rem', color: alpha(gold, 0.5) }} />
-                          <Typography sx={{ fontFamily: '"Cinzel", serif', fontSize: '0.62rem', letterSpacing: '0.08em', color: alpha(gold, 0.5) }}>
-                            {message.email}
-                          </Typography>
-                        </Box>
-                      </Box>
-                    </Paper>
-                  </Grid>
-                ))}
-              </Grid>
             ) : (
-              <Box sx={{ textAlign: 'center', py: 8 }}>
-                <Typography sx={{ fontFamily: '"Playfair Display", serif', fontStyle: 'italic', fontSize: '1rem', color: alpha(goldLight, 0.35) }}>
-                  {t('pray.noMessages')}
-                </Typography>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                {messages.map((msg, i) => (
+                  <Box
+                    key={i}
+                    sx={{
+                      p: { xs: 3, md: 4 }, backgroundColor: '#FFFFFF', borderRadius: '12px',
+                      border: `1px solid ${alpha(gold, 0.18)}`, boxShadow: `0 2px 12px ${alpha('#8A6107', 0.06)}`,
+                    }}
+                  >
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1.5 }}>
+                      <Box>
+                        <Typography sx={{ fontFamily: '"Cinzel", serif', fontWeight: 700, fontSize: '0.88rem', color: '#1C1208', mb: 0.4 }}>
+                          {msg.fullName || 'Anonymous'}
+                        </Typography>
+                        {msg.phone && msg.phone !== '000' && (
+                          <Typography sx={{ fontFamily: '"Lato", sans-serif', fontSize: '0.75rem', color: alpha(goldDark, 0.6), display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                            <PublicIcon sx={{ fontSize: '0.75rem' }} />{msg.phone}
+                          </Typography>
+                        )}
+                      </Box>
+                      <StarRating count={5} />
+                    </Box>
+                    <Divider sx={{ mb: 2, borderColor: alpha(gold, 0.12) }} />
+                    <Typography sx={{ fontFamily: '"Playfair Display", serif', fontStyle: 'italic', fontSize: '0.9rem', color: textSecondary, lineHeight: 1.85 }}>
+                      "{msg.msg}"
+                    </Typography>
+                  </Box>
+                ))}
               </Box>
             )}
           </Grid>
@@ -272,5 +176,3 @@ function Reviews() {
     </Box>
   );
 }
-
-export default Reviews;

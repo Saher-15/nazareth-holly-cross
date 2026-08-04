@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { alpha } from '@mui/material/styles';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
@@ -150,7 +150,7 @@ export default function StatsSection() {
 
         <Grid container spacing={3}>
           {STATS.map(({ Icon, value, suffix, label, color }, i) => (
-            <Grid size={{ xs: 6, md: 3 }} key={label}>
+            <Grid item xs={6} md={3} key={label}>
               <StatCard Icon={Icon} value={value} suffix={suffix} label={label} color={color} active={active} delay={i * 120} />
             </Grid>
           ))}

@@ -2,7 +2,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import { alpha } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
@@ -70,7 +70,7 @@ export default function WhatIsNew() {
         {/* ── Scripture cards ── */}
         <Grid container spacing={2.5} justifyContent="center" sx={{ mb: { xs: 8, md: 12 } }}>
           {scriptures.map(({ key, ref }) => (
-            <Grid size={{ xs: 12, sm: 6, md: 3 }} key={key}>
+            <Grid item xs={12} sm={6} md={3} key={key}>
               <Paper
                 elevation={0}
                 sx={{

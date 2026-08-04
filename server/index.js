@@ -13,6 +13,7 @@ import routerContact from './route/contactRoute.js';
 import routerLive from './route/liveRoute.js';
 import routerAuth from './route/authRoute.js';
 import routerAdmin from './route/adminRoute.js';
+import routerPrayer from './route/prayerRoute.js';
 import { globalLimiter } from './utils/security.js';
 
 dotenv.config();
@@ -39,13 +40,20 @@ if (process.env.NODE_ENV !== 'production') {
 const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:5173',
+  'http://localhost:5174',
   process.env.CLIENT_URL,
+  /\.netlify\.app$/,
+  /\.netlify\.com$/,
 ].filter(Boolean);
 
 app.use(helmet());
 app.use(cors({
   origin: (origin, cb) => {
-    if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
+    if (!origin) return cb(null, true);
+    const allowed = allowedOrigins.some(o =>
+      o instanceof RegExp ? o.test(origin) : o === origin
+    );
+    if (allowed) return cb(null, true);
     cb(new Error('Not allowed by CORS'));
   },
   credentials: true,
@@ -63,6 +71,7 @@ app.use('/candle', routerCandle);
 app.use('/contact', routerContact);
 app.use('/live', routerLive);
 app.use('/admin', routerAdmin);
+app.use('/prayer', routerPrayer);
 
 app.get('/health', (req, res) => res.json({ status: 'ok', timestamp: new Date().toISOString() }));
 
