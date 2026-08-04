@@ -347,7 +347,7 @@ export default function CandlePage() {
                     placeholder="Write your prayer, the name of whom you are praying for, or your personal intention..."
                     value={formData.prayer}
                     onChange={(e) => setFormData({ ...formData, prayer: e.target.value })}
-                    inputProps={{ maxLength: 500 }}
+                    slotProps={{ htmlInput: { maxLength: 500 } }}
                     helperText={`${formData.prayer.length}/500 characters`}
                   />
                 </Grid>

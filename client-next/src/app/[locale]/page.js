@@ -88,7 +88,7 @@ export default function HomePage() {
       {/* About Preview */}
       <Box sx={{ py: { xs: 8, md: 12 }, backgroundColor: colors.background }}>
         <Container maxWidth="lg">
-          <Grid container spacing={6} alignItems="center">
+          <Grid container spacing={6} sx={{ alignItems: 'center' }}>
             <Grid xs={12} md={6}>
               <Box sx={{ position: 'relative', borderRadius: 2, overflow: 'hidden', boxShadow: '0 16px 60px rgba(28,18,8,0.15)' }}>
                 <Box sx={{ aspectRatio: '4/3', background: 'linear-gradient(160deg, #2C1810 0%, #8A6107 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '8rem', color: 'rgba(201,168,76,0.3)' }}>

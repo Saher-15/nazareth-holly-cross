@@ -89,7 +89,7 @@ export default function DonationPage() {
           <Typography sx={{ fontFamily: 'Lato, sans-serif', fontWeight: 700, fontSize: '0.78rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: colors.textSecondary, mb: 1.5 }}>
             Select Amount
           </Typography>
-          <Stack direction="row" spacing={1.5} flexWrap="wrap" sx={{ mb: 2, gap: 1.5 }}>
+          <Stack direction="row" spacing={1.5} sx={{ flexWrap: 'wrap' }} sx={{ mb: 2, gap: 1.5 }}>
             {SUGGESTED_AMOUNTS.map((a) => (
               <Button
                 key={a}
@@ -114,7 +114,7 @@ export default function DonationPage() {
             value={customAmount}
             onChange={(e) => { setCustomAmount(e.target.value); setAmount(0); }}
             placeholder="Enter amount"
-            inputProps={{ min: 1 }}
+            slotProps={{ htmlInput: { min: 1 } }}
             sx={{ mb: 3 }}
           />
 

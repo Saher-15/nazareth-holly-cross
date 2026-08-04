@@ -95,12 +95,12 @@ export default function LanguageSwitcher({ variant = 'icon-only' }) {
             </ListItemIcon>
             <ListItemText
               primary={lang.name}
-              primaryTypographyProps={{
+              slotProps={{ primary: {
                 fontFamily: 'Lato, sans-serif',
                 fontSize: '0.875rem',
                 fontWeight: lang.code === locale ? 700 : 400,
                 color: lang.code === locale ? colors.goldDark : colors.textPrimary,
-              }}
+              } }}
             />
           </MenuItem>
         ))}

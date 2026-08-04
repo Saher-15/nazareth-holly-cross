@@ -161,7 +161,7 @@ export default function TourPage() {
                   <Typography sx={{ fontSize: '0.85rem', color: colors.textSecondary, lineHeight: 1.75, mb: 2 }}>
                     {stop.description}
                   </Typography>
-                  <Stack direction="row" spacing={0.75} flexWrap="wrap" sx={{ gap: 0.75 }}>
+                  <Stack direction="row" spacing={0.75} sx={{ flexWrap: 'wrap' }} sx={{ gap: 0.75 }}>
                     {stop.facts.map((fact) => (
                       <Chip
                         key={fact}

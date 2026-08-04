@@ -134,12 +134,12 @@ export default function AdminPage() {
               </ListItemIcon>
               <ListItemText
                 primary={item.label}
-                primaryTypographyProps={{
+                slotProps={{ primary: {
                   fontFamily: 'Lato, sans-serif',
                   fontWeight: activeSection === item.id ? 700 : 400,
                   fontSize: '0.875rem',
                   color: activeSection === item.id ? colors.goldDark : colors.textSecondary,
-                }}
+                } }}
               />
             </ListItemButton>
           </ListItem>
@@ -152,7 +152,7 @@ export default function AdminPage() {
             <ListItemIcon sx={{ color: colors.crimson, minWidth: 40 }}>
               <LogoutIcon />
             </ListItemIcon>
-            <ListItemText primary="Logout" primaryTypographyProps={{ fontFamily: 'Lato, sans-serif', fontSize: '0.875rem', color: colors.crimson }} />
+            <ListItemText primary="Logout" slotProps={{ primary: { fontFamily: 'Lato, sans-serif', fontSize: '0.875rem', color: colors.crimson } }} />
           </ListItemButton>
         </ListItem>
       </List>

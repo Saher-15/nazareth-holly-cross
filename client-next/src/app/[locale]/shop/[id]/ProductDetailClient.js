@@ -194,7 +194,7 @@ export default function ProductDetailClient({ product, locale, id }) {
                 >
                   Color: <span style={{ color: colors.textPrimary }}>{selectedColor}</span>
                 </Typography>
-                <Stack direction="row" spacing={1} flexWrap="wrap" sx={{ gap: 1 }}>
+                <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap' }} sx={{ gap: 1 }}>
                   {product.colors.map((color) => (
                     <Chip
                       key={color}

@@ -152,7 +152,7 @@ export default function PrayerWallPage() {
       {/* Filter */}
       <Box sx={{ py: 2, backgroundColor: colors.surface, borderBottom: '1px solid rgba(201,168,76,0.15)' }}>
         <Container maxWidth="lg">
-          <Stack direction="row" spacing={1} flexWrap="wrap" sx={{ gap: 1 }}>
+          <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap' }} sx={{ gap: 1 }}>
             {PRAYER_CATEGORIES.map((cat) => (
               <Chip
                 key={cat}
@@ -303,7 +303,7 @@ export default function PrayerWallPage() {
               fullWidth
               required
               placeholder="Share your prayer or intention..."
-              inputProps={{ maxLength: 400 }}
+              slotProps={{ htmlInput: { maxLength: 400 } }}
               helperText={`${formData.prayer.length}/400`}
             />
           </Stack>

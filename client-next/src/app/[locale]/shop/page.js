@@ -174,19 +174,21 @@ export default function ShopPage() {
               onChange={(e) => setSearch(e.target.value)}
               size="small"
               sx={{ minWidth: { xs: '100%', sm: 240 } }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon sx={{ color: colors.textMuted, fontSize: '1.1rem' }} />
-                  </InputAdornment>
-                ),
-                endAdornment: search ? (
-                  <InputAdornment position="end">
-                    <IconButton size="small" onClick={() => setSearch('')}>
-                      <ClearIcon fontSize="small" />
-                    </IconButton>
-                  </InputAdornment>
-                ) : null,
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon sx={{ color: colors.textMuted, fontSize: '1.1rem' }} />
+                    </InputAdornment>
+                  ),
+                  endAdornment: search ? (
+                    <InputAdornment position="end">
+                      <IconButton size="small" onClick={() => setSearch('')}>
+                        <ClearIcon fontSize="small" />
+                      </IconButton>
+                    </InputAdornment>
+                  ) : null,
+                },
               }}
             />
 
@@ -225,7 +227,7 @@ export default function ShopPage() {
 
             {/* Category chips — shown on desktop or when filters open on mobile */}
             {(!isMobile || filtersOpen) && (
-              <Stack direction="row" spacing={0.75} flexWrap="wrap" sx={{ gap: 0.75 }}>
+              <Stack direction="row" spacing={0.75} sx={{ flexWrap: 'wrap' }} sx={{ gap: 0.75 }}>
                 {CATEGORIES.map((cat) => (
                   <Chip
                     key={cat}

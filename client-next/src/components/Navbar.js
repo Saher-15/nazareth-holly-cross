@@ -247,13 +247,13 @@ export default function Navbar() {
               >
                 <ListItemText
                   primary={link.label}
-                  primaryTypographyProps={{
+                  slotProps={{ primary: {
                     fontFamily: 'Cinzel, serif',
                     fontWeight: 600,
                     fontSize: '0.85rem',
                     letterSpacing: '0.06em',
                     color: isActive(link.href) ? colors.goldDark : colors.textPrimary,
-                  }}
+                  } }}
                 />
               </ListItemButton>
             </ListItem>
@@ -263,13 +263,13 @@ export default function Navbar() {
             <ListItemButton onClick={() => setGalleryExpanded(!galleryExpanded)} sx={{ px: 3, py: 1.5 }}>
               <ListItemText
                 primary="Gallery"
-                primaryTypographyProps={{
+                slotProps={{ primary: {
                   fontFamily: 'Cinzel, serif',
                   fontWeight: 600,
                   fontSize: '0.85rem',
                   letterSpacing: '0.06em',
                   color: colors.textPrimary,
-                }}
+                } }}
               />
               <ExpandMoreIcon sx={{ color: colors.textMuted, transform: galleryExpanded ? 'rotate(180deg)' : 'none', transition: '0.2s' }} />
             </ListItemButton>
@@ -285,11 +285,11 @@ export default function Navbar() {
                 >
                   <ListItemText
                     primary={g.label}
-                    primaryTypographyProps={{
+                    slotProps={{ primary: {
                       fontFamily: 'Lato, sans-serif',
                       fontSize: '0.8rem',
                       color: colors.textSecondary,
-                    }}
+                    } }}
                   />
                 </ListItemButton>
               </ListItem>
