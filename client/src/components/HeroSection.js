@@ -13,7 +13,7 @@ import ExploreIcon from '@mui/icons-material/Explore';
 import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useTranslation } from 'react-i18next';
-import { gold, goldLight, goldDark, crimson, darkBg, goldGradientText } from '../theme';
+import { gold, goldLight, goldDark, crimson, goldGradientText } from '../theme';
 
 export default function HeroSection() {
   const { t } = useTranslation();
@@ -63,7 +63,7 @@ export default function HeroSection() {
         alignItems: 'center',
         justifyContent: 'center',
         overflow: 'hidden',
-        backgroundColor: darkBg,
+        backgroundColor: '#07050A',
       }}
     >
       {/* ── Background video ── */}
@@ -76,27 +76,27 @@ export default function HeroSection() {
           position: 'absolute', inset: 0,
           width: '100%', height: '100%',
           objectFit: 'cover',
-          opacity: 0.82,
-          filter: 'brightness(0.75) saturate(0.9)',
+          opacity: 0.85,
+          filter: 'brightness(0.72) saturate(0.9)',
           zIndex: 0,
           transform: 'scale(1.02)',
         }}
       />
 
-      {/* ── Gradient overlays ── */}
+      {/* ── Gradient overlays — slightly lighter than before ── */}
       <Box sx={{
         position: 'absolute', inset: 0, zIndex: 1,
         background: `
           linear-gradient(to bottom,
-            ${alpha('#000', 0.45)} 0%,
-            ${alpha('#000', 0.05)} 20%,
-            ${alpha('#000', 0.05)} 70%,
-            ${alpha(darkBg, 0.88)} 100%),
+            rgba(0,0,0,0.38) 0%,
+            rgba(0,0,0,0.04) 25%,
+            rgba(0,0,0,0.04) 68%,
+            rgba(0,0,0,0.52) 100%),
           linear-gradient(to right,
-            ${alpha(darkBg, 0.3)} 0%,
+            rgba(0,0,0,0.18) 0%,
             transparent 30%,
             transparent 70%,
-            ${alpha(darkBg, 0.3)} 100%)
+            rgba(0,0,0,0.18) 100%)
         `,
       }} />
 
@@ -154,13 +154,13 @@ export default function HeroSection() {
           </Typography>
         </Fade>
 
-        {/* Subheading */}
+        {/* Subheading — gold tone readable on dark video */}
         <Fade in={mounted} timeout={1100}>
           <Typography
             sx={{
               fontFamily: '"Playfair Display", serif',
               fontStyle: 'italic',
-              color: alpha(goldLight, 0.7),
+              color: alpha(gold, 0.88),
               fontSize: { xs: '1rem', sm: '1.25rem', md: '1.45rem' },
               fontWeight: 400,
               letterSpacing: '0.03em',
@@ -186,7 +186,7 @@ export default function HeroSection() {
                 color: '#07050A', fontWeight: 700,
                 boxShadow: `0 4px 24px ${alpha(gold, 0.42)}`,
                 '&:hover': {
-                  background: `linear-gradient(135deg, ${goldLight} 0%, ${gold} 100%)`,
+                  background: `linear-gradient(135deg, ${alpha(gold, 0.95)} 0%, ${gold} 100%)`,
                   boxShadow: `0 8px 36px ${alpha(gold, 0.6)}`,
                   transform: 'translateY(-3px)',
                 },
@@ -204,7 +204,7 @@ export default function HeroSection() {
                 px: { xs: 3, sm: 4.5 }, py: 1.6,
                 fontSize: { xs: '0.68rem', sm: '0.74rem' },
                 borderColor: alpha(gold, 0.45),
-                color: goldLight,
+                color: alpha(gold, 0.92),
                 backdropFilter: 'blur(10px)',
                 background: alpha(gold, 0.05),
                 '&:hover': {
@@ -226,9 +226,9 @@ export default function HeroSection() {
               sx={{
                 px: { xs: 3, sm: 4.5 }, py: 1.6,
                 fontSize: { xs: '0.68rem', sm: '0.74rem' },
-                color: alpha(goldLight, 0.7),
+                color: alpha(gold, 0.75),
                 backdropFilter: 'blur(6px)',
-                '&:hover': { color: goldLight, background: alpha(gold, 0.07), transform: 'translateY(-3px)' },
+                '&:hover': { color: gold, background: alpha(gold, 0.07), transform: 'translateY(-3px)' },
               }}
             >
               {t('heroSection.tourButton')}
@@ -236,30 +236,30 @@ export default function HeroSection() {
           </Box>
         </Fade>
 
-        {/* Discount banner */}
+        {/* Discount banner — warm cream on dark video */}
         <Fade in={mounted} timeout={1500}>
           <Box
             onClick={handleShopClick}
             role="button" tabIndex={0}
             sx={{
               cursor: 'pointer', position: 'relative', overflow: 'hidden',
-              border: `1px solid ${alpha(gold, 0.22)}`,
+              border: `1px solid ${alpha(gold, 0.45)}`,
               borderRadius: '6px',
               px: { xs: 3, sm: 5 }, py: 1.8,
               maxWidth: '700px', width: '100%',
               backdropFilter: 'blur(12px)',
-              background: alpha('#160D08', 0.75),
+              background: alpha('#EDE6D4', 0.93),
               transition: 'all 0.35s ease',
               '&:hover': {
-                borderColor: alpha(gold, 0.45),
-                background: alpha('#160D08', 0.9),
-                boxShadow: `0 0 32px ${alpha(gold, 0.12)}`,
+                borderColor: gold,
+                background: '#EDE6D4',
+                boxShadow: `0 0 32px ${alpha(gold, 0.22)}`,
                 transform: 'translateY(-2px)',
               },
               '&::before': {
                 content: '""', position: 'absolute',
                 top: 0, left: 0, width: '90px', height: '100%',
-                background: `linear-gradient(140deg, ${alpha(crimson, 0.75)} 0%, ${alpha(crimson, 0.35)} 100%)`,
+                background: `linear-gradient(140deg, ${alpha(crimson, 0.85)} 0%, ${alpha(crimson, 0.45)} 100%)`,
                 clipPath: 'polygon(0 0, 75% 0, 100% 100%, 0 100%)',
               },
               '&::after': {
@@ -268,15 +268,15 @@ export default function HeroSection() {
                 transform: 'translateY(-50%)',
                 fontFamily: '"Cinzel", serif', fontWeight: 900,
                 fontSize: '0.6rem', letterSpacing: '0.08em',
-                color: goldLight, zIndex: 1,
+                color: '#FFFFFF', zIndex: 1,
               },
             }}
           >
             <Typography sx={{
               position: 'relative', zIndex: 1, pl: { xs: 6, sm: 5 },
-              fontFamily: '"Lato", sans-serif', fontWeight: 300,
+              fontFamily: '"Lato", sans-serif', fontWeight: 400,
               fontSize: { xs: '0.82rem', sm: '0.92rem' },
-              color: alpha(goldLight, 0.88),
+              color: '#5D3E2C',
             }}>
               {t('heroSection.discount')}
             </Typography>
@@ -284,7 +284,7 @@ export default function HeroSection() {
         </Fade>
       </Box>
 
-      {/* ── Audio toggle ── */}
+      {/* ── Audio toggle — slightly lighter background ── */}
       <IconButton
         onClick={toggleAudio}
         aria-label={isPlaying ? 'Mute' : 'Unmute'}
@@ -292,10 +292,10 @@ export default function HeroSection() {
           position: 'absolute', bottom: { xs: 24, md: 32 }, right: { xs: 16, md: 28 },
           zIndex: 4,
           width: 42, height: 42,
-          background: alpha('#000', 0.55),
+          background: alpha('#000', 0.35),
           backdropFilter: 'blur(10px)',
           border: `1px solid ${alpha(gold, 0.28)}`,
-          color: alpha(goldLight, 0.75),
+          color: alpha(gold, 0.75),
           '&:hover': { background: alpha(gold, 0.12), color: gold, borderColor: gold, boxShadow: `0 0 16px ${alpha(gold, 0.3)}` },
         }}
       >

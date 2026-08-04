@@ -30,13 +30,15 @@ const candleVideos = [
 
 const inputSx = {
   '& .MuiOutlinedInput-root': {
-    color: goldLight,
+    color: '#1C1208',
     fontSize: '0.9rem',
-    '& fieldset': { borderColor: alpha(gold, 0.2) },
-    '&:hover fieldset': { borderColor: alpha(gold, 0.4) },
+    backgroundColor: '#FFFFFF',
+    '& fieldset': { borderColor: alpha(gold, 0.25) },
+    '&:hover fieldset': { borderColor: alpha(gold, 0.5) },
     '&.Mui-focused fieldset': { borderColor: gold },
   },
-  '& .MuiInputLabel-root': { color: alpha(goldLight, 0.5), '&.Mui-focused': { color: gold } },
+  '& .MuiInputLabel-root': { color: '#9B7B6A', '&.Mui-focused': { color: goldDark } },
+  '& .MuiInputBase-input': { caretColor: gold },
 };
 
 function Candle() {
@@ -70,21 +72,43 @@ function Candle() {
   };
 
   return (
-    <Box sx={{ minHeight: '80vh', py: { xs: 6, md: 10 }, px: { xs: 2, sm: 3 } }}>
-      <Container maxWidth="xl">
-        {/* Header */}
-        <Box sx={{ textAlign: 'center', mb: { xs: 5, md: 7 } }}>
+    <Box sx={{ minHeight: '80vh', backgroundColor: '#F7F2E8' }}>
+      {/* ── Hero banner ── */}
+      <Box
+        sx={{
+          position: 'relative',
+          height: { xs: 240, md: 320 },
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          overflow: 'hidden', mb: { xs: 5, md: 7 },
+          '&::before': {
+            content: '""', position: 'absolute', inset: 0,
+            backgroundImage: 'url(/images/lightACandle.jpg)',
+            backgroundSize: 'cover', backgroundPosition: 'center',
+            filter: 'brightness(0.25) saturate(0.5)',
+          },
+          '&::after': {
+            content: '""', position: 'absolute', inset: 0,
+            background: `linear-gradient(to bottom, ${alpha('#000', 0.2)} 0%, transparent 40%, #F7F2E8 100%)`,
+          },
+        }}
+      >
+        <Box sx={{ position: 'relative', zIndex: 1, textAlign: 'center', px: 3 }}>
           <Box sx={{ display: 'inline-flex', alignItems: 'center', gap: 2, mb: 2 }}>
-            <Box sx={{ width: 40, height: 1, background: `linear-gradient(90deg, transparent, ${alpha(gold, 0.6)})` }} />
-            <LocalFireDepartmentIcon sx={{ color: alpha(crimson, 0.8), fontSize: '1.2rem' }} />
-            <Box sx={{ width: 40, height: 1, background: `linear-gradient(90deg, ${alpha(gold, 0.6)}, transparent)` }} />
+            <Box sx={{ width: 40, height: '1px', background: `linear-gradient(90deg, transparent, ${alpha(gold, 0.6)})` }} />
+            <LocalFireDepartmentIcon sx={{ color: crimson, fontSize: '1.4rem', filter: `drop-shadow(0 0 12px ${alpha(crimson, 0.9)})` }} />
+            <Box sx={{ width: 40, height: '1px', background: `linear-gradient(90deg, ${alpha(gold, 0.6)}, transparent)` }} />
           </Box>
-          <Typography variant="h2" sx={{ fontFamily: '"Cinzel", serif', fontWeight: 700, fontSize: { xs: '1.8rem', md: '2.5rem' }, ...goldGradientText, mb: 1 }}>
+          <Typography variant="h2" sx={{ fontFamily: '"Cinzel", serif', fontWeight: 700, fontSize: { xs: '1.8rem', md: '2.6rem' }, ...goldGradientText, mb: 1 }}>
             {t('candle.lightAPrayCandle')}
           </Typography>
-          <Box sx={{ width: 60, height: 2, mx: 'auto', background: `linear-gradient(90deg, transparent, ${gold}, transparent)` }} />
+          <Typography sx={{ fontFamily: '"Playfair Display", serif', fontStyle: 'italic', color: '#9B7B6A', fontSize: { xs: '0.86rem', md: '0.95rem' }, maxWidth: 400, mx: 'auto' }}>
+            Light a candle in the Holy Land — a sacred prayer delivered in your name
+          </Typography>
         </Box>
+      </Box>
 
+      <Box sx={{ px: { xs: 2, sm: 3 }, pb: { xs: 8, md: 10 } }}>
+      <Container maxWidth="xl">
         <Grid container spacing={5} alignItems="flex-start">
           {/* Form */}
           <Grid size={{ xs: 12, md: 5 }}>
@@ -94,11 +118,12 @@ function Candle() {
               onSubmit={(e) => e.preventDefault()}
               sx={{
                 p: { xs: 3, md: 4 },
-                background: `linear-gradient(145deg, ${alpha('#1A1215', 0.9)} 0%, ${alpha('#0D0810', 0.95)} 100%)`,
-                border: `1px solid ${alpha(gold, 0.15)}`,
+                backgroundColor: '#FFFFFF',
+                border: `1px solid ${alpha(gold, 0.2)}`,
                 borderRadius: '12px',
-                position: 'sticky',
-                top: '90px',
+                position: 'relative',
+                top: 0,
+                boxShadow: `0 8px 32px ${alpha('#8A6107', 0.1)}`,
                 '&::before': {
                   content: '""',
                   position: 'absolute',
@@ -118,7 +143,7 @@ function Candle() {
                     fontFamily: '"Cinzel", serif',
                     fontSize: '0.7rem',
                     letterSpacing: '0.2em',
-                    color: `${alpha(gold, 0.7)} !important`,
+                    color: `${goldDark} !important`,
                     textTransform: 'uppercase',
                     mb: 1.5,
                   }}
@@ -133,14 +158,14 @@ function Candle() {
                       control={
                         <Radio
                           sx={{
-                            color: alpha(gold, 0.3),
+                            color: alpha(gold, 0.35),
                             '&.Mui-checked': { color: gold },
                             '& .MuiSvgIcon-root': { fontSize: '1rem' },
                           }}
                         />
                       }
                       label={
-                        <Typography sx={{ fontFamily: '"Lato", sans-serif', fontWeight: 300, fontSize: '0.9rem', color: alpha(goldLight, 0.75) }}>
+                        <Typography sx={{ fontFamily: '"Lato", sans-serif', fontWeight: 400, fontSize: '0.9rem', color: '#5D3E2C' }}>
                           {church}
                         </Typography>
                       }
@@ -175,10 +200,10 @@ function Candle() {
                 />
               </Box>
 
-              <Collapse in={!!emailMatchError}><Alert severity="error" sx={{ mt: 2, backgroundColor: alpha('#c62828', 0.12), border: `1px solid ${alpha('#c62828', 0.3)}` }}>{emailMatchError}</Alert></Collapse>
-              <Collapse in={!!inputWarning}><Alert severity="warning" sx={{ mt: 2, backgroundColor: alpha('#B8860B', 0.12), border: `1px solid ${alpha(gold, 0.3)}`, '& .MuiAlert-icon': { color: gold } }}>{inputWarning}</Alert></Collapse>
+              <Collapse in={!!emailMatchError}><Alert severity="error" sx={{ mt: 2, backgroundColor: alpha('#c62828', 0.08), border: `1px solid ${alpha('#c62828', 0.25)}` }}>{emailMatchError}</Alert></Collapse>
+              <Collapse in={!!inputWarning}><Alert severity="warning" sx={{ mt: 2, backgroundColor: alpha('#B8860B', 0.08), border: `1px solid ${alpha(gold, 0.3)}`, '& .MuiAlert-icon': { color: goldDark } }}>{inputWarning}</Alert></Collapse>
 
-              <Typography sx={{ fontFamily: '"Cinzel", serif', fontSize: '0.75rem', letterSpacing: '0.1em', color: alpha(gold, 0.7), textAlign: 'center', mt: 2.5, mb: 2 }}>
+              <Typography sx={{ fontFamily: '"Cinzel", serif', fontSize: '0.75rem', letterSpacing: '0.1em', color: goldDark, textAlign: 'center', mt: 2.5, mb: 2 }}>
                 {t('candle.toLightACandlePay')}
               </Typography>
 
@@ -189,13 +214,13 @@ function Candle() {
                 onClick={handleLightButton}
                 sx={{
                   background: `linear-gradient(135deg, ${gold} 0%, ${goldDark} 100%)`,
-                  color: '#0a0608',
+                  color: '#FFFFFF',
                   py: 1.5,
                   fontFamily: '"Cinzel", serif',
                   fontSize: '0.78rem',
                   letterSpacing: '0.15em',
                   boxShadow: `0 4px 20px ${alpha(gold, 0.35)}`,
-                  '&:hover': { background: `linear-gradient(135deg, ${goldLight} 0%, ${gold} 100%)`, boxShadow: `0 8px 30px ${alpha(gold, 0.55)}`, transform: 'translateY(-2px)' },
+                  '&:hover': { background: `linear-gradient(135deg, #D4B060 0%, ${gold} 100%)`, boxShadow: `0 8px 30px ${alpha(gold, 0.5)}`, transform: 'translateY(-2px)' },
                 }}
               >
                 {t('candle.light')}
@@ -208,21 +233,33 @@ function Candle() {
             <Box
               sx={{
                 p: { xs: 3, md: 4 },
-                background: `linear-gradient(145deg, ${alpha('#1A1215', 0.6)} 0%, ${alpha('#0D0810', 0.7)} 100%)`,
-                border: `1px solid ${alpha(gold, 0.1)}`,
+                backgroundColor: '#FFFFFF',
+                border: `1px solid ${alpha(gold, 0.18)}`,
                 borderRadius: '12px',
                 mb: 4,
+                position: 'relative',
+                boxShadow: `0 4px 20px ${alpha('#8A6107', 0.08)}`,
+                '&::before': {
+                  content: '""',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: '2px',
+                  borderRadius: '12px 12px 0 0',
+                  background: `linear-gradient(90deg, transparent, ${gold}, transparent)`,
+                },
               }}
             >
-              <Typography variant="h4" sx={{ fontFamily: '"Cinzel", serif', fontWeight: 600, fontSize: { xs: '1.3rem', md: '1.6rem' }, color: goldLight, textAlign: 'center', mb: 2 }}>
+              <Typography variant="h4" sx={{ fontFamily: '"Cinzel", serif', fontWeight: 600, fontSize: { xs: '1.3rem', md: '1.6rem' }, color: '#1C1208', textAlign: 'center', mb: 2 }}>
                 {t('candle.howToLightACandle')}
               </Typography>
-              <Typography sx={{ fontFamily: '"Playfair Display", serif', fontStyle: 'italic', color: alpha(goldLight, 0.65), textAlign: 'center', mb: 3, fontSize: '1rem' }}>
+              <Typography sx={{ fontFamily: '"Playfair Display", serif', fontStyle: 'italic', color: '#5D3E2C', textAlign: 'center', mb: 3, fontSize: '1rem' }}>
                 {t('candle.itsSimple')}
               </Typography>
               <Box component="ol" sx={{ pl: 3, display: 'flex', flexDirection: 'column', gap: 1.5 }}>
                 {['candle.step1', 'candle.step2', 'candle.step3'].map((step, i) => (
-                  <Box component="li" key={i} sx={{ fontFamily: '"Lato", sans-serif', fontWeight: 300, fontSize: '0.9rem', color: alpha(goldLight, 0.65), lineHeight: 1.7 }}>
+                  <Box component="li" key={i} sx={{ fontFamily: '"Lato", sans-serif', fontWeight: 400, fontSize: '0.9rem', color: '#5D3E2C', lineHeight: 1.7 }}>
                     {t(step)}
                   </Box>
                 ))}
@@ -241,10 +278,11 @@ function Candle() {
                     sx={{
                       width: '100%',
                       borderRadius: '8px',
-                      border: `1px solid ${alpha(gold, 0.12)}`,
+                      border: `1px solid ${alpha(gold, 0.2)}`,
+                      backgroundColor: '#FFFFFF',
                       display: 'block',
-                      transition: 'border-color 0.3s ease',
-                      '&:hover': { borderColor: alpha(gold, 0.35) },
+                      transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
+                      '&:hover': { borderColor: alpha(gold, 0.5), boxShadow: `0 4px 16px ${alpha('#8A6107', 0.15)}` },
                     }}
                   />
                 </Grid>
@@ -253,6 +291,7 @@ function Candle() {
           </Grid>
         </Grid>
       </Container>
+      </Box>
     </Box>
   );
 }

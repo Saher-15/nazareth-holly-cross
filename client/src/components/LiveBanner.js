@@ -6,7 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import { alpha } from '@mui/material/styles';
 import CloseIcon from '@mui/icons-material/Close';
 import LiveTvIcon from '@mui/icons-material/LiveTv';
-import { gold, goldLight, goldDark, crimson } from '../theme';
+import { gold, goldDark, crimson } from '../theme';
 
 const EVENTS = [
   { label: 'Sunday Mass – Annunciation Church',  datetime: '2026-03-22T10:00:00', durationMinutes: 90  },
@@ -37,9 +37,9 @@ export default function LiveBanner() {
   const active = getActiveEvent();
   if (!active || dismissed) return null;
 
-  const now   = new Date();
-  const start = new Date(active.datetime);
-  const isLive = now >= start;
+  const now      = new Date();
+  const start    = new Date(active.datetime);
+  const isLive   = now >= start;
   const hoursLeft = Math.ceil((start - now) / 3600000);
 
   const dismiss = () => {
@@ -58,8 +58,8 @@ export default function LiveBanner() {
         height: 44,
         background: isLive
           ? `linear-gradient(90deg, ${alpha(crimson, 0.97)}, ${alpha('#5c0000', 0.95)}, ${alpha(crimson, 0.97)})`
-          : `linear-gradient(90deg, ${alpha('#2a1d00', 0.97)}, ${alpha('#3d2900', 0.95)}, ${alpha('#2a1d00', 0.97)})`,
-        borderBottom: `1px solid ${alpha(isLive ? crimson : gold, 0.4)}`,
+          : `linear-gradient(90deg, #E8D4A0, #DFC88A, #E8D4A0)`,
+        borderBottom: `1px solid ${alpha(isLive ? crimson : goldDark, 0.35)}`,
         backgroundSize: '200% 100%',
         animation: 'bannerShimmer 4s linear infinite',
         '@keyframes bannerShimmer': {
@@ -73,7 +73,7 @@ export default function LiveBanner() {
         {/* Pulsing dot */}
         <Box sx={{
           width: 8, height: 8, borderRadius: '50%', flexShrink: 0,
-          backgroundColor: isLive ? '#FF6B6B' : gold,
+          backgroundColor: isLive ? '#FF6B6B' : goldDark,
           boxShadow: `0 0 8px ${isLive ? '#FF6B6B' : gold}`,
           animation: 'livePulse 1.4s ease-in-out infinite',
           '@keyframes livePulse': {
@@ -82,13 +82,13 @@ export default function LiveBanner() {
           },
         }} />
 
-        <LiveTvIcon sx={{ fontSize: '0.95rem', color: isLive ? '#FF6B6B' : gold, flexShrink: 0 }} />
+        <LiveTvIcon sx={{ fontSize: '0.95rem', color: isLive ? '#FF6B6B' : goldDark, flexShrink: 0 }} />
 
         <Typography sx={{
           fontFamily: '"Cinzel", serif',
           fontSize: { xs: '0.62rem', sm: '0.72rem' },
           letterSpacing: '0.1em',
-          color: isLive ? '#FFD5D5' : goldLight,
+          color: isLive ? '#FFD5D5' : goldDark,
           whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
           fontWeight: 600,
         }}>
@@ -107,16 +107,16 @@ export default function LiveBanner() {
             fontFamily: '"Cinzel", serif',
             fontSize: '0.65rem',
             letterSpacing: '0.14em',
-            color: isLive ? '#FF6B6B' : gold,
+            color: isLive ? '#FF6B6B' : goldDark,
             textDecoration: 'none',
-            border: `1px solid ${alpha(isLive ? '#FF6B6B' : gold, 0.45)}`,
+            border: `1px solid ${alpha(isLive ? '#FF6B6B' : goldDark, 0.45)}`,
             borderRadius: '4px',
             px: 1.5, py: 0.4,
             transition: 'all 0.2s ease',
             whiteSpace: 'nowrap',
             '&:hover': {
-              background: alpha(isLive ? crimson : gold, 0.15),
-              borderColor: isLive ? '#FF6B6B' : gold,
+              background: alpha(isLive ? crimson : goldDark, 0.15),
+              borderColor: isLive ? '#FF6B6B' : goldDark,
             },
           }}
         >
@@ -128,9 +128,9 @@ export default function LiveBanner() {
           onClick={dismiss}
           aria-label="Dismiss"
           sx={{
-            color: alpha(isLive ? '#FFD5D5' : goldLight, 0.6),
+            color: isLive ? alpha('#FFD5D5', 0.7) : alpha(goldDark, 0.65),
             width: 26, height: 26,
-            '&:hover': { color: isLive ? '#FFD5D5' : goldLight, background: 'transparent' },
+            '&:hover': { color: isLive ? '#FFD5D5' : goldDark, background: 'transparent' },
           }}
         >
           <CloseIcon sx={{ fontSize: '0.85rem' }} />

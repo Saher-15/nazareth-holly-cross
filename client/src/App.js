@@ -35,6 +35,10 @@ const CheckOut         = lazy(() => import('./pages/CheckOut'));
 const CheckOutCandle   = lazy(() => import('./pages/CheckOutCandle'));
 const CheckOutDonation = lazy(() => import('./pages/CheckOutDonation'));
 
+// Admin
+const AdminLogin     = lazy(() => import('./pages/AdminLogin.js'));
+const AdminDashboard = lazy(() => import('./pages/AdminDashboard.js'));
+
 const PageLoader = () => (
   <Box
     sx={{
@@ -86,6 +90,11 @@ const routes = [
   { path: '/checkoutdonation', element: <CheckOutDonation /> },
 ];
 
+const adminRoutes = [
+  { path: '/admin/login', element: <AdminLogin />,     withLayout: false },
+  { path: '/admin',       element: <AdminDashboard />, withLayout: false },
+];
+
 function App() {
   useEffect(() => {
     ReactGA.initialize('G-VE42K6WP4H');
@@ -108,6 +117,17 @@ function App() {
               element={
                 <Suspense fallback={<PageLoader />}>
                   <Layout>{element}</Layout>
+                </Suspense>
+              }
+            />
+          ))}
+          {adminRoutes.map(({ path, element }) => (
+            <Route
+              key={path}
+              path={path}
+              element={
+                <Suspense fallback={<PageLoader />}>
+                  {element}
                 </Suspense>
               }
             />

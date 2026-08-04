@@ -11,6 +11,7 @@ import routerCandle from './route/candleRoute.js';
 import routerContact from './route/contactRoute.js';
 import routerLive from './route/liveRoute.js';
 import routerAuth from './route/authRoute.js';
+import routerAdmin from './route/adminRoute.js';
 import { globalLimiter } from './utils/security.js';
 
 dotenv.config();
@@ -59,6 +60,7 @@ app.use('/order', routerOrder);
 app.use('/candle', routerCandle);
 app.use('/contact', routerContact);
 app.use('/live', routerLive);
+app.use('/admin', routerAdmin);
 
 app.get('/health', (req, res) => res.json({ status: 'ok', timestamp: new Date().toISOString() }));
 

@@ -15,12 +15,11 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import { alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { gold, goldLight, goldDark, darkBg, goldGradientText } from '../../theme';
+import { gold, goldDark, crimson, goldGradientText, textSecondary, textMuted } from '../../theme';
 
 const Shop = () => {
   const { t } = useTranslation();
@@ -80,23 +79,40 @@ const Shop = () => {
   if (loading) return <LoadingLogo />;
 
   return (
-    <Box sx={{ minHeight: '80vh', py: { xs: 6, md: 10 }, px: { xs: 2, sm: 3 } }}>
+    <Box sx={{ minHeight: '80vh', bgcolor: '#F7F2E8', py: { xs: 6, md: 10 }, px: { xs: 2, sm: 3 } }}>
       <Container maxWidth="xl">
         {/* Header */}
-        <Box sx={{ textAlign: 'center', mb: 6 }}>
+        <Box sx={{ textAlign: 'center', mb: { xs: 5, md: 8 }, position: 'relative' }}>
+          <Box sx={{ display: 'inline-flex', alignItems: 'center', gap: 2, mb: 2 }}>
+            <Box sx={{ width: 50, height: '1px', background: `linear-gradient(90deg, transparent, ${alpha(gold, 0.55)})` }} />
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Box sx={{ width: 4, height: 4, borderRadius: '50%', background: alpha(crimson, 0.9), boxShadow: `0 0 8px ${alpha(crimson, 0.7)}` }} />
+              <Typography sx={{ fontFamily: '"Cinzel", serif', fontSize: '0.58rem', letterSpacing: '0.42em', color: alpha(goldDark, 0.75), textTransform: 'uppercase' }}>
+                Holy Land Gifts
+              </Typography>
+              <Box sx={{ width: 4, height: 4, borderRadius: '50%', background: alpha(crimson, 0.9), boxShadow: `0 0 8px ${alpha(crimson, 0.7)}` }} />
+            </Box>
+            <Box sx={{ width: 50, height: '1px', background: `linear-gradient(90deg, ${alpha(gold, 0.55)}, transparent)` }} />
+          </Box>
+
           <Typography
             variant="h2"
             sx={{
-              fontFamily: '"Cinzel", serif',
-              fontWeight: 700,
-              fontSize: { xs: '1.8rem', md: '2.8rem' },
-              ...goldGradientText,
-              mb: 1,
+              fontFamily: '"Cinzel", serif', fontWeight: 700,
+              fontSize: { xs: '2rem', md: '3rem' },
+              ...goldGradientText, mb: 1.5,
             }}
           >
             {t('navbar.shop') || 'Sacred Shop'}
           </Typography>
-          <Box sx={{ width: 60, height: 2, mx: 'auto', background: `linear-gradient(90deg, transparent, ${gold}, transparent)` }} />
+
+          <Typography sx={{
+            fontFamily: '"Playfair Display", serif', fontStyle: 'italic',
+            color: textSecondary, fontSize: { xs: '0.88rem', md: '0.95rem' },
+            maxWidth: 460, mx: 'auto',
+          }}>
+            Handcrafted treasures from the heart of Nazareth
+          </Typography>
         </Box>
 
         {/* Filters */}
@@ -108,9 +124,10 @@ const Shop = () => {
             mb: 5,
             alignItems: 'center',
             p: 3,
-            background: `linear-gradient(145deg, ${alpha('#1A1215', 0.8)} 0%, ${alpha('#0D0810', 0.9)} 100%)`,
-            border: `1px solid ${alpha(gold, 0.12)}`,
+            background: '#FFFFFF',
+            border: `1px solid ${alpha(gold, 0.25)}`,
             borderRadius: '10px',
+            boxShadow: `0 4px 20px ${alpha(goldDark, 0.08)}`,
           }}
         >
           <TextField
@@ -121,36 +138,38 @@ const Shop = () => {
             sx={{
               flex: { xs: '1 1 100%', sm: '1 1 250px' },
               '& .MuiOutlinedInput-root': {
-                color: goldLight,
+                color: '#1C1208',
                 fontSize: '0.85rem',
-                '& fieldset': { borderColor: alpha(gold, 0.2) },
-                '&:hover fieldset': { borderColor: alpha(gold, 0.4) },
+                backgroundColor: '#FFFFFF',
+                '& fieldset': { borderColor: alpha(gold, 0.3) },
+                '&:hover fieldset': { borderColor: alpha(gold, 0.55) },
                 '&.Mui-focused fieldset': { borderColor: gold },
               },
-              '& .MuiInputLabel-root': { color: alpha(goldLight, 0.5) },
+              '& .MuiInputLabel-root': { color: textMuted },
             }}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <SearchIcon sx={{ color: alpha(gold, 0.5), fontSize: '1rem' }} />
+                  <SearchIcon sx={{ color: alpha(goldDark, 0.5), fontSize: '1rem' }} />
                 </InputAdornment>
               ),
             }}
           />
 
           <FormControl size="small" sx={{ minWidth: 180 }}>
-            <InputLabel sx={{ color: alpha(goldLight, 0.5), fontSize: '0.85rem' }}>Sort</InputLabel>
+            <InputLabel sx={{ color: textMuted, fontSize: '0.85rem' }}>Sort</InputLabel>
             <Select
               value={sortOrder}
               label="Sort"
               onChange={(e) => { setSortOrder(e.target.value); setCurrentPage(1); }}
               sx={{
-                color: goldLight,
+                color: '#1C1208',
                 fontSize: '0.85rem',
-                '& .MuiOutlinedInput-notchedOutline': { borderColor: alpha(gold, 0.2) },
-                '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: alpha(gold, 0.4) },
+                backgroundColor: '#FFFFFF',
+                '& .MuiOutlinedInput-notchedOutline': { borderColor: alpha(gold, 0.3) },
+                '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: alpha(gold, 0.55) },
                 '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: gold },
-                '& .MuiSvgIcon-root': { color: alpha(goldLight, 0.6) },
+                '& .MuiSvgIcon-root': { color: alpha(goldDark, 0.7) },
               }}
             >
               <MenuItem value="rateDesc">{t('shop.sortNone')}</MenuItem>
@@ -165,15 +184,15 @@ const Shop = () => {
             variant="outlined"
             size="small"
             sx={{
-              borderColor: alpha(gold, 0.25),
-              color: alpha(goldLight, 0.6),
+              borderColor: alpha(gold, 0.4),
+              color: goldDark,
               fontSize: '0.72rem',
               fontFamily: '"Cinzel", serif',
               letterSpacing: '0.1em',
               '&:hover': {
-                borderColor: alpha(gold, 0.5),
-                backgroundColor: alpha(gold, 0.06),
-                color: goldLight,
+                borderColor: gold,
+                backgroundColor: alpha(gold, 0.07),
+                color: goldDark,
               },
             }}
           >
@@ -189,7 +208,7 @@ const Shop = () => {
                 fontFamily: '"Playfair Display", serif',
                 fontStyle: 'italic',
                 fontSize: '1.2rem',
-                color: alpha(goldLight, 0.4),
+                color: textMuted,
               }}
             >
               {t('shop.noProducts')}
@@ -214,17 +233,19 @@ const Shop = () => {
                   variant="outlined"
                   size="small"
                   sx={{
-                    borderColor: alpha(gold, hasPrev ? 0.4 : 0.1),
-                    color: hasPrev ? goldLight : alpha(goldLight, 0.25),
+                    borderColor: alpha(gold, hasPrev ? 0.4 : 0.15),
+                    color: hasPrev ? goldDark : textMuted,
                     fontFamily: '"Cinzel", serif',
                     fontSize: '0.72rem',
                     letterSpacing: '0.1em',
-                    '&:hover': { borderColor: gold, backgroundColor: alpha(gold, 0.08) },
+                    backgroundColor: '#FFFFFF',
+                    '&:hover': { borderColor: gold, backgroundColor: alpha(gold, 0.07), color: goldDark },
+                    '&.Mui-disabled': { color: textMuted, borderColor: alpha(gold, 0.12) },
                   }}
                 >
                   {t('shop.prevPage') || 'Previous'}
                 </Button>
-                <Typography sx={{ fontFamily: '"Cinzel", serif', fontSize: '0.75rem', color: alpha(gold, 0.7), letterSpacing: '0.1em' }}>
+                <Typography sx={{ fontFamily: '"Cinzel", serif', fontSize: '0.75rem', color: goldDark, letterSpacing: '0.1em' }}>
                   {currentPage}
                 </Typography>
                 <Button
@@ -233,12 +254,14 @@ const Shop = () => {
                   variant="outlined"
                   size="small"
                   sx={{
-                    borderColor: alpha(gold, hasNext ? 0.4 : 0.1),
-                    color: hasNext ? goldLight : alpha(goldLight, 0.25),
+                    borderColor: alpha(gold, hasNext ? 0.4 : 0.15),
+                    color: hasNext ? goldDark : textMuted,
                     fontFamily: '"Cinzel", serif',
                     fontSize: '0.72rem',
                     letterSpacing: '0.1em',
-                    '&:hover': { borderColor: gold, backgroundColor: alpha(gold, 0.08) },
+                    backgroundColor: '#FFFFFF',
+                    '&:hover': { borderColor: gold, backgroundColor: alpha(gold, 0.07), color: goldDark },
+                    '&.Mui-disabled': { color: textMuted, borderColor: alpha(gold, 0.12) },
                   }}
                 >
                   {t('shop.nextPage') || 'Next'}

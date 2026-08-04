@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import { alpha } from '@mui/material/styles';
 import CardItem from './CardItem';
 import { useTranslation } from 'react-i18next';
-import { gold, goldLight, crimson, goldGradientText } from '../theme';
+import { gold, crimson, goldGradientText } from '../theme';
 
 const destinations = [
   { src: 'images/latin/latin1.jpg',         textKey: 'cards.latinChurch',   label: 'Latin Church',        path: '/latin' },
@@ -27,11 +27,12 @@ export default function Cards() {
         px: { xs: 2, sm: 3 },
         position: 'relative',
         overflow: 'hidden',
+        backgroundColor: '#F7F2E8',
         '&::before': {
           content: '""', position: 'absolute',
           top: '50%', left: '50%', transform: 'translate(-50%,-50%)',
           width: '700px', height: '700px', borderRadius: '50%',
-          background: `radial-gradient(circle, ${alpha(gold, 0.035)} 0%, transparent 70%)`,
+          background: `radial-gradient(circle, ${alpha(gold, 0.018)} 0%, transparent 70%)`,
           pointerEvents: 'none',
         },
       }}
@@ -65,7 +66,8 @@ export default function Cards() {
 
           <Typography sx={{
             fontFamily: '"Playfair Display", serif', fontStyle: 'italic',
-            color: alpha(goldLight, 0.5), fontSize: { xs: '0.9rem', md: '1rem' },
+            color: '#9B7B6A',
+            fontSize: { xs: '0.9rem', md: '1rem' },
             maxWidth: 520, mx: 'auto',
           }}>
             Walk in the footsteps of history — sacred sites of the Holy Land

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { API_URL } from '../../config.js';
+import { API_URL } from '../config.js';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
@@ -17,7 +17,8 @@ import SendIcon from '@mui/icons-material/Send';
 import ForumIcon from '@mui/icons-material/Forum';
 import PersonIcon from '@mui/icons-material/Person';
 import PublicIcon from '@mui/icons-material/Public';
-import { gold, goldLight, goldDark, goldGradientText } from '../theme';
+import StarIcon from '@mui/icons-material/Star';
+import { gold, goldLight, goldDark, crimson, goldGradientText } from '../theme';
 
 const inputSx = {
   '& .MuiOutlinedInput-root': {
@@ -196,41 +197,64 @@ function Reviews() {
                       elevation={0}
                       sx={{
                         p: 3,
-                        background: `linear-gradient(145deg, ${alpha('#1A1215', 0.7)} 0%, ${alpha('#0D0810', 0.8)} 100%)`,
+                        background: `linear-gradient(145deg, ${alpha('#1A1215', 0.75)} 0%, ${alpha('#0D0810', 0.85)} 100%)`,
                         border: `1px solid ${alpha(gold, 0.1)}`,
-                        borderRadius: '10px',
-                        transition: 'all 0.35s ease',
+                        borderRadius: '12px',
+                        transition: 'all 0.4s cubic-bezier(0.4,0,0.2,1)',
                         position: 'relative',
+                        overflow: 'hidden',
                         '&:hover': {
-                          border: `1px solid ${alpha(gold, 0.28)}`,
-                          boxShadow: `0 8px 24px ${alpha('#000', 0.4)}, 0 0 16px ${alpha(gold, 0.06)}`,
-                          transform: 'translateY(-3px)',
+                          border: `1px solid ${alpha(gold, 0.3)}`,
+                          boxShadow: `0 12px 32px ${alpha('#000', 0.5)}, 0 0 20px ${alpha(gold, 0.07)}`,
+                          transform: 'translateY(-4px)',
+                          '&::after': { opacity: 1 },
                         },
                         '&::before': {
-                          content: '""',
-                          position: 'absolute',
-                          top: 0,
-                          left: 0,
-                          right: 0,
-                          height: '2px',
-                          borderRadius: '10px 10px 0 0',
-                          background: `linear-gradient(90deg, transparent, ${alpha(gold, 0.4)}, transparent)`,
+                          content: '""', position: 'absolute', top: 0, left: 0, right: 0,
+                          height: '2px', borderRadius: '12px 12px 0 0',
+                          background: `linear-gradient(90deg, transparent, ${alpha(gold, 0.5)}, transparent)`,
+                        },
+                        '&::after': {
+                          content: '""', position: 'absolute', inset: 0,
+                          background: `radial-gradient(ellipse at 80% 20%, ${alpha(gold, 0.035)} 0%, transparent 60%)`,
+                          opacity: 0, transition: 'opacity 0.4s ease', pointerEvents: 'none',
                         },
                       }}
                     >
-                      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1.5 }}>
-                        <Typography sx={{ fontFamily: '"Playfair Display", serif', fontWeight: 600, fontSize: '0.9rem', color: goldLight }}>
-                          {message.fullName}
-                        </Typography>
-                        <Typography sx={{ fontFamily: '"Lato", sans-serif', fontWeight: 300, fontSize: '0.75rem', color: alpha(gold, 0.55), display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                          <PublicIcon sx={{ fontSize: '0.8rem' }} />
-                          {message.email}
-                        </Typography>
+                      {/* Large decorative quote */}
+                      <Typography aria-hidden sx={{
+                        position: 'absolute', top: -6, left: 10,
+                        fontFamily: '"Playfair Display", serif',
+                        fontSize: '4.5rem', lineHeight: 1,
+                        color: alpha(gold, 0.05), userSelect: 'none', pointerEvents: 'none',
+                      }}>
+                        "
+                      </Typography>
+
+                      {/* Stars */}
+                      <Box sx={{ display: 'flex', gap: 0.3, mb: 1.5 }}>
+                        {[...Array(5)].map((_, i) => (
+                          <StarIcon key={i} sx={{ fontSize: '0.85rem', color: alpha(gold, 0.75) }} />
+                        ))}
                       </Box>
-                      <Divider sx={{ borderColor: alpha(gold, 0.1), mb: 1.5 }} />
-                      <Typography sx={{ fontFamily: '"Lato", sans-serif', fontWeight: 300, fontSize: '0.85rem', color: alpha(goldLight, 0.6), lineHeight: 1.7, fontStyle: 'italic' }}>
+
+                      <Typography sx={{ fontFamily: '"Lato", sans-serif', fontWeight: 300, fontSize: '0.88rem', color: alpha(goldLight, 0.68), lineHeight: 1.75, fontStyle: 'italic', mb: 2, position: 'relative', zIndex: 1 }}>
                         "{message.msg}"
                       </Typography>
+
+                      <Divider sx={{ borderColor: alpha(gold, 0.08), mb: 1.5 }} />
+
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Typography sx={{ fontFamily: '"Playfair Display", serif', fontWeight: 600, fontSize: '0.88rem', color: goldLight }}>
+                          {message.fullName}
+                        </Typography>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                          <PublicIcon sx={{ fontSize: '0.75rem', color: alpha(gold, 0.5) }} />
+                          <Typography sx={{ fontFamily: '"Cinzel", serif', fontSize: '0.62rem', letterSpacing: '0.08em', color: alpha(gold, 0.5) }}>
+                            {message.email}
+                          </Typography>
+                        </Box>
+                      </Box>
                     </Paper>
                   </Grid>
                 ))}

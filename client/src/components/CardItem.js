@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { alpha } from '@mui/material/styles';
-import { gold, goldLight, goldDark } from '../theme';
+import { gold, goldDark } from '../theme';
 
 export default function CardItem({ src, text, label, path }) {
   return (
@@ -14,13 +14,14 @@ export default function CardItem({ src, text, label, path }) {
         display: 'block', textDecoration: 'none',
         height: '100%', position: 'relative',
         borderRadius: '10px', overflow: 'hidden',
-        border: `1px solid ${alpha(gold, 0.12)}`,
-        background: '#0D0A10',
+        border: `1px solid ${alpha(gold, 0.25)}`,
+        background: '#FFFFFF',
         transition: 'all 0.45s cubic-bezier(0.4,0,0.2,1)',
         cursor: 'pointer',
+        boxShadow: `0 2px 16px ${alpha('#8A6107', 0.08)}`,
         '&:hover': {
-          border: `1px solid ${alpha(gold, 0.38)}`,
-          boxShadow: `0 24px 60px ${alpha('#000', 0.75)}, 0 0 36px ${alpha(gold, 0.1)}`,
+          border: `1px solid ${alpha(gold, 0.42)}`,
+          boxShadow: `0 24px 60px ${alpha('#8A6107', 0.2)}, 0 0 36px ${alpha(gold, 0.12)}`,
           transform: 'translateY(-8px)',
           '& .ci-img': { transform: 'scale(1.09)', filter: 'brightness(0.65) saturate(1.15)' },
           '& .ci-overlay': { opacity: 1 },
@@ -48,8 +49,8 @@ export default function CardItem({ src, text, label, path }) {
         {/* Gradient overlay */}
         <Box className="ci-overlay" sx={{
           position: 'absolute', inset: 0,
-          background: `linear-gradient(to top, ${alpha('#000', 0.85)} 0%, ${alpha('#000', 0.2)} 50%, transparent 100%)`,
-          opacity: 0.45,
+          background: `linear-gradient(to top, ${alpha('#000', 0.78)} 0%, ${alpha('#000', 0.18)} 50%, transparent 100%)`,
+          opacity: 0.4,
           transition: 'opacity 0.4s ease',
         }} />
 
@@ -59,16 +60,16 @@ export default function CardItem({ src, text, label, path }) {
           sx={{
             position: 'absolute', top: 12, left: 12,
             px: 1.5, py: 0.5,
-            background: alpha('#07050A', 0.8),
+            background: alpha('#2C1810', 0.82),
             backdropFilter: 'blur(12px)',
-            border: `1px solid ${alpha(gold, 0.35)}`,
+            border: `1px solid ${alpha(gold, 0.4)}`,
             borderRadius: '4px',
             fontFamily: '"Cinzel", serif',
             fontSize: '0.55rem',
             letterSpacing: '0.14em',
             fontWeight: 600,
             color: gold,
-            opacity: 0.85,
+            opacity: 0.9,
             transition: 'opacity 0.35s ease',
           }}
         >
@@ -87,13 +88,13 @@ export default function CardItem({ src, text, label, path }) {
       {/* Text */}
       <Box sx={{
         px: 2.5, pt: 2, pb: 2.5,
-        background: `linear-gradient(180deg, ${alpha('#16111A', 0.97)} 0%, ${alpha('#0F0B12', 0.99)} 100%)`,
+        background: '#FFFFFF',
       }}>
         <Typography sx={{
           fontFamily: '"Playfair Display", serif',
           fontWeight: 400, fontStyle: 'italic',
           fontSize: '0.88rem',
-          color: alpha(goldLight, 0.78),
+          color: '#5D3E2C',
           lineHeight: 1.65,
           mb: 1.5,
         }}>
@@ -106,12 +107,12 @@ export default function CardItem({ src, text, label, path }) {
           fontFamily: '"Cinzel", serif',
           fontSize: '0.62rem', letterSpacing: '0.18em',
           textTransform: 'uppercase',
-          color: gold,
+          color: goldDark,
           opacity: 0, transform: 'translateY(6px)',
           transition: 'all 0.35s ease 0.05s',
         }}>
           Explore
-          <Box sx={{ flex: 1, maxWidth: 40, height: '1px', background: `linear-gradient(90deg, ${alpha(gold, 0.7)}, transparent)` }} />
+          <Box sx={{ flex: 1, maxWidth: 40, height: '1px', background: `linear-gradient(90deg, ${alpha(goldDark, 0.7)}, transparent)` }} />
           →
         </Box>
       </Box>

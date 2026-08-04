@@ -9,15 +9,14 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid2';
-import Chip from '@mui/material/Chip';
-import Alert from '@mui/material/Alert';
 import Tooltip from '@mui/material/Tooltip';
+import Alert from '@mui/material/Alert';
 import Collapse from '@mui/material/Collapse';
 import { alpha } from '@mui/material/styles';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import { gold, goldLight, goldDark, crimson, darkBg, goldGradientText } from '../../theme';
+import { gold, goldDark, crimson, goldGradientText, textSecondary, textMuted } from '../../theme';
 
 const ProductPage = () => {
   const { t } = useTranslation();
@@ -95,7 +94,7 @@ const ProductPage = () => {
   if (error || !product) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
-        <Typography sx={{ color: alpha(goldLight, 0.4), fontFamily: '"Playfair Display", serif', fontStyle: 'italic' }}>
+        <Typography sx={{ color: textMuted, fontFamily: '"Playfair Display", serif', fontStyle: 'italic' }}>
           {error || t('product.error.productNotFound')}
         </Typography>
       </Box>
@@ -107,7 +106,7 @@ const ProductPage = () => {
   const allImages = [img, ...(additionalImageUrls || [])];
 
   return (
-    <Box sx={{ minHeight: '80vh', py: { xs: 6, md: 10 }, px: { xs: 2, sm: 3 } }}>
+    <Box sx={{ minHeight: '80vh', bgcolor: '#F7F2E8', py: { xs: 6, md: 10 }, px: { xs: 2, sm: 3 } }}>
       <Container maxWidth="lg">
         <Grid container spacing={{ xs: 4, md: 6 }} alignItems="flex-start">
           {/* Image Panel */}
@@ -116,11 +115,13 @@ const ProductPage = () => {
             <Box
               sx={{
                 position: 'relative',
-                border: `1px solid ${alpha(gold, 0.15)}`,
+                background: '#FFFFFF',
+                border: `1px solid ${alpha(gold, 0.25)}`,
                 borderRadius: '10px',
                 overflow: 'hidden',
                 cursor: 'crosshair',
                 mb: 2,
+                boxShadow: `0 4px 20px ${alpha(goldDark, 0.1)}`,
                 '&:hover .zoom-lens': { opacity: 1 },
               }}
               onMouseMove={handleMouseMove}
@@ -178,10 +179,10 @@ const ProductPage = () => {
                     cursor: 'pointer',
                     border: currentImage === index
                       ? `2px solid ${gold}`
-                      : `1px solid ${alpha(gold, 0.15)}`,
-                    opacity: currentImage === index ? 1 : 0.6,
+                      : `1px solid ${alpha(gold, 0.2)}`,
+                    opacity: currentImage === index ? 1 : 0.65,
                     transition: 'all 0.3s ease',
-                    filter: currentImage === index ? 'none' : 'grayscale(20%)',
+                    filter: currentImage === index ? 'none' : 'grayscale(15%)',
                     '&:hover': { opacity: 1, borderColor: alpha(gold, 0.5) },
                   }}
                 />
@@ -194,9 +195,10 @@ const ProductPage = () => {
             <Box
               sx={{
                 p: { xs: 3, md: 4 },
-                background: `linear-gradient(145deg, ${alpha('#1A1215', 0.85)} 0%, ${alpha('#0D0810', 0.9)} 100%)`,
-                border: `1px solid ${alpha(gold, 0.15)}`,
+                background: '#FFFFFF',
+                border: `1px solid ${alpha(gold, 0.2)}`,
                 borderRadius: '12px',
+                boxShadow: `0 4px 24px ${alpha(goldDark, 0.1)}`,
                 position: 'relative',
                 '&::before': {
                   content: '""',
@@ -228,7 +230,7 @@ const ProductPage = () => {
                   fontFamily: '"Cinzel", serif',
                   fontWeight: 700,
                   fontSize: '1.6rem',
-                  color: gold,
+                  color: goldDark,
                   mb: 3,
                   letterSpacing: '0.04em',
                 }}
@@ -244,14 +246,14 @@ const ProductPage = () => {
                       fontFamily: '"Cinzel", serif',
                       fontSize: '0.7rem',
                       letterSpacing: '0.2em',
-                      color: alpha(gold, 0.7),
+                      color: goldDark,
                       textTransform: 'uppercase',
                       mb: 1.5,
                     }}
                   >
                     Color
                     {selectedColor && (
-                      <Box component="span" sx={{ ml: 1, color: goldLight, fontFamily: '"Lato", sans-serif', fontSize: '0.8rem', letterSpacing: 'normal', textTransform: 'none' }}>
+                      <Box component="span" sx={{ ml: 1, color: '#2C1810', fontFamily: '"Lato", sans-serif', fontSize: '0.8rem', letterSpacing: 'normal', textTransform: 'none' }}>
                         — {selectedColor}
                       </Box>
                     )}
@@ -269,7 +271,7 @@ const ProductPage = () => {
                             cursor: 'pointer',
                             border: selectedColor === colorValue
                               ? `3px solid ${gold}`
-                              : `2px solid ${alpha('#fff', 0.2)}`,
+                              : `2px solid ${alpha(goldDark, 0.2)}`,
                             boxShadow: selectedColor === colorValue
                               ? `0 0 12px ${alpha(colorValue, 0.6)}, 0 0 0 2px ${alpha(gold, 0.3)}`
                               : 'none',
@@ -288,7 +290,7 @@ const ProductPage = () => {
                   fontFamily: '"Lato", sans-serif',
                   fontWeight: 300,
                   fontSize: '0.9rem',
-                  color: alpha(goldLight, 0.6),
+                  color: textSecondary,
                   lineHeight: 1.8,
                   mb: 3,
                 }}
@@ -305,19 +307,19 @@ const ProductPage = () => {
                   mb: 3,
                   p: 1.5,
                   borderRadius: '6px',
-                  backgroundColor: alpha(gold, 0.05),
-                  border: `1px solid ${alpha(gold, 0.1)}`,
+                  backgroundColor: alpha(gold, 0.07),
+                  border: `1px solid ${alpha(gold, 0.18)}`,
                 }}
               >
-                <LocalShippingIcon sx={{ fontSize: '1rem', color: alpha(gold, 0.6) }} />
-                <Typography sx={{ fontFamily: '"Lato", sans-serif', fontWeight: 300, fontSize: '0.78rem', color: alpha(goldLight, 0.5) }}>
+                <LocalShippingIcon sx={{ fontSize: '1rem', color: alpha(goldDark, 0.6) }} />
+                <Typography sx={{ fontFamily: '"Lato", sans-serif', fontWeight: 300, fontSize: '0.78rem', color: textMuted }}>
                   {t('product.note.shippingFee')}
                 </Typography>
               </Box>
 
               {/* Alerts */}
               <Collapse in={!!colorSelectionMessage}>
-                <Alert severity="warning" sx={{ mb: 2, backgroundColor: alpha('#B8860B', 0.15), color: goldLight, border: `1px solid ${alpha(gold, 0.3)}`, '& .MuiAlert-icon': { color: gold } }}>
+                <Alert severity="warning" sx={{ mb: 2, backgroundColor: alpha('#B8860B', 0.08), color: '#5D3E2C', border: `1px solid ${alpha(gold, 0.35)}`, '& .MuiAlert-icon': { color: goldDark } }}>
                   {colorSelectionMessage}
                 </Alert>
               </Collapse>
@@ -326,7 +328,7 @@ const ProductPage = () => {
                 <Alert
                   icon={<CheckCircleIcon />}
                   severity="success"
-                  sx={{ mb: 2, backgroundColor: alpha('#2E7D32', 0.15), color: goldLight, border: `1px solid ${alpha('#2E7D32', 0.4)}`, '& .MuiAlert-icon': { color: '#66BB6A' } }}
+                  sx={{ mb: 2, backgroundColor: alpha('#2E7D32', 0.08), color: '#1C1208', border: `1px solid ${alpha('#2E7D32', 0.35)}`, '& .MuiAlert-icon': { color: '#2E7D32' } }}
                 >
                   {t('product.message.productAdded')}
                 </Alert>
@@ -339,14 +341,14 @@ const ProductPage = () => {
                 onClick={handleAddToCart}
                 sx={{
                   background: `linear-gradient(135deg, ${gold} 0%, ${goldDark} 100%)`,
-                  color: '#0a0608',
+                  color: '#1C1208',
                   py: 1.8,
                   fontFamily: '"Cinzel", serif',
                   fontSize: '0.78rem',
                   letterSpacing: '0.18em',
                   boxShadow: `0 4px 20px ${alpha(gold, 0.35)}`,
                   '&:hover': {
-                    background: `linear-gradient(135deg, ${goldLight} 0%, ${gold} 100%)`,
+                    background: `linear-gradient(135deg, #D4B86A 0%, ${gold} 100%)`,
                     boxShadow: `0 8px 30px ${alpha(gold, 0.55)}`,
                     transform: 'translateY(-2px)',
                   },
