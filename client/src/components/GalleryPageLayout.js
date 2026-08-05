@@ -14,7 +14,13 @@ import PlaceIcon from '@mui/icons-material/Place';
 import { SiGooglemaps } from 'react-icons/si';
 import { gold, goldLight, goldDark, crimson, goldGradientText } from '../theme';
 
-export default function GalleryPageLayout({ title, subtitle, mapsUrl, images, contentSections }) {
+// Normalize image paths so they resolve from the site root regardless of the
+// current route (a bare "images/..." would otherwise resolve relative to /gallery/*).
+const toRootPath = (src) =>
+  /^(https?:)?\/\//.test(src) || src.startsWith('/') ? src : `/${src}`;
+
+export default function GalleryPageLayout({ title, subtitle, mapsUrl, images: rawImages, contentSections }) {
+  const images = (rawImages || []).map(toRootPath);
   const [selectedIdx, setSelectedIdx] = useState(null);
   const [touchStartX, setTouchStartX] = useState(null);
   const [touchEndX, setTouchEndX] = useState(null);

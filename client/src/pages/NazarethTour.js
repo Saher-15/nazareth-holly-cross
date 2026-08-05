@@ -11,11 +11,11 @@ import { useTranslation } from 'react-i18next';
 import { gold, goldDark, crimson, textSecondary, goldGradientText } from '../theme';
 
 const SITES = [
-  { title: 'Latin Church',         subtitle: 'Basilica of the Annunciation', path: '/gallery/latin',    img: '/images/latinChurch.jpg',   icon: '⛪' },
-  { title: 'Greek Orthodox Church', subtitle: 'Church of the Annunciation', path: '/gallery/greek',    img: '/images/greekChurch.jpg',   icon: '⛪' },
-  { title: "Mary's Well",           subtitle: 'The Sacred Spring',           path: '/gallery/maryswell', img: '/images/maryswell.jpg',     icon: '💧' },
-  { title: 'Old City',              subtitle: 'Historic Heart of Nazareth',  path: '/gallery/old-city',  img: '/images/oldcity.jpg',       icon: '🏛' },
-  { title: 'Nazareth',              subtitle: 'The City of Jesus',           path: '/gallery/nazareth',  img: '/images/nazareth.jpg',      icon: '🌿' },
+  { title: 'Latin Church',         subtitle: 'Basilica of the Annunciation', path: '/gallery/latin',    img: '/images/latin/latin1.jpg',   icon: '⛪' },
+  { title: 'Greek Orthodox Church', subtitle: 'Church of the Annunciation', path: '/gallery/greek',    img: '/images/greek/greek1.jpg',   icon: '⛪' },
+  { title: "Mary's Well",           subtitle: 'The Sacred Spring',           path: '/gallery/maryswell', img: '/images/mary/mary1.jpg',     icon: '💧' },
+  { title: 'Old City',              subtitle: 'Historic Heart of Nazareth',  path: '/gallery/old-city',  img: '/images/old/old1.jpg',       icon: '🏛' },
+  { title: 'Nazareth',              subtitle: 'The City of Jesus',           path: '/gallery/nazareth',  img: '/images/nazareth/nazareth1.webp',      icon: '🌿' },
 ];
 
 export default function NazarethTour() {
@@ -52,7 +52,7 @@ export default function NazarethTour() {
           component="video"
           src="https://firebasestorage.googleapis.com/v0/b/nazareth-holy-cross.appspot.com/o/videos%2Fvideo-7.mp4?alt=media&token=b0173721-21a1-46d0-b15b-f2001b912e72"
           controls
-          poster="/images/nazareth.jpg"
+          poster="/images/nazareth/nazareth1.webp"
           sx={{
             width: '100%', borderRadius: '12px',
             border: `1px solid ${alpha(gold, 0.2)}`,

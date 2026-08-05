@@ -64,10 +64,10 @@ const FEATURES = [
 
 // ─── Gallery tiles ────────────────────────────────────────────────────────────
 const GALLERY_TILES = [
-  { label: 'Latin Church',  path: '/gallery/latin',     img: '/images/latinChurch.jpg' },
-  { label: "Mary's Well",   path: '/gallery/maryswell',  img: '/images/maryswell.jpg' },
-  { label: 'Old City',      path: '/gallery/old-city',   img: '/images/oldcity.jpg' },
-  { label: 'Nazareth',      path: '/gallery/nazareth',   img: '/images/nazareth.jpg' },
+  { label: 'Latin Church',  path: '/gallery/latin',     img: '/images/latin/latin1.jpg' },
+  { label: "Mary's Well",   path: '/gallery/maryswell',  img: '/images/mary/mary1.jpg' },
+  { label: 'Old City',      path: '/gallery/old-city',   img: '/images/old/old1.jpg' },
+  { label: 'Nazareth',      path: '/gallery/nazareth',   img: '/images/nazareth/nazareth1.webp' },
 ];
 
 export default function Home() {
@@ -183,7 +183,7 @@ export default function Home() {
               >
                 <Box
                   component="img"
-                  src="/images/nazareth.jpg"
+                  src="/images/nazareth/nazareth1.webp"
                   alt="Nazareth"
                   sx={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.8 }}
                   onError={(e) => { e.target.style.display = 'none'; }}

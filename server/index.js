@@ -14,6 +14,7 @@ import routerLive from './route/liveRoute.js';
 import routerAuth from './route/authRoute.js';
 import routerAdmin from './route/adminRoute.js';
 import routerPrayer from './route/prayerRoute.js';
+import routerReview from './route/reviewRoute.js';
 import { globalLimiter } from './utils/security.js';
 
 dotenv.config();
@@ -29,9 +30,15 @@ if (missing.length) {
 const app = express();
 app.set('trust proxy', 1);
 
-mongoose.connect(process.env.DATABASEURL)
-  .then(() => console.log('DB connected'))
-  .catch(err => { console.error('DB failed to connect:', err); process.exit(1); });
+function connectDB() {
+  mongoose.connect(process.env.DATABASEURL, { serverSelectionTimeoutMS: 10000 })
+    .then(() => console.log('DB connected'))
+    .catch(err => {
+      console.error('DB failed to connect, retrying in 10s:', err.message);
+      setTimeout(connectDB, 10000);
+    });
+}
+connectDB();
 
 if (process.env.NODE_ENV !== 'production') {
   app.use(morgan('dev'));
@@ -72,6 +79,7 @@ app.use('/contact', routerContact);
 app.use('/live', routerLive);
 app.use('/admin', routerAdmin);
 app.use('/prayer', routerPrayer);
+app.use('/review', routerReview);
 
 app.get('/health', (req, res) => res.json({ status: 'ok', timestamp: new Date().toISOString() }));
 
