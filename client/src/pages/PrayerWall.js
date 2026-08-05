@@ -41,7 +41,7 @@ export default function PrayerWall() {
     setLoading(true);
     try {
       const { data } = await api.get('/prayer/getPrayers');
-      setPrayers(Array.isArray(data) ? data : []);
+      setPrayers(Array.isArray(data) ? data : data.prayers || []);
     } catch { setPrayers([]); } finally { setLoading(false); }
   };
 

@@ -37,7 +37,7 @@ export default function Shop() {
       setLoading(true);
       try {
         const { data } = await api.get(`/product/getNProducts?page=1&size=200`);
-        setAllProducts(Array.isArray(data) ? data : data.products || []);
+        setAllProducts(Array.isArray(data) ? data : data.data || data.products || []);
       } catch { setAllProducts([]); } finally { setLoading(false); }
     };
     fetchProducts();

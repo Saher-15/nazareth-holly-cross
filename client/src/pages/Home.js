@@ -76,7 +76,7 @@ export default function Home() {
 
   useEffect(() => {
     api.get('/product/getNProducts?page=1&size=6')
-      .then(({ data }) => setProducts(Array.isArray(data) ? data : data.products || []))
+      .then(({ data }) => setProducts(Array.isArray(data) ? data : data.data || data.products || []))
       .catch(() => setProducts([]))
       .finally(() => setLoadingPr(false));
   }, []);
