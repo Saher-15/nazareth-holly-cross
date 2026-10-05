@@ -630,5 +630,648 @@
       "thanksTitle": "Vielen Dank für Ihre Spende!",
       "thanksText": "Ihre Großzügigkeit hilft, das Licht Nazareths für Pilger in aller Welt leuchten zu lassen."
     }
+  },
+  "pilgrim": {
+    "nav": {
+      "plan": "Pilgerplaner",
+      "visit": "Besucherführer",
+      "gospel": "Nazareth in den Evangelien",
+      "gallery": "Fotogalerie",
+      "prayers": "Gebetswand",
+      "contact": "Kontakt",
+      "faq": "FAQ",
+      "shipping": "Versand & Rückgabe",
+      "privacy": "Datenschutzerklärung",
+      "terms": "Nutzungsbedingungen",
+      "groupPlan": "Planen & entdecken",
+      "groupHelp": "Hilfe & Rechtliches"
+    },
+    "common": {
+      "moreEyebrow": "Die Reise geht weiter",
+      "moreTitle": "Wohin als Nächstes?",
+      "open": "Öffnen"
+    },
+    "plan": {
+      "meta": {
+        "title": "Planen Sie Ihre Pilgerreise nach Nazareth",
+        "description": "Erstellen Sie in einer Minute einen Tag-für-Tag-Plan für die heiligen Stätten Nazareths. Wählen Sie 1 bis 4 Tage, Ihre Interessen und Ihr Tempo und drucken, teilen oder speichern Sie ihn im Kalender."
+      },
+      "hero": {
+        "eyebrow": "Pilgerplaner",
+        "title": "Planen Sie Ihre Pilgerreise",
+        "lead": "Sagen Sie uns, wie viele Tage Sie haben und was Sie bewegt. Wir stellen einen Rundgang durch die heiligen Stätten Nazareths zusammen, Tag für Tag, mit den Gehzeiten zwischen den Stationen."
+      },
+      "form": {
+        "title": "Ihre Pilgerreise",
+        "days": "Wie viele Tage?",
+        "dayCount": "{count, plural, one {# Tag} other {# Tage}}",
+        "interests": "Was suchen Sie?",
+        "interestsHint": "Wählen Sie beliebig viele oder keines für einen ausgewogenen Rundgang.",
+        "interest": {
+          "gospel": "Stätten der Evangelien",
+          "churches": "Kirchen",
+          "markets": "Märkte und Kunsthandwerk",
+          "food": "Essen und Kaffee"
+        },
+        "pace": "Tempo",
+        "paces": {
+          "relaxed": "Gemütlich",
+          "balanced": "Ausgewogen",
+          "full": "Dicht"
+        },
+        "paceHint": "{count, plural, one {# Station pro Tag} other {# Stationen pro Tag}}",
+        "start": "Erster Tag (für Ihren Kalender)",
+        "startHint": "Optional. Ohne Datum beginnt die Kalenderdatei morgen."
+      },
+      "result": {
+        "title": "Ihre Route",
+        "summary": "{days, plural, one {# Tag} other {# Tage}} · {stops, plural, one {# Station} other {# Stationen}} · etwa {minutes} Min. zu Fuß",
+        "day": "Tag {n}",
+        "walk": "{minutes} Min. zu Fuß",
+        "until": "bis {time}"
+      },
+      "lunch": "Mittagspause",
+      "lunchHint": "Probieren Sie einheimische Gerichte in den Gassen der Altstadt.",
+      "tips": {
+        "latin": "Während Messen und Gottesdiensten kann die Besichtigung unterbrochen sein, und an Festtagen ändern sich die Zeiten. Prüfen Sie die aktuellen Zeiten für Ihr Datum.",
+        "greek": "Die Öffnungszeiten richten sich nach den Gottesdiensten und können sich ohne Vorankündigung ändern. Fragen Sie am Eingang, ob die Kirche geöffnet ist.",
+        "maryswell": "Ganz in der Nähe der griechisch-orthodoxen Kirche, die beiden Besuche lassen sich gut verbinden. Die Zeiten schwanken; prüfen Sie, was am Tag Ihres Besuchs geöffnet ist.",
+        "oldcity": "Die Geschäfte haben eigene Öffnungszeiten, einige schließen freitags oder sonntags. Am Vormittag ist der Markt am lebhaftesten.",
+        "city": "Am Vormittag sind die Straßen am belebtesten. Planen Sie Zeit für einen Kaffee und einen Bummel ein."
+      },
+      "caveat": {
+        "title": "Vor der Reise",
+        "hours": "Die Öffnungszeiten der Kirchen ändern sich mit Gottesdiensten, Festtagen und Feiertagen, manchmal ohne Vorankündigung. Bitte immer vor der Reise prüfen.",
+        "dress": "In Kirchen wird angemessene Kleidung erwartet: Schultern und Knie bedecken.",
+        "walking": "Die Gehzeiten sind Schätzungen zwischen den Stätten; Nazareths Straßen sind stellenweise steil, planen Sie also Reserve ein."
+      },
+      "actions": {
+        "calendar": "Zum Kalender hinzufügen",
+        "share": "Link teilen",
+        "print": "Drucken"
+      },
+      "shareTitle": "Meine Pilgerreise nach Nazareth",
+      "copied": "Link in die Zwischenablage kopiert.",
+      "calendarName": "Pilgerreise nach Nazareth",
+      "calendarLocation": "Nazareth, Israel",
+      "calendarDone": "Kalenderdatei heruntergeladen. Öffnen Sie sie, um die Termine hinzuzufügen.",
+      "walking": {
+        "title": "Gehzeiten zwischen den heiligen Stätten",
+        "lead": "Ungefähre Minuten zu Fuß, dieselben Werte, die der Planer verwendet.",
+        "caption": "Gehzeit in Minuten zwischen je zwei Stätten",
+        "corner": "Von (Zeilen) nach (Spalten)",
+        "minutes": "{minutes} Min."
+      }
+    },
+    "visit": {
+      "meta": {
+        "title": "Besucherführer für Nazareth",
+        "description": "Alles für Ihren Besuch in Nazareth: Anreise von Haifa, Tel Aviv und dem Flughafen Ben Gurion, Kleiderordnung, beste Reisezeit, Sicherheit, Geld und das Wetter Monat für Monat."
+      },
+      "hero": {
+        "eyebrow": "Besucherführer",
+        "title": "Nazareth besuchen",
+        "lead": "Praktische Antworten für Pilger und Reisende: Anreise, Kleidung, beste Zeit und was Sie erwartet."
+      },
+      "getting": {
+        "eyebrow": "Anreise",
+        "title": "So kommen Sie nach Nazareth",
+        "lead": "Nazareth liegt in den Hügeln Untergaliläas im Norden Israels, von der Küste aus leicht zu erreichen.",
+        "distance": "etwa {km} km auf der Straße",
+        "routes": {
+          "haifa": {
+            "title": "Ab Haifa",
+            "text": "Der einfachste Weg: etwa 40 Minuten mit Auto oder Taxi oder etwa eine Stunde mit dem Bus."
+          },
+          "telaviv": {
+            "title": "Ab Tel Aviv",
+            "text": "Etwa zwei Stunden mit dem Auto. Busse und Züge fahren in den Norden; mit öffentlichen Verkehrsmitteln fährt man meist bis Haifa oder Afula und steigt dort in einen Bus nach Nazareth um."
+          },
+          "airport": {
+            "title": "Ab Flughafen Ben Gurion",
+            "text": "Etwa zwei Stunden mit Auto oder Taxi. Mit öffentlichen Verkehrsmitteln nehmen Sie den Zug nach Haifa oder Tel Aviv und fahren mit dem Bus weiter; am einfachsten ist ein vorab gebuchter Shuttle oder ein Mietwagen."
+          }
+        },
+        "local": {
+          "title": "Wenn Sie in Nazareth sind",
+          "text": "Alle heiligen Stätten liegen etwa 15 Gehminuten voneinander entfernt, Sie parken also einmal und erkunden alles zu Fuß. Parkplätze im Zentrum sind knapp; kommen Sie früh oder nutzen Sie einen Parkplatz am Rand der Altstadt."
+        }
+      },
+      "essentials": {
+        "eyebrow": "Gut zu wissen",
+        "title": "Vor Ihrer Ankunft",
+        "items": {
+          "dress": {
+            "title": "Kleidung",
+            "text": "In den Kirchen sollen Frauen wie Männer Schultern und Knie bedecken. Ein leichtes Tuch oder ein Schal in der Tasche genügt. Tragen Sie bequeme Schuhe: Die alten Gassen sind steil und uneben."
+          },
+          "etiquette": {
+            "title": "Verhalten",
+            "text": "Sprechen Sie in den Kirchen leise und stellen Sie das Handy stumm. Nehmen Sie drinnen den Hut ab. Fotografieren ist meist erlaubt, aber nicht während der Gottesdienste; fragen Sie, bevor Sie Menschen fotografieren."
+          },
+          "seasons": {
+            "title": "Beste Reisezeit",
+            "text": "Frühling (März bis Mai) und Herbst (Ende September bis November) sind mild und am angenehmsten zum Laufen. Der Sommer ist heiß und trocken, der Winter kühl und regnerisch. Ostern, Weihnachten und das Fest der Verkündigung am 25. März sind die belebtesten und bewegendsten Zeiten."
+          },
+          "safety": {
+            "title": "Sicherheit",
+            "text": "Nazareth ist in der Regel einladend und ruhig, aber die Lage in der Region kann sich ändern. Prüfen Sie vor der Reise die Reisehinweise Ihrer Regierung, verfolgen Sie die lokalen Nachrichten und halten Sie Wertsachen im Gedränge nah am Körper."
+          },
+          "money": {
+            "title": "Geld",
+            "text": "Die Währung ist der Neue Israelische Schekel (ILS, ₪). Karten werden weitgehend akzeptiert und im Zentrum gibt es Geldautomaten; für Marktstände und kleine Cafés sollten Sie etwas Bargeld dabeihaben. Höfliches Feilschen gehört zum Einkauf auf dem Markt."
+          },
+          "language": {
+            "title": "Sprache",
+            "text": "Man spricht Arabisch und Hebräisch, und an den Orten, die Pilger besuchen, finden Sie Englisch und oft weitere Sprachen. Ein paar Worte Arabisch kommen immer herzlich an."
+          }
+        }
+      },
+      "climate": {
+        "eyebrow": "Wetter",
+        "title": "Wetter Monat für Monat",
+        "lead": "Typische Bedingungen in Nazareth: warme, trockene Sommer und kühle, nasse Winter.",
+        "caption": "Durchschnittliche Tagestemperaturen und Niederschlag pro Monat",
+        "month": "Monat",
+        "high": "Höchstwert",
+        "low": "Tiefstwert",
+        "rain": "Regen",
+        "season": "Besuch",
+        "seasons": {
+          "best": "Ideal",
+          "good": "Gut",
+          "hot": "Heiß",
+          "cool": "Kühl"
+        },
+        "mm": "{mm} mm",
+        "note": "Gerundete langjährige Durchschnittswerte, nur zur Orientierung. Das Wetter schwankt von Jahr zu Jahr; prüfen Sie vor der Reise die Vorhersage."
+      },
+      "faq": {
+        "title": "Fragen von Besuchern",
+        "free": {
+          "q": "Ist der Eintritt in die Kirchen frei?",
+          "a": "Der Eintritt in die wichtigsten Kirchen ist in der Regel frei, Spenden sind willkommen. Jede Kirche legt ihre Zeiten und Regeln selbst fest, prüfen Sie diese also vor Ihrem Besuch."
+        },
+        "dress": {
+          "q": "Was soll ich anziehen?",
+          "a": "Angemessene Kleidung, die Schultern und Knie bedeckt, und bequeme Schuhe für die steilen Gassen. Im Winter eine leichte Jacke, im Sommer Sonnenschutz."
+        },
+        "days": {
+          "q": "Wie viele Tage brauche ich?",
+          "a": "Die meisten Pilger sehen die wichtigsten heiligen Stätten an einem vollen Tag. Zwei oder drei Tage lassen Zeit für Gebet, den Markt der Altstadt und Ausflüge nach Galiläa."
+        },
+        "safe": {
+          "q": "Ist ein Besuch in Nazareth sicher?",
+          "a": "Nazareth ist in der Regel ruhig und einladend, aber die Lage in der Region kann sich ändern. Prüfen Sie vor und während Ihrer Reise die Reisehinweise Ihrer Regierung und die lokalen Nachrichten."
+        },
+        "season": {
+          "q": "Wann ist die beste Reisezeit?",
+          "a": "Frühling und Herbst sind am angenehmsten. Der Sommer ist heiß, der Winter regnerisch. Ostern, Weihnachten und der 25. März (Verkündigung) sind die belebtesten und bewegendsten Zeiten."
+        }
+      }
+    },
+    "gospel": {
+      "meta": {
+        "title": "Nazareth in den Evangelien",
+        "description": "Lesen Sie die Evangelienstellen über Nazareth, von der Verkündigung bis zu Jesus in der Synagoge, jeweils mit einer kurzen Betrachtung und der heiligen Stätte, die die Erinnerung bewahrt."
+      },
+      "hero": {
+        "eyebrow": "Schrift und Ort",
+        "title": "Nazareth in den Evangelien",
+        "lead": "Acht Stellen, die Nazareth nennen, in der Reihenfolge der Geschichte, jeweils verbunden mit dem Ort, den Sie noch heute besuchen können."
+      },
+      "intro": {
+        "title": "Von der Verkündigung bis „Komm und sieh“",
+        "text": "In den Evangelien erscheint Nazareth als die Stadt der Verkündigung und der verborgenen Jahre Jesu. Lesen Sie eine Stelle, verweilen Sie bei der Betrachtung und folgen Sie dann dem Link zur heiligen Stätte."
+      },
+      "visitSite": "Die heilige Stätte besuchen",
+      "note": "Die Zitate dienen der Besinnung und können leicht von der Bibelübersetzung abweichen, die Sie verwenden. Stellen: Lukas 1, 2 und 4; Matthäus 2; Johannes 1.",
+      "p": {
+        "luke126": {
+          "quote": "Im sechsten Monat wurde der Engel Gabriel von Gott in eine Stadt in Galiläa namens Nazareth gesandt, zu einer Jungfrau, die mit einem Mann namens Josef aus dem Haus David verlobt war. Der Name der Jungfrau war Maria.",
+          "ref": "Lukas 1,26-27",
+          "text": "Die ganze Geschichte beginnt in einer kleinen Stadt in den Hügeln. Wer heute durch Nazareth geht, geht dort, wo das Evangelium beginnt."
+        },
+        "luke130": {
+          "text": "Unter der Verkündigungsbasilika liegt die Grotte, die Christen seit Jahrhunderten als Ort des Hauses Marias verehren und in der man sich an den Gruß des Engels erinnert."
+        },
+        "luke138": {
+          "text": "Die orthodoxe Überlieferung erinnert daran, dass der Engel zum ersten Mal zu Maria sprach, als sie Wasser holen ging, an der Quelle neben der griechisch-orthodoxen Verkündigungskirche. Ihre Antwort ist das Herz des Gebets jedes Pilgers."
+        },
+        "matthew223": {
+          "text": "Nach der Rückkehr aus Ägypten ließ sich Josef mit seiner Familie in Nazareth nieder. Von da an hieß Jesus „Jesus von Nazareth“, und der Name der Stadt ging um die Welt."
+        },
+        "luke240": {
+          "text": "Über die verborgenen Jahre erfahren wir sehr wenig: ein Kind, das in einer gewöhnlichen Stadt aufwächst. Die Gassen und der Markt der Altstadt helfen, sich dieses Alltagsleben vorzustellen."
+        },
+        "luke251": {
+          "quote": "Er ging mit ihnen hinab und kam nach Nazareth und war ihnen untertan. Und seine Mutter behielt alle diese Worte in ihrem Herzen.",
+          "ref": "Lukas 2,51",
+          "text": "Jahrhundertelang war die Quelle von Nazareth der Ort, an dem sich die Stadt jeden Tag versammelte. Am Marienbrunnen können Sie sich die gewöhnliche Arbeit und den stillen Glauben vorstellen, die Maria in ihrem Herzen bewahrte."
+        },
+        "luke416": {
+          "quote": "Er kam nach Nazareth, wo er aufgewachsen war, und ging nach seiner Gewohnheit am Sabbat in die Synagoge und stand auf, um zu lesen.",
+          "ref": "Lukas 4,16",
+          "text": "Jesus kehrte zurück, um in der Stadt zu predigen, in der er aufgewachsen war. Stätten in der Altstadt, darunter eine Kirche, die der Überlieferung nach am Ort der Synagoge steht, erinnern an diesen Tag."
+        },
+        "john146": {
+          "text": "Philippus’ Antwort an Natanael ist die Einladung jeder Pilgerreise: Komm und sieh. Nazareth versteht man bis heute am besten, wenn man durch seine Straßen geht."
+        }
+      }
+    },
+    "prayers": {
+      "meta": {
+        "title": "Gebetswand",
+        "description": "Lesen Sie Gebete von Pilgern aus aller Welt, sagen Sie Amen zu denen, die Sie berühren, und teilen Sie ein eigenes Gebet."
+      },
+      "hero": {
+        "eyebrow": "Gemeinsam beten",
+        "title": "Die Gebetswand",
+        "lead": "Gebete von Pilgern aus aller Welt. Lesen Sie sie, sagen Sie Amen und fügen Sie Ihre eigene Bitte hinzu.",
+        "cta": "Ein Gebet teilen"
+      },
+      "categories": {
+        "all": "Alle",
+        "peace": "Frieden",
+        "health": "Gesundheit",
+        "gratitude": "Dankbarkeit",
+        "family": "Familie",
+        "personal": "Persönlich",
+        "worldPeace": "Weltfrieden"
+      },
+      "wall": {
+        "title": "Gebete",
+        "filter": "Gebete nach Kategorie filtern",
+        "count": "{count, plural, one {# Gebet} other {# Gebete}}",
+        "anonymous": "Ein Pilger",
+        "emptyTitle": "Hier gibt es noch keine Gebete",
+        "emptyText": "Teilen Sie als Erste oder Erster ein Gebet in dieser Kategorie.",
+        "errorTitle": "Die Gebetswand ruht gerade",
+        "errorText": "Wir konnten die Gebete gerade nicht laden. Bitte versuchen Sie es gleich noch einmal.",
+        "retry": "Erneut versuchen",
+        "pages": "Seiten der Gebete",
+        "prev": "Zurück",
+        "next": "Weiter",
+        "pageOf": "Seite {page} von {pages}"
+      },
+      "form": {
+        "title": "Ein Gebet teilen",
+        "intro": "Schreiben Sie eine Bitte um Frieden, Heilung, Dank oder für Ihre Familie. Sie erscheint an der Wand.",
+        "name": "Ihr Name",
+        "country": "Woher kommen Sie?",
+        "category": "Kategorie",
+        "prayer": "Ihr Gebet",
+        "counter": "{count} / {max}",
+        "public": "Gebete sind öffentlich. Bitte geben Sie keine Telefonnummern, Adressen oder Weblinks an.",
+        "submit": "Mein Gebet teilen",
+        "sending": "Wird gesendet…",
+        "sent": "Danke. Ihr Gebet wurde geteilt.",
+        "sentText": "Es erscheint an der Wand. Sie können ein weiteres schreiben.",
+        "another": "Weiteres Gebet schreiben"
+      },
+      "errors": {
+        "required": "Bitte füllen Sie dieses Feld aus.",
+        "tooShort": "Bitte schreiben Sie mindestens {min} Zeichen.",
+        "tooLong": "Bitte bleiben Sie unter {max} Zeichen.",
+        "noLinks": "Bitte entfernen Sie Weblinks, E-Mail-Adressen und Code.",
+        "rateLimited": "Von dieser Verbindung wurden zu viele Gebete gesendet. Bitte warten Sie einige Minuten und versuchen Sie es erneut.",
+        "invalid": "Wir konnten dieses Gebet nicht annehmen. Bitte prüfen Sie Ihren Text.",
+        "network": "Der Server ist nicht erreichbar. Prüfen Sie Ihre Verbindung und versuchen Sie es erneut.",
+        "server": "Bei uns ist etwas schiefgelaufen. Bitte versuchen Sie es später erneut."
+      },
+      "amen": "Amen",
+      "amenDone": "Amen gesagt",
+      "amenLabel": "Amen zum Gebet von {name} sagen",
+      "amenFirst": "Sagen Sie als Erste oder Erster Amen",
+      "amenCount": "{count, plural, one {# Person hat Amen gesagt} other {# Personen haben Amen gesagt}}",
+      "amenFailed": "Wir konnten Ihr Amen nicht speichern. Bitte versuchen Sie es erneut."
+    },
+    "contact": {
+      "meta": {
+        "title": "Nazareth Holy Cross kontaktieren",
+        "description": "Schreiben Sie Nazareth Holy Cross bei Fragen zu Kerzen, Bestellungen oder Ihrer Pilgerreise. Wir lesen jede Nachricht."
+      },
+      "hero": {
+        "eyebrow": "Kontakt aufnehmen",
+        "title": "Kontakt",
+        "lead": "Eine Frage zu Ihrer Bestellung, einer Kerze oder Ihrer Pilgerreise? Schreiben Sie uns, wir antworten per E-Mail."
+      },
+      "form": {
+        "title": "Schreiben Sie uns",
+        "intro": "Alle Felder werden benötigt, damit wir antworten können.",
+        "fullName": "Vollständiger Name",
+        "email": "E-Mail-Adresse",
+        "phone": "Telefonnummer",
+        "phoneHint": "Mit Ländervorwahl, zum Beispiel +49 151 2345 6789.",
+        "msg": "Ihre Nachricht",
+        "counter": "{count} / {max}",
+        "submit": "Nachricht senden",
+        "sending": "Wird gesendet…",
+        "sent": "Nachricht gesendet. Danke.",
+        "sentText": "Wir antworten so bald wie möglich an Ihre E-Mail-Adresse.",
+        "another": "Weitere Nachricht senden"
+      },
+      "errors": {
+        "required": "Bitte füllen Sie dieses Feld aus.",
+        "tooShort": "Bitte schreiben Sie mindestens {min} Zeichen.",
+        "tooLong": "Bitte bleiben Sie unter {max} Zeichen.",
+        "invalidEmail": "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
+        "invalidPhone": "Bitte geben Sie eine gültige Telefonnummer ein.",
+        "rateLimited": "Von dieser Verbindung wurden zu viele Nachrichten gesendet. Bitte warten Sie einige Minuten und versuchen Sie es erneut.",
+        "invalid": "Wir konnten diese Nachricht nicht annehmen. Bitte prüfen Sie die Felder.",
+        "network": "Der Server ist nicht erreichbar. Prüfen Sie Ihre Verbindung und versuchen Sie es erneut.",
+        "server": "Bei uns ist etwas schiefgelaufen. Bitte versuchen Sie es später erneut."
+      },
+      "direct": {
+        "title": "Lieber direkt schreiben?",
+        "text": "Sie können uns eine E-Mail schreiben oder uns in den sozialen Netzwerken finden.",
+        "email": "E-Mail senden",
+        "whatsapp": "Per WhatsApp schreiben",
+        "reply": "Wir lesen jede Nachricht und antworten per E-Mail."
+      }
+    },
+    "gallery": {
+      "meta": {
+        "title": "Fotogalerie von Nazareth",
+        "description": "Stöbern Sie in Fotos der Verkündigungsbasilika, der griechisch-orthodoxen Kirche, des Marienbrunnens, der Altstadt und von Nazareth und öffnen Sie jedes Foto im Vollbild."
+      },
+      "hero": {
+        "eyebrow": "Galerie",
+        "title": "Nazareth in Bildern",
+        "lead": "Kirchen, Gassen und Ausblicke von den heiligen Stätten. Wählen Sie eine Stätte oder stöbern Sie in allen."
+      },
+      "filterLabel": "Fotos nach heiliger Stätte filtern",
+      "all": "Alle Stätten",
+      "viewer": "Fotogalerie von Nazareth"
+    },
+    "faq": {
+      "meta": {
+        "title": "Häufig gestellte Fragen",
+        "description": "Antworten zum Besuch in Nazareth, zum Entzünden einer Kerze, zur Gebetswand, zu Bestellungen, Versand, Zahlungen und Ihren Daten."
+      },
+      "eyebrow": "Hilfe",
+      "title": "Häufig gestellte Fragen",
+      "lead": "Schnelle Antworten zu Besuch, Gebet mit uns und Einkauf. Ihre Frage fehlt? Schreiben Sie uns.",
+      "groupsLabel": "Fragengruppen",
+      "groups": {
+        "visiting": "Nazareth besuchen",
+        "prayer": "Kerzen und Gebet",
+        "shop": "Shop und Zahlung",
+        "site": "Über die Website"
+      },
+      "items": {
+        "candle": {
+          "q": "Wie funktioniert das Entzünden einer Kerze?",
+          "a": "Wählen Sie eine Kirche in Nazareth, schreiben Sie Ihr Gebet und zahlen Sie {price}. Wir entzünden eine Kerze für Sie, nehmen ein kurzes Video mit Ihrem Namen auf und senden es an Ihre E-Mail-Adresse."
+        },
+        "wall": {
+          "q": "Ist die Gebetswand öffentlich?",
+          "a": "Ja. Ein Gebet erscheint mit dem Namen und dem Land, die Sie eingeben, an der Wand. Geben Sie keine Kontaktdaten an und verwenden Sie auf Wunsch nur Ihren Vornamen."
+        },
+        "live": {
+          "q": "Kann ich live mit Ihnen beten?",
+          "a": "Ja. Auf unserer Live-Seite übertragen wir Gebete und Gottesdienste von den heiligen Stätten Nazareths und zeigen, wann die nächste Übertragung beginnt."
+        },
+        "pay": {
+          "q": "Wie bezahle ich?",
+          "a": "Die Zahlung erfolgt über PayPal. Ihre Karten- oder PayPal-Daten gehen an PayPal, nie an uns; wir sehen und speichern sie nicht."
+        },
+        "account": {
+          "q": "Brauche ich ein Konto?",
+          "a": "Nein. Es gibt weder Konten noch Passwörter. Warenkorb und Merkliste bleiben in Ihrem eigenen Browser."
+        },
+        "shipping": {
+          "q": "Was kostet der Versand?",
+          "a": "Der Versand kostet pauschal {shipping} pro Bestellung und wird vor der Zahlung in Ihrem Warenkorb angezeigt."
+        },
+        "discount": {
+          "q": "Gibt es einen Rabatt?",
+          "a": "Ja: {discount} Rabatt auf die Artikel jeder Bestellung, automatisch im Warenkorb angewendet."
+        },
+        "damaged": {
+          "q": "Was, wenn meine Bestellung beschädigt ankommt?",
+          "a": "Schreiben Sie uns mit Ihren Bestelldaten und einem Foto. Wir antworten und bringen es in Ordnung. Details unter Versand und Rückgabe."
+        },
+        "donate": {
+          "q": "Kann ich spenden?",
+          "a": "Ja. Spenden von {min} bis {max} werden über PayPal auf der Seite Spenden angenommen und unterstützen die Arbeit von Nazareth Holy Cross."
+        },
+        "languages": {
+          "q": "In welchen Sprachen gibt es die Website?",
+          "a": "Englisch, Französisch, Spanisch, Deutsch, Italienisch, Portugiesisch, Polnisch, Russisch, Griechisch, Hebräisch und Arabisch."
+        },
+        "data": {
+          "q": "Welche Daten speichern Sie?",
+          "a": "Nur das, was ein Dienst braucht: Bestellungen, Kerzenwünsche, Gebete, Bewertungen und Kontaktnachrichten. Einzelheiten stehen in der Datenschutzerklärung."
+        },
+        "contact": {
+          "q": "Wie kann ich Sie erreichen?",
+          "a": "Nutzen Sie die Kontaktseite oder schreiben Sie an {email}."
+        }
+      }
+    },
+    "legal": {
+      "eyebrow": "Rechtliches",
+      "updated": "Zuletzt aktualisiert: {date}",
+      "contents": "Auf dieser Seite",
+      "related": "Siehe auch",
+      "privacy": {
+        "meta": {
+          "title": "Datenschutzerklärung",
+          "description": "Welche personenbezogenen Daten Nazareth Holy Cross speichert, wenn Sie bestellen, eine Kerze entzünden, ein Gebet teilen oder uns schreiben, warum, und wie Sie Änderung oder Löschung verlangen können."
+        },
+        "title": "Datenschutzerklärung",
+        "lead": "Wir speichern so wenig wie möglich. Diese Seite erklärt, was wir speichern, warum und welche Wahl Sie haben.",
+        "sections": {
+          "who": {
+            "title": "Wer wir sind",
+            "p1": "Diese Website wird von Nazareth Holy Cross betrieben, das die heiligen Stätten, Gebete und das Kunsthandwerk Nazareths mit Pilgern überall teilt. Bei Fragen zum Datenschutz schreiben Sie an {email}."
+          },
+          "collect": {
+            "title": "Was wir erheben",
+            "p1": "Wir erheben nur, was Sie uns bei der Nutzung eines Dienstes geben:",
+            "items": {
+              "orders": "Bestellungen: Ihr Name, Ihre E-Mail-Adresse, Telefonnummer, Lieferadresse, die gekauften Artikel, die Summe und das Datum.",
+              "candles": "Kerzenwünsche: Ihr Name, Ihre E-Mail-Adresse und Ihr Gebet.",
+              "prayers": "Die Gebetswand: der Name, das Land, die Kategorie und das Gebet, die Sie schreiben. Diese werden öffentlich angezeigt.",
+              "reviews": "Bewertungen: Ihr Name, Ihr Herkunftsort und Ihre Nachricht, nach Freigabe auf der Website angezeigt.",
+              "contact": "Kontaktnachrichten: Ihr Name, Ihre E-Mail-Adresse, Telefonnummer und Nachricht.",
+              "payments": "Zahlungen: werden von PayPal abgewickelt. Wir erhalten und speichern Ihre Kartennummer nicht."
+            }
+          },
+          "use": {
+            "title": "Wofür wir sie verwenden",
+            "items": {
+              "u1": "Um Ihre Bestellungen auszuführen und zu liefern, Ihre Kerze zu entzünden und Ihnen das Video zu senden.",
+              "u2": "Um auf Ihre Nachrichten zu antworten.",
+              "u3": "Um Gebete und freigegebene Bewertungen wie von Ihnen gewünscht auf der Website zu zeigen."
+            }
+          },
+          "share": {
+            "title": "Wer sie sonst sieht",
+            "p1": "Wir verkaufen Ihre Daten nicht. Einige Dienste helfen uns beim Betrieb der Website und verarbeiten Daten in unserem Auftrag:",
+            "items": {
+              "paypal": "PayPal verarbeitet Zahlungen nach seiner eigenen Datenschutzerklärung.",
+              "hosting": "Unsere Website, Server, Datenbank und Bildspeicherung werden von Hosting-Anbietern betrieben, die Daten auch außerhalb Ihres Landes speichern können.",
+              "maps": "Wenn Sie eine Karte, eine Route oder ein Video einer anderen Website öffnen, gilt deren eigene Datenschutzerklärung."
+            }
+          },
+          "browser": {
+            "title": "Was in Ihrem Browser bleibt",
+            "p1": "Die Website hat keine Konten und verwendet keine Werbe- oder Analyse-Cookies. Ihr Browser speichert:",
+            "items": {
+              "cart": "Ihren Warenkorb und Ihre Merkliste.",
+              "liked": "Die Gebete, zu denen Sie Amen gesagt haben, damit Sie es nur einmal sagen können.",
+              "language": "Ihre Sprachwahl."
+            }
+          },
+          "keep": {
+            "title": "Wie lange wir sie speichern",
+            "p1": "Bestellungen und Kerzenwünsche speichern wir so lange, wie wir sie brauchen, um Sie zu bedienen und unsere gesetzlichen und buchhalterischen Pflichten zu erfüllen. Gebete und Bewertungen bleiben auf der Website, bis Sie uns bitten, sie zu entfernen."
+          },
+          "rights": {
+            "title": "Ihre Wahlmöglichkeiten",
+            "p1": "Sie können uns bitten, die über Sie gespeicherten Daten anzuzeigen, zu berichtigen oder zu löschen oder Ihr Gebet oder Ihre Bewertung zu entfernen. Schreiben Sie an {email}, wir antworten. Je nach Wohnort kann das Gesetz Ihnen weitere Rechte geben."
+          },
+          "children": {
+            "title": "Kinder",
+            "p1": "Die Website richtet sich nicht an Kinder unter 13 Jahren, und wir erheben wissentlich keine Daten von ihnen. Wenn Sie glauben, dass ein Kind uns Daten gesendet hat, schreiben Sie uns, und wir löschen sie."
+          },
+          "changes": {
+            "title": "Änderungen",
+            "p1": "Wenn wir diese Erklärung ändern, aktualisieren wir das Datum am Anfang dieser Seite."
+          }
+        }
+      },
+      "terms": {
+        "meta": {
+          "title": "Nutzungsbedingungen",
+          "description": "Die Bedingungen für die Nutzung der Website von Nazareth Holy Cross, für Bestellungen von Andenken, das Entzünden von Kerzen, Spenden und das Teilen von Gebeten und Bewertungen."
+        },
+        "title": "Nutzungsbedingungen",
+        "lead": "Einfache Regeln für die Nutzung der Website, für Bestellungen und das Teilen. Mit der Nutzung der Website stimmen Sie ihnen zu.",
+        "sections": {
+          "use": {
+            "title": "Nutzung der Website",
+            "p1": "Sie dürfen diese Website für persönliche, nicht kommerzielle Zwecke nutzen. Bitte missbrauchen Sie sie nicht, versuchen Sie nicht, ihre Sicherheit zu umgehen, und senden Sie keine schädlichen oder rechtswidrigen Inhalte."
+          },
+          "orders": {
+            "title": "Bestellungen und Zahlung",
+            "p1": "Bestellungen werden über PayPal bezahlt. Die Preise sind in US-Dollar und werden bei der Zahlung von unserem Server berechnet, nicht von Ihrem Browser.",
+            "items": {
+              "i1": "Jede Bestellung erhält {discount} Rabatt auf die Artikel und eine pauschale Versandgebühr von {shipping}.",
+              "i2": "Wir können eine Bestellung mit vollständiger Rückerstattung stornieren, wenn ein Artikel nicht verfügbar oder ein Preis offensichtlich falsch ist.",
+              "i3": "Lieferung, Zoll und Rückgabe sind unter Versand und Rückgabe erklärt."
+            }
+          },
+          "candles": {
+            "title": "Kerzen",
+            "p1": "Eine Gebetskerze kostet {price}. Wir entzünden in der von Ihnen gewählten Kirche eine Kerze für Ihr Anliegen und senden Ihnen ein Video. Es ist ein Dienst des Gebets und Gedenkens; ein bestimmtes Datum oder eine bestimmte Uhrzeit können wir nicht zusagen."
+          },
+          "donations": {
+            "title": "Spenden",
+            "p1": "Spenden sind freiwillig und unterstützen die Arbeit von Nazareth Holy Cross. Wenn Sie versehentlich gespendet haben, schreiben Sie uns bitte so bald wie möglich."
+          },
+          "content": {
+            "title": "Gebete und Bewertungen",
+            "p1": "Wenn Sie ein Gebet oder eine Bewertung teilen, versichern Sie uns, dass es Ihr eigener Text ist und dass er auf der Website gezeigt werden darf.",
+            "items": {
+              "i1": "Veröffentlichen Sie keine hasserfüllten, rechtswidrigen oder irreführenden Inhalte und keine persönlichen Daten anderer.",
+              "i2": "Wir können alles entfernen, was gegen diese Regeln verstößt oder uns unangemessen erscheint."
+            }
+          },
+          "ip": {
+            "title": "Unsere Inhalte",
+            "p1": "Die Texte, Fotos, Videos und das Design der Website gehören Nazareth Holy Cross oder denen, die uns ihre Nutzung erlaubt haben. Bitte fragen Sie, bevor Sie sie für etwas anderes als den persönlichen Gebrauch kopieren."
+          },
+          "info": {
+            "title": "Informationen auf der Website",
+            "p1": "Wir bemühen uns, die Website korrekt zu halten, aber Öffnungszeiten, Preise und Reisebedingungen können sich ändern. Prüfen Sie vor der Reise immer vor Ort."
+          },
+          "liability": {
+            "title": "Haftung",
+            "p1": "Die Website und ihre Dienste werden so bereitgestellt, wie sie sind. Soweit das Gesetz es erlaubt, haften wir nicht für Verluste durch die Nutzung der Website oder durch Ereignisse außerhalb unserer Kontrolle. Nichts hier schränkt Rechte ein, die Ihnen das Gesetz als Verbraucher gibt."
+          },
+          "changes": {
+            "title": "Änderungen",
+            "p1": "Wir können diese Bedingungen aktualisieren. Das Datum am Anfang der Seite zeigt die neueste Fassung."
+          }
+        }
+      },
+      "shipping": {
+        "meta": {
+          "title": "Versand und Rückgabe",
+          "description": "Versandkosten, Lieferung, Zoll und was zu tun ist, wenn ein Artikel beschädigt ankommt: alles zum Erhalt Ihrer Andenken aus Nazareth."
+        },
+        "title": "Versand und Rückgabe",
+        "lead": "Was Sie zahlen, wann Sie Ihre Bestellung erwarten können und was zu tun ist, wenn etwas nicht stimmt.",
+        "sections": {
+          "cost": {
+            "title": "Kosten",
+            "p1": "Der Versand kostet pauschal pro Bestellung, unabhängig von der Zahl der Artikel.",
+            "items": {
+              "i1": "Versand: {shipping} pro Bestellung.",
+              "i2": "Rabatt: {discount} auf die Artikel, automatisch angewendet. Die Summe wird vor der Zahlung in Ihrem Warenkorb angezeigt."
+            }
+          },
+          "delivery": {
+            "title": "Lieferung",
+            "p1": "Wir senden Andenken aus Nazareth an Adressen auf der ganzen Welt. Die Lieferzeit hängt von Ihrem Land und dem Postdienst ab. Wir melden uns per E-Mail, wenn wir etwas von Ihnen brauchen."
+          },
+          "customs": {
+            "title": "Zoll und Einfuhrabgaben",
+            "p1": "Für Sendungen ins Ausland können Einfuhrzölle, Steuern oder Zollgebühren Ihres Landes anfallen. Sie sind in unseren Preisen nicht enthalten und werden vom Empfänger getragen."
+          },
+          "returns": {
+            "title": "Beschädigte, falsche oder fehlende Artikel",
+            "p1": "Wenn Ihre Bestellung beschädigt ankommt, nicht Ihrer Bestellung entspricht oder unvollständig ist, möchten wir das in Ordnung bringen.",
+            "items": {
+              "i1": "Schreiben Sie uns mit Ihrem Namen, der für die Bestellung verwendeten E-Mail-Adresse und einem Foto des Problems.",
+              "i2": "Bewahren Sie die Verpackung auf, bis wir geantwortet haben.",
+              "i3": "Wir teilen Ihnen mit, ob wir Ersatz senden oder Ihnen den Betrag über PayPal erstatten."
+            }
+          },
+          "digital": {
+            "title": "Kerzen und Spenden",
+            "p1": "Kerzenwünsche und Spenden sind Dienste, keine Produkte, und werden daher nicht versendet. Wenn Sie versehentlich eines aufgegeben haben, schreiben Sie uns."
+          },
+          "contact": {
+            "title": "Fragen",
+            "p1": "Schreiben Sie an {email} oder nutzen Sie die Kontaktseite."
+          }
+        }
+      }
+    },
+    "search": {
+      "meta": {
+        "title": "Suche",
+        "description": "Durchsuchen Sie Nazareth Holy Cross: Seiten, heilige Stätten, Antworten und Evangelienstellen."
+      },
+      "label": "Website durchsuchen",
+      "placeholder": "Seiten, heilige Stätten, Antworten suchen…",
+      "open": "Suche",
+      "close": "Schließen",
+      "loading": "Wird geladen…",
+      "error": "Die Suche ist gerade nicht verfügbar. Bitte versuchen Sie es erneut.",
+      "suggested": "Vorschläge",
+      "results": "Suchergebnisse",
+      "count": "{count, plural, one {# Ergebnis} other {# Ergebnisse}}",
+      "none": "Keine Ergebnisse für „{query}“. Versuchen Sie ein anderes Wort.",
+      "types": {
+        "page": "Seiten",
+        "site": "Heilige Stätten",
+        "faq": "Fragen",
+        "gospel": "Evangelium"
+      },
+      "hintMove": "zum Navigieren",
+      "hintOpen": "zum Öffnen",
+      "hintClose": "zum Schließen",
+      "submit": "Suchen",
+      "page": {
+        "eyebrow": "Suche",
+        "title": "Website durchsuchen",
+        "lead": "Finden Sie Seiten, heilige Stätten, Antworten auf häufige Fragen und Evangelienstellen."
+      }
+    }
   }
 }

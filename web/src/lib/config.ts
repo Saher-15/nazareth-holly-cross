@@ -10,3 +10,7 @@ export const PAYPAL_CLIENT_ID =
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://nazarethholycross.com';
 
 export const CONTACT_EMAIL = 'nazarethholycross@gmail.com';
+
+// Optional: the organisation's WhatsApp number with country code (digits, e.g. 972501234567). When it is set the
+// contact page offers a "Message us on WhatsApp" link; nothing is shown while it is empty.
+export const CONTACT_WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP ?? '';

@@ -630,5 +630,648 @@
       "thanksTitle": "Thank you for your donation!",
       "thanksText": "Your generosity helps keep the light of Nazareth shining for pilgrims around the world."
     }
+  },
+  "pilgrim": {
+    "nav": {
+      "plan": "Pilgrim planner",
+      "visit": "Visitor guide",
+      "gospel": "Nazareth in the Gospels",
+      "gallery": "Photo gallery",
+      "prayers": "Prayer wall",
+      "contact": "Contact us",
+      "faq": "FAQ",
+      "shipping": "Shipping & returns",
+      "privacy": "Privacy policy",
+      "terms": "Terms of use",
+      "groupPlan": "Plan & discover",
+      "groupHelp": "Help & legal"
+    },
+    "common": {
+      "moreEyebrow": "Continue the journey",
+      "moreTitle": "Where to next?",
+      "open": "Open"
+    },
+    "plan": {
+      "meta": {
+        "title": "Plan your pilgrimage to Nazareth",
+        "description": "Build a day-by-day itinerary of Nazareth's holy sites in a minute. Choose 1 to 4 days, your interests and your pace, then print it, share it or add it to your calendar."
+      },
+      "hero": {
+        "eyebrow": "Pilgrim planner",
+        "title": "Plan your pilgrimage",
+        "lead": "Tell us how many days you have and what moves you. We lay out a day-by-day walk through the holy sites of Nazareth, with walking times between each stop."
+      },
+      "form": {
+        "title": "Your pilgrimage",
+        "days": "How many days?",
+        "dayCount": "{count, plural, one {# day} other {# days}}",
+        "interests": "What are you looking for?",
+        "interestsHint": "Choose any, or none for a balanced walk.",
+        "interest": {
+          "gospel": "Gospel sites",
+          "churches": "Churches",
+          "markets": "Markets and crafts",
+          "food": "Food and coffee"
+        },
+        "pace": "Pace",
+        "paces": {
+          "relaxed": "Relaxed",
+          "balanced": "Balanced",
+          "full": "Full"
+        },
+        "paceHint": "{count, plural, one {# stop a day} other {# stops a day}}",
+        "start": "First day (for your calendar)",
+        "startHint": "Optional. Without a date, the calendar file starts tomorrow."
+      },
+      "result": {
+        "title": "Your itinerary",
+        "summary": "{days, plural, one {# day} other {# days}} · {stops, plural, one {# stop} other {# stops}} · about {minutes} min of walking",
+        "day": "Day {n}",
+        "walk": "{minutes} min walk",
+        "until": "until {time}"
+      },
+      "lunch": "Lunch break",
+      "lunchHint": "Try local dishes in the lanes of the Old City.",
+      "tips": {
+        "latin": "Visiting can pause during Mass and services, and hours change on feast days. Check the current times for your date.",
+        "greek": "Hours follow the church services and may change without notice. Ask at the entrance if the church is open.",
+        "maryswell": "Close to the Greek Orthodox church, so the two visits go well together. Hours vary; confirm what is open on the day.",
+        "oldcity": "Shops keep their own hours and some close on Friday or Sunday. Mornings are the best time to see the market at work.",
+        "city": "The busiest streets are in the morning. Leave time to stop for a coffee and look around."
+      },
+      "caveat": {
+        "title": "Before you go",
+        "hours": "Opening hours of churches change with services, feast days and holidays, sometimes without notice. Always confirm before you travel.",
+        "dress": "Churches ask for modest dress: cover shoulders and knees.",
+        "walking": "Walking times are estimates between the sites; Nazareth's streets are steep in places, so allow extra time."
+      },
+      "actions": {
+        "calendar": "Add to calendar",
+        "share": "Share link",
+        "print": "Print"
+      },
+      "shareTitle": "My pilgrimage to Nazareth",
+      "copied": "Link copied to the clipboard.",
+      "calendarName": "Pilgrimage to Nazareth",
+      "calendarLocation": "Nazareth, Israel",
+      "calendarDone": "Calendar file downloaded. Open it to add the events.",
+      "walking": {
+        "title": "Walking times between the holy sites",
+        "lead": "Approximate minutes on foot, the same figures the planner uses.",
+        "caption": "Walking time in minutes between each pair of sites",
+        "corner": "From (rows) to (columns)",
+        "minutes": "{minutes} min"
+      }
+    },
+    "visit": {
+      "meta": {
+        "title": "Visitor guide to Nazareth",
+        "description": "Everything to prepare your visit to Nazareth: how to get there from Haifa, Tel Aviv and Ben Gurion airport, dress code, best seasons, safety, money and the weather by month."
+      },
+      "hero": {
+        "eyebrow": "Visitor guide",
+        "title": "Visit Nazareth",
+        "lead": "Practical answers for pilgrims and travellers: getting there, what to wear, when to come and what to expect."
+      },
+      "getting": {
+        "eyebrow": "Getting there",
+        "title": "How to reach Nazareth",
+        "lead": "Nazareth sits in the hills of Lower Galilee in northern Israel, an easy trip from the coast.",
+        "distance": "about {km} km by road",
+        "routes": {
+          "haifa": {
+            "title": "From Haifa",
+            "text": "The simplest route: about 40 minutes by car or taxi, or about an hour by bus."
+          },
+          "telaviv": {
+            "title": "From Tel Aviv",
+            "text": "About two hours by car. Buses and trains run to the north; by public transport the usual way is to travel to Haifa or Afula and change to a bus for Nazareth."
+          },
+          "airport": {
+            "title": "From Ben Gurion Airport",
+            "text": "About two hours by car or taxi. By public transport, take the train to Haifa or Tel Aviv and continue by bus; a pre-booked shuttle or a rental car is the easiest."
+          }
+        },
+        "local": {
+          "title": "Once you are in Nazareth",
+          "text": "The holy sites are all within about 15 minutes' walk of each other, so you can park once and explore on foot. Parking in the centre is limited, so arrive early or use a car park at the edge of the old town."
+        }
+      },
+      "essentials": {
+        "eyebrow": "Good to know",
+        "title": "Before you come",
+        "items": {
+          "dress": {
+            "title": "Dress code",
+            "text": "Churches ask visitors to cover shoulders and knees, women and men alike. A light scarf or shawl in your bag solves it. Wear comfortable shoes: the old lanes are steep and uneven."
+          },
+          "etiquette": {
+            "title": "Etiquette",
+            "text": "Speak softly in the churches and put your phone on silent. Remove hats inside. Photography is usually allowed, but not during services; ask before photographing people."
+          },
+          "seasons": {
+            "title": "Best seasons",
+            "text": "Spring (March to May) and autumn (late September to November) are mild and the most pleasant for walking. Summer is hot and dry; winter is cool and rainy. Easter, Christmas and the Feast of the Annunciation on 25 March are the busiest and most moving times."
+          },
+          "safety": {
+            "title": "Safety",
+            "text": "Nazareth is generally welcoming and calm, but conditions in the region can change. Check your government's travel advice before you go, follow local news, and keep valuables close in crowds."
+          },
+          "money": {
+            "title": "Money",
+            "text": "The currency is the Israeli new shekel (ILS, ₪). Cards are widely accepted and there are ATMs in the centre; carry some cash for market stalls and small cafés. Polite bargaining is part of shopping in the market."
+          },
+          "language": {
+            "title": "Language",
+            "text": "People speak Arabic and Hebrew, and in the places pilgrims visit you will find English and often other languages too. A few words of Arabic are always warmly received."
+          }
+        }
+      },
+      "climate": {
+        "eyebrow": "Weather",
+        "title": "Weather by month",
+        "lead": "Typical conditions in Nazareth: warm, dry summers and cool, wet winters.",
+        "caption": "Average daily temperatures and rainfall by month",
+        "month": "Month",
+        "high": "High",
+        "low": "Low",
+        "rain": "Rain",
+        "season": "Visiting",
+        "seasons": {
+          "best": "Best",
+          "good": "Good",
+          "hot": "Hot",
+          "cool": "Cool"
+        },
+        "mm": "{mm} mm",
+        "note": "Figures are rounded long-term averages, for guidance only. Weather varies from year to year; check the forecast before you travel."
+      },
+      "faq": {
+        "title": "Visitor questions",
+        "free": {
+          "q": "Are the churches free to enter?",
+          "a": "Entry to the main churches is generally free and donations are welcome. Each church sets its own hours and rules, so check before your visit."
+        },
+        "dress": {
+          "q": "What should I wear?",
+          "a": "Modest clothing that covers shoulders and knees, and comfortable shoes for steep lanes. Bring a light layer in winter and sun protection in summer."
+        },
+        "days": {
+          "q": "How many days do I need?",
+          "a": "Most pilgrims see the main holy sites in one full day. Two or three days let you slow down for prayer, the Old City market and trips around Galilee."
+        },
+        "safe": {
+          "q": "Is Nazareth safe to visit?",
+          "a": "Nazareth is generally calm and welcoming, but conditions in the region can change. Check your government's travel advice and local news before and during your trip."
+        },
+        "season": {
+          "q": "When is the best time to visit?",
+          "a": "Spring and autumn are the most comfortable. Summer is hot and winter is rainy. Easter, Christmas and 25 March (the Annunciation) are the busiest and most moving times."
+        }
+      }
+    },
+    "gospel": {
+      "meta": {
+        "title": "Nazareth in the Gospels",
+        "description": "Read the Gospel passages about Nazareth, from the Annunciation to Jesus in the synagogue, each with a short reflection and the holy site that keeps its memory alive."
+      },
+      "hero": {
+        "eyebrow": "Scripture and place",
+        "title": "Nazareth in the Gospels",
+        "lead": "Eight passages that name Nazareth, in the order of the story, each paired with the place you can still visit."
+      },
+      "intro": {
+        "title": "From the Annunciation to “Come and see”",
+        "text": "Nazareth appears in the Gospels as the town of the Annunciation and of the hidden years of Jesus. Read a passage, pause over the reflection, then follow the link to the holy site."
+      },
+      "visitSite": "Visit the holy site",
+      "note": "Quotations are given for reflection and may differ slightly from the Bible translation you use. Passages: Luke 1, 2 and 4; Matthew 2; John 1.",
+      "p": {
+        "luke126": {
+          "quote": "In the sixth month, the angel Gabriel was sent from God to a city of Galilee named Nazareth, to a virgin pledged to be married to a man named Joseph, of the house of David. The virgin’s name was Mary.",
+          "ref": "Luke 1:26-27",
+          "text": "The whole story begins in a small hill town. Walk through Nazareth today and you walk where the Gospel begins."
+        },
+        "luke130": {
+          "text": "Beneath the Basilica of the Annunciation lies the grotto that Christians have venerated for centuries as the place of Mary's home, where the angel's greeting is remembered."
+        },
+        "luke138": {
+          "text": "Orthodox tradition remembers the angel first speaking to Mary as she went to draw water, at the spring beside the Greek Orthodox Church of the Annunciation. Her answer is the heart of every pilgrim's prayer."
+        },
+        "matthew223": {
+          "text": "After the return from Egypt, Joseph settled his family in Nazareth. From then on Jesus was known as “Jesus of Nazareth”, and the name of the town travelled across the world."
+        },
+        "luke240": {
+          "text": "Of the hidden years we are told very little: a child growing up in an ordinary town. The lanes and market of the Old City help you imagine that daily life."
+        },
+        "luke251": {
+          "quote": "He went down with them and came to Nazareth, and was obedient to them. His mother kept all these things in her heart.",
+          "ref": "Luke 2:51",
+          "text": "For centuries the spring of Nazareth was where the town gathered each day. Standing at Mary's Well, you can picture the ordinary work and quiet faith that Mary kept in her heart."
+        },
+        "luke416": {
+          "quote": "He came to Nazareth, where he had been brought up. On the Sabbath day he went into the synagogue, as was his custom, and stood up to read.",
+          "ref": "Luke 4:16",
+          "text": "Jesus returned to preach in the town where he had grown up. Sites in the Old City, including a church traditionally placed on the site of the synagogue, recall that day."
+        },
+        "john146": {
+          "text": "Philip's answer to Nathanael is the invitation of every pilgrimage: Come and see. Nazareth is still best understood by walking its streets."
+        }
+      }
+    },
+    "prayers": {
+      "meta": {
+        "title": "Prayer wall",
+        "description": "Read prayers from pilgrims around the world, say Amen to those that move you and share a prayer of your own."
+      },
+      "hero": {
+        "eyebrow": "Pray together",
+        "title": "The prayer wall",
+        "lead": "Prayers from pilgrims around the world. Read them, say Amen, and add your own intention.",
+        "cta": "Share a prayer"
+      },
+      "categories": {
+        "all": "All",
+        "peace": "Peace",
+        "health": "Health",
+        "gratitude": "Gratitude",
+        "family": "Family",
+        "personal": "Personal",
+        "worldPeace": "World Peace"
+      },
+      "wall": {
+        "title": "Prayers",
+        "filter": "Filter prayers by category",
+        "count": "{count, plural, one {# prayer} other {# prayers}}",
+        "anonymous": "A pilgrim",
+        "emptyTitle": "No prayers here yet",
+        "emptyText": "Be the first to share a prayer in this category.",
+        "errorTitle": "The prayer wall is resting",
+        "errorText": "We could not load the prayers just now. Please try again in a moment.",
+        "retry": "Try again",
+        "pages": "Prayer pages",
+        "prev": "Previous",
+        "next": "Next",
+        "pageOf": "Page {page} of {pages}"
+      },
+      "form": {
+        "title": "Share a prayer",
+        "intro": "Write an intention for peace, healing, thanks or your family. It will appear on the wall.",
+        "name": "Your name",
+        "country": "Where are you from?",
+        "category": "Category",
+        "prayer": "Your prayer",
+        "counter": "{count} / {max}",
+        "public": "Prayers are public. Please do not include phone numbers, addresses or web links.",
+        "submit": "Share my prayer",
+        "sending": "Sending…",
+        "sent": "Thank you. Your prayer was shared.",
+        "sentText": "It will appear on the wall. You can write another.",
+        "another": "Write another prayer"
+      },
+      "errors": {
+        "required": "Please fill in this field.",
+        "tooShort": "Please write at least {min} characters.",
+        "tooLong": "Please keep it under {max} characters.",
+        "noLinks": "Please remove web links, e-mail addresses and code.",
+        "rateLimited": "Too many prayers were sent from this connection. Please wait a few minutes and try again.",
+        "invalid": "We could not accept this prayer. Please check what you wrote.",
+        "network": "We could not reach the server. Check your connection and try again.",
+        "server": "Something went wrong on our side. Please try again later."
+      },
+      "amen": "Amen",
+      "amenDone": "Amen said",
+      "amenLabel": "Say Amen to the prayer of {name}",
+      "amenFirst": "Be the first to say Amen",
+      "amenCount": "{count, plural, one {# person said Amen} other {# people said Amen}}",
+      "amenFailed": "We could not save your Amen. Please try again."
+    },
+    "contact": {
+      "meta": {
+        "title": "Contact Nazareth Holy Cross",
+        "description": "Write to Nazareth Holy Cross with a question about candles, orders or your pilgrimage. We read every message."
+      },
+      "hero": {
+        "eyebrow": "Get in touch",
+        "title": "Contact us",
+        "lead": "A question about your order, a candle or your pilgrimage? Write to us and we will reply by e-mail."
+      },
+      "form": {
+        "title": "Send us a message",
+        "intro": "All fields are needed so that we can reply.",
+        "fullName": "Full name",
+        "email": "E-mail address",
+        "phone": "Phone number",
+        "phoneHint": "Include the country code, for example +1 555 123 4567.",
+        "msg": "Your message",
+        "counter": "{count} / {max}",
+        "submit": "Send message",
+        "sending": "Sending…",
+        "sent": "Message sent. Thank you.",
+        "sentText": "We will reply to your e-mail address as soon as we can.",
+        "another": "Send another message"
+      },
+      "errors": {
+        "required": "Please fill in this field.",
+        "tooShort": "Please write at least {min} characters.",
+        "tooLong": "Please keep it under {max} characters.",
+        "invalidEmail": "Please enter a valid e-mail address.",
+        "invalidPhone": "Please enter a valid phone number.",
+        "rateLimited": "Too many messages were sent from this connection. Please wait a few minutes and try again.",
+        "invalid": "We could not accept this message. Please check the fields.",
+        "network": "We could not reach the server. Check your connection and try again.",
+        "server": "Something went wrong on our side. Please try again later."
+      },
+      "direct": {
+        "title": "Prefer to write directly?",
+        "text": "You can e-mail us or find us on our social pages.",
+        "email": "Send an e-mail",
+        "whatsapp": "Message us on WhatsApp",
+        "reply": "We read every message and reply by e-mail."
+      }
+    },
+    "gallery": {
+      "meta": {
+        "title": "Photo gallery of Nazareth",
+        "description": "Browse photos of the Basilica of the Annunciation, the Greek Orthodox Church, Mary's Well, the Old City and Nazareth, and open any photo in full screen."
+      },
+      "hero": {
+        "eyebrow": "Gallery",
+        "title": "Nazareth in photos",
+        "lead": "Churches, lanes and views from the holy sites. Choose a site or browse them all."
+      },
+      "filterLabel": "Filter photos by holy site",
+      "all": "All sites",
+      "viewer": "Photo gallery of Nazareth"
+    },
+    "faq": {
+      "meta": {
+        "title": "Frequently asked questions",
+        "description": "Answers about visiting Nazareth, lighting a candle, the prayer wall, orders, shipping, payments and your data."
+      },
+      "eyebrow": "Help",
+      "title": "Frequently asked questions",
+      "lead": "Quick answers about visiting, praying with us and shopping. Cannot find yours? Write to us.",
+      "groupsLabel": "Question groups",
+      "groups": {
+        "visiting": "Visiting Nazareth",
+        "prayer": "Candles and prayer",
+        "shop": "Shop and payments",
+        "site": "About the website"
+      },
+      "items": {
+        "candle": {
+          "q": "How does lighting a candle work?",
+          "a": "Choose a church in Nazareth, write your prayer and pay {price}. We light a candle for you, record a short video with your name and send it to your e-mail address."
+        },
+        "wall": {
+          "q": "Is the prayer wall public?",
+          "a": "Yes. A prayer appears on the wall with the name and country you enter. Do not include contact details, and use only your first name if you prefer."
+        },
+        "live": {
+          "q": "Can I pray with you live?",
+          "a": "Yes. Our live page broadcasts prayers and services from the holy sites of Nazareth and shows when the next broadcast starts."
+        },
+        "pay": {
+          "q": "How do I pay?",
+          "a": "Payments are made with PayPal. Your card or PayPal details go to PayPal, never to us; we do not see or store them."
+        },
+        "account": {
+          "q": "Do I need an account?",
+          "a": "No. There are no accounts or passwords. Your cart and wishlist are kept in your own browser."
+        },
+        "shipping": {
+          "q": "How much is shipping?",
+          "a": "Shipping is a flat {shipping} per order, shown in your cart before you pay."
+        },
+        "discount": {
+          "q": "Is there a discount?",
+          "a": "Yes: {discount} off the items in every order, applied automatically in your cart."
+        },
+        "damaged": {
+          "q": "What if my order arrives damaged?",
+          "a": "Write to us with your order details and a photo. We will answer and put it right. See Shipping and returns for details."
+        },
+        "donate": {
+          "q": "Can I make a donation?",
+          "a": "Yes. Donations from {min} to {max} are accepted through PayPal on the Donate page and support the work of Nazareth Holy Cross."
+        },
+        "languages": {
+          "q": "Which languages is the site in?",
+          "a": "English, French, Spanish, German, Italian, Portuguese, Polish, Russian, Greek, Hebrew and Arabic."
+        },
+        "data": {
+          "q": "What data do you keep?",
+          "a": "Only what a service needs: orders, candle requests, prayers, reviews and contact messages. Read the Privacy policy for the details."
+        },
+        "contact": {
+          "q": "How can I contact you?",
+          "a": "Use the contact page or write to {email}."
+        }
+      }
+    },
+    "legal": {
+      "eyebrow": "Legal",
+      "updated": "Last updated: {date}",
+      "contents": "On this page",
+      "related": "See also",
+      "privacy": {
+        "meta": {
+          "title": "Privacy policy",
+          "description": "What personal data Nazareth Holy Cross keeps when you order, light a candle, share a prayer or write to us, why we keep it, and how to ask us to change or delete it."
+        },
+        "title": "Privacy policy",
+        "lead": "We keep as little as we can. This page explains what we keep, why, and your choices.",
+        "sections": {
+          "who": {
+            "title": "Who we are",
+            "p1": "This website is run by Nazareth Holy Cross, which shares the holy places, prayers and crafts of Nazareth with pilgrims everywhere. For any privacy question, write to {email}."
+          },
+          "collect": {
+            "title": "What we collect",
+            "p1": "We collect only what you give us when you use a service:",
+            "items": {
+              "orders": "Orders: your name, e-mail address, phone number, delivery address, the items you bought, the total and the date.",
+              "candles": "Candle requests: your name, e-mail address and your prayer.",
+              "prayers": "The prayer wall: the name, country, category and prayer you write. These are shown publicly.",
+              "reviews": "Reviews: your name, the place you are from and your message, shown on the site once approved.",
+              "contact": "Contact messages: your name, e-mail address, phone number and message.",
+              "payments": "Payments: handled by PayPal. We do not receive or store your card number."
+            }
+          },
+          "use": {
+            "title": "Why we use it",
+            "items": {
+              "u1": "To fulfil and deliver your orders, and to light your candle and send you the video.",
+              "u2": "To reply to your messages.",
+              "u3": "To show prayers and approved reviews on the site, as you intended."
+            }
+          },
+          "share": {
+            "title": "Who else sees it",
+            "p1": "We do not sell your data. A few services help us run the site and process data on our behalf:",
+            "items": {
+              "paypal": "PayPal processes payments under its own privacy policy.",
+              "hosting": "Our website, servers, database and image storage are run by hosting providers, which may store data outside your country.",
+              "maps": "When you open a map or directions, or watch a video from another site, that site's own privacy policy applies."
+            }
+          },
+          "browser": {
+            "title": "What stays in your browser",
+            "p1": "The site has no accounts and does not use advertising or analytics cookies. Your browser stores:",
+            "items": {
+              "cart": "Your shopping cart and wishlist.",
+              "liked": "The prayers you said Amen to, so that you can say it once.",
+              "language": "Your language choice."
+            }
+          },
+          "keep": {
+            "title": "How long we keep it",
+            "p1": "We keep orders and candle requests for as long as we need them to serve you and to meet our legal and accounting duties. Prayers and reviews stay on the site until you ask us to remove them."
+          },
+          "rights": {
+            "title": "Your choices",
+            "p1": "You can ask us to show, correct or delete the data we hold about you, or to remove your prayer or review. Write to {email} and we will respond. Depending on where you live, the law may give you further rights."
+          },
+          "children": {
+            "title": "Children",
+            "p1": "The site is not aimed at children under 13, and we do not knowingly collect their data. If you think a child has sent us data, write to us and we will delete it."
+          },
+          "changes": {
+            "title": "Changes",
+            "p1": "If we change this policy we will update the date at the top of this page."
+          }
+        }
+      },
+      "terms": {
+        "meta": {
+          "title": "Terms of use",
+          "description": "The terms for using the Nazareth Holy Cross website, ordering souvenirs, lighting candles, donating and sharing prayers and reviews."
+        },
+        "title": "Terms of use",
+        "lead": "Simple rules for using the site, ordering and sharing. By using the site you agree to them.",
+        "sections": {
+          "use": {
+            "title": "Using the site",
+            "p1": "You may use this website for personal, non-commercial purposes. Please do not misuse it, try to break its security or send harmful or unlawful content."
+          },
+          "orders": {
+            "title": "Orders and payment",
+            "p1": "Orders are paid through PayPal. Prices are in US dollars and are calculated by our server when you pay, not by your browser.",
+            "items": {
+              "i1": "Every order gets a discount of {discount} on the items and a flat shipping fee of {shipping}.",
+              "i2": "We may cancel an order, with a full refund, if an item is unavailable or a price is clearly wrong.",
+              "i3": "Delivery, customs and returns are explained in Shipping and returns."
+            }
+          },
+          "candles": {
+            "title": "Candles",
+            "p1": "A prayer candle costs {price}. We light a candle for your intention in the church you choose and send you a video. It is a service of prayer and remembrance; we cannot promise a particular date or time."
+          },
+          "donations": {
+            "title": "Donations",
+            "p1": "Donations are voluntary and support the work of Nazareth Holy Cross. If you donated by mistake, write to us as soon as possible."
+          },
+          "content": {
+            "title": "Prayers and reviews",
+            "p1": "When you share a prayer or a review, you tell us it is your own and that you are happy for it to be shown on the site.",
+            "items": {
+              "i1": "Do not post hateful, unlawful or misleading content, or other people's personal details.",
+              "i2": "We may remove anything that breaks these rules or that we find inappropriate."
+            }
+          },
+          "ip": {
+            "title": "Our content",
+            "p1": "The texts, photos, videos and design of the site belong to Nazareth Holy Cross or to the people who allowed us to use them. Please ask before you copy them for anything other than personal use."
+          },
+          "info": {
+            "title": "Information on the site",
+            "p1": "We do our best to keep the site correct, but opening hours, prices and travel conditions can change. Always check locally before you travel."
+          },
+          "liability": {
+            "title": "Liability",
+            "p1": "The site and its services are provided as they are. To the extent the law allows, we are not responsible for losses caused by using the site or by events outside our control. Nothing here limits rights that the law gives you as a consumer."
+          },
+          "changes": {
+            "title": "Changes",
+            "p1": "We may update these terms. The date at the top of the page shows the latest version."
+          }
+        }
+      },
+      "shipping": {
+        "meta": {
+          "title": "Shipping and returns",
+          "description": "Shipping costs, delivery, customs and what to do if an item arrives damaged: everything about receiving your Nazareth souvenirs."
+        },
+        "title": "Shipping and returns",
+        "lead": "What you pay, when to expect your order and what to do if something is wrong.",
+        "sections": {
+          "cost": {
+            "title": "Cost",
+            "p1": "Shipping is a flat fee per order, however many items it contains.",
+            "items": {
+              "i1": "Shipping: {shipping} per order.",
+              "i2": "Discount: {discount} off the items, applied automatically. The total is shown in your cart before you pay."
+            }
+          },
+          "delivery": {
+            "title": "Delivery",
+            "p1": "We send souvenirs from Nazareth to addresses around the world. Delivery time depends on your country and the postal service. We will contact you by e-mail if we need anything from you."
+          },
+          "customs": {
+            "title": "Customs and import duties",
+            "p1": "Orders sent abroad may be subject to import duties, taxes or customs fees set by your country. These are not included in our prices and are paid by the recipient."
+          },
+          "returns": {
+            "title": "Damaged, wrong or missing items",
+            "p1": "If your order arrives damaged, is not what you ordered or is incomplete, we want to put it right.",
+            "items": {
+              "i1": "E-mail us with your name, the e-mail address used for the order and a photo of the problem.",
+              "i2": "Keep the packaging until we have replied.",
+              "i3": "We will tell you whether we send a replacement or refund you through PayPal."
+            }
+          },
+          "digital": {
+            "title": "Candles and donations",
+            "p1": "Candle requests and donations are services, not products, so they are not shipped. If you made one by mistake, write to us."
+          },
+          "contact": {
+            "title": "Questions",
+            "p1": "Write to {email} or use the contact page."
+          }
+        }
+      }
+    },
+    "search": {
+      "meta": {
+        "title": "Search",
+        "description": "Search Nazareth Holy Cross: pages, holy sites, answers and Gospel passages."
+      },
+      "label": "Search the site",
+      "placeholder": "Search pages, holy sites, answers…",
+      "open": "Search",
+      "close": "Close",
+      "loading": "Loading…",
+      "error": "Search is unavailable right now. Please try again.",
+      "suggested": "Suggestions",
+      "results": "Search results",
+      "count": "{count, plural, one {# result} other {# results}}",
+      "none": "No results for “{query}”. Try another word.",
+      "types": {
+        "page": "Pages",
+        "site": "Holy sites",
+        "faq": "Questions",
+        "gospel": "Gospel"
+      },
+      "hintMove": "to move",
+      "hintOpen": "to open",
+      "hintClose": "to close",
+      "submit": "Search",
+      "page": {
+        "eyebrow": "Search",
+        "title": "Search the site",
+        "lead": "Find pages, holy sites, answers to common questions and Gospel passages."
+      }
+    }
   }
 }

@@ -15,6 +15,24 @@ export const footerNav = [
   { key: 'about', href: '/about' },
 ] as const;
 
+// Pilgrim guides and community pages (footer group, sitemap, site search). Labels: messages pilgrim.nav.<key>.
+export const pilgrimNav = [
+  { key: 'plan', href: '/plan' },
+  { key: 'visit', href: '/visit' },
+  { key: 'gospel', href: '/gospel' },
+  { key: 'gallery', href: '/gallery' },
+  { key: 'prayers', href: '/prayers' },
+  { key: 'contact', href: '/contact' },
+] as const;
+
+// Help and legal pages. `shipping` is /shipping-returns.
+export const legalNav = [
+  { key: 'faq', href: '/faq' },
+  { key: 'shipping', href: '/shipping-returns' },
+  { key: 'privacy', href: '/privacy' },
+  { key: 'terms', href: '/terms' },
+] as const;
+
 export const socialLinks = [
   { name: 'Instagram', href: 'https://www.instagram.com/nazareth_holy_cross/' },
   { name: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61566447860803' },

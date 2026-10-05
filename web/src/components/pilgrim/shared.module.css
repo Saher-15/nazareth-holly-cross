@@ -1,0 +1,182 @@
+/* Building blocks shared by the pilgrim pages (plan, visit, gospel, prayers, contact, gallery, faq, legal). */
+
+.head {
+  max-width: 760px;
+  margin: 0 auto clamp(24px, 4vw, 40px);
+  text-align: center;
+}
+.headStart {
+  max-width: 760px;
+  margin: 0 0 clamp(20px, 3vw, 32px);
+}
+.lead {
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(1rem, 2vw, 1.1rem);
+}
+
+.cards {
+  display: grid;
+  gap: clamp(14px, 2.2vw, 22px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: 100%;
+}
+.card p {
+  margin: 0;
+  color: var(--cream);
+}
+.cardMuted {
+  color: var(--muted) !important;
+}
+.cardLink {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  margin-top: auto;
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-decoration: none;
+}
+.cardLink:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.arrow {
+  flex: none;
+}
+:global([dir='rtl']) .arrow {
+  transform: scaleX(-1);
+}
+:global([lang='ar']) .cardLink,
+:global([lang='he']) .cardLink {
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* Tables scroll sideways on a phone instead of squeezing. */
+.tableWrap {
+  overflow-x: auto;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--glass-line);
+  background: var(--glass);
+}
+.table {
+  width: 100%;
+  min-width: 520px;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+.table caption {
+  padding: 14px 16px 6px;
+  text-align: start;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.table th,
+.table td {
+  padding: 10px 14px;
+  text-align: center;
+  border-top: 1px solid var(--glass-line);
+}
+.table thead th {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--gold);
+  border-top: 0;
+}
+.table tbody th {
+  text-align: start;
+  font-weight: 600;
+  color: var(--cream);
+}
+.table td {
+  font-variant-numeric: tabular-nums;
+  color: var(--cream);
+}
+.table .self {
+  color: var(--muted);
+}
+
+/* Long reading text (legal pages, guides). */
+.prose {
+  max-width: 760px;
+  margin-inline: auto;
+}
+.prose h2 {
+  margin: 36px 0 10px;
+  font: 400 clamp(1.3rem, 3vw, 1.7rem)/1.25 var(--serif);
+  color: var(--gold);
+  scroll-margin-top: calc(var(--header-h) + 16px);
+}
+.prose p,
+.prose li {
+  color: var(--cream);
+}
+.prose p {
+  margin: 0 0 12px;
+}
+.prose ul {
+  margin: 0 0 12px;
+  padding-inline-start: 22px;
+}
+.prose li + li {
+  margin-top: 6px;
+}
+.prose a {
+  color: var(--gold);
+  text-underline-offset: 3px;
+}
+.notice {
+  margin: 0 auto 28px;
+  max-width: 760px;
+  padding: 14px 18px;
+  border-radius: var(--radius-sm);
+  border: 1px solid color-mix(in srgb, var(--gold) 35%, transparent);
+  background: var(--gold-soft);
+  color: var(--cream);
+  font-size: 0.95rem;
+}
+.toc {
+  margin: 0 auto 8px;
+  max-width: 760px;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.toc a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-line);
+  background: var(--glass);
+  color: var(--cream);
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+.toc a:hover {
+  border-color: var(--gold);
+  color: #fff;
+}
+.updated {
+  max-width: 760px;
+  margin: 0 auto 12px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}

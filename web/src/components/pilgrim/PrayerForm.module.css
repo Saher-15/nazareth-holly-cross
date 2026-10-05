@@ -1,0 +1,63 @@
+.card {
+  padding: clamp(20px, 3vw, 30px);
+}
+.title {
+  margin: 0 0 6px;
+  font: 400 1.6rem/1.2 var(--serif);
+  color: #fff;
+}
+.intro {
+  margin: 0 0 18px;
+  color: var(--muted);
+}
+.under {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 12px;
+}
+.under p {
+  margin: 0;
+}
+.counter {
+  margin-inline-start: auto !important;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+.public {
+  margin: 0 0 16px;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+.alert {
+  margin: 0 0 14px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--danger);
+  color: var(--danger);
+}
+.submit {
+  width: 100%;
+}
+.done {
+  display: grid;
+  gap: 10px;
+  justify-items: start;
+}
+.done p {
+  margin: 0;
+  color: var(--cream);
+}
+.doneTitle {
+  margin: 0;
+  font: 400 1.4rem/1.3 var(--serif);
+  color: var(--success);
+}
+.doneTitle:focus {
+  outline: none;
+}
+.hint {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--muted);
+}

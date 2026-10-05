@@ -1,11 +1,11 @@
 import type { MetadataRoute } from 'next';
 import { locales } from '@/i18n/routing';
 import { SITE_URL } from '@/lib/config';
-import { footerNav } from '@/lib/site';
+import { footerNav, legalNav, pilgrimNav } from '@/lib/site';
 
 // One entry per page, each listing all its language versions (hreflang).
 export default function sitemap(): MetadataRoute.Sitemap {
-  const paths = ['/', ...footerNav.map((item) => item.href)];
+  const paths = ['/', ...footerNav.map((item) => item.href), ...pilgrimNav.map((i) => i.href), ...legalNav.map((i) => i.href)];
   return paths.map((path) => {
     const suffix = path === '/' ? '' : path;
     return {
