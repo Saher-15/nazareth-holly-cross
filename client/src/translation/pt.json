@@ -342,5 +342,26 @@
     "voicesTitle": "Palavras dos nossos visitantes",
     "voicesAll": "Ler mais e partilhar a sua",
     "storyEyebrow": "A história"
+  },
+  "places": {
+    "newTab": "(abre em uma nova aba)",
+    "viewGallery": "Ver as fotos",
+    "visitEyebrow": "Planeje sua visita",
+    "visitText": "Encontre este lugar santo no mapa ou acenda uma vela pela sua intenção, de onde você estiver.",
+    "galleryEyebrow": "Galeria",
+    "galleryTitle": "Galeria de fotos",
+    "galleryHint": "Selecione uma foto para ampliá-la",
+    "photoCount": "{{n}} fotos",
+    "photoAlt": "{{place}}, foto {{n}} de {{total}}",
+    "viewer": "Fotos de {{place}}",
+    "close": "Fechar",
+    "moreEyebrow": "Continue a jornada",
+    "tourWatchEyebrow": "Assista ao passeio",
+    "tourVideoLabel": "Passeio em vídeo por Nazaré",
+    "videoFallback": "Seu navegador não suporta a reprodução de vídeo.",
+    "aboutEyebrow": "Sobre nós",
+    "aboutPillar1": "Uma peregrinação à distância",
+    "aboutPillar2": "Tesouros da Terra Santa",
+    "aboutPillar3": "Apoiando nossa comunidade"
   }
 }

@@ -342,5 +342,26 @@
     "voicesTitle": "Le parole dei nostri visitatori",
     "voicesAll": "Leggi di più e condividi la tua",
     "storyEyebrow": "La storia"
+  },
+  "places": {
+    "newTab": "(si apre in una nuova scheda)",
+    "viewGallery": "Guarda le foto",
+    "visitEyebrow": "Pianifica la visita",
+    "visitText": "Trova questo luogo santo sulla mappa, oppure accendi una candela per la tua intenzione ovunque tu sia.",
+    "galleryEyebrow": "Galleria",
+    "galleryTitle": "Galleria fotografica",
+    "galleryHint": "Seleziona una foto per ingrandirla",
+    "photoCount": "{{n}} foto",
+    "photoAlt": "{{place}}, foto {{n}} di {{total}}",
+    "viewer": "Foto: {{place}}",
+    "close": "Chiudi",
+    "moreEyebrow": "Continua il viaggio",
+    "tourWatchEyebrow": "Guarda il tour",
+    "tourVideoLabel": "Video tour di Nazareth",
+    "videoFallback": "Il tuo browser non supporta la riproduzione video.",
+    "aboutEyebrow": "Chi siamo",
+    "aboutPillar1": "Un pellegrinaggio da lontano",
+    "aboutPillar2": "Tesori dalla Terra Santa",
+    "aboutPillar3": "Sostenere la nostra comunità"
   }
 }

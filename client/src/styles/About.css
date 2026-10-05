@@ -1,55 +1,58 @@
-/* About Container */
-.about-container {
-    min-height: 100vh; /* Ensure the container takes up at least the viewport height */
-    display: flex; /* Use flexbox for layout */
-    flex-direction: column; /* Stack content vertically */
-    align-items: center; /* Center content horizontally */
-    padding: 20px;
-    box-sizing: border-box; /* Ensure padding is included in the height */
-    max-width: 1200px; /* Optional: limits width for large screens */
-    margin: 0 auto; /* Center container */
-  }
-  
-  /* About Title */
-  .about-title {
-    font-size: 36px;
-    color: #333;
-    margin-bottom: 20px;
-    text-align: center; /* Center title horizontally */
-    width: 100%; /* Ensure title takes full width for proper alignment */
-  }
-  
-  /* About Description */
-  .about-description {
-    text-align: left;
-    font-size: 18px;
-    color: #555;
-    line-height: 1.6;
-    margin-bottom: 20px;
-    max-width: 800px; /* Optional: limits width for readability */
-    width: 100%; /* Ensure description takes full width for proper alignment */
-  }
-  
-  /* Responsive Design */
-  @media screen and (max-width: 768px) {
-    .about-title {
-      font-size: 28px; /* Adjust title size for smaller screens */
-    }
-  
-    .about-description {
-      font-size: 16px; /* Adjust font size for smaller screens */
-      padding: 0 10px; /* Add padding for better readability */
-    }
-  }
-  
-  @media screen and (max-width: 480px) {
-    .about-title {
-      font-size: 24px; /* Further adjust title size for very small screens */
-    }
-  
-    .about-description {
-      font-size: 14px; /* Further adjust font size for very small screens */
-      padding: 0 5px; /* Add padding for better readability */
-    }
-  }
-  
+/* =====================================================================
+   About page (pages/About.js). Theme tokens only; classes are about-*.
+   ===================================================================== */
+
+.about-page .ui-hero { min-height: clamp(360px, 60vh, 560px); }
+.about-page .ui-hero__title { max-width: 900px; margin-inline: auto; text-shadow: 0 4px 34px rgba(0, 0, 0, 0.55); }
+
+.about-intro { padding-bottom: 0; }
+.about-intro__card {
+  position: relative;
+  max-width: 900px; margin: 0 auto;
+  padding: clamp(28px, 6vw, 56px);
+  border-color: rgba(240, 192, 74, 0.3);
+  background: linear-gradient(135deg, rgba(240, 192, 74, 0.12), rgba(255, 255, 255, 0.04));
+}
+.about-intro__mark {
+  position: absolute; top: -4px; inset-inline-start: 22px;
+  font-family: var(--serif); font-size: 6.5rem; line-height: 1;
+  color: rgba(240, 192, 74, 0.35); pointer-events: none;
+}
+.about-intro__mark::before { content: '\201C'; }
+.about-intro__lead {
+  margin: 0;
+  font-family: var(--serif); font-size: clamp(1.15rem, 2.6vw, 1.45rem); line-height: 1.6;
+  color: #fff;
+}
+
+.about-pillars {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: clamp(16px, 2.4vw, 24px);
+}
+.about-pillar { display: flex; flex-direction: column; gap: 6px; }
+.about-pillar__icon {
+  display: grid; place-items: center;
+  width: 54px; height: 54px; margin-bottom: 10px;
+  border-radius: 50%;
+  background: var(--gold-soft); border: 1px solid rgba(240, 192, 74, 0.45);
+  color: var(--gold); font-size: 1.3rem;
+}
+.about-pillar__text { margin: 0 0 18px; color: #dfe3ef; flex: 1; }
+.about-pillar__link {
+  align-self: flex-start;
+  display: inline-flex; align-items: center; gap: 8px; min-height: 44px;
+  font-weight: 700; font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--gold); text-decoration: none;
+}
+.about-pillar__link span { transition: transform 0.3s; }
+.about-pillar__link:hover span { transform: translateX(4px); }
+.about-pillar__link:hover { color: #ffe08a; }
+
+@media (min-width: 900px) {
+  .about-pillars { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-pillar__link span { transition: none; }
+  .about-pillar__link:hover span { transform: none; }
+}

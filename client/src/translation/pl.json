@@ -342,5 +342,26 @@
     "voicesTitle": "Słowa naszych gości",
     "voicesAll": "Czytaj więcej i podziel się swoim",
     "storyEyebrow": "Historia"
+  },
+  "places": {
+    "newTab": "(otwiera się w nowej karcie)",
+    "viewGallery": "Zobacz zdjęcia",
+    "visitEyebrow": "Zaplanuj wizytę",
+    "visitText": "Znajdź to święte miejsce na mapie lub zapal świecę w swojej intencji, gdziekolwiek jesteś.",
+    "galleryEyebrow": "Galeria",
+    "galleryTitle": "Galeria zdjęć",
+    "galleryHint": "Wybierz zdjęcie, aby je powiększyć",
+    "photoCount": "Zdjęcia: {{n}}",
+    "photoAlt": "{{place}}, zdjęcie {{n}} z {{total}}",
+    "viewer": "Zdjęcia: {{place}}",
+    "close": "Zamknij",
+    "moreEyebrow": "Kontynuuj podróż",
+    "tourWatchEyebrow": "Obejrzyj wycieczkę",
+    "tourVideoLabel": "Wideowycieczka po Nazarecie",
+    "videoFallback": "Twoja przeglądarka nie obsługuje odtwarzania wideo.",
+    "aboutEyebrow": "O nas",
+    "aboutPillar1": "Pielgrzymka na odległość",
+    "aboutPillar2": "Skarby z Ziemi Świętej",
+    "aboutPillar3": "Wspieranie naszej społeczności"
   }
 }

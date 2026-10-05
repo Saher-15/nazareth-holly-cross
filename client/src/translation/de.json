@@ -338,5 +338,26 @@
     "voicesTitle": "Worte unserer Besucher",
     "voicesAll": "Mehr lesen und eigene Worte teilen",
     "storyEyebrow": "Die Geschichte"
+  },
+  "places": {
+    "newTab": "(öffnet in einem neuen Tab)",
+    "viewGallery": "Fotos ansehen",
+    "visitEyebrow": "Ihren Besuch planen",
+    "visitText": "Finden Sie diesen heiligen Ort auf der Karte oder zünden Sie von überall aus eine Kerze für Ihr Anliegen an.",
+    "galleryEyebrow": "Galerie",
+    "galleryTitle": "Fotogalerie",
+    "galleryHint": "Wählen Sie ein Foto, um es zu vergrößern",
+    "photoCount": "{{n}} Fotos",
+    "photoAlt": "{{place}}, Foto {{n}} von {{total}}",
+    "viewer": "Fotos: {{place}}",
+    "close": "Schließen",
+    "moreEyebrow": "Die Reise fortsetzen",
+    "tourWatchEyebrow": "Die Tour ansehen",
+    "tourVideoLabel": "Videotour durch Nazareth",
+    "videoFallback": "Ihr Browser unterstützt keine Videowiedergabe.",
+    "aboutEyebrow": "Über uns",
+    "aboutPillar1": "Eine Pilgerreise aus der Ferne",
+    "aboutPillar2": "Schätze aus dem Heiligen Land",
+    "aboutPillar3": "Unsere Gemeinschaft unterstützen"
   }
 }
