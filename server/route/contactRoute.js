@@ -4,6 +4,7 @@ import { config } from "../config/env.js"
 import { requireAdmin } from '../middleware/auth.js';
 import { asyncHandler } from "../middleware/asyncHandler.js"
 import { strictLimiter } from '../utils/security.js';
+import { isEmail } from '../utils/validate.js';
 
 
 const routerContact = express.Router();
@@ -19,7 +20,7 @@ routerContact.post('/contact_us_request', strictLimiter, asyncHandler(async (req
         return res.status(422).json({error:"Bad input: email is required"})
     }
     // Validate email format
-    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())){
+    if(!isEmail(email)){
         return res.status(422).json({error:"Bad input: invalid email format"})
     }
 

@@ -1,23 +1,18 @@
 import express from 'express';
-import jwt from 'jsonwebtoken';
 import { loginLimiter } from '../utils/security.js';
-import { config } from '../config/env.js';
+import { checkSharedPassword, signAdminToken } from '../services/adminAuth.js';
 
 const routerAuth = express.Router();
 
+// Sign in with the shared admin password (ADMIN_PASSWORD). The other way in is POST /admin/login (an
+// account in the database); both give the same kind of token. See services/adminAuth.js.
 routerAuth.post('/login', loginLimiter, (req, res) => {
-  const { password } = req.body;
-  if (!password || password !== config.adminPassword) {
-    const ip = req.ip || req.headers['x-forwarded-for'] || 'unknown';
+  if (!checkSharedPassword(req.body?.password)) {
+    const ip = req.ip || 'unknown';
     console.warn(`[${new Date().toISOString()}] Failed auth/login attempt from IP: ${ip}`);
     return res.status(401).json({ error: 'Invalid credentials' });
   }
-  const token = jwt.sign(
-    { role: 'admin' },
-    config.jwtSecret,
-    { expiresIn: '8h', algorithm: 'HS256' }
-  );
-  res.json({ token });
+  res.json({ token: signAdminToken({ auth: 'shared-password' }) });
 });
 
 export default routerAuth;
