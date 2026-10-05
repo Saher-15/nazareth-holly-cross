@@ -1,6 +1,7 @@
 import type { NextConfig } from 'next';
 import path from 'node:path';
 import createNextIntlPlugin from 'next-intl/plugin';
+import { locales } from './src/i18n/routing';
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
@@ -71,11 +72,21 @@ const nextConfig: NextConfig = {
   // Addresses of the previous site keep working (search engines, shared links).
   async redirects() {
     const places = ['latin', 'greek', 'maryswell', 'oldcity', 'city'];
+    // The same rules once more with a language in front: the language proxy may add it first
+    // (/latin -> /en/latin), and on some hosts that happens before these redirects are applied.
+    const withLocale = (rule: { source: string; destination: string }) => [
+      { ...rule, permanent: true },
+      {
+        source: `/:locale(${locales.join('|')})${rule.source}`,
+        destination: `/:locale${rule.destination}`,
+        permanent: true,
+      },
+    ];
     return [
-      ...places.map((slug) => ({ source: `/${slug}`, destination: `/sites/${slug}`, permanent: true })),
-      { source: '/product/:id', destination: '/shop/:id', permanent: true },
-      { source: '/checkoutcandle', destination: '/candle', permanent: true },
-      { source: '/checkoutdonation', destination: '/donate', permanent: true },
+      ...places.flatMap((slug) => withLocale({ source: `/${slug}`, destination: `/sites/${slug}` })),
+      ...withLocale({ source: '/product/:id', destination: '/shop/:id' }),
+      ...withLocale({ source: '/checkoutcandle', destination: '/candle' }),
+      ...withLocale({ source: '/checkoutdonation', destination: '/donate' }),
     ];
   },
   async headers() {
