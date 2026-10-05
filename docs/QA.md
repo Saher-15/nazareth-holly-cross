@@ -63,7 +63,12 @@ node tests/qa/untranslated.mjs                                     # messages id
 | Offline / slow network (600 ms per request) | client navigation keeps working from the cache; candle form usable in 1.4 s, no errors |
 | Forms | review form: emoji, Hebrew text, 1500 pasted characters capped at 1000, double-click sends one request; candle with accents/emoji/`+` addresses reaches the order summary; API failure, 429 and network loss are covered by `community.spec.ts` / `payments.spec.ts` |
 | Cart | persists across reload, shared between two tabs (storage event) |
+| Speed (`tests/qa/probe-perf.mjs`, Edge, phone 4G throttle: CPU x4, 1.6 Mbit/s, 150 ms, cold cache) | LCP 1.3-3.3 s (home 2.9 s, holy-sites list 3.3 s, donate 1.3 s), CLS 0.00-0.09 (home in English 0.088, in Hebrew 0.002), blocking time 60-440 ms; unthrottled desktop LCP 0.15-0.8 s. The home hero video is blocked in this run, see section 4 |
 | Translations | 474 keys in every language, none missing; 4-6 values per language equal English (brand name, icon class names, `{count} / {max}`, the cognate "Subtotal") |
+
+Gate at the end of the pass: `npm run lint`, `npm run typecheck`, `npm test` (178 unit tests), `next build`, and the
+whole Playwright suite (273 passed, 13 skipped by design: phone-only or desktop-only tests, 286 in total across the
+`desktop` and `mobile` projects) all green; `server/` `npm test` 46 passed (the API was not changed).
 
 ## 3. Bug log
 
@@ -85,6 +90,9 @@ Severity: **High** = visitors cannot reach content or money is at risk; **Med** 
 | QA-11 | Med | every page with `Reveal` | with JavaScript off (or blocked) all sections stayed at `opacity: 0`: a blank page | **Fixed** (`@media (scripting: none)`) | `qa-site.spec.ts` |
 | QA-12 | Low | donation amounts, candle church, current page/step | in Windows high contrast the chosen amount, church and current step looked the same as the others | **Fixed** (system-colour outline) | `qa-site.spec.ts` |
 
+| QA-13 | Med | all photos and sounds in `public/` | served with `Cache-Control: public, max-age=0`: the browser re-asked the server for every image and the 4.8 MB music file on every visit | **Fixed** (`next.config.ts`: 1 day + 7 days stale-while-revalidate for `/images` and `/sounds`) | `qa-site.spec.ts` |
+| QA-14 | Low | checkout phone field, Arabic | digits typed on an Arabic or Persian keyboard (`٠٥٢…`) were refused as "not a phone number" | **Fixed** (accepted, and sent to the API as 0-9) | `tests/unit/checkout.test.ts` |
+
 ## 4. Open issues and notes
 
 | Sev | Where | Note |
@@ -94,6 +102,7 @@ Severity: **High** = visitors cannot reach content or money is at risk; **Med** 
 | Med | videos | no captions or transcript on any video (WCAG 1.2.2); content task |
 | Med | caching | every response carries `Set-Cookie: NEXT_LOCALE` (next-intl). Shared caches (Netlify/Cloudflare edge) normally do not cache responses with `Set-Cookie`, so the `s-maxage` of the static pages may not be honoured at the edge. Consider `localeCookie: false` and setting the cookie from the language switcher |
 | Low | QA-08 | see bug log |
+| Low | home hero | on a slow phone the first visit shows the hero title in the fallback font and re-wraps it when the web font arrives (a 40 px jump of the centred block, layout-shift 0.09-0.10 in en/de at 4G + CPU x4). Fix options: a tighter fallback-font adjustment for EB Garamond, or a fixed `min-height` per line count |
 | Low | console | on phone widths Chromium warns that five route CSS files were "preloaded but not used" within a few seconds; harmless, framework-generated |
 | Low | SEO | 22 descriptions are longer than 170 characters (fr, es, de, it, el `sites`, `greek`, `latin`, home, about, live) and Google will cut them; the cart descriptions in he/ar/pl are very short (noindex pages) |
 | Low | `/cart` | has no `og:image` (noindex page, owned by the shop team) |
@@ -109,4 +118,6 @@ Severity: **High** = visitors cannot reach content or money is at risk; **Med** 
   read answered `429` with `Cf-Mitigated: challenge` (an HTML page). A deploy build that renders ~700 product pages
   and 11 home pages fires that many requests at the API within seconds; fetch the catalogue once per build
   (`/product/catalog`) and pass it down instead of one request per page, or allow-list the build host.
-* Product-page e2e tests (`shop.spec.ts`) read the live API and fail while it answers 429 (environmental).
+* `shop.spec.ts` reads the live API. During the challenge window (about 80 minutes of this pass) 22 of its tests failed
+  because the pages had been built without data; after the API answered again, a clean rebuild passed all of them.
+  The suite should read from a stubbed API (as `payments.spec.ts` does) so it does not depend on the network.

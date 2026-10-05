@@ -56,6 +56,14 @@ describe('validateContact', () => {
 describe('isPhone', () => {
   it.each(['+972 52-123 4567', '(555) 010-2030', '0521234567'])('accepts %s', (n) => expect(isPhone(n)).toBe(true));
   it.each(['12345', 'call me', '+1 555 CALL', '1'.repeat(21)])('rejects %s', (n) => expect(isPhone(n)).toBe(false));
+
+  it('QA-14 accepts digits typed on an Arabic or Persian keyboard, and sends them as 0-9', () => {
+    expect(isPhone('٠٥٢-١٢٣ ٤٥٦٧')).toBe(true);
+    expect(isPhone('+٩٧٢ ٥٢ ١٢٣ ٤٥٦٧')).toBe(true);
+    expect(isPhone('۰۵۲۱۲۳۴۵۶۷')).toBe(true);
+    const body = buildOrderBody({ ...contact, phone: ' ٠٥٢-١٢٣ ٤٥٦٧ ' }, [], 0, 'Israel');
+    expect(body.phone).toBe('052-123 4567');
+  });
 });
 
 describe('buildOrderBody', () => {

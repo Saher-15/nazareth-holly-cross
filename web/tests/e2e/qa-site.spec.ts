@@ -121,6 +121,16 @@ test.describe('metadata', () => {
     for (const path of ['/en</loc>', '/en/sites</loc>', '/en/tour</loc>', '/en/candle</loc>', '/en/donate</loc>']) expect(xml).toContain(path);
   });
 
+  test('QA-13 photos and sounds are cached by the browser for a day, not re-asked on every visit', async ({ request, isMobile }) => {
+    test.skip(isMobile, 'headers are the same on every device');
+    for (const path of ['/images/logo.webp', '/images/latin/latin1.jpg', '/sounds/Christians.mp3']) {
+      const res = await request.head(path);
+      expect(res.status(), path).toBe(200);
+      expect(res.headers()['cache-control'], path).toMatch(/max-age=86400/);
+    }
+    expect((await request.get('/sw.js')).headers()['cache-control']).toContain('no-store');
+  });
+
   test('QA-04 the site has a favicon, a touch icon and a web manifest', async ({ request, page, isMobile }) => {
     test.skip(isMobile, 'markup is the same on every device');
     for (const path of ['/favicon.ico', '/icon.png', '/apple-icon.png']) {
