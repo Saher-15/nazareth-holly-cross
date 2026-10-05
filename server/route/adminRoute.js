@@ -7,8 +7,16 @@ import { requireAdmin } from '../middleware/auth.js';
 import { loginLimiter } from '../utils/security.js';
 import { comparePasswordTimingSafe, forLog, signAdminToken } from '../services/adminAuth.js';
 import { asyncHandler } from '../middleware/asyncHandler.js';
+import { invalidateCatalog } from '../services/catalog.js';
+import ProductReview from '../model/productReview.js';
 
 const router = express.Router();
+
+// Product edits from the admin panel refresh the storefront catalog.
+router.use('/products', (req, res, next) => {
+  if (req.method !== 'GET') res.on('finish', () => res.statusCode < 400 && invalidateCatalog());
+  next();
+});
 
 // POST /admin/login: sign in with an Admin account from the database. The other way in is
 // POST /auth/login (the shared ADMIN_PASSWORD); both give the same kind of token (services/adminAuth.js).
@@ -92,6 +100,26 @@ router.put('/products/:id', requireAdmin, asyncHandler(async (req, res) => {
 router.delete('/products/:id', requireAdmin, asyncHandler(async (req, res) => {
   await Product.findByIdAndDelete(req.params.id);
   res.json({ message: 'Product deleted' });
+}));
+
+// --- PRODUCT REVIEWS (moderation) ---
+router.get('/product-reviews', requireAdmin, asyncHandler(async (req, res) => {
+  const reviews = await ProductReview.find().sort({ createdAt: -1 }).limit(500).populate('product', 'name').lean();
+  res.json(reviews);
+}));
+
+// Hide (approved=false) or show a review without deleting it.
+router.patch('/product-reviews/:id', requireAdmin, asyncHandler(async (req, res) => {
+  const review = await ProductReview.findByIdAndUpdate(req.params.id, { approved: req.body.approved === true }, { new: true });
+  if (!review) return res.status(404).json({ error: 'Review not found' });
+  invalidateCatalog();
+  res.json(review);
+}));
+
+router.delete('/product-reviews/:id', requireAdmin, asyncHandler(async (req, res) => {
+  await ProductReview.findByIdAndDelete(req.params.id);
+  invalidateCatalog();
+  res.json({ message: 'Review deleted' });
 }));
 
 export default router;

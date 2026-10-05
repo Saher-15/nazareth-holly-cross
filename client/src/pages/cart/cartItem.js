@@ -1,74 +1,54 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useShopContext } from "../../context/shop-context";
-import { useTranslation } from 'react-i18next'; // Import the useTranslation hook
+import { useTranslation } from 'react-i18next';
+import QuantityStepper from "../shop/QuantityStepper";
 import "./cartItem.css";
 
 const CartItem = ({ data }) => {
-  const navigate = useNavigate();
   const { _id, name, price, img, quantity, color } = data;
-  const { addToCart, updateCartItemCount, decreaseFromCart, removeFromCart } = useShopContext();
-  const { t } = useTranslation(); // Use the useTranslation hook
-
-  // Function to handle click on the image
-  const handleImageClick = () => {
-    navigate(`/product/${_id}`);
-  };
+  const { addToCart, decreaseFromCart, removeFromCart } = useShopContext();
+  const { t } = useTranslation();
+  const productPath = `/product/${_id}`;
 
   return (
-    <div className="cartItem">
-      <img
-        src={img}
-        alt={name}
-        onClick={handleImageClick}
-        style={{ cursor: 'pointer' }}
-      />
-      <div className="description-cart">
-        <p>
-          <b>{name}</b>
-        </p>
-        <p>{t("cart.price", { price: price.toFixed(2) })}</p> {/* Use translation for price */}
-        <div className="countHandler" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <button
-            className="addToCartBttn"
-            onClick={(e) => {
-              e.stopPropagation();
-              if (quantity > 1) {
-                decreaseFromCart(_id, color);
-              }
-            }}
-            disabled={quantity <= 1}
-          >
-            -
-          </button>
-          <input
-            value={quantity}
-            onChange={(e) => updateCartItemCount(Number(e.target.value), _id, color)}
-            style={{ textAlign: 'center', paddingTop: '10px', paddingBottom: '10px' }}
-          />
-          <button
-            className="addToCartBttn"
-            onClick={(e) => {
-              e.stopPropagation();
-              addToCart({ ...data, color });
-            }}
-          >
-            +
-          </button>
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <button
-            className="removeFromCartBtn"
-            onClick={(e) => {
-              e.stopPropagation();
-              removeFromCart(_id, color);
-            }}
-          >
-            {t("cart.remove")} {/* Use translation for remove button */}
-          </button>
-        </div>
+    <li className="crt-item ui-glass">
+      <Link to={productPath} className="crt-item__media" tabIndex={-1} aria-hidden="true">
+        <img src={img} alt="" loading="lazy" decoding="async" />
+      </Link>
+
+      <div className="crt-item__body">
+        <h3 className="crt-item__name">
+          <Link to={productPath}>{name}</Link>
+        </h3>
+        <p className="crt-item__unit">{t("cart.price", { price: price.toFixed(2) })}</p>
       </div>
-    </div>
+
+      <div className="crt-item__controls">
+        <QuantityStepper
+          value={quantity}
+          label={`${t("cart.quantity")}: ${name}`}
+          onDecrease={() => {
+            if (quantity > 1) {
+              decreaseFromCart(_id, color);
+            }
+          }}
+          decreaseDisabled={quantity <= 1}
+          onIncrease={() => addToCart({ ...data, color })}
+        />
+        <button
+          type="button"
+          className="crt-item__remove"
+          onClick={() => removeFromCart(_id, color)}
+          title={t("cart.remove")}
+        >
+          <i className="fas fa-trash-alt" aria-hidden="true"></i>
+          <span className="crt-item__remove-text">{t("cart.remove")}</span>
+        </button>
+      </div>
+
+      <p className="crt-item__total">${(price * quantity).toFixed(2)}</p>
+    </li>
   );
 };
 

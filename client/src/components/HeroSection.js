@@ -1,145 +1,116 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Button } from './Button';
-import { useNavigate } from "react-router-dom";
-import { useTranslation } from 'react-i18next'; // Import the useTranslation hook
-import '../styles/HeroSection.css';
+import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import '../styles/Home.css';
+
+const VIDEO_URL =
+  'https://firebasestorage.googleapis.com/v0/b/nazareth-holy-cross.appspot.com/o/videos%2Fvideo-7.mp4?alt=media&token=b0173721-21a1-46d0-b15b-f2001b912e72';
+const POSTER = '/images/nazareth/nazareth1.webp';
+
+// Skip the background video for visitors who asked for less motion or less data.
+function shouldPlayVideo() {
+  if (typeof window === 'undefined') return false;
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const saveData = navigator.connection && navigator.connection.saveData;
+  return !reduce && !saveData;
+}
 
 function HeroSection() {
-  const { t } = useTranslation(); // Initialize translation hook
-  const [isPlaying, setIsPlaying] = useState(true);
-  const audioRef = useRef(new Audio('/sounds/christians.mp3'));
-  const navigate = useNavigate();
+  const { t } = useTranslation();
+  const [playVideo] = useState(shouldPlayVideo);
+  const [soundOn, setSoundOn] = useState(false);
+  const audioRef = useRef(null);
 
-  const handleShopClick = () => {
-    // Reset filters before navigating
+  const resetShopFilters = () => {
     localStorage.removeItem('searchQuery');
     localStorage.removeItem('sortOrder');
     localStorage.setItem('currentPage', 1);
-
-    // Navigate to the shop page
-    navigate('/shop');
-  };
-
-  const handleDiscountClick = () => {
-    // Navigate to the shop page when the discount area is clicked
-    navigate('/shop');
   };
 
   useEffect(() => {
-    // Scroll to the top of the page when the component mounts
     window.scrollTo(0, 0);
-
-    // Initialize and start playing the audio
-    const audio = audioRef.current;
-    audio.loop = true;
-
-    // Cleanup on unmount
     return () => {
-      audio.pause();
-      audio.currentTime = 0;
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
     };
   }, []);
 
-  const togglePlayPause = () => {
-    const audio = audioRef.current;
-    if (isPlaying) {
-      audio.play();
-    } else {
-      audio.pause();
+  const toggleSound = () => {
+    if (!audioRef.current) {
+      audioRef.current = new Audio('/sounds/christians.mp3');
+      audioRef.current.loop = true;
     }
-    setIsPlaying(!isPlaying);
+    const audio = audioRef.current;
+    if (soundOn) {
+      audio.pause();
+      setSoundOn(false);
+    } else {
+      const p = audio.play();
+      if (p && p.catch) p.catch(() => {});
+      setSoundOn(true);
+    }
   };
 
   return (
-    <div className='hero-container'>
-      <video
-        id="video-field"
-        className='hero-v'
-        src='https://firebasestorage.googleapis.com/v0/b/nazareth-holy-cross.appspot.com/o/videos%2Fvideo-7.mp4?alt=media&token=b0173721-21a1-46d0-b15b-f2001b912e72'
-        autoPlay
-        loop
-        muted
-        playsInline
-        controls={false}
-      />
+    <header className="hx-hero" id="hx-hero">
+      <div className="hx-hero__media" aria-hidden="true">
+        <img className="hx-hero__poster" src={POSTER} alt="" />
+        {playVideo && (
+          <video
+            className="hx-hero__video"
+            src={VIDEO_URL}
+            poster={POSTER}
+            preload="none"
+            autoPlay
+            loop
+            muted
+            playsInline
+            tabIndex={-1}
+          />
+        )}
+        <div className="hx-hero__shade" />
+      </div>
 
-      <h1>{t('heroSection.heading')}</h1>  {/* Translated Heading */}
-      <p>{t('heroSection.subHeading')}</p>  {/* Translated Subheading */}
+      <div className="hx-hero__content">
+        <p className="hx-eyebrow hx-hero__eyebrow">{t('home.eyebrow')}</p>
+        <h1 className="hx-hero__title">{t('home.title')}</h1>
+        <p className="hx-hero__sub">{t('home.subtitle')}</p>
 
-      <button className='sound-control-btn' onClick={togglePlayPause}>
-        <i className={isPlaying ? 'fas fa-volume-mute' : 'fas fa-volume-up'}></i>
+        <div className="hx-hero__actions">
+          <Link to="/candle" className="hx-btn hx-btn--gold hx-btn--lg">
+            <span className="hx-flame hx-flame--sm hx-flame--dark" aria-hidden="true" />
+            {t('heroSection.lightCandle')}
+          </Link>
+          <Link to="/tour" className="hx-btn hx-btn--glass hx-btn--lg">
+            {t('heroSection.tourButton')}
+          </Link>
+          <Link to="/shop" onClick={resetShopFilters} className="hx-btn hx-btn--glass hx-btn--lg">
+            {t('heroSection.shopButton')}
+          </Link>
+        </div>
+
+        <Link to="/shop" onClick={resetShopFilters} className="hx-hero__offer">
+          {t('heroSection.discount')}
+        </Link>
+      </div>
+
+      <button
+        type="button"
+        className="hx-hero__sound"
+        onClick={toggleSound}
+        aria-pressed={soundOn}
+        aria-label={t('home.soundToggle')}
+      >
+        <i className={soundOn ? 'fas fa-volume-up' : 'fas fa-volume-mute'} aria-hidden="true" />
       </button>
 
-      <div className='hero-btns'>
-        <Button
-          destination='/candle'
-          className='btns'
-          buttonStyle='btn--primary'
-          buttonSize='btn--large'
-        >
-          {t('heroSection.lightCandle')}  {/* Translated Button Text */}
-        </Button>
-
-        <Button
-          className='btns'
-          onClick={handleShopClick}
-          destination='/shop'
-          buttonStyle='btn--half'
-          buttonSize='btn--large'
-        >
-          {t('heroSection.shopButton')}<i className={t('heroSection.shopIcon')} aria-hidden="true"></i> {/* Translated Shop Button with Icon */}
-        </Button>
-
-        <Button
-          destination='/tour'
-          className='btns'
-          buttonStyle='btn--outline'
-          buttonSize='btn--large'
-        >
-          {t('heroSection.tourButton')} <i className={t('heroSection.tourIcon')} /> {/* Translated Tour Button with Icon */}
-        </Button>
-      </div>
-
-      <div
-        onClick={handleDiscountClick}
-        style={{
-          backgroundColor: "#333",
-          color: "#fff",
-          padding: "15px 30px",
-          borderRadius: "8px",
-          textAlign: "center",
-          margin: "20px auto",
-          maxWidth: "700px",
-          fontFamily: "Arial, sans-serif",
-          position: "relative",
-          overflow: "hidden",
-          cursor: "pointer" // Indicate it's clickable
-        }}
-      >
-        <div
-          style={{
-            position: "absolute",
-            top: "0",
-            left: "-20px",
-            height: "100%",
-            width: "160px",
-            backgroundColor: "tomato",
-            transform: "skewX(-25deg)"
-          }}
-        ></div>
-        <p
-          style={{
-            fontSize: "20px",
-            fontWeight: "bold",
-            position: "relative",
-            zIndex: 1,
-            margin: 0
-          }}
-        >
-          {t('heroSection.discount')}    </p>
-      </div>
-
-    </div>
+      <a className="hx-hero__scroll" href="#hx-sites" aria-label={t('home.scroll')}>
+        <span>{t('home.scroll')}</span>
+        <i className="fas fa-chevron-down" aria-hidden="true" />
+      </a>
+    </header>
   );
 }
 

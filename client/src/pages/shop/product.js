@@ -1,23 +1,29 @@
 import React from "react";
-// import { useShopContext } from "../../context/shop-context";
 import { Link } from "react-router-dom";
-import "../shop/product.css";
+import "./shopUi.css";
+import "./product.css";
 
+// One glass card in the shop grid; the whole card links to the product page.
 const Product = ({ item }) => {
   const { _id, name, price, img } = item;
-  // const { getTotalCartQuantity } = useShopContext(); // Get the function to calculate total cart quantity
-
-  // Calculate the total quantity of all items in the cart
-  // const totalCartQuantity = getTotalCartQuantity();
 
   return (
-    <div className="product">
-      <Link to={{ pathname: `/product/${_id}`, state: { productId: _id } }}>
-        <img className="img-size" src={img} alt={name} />
+    <article className="shp-card ui-glass">
+      <Link className="shp-card__link" to={{ pathname: `/product/${_id}`, state: { productId: _id } }}>
+        <span className="shp-card__media">
+          <img className="shp-card__img" src={img} alt={name} loading="lazy" decoding="async" />
+        </span>
+        <span className="shp-card__body">
+          <span className="shp-card__name">{name}</span>
+          <span className="shp-card__foot">
+            <span className="shp-card__price">${price}</span>
+            <span className="shp-card__go" aria-hidden="true">
+              <i className="fas fa-arrow-right"></i>
+            </span>
+          </span>
+        </span>
       </Link>
-      <p className="nameCard">{name}</p>
-      <p className="price">${price}</p> {/* Changed class to price */}
-    </div>
+    </article>
   );
 };
 
