@@ -2,8 +2,21 @@ import express from "express"
 import Product from "../model/product.js";
 import { requireAdmin } from '../middleware/auth.js';
 import { asyncHandler } from "../middleware/asyncHandler.js"
+import crypto from 'node:crypto';
+import mongoose from 'mongoose';
+import ProductReview from '../model/productReview.js';
+import { config } from '../config/env.js';
+import { strictLimiter } from '../utils/security.js';
+import { HttpError } from '../utils/httpError.js';
+import { categoryCounts, getCatalog, invalidateCatalog, rankBestSellers, rankSimilar } from '../services/catalog.js';
 
 const routerProduct = express.Router();
+
+// Any successful change to products refreshes the storefront catalog.
+routerProduct.use((req, res, next) => {
+    if (req.method !== 'GET') res.on('finish', () => res.statusCode < 400 && invalidateCatalog());
+    next();
+});
 
 routerProduct.get('/getAllProducts', asyncHandler(async (req, res) => {
     const products = await Product.find();
@@ -125,6 +138,90 @@ routerProduct.put('/updateProduct/:id', requireAdmin, asyncHandler(async (req, r
     const updatedProduct = await existingProduct.save()
 
     res.status(200).json(updatedProduct)
+}))
+
+// ---------------------------------------------------------------------------------------------
+// Storefront data: catalog with categories, best sellers, similar products and product reviews.
+// ---------------------------------------------------------------------------------------------
+
+const clampLimit = (value, fallback, max) => {
+    const n = parseInt(value, 10);
+    return Number.isInteger(n) && n > 0 ? Math.min(n, max) : fallback;
+};
+
+const findInCatalog = async (id) => {
+    if (!mongoose.isValidObjectId(id)) throw new HttpError(400, 'Invalid id');
+    const products = await getCatalog();
+    const product = products.find((p) => p._id === String(id));
+    if (!product) throw new HttpError(404, 'Product not found');
+    return { products, product };
+};
+
+// Every product with category, materials, units sold and rating, plus category counts.
+routerProduct.get('/catalog', asyncHandler(async (req, res) => {
+    const products = await getCatalog();
+    res.set('Cache-Control', 'public, max-age=60');
+    res.json({ categories: categoryCounts(products), products });
+}))
+
+routerProduct.get('/bestSellers', asyncHandler(async (req, res) => {
+    const products = await getCatalog();
+    res.set('Cache-Control', 'public, max-age=60');
+    res.json(rankBestSellers(products, clampLimit(req.query.limit, 8, 24)));
+}))
+
+routerProduct.get('/:id/similar', asyncHandler(async (req, res) => {
+    const { products, product } = await findInCatalog(req.params.id);
+    res.set('Cache-Control', 'public, max-age=60');
+    res.json(rankSimilar(products, product, clampLimit(req.query.limit, 4, 12)));
+}))
+
+routerProduct.get('/:id/reviews', asyncHandler(async (req, res) => {
+    const { product } = await findInCatalog(req.params.id);
+    const reviews = await ProductReview.find({ product: product._id, approved: true })
+        .sort({ createdAt: -1 })
+        .limit(50)
+        .select('name country rating title comment createdAt')
+        .lean();
+    const distribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+    reviews.forEach((r) => { distribution[r.rating] += 1; });
+    res.json({ summary: { ...product.rating, distribution }, reviews });
+}))
+
+const REVIEW_FIELDS = { name: [2, 80], country: [0, 80], title: [0, 120], comment: [3, 1000] };
+
+routerProduct.post('/:id/reviews', strictLimiter, asyncHandler(async (req, res) => {
+    const { product } = await findInCatalog(req.params.id);
+    const body = req.body || {};
+
+    // Honeypot: a hidden field real visitors never fill in. Answer as if it worked.
+    if (body.website) return res.status(201).json({ ok: true });
+
+    const clean = {};
+    for (const [field, [min, max]] of Object.entries(REVIEW_FIELDS)) {
+        const value = typeof body[field] === 'string' ? body[field].trim() : '';
+        if (value.length < min || value.length > max) {
+            return res.status(422).json({ error: `Invalid ${field}` });
+        }
+        clean[field] = value;
+    }
+    const rating = Number(body.rating);
+    if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
+        return res.status(422).json({ error: 'Invalid rating' });
+    }
+
+    const ipHash = crypto.createHash('sha256').update(`${req.ip}|${config.jwtSecret}`).digest('hex');
+    const review = await ProductReview.create({ product: product._id, rating, ipHash, ...clean });
+    invalidateCatalog();
+    res.status(201).json({
+        _id: review._id,
+        name: review.name,
+        country: review.country,
+        rating: review.rating,
+        title: review.title,
+        comment: review.comment,
+        createdAt: review.createdAt,
+    });
 }))
 
 export default routerProduct;
