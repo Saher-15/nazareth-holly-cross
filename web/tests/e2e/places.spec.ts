@@ -243,6 +243,7 @@ test.describe('quality', () => {
 
   test('nothing sticks out sideways from 360px to 1440px', async ({ page, isMobile }) => {
     test.skip(isMobile, 'viewport sweep runs once, on desktop');
+    test.setTimeout(180_000); // 4 widths x 2 languages x every page
     for (const width of [360, 375, 768, 1440]) {
       await page.setViewportSize({ width, height: 900 });
       for (const locale of ['en', 'he']) {
@@ -265,11 +266,9 @@ test.describe('quality', () => {
               .map((el) => `${el.tagName.toLowerCase()}.${el.className}`);
           });
           expect(outside, `${width}px /${locale}${path}`).toEqual([]);
-          // The whole document from 375px (at 360px the shared site header is still a few px too wide).
-          if (width >= 375) {
-            const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
-            expect(overflow, `${width}px /${locale}${path}`).toBeLessThanOrEqual(0);
-          }
+          // The whole document, header included.
+          const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+          expect(overflow, `${width}px /${locale}${path}`).toBeLessThanOrEqual(0);
         }
       }
     }
