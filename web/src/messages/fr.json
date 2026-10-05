@@ -376,5 +376,57 @@
     "voicesTitle": "Les mots de nos visiteurs",
     "voicesAll": "Lire la suite et partager le vôtre",
     "storyEyebrow": "L'histoire"
+  },
+  "placesPage": {
+    "meta": {
+      "sitesTitle": "Les lieux saints de Nazareth",
+      "sitesDescription": "Découvrez en photos la basilique de l'Annonciation, l'église grecque orthodoxe, le puits de Marie, la vieille ville et la ville de Nazareth, avec cartes et itinéraires pour votre pèlerinage.",
+      "tourTitle": "Visite virtuelle de Nazareth",
+      "tourDescription": "Regardez une visite vidéo de Nazareth, de ses marchés animés à ses églises historiques, puis découvrez chaque lieu saint en photos.",
+      "aboutTitle": "Qui sommes-nous",
+      "aboutDescription": "Nazareth Holy Cross vous apporte la ville de Jésus : visites virtuelles de ses lieux saints, souvenirs de Nazareth et bougies allumées à vos intentions."
+    },
+    "index": {
+      "title": "Les lieux saints de Nazareth",
+      "lead": "Cinq lieux où l'histoire de l'Annonciation et de l'enfance de Jésus est toujours vivante. Parcourez-les en photos, trouvez-les sur la carte ou allumez une bougie à distance.",
+      "listEyebrow": "Cinq lieux saints",
+      "tourTitle": "Parcourez les rues de Nazareth",
+      "tourText": "Regardez notre visite vidéo et découvrez les marchés, les églises et les monuments de la ville où Jésus a grandi."
+    },
+    "kind": {
+      "latin": "Basilique catholique",
+      "greek": "Église grecque orthodoxe",
+      "maryswell": "Source ancienne",
+      "oldcity": "Quartier historique et marché",
+      "city": "La ville de Jésus"
+    },
+    "teaser": {
+      "latin": "L'une des plus grandes églises du Moyen-Orient, bâtie sur la grotte où, selon la tradition, l'ange Gabriel annonça à Marie qu'elle enfanterait Jésus.",
+      "greek": "Bâtie en 1750 au-dessus de la source où la tradition orthodoxe situe l'Annonciation, avec une iconostase en bois sculpté et une chapelle aux marches datant des croisés.",
+      "maryswell": "L'ancienne source de Nazareth où, selon la tradition, Marie puisait l'eau : pendant des siècles, le lieu de rencontre de la ville.",
+      "oldcity": "Ruelles étroites, marché animé et quelques-uns des plus importants sites chrétiens de Nazareth, le tout à quelques pas.",
+      "city": "La ville de Galilée, à flanc de colline, où Jésus a grandi, aujourd'hui un centre vivant de foi, de culture et d'hospitalité."
+    },
+    "allSites": "Tous les lieux saints",
+    "newTab": "(s'ouvre dans un nouvel onglet)",
+    "viewGallery": "Voir les photos",
+    "visitEyebrow": "Préparer votre visite",
+    "visitText": "Trouvez ce lieu saint sur la carte, ou allumez une bougie pour votre intention, où que vous soyez.",
+    "directions": "Itinéraire",
+    "galleryEyebrow": "Galerie",
+    "galleryTitle": "Galerie de photos",
+    "galleryHint": "Sélectionnez une photo pour l'agrandir",
+    "photoCount": "{count, plural, one {# photo} other {# photos}}",
+    "photoAlt": "{place}, photo {n} sur {total}",
+    "viewer": "Photos : {place}",
+    "close": "Fermer",
+    "moreEyebrow": "Poursuivez le voyage",
+    "tourWatchEyebrow": "Regardez la visite",
+    "tourVideoLabel": "Visite de Nazareth en vidéo",
+    "videoFallback": "Votre navigateur ne peut pas lire cette vidéo.",
+    "aboutEyebrow": "Qui sommes-nous",
+    "aboutPillar1": "Un pèlerinage à distance",
+    "aboutPillar2": "Des trésors de Terre sainte",
+    "aboutPillar3": "Soutenir notre communauté"
   }
 }

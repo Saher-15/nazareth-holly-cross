@@ -376,5 +376,57 @@
     "voicesTitle": "Le parole dei nostri visitatori",
     "voicesAll": "Leggi di più e condividi la tua",
     "storyEyebrow": "La storia"
+  },
+  "placesPage": {
+    "meta": {
+      "sitesTitle": "Luoghi santi di Nazaret",
+      "sitesDescription": "Visita in foto la Chiesa dell'Annunciazione, la chiesa greco-ortodossa, il Pozzo di Maria, la Città Vecchia e la città di Nazaret, con mappe e indicazioni per il tuo pellegrinaggio.",
+      "tourTitle": "Tour virtuale di Nazaret",
+      "tourDescription": "Guarda un video tour di Nazaret, dai mercati vivaci alle chiese storiche, poi esplora ogni luogo santo in foto.",
+      "aboutTitle": "Chi siamo",
+      "aboutDescription": "Nazareth Holy Cross ti porta la città di Gesù: visite virtuali ai suoi luoghi santi, souvenir da Nazaret e candele accese per le tue intenzioni."
+    },
+    "index": {
+      "title": "I luoghi santi di Nazaret",
+      "lead": "Cinque luoghi in cui la storia dell'Annunciazione e dell'infanzia di Gesù è ancora viva. Percorrili in foto, trovali sulla mappa o accendi una candela da lontano.",
+      "listEyebrow": "Cinque luoghi santi",
+      "tourTitle": "Cammina per le strade di Nazaret",
+      "tourText": "Guarda il nostro video tour e scopri i mercati, le chiese e i monumenti della città in cui Gesù è cresciuto."
+    },
+    "kind": {
+      "latin": "Basilica cattolica",
+      "greek": "Chiesa greco-ortodossa",
+      "maryswell": "Sorgente antica",
+      "oldcity": "Quartiere storico e mercato",
+      "city": "La città di Gesù"
+    },
+    "teaser": {
+      "latin": "Una delle chiese più grandi del Medio Oriente, costruita sopra la grotta dove, secondo la tradizione, l'angelo Gabriele annunciò a Maria che avrebbe concepito Gesù.",
+      "greek": "Costruita nel 1750 sopra la sorgente dove la tradizione ortodossa colloca l'Annunciazione, con un'iconostasi in legno intagliato e una cappella a cui si scende per gradini dell'epoca crociata.",
+      "maryswell": "L'antica sorgente di Nazaret dove, secondo la tradizione, Maria attingeva l'acqua: per secoli il luogo d'incontro del paese.",
+      "oldcity": "Vicoli stretti, un mercato vivace e alcuni dei più importanti luoghi cristiani di Nazaret, tutto a pochi passi.",
+      "city": "La città collinare della Galilea dove Gesù è cresciuto, oggi un vivace centro di fede, cultura e ospitalità."
+    },
+    "allSites": "Tutti i luoghi santi",
+    "newTab": "(si apre in una nuova scheda)",
+    "viewGallery": "Guarda le foto",
+    "visitEyebrow": "Pianifica la visita",
+    "visitText": "Trova questo luogo santo sulla mappa, oppure accendi una candela per la tua intenzione ovunque tu sia.",
+    "directions": "Indicazioni stradali",
+    "galleryEyebrow": "Galleria",
+    "galleryTitle": "Galleria fotografica",
+    "galleryHint": "Seleziona una foto per ingrandirla",
+    "photoCount": "{count, plural, one {# foto} other {# foto}}",
+    "photoAlt": "{place}, foto {n} di {total}",
+    "viewer": "Foto: {place}",
+    "close": "Chiudi",
+    "moreEyebrow": "Continua il viaggio",
+    "tourWatchEyebrow": "Guarda il tour",
+    "tourVideoLabel": "Video tour di Nazaret",
+    "videoFallback": "Il tuo browser non può riprodurre questo video.",
+    "aboutEyebrow": "Chi siamo",
+    "aboutPillar1": "Un pellegrinaggio da lontano",
+    "aboutPillar2": "Tesori dalla Terra Santa",
+    "aboutPillar3": "Sostenere la nostra comunità"
   }
 }

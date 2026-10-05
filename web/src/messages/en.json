@@ -376,5 +376,57 @@
     "voicesTitle": "Words from our visitors",
     "voicesAll": "Read more and share yours",
     "storyEyebrow": "The story"
+  },
+  "placesPage": {
+    "meta": {
+      "sitesTitle": "Holy sites of Nazareth",
+      "sitesDescription": "Visit the Basilica of the Annunciation, the Greek Orthodox Church, Mary's Well, the Old City and the city of Nazareth in photos, with maps and directions for your pilgrimage.",
+      "tourTitle": "Virtual tour of Nazareth",
+      "tourDescription": "Watch a video tour of Nazareth, from its lively markets to its historic churches, then explore each holy site in photos.",
+      "aboutTitle": "About us",
+      "aboutDescription": "Nazareth Holy Cross brings the city of Jesus to you: virtual visits to its holy sites, souvenirs from Nazareth and candles lit for your intentions."
+    },
+    "index": {
+      "title": "The holy sites of Nazareth",
+      "lead": "Five places where the story of the Annunciation and of the childhood of Jesus is still alive. Walk through them in photos, find them on the map, or light a candle from afar.",
+      "listEyebrow": "Five holy places",
+      "tourTitle": "Walk the streets of Nazareth",
+      "tourText": "Watch our video tour and discover the markets, churches and landmarks of the city where Jesus grew up."
+    },
+    "kind": {
+      "latin": "Catholic basilica",
+      "greek": "Greek Orthodox church",
+      "maryswell": "Ancient spring",
+      "oldcity": "Historic quarter and market",
+      "city": "The city of Jesus"
+    },
+    "teaser": {
+      "latin": "One of the largest churches in the Middle East, built over the grotto where, by tradition, the Angel Gabriel announced to Mary that she would bear Jesus.",
+      "greek": "Built in 1750 above the spring where Orthodox tradition places the Annunciation, with a carved wooden iconostasis and a chapel reached by Crusader-era steps.",
+      "maryswell": "The old spring of Nazareth where, by tradition, Mary drew water: for centuries the gathering place of the town.",
+      "oldcity": "Narrow lanes, a lively market and some of the most important Christian sites of Nazareth, all within a short walk.",
+      "city": "The hillside city of Galilee where Jesus grew up, today a vibrant center of faith, culture and hospitality."
+    },
+    "allSites": "All holy sites",
+    "newTab": "(opens in a new tab)",
+    "viewGallery": "View the photos",
+    "visitEyebrow": "Plan your visit",
+    "visitText": "Find this holy place on the map, or light a candle for your intention from wherever you are.",
+    "directions": "Get directions",
+    "galleryEyebrow": "Gallery",
+    "galleryTitle": "Photo gallery",
+    "galleryHint": "Select a photo to enlarge it",
+    "photoCount": "{count, plural, one {# photo} other {# photos}}",
+    "photoAlt": "{place}, photo {n} of {total}",
+    "viewer": "Photos of {place}",
+    "close": "Close",
+    "moreEyebrow": "Continue the journey",
+    "tourWatchEyebrow": "Watch the tour",
+    "tourVideoLabel": "Video tour of Nazareth",
+    "videoFallback": "Your browser cannot play this video.",
+    "aboutEyebrow": "About us",
+    "aboutPillar1": "A pilgrimage from afar",
+    "aboutPillar2": "Treasures from the Holy Land",
+    "aboutPillar3": "Supporting our community"
   }
 }
