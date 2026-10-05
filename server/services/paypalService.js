@@ -4,6 +4,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 const { baseUrl, clientId, clientSecret } = config.paypal;
 
+const TIMEOUT_MS = 15_000;
+
 async function paypalFetch(path, { token, body, method = 'POST' } = {}) {
   let res;
   try {
@@ -15,6 +17,7 @@ async function paypalFetch(path, { token, body, method = 'POST' } = {}) {
         'PayPal-Request-Id': uuidv4(),
       },
       body: body ? JSON.stringify(body) : undefined,
+      signal: AbortSignal.timeout(TIMEOUT_MS),
     });
   } catch (err) {
     throw new HttpError(502, `PayPal is unreachable: ${err.message}`);
@@ -26,7 +29,18 @@ async function paypalFetch(path, { token, body, method = 'POST' } = {}) {
   return json;
 }
 
+// PayPal access tokens live for hours; asking for a new one on every request doubles the calls
+// of each checkout. The token is kept until a minute before it expires.
+let cachedToken = null;
+let cachedUntil = 0;
+
+export function clearAccessTokenCache() {
+  cachedToken = null;
+  cachedUntil = 0;
+}
+
 export async function getAccessToken() {
+  if (cachedToken && Date.now() < cachedUntil) return cachedToken;
   let res;
   try {
     res = await fetch(`${baseUrl}/v1/oauth2/token`, {
@@ -36,6 +50,7 @@ export async function getAccessToken() {
         Authorization: `Basic ${Buffer.from(`${clientId}:${clientSecret}`).toString('base64')}`,
       },
       body: 'grant_type=client_credentials',
+      signal: AbortSignal.timeout(TIMEOUT_MS),
     });
   } catch (err) {
     throw new HttpError(502, `PayPal is unreachable: ${err.message}`);
@@ -43,6 +58,10 @@ export async function getAccessToken() {
   const json = await res.json().catch(() => ({}));
   if (!res.ok || !json.access_token) {
     throw new HttpError(502, `PayPal authentication failed (${res.status})`);
+  }
+  if (Number.isFinite(json.expires_in) && json.expires_in > 120) {
+    cachedToken = json.access_token;
+    cachedUntil = Date.now() + (json.expires_in - 60) * 1000;
   }
   return json.access_token;
 }

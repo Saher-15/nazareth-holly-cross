@@ -8,7 +8,7 @@ const routerPrayer = express.Router();
 
 routerPrayer.get('/getPrayers', asyncHandler(async (req, res) => {
   const page = Math.max(1, parseInt(req.query.page) || 1);
-  const size = Math.min(50, parseInt(req.query.size) || 20);
+  const size = Math.min(50, Math.max(1, parseInt(req.query.size) || 20));
   const category = req.query.category;
   const filter = category && category !== 'All' ? { category } : {};
   const prayers = await Prayer.find(filter).sort({ createdAt: -1 }).limit(size).skip((page - 1) * size);

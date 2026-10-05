@@ -5,6 +5,7 @@ import { createOrder as createPayPalOrder, captureOrder as capturePayPalOrder } 
 import { priceFor, priceShopOrder } from '../services/pricing.js';
 import { requireAdmin } from '../middleware/auth.js';
 import { asyncHandler } from "../middleware/asyncHandler.js"
+import { orderLimiter, paymentLimiter } from '../utils/security.js';
 
 
 const routerOrder = express.Router();
@@ -26,7 +27,7 @@ routerOrder.get('/getOrder/:id', requireAdmin, asyncHandler(async (req, res) => 
 
 const REQUIRED_ORDER_FIELDS = ['firstName', 'lastName', 'phone', 'email', 'street', 'city', 'state', 'postal', 'country'];
 
-routerOrder.post('/newOrder', asyncHandler(async (req, res) => {
+routerOrder.post('/newOrder', orderLimiter, asyncHandler(async (req, res) => {
     const { products } = req.body;
 
     for (const field of REQUIRED_ORDER_FIELDS) {
@@ -88,13 +89,13 @@ routerOrder.delete('/deleteOrder/:id', requireAdmin, asyncHandler(async (req, re
     res.status(200).send("Success");
 }))
 
-routerOrder.post('/create_order', asyncHandler(async (req, res) => {
+routerOrder.post('/create_order', paymentLimiter, asyncHandler(async (req, res) => {
     const amount = await priceFor(req.body);
     const order = await createPayPalOrder(amount);
     res.json({ id: order.id, status: order.status, amount });
 }));
 
-routerOrder.post('/complete_order', asyncHandler(async (req, res) => {
+routerOrder.post('/complete_order', paymentLimiter, asyncHandler(async (req, res) => {
     const order_id = req.body.order_id;
     if (!order_id || !/^[A-Z0-9]{17}$/.test(order_id)) {
         return res.status(400).json({ error: 'Invalid order ID' });

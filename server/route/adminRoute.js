@@ -15,11 +15,14 @@ const router = express.Router();
 router.post('/login', loginLimiter, asyncHandler(async (req, res) => {
   const { username, password } = req.body;
   const ip = req.ip || req.headers['x-forwarded-for'] || 'unknown';
+  if (typeof username !== 'string' || typeof password !== 'string' || !username || !password) {
+    return res.status(401).json({ error: 'Invalid credentials' });
+  }
 
   const admin = await Admin.findOne({ username });
   if (!admin || !(await admin.comparePassword(password))) {
     console.warn(
-      `[${new Date().toISOString()}] Failed admin/login attempt for username="${username}" from IP: ${ip}`
+      `[${new Date().toISOString()}] Failed admin/login attempt for username=${JSON.stringify(username.slice(0, 100))} from IP: ${ip}`
     );
     return res.status(401).json({ error: 'Invalid credentials' });
   }

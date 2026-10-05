@@ -1,4 +1,5 @@
 import express from 'express';
+import mongoose from 'mongoose';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
@@ -69,7 +70,13 @@ export function createApp() {
   app.use('/prayer', routerPrayer);
   app.use('/review', routerReview);
 
-  app.get('/health', (req, res) => res.json({ status: 'ok', timestamp: new Date().toISOString() }));
+  app.get('/health', (req, res) =>
+    res.json({
+      status: 'ok',
+      database: mongoose.connection.readyState === 1 ? 'up' : 'down',
+      timestamp: new Date().toISOString(),
+    }),
+  );
 
   app.use(notFoundHandler);
   app.use(errorHandler);
