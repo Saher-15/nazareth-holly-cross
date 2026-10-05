@@ -4,6 +4,7 @@ import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import SiteFooter from '@/components/layout/SiteFooter';
 import SiteHeader from '@/components/layout/SiteHeader';
+import { CartProvider } from '@/lib/cart';
 import { isRtl, locales, routing } from '@/i18n/routing';
 import { SITE_URL } from '@/lib/config';
 import { fontVariables } from '@/lib/fonts';
@@ -48,11 +49,13 @@ export default async function LocaleLayout({ children, params }: LayoutProps<'/[
     <html lang={locale} dir={isRtl(locale) ? 'rtl' : 'ltr'} className={fontVariables}>
       <body>
         <NextIntlClientProvider>
-          <SiteHeader />
-          <main id="main" tabIndex={-1}>
-            {children}
-          </main>
-          <SiteFooter />
+          <CartProvider>
+            <SiteHeader />
+            <main id="main" tabIndex={-1}>
+              {children}
+            </main>
+            <SiteFooter />
+          </CartProvider>
         </NextIntlClientProvider>
       </body>
     </html>
