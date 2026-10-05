@@ -15,6 +15,7 @@ import { found, listHandler, objectId } from './common.js';
 // reviews of products and the prayer wall. All have the same shape:
 //
 //   GET    /          paginated list (viewer)      ?page &size &q &status &sort
+//   GET    /:id       one document (viewer)        (the dashboard's detail drawers open it by address)
 //   PATCH  /:id       { done } or { approved }     (editor; not for prayers)
 //   DELETE /:id       (editor)
 //
@@ -23,6 +24,12 @@ import { found, listHandler, objectId } from './common.js';
 function collection({ Model, type, flag, listOptions, queryOptions, after = () => {} }) {
   const router = express.Router();
   router.get('/', requireRole('viewer'), listHandler(Model, listOptions, queryOptions));
+
+  router.get('/:id', requireRole('viewer'), asyncHandler(async (req, res) => {
+    let query = Model.findById(objectId(req.params.id));
+    if (queryOptions?.populate) query = query.populate(queryOptions.populate.path, queryOptions.populate.select);
+    res.json(found(await query.lean(), type));
+  }));
 
   if (flag) {
     router.patch('/:id', requireRole('editor'), asyncHandler(async (req, res) => {

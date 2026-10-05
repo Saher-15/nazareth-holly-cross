@@ -5,7 +5,7 @@ import { Drawer } from '@/components/ui/Drawer';
 import { Badge, DataTable, EmptyState, ErrorState, Field, hrefWith, ListToolbar, Ltr, PageHeader, Pagination, paramsOf } from '@/components/ui/Primitives';
 import { getI18n } from '@/i18n/server';
 import { candleSchema, candlesPage, parseListParams, type Candle } from '@/lib/api';
-import { formatDateTime, fullName, truncate } from '@/lib/format';
+import { formatDateTime, fullName, mailtoHref, truncate } from '@/lib/format';
 import { can } from '@/lib/roles';
 import { openParam } from '@/lib/search-params';
 import { getSession, load, serverApi } from '@/lib/server-api';
@@ -48,7 +48,7 @@ export default async function CandlesPage({ searchParams }: { searchParams: Prom
           { value: '-createdAt', label: t('sort.newest') },
           { value: 'createdAt', label: t('sort.oldest') },
         ]}
-        exportPath="/api/proxy/export/candles.csv"
+        exportPath={can(user.role, 'export') ? '/api/proxy/export/candles.csv' : undefined}
         searchLabel={t('candles.search')}
       />
 
@@ -121,7 +121,7 @@ export default async function CandlesPage({ searchParams }: { searchParams: Prom
                 <Badge tone={detail.data.done ? 'success' : 'gold'}>{detail.data.done ? t('status.done') : t('status.pending')}</Badge>
               </div>
               <dl className="fields">
-                <Field label={t('common.email')}><a className="link" href={`mailto:${detail.data.email}`}><Ltr>{detail.data.email}</Ltr></a></Field>
+                <Field label={t('common.email')}><a className="link" href={mailtoHref(detail.data.email) ?? undefined}><Ltr>{detail.data.email}</Ltr></a></Field>
                 <Field label={t('candles.colPrayer')} wide><p className="prose">{detail.data.prayer}</p></Field>
               </dl>
               {canWrite ? (

@@ -10,7 +10,7 @@ import { isApiError } from '@/lib/api';
 import { proxyCall } from '@/lib/client-api';
 import { formatMoney } from '@/lib/format';
 import { isImageUrl, UploadError, uploadEnabled, uploadProductImage } from '@/lib/firebase-upload';
-import { parseColors, toBody, validateProduct, type FieldErrors, type ProductValues } from '@/lib/product-form';
+import { CATEGORIES, parseColors, toBody, validateProduct, type FieldErrors, type ProductValues } from '@/lib/product-form';
 
 type Props = { mode: 'create' | 'edit'; id?: string; uuid: string; initial: ProductValues; canDelete: boolean };
 
@@ -175,10 +175,10 @@ export function ProductForm({ mode, id, uuid, initial, canDelete }: Props) {
             </div>
             <div className="field">
               <label htmlFor={fid('category')}>{t('products.category')}</label>
-              <input id={fid('category')} data-field="category" className="input" value={v.category} onChange={(e) => set('category', e.target.value)} maxLength={60} list={fid('categories')} aria-describedby={fid('category-hint')} />
-              <datalist id={fid('categories')}>
-                {['Candles', 'Crosses', 'Rosaries', 'Icons', 'Gifts', 'Ornaments', 'Crafts', 'Jewellery'].map((c) => <option key={c} value={c} />)}
-              </datalist>
+              <select id={fid('category')} data-field="category" className="select" value={v.category} onChange={(e) => set('category', e.target.value)} aria-describedby={fid('category-hint')}>
+                <option value="">{t('products.categoryAuto')}</option>
+                {CATEGORIES.map((c) => <option key={c} value={c}>{t(`category.${c}` as 'category.gifts')}</option>)}
+              </select>
               <p id={fid('category-hint')} className="hint">{t('products.categoryHint')}</p>
             </div>
             <div className="field">
@@ -249,7 +249,7 @@ export function ProductForm({ mode, id, uuid, initial, canDelete }: Props) {
           <p className="preview__name">{v.name.trim() || t('products.previewName')}</p>
           <p className="preview__price">{Number.isFinite(priceNumber) && v.price ? formatMoney(priceNumber, locale) : '-'}</p>
           <p className="preview__meta">
-            {v.category.trim() ? <span className="chip">{v.category.trim()}</span> : null}
+            {v.category ? <span className="chip">{t(`category.${v.category}` as 'category.gifts')}</span> : null}
             {stockNumber === null ? <span className="chip">{t('products.unlimited')}</span> : <span className={`chip ${stockNumber === 0 ? 'chip--danger' : stockNumber <= 5 ? 'chip--warn' : ''}`}>{stockNumber === 0 ? t('products.outOfStock') : t('products.inStock', { n: stockNumber })}</span>}
           </p>
           {colors.length ? <p className="preview__meta">{colors.map((c) => <span key={c} className="chip">{c}</span>)}</p> : null}

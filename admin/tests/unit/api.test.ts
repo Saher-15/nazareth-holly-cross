@@ -56,7 +56,7 @@ describe('response schemas', () => {
     expect(userSchema.parse({ _id: 'u', username: 'a', role: 'editor' })).toMatchObject({ id: 'u', disabled: false });
     const a = auditSchema.parse({ _id: 'a', createdAt: '2026-01-01T00:00:00Z', actor: { username: 'owner' }, action: 'order.update', target: { id: 1 } });
     expect(a).toMatchObject({ when: '2026-01-01T00:00:00Z', actorName: 'owner' });
-    expect(a.targetText).toContain('"id":1');
+    expect(a.targetText).toBe('1');
     expect(auditSchema.parse({ _id: 'b', at: '2026-02-02', actor: 'x', action: 'auth.login' })).toMatchObject({ when: '2026-02-02', actorName: 'x', targetText: '' });
   });
 

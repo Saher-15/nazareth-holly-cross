@@ -122,17 +122,23 @@ describe('format helpers', () => {
 });
 
 describe('CSV cells (export is formula-injection safe)', () => {
-  it('prefixes cells that start with = + - @ tab or CR, quotes everything, doubles quotes', () => {
-    for (const evil of ['=SUM(A1)', '+1+1', '-2+3', '@cmd', '\tx', '\rx']) expect(csvCell(evil)).toBe(`"'${evil}"`);
+  // The mock's CSV follows the real API's rules (server/route/admin/export.js): quote only where needed (RFC 4180).
+  it('prefixes cells that start with = + - @ tab or CR, quotes where needed, doubles quotes', () => {
+    for (const evil of ['=SUM(A1)', '+1+1', '-2+3', '@cmd']) expect(csvCell(evil)).toBe(`'${evil}`);
+    expect(csvCell('\tx')).toBe("'\tx");
+    expect(csvCell('\rx')).toBe("\"'\rx\""); // a carriage return also forces quoting
     expect(csvCell('say "hi"')).toBe('"say ""hi"""');
-    expect(csvCell(null)).toBe('""');
-    expect(csvCell(12.5)).toBe('"12.5"');
-    expect(csvCell('safe = text')).toBe('"safe = text"');
+    expect(csvCell('a,b')).toBe('"a,b"');
+    expect(csvCell(null)).toBe('');
+    expect(csvCell(12.5)).toBe('12.5');
+    expect(csvCell(true)).toBe('true');
+    expect(csvCell('safe = text')).toBe('safe = text');
+    expect(csvCell('Tom &amp; Jerry', (t) => t.replace('&amp;', '&'))).toBe('Tom & Jerry');
   });
   it('writes a header, CRLF rows and a BOM for Excel', () => {
     const csv = toCsv([{ header: 'Name', value: (r: { n: string }) => r.n }], [{ n: '=1+1' }, { n: 'ok' }]);
     expect(csv.charCodeAt(0)).toBe(0xfeff);
-    expect(csv.slice(1)).toBe('"Name"\r\n"\'=1+1"\r\n"ok"\r\n');
+    expect(csv.slice(1)).toBe("Name\r\n'=1+1\r\nok\r\n");
   });
 });
 
@@ -173,7 +179,7 @@ describe('product form', () => {
   const ok: ProductValues = { ...EMPTY_PRODUCT, name: 'Candle', price: '19.5', img: 'https://firebasestorage.googleapis.com/v0/b/x/o/y?alt=media', stock: '4', rate: '2.5', colors: ' white , gold,,' };
   it('accepts valid values and builds the API body', () => {
     expect(validateProduct(ok)).toEqual({});
-    expect(toBody({ ...ok, additional: ['https://a.example/1.png', ' '], category: ' Candles ' }, 'uuid-1')).toEqual({
+    expect(toBody({ ...ok, additional: ['https://a.example/1.png', ' '], category: 'crosses' }, 'uuid-1')).toEqual({
       name: 'Candle',
       price: 19.5,
       img: ok.img,
@@ -183,12 +189,12 @@ describe('product form', () => {
       rate: 2.5,
       color: ['white', 'gold'],
       stock: 4,
-      category: 'Candles',
+      category: 'crosses',
     });
     expect(toBody({ ...ok, stock: '', category: '' }, 'u')).toMatchObject({ stock: null, category: null });
   });
   it('reports every problem', () => {
-    const errors = validateProduct({ ...EMPTY_PRODUCT, name: 'x', price: '0', stock: '-1', rate: '9', img: 'javascript:alert(1)', additional: ['http://insecure.example/a.png'], description: 'x'.repeat(2001), colors: 'y'.repeat(41), category: 'z'.repeat(61) });
+    const errors = validateProduct({ ...EMPTY_PRODUCT, name: 'x', price: '0', stock: '-1', rate: '9', img: 'javascript:alert(1)', additional: ['http://insecure.example/a.png'], description: 'x'.repeat(2001), colors: 'y'.repeat(41), category: 'z'.repeat(6) });
     expect(Object.keys(errors).sort()).toEqual(['additional', 'category', 'colors', 'description', 'img', 'name', 'price', 'rate', 'stock']);
     expect(validateProduct({ ...ok, price: '10001' }).price).toBe('price');
     expect(validateProduct({ ...ok, stock: '1.5' }).stock).toBe('stock');

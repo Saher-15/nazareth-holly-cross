@@ -35,6 +35,7 @@ const updateShape = Object.fromEntries(Object.entries(PRODUCT_FIELDS).map(([k, r
 router.get('/', requireRole('viewer'), listHandler(Product, {
   searchFields: ['name', 'description', 'uuidv4_'],
   statuses: {
+    ok: { $or: [{ stock: null }, { stock: mongoose.trusted({ $gt: 5 }) }] }, // not tracked, or more than 5 left
     low: { stock: mongoose.trusted({ $lte: 5 }) }, // tracked and at or below 5 (untracked stock is null: never matches)
     out: { stock: 0 },
   },

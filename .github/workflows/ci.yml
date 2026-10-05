@@ -65,6 +65,39 @@ jobs:
           path: web/playwright-report
           retention-days: 7
 
+  admin:
+    name: Admin dashboard (lint, types, unit, build, e2e on the mock and on the real API)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: admin
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            admin/package-lock.json
+            server/package-lock.json
+      - run: npm ci
+      # The parity test and the harness run the real API code (server/test-harness): they need its dependencies.
+      - run: npm ci
+        working-directory: server
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+      - run: npm run test:e2e:harness
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: admin-playwright-report
+          path: admin/playwright-report
+          retention-days: 7
+
   legacy-client:
     name: Current site (build)
     runs-on: ubuntu-latest

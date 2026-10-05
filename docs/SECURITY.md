@@ -97,6 +97,8 @@ shop checkout then sends the PayPal order id (`paypalOrderId`) with the order so
 
 ### 4.1 Authentication and authorization
 
+**The result of running the dashboard against this API and attacking both (what held, what was fixed, what is open) is in [ADMIN-RUNBOOK.md](ADMIN-RUNBOOK.md) sections 8 and 9.**
+
 **The admin dashboard (new) has its own accounts, roles, optional TOTP, revocable sessions and an audit log: see [ADMIN.md](ADMIN.md).** The two sign-ins below are **deprecated** and kept only until the old admin site is retired.
 
 Two ways to sign in exist side by side; both end in the **same kind of token** and `requireAdmin` accepts either:
@@ -227,6 +229,7 @@ browser                         API                                PayPal
 | CSP has no report endpoint | violations in visitors' browsers are invisible | add `report-to` with an error tracker (Sentry) |
 | `style-src-attr 'unsafe-inline'` | inline style attributes cannot be nonce-protected | remove when no component writes `style=""` |
 | The old shared-password / account sign-ins (`/auth/login`, `/admin/login`) | one shared secret, no roles, no lockout, no audit, 8-hour tokens that cannot be revoked | retire them when the old admin site is off (ADMIN.md section 7) |
+| Behind the dashboard the API sees the dashboard host's address, not the visitor's (`trust proxy` 1, last `X-Forwarded-For` entry) | the per-address sign-in limits are shared by all visitors and audit address hashes are identical; anyone can lock an account for 15 minutes | the per-account lockout is the real control; a shared secret between dashboard and API would allow a safe visitor address (ADMIN-RUNBOOK.md 9) |
 | Dashboard tokens cannot be refreshed (60 minutes) | an admin signs in again every hour | add a refresh route if that proves annoying |
 | Admin site (separate repository) keeps its token in the browser | XSS on the admin site would expose it | review there; tokens already expire after 8 hours |
 | Pages are rendered per request (nonce) | slower first byte than static pages | measure; consider hash-based CSP if needed |

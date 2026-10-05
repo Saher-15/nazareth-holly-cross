@@ -12,7 +12,9 @@
     "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "check": "npm run lint && npm run typecheck && npm run test && npm run build"
+    "check": "npm run lint && npm run typecheck && npm run test && npm run build",
+    "test:e2e:harness": "node scripts/e2e.mjs harness",
+    "dev:harness": "node ../server/test-harness/serve.mjs"
   },
   "dependencies": {
     "next": "16.3.8",

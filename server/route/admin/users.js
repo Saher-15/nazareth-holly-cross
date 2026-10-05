@@ -52,6 +52,7 @@ router.get('/', asyncHandler(async (req, res) => {
   const params = parseList(req.query, {
     searchFields: ['username', 'email'],
     statuses: {
+      active: ENABLED,
       owner: OWNER,
       editor: { role: 'editor' },
       viewer: { role: 'viewer' },

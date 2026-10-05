@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { stateFile } from './helpers';
+import { APP, stateFile } from './helpers';
 
 // What each role sees. The API refuses the same things on its own (see security.spec.ts); the UI just does not offer them.
 
@@ -33,7 +33,7 @@ test.describe('viewer', () => {
     await expect(page.getByRole('heading', { name: 'You do not have access to this' }).first()).toBeVisible();
   });
 
-  test('can still read details and export', async ({ page }) => {
+  test('can still read details', async ({ page }) => {
     await page.goto('/orders');
     await page.locator('tbody tr').first().getByRole('link', { name: 'View' }).click();
     const drawer = page.getByRole('dialog', { name: 'Order details' });
@@ -41,9 +41,40 @@ test.describe('viewer', () => {
     await expect(drawer.getByRole('button', { name: /Mark shipped|Delete/ })).toHaveCount(0);
     await page.keyboard.press('Escape');
     await expect(drawer).toBeHidden();
-    const csv = await page.request.get('/api/proxy/export/orders.csv');
-    expect(csv.status()).toBe(200);
-    expect(csv.headers()['content-type']).toContain('text/csv');
+  });
+
+  test('every forbidden call is refused by the API itself, not only hidden in the UI', async ({ page }) => {
+    const origin = { Origin: APP };
+    type Item = { _id?: string; id?: string; done?: boolean };
+    const first = async (resource: string) => ((await (await page.request.get(`/api/proxy/${resource}?size=1`)).json()) as { items: Item[] }).items[0];
+    const id = (x: Item) => (x._id ?? x.id) as string;
+    const order = await first('orders');
+    const candle = await first('candles');
+    const product = await first('products');
+    const attempts: [string, string, unknown?][] = [
+      ['PATCH', `orders/${id(order)}`, { done: true }], ['DELETE', `orders/${id(order)}`], ['PATCH', `candles/${id(candle)}`, { done: true }], ['DELETE', `candles/${id(candle)}`],
+      ['POST', 'products', { name: 'Nope', price: 5, img: 'https://example.com/a.jpg' }], ['PUT', `products/${id(product)}`, { price: 1 }], ['PATCH', `products/${id(product)}`, { price: 1 }],
+      ['DELETE', `products/${id(product)}`], ['POST', 'users', { username: 'viewer-made', password: 'Viewer-Made-Pass-9', role: 'owner' }],
+      ['GET', 'users'], ['GET', 'audit'], ['GET', 'export/orders.csv'],
+    ];
+    for (const [method, path, data] of attempts) {
+      const res = await page.request.fetch(`/api/proxy/${path}`, { method, data, headers: origin });
+      expect(res.status(), `${method} ${path}`).toBe(403);
+    }
+    // ...and nothing changed
+    const again = (await (await page.request.get(`/api/proxy/orders/${id(order)}`)).json()) as Item;
+    expect(again.done ?? false).toBe(order.done ?? false);
+  });
+
+  test('cannot export: no button, and the API refuses a bulk copy of personal data', async ({ page }) => {
+    for (const path of ['/orders', '/candles', '/contacts']) {
+      await page.goto(path);
+      await expect(page.locator('tbody tr').first()).toBeVisible();
+      await expect(page.getByRole('link', { name: 'Export CSV' })).toHaveCount(0);
+    }
+    for (const file of ['orders', 'candles', 'contacts']) {
+      expect((await page.request.get(`/api/proxy/export/${file}.csv`)).status()).toBe(403);
+    }
   });
 });
 
@@ -58,6 +89,15 @@ test.describe('editor', () => {
     await expect(nav.getByRole('link', { name: 'Users' })).toHaveCount(0);
     await page.goto('/users');
     await expect(page.getByRole('heading', { name: 'You do not have access to this' }).first()).toBeVisible();
+  });
+
+  test('can export the lists as CSV', async ({ page }) => {
+    await page.goto('/orders');
+    await expect(page.getByRole('link', { name: 'Export CSV' })).toBeVisible();
+    const csv = await page.request.get('/api/proxy/export/orders.csv');
+    expect(csv.status()).toBe(200);
+    expect(csv.headers()['content-type']).toContain('text/csv');
+    expect(csv.headers()['content-disposition']).toMatch(/attachment; filename="orders-\d{4}-\d{2}-\d{2}\.csv"/);
   });
 
   test('cannot delete an order (owner only)', async ({ page }) => {

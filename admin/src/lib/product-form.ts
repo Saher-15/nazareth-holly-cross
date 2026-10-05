@@ -2,6 +2,11 @@
 import { isImageUrl } from './firebase-upload';
 import type { Product } from './api';
 
+/** The categories the API accepts (services/catalog.js CATEGORIES); empty = the site works it out from the name. */
+export const CATEGORIES = ['stained-glass', 'rosaries', 'necklaces', 'bracelets', 'bibles', 'crosses', 'holy-land', 'gifts'] as const;
+
+export const isCategory = (value: string | null | undefined): value is (typeof CATEGORIES)[number] => (CATEGORIES as readonly string[]).includes(value ?? '');
+
 export type ProductValues = {
   name: string;
   price: string;
@@ -48,7 +53,7 @@ export function validateProduct(v: ProductValues): FieldErrors {
   const price = Number(v.price);
   if (!v.price.trim() || !Number.isFinite(price) || price < 0.01 || price > 10_000) errors.price = 'price';
   if (v.description.length > 2000) errors.description = 'description';
-  if (v.category.length > 60) errors.category = 'category';
+  if (v.category !== '' && !(CATEGORIES as readonly string[]).includes(v.category)) errors.category = 'category';
   if (v.stock.trim() !== '' && (!/^\d+$/.test(v.stock.trim()) || Number(v.stock) > 1_000_000)) errors.stock = 'stock';
   const rate = Number(v.rate);
   if (!Number.isFinite(rate) || rate < 0 || rate > 5) errors.rate = 'rate';
@@ -70,6 +75,6 @@ export function toBody(v: ProductValues, uuid: string) {
     rate: Number(v.rate),
     color: parseColors(v.colors),
     stock: v.stock.trim() === '' ? null : Number(v.stock),
-    category: v.category.trim() || null,
+    category: v.category || null,
   };
 }

@@ -60,19 +60,35 @@ On a phone (390 px):
 | Users, Audit log | yes | no | no |
 | Own password and two-factor | yes | yes | yes |
 
-## Assumptions about the API contract (the server may differ in details)
+## The contract, as verified against the real API
 
-* Items are Mongo documents with `_id` (or `id`); the UI reads either. Unknown extra fields are ignored; a missing
-  field the UI needs becomes one clear "unexpected answer" error, not a broken page.
-* `expiresIn` is in seconds (a value above 86,400 is read as milliseconds). The cookie lives that long.
-* A product is updated with **PUT** `/admin/products/:id` (as the existing route), body fields `name, price, img,
-  additionalImageUrls, description, uuidv4_, rate, color[], stock (null = unlimited), category`.
-* List filters: `status` is `pending|shipped` (orders), `pending|done` (candles, contacts), `approved|hidden`
-  (reviews), `ok|low|out` (products stock), `active|disabled` (users); `sort` is a field name, `-field` descending.
-  Search matches the names, e-mail and text fields. Unknown values must be ignored or answered with 400.
-* Candle requests keep their existing DELETE route (the old admin had "Remove"). Product reviews: PATCH
-  `{approved}` and DELETE as today.
-* Audit entries: `createdAt` (or `at`), `actor` (name or `{username}`), `action`, `target`, `ipHash`, `userAgent`.
-* `GET /admin/auth/me` returns `lastLoginAt`; `/admin/users` items return `totpEnabled`, `lastLoginAt`, `disabled`.
-* The app forwards the visitor's address in `X-Forwarded-For` and the browser's `User-Agent` (for the audit trail).
-* Export is fetched through the proxy as `text/csv` with a `Content-Disposition` filename.
+The dashboard was first built against a mock written from `docs/ADMIN.md`. It was then run, page by page, against
+the real API code (`server/test-harness`), which corrected these assumptions. What holds now (each has a test; the
+mock and the real API are compared by `admin/tests/unit/parity.test.ts`):
+
+* Items are Mongo documents with `_id`; the UI reads `_id` or `id`. Unknown extra fields are ignored; a missing field
+  the UI needs becomes one clear "unexpected answer" error, not a broken page.
+* Stored text arrives HTML-escaped (`&amp;`, `&lt;`, `&gt;`): the UI decodes every string it receives once
+  (`src/lib/entities.ts`), so forms show what was typed and the API escapes it once more on save.
+* `expiresIn` is in seconds (3600). The cookie lives that long.
+* Changes answer `{ item }` (orders `{ item, emailSent }`), deletes `{ message }`, creates `201 { item }`. A product is
+  updated with PUT or PATCH `/admin/products/:id`; body fields `name, price, img, additionalImageUrls (max 20),
+  description, uuidv4_, rate, color[], stock (null = not tracked), category` where `category` is one of eight keys
+  (`stained-glass, rosaries, necklaces, bracelets, bibles, crosses, holy-land, gifts`) or null (= from the name), so
+  the form offers a choice, not free text. Unknown fields are refused.
+* Marking an order shipped e-mails the customer once; the answer's `emailSent` is `true`, `false` (the change is kept,
+  the toast says to write to the customer) or `null` (already shipped, nothing sent).
+* List filters: `status` is `pending|shipped|unverified` (orders), `pending|done` (candles), `open|done` (contacts),
+  `approved|hidden` (reviews), a prayer category, `ok|low|out` (products), `active|owner|editor|viewer|disabled`
+  (users); `sort` is a field name, `-field` descending. An unknown status or sort is `400`.
+* Every collection has `GET /:id` (the detail drawers open by address). Ids must be 24 hex characters: anything else is
+  `400 Invalid id`, which the product page shows as "not found".
+* The CSV export is for editors and owners: a viewer gets `403`, so the button is not shown to viewers. Files are
+  named `orders-YYYY-MM-DD.csv`; columns are the field names (`id,createdAt,firstName,...`).
+* Audit entries: `{ at, actorId, actorName, role, action, target: { type, id }, meta, ipHash, ua }`.
+* `GET /admin/auth/me` returns `lastLoginAt`; `/admin/users` items return `totpEnabled`, `lastLoginAt`, `disabled`,
+  `lockedUntil`.
+* A two-factor code works once and steps only go forward (replay protection): a code just used to set two-factor up
+  cannot also sign in within its 30 seconds. The error texts the person can act on are translated by the UI.
+* The app forwards the visitor's address (Netlify's header; `X-Forwarded-For` only with `ADMIN_TRUST_XFF=1`) and the
+  browser's `User-Agent` for the audit trail.

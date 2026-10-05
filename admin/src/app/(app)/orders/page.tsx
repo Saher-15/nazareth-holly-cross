@@ -5,7 +5,7 @@ import { Drawer } from '@/components/ui/Drawer';
 import { Badge, DataTable, EmptyState, ErrorState, Field, hrefWith, ListToolbar, Ltr, PageHeader, Pagination, paramsOf } from '@/components/ui/Primitives';
 import { getI18n } from '@/i18n/server';
 import { orderSchema, ordersPage, parseListParams, type Order } from '@/lib/api';
-import { formatDateTime, formatMoney, fullName, shortId } from '@/lib/format';
+import { formatDateTime, formatMoney, fullName, mailtoHref, shortId } from '@/lib/format';
 import { can } from '@/lib/roles';
 import { getSession, load, serverApi } from '@/lib/server-api';
 import { openParam } from '@/lib/search-params';
@@ -45,6 +45,7 @@ export default async function OrdersPage({ searchParams }: { searchParams: Promi
         statuses={[
           { value: 'pending', label: t('status.pending') },
           { value: 'shipped', label: t('status.shipped') },
+          { value: 'unverified', label: t('status.unverified') },
         ]}
         sort={params.sort}
         sorts={[
@@ -54,7 +55,7 @@ export default async function OrdersPage({ searchParams }: { searchParams: Promi
           { value: 'totalPrice', label: t('sort.totalLow') },
         ]}
         hidden={{ size: params.size !== 25 ? params.size : undefined }}
-        exportPath="/api/proxy/export/orders.csv"
+        exportPath={can(user.role, 'export') ? '/api/proxy/export/orders.csv' : undefined}
         searchLabel={t('orders.search')}
       />
 
@@ -113,6 +114,7 @@ export default async function OrdersPage({ searchParams }: { searchParams: Promi
                         body={{ done: true }}
                         tone="gold"
                         successText={t('orders.shippedToast')}
+                        emailResult={{ failed: t('orders.shippedNoMail'), none: t('orders.shippedAlready') }}
                         confirm={{ title: t('orders.confirmShipTitle'), message: t('orders.confirmShipText', { name: fullName(o.firstName, o.lastName), email: o.email }), confirmLabel: t('orders.markShipped'), tone: 'primary' }}
                       />
                     ) : null}
@@ -153,7 +155,7 @@ async function OrderDetail({ order, canWrite, canDelete, closeHref }: { order: O
       </div>
       <dl className="fields">
         <Field label={t('orders.colCustomer')}>{name}</Field>
-        <Field label={t('common.email')}><a className="link" href={`mailto:${order.email}`}><Ltr>{order.email}</Ltr></a></Field>
+        <Field label={t('common.email')}><a className="link" href={mailtoHref(order.email) ?? undefined}><Ltr>{order.email}</Ltr></a></Field>
         <Field label={t('common.phone')}>{order.phone ? <Ltr>{order.phone}</Ltr> : '-'}</Field>
         <Field label={t('orders.address')} wide>{address || '-'}</Field>
         <Field label={t('orders.payment')}>
@@ -182,6 +184,7 @@ async function OrderDetail({ order, canWrite, canDelete, closeHref }: { order: O
               body={{ done: true }}
               tone="gold"
               successText={t('orders.shippedToast')}
+                        emailResult={{ failed: t('orders.shippedNoMail'), none: t('orders.shippedAlready') }}
               confirm={{ title: t('orders.confirmShipTitle'), message: t('orders.confirmShipText', { name, email: order.email }), confirmLabel: t('orders.markShipped'), tone: 'primary' }}
             />
           ) : null}

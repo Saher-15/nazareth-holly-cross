@@ -116,6 +116,7 @@ describe('GET /admin/users', () => {
     expect((await call('get', '/admin/users?status=editor')).body.total).toBe(2);
     expect((await call('get', '/admin/users?status=owner')).body.items.map((u) => u.username).sort()).toEqual(['boss', 'legacy']);
     expect((await call('get', '/admin/users?status=disabled')).body.total).toBe(1);
+    expect((await call('get', '/admin/users?status=active')).body.total).toBe(4); // the dashboard's "Active" filter: everyone not disabled
     expect((await call('get', '/admin/users?q=ed&sort=username')).body.items.map((u) => u.username)).toEqual(['ed1', 'ed2']);
     expect((await call('get', '/admin/users?size=2&page=3')).body.items).toHaveLength(1);
     expect((await call('get', '/admin/users?sort=password')).status).toBe(400);
