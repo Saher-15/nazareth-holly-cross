@@ -1,0 +1,102 @@
+/* Design tokens: the same night + gold language as the public site (web/src/styles/tokens.css), copied here so the
+   admin builds on its own. Components use these variables only, never raw colours or font names.
+   Differences from the site: system font stacks (no network font download, nothing third-party in the admin) and a
+   few data-UI additions at the bottom (--info, --warn, chart colours). Dark theme only. */
+:root {
+  --night: #0a0e1a;
+  --night-2: #111830;
+  --night-3: #18203d;
+  --gold: #f0c04a;
+  --gold-deep: #c9962a;
+  --gold-soft: rgba(240, 192, 74, 0.14);
+  --cream: #f7efdc;
+  --muted: #b9bfd3;
+  --danger: #ff8a80;
+  --success: #8be0a4;
+  --glass: rgba(255, 255, 255, 0.07);
+  --glass-strong: rgba(255, 255, 255, 0.12);
+  --glass-line: rgba(255, 255, 255, 0.16);
+  /* Border of text fields: at least 3:1 against the night background (WCAG 1.4.11). */
+  --field-line: rgba(255, 255, 255, 0.45);
+  --serif: Georgia, 'Times New Roman', serif;
+  --sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', monospace;
+  --radius: 20px;
+  --radius-sm: 12px;
+  --shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+  --white: #ffffff;
+  --night-deep: #070a13;
+  --gold-light: #ffe08a;
+  --on-gold: #1a1405;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  --text-xs: 0.78rem;
+  --text-sm: 0.9rem;
+  --text-base: 1rem;
+  --text-lg: 1.15rem;
+  --text-xl: clamp(1.25rem, 1vw + 1rem, 1.5rem);
+  --text-2xl: clamp(1.6rem, 2vw + 1rem, 2.2rem);
+  --leading-tight: 1.2;
+  --leading-body: 1.55;
+
+  --elev-1: 0 1px 2px rgba(0, 0, 0, 0.28), 0 1px 1px rgba(0, 0, 0, 0.2);
+  --elev-2: 0 6px 18px rgba(0, 0, 0, 0.3);
+  --elev-3: 0 18px 50px rgba(0, 0, 0, 0.35);
+  --elev-4: 0 28px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--glass-line);
+  --glow-gold: 0 8px 28px rgba(240, 192, 74, 0.35);
+
+  --grad-gold: linear-gradient(135deg, #ffe08a, var(--gold) 55%, var(--gold-deep));
+  --grad-night: linear-gradient(180deg, var(--night) 0%, var(--night-2) 55%, var(--night) 100%);
+  --grad-glow: radial-gradient(1100px 600px at 80% 8%, rgba(240, 192, 74, 0.07), transparent 60%);
+
+  --focus-color: var(--gold);
+  --focus-width: 3px;
+  --focus-offset: 3px;
+  --focus-ring: var(--focus-width) solid var(--focus-color);
+
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --dur-fast: 0.15s;
+  --dur-base: 0.25s;
+
+  --z-sticky: 40;
+  --z-header: 50;
+  --z-menu: 60;
+  --z-dialog: 70;
+  --z-toast: 80;
+  --z-skip: 100;
+
+  --tap: 44px;
+
+  /* Data-UI additions */
+  --info: #8ab8ff;
+  --warn: #ffb86b;
+  --info-soft: rgba(138, 184, 255, 0.14);
+  --warn-soft: rgba(255, 184, 107, 0.14);
+  --success-soft: rgba(139, 224, 164, 0.14);
+  --danger-soft: rgba(255, 138, 128, 0.14);
+  --row-hover: rgba(255, 255, 255, 0.045);
+  --sidebar-w: 264px;
+}
+
+/* Hebrew and Arabic get typefaces drawn for their scripts (system fonts that ship with the OS). */
+:root:lang(he) {
+  --serif: 'David Libre', 'Frank Ruhl Libre', David, Georgia, serif;
+  --sans: 'Segoe UI', 'Arial Hebrew', Arial, system-ui, sans-serif;
+}
+:root:lang(ar) {
+  --serif: Amiri, 'Traditional Arabic', Georgia, serif;
+  --sans: 'Segoe UI', Tahoma, Arial, system-ui, sans-serif;
+}
+:root:lang(he),
+:root:lang(ar) {
+  --leading-body: 1.7;
+  --leading-tight: 1.35;
+}
