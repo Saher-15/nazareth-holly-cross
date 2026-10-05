@@ -136,6 +136,11 @@ describe('ProductReviewForm', () => {
     expect(name).toHaveAccessibleDescription(form.errors.nameRequired);
     expect(screen.getByText(form.errors.ratingRequired)).toBeInTheDocument();
     expect(screen.getByText(form.errors.commentRequired)).toBeInTheDocument();
+    // every field has its own label (ids must not clash with the heading)
+    for (const label of Object.values(form.fields).filter((l) => l !== form.fields.rating)) {
+      expect(screen.getByLabelText(label)).toBeInTheDocument();
+    }
+    expect(screen.getByRole('radiogroup', { name: form.fields.rating })).toBeInTheDocument();
   });
 
   it('posts the review with an empty honeypot and shows it at once', async () => {

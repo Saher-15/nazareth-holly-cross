@@ -56,7 +56,8 @@ async function expectNoSidewaysScroll(page: Page) {
 // Locators are scoped to <main>: while a streamed page is revealed, React can briefly keep a
 // hidden copy of the content outside <main>, which test-id and CSS locators would also match.
 const inMain = (page: Page) => page.getByRole('main');
-const cards = (page: Page) => inMain(page).getByTestId('product-card');
+// Cards of the main grid (the strip above it shows cards too).
+const cards = (page: Page) => inMain(page).getByTestId('shop-grid').getByTestId('product-card');
 const jsonLd = (page: Page) => inMain(page).locator('script[type="application/ld+json"]');
 const prices = (page: Page) =>
   cards(page)
@@ -97,7 +98,7 @@ test.describe('shop', () => {
     await expect(page.getByText('No products found matching your criteria.')).toBeVisible();
     await expect(cards(page)).toHaveCount(0);
 
-    await page.getByRole('button', { name: 'Reset Filters' }).last().click();
+    await inMain(page).getByRole('button', { name: 'Clear all' }).last().click();
     await expect(search).toHaveValue('');
     await expect(cards(page).first()).toBeVisible();
     await expect(page).not.toHaveURL(/[?&]q=/);
@@ -170,7 +171,7 @@ test.describe('product page', () => {
     expect(ld.offers.availability).toMatch(/schema\.org\/(InStock|OutOfStock)$/);
 
     // A product sold in several colours or designs needs one picked first.
-    const options = page.getByRole('radio');
+    const options = page.getByRole('group', { name: /^(Colour|Design)$/ }).getByRole('radio');
     if (await options.count()) await options.first().check();
 
     await page.getByRole('button', { name: 'Increase quantity' }).click();

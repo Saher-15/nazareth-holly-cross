@@ -31,7 +31,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changeFrequency: 'weekly',
   }));
   const places: Entry[] = PLACE_SLUGS.map((slug) => ({ path: placeHref(slug), priority: 0.6, changeFrequency: 'monthly' }));
-  const catalog = await loadCatalog();
+  const catalog = await loadCatalog().catch(() => null);
   const products: Entry[] = (catalog?.products ?? []).map((p) => ({
     path: `/shop/${p._id}`,
     priority: 0.5,

@@ -17,6 +17,7 @@ import { formatUsd } from '@/lib/pricing';
 import { bestSellerIds, cardItems, toCardItem } from '@/lib/shop/items';
 import { loadCatalog, loadReviews, loadSimilar } from '@/lib/shop/load';
 import { toSearch } from '@/lib/shop/query';
+import { rankSimilar } from '@/lib/shop/similar';
 import { loadProduct } from './load-product';
 import TopBar from './TopBar';
 import styles from '../shop.module.css';
@@ -103,11 +104,14 @@ export default async function ProductPage({ params }: PageProps<'/[locale]/shop/
   }
 
   const { product } = result;
-  const [catalog, reviews, similar] = await Promise.all([
+  const [catalog, reviews] = await Promise.all([
     loadCatalog(),
     loadReviews(product._id, product.rating ? product.rating.count : null),
-    loadSimilar(product._id, 4),
   ]);
+  // Ranked here from the catalogue (same rule as GET /product/:id/similar); the API is
+  // asked only when the catalogue is missing or does not list this product yet.
+  const listed = product.category ? catalog?.products.find((p) => p._id === product._id) : undefined;
+  const similar = catalog && listed ? rankSimilar(catalog.products, listed, 4) : await loadSimilar(product._id, 4);
 
   // Cards for "similar" and "recently viewed" (recently viewed is resolved in the browser).
   const allCards = catalog ? cardItems(catalog.products, locale) : [];

@@ -150,10 +150,10 @@ export default function ProductReviewForm({ productId, productName, onPosted }: 
       className={`ui-glass ${styles.card}`}
       onSubmit={onSubmit}
       noValidate
-      aria-labelledby={`${id}-title`}
+      aria-labelledby={`${id}-heading`}
       data-testid="review-form"
     >
-      <h3 id={`${id}-title`} className={styles.title}>
+      <h3 id={`${id}-heading`} className={styles.title}>
         {t('heading')}
       </h3>
       <p className={styles.intro}>{t('intro', { name: productName })}</p>
@@ -184,6 +184,8 @@ export default function ProductReviewForm({ productId, productName, onPosted }: 
 
           <fieldset
             className={styles.rating}
+            role="radiogroup"
+            aria-required
             aria-describedby={errors.rating ? errorId('rating') : undefined}
             aria-invalid={errors.rating ? true : undefined}
           >

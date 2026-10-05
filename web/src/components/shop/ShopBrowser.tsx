@@ -280,7 +280,7 @@ export default function ShopBrowser({ products, strip }: Props) {
             </StateCard>
           ) : (
             <>
-              <ul className={styles.grid}>
+              <ul className={styles.grid} data-testid="shop-grid">
                 {result.items.map((item, i) => (
                   <li key={item._id} className={styles.cell}>
                     <ProductCard item={item} index={i} eager={result.page === 1 && !showStrip && i < 3} />
