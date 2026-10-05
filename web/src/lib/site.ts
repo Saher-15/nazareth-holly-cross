@@ -9,7 +9,11 @@ export const mainNav = [
   { key: 'reviews', href: '/reviews' },
 ] as const;
 
-export const footerNav = [...mainNav.filter((item) => item.key !== 'home'), { key: 'about', href: '/about' }] as const;
+export const footerNav = [
+  ...mainNav.filter((item) => item.key !== 'home'),
+  { key: 'donate', href: '/donate' },
+  { key: 'about', href: '/about' },
+] as const;
 
 export const socialLinks = [
   { name: 'Instagram', href: 'https://www.instagram.com/nazareth_holy_cross/' },

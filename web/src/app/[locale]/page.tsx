@@ -12,6 +12,7 @@ import Story from '@/components/home/Story';
 import VerseOfDay from '@/components/home/VerseOfDay';
 import Voices from '@/components/home/Voices';
 import { routing } from '@/i18n/routing';
+import { pageAlternates } from '@/lib/seo';
 
 // Static page, regenerated in the background: products every 5 minutes, reviews every
 // 2 (their fetches ask for it), and at least hourly so the verse follows the date.
@@ -35,6 +36,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]'>): Prom
   return {
     title: { absolute: title },
     description,
+    alternates: pageAlternates(locale),
     openGraph: {
       type: 'website',
       siteName: 'Nazareth Holy Cross',

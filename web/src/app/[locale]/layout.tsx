@@ -26,10 +26,6 @@ export async function generateMetadata({ params }: LayoutProps<'/[locale]'>): Pr
     metadataBase: new URL(SITE_URL),
     title: { default: t('title'), template: `%s · Nazareth Holy Cross` },
     description: t('description'),
-    alternates: {
-      canonical: `/${locale}`,
-      languages: Object.fromEntries(locales.map((l) => [l, `/${l}`])),
-    },
     openGraph: {
       type: 'website',
       siteName: 'Nazareth Holy Cross',
