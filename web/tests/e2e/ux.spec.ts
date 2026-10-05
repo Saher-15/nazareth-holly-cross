@@ -197,6 +197,68 @@ test('moving between pages keeps working with page transitions', async ({ page, 
   expect(errors).toEqual([]);
 });
 
+test('a link navigation runs one view transition and leaves the page clean', async ({ page, isMobile }) => {
+  test.skip(isMobile, 'uses the desktop navigation bar');
+  await page.addInitScript(() => {
+    const w = window as unknown as { __vt: number };
+    w.__vt = 0;
+    const original = document.startViewTransition?.bind(document);
+    if (original) {
+      document.startViewTransition = ((arg?: unknown) => {
+        w.__vt += 1;
+        return original(arg as never);
+      }) as typeof document.startViewTransition;
+    }
+  });
+  await page.goto('/en');
+  await page.getByRole('navigation', { name: 'Nazareth Holy Cross' }).getByRole('link', { name: 'Tour' }).click();
+  await expect(page).toHaveURL(/\/en\/tour$/);
+  await expect(page.locator('html')).not.toHaveClass(/vt-page/);
+  expect(await page.evaluate(() => (window as unknown as { __vt: number }).__vt)).toBe(1);
+  // The same page again, a hash jump and an external link start no transition.
+  await page.goto('/en/about');
+  await page.getByRole('link', { name: 'Skip to content' }).focus();
+  await page.keyboard.press('Enter');
+  expect(await page.evaluate(() => (window as unknown as { __vt: number }).__vt)).toBe(0);
+});
+
+test('a slow navigation shows the branded loading screen, and a fast one does not', async ({ page, isMobile }) => {
+  test.skip(isMobile, 'uses the desktop navigation bar');
+  let slow = true;
+  await page.route('**/*', async (route) => {
+    if (slow && route.request().url().includes('_rsc=')) await new Promise((r) => setTimeout(r, 2600));
+    await route.continue();
+  });
+  await page.goto('/en');
+  const nav = page.getByRole('navigation', { name: 'Nazareth Holy Cross' });
+  await nav.getByRole('link', { name: 'Tour' }).click();
+  await expect(page.getByTestId('navigation-loading')).toBeVisible({ timeout: 2500 });
+  await expect(page.getByTestId('navigation-loading').getByRole('status')).toContainText('Loading');
+  await expect(page).toHaveURL(/\/en\/tour$/, { timeout: 8000 });
+  await expect(page.getByTestId('navigation-loading')).toBeHidden();
+
+  slow = false;
+  await nav.getByRole('link', { name: 'Reviews' }).click();
+  await expect(page).toHaveURL(/\/en\/reviews$/);
+  await expect(page.getByTestId('navigation-loading')).toHaveCount(0);
+});
+
+test('hydration never leaves a second copy of the page in the DOM', async ({ page }) => {
+  await page.addInitScript(() => {
+    (window as unknown as { __maxCopies: number }).__maxCopies = 0;
+    const timer = setInterval(() => {
+      const w = window as unknown as { __maxCopies: number };
+      w.__maxCopies = Math.max(w.__maxCopies, document.querySelectorAll('main h1').length, document.querySelectorAll('main form').length);
+    }, 4);
+    setTimeout(() => clearInterval(timer), 4000);
+  });
+  for (const path of ['/en/reviews', '/en/about', '/he/donate']) {
+    await page.goto(path);
+    await page.waitForTimeout(1500);
+    expect(await page.evaluate(() => (window as unknown as { __maxCopies: number }).__maxCopies), path).toBeLessThanOrEqual(1);
+  }
+});
+
 test('every page has exactly one level-1 heading and no horizontal scroll at 360px', async ({ page }) => {
   await page.setViewportSize({ width: 360, height: 760 });
   for (const path of ['/en', '/ru/sites', '/de/sites/greek', '/he/tour', '/ar/about', '/en/donate', '/en/nope']) {

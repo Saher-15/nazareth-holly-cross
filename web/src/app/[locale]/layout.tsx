@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import BackToTop from '@/components/layout/BackToTop';
+import PageTransitions from '@/components/layout/PageTransitions';
 import ReadingProgress from '@/components/layout/ReadingProgress';
 import RouteFocus from '@/components/layout/RouteFocus';
 import SiteFooter from '@/components/layout/SiteFooter';
@@ -59,6 +60,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<'/[
               <SiteFooter />
               <BackToTop />
               <RouteFocus />
+              <PageTransitions />
             </ToastProvider>
           </CartProvider>
         </NextIntlClientProvider>

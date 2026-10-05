@@ -1,0 +1,29 @@
+/* The loading screen over the old page while a slow navigation is in flight. It sits under the sticky header
+   (so the menu stays usable) and does not block the keyboard: the old page stays in the DOM behind it. */
+.overlay {
+  position: fixed;
+  inset: var(--header-h) 0 0 0;
+  z-index: calc(var(--z-sticky) + 5);
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--night) 88%, transparent);
+  backdrop-filter: blur(6px);
+  animation: overlay-in var(--dur-base) ease both;
+}
+/* LoadingScreen is a full page block; inside the overlay it only needs to centre. */
+.overlay > :global(.ui-page) {
+  min-height: 0;
+  padding: 0;
+  background: none;
+}
+
+@keyframes overlay-in {
+  from {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .overlay {
+    animation: none;
+  }
+}

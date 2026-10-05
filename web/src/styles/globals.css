@@ -66,12 +66,13 @@ button, input, select, textarea { font: inherit; }
   white-space: nowrap; border: 0;
 }
 
-/* ---- page transitions (React <ViewTransition> in app/[locale]/template.tsx; browsers without the
-   View Transitions API simply navigate without the fade) ---- */
+/* ---- page transitions (components/layout/PageTransitions.tsx marks <html> with .vt-page while a link
+   navigation is in flight; browsers without the View Transitions API simply navigate without the fade) ---- */
+html.vt-page main { view-transition-name: page; }
 ::view-transition-old(root),
 ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
-::view-transition-old(.page-out) { animation: 140ms ease-in both page-fade reverse; }
-::view-transition-new(.page-in) { animation: 280ms var(--ease-out) 120ms both page-fade, 380ms var(--ease-out) 120ms both page-rise; }
+::view-transition-old(page) { animation: 140ms ease-in both page-fade reverse; }
+::view-transition-new(page) { animation: 260ms var(--ease-out) 60ms both page-fade, 380ms var(--ease-out) 60ms both page-rise; }
 @keyframes page-fade { from { opacity: 0; } to { opacity: 1; } }
 @keyframes page-rise { from { transform: translateY(10px); } to { transform: none; } }
 @media (prefers-reduced-motion: reduce) {

@@ -192,17 +192,23 @@ suggestions. `app/[locale]/error.tsx` is the same family (focus on the heading, 
 ![Loading screen](design/page-loading.png)
 
 `components/ui/LoadingScreen.tsx` (cross mark with a slow gold halo, fades in after 250ms so quick pages never
-flash it). It is re-exported as `loading.tsx` of the `sites`, `tour`, `about`, `live`, `reviews`, `candle` and
-`donate` folders. **There is deliberately no `app/[locale]/loading.tsx`:** a Suspense boundary above the catch-all
-route makes Next stream the 404 page with status 200 (a soft 404). Next 16 shows a `loading.tsx` only for routes
-that are not already prefetched, so static pages rarely show it.
+flash it). `PageTransitions` puts it over the old page when a link navigation is still running after 0.9s (a slow
+phone connection); it sits under the header, so the menu stays usable, and has `role="status"` ("Loading...").
+**There is deliberately no `loading.tsx`, at `app/[locale]/` or per page.** A Suspense boundary above the catch-all
+route makes Next stream the 404 page with status 200 (a soft 404, and `shell.spec.ts` expects a real 404), and
+per-page boundaries on the review, candle and donate pages made React render a second, hidden copy of the page
+while hydrating, which broke their end-to-end tests under load. (The shop keeps its own `loading.tsx`.)
 
 ### 4.8 Page transitions
 
-React's `<ViewTransition>` (Next 16 needs no config) in `app/[locale]/template.tsx`: the old page fades out in
-140ms, the new one fades in and rises 10px. Keyed by path so one holy site to the next animates too. Browsers
-without the View Transitions API, and reduced-motion visitors, get the normal instant navigation. The CSS is at the
-end of `globals.css` (`page-in`, `page-out`).
+`components/layout/PageTransitions.tsx` uses the browser's View Transitions API on link clicks: the old page is held
+(at most 700ms) while Next loads the next one, then fades out in 140ms while the new one fades in and rises 10px.
+Browsers without the API, reduced-motion visitors, back/forward and the language menu get the normal instant
+navigation. The CSS is at the end of `globals.css` (`html.vt-page main`, `::view-transition-*(page)`).
+Why not React's `<ViewTransition>` in a `template.tsx` (the Next 16 guide)? It worked, but around the server-rendered
+page React kept a second copy of the page's DOM while hydrating, for a few frames normally and for much longer in
+background or busy tabs: a flash, and duplicate form fields that broke the review, candle and donate tests under
+load. Hooking into link clicks leaves rendering and hydration untouched.
 
 ### 4.9 Photographs
 

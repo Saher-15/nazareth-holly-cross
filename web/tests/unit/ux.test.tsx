@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import BackToTop from '@/components/layout/BackToTop';
 import { nextOptionIndex } from '@/components/layout/LanguageSwitcher';
+import { isPageLinkClick } from '@/components/layout/PageTransitions';
 import { isLongPage, readingFraction } from '@/components/layout/ReadingProgress';
 import { CheckIcon, ArrowEndIcon } from '@/components/ui/icons';
 import { ToastProvider, useToast } from '@/components/ui/Toast';
@@ -82,6 +83,43 @@ function Demo({ kind }: { kind?: 'error' | 'success' }) {
     </button>
   );
 }
+
+describe('isPageLinkClick (which clicks start a page transition)', () => {
+  // Next's <Link> has called preventDefault() by the time the document sees a client-side navigation.
+  // The document listener decides first and then cancels the click, so jsdom never tries to navigate.
+  const decide = (href: string, currentPath: string, init: MouseEventInit = {}, takenOver = true) => {
+    const a = document.createElement('a');
+    a.href = href;
+    document.body.appendChild(a);
+    let result = false;
+    const onDocument = (e: MouseEvent) => {
+      result = isPageLinkClick(e, currentPath);
+      e.preventDefault();
+    };
+    a.addEventListener('click', (e) => {
+      if (takenOver) e.preventDefault();
+    });
+    document.addEventListener('click', onDocument);
+    a.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, button: 0, ...init }));
+    document.removeEventListener('click', onDocument);
+    a.remove();
+    return result;
+  };
+
+  it('accepts a taken-over click on an internal link to another page', () => {
+    expect(decide('/en/tour', '/en')).toBe(true);
+  });
+  it('ignores the current page, hash jumps, other sites, new tabs and modified clicks', () => {
+    expect(decide('/en', '/en')).toBe(false);
+    expect(decide('/en#main', '/en')).toBe(false);
+    expect(decide('https://example.org/x', '/en')).toBe(false);
+    expect(decide('/en/tour', '/en', { ctrlKey: true })).toBe(false);
+    expect(decide('/en/tour', '/en', { button: 1 })).toBe(false);
+  });
+  it('ignores a click nobody took over (an ordinary anchor)', () => {
+    expect(decide('/en/tour', '/en', {}, false)).toBe(false);
+  });
+});
 
 describe('toasts', () => {
   it('shows a message in a live region and removes it by itself', () => {
