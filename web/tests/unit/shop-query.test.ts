@@ -3,11 +3,15 @@ import type { CatalogProduct } from '@/lib/api';
 import {
   activeFilterCount,
   badgesFor,
+  clearFilters,
   DEFAULT_QUERY,
+  filterChips,
   PAGE_SIZE,
   parseQuery,
   runQuery,
+  toSearch,
   toSearchParams,
+  withoutChip,
 } from '@/lib/shop/query';
 
 const make = (over: Partial<CatalogProduct> & { _id: string; name: string }): CatalogProduct => ({
@@ -104,6 +108,81 @@ describe('runQuery', () => {
     expect(last.pages).toBe(2);
     expect(last.page).toBe(2);
     expect(last.items).toHaveLength(3);
+  });
+});
+
+describe('runQuery extras', () => {
+  const run = (over: Partial<typeof DEFAULT_QUERY>) => runQuery(PRODUCTS, { ...DEFAULT_QUERY, ...over });
+
+  it('reports the range shown, for the "Showing 1–12 of 30" line', () => {
+    expect(run({})).toMatchObject({ from: 1, to: 5, total: 5 });
+    expect(run({ q: 'no such thing' })).toMatchObject({ from: 0, to: 0, total: 0 });
+  });
+
+  it('counts the rating and stock options with the other filters kept', () => {
+    const { facets } = run({ category: 'rosaries' });
+    expect(facets.ratings).toEqual([
+      { min: 4, count: 1 },
+      { min: 3, count: 1 },
+      { min: 2, count: 1 },
+      { min: 1, count: 1 },
+    ]);
+    expect(facets.inStock).toBe(2);
+    expect(run({ inStock: true }).facets.inStock).toBe(4);
+    expect(facets.allCategories).toBe(5);
+  });
+
+  it('sorts names naturally and ignores case', () => {
+    const names = ['Cross 10', 'cross 2', 'Angel'].map((name, i) => make({ _id: String(i), name }));
+    expect(runQuery(names, { ...DEFAULT_QUERY, sort: 'name' }).items.map((p) => p.name)).toEqual([
+      'Angel',
+      'cross 2',
+      'Cross 10',
+    ]);
+  });
+
+  it('sorts the newest first and keeps undated products last', () => {
+    const dated = [
+      make({ _id: 'a', name: 'A', createdAt: null }),
+      make({ _id: 'b', name: 'B', createdAt: '2026-09-01' }),
+      make({ _id: 'c', name: 'C', createdAt: '2026-10-01' }),
+    ];
+    expect(runQuery(dated, { ...DEFAULT_QUERY, sort: 'newest' }).items.map((p) => p._id)).toEqual(['c', 'b', 'a']);
+  });
+});
+
+describe('filter chips', () => {
+  const query = parseQuery({ q: 'olive', category: 'rosaries', material: 'gold,wood', max: '20', rating: '4', stock: '1', sort: 'name', page: '3' });
+
+  it('lists one chip per active filter', () => {
+    expect(filterChips(query)).toEqual([
+      { kind: 'q', value: 'olive' },
+      { kind: 'category', value: 'rosaries' },
+      { kind: 'material', value: 'gold' },
+      { kind: 'material', value: 'wood' },
+      { kind: 'price', min: null, max: 20 },
+      { kind: 'rating', value: 4 },
+      { kind: 'stock' },
+    ]);
+    expect(filterChips(DEFAULT_QUERY)).toEqual([]);
+  });
+
+  it('removes exactly one filter and goes back to page 1', () => {
+    const next = withoutChip(query, { kind: 'material', value: 'gold' });
+    expect(next.materials).toEqual(['wood']);
+    expect(next.page).toBe(1);
+    expect(next.category).toBe('rosaries');
+    expect(withoutChip(query, { kind: 'price', min: null, max: 20 })).toMatchObject({ min: null, max: null });
+  });
+
+  it('clears every filter but keeps the sort order', () => {
+    expect(clearFilters(query)).toEqual({ ...DEFAULT_QUERY, sort: 'name' });
+    expect(toSearch(clearFilters(query))).toBe('?sort=name');
+    expect(toSearch(DEFAULT_QUERY)).toBe('');
+  });
+
+  it('ignores a repeated material', () => {
+    expect(parseQuery({ material: ['gold', 'gold,wood'] }).materials).toEqual(['gold', 'wood']);
   });
 });
 

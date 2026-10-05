@@ -1,17 +1,41 @@
 import { cache } from 'react';
 import { isProductId } from '@/components/shop/catalog';
-import { fetchProduct } from '@/components/shop/products';
-import { ApiError, type Product } from '@/lib/api';
+import { api, ApiError, type CatalogProduct, type Product } from '@/lib/api';
+import { loadCatalog } from '@/lib/shop/load';
 
-export type ProductResult = { status: 'ok'; product: Product } | { status: 'notFound' } | { status: 'error' };
+/** A product as the page needs it. Category and rating are null for one the catalogue does not list yet. */
+export type PageProduct = Omit<Product, 'rate'> & {
+  category: CatalogProduct['category'] | null;
+  rating: CatalogProduct['rating'] | null;
+};
 
-// One fetch per request, shared by generateMetadata and the page.
-// A malformed id never reaches the API; the API's 404 (and 400 for a bad id) mean
-// "no such product", anything else (5xx, network, unexpected data) is an outage.
+export type ProductResult = { status: 'ok'; product: PageProduct } | { status: 'notFound' } | { status: 'error' };
+
+// One read per request, shared by generateMetadata and the page.
+// The product comes from the catalogue (one request serves every product page); a product
+// added since the catalogue was cached is fetched on its own. A malformed id never reaches
+// the API; the API's 404 (and 400 for a bad id) mean "no such product", anything else
+// (5xx, network, unexpected data) is an outage.
 export const loadProduct = cache(async (id: string): Promise<ProductResult> => {
   if (!isProductId(id)) return { status: 'notFound' };
+  const catalog = await loadCatalog();
+  const listed = catalog?.products.find((p) => p._id === id);
+  if (listed) return { status: 'ok', product: listed };
   try {
-    return { status: 'ok', product: await fetchProduct(id) };
+    const p = await api.product(id);
+    const product: PageProduct = {
+      _id: p._id,
+      name: p.name,
+      price: p.price,
+      img: p.img,
+      additionalImageUrls: p.additionalImageUrls,
+      description: p.description,
+      color: p.color,
+      stock: p.stock,
+      category: null,
+      rating: null,
+    };
+    return { status: 'ok', product };
   } catch (error) {
     if (error instanceof ApiError && (error.status === 404 || error.status === 400)) return { status: 'notFound' };
     console.error(`[shop] could not load product ${id}`, error);

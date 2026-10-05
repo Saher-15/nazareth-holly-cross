@@ -548,5 +548,148 @@
     "total": "Totale",
     "secure": "Pagamento sicuro con PayPal",
     "emptyLead": "Scopri rosari, croci e ricordi da Nazareth."
+  },
+  "shopFeatures": {
+    "categories": {
+      "rosaries": "Rosari",
+      "necklaces": "Collane",
+      "bracelets": "Braccialetti",
+      "stained-glass": "Vetrate",
+      "crosses": "Croci",
+      "bibles": "Bibbie",
+      "holy-land": "Dalla Terra Santa",
+      "gifts": "Regali"
+    },
+    "materials": {
+      "gold": "Oro",
+      "silver": "Argento",
+      "wood": "Legno",
+      "glass": "Vetro"
+    },
+    "sort": {
+      "featured": "In evidenza",
+      "bestselling": "Più venduti",
+      "rating": "Più votati",
+      "newest": "Novità",
+      "priceAsc": "Prezzo: crescente",
+      "priceDesc": "Prezzo: decrescente",
+      "name": "Nome (A–Z)"
+    },
+    "allProducts": "Tutti i ricordi",
+    "filters": {
+      "title": "Filtri",
+      "openAria": "Filtri{count, plural, =0 {} one {, # attivo} other {, # attivi}}",
+      "close": "Chiudi i filtri",
+      "apply": "Mostra {count, plural, one {# prodotto} other {# prodotti}}",
+      "clearAll": "Cancella tutto",
+      "active": "Filtri attivi",
+      "remove": "Rimuovi filtro: {label}",
+      "noneText": "Prova a togliere un filtro o a cercare qualcos’altro.",
+      "category": "Categoria",
+      "allCategories": "Tutte le categorie",
+      "material": "Materiale",
+      "price": "Prezzo (USD)",
+      "minPrice": "Min",
+      "maxPrice": "Max",
+      "rating": "Valutazione",
+      "anyRating": "Qualsiasi valutazione",
+      "ratingAtLeast": "{stars, plural, one {# stella e oltre} other {# stelle e oltre}}",
+      "availability": "Disponibilità",
+      "inStock": "Solo disponibili",
+      "chipSearch": "Ricerca: {query}",
+      "chipPriceRange": "{min} – {max}",
+      "chipPriceMin": "Da {min}",
+      "chipPriceMax": "Fino a {max}"
+    },
+    "strip": {
+      "bestTitle": "Più venduti",
+      "bestLead": "I ricordi che i pellegrini portano a casa più spesso.",
+      "favTitle": "I nostri preferiti",
+      "favLead": "Scelti con cura dal nostro negozio di Nazareth.",
+      "back": "Scorri indietro",
+      "forward": "Scorri avanti"
+    },
+    "badges": {
+      "bestseller": "Più venduto",
+      "new": "Novità",
+      "lowStock": "Ultimi pezzi: {count}",
+      "soldOut": "Esaurito"
+    },
+    "reviews": {
+      "title": "Recensioni dei clienti",
+      "starsLabel": "{rating} su 5 stelle",
+      "count": "{count, plural, one {# recensione} other {# recensioni}}",
+      "outOf": "su 5",
+      "basedOn": "Sulla base di {count, plural, one {# recensione} other {# recensioni}}",
+      "breakdown": "Distribuzione delle valutazioni",
+      "breakdownRow": "{stars, plural, one {# stella} other {# stelle}}: {count, plural, one {# recensione} other {# recensioni}}",
+      "emptyTitle": "Ancora nessuna recensione",
+      "emptyText": "Sii il primo a dire agli altri pellegrini cosa pensi di questo ricordo.",
+      "unavailable": "Al momento non è possibile caricare le recensioni.",
+      "listLabel": "Recensioni, dalla più recente",
+      "reviewBy": "Recensione di {name}",
+      "showAll": "Mostra tutte le recensioni ({count})",
+      "showFewer": "Mostra meno recensioni",
+      "form": {
+        "heading": "Scrivi una recensione",
+        "intro": "Racconta agli altri pellegrini cosa pensi di {name}. La tua recensione apparirà in questa pagina.",
+        "fields": {
+          "name": "Il tuo nome",
+          "country": "Paese (facoltativo)",
+          "rating": "La tua valutazione",
+          "title": "Titolo (facoltativo)",
+          "comment": "La tua recensione"
+        },
+        "star": "{count, plural, one {# stella} other {# stelle}}",
+        "counter": "{count} / {max}",
+        "website": "Sito web (lascia vuoto)",
+        "submit": "Pubblica recensione",
+        "sending": "Pubblicazione…",
+        "success": "Grazie! La tua recensione è stata pubblicata.",
+        "another": "Scrivi un’altra recensione",
+        "errors": {
+          "nameRequired": "Inserisci il tuo nome.",
+          "nameTooShort": "Il nome deve avere almeno {min} caratteri.",
+          "ratingRequired": "Scegli da 1 a 5 stelle.",
+          "commentRequired": "Scrivi la tua recensione.",
+          "commentTooShort": "La recensione deve avere almeno {min} caratteri.",
+          "tooLong": "Non superare i {max} caratteri.",
+          "invalid": "Alcuni dati non sono stati accettati. Controlla il modulo e riprova.",
+          "rateLimited": "Hai inviato diverse recensioni in poco tempo. Riprova più tardi.",
+          "network": "Impossibile raggiungere il server. Controlla la connessione e riprova.",
+          "server": "Qualcosa è andato storto da parte nostra. Riprova tra un momento."
+        }
+      }
+    },
+    "wishlist": {
+      "toggle": "Salva {name} nella lista dei desideri",
+      "added": "{name} è stato aggiunto alla lista dei desideri.",
+      "removed": "{name} è stato rimosso dalla lista dei desideri.",
+      "save": "Salva nei desideri",
+      "link": "Desideri",
+      "linkAria": "Desideri: {count, plural, one {# articolo salvato} other {# articoli salvati}}",
+      "pageTitle": "La tua lista dei desideri",
+      "pageDescription": "I ricordi che hai salvato per dopo.",
+      "savedHeading": "Ricordi salvati",
+      "emptyTitle": "La tua lista dei desideri è vuota",
+      "emptyText": "Tocca il cuore di un ricordo per conservarlo qui.",
+      "browse": "Vai al negozio",
+      "count": "{count, plural, one {# ricordo salvato} other {# ricordi salvati}}",
+      "addToCart": "Aggiungi al carrello",
+      "chooseOptions": "Scegli le opzioni",
+      "remove": "Rimuovi",
+      "addedToCart": "{name} è stato aggiunto al carrello."
+    },
+    "share": {
+      "button": "Condividi",
+      "text": "{name}, un ricordo di Nazareth",
+      "copied": "Link copiato. Puoi incollarlo dove vuoi.",
+      "failed": "Impossibile copiare il link. Copialo dalla barra degli indirizzi."
+    },
+    "product": {
+      "beFirst": "Ancora nessuna recensione. Scrivi la prima",
+      "similarTitle": "Potrebbe piacerti anche",
+      "recentTitle": "Visti di recente"
+    }
   }
 }

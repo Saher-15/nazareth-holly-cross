@@ -4,15 +4,14 @@ import PageHero from '@/components/ui/PageHero';
 import RetryButton from '@/components/shop/RetryButton';
 import ShopBrowser from '@/components/shop/ShopBrowser';
 import StateCard from '@/components/shop/StateCard';
-import type { ShopItem } from '@/components/shop/catalog';
 import { jsonLdHtml, localeAlternates, shopJsonLd } from '@/components/shop/seo';
-import { fetchProducts } from '@/components/shop/products';
-import type { Product } from '@/lib/api';
-import { formatUsd } from '@/lib/pricing';
+import { pickStrip, shopItems } from '@/lib/shop/items';
+import { loadBestSellers, loadCatalog } from '@/lib/shop/load';
+import { sortProducts } from '@/lib/shop/query';
 import styles from '../shop.module.css';
 
-// The catalogue is rendered on the server and refreshed every 5 minutes (ISR).
-export const revalidate = 300;
+// The catalogue is rendered on the server and refreshed every two minutes (ISR).
+export const revalidate = 120;
 
 const HERO_IMAGE = '/images/vitrage-bg.jpg';
 
@@ -37,36 +36,19 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/shop'>):
   };
 }
 
-async function loadProducts(): Promise<Product[] | null> {
-  try {
-    return await fetchProducts();
-  } catch (error) {
-    console.error('[shop] could not load the products', error);
-    return null;
-  }
-}
-
 export default async function ShopPage({ params }: PageProps<'/[locale]/shop'>) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const [t, tHome, products] = await Promise.all([
+  const [t, tHome, catalog, bestSellers] = await Promise.all([
     getTranslations('shopPage'),
     getTranslations('home'),
-    loadProducts(),
+    loadCatalog(),
+    loadBestSellers(),
   ]);
 
-  // Only what the grid needs goes to the browser; prices are formatted here so the
-  // server and the browser can never disagree about them.
-  const items: ShopItem[] | null =
-    products?.map((p) => ({
-      _id: p._id,
-      name: p.name,
-      description: p.description,
-      price: p.price,
-      priceLabel: formatUsd(p.price, locale),
-      img: p.img,
-      rate: p.rate,
-    })) ?? null;
+  // Only what the grid and the filters need goes to the browser.
+  const items = catalog ? sortProducts(shopItems(catalog.products, locale), 'featured', locale) : null;
+  const strip = items ? pickStrip(items, bestSellers) : null;
 
   return (
     <div className={`ui-page ${styles.page}`}>
@@ -82,8 +64,8 @@ export default async function ShopPage({ params }: PageProps<'/[locale]/shop'>) 
       )}
       <PageHero eyebrow={tHome('shopEyebrow')} title={t('heroTitle')} lead={t('heroLead')} image={HERO_IMAGE} />
 
-      {items ? (
-        <ShopBrowser products={items} />
+      {items && strip ? (
+        <ShopBrowser products={items} strip={strip} />
       ) : (
         <div className="ui-container">
           <StateCard icon="alert" tone="error" title={t('loadError')} text={t('loadErrorText')} role="alert">

@@ -548,5 +548,148 @@
     "total": "סך הכול",
     "secure": "תשלום מאובטח באמצעות PayPal",
     "emptyLead": "גלו מחרוזות תפילה, צלבים ומזכרות מנצרת."
+  },
+  "shopFeatures": {
+    "categories": {
+      "rosaries": "מחרוזות תפילה",
+      "necklaces": "שרשראות",
+      "bracelets": "צמידים",
+      "stained-glass": "ויטראז׳ים",
+      "crosses": "צלבים",
+      "bibles": "ספרי קודש",
+      "holy-land": "מארץ הקודש",
+      "gifts": "מתנות"
+    },
+    "materials": {
+      "gold": "זהב",
+      "silver": "כסף",
+      "wood": "עץ",
+      "glass": "זכוכית"
+    },
+    "sort": {
+      "featured": "מומלצים",
+      "bestselling": "הנמכרים ביותר",
+      "rating": "המדורגים ביותר",
+      "newest": "החדשים ביותר",
+      "priceAsc": "מחיר: מהנמוך לגבוה",
+      "priceDesc": "מחיר: מהגבוה לנמוך",
+      "name": "שם (A–Z)"
+    },
+    "allProducts": "כל המזכרות",
+    "filters": {
+      "title": "סינון",
+      "openAria": "סינון{count, plural, =0 {} one {, מסנן אחד פעיל} other {, # מסננים פעילים}}",
+      "close": "סגירת הסינון",
+      "apply": "הצגת {count, plural, one {מוצר אחד} other {# מוצרים}}",
+      "clearAll": "ניקוי הכול",
+      "active": "מסננים פעילים",
+      "remove": "הסרת המסנן: {label}",
+      "noneText": "נסו להסיר מסנן או לחפש משהו אחר.",
+      "category": "קטגוריה",
+      "allCategories": "כל הקטגוריות",
+      "material": "חומר",
+      "price": "מחיר (USD)",
+      "minPrice": "מינימום",
+      "maxPrice": "מקסימום",
+      "rating": "דירוג לקוחות",
+      "anyRating": "כל דירוג",
+      "ratingAtLeast": "{stars, plural, one {כוכב אחד ומעלה} other {# כוכבים ומעלה}}",
+      "availability": "זמינות",
+      "inStock": "רק פריטים במלאי",
+      "chipSearch": "חיפוש: {query}",
+      "chipPriceRange": "{min} – {max}",
+      "chipPriceMin": "החל מ־{min}",
+      "chipPriceMax": "עד {max}"
+    },
+    "strip": {
+      "bestTitle": "הנמכרים ביותר",
+      "bestLead": "המזכרות שצליינים לוקחים הביתה הכי הרבה.",
+      "favTitle": "המועדפים שלנו",
+      "favLead": "נבחרו באהבה בחנות שלנו בנצרת.",
+      "back": "גלילה אחורה",
+      "forward": "גלילה קדימה"
+    },
+    "badges": {
+      "bestseller": "רב־מכר",
+      "new": "חדש",
+      "lowStock": "נותרו {count} בלבד",
+      "soldOut": "אזל מהמלאי"
+    },
+    "reviews": {
+      "title": "חוות דעת של לקוחות",
+      "starsLabel": "{rating} מתוך 5 כוכבים",
+      "count": "{count, plural, one {חוות דעת אחת} other {# חוות דעת}}",
+      "outOf": "מתוך 5",
+      "basedOn": "על סמך {count, plural, one {חוות דעת אחת} other {# חוות דעת}}",
+      "breakdown": "התפלגות הדירוגים",
+      "breakdownRow": "{stars, plural, one {כוכב אחד} other {# כוכבים}}: {count, plural, one {חוות דעת אחת} other {# חוות דעת}}",
+      "emptyTitle": "אין עדיין חוות דעת",
+      "emptyText": "היו הראשונים לספר לצליינים אחרים מה דעתכם על המזכרת הזו.",
+      "unavailable": "לא ניתן לטעון את חוות הדעת כרגע.",
+      "listLabel": "חוות דעת, מהחדשה לישנה",
+      "reviewBy": "חוות דעת מאת {name}",
+      "showAll": "הצגת כל חוות הדעת ({count})",
+      "showFewer": "הצגת פחות חוות דעת",
+      "form": {
+        "heading": "כתיבת חוות דעת",
+        "intro": "ספרו לצליינים אחרים מה דעתכם על {name}. חוות הדעת שלכם תופיע בעמוד הזה.",
+        "fields": {
+          "name": "השם שלכם",
+          "country": "מדינה (לא חובה)",
+          "rating": "הדירוג שלכם",
+          "title": "כותרת (לא חובה)",
+          "comment": "חוות הדעת שלכם"
+        },
+        "star": "{count, plural, one {כוכב אחד} other {# כוכבים}}",
+        "counter": "{count} / {max}",
+        "website": "אתר (השאירו ריק)",
+        "submit": "פרסום חוות הדעת",
+        "sending": "מפרסמים…",
+        "success": "תודה! חוות הדעת שלכם פורסמה.",
+        "another": "כתיבת חוות דעת נוספת",
+        "errors": {
+          "nameRequired": "נא להזין את שמכם.",
+          "nameTooShort": "השם צריך להכיל לפחות {min} תווים.",
+          "ratingRequired": "נא לבחור בין כוכב אחד ל־5 כוכבים.",
+          "commentRequired": "נא לכתוב את חוות הדעת.",
+          "commentTooShort": "חוות הדעת צריכה להכיל לפחות {min} תווים.",
+          "tooLong": "נא לא לחרוג מ־{max} תווים.",
+          "invalid": "חלק מהפרטים לא התקבלו. בדקו את הטופס ונסו שוב.",
+          "rateLimited": "שלחתם כמה חוות דעת בזמן קצר. נסו שוב מאוחר יותר.",
+          "network": "לא הצלחנו להתחבר לשרת. בדקו את החיבור ונסו שוב.",
+          "server": "משהו השתבש אצלנו. נסו שוב בעוד רגע."
+        }
+      }
+    },
+    "wishlist": {
+      "toggle": "שמירת {name} ברשימת המשאלות",
+      "added": "{name} נוסף לרשימת המשאלות.",
+      "removed": "{name} הוסר מרשימת המשאלות.",
+      "save": "שמירה ברשימת המשאלות",
+      "link": "משאלות",
+      "linkAria": "משאלות: {count, plural, one {פריט שמור אחד} other {# פריטים שמורים}}",
+      "pageTitle": "רשימת המשאלות שלכם",
+      "pageDescription": "מזכרות ששמרתם להמשך.",
+      "savedHeading": "מזכרות שמורות",
+      "emptyTitle": "רשימת המשאלות ריקה",
+      "emptyText": "הקישו על הלב שליד מזכרת כדי לשמור אותה כאן.",
+      "browse": "למעבר לחנות",
+      "count": "{count, plural, one {מזכרת שמורה אחת} other {# מזכרות שמורות}}",
+      "addToCart": "הוספה לסל",
+      "chooseOptions": "בחירת אפשרויות",
+      "remove": "הסרה",
+      "addedToCart": "{name} נוסף לסל."
+    },
+    "share": {
+      "button": "שיתוף",
+      "text": "{name}, מזכרת מנצרת",
+      "copied": "הקישור הועתק. אפשר להדביק אותו בכל מקום.",
+      "failed": "לא הצלחנו להעתיק את הקישור. העתיקו אותו משורת הכתובת."
+    },
+    "product": {
+      "beFirst": "אין עדיין חוות דעת. כתבו את הראשונה",
+      "similarTitle": "אולי תאהבו גם",
+      "recentTitle": "נצפו לאחרונה"
+    }
   }
 }

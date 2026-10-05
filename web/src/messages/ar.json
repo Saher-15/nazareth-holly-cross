@@ -548,5 +548,148 @@
     "total": "الإجمالي",
     "secure": "دفع آمن عبر PayPal",
     "emptyLead": "تصفّح المسابح والصلبان والتذكارات من الناصرة."
+  },
+  "shopFeatures": {
+    "categories": {
+      "rosaries": "مسابح",
+      "necklaces": "قلادات",
+      "bracelets": "أساور",
+      "stained-glass": "زجاج معشّق",
+      "crosses": "صلبان",
+      "bibles": "كتب مقدسة",
+      "holy-land": "من الأرض المقدسة",
+      "gifts": "هدايا"
+    },
+    "materials": {
+      "gold": "ذهب",
+      "silver": "فضة",
+      "wood": "خشب",
+      "glass": "زجاج"
+    },
+    "sort": {
+      "featured": "مميّزة",
+      "bestselling": "الأكثر مبيعًا",
+      "rating": "الأعلى تقييمًا",
+      "newest": "الأحدث",
+      "priceAsc": "السعر: من الأقل إلى الأعلى",
+      "priceDesc": "السعر: من الأعلى إلى الأقل",
+      "name": "الاسم (A–Z)"
+    },
+    "allProducts": "كل التذكارات",
+    "filters": {
+      "title": "التصفية",
+      "openAria": "التصفية{count, plural, =0 {} one {، عامل تصفية واحد نشط} two {، عاملا تصفية نشطان} few {، # عوامل تصفية نشطة} many {، # عامل تصفية نشطًا} other {، # عامل تصفية نشط}}",
+      "close": "إغلاق التصفية",
+      "apply": "عرض {count, plural, zero {# منتج} one {منتج واحد} two {منتجين} few {# منتجات} many {# منتجًا} other {# منتج}}",
+      "clearAll": "مسح الكل",
+      "active": "عوامل التصفية النشطة",
+      "remove": "إزالة عامل التصفية: {label}",
+      "noneText": "جرّب إزالة أحد عوامل التصفية أو البحث عن شيء آخر.",
+      "category": "الفئة",
+      "allCategories": "كل الفئات",
+      "material": "المادة",
+      "price": "السعر (USD)",
+      "minPrice": "الأدنى",
+      "maxPrice": "الأعلى",
+      "rating": "تقييم العملاء",
+      "anyRating": "أي تقييم",
+      "ratingAtLeast": "{stars, plural, one {نجمة واحدة فأكثر} two {نجمتان فأكثر} few {# نجوم فأكثر} many {# نجمة فأكثر} other {# نجمة فأكثر}}",
+      "availability": "التوفّر",
+      "inStock": "المتوفّر فقط",
+      "chipSearch": "بحث: {query}",
+      "chipPriceRange": "{min} – {max}",
+      "chipPriceMin": "من {min}",
+      "chipPriceMax": "حتى {max}"
+    },
+    "strip": {
+      "bestTitle": "الأكثر مبيعًا",
+      "bestLead": "التذكارات التي يأخذها الحجاج إلى بيوتهم أكثر من غيرها.",
+      "favTitle": "مختاراتنا المفضّلة",
+      "favLead": "اختيرت بعناية في متجرنا في الناصرة.",
+      "back": "التمرير إلى الخلف",
+      "forward": "التمرير إلى الأمام"
+    },
+    "badges": {
+      "bestseller": "الأكثر مبيعًا",
+      "new": "جديد",
+      "lowStock": "بقي {count} فقط",
+      "soldOut": "نفدت الكمية"
+    },
+    "reviews": {
+      "title": "آراء العملاء",
+      "starsLabel": "{rating} من 5 نجوم",
+      "count": "{count, plural, zero {لا آراء} one {رأي واحد} two {رأيان} few {# آراء} many {# رأيًا} other {# رأي}}",
+      "outOf": "من 5",
+      "basedOn": "بناءً على {count, plural, zero {# رأي} one {رأي واحد} two {رأيين} few {# آراء} many {# رأيًا} other {# رأي}}",
+      "breakdown": "توزيع التقييمات",
+      "breakdownRow": "{stars, plural, one {نجمة واحدة} two {نجمتان} few {# نجوم} many {# نجمة} other {# نجمة}}: {count, plural, zero {لا آراء} one {رأي واحد} two {رأيان} few {# آراء} many {# رأيًا} other {# رأي}}",
+      "emptyTitle": "لا توجد آراء بعد",
+      "emptyText": "كن أول من يخبر الحجاج الآخرين برأيه في هذا التذكار.",
+      "unavailable": "تعذّر تحميل الآراء الآن.",
+      "listLabel": "الآراء، الأحدث أولًا",
+      "reviewBy": "رأي {name}",
+      "showAll": "عرض كل الآراء ({count})",
+      "showFewer": "عرض آراء أقل",
+      "form": {
+        "heading": "اكتب رأيك",
+        "intro": "أخبر الحجاج الآخرين برأيك في {name}. سيظهر رأيك في هذه الصفحة.",
+        "fields": {
+          "name": "اسمك",
+          "country": "البلد (اختياري)",
+          "rating": "تقييمك",
+          "title": "العنوان (اختياري)",
+          "comment": "رأيك"
+        },
+        "star": "{count, plural, one {نجمة واحدة} two {نجمتان} few {# نجوم} many {# نجمة} other {# نجمة}}",
+        "counter": "{count} / {max}",
+        "website": "الموقع الإلكتروني (اتركه فارغًا)",
+        "submit": "نشر الرأي",
+        "sending": "جارٍ النشر…",
+        "success": "شكرًا لك! تم نشر رأيك.",
+        "another": "اكتب رأيًا آخر",
+        "errors": {
+          "nameRequired": "يرجى إدخال اسمك.",
+          "nameTooShort": "يجب أن يتكوّن الاسم من {min} أحرف على الأقل.",
+          "ratingRequired": "يرجى اختيار من نجمة واحدة إلى 5 نجوم.",
+          "commentRequired": "يرجى كتابة رأيك.",
+          "commentTooShort": "يجب أن يتكوّن رأيك من {min} أحرف على الأقل.",
+          "tooLong": "يرجى ألا يتجاوز النص {max} حرف.",
+          "invalid": "لم تُقبل بعض البيانات. يرجى مراجعة النموذج والمحاولة مرة أخرى.",
+          "rateLimited": "لقد أرسلت عدة آراء في وقت قصير. يرجى المحاولة لاحقًا.",
+          "network": "تعذّر الاتصال بالخادم. تحقّق من اتصالك وحاول مرة أخرى.",
+          "server": "حدث خطأ من جهتنا. يرجى المحاولة بعد قليل."
+        }
+      }
+    },
+    "wishlist": {
+      "toggle": "حفظ {name} في قائمة الأمنيات",
+      "added": "أُضيف {name} إلى قائمة الأمنيات.",
+      "removed": "أُزيل {name} من قائمة الأمنيات.",
+      "save": "حفظ في قائمة الأمنيات",
+      "link": "الأمنيات",
+      "linkAria": "الأمنيات: {count, plural, zero {لا عناصر محفوظة} one {عنصر محفوظ واحد} two {عنصران محفوظان} few {# عناصر محفوظة} many {# عنصرًا محفوظًا} other {# عنصر محفوظ}}",
+      "pageTitle": "قائمة أمنياتك",
+      "pageDescription": "التذكارات التي حفظتها لوقت لاحق.",
+      "savedHeading": "التذكارات المحفوظة",
+      "emptyTitle": "قائمة أمنياتك فارغة",
+      "emptyText": "اضغط على القلب بجانب أي تذكار لتحفظه هنا.",
+      "browse": "تصفّح المتجر",
+      "count": "{count, plural, zero {لا تذكارات محفوظة} one {تذكار محفوظ واحد} two {تذكاران محفوظان} few {# تذكارات محفوظة} many {# تذكارًا محفوظًا} other {# تذكار محفوظ}}",
+      "addToCart": "أضف إلى السلة",
+      "chooseOptions": "اختر الخيارات",
+      "remove": "إزالة",
+      "addedToCart": "أُضيف {name} إلى السلة."
+    },
+    "share": {
+      "button": "مشاركة",
+      "text": "{name}، تذكار من الناصرة",
+      "copied": "تم نسخ الرابط. يمكنك لصقه في أي مكان.",
+      "failed": "تعذّر نسخ الرابط. انسخه من شريط العنوان."
+    },
+    "product": {
+      "beFirst": "لا توجد آراء بعد. اكتب أول رأي",
+      "similarTitle": "قد يعجبك أيضًا",
+      "recentTitle": "شوهدت مؤخرًا"
+    }
   }
 }

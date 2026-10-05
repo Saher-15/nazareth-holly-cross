@@ -84,12 +84,37 @@ const paths = {
       <path d="m3.5 7.5 8.5 4 8.5-4M12 11.5v9" />
     </>
   ),
+  // The heart's path is filled by CSS (`fill: currentColor`) when the product is saved.
+  heart: (
+    <path d="M12 20.3s-7.6-4.5-9.3-9.3C1.5 7.5 3.8 4.5 7.1 4.5c2 0 3.7 1.1 4.9 2.9 1.2-1.8 2.9-2.9 4.9-2.9 3.3 0 5.6 3 4.4 6.5-1.7 4.8-9.3 9.3-9.3 9.3z" />
+  ),
+  share: (
+    <>
+      <path d="M12 14.5v-11M7.5 7.5 12 3l4.5 4.5" />
+      <path d="M5 11.5v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7" />
+    </>
+  ),
+  filter: (
+    <>
+      <path d="M3.5 6.5h9M16.5 6.5h4M3.5 17.5h4M11.5 17.5h9" />
+      <circle cx="14.5" cy="6.5" r="2" />
+      <circle cx="9.5" cy="17.5" r="2" />
+    </>
+  ),
+  chevronStart: <path d="m14.5 6-6 6 6 6" />,
+  chevronEnd: <path d="m9.5 6 6 6-6 6" />,
+  pen: (
+    <>
+      <path d="M4 20h4.5L19 9.5a2.1 2.1 0 0 0-3-3L5.5 17 4 20z" />
+      <path d="m14.5 8 1.5 1.5" />
+    </>
+  ),
 } as const;
 
 export type IconName = keyof typeof paths;
 
 // Arrows point the reading direction, so they mirror in Hebrew and Arabic.
-const mirrored: readonly IconName[] = ['arrowNext', 'arrowBack'];
+const mirrored: readonly IconName[] = ['arrowNext', 'arrowBack', 'chevronStart', 'chevronEnd'];
 
 export default function ShopIcon({ name, className = '' }: { name: IconName; className?: string }) {
   return (

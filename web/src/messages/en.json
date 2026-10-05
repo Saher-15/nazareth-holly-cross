@@ -548,5 +548,148 @@
     "total": "Total",
     "secure": "Secure payment with PayPal",
     "emptyLead": "Browse rosaries, crosses and keepsakes from Nazareth."
+  },
+  "shopFeatures": {
+    "categories": {
+      "rosaries": "Rosaries",
+      "necklaces": "Necklaces",
+      "bracelets": "Bracelets",
+      "stained-glass": "Stained glass",
+      "crosses": "Crosses",
+      "bibles": "Bibles",
+      "holy-land": "From the Holy Land",
+      "gifts": "Gifts"
+    },
+    "materials": {
+      "gold": "Gold",
+      "silver": "Silver",
+      "wood": "Wood",
+      "glass": "Glass"
+    },
+    "sort": {
+      "featured": "Featured",
+      "bestselling": "Best selling",
+      "rating": "Top rated",
+      "newest": "Newest",
+      "priceAsc": "Price: low to high",
+      "priceDesc": "Price: high to low",
+      "name": "Name (A–Z)"
+    },
+    "allProducts": "All souvenirs",
+    "filters": {
+      "title": "Filters",
+      "openAria": "Filters{count, plural, =0 {} other {, # active}}",
+      "close": "Close filters",
+      "apply": "Show {count, plural, one {# product} other {# products}}",
+      "clearAll": "Clear all",
+      "active": "Active filters",
+      "remove": "Remove filter: {label}",
+      "noneText": "Try removing a filter or searching for something else.",
+      "category": "Category",
+      "allCategories": "All categories",
+      "material": "Material",
+      "price": "Price (USD)",
+      "minPrice": "Min",
+      "maxPrice": "Max",
+      "rating": "Customer rating",
+      "anyRating": "Any rating",
+      "ratingAtLeast": "{stars, plural, one {# star & up} other {# stars & up}}",
+      "availability": "Availability",
+      "inStock": "In stock only",
+      "chipSearch": "Search: {query}",
+      "chipPriceRange": "{min} – {max}",
+      "chipPriceMin": "From {min}",
+      "chipPriceMax": "Up to {max}"
+    },
+    "strip": {
+      "bestTitle": "Best sellers",
+      "bestLead": "The souvenirs pilgrims take home most often.",
+      "favTitle": "Our favourites",
+      "favLead": "Hand-picked by our shop in Nazareth.",
+      "back": "Scroll back",
+      "forward": "Scroll forward"
+    },
+    "badges": {
+      "bestseller": "Best seller",
+      "new": "New",
+      "lowStock": "Only {count} left",
+      "soldOut": "Sold out"
+    },
+    "reviews": {
+      "title": "Customer reviews",
+      "starsLabel": "{rating} out of 5 stars",
+      "count": "{count, plural, one {# review} other {# reviews}}",
+      "outOf": "out of 5",
+      "basedOn": "Based on {count, plural, one {# review} other {# reviews}}",
+      "breakdown": "Rating breakdown",
+      "breakdownRow": "{stars, plural, one {# star} other {# stars}}: {count, plural, one {# review} other {# reviews}}",
+      "emptyTitle": "No reviews yet",
+      "emptyText": "Be the first to tell other pilgrims what you think of this souvenir.",
+      "unavailable": "The reviews could not be loaded right now.",
+      "listLabel": "Reviews, newest first",
+      "reviewBy": "Review by {name}",
+      "showAll": "Show all reviews ({count})",
+      "showFewer": "Show fewer reviews",
+      "form": {
+        "heading": "Write a review",
+        "intro": "Tell other pilgrims what you think of {name}. Your review appears on this page.",
+        "fields": {
+          "name": "Your name",
+          "country": "Country (optional)",
+          "rating": "Your rating",
+          "title": "Title (optional)",
+          "comment": "Your review"
+        },
+        "star": "{count, plural, one {# star} other {# stars}}",
+        "counter": "{count} / {max}",
+        "website": "Website (leave empty)",
+        "submit": "Post review",
+        "sending": "Posting…",
+        "success": "Thank you! Your review has been posted.",
+        "another": "Write another review",
+        "errors": {
+          "nameRequired": "Please enter your name.",
+          "nameTooShort": "Your name needs at least {min} characters.",
+          "ratingRequired": "Please choose from 1 to 5 stars.",
+          "commentRequired": "Please write your review.",
+          "commentTooShort": "Your review needs at least {min} characters.",
+          "tooLong": "Please keep this under {max} characters.",
+          "invalid": "Some details were not accepted. Please check the form and try again.",
+          "rateLimited": "You have sent several reviews in a short time. Please try again later.",
+          "network": "We could not reach the server. Check your connection and try again.",
+          "server": "Something went wrong on our side. Please try again in a moment."
+        }
+      }
+    },
+    "wishlist": {
+      "toggle": "Save {name} to your wishlist",
+      "added": "{name} was added to your wishlist.",
+      "removed": "{name} was removed from your wishlist.",
+      "save": "Save to wishlist",
+      "link": "Wishlist",
+      "linkAria": "Wishlist: {count, plural, one {# saved item} other {# saved items}}",
+      "pageTitle": "Your wishlist",
+      "pageDescription": "Souvenirs you saved for later.",
+      "savedHeading": "Saved souvenirs",
+      "emptyTitle": "Your wishlist is empty",
+      "emptyText": "Tap the heart on any souvenir to keep it here for later.",
+      "browse": "Browse the shop",
+      "count": "{count, plural, one {# saved souvenir} other {# saved souvenirs}}",
+      "addToCart": "Add to cart",
+      "chooseOptions": "Choose options",
+      "remove": "Remove",
+      "addedToCart": "{name} was added to your cart."
+    },
+    "share": {
+      "button": "Share",
+      "text": "{name}, a souvenir from Nazareth",
+      "copied": "Link copied. You can paste it anywhere.",
+      "failed": "The link could not be copied. Please copy it from the address bar."
+    },
+    "product": {
+      "beFirst": "No reviews yet. Write the first one",
+      "similarTitle": "You may also like",
+      "recentTitle": "Recently viewed"
+    }
   }
 }

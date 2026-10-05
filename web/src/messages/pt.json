@@ -548,5 +548,148 @@
     "total": "Total",
     "secure": "Pagamento seguro com PayPal",
     "emptyLead": "Conheça terços, cruzes e lembranças de Nazaré."
+  },
+  "shopFeatures": {
+    "categories": {
+      "rosaries": "Terços",
+      "necklaces": "Colares",
+      "bracelets": "Pulseiras",
+      "stained-glass": "Vitrais",
+      "crosses": "Cruzes",
+      "bibles": "Bíblias",
+      "holy-land": "Da Terra Santa",
+      "gifts": "Presentes"
+    },
+    "materials": {
+      "gold": "Ouro",
+      "silver": "Prata",
+      "wood": "Madeira",
+      "glass": "Vidro"
+    },
+    "sort": {
+      "featured": "Em destaque",
+      "bestselling": "Mais vendidos",
+      "rating": "Mais bem avaliados",
+      "newest": "Novidades",
+      "priceAsc": "Preço: menor para maior",
+      "priceDesc": "Preço: maior para menor",
+      "name": "Nome (A–Z)"
+    },
+    "allProducts": "Todas as lembranças",
+    "filters": {
+      "title": "Filtros",
+      "openAria": "Filtros{count, plural, =0 {} one {, # ativo} other {, # ativos}}",
+      "close": "Fechar filtros",
+      "apply": "Ver {count, plural, one {# produto} other {# produtos}}",
+      "clearAll": "Limpar tudo",
+      "active": "Filtros ativos",
+      "remove": "Remover filtro: {label}",
+      "noneText": "Tente remover um filtro ou pesquisar outra coisa.",
+      "category": "Categoria",
+      "allCategories": "Todas as categorias",
+      "material": "Material",
+      "price": "Preço (USD)",
+      "minPrice": "Mín.",
+      "maxPrice": "Máx.",
+      "rating": "Avaliação",
+      "anyRating": "Qualquer avaliação",
+      "ratingAtLeast": "{stars, plural, one {# estrela ou mais} other {# estrelas ou mais}}",
+      "availability": "Disponibilidade",
+      "inStock": "Somente em estoque",
+      "chipSearch": "Pesquisa: {query}",
+      "chipPriceRange": "{min} – {max}",
+      "chipPriceMin": "A partir de {min}",
+      "chipPriceMax": "Até {max}"
+    },
+    "strip": {
+      "bestTitle": "Mais vendidos",
+      "bestLead": "As lembranças que os peregrinos mais levam para casa.",
+      "favTitle": "Nossos favoritos",
+      "favLead": "Escolhidos com carinho pela nossa loja em Nazaré.",
+      "back": "Rolar para trás",
+      "forward": "Rolar para a frente"
+    },
+    "badges": {
+      "bestseller": "Mais vendido",
+      "new": "Novo",
+      "lowStock": "Restam só {count}",
+      "soldOut": "Esgotado"
+    },
+    "reviews": {
+      "title": "Avaliações dos clientes",
+      "starsLabel": "{rating} de 5 estrelas",
+      "count": "{count, plural, one {# avaliação} other {# avaliações}}",
+      "outOf": "de 5",
+      "basedOn": "Com base em {count, plural, one {# avaliação} other {# avaliações}}",
+      "breakdown": "Distribuição das avaliações",
+      "breakdownRow": "{stars, plural, one {# estrela} other {# estrelas}}: {count, plural, one {# avaliação} other {# avaliações}}",
+      "emptyTitle": "Ainda não há avaliações",
+      "emptyText": "Seja o primeiro a contar a outros peregrinos o que você acha desta lembrança.",
+      "unavailable": "Não foi possível carregar as avaliações agora.",
+      "listLabel": "Avaliações, das mais recentes",
+      "reviewBy": "Avaliação de {name}",
+      "showAll": "Ver todas as avaliações ({count})",
+      "showFewer": "Ver menos avaliações",
+      "form": {
+        "heading": "Escrever uma avaliação",
+        "intro": "Conte a outros peregrinos o que você acha de {name}. Sua avaliação aparece nesta página.",
+        "fields": {
+          "name": "Seu nome",
+          "country": "País (opcional)",
+          "rating": "Sua nota",
+          "title": "Título (opcional)",
+          "comment": "Sua avaliação"
+        },
+        "star": "{count, plural, one {# estrela} other {# estrelas}}",
+        "counter": "{count} / {max}",
+        "website": "Site (deixe em branco)",
+        "submit": "Publicar avaliação",
+        "sending": "Publicando…",
+        "success": "Obrigado! Sua avaliação foi publicada.",
+        "another": "Escrever outra avaliação",
+        "errors": {
+          "nameRequired": "Digite seu nome.",
+          "nameTooShort": "Seu nome precisa ter pelo menos {min} caracteres.",
+          "ratingRequired": "Escolha de 1 a 5 estrelas.",
+          "commentRequired": "Escreva sua avaliação.",
+          "commentTooShort": "Sua avaliação precisa ter pelo menos {min} caracteres.",
+          "tooLong": "Não ultrapasse {max} caracteres.",
+          "invalid": "Alguns dados não foram aceitos. Confira o formulário e tente novamente.",
+          "rateLimited": "Você enviou várias avaliações em pouco tempo. Tente novamente mais tarde.",
+          "network": "Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.",
+          "server": "Algo deu errado do nosso lado. Tente novamente em instantes."
+        }
+      }
+    },
+    "wishlist": {
+      "toggle": "Salvar {name} na lista de desejos",
+      "added": "{name} foi adicionado à lista de desejos.",
+      "removed": "{name} foi removido da lista de desejos.",
+      "save": "Salvar na lista de desejos",
+      "link": "Desejos",
+      "linkAria": "Desejos: {count, plural, one {# item salvo} other {# itens salvos}}",
+      "pageTitle": "Sua lista de desejos",
+      "pageDescription": "As lembranças que você salvou para depois.",
+      "savedHeading": "Lembranças salvas",
+      "emptyTitle": "Sua lista de desejos está vazia",
+      "emptyText": "Toque no coração de uma lembrança para guardá-la aqui.",
+      "browse": "Ver a loja",
+      "count": "{count, plural, one {# lembrança salva} other {# lembranças salvas}}",
+      "addToCart": "Adicionar ao carrinho",
+      "chooseOptions": "Escolher opções",
+      "remove": "Remover",
+      "addedToCart": "{name} foi adicionado ao carrinho."
+    },
+    "share": {
+      "button": "Compartilhar",
+      "text": "{name}, uma lembrança de Nazaré",
+      "copied": "Link copiado. Você pode colá-lo onde quiser.",
+      "failed": "Não foi possível copiar o link. Copie-o da barra de endereços."
+    },
+    "product": {
+      "beFirst": "Ainda não há avaliações. Escreva a primeira",
+      "similarTitle": "Você também pode gostar",
+      "recentTitle": "Vistos recentemente"
+    }
   }
 }
