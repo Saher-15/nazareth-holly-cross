@@ -24,6 +24,9 @@ regexes = [
   # The PayPal *client id* of the sandbox app: it is sent to every browser that shows the PayPal
   # buttons. The client SECRET is never public and is not listed.
   '''AfhOc9ToAj72gf5KEowYfhpWShGRSpzSL-Ps2HYX4ky95KmVX8vNRb0o5FZ3AGw3muq8DIvDP0Ua2_ad''',
+  # A second PayPal *client id* (public, same reasoning), found only in history: the unused
+  # client/src/components/Payment.js, deleted in the stage-1 cleanup.
+  '''AX4y0joh46hrm6hb-mHi_3DgaeKIRXjchX1vQw3cpeVbgQjKK8WH9S-KmbmBRIPCPJHmrlwOdcDW9vnA''',
   # Firebase Storage download tokens: part of the public link of one product photo or video.
   '''006a14aa-9398-49f4-bbf5-464c144f14f0''',
   '''4052f0b5-aac5-42a2-9a43-b7e70bae5fc3''',
