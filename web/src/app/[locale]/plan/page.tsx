@@ -55,7 +55,7 @@ export default async function PlanPage({ params }: PageProps<'/[locale]/plan'>) 
         </div>
       </section>
 
-      <section className="ui-section" aria-labelledby="walking-title">
+      <section className="ui-section" aria-labelledby="walking-title" data-noprint>
         <div className="ui-container">
           <Reveal as="header" className={shared.head}>
             <h2 id="walking-title" className="ui-h2">

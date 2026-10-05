@@ -19,7 +19,7 @@ const HREF: Record<PilgrimPage, string> = {
 export default async function NextSteps({ pages }: { pages: readonly PilgrimPage[] }) {
   const t = await getTranslations('pilgrim');
   return (
-    <section className="ui-section" aria-labelledby="next-steps-title">
+    <section className="ui-section" aria-labelledby="next-steps-title" data-noprint>
       <div className="ui-container">
         <Reveal as="header" className={shared.head}>
           <p className="ui-eyebrow">{t('common.moreEyebrow')}</p>
