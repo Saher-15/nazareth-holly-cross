@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 import "../styles/PaypalCandle.css";
-import { API_URL, PAYPAL_CLIENT_ID } from '../config/env';
+import { PAYPAL_CLIENT_ID } from '../config/env';
+import usePayPalOrder from '../payments/usePayPalOrder';
 
 const PayPalComponent = ({ name, amount }) => {
     const [paymentConfirmed, setPaymentConfirmed] = useState(false); // State to control payment initiation
@@ -15,7 +16,6 @@ const PayPalComponent = ({ name, amount }) => {
         clientId: PAYPAL_CLIENT_ID
     };
 
-    const intent = 'capture'; // Set your intent variable here
 
     const onCancel = (data) => {
         setShowAlert(true);
@@ -25,61 +25,17 @@ const PayPalComponent = ({ name, amount }) => {
         }, 2000);
     };
 
-    const onError = (err) => {
-        // Handle error
-    };
 
-    const createOrder = async () => {
-        try {
-            const response = await fetch(`${API_URL}/order/create_order`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json; charset=utf-8"
-                },
-                body: JSON.stringify({ "intent": intent, "amount": amount })
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to create order');
-            }
-
-            const order = await response.json();
-
-            return order.id;
-        } catch (error) {
-            console.error('Error creating order:');
-            // Handle error here
-        }
-    };
-
-    const onApprove = async (data, actions) => {
-        const order_id = data.orderID;
-
-        const requestBody = {
-            "intent": intent,
-            "order_id": order_id
-        };
-
-        await fetch(`${API_URL}/order/complete_order`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json; charset=utf-8"
-            },
-            body: JSON.stringify(requestBody)
-        })
-            .then((response) => {
-                setPaymentConfirmed(true);
-                setShowConfirmation(true);
-                setThankYouMessage(true); // Show thank you message
-                setTimeout(() => {
-                    navigate('/'); // Navigate to the homepage after 5 seconds
-                }, 5000);
-                response.json();
-            })
-            .catch((error) => {
-                console.error('Error completing order:');
-            });
-    };
+    const getPayload = useCallback(() => ({ type: 'donation', amount }), [amount]);
+    const onPaid = useCallback(() => {
+        setPaymentConfirmed(true);
+        setShowConfirmation(true);
+        setThankYouMessage(true); // Show thank you message
+        setTimeout(() => {
+            navigate('/'); // Navigate to the homepage after 5 seconds
+        }, 5000);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    const { createOrder, onApprove, onError, error: payError } = usePayPalOrder({ getPayload, onPaid });
 
     const handleConfirmPayment = () => {
         setPaymentConfirmed(true);
@@ -108,6 +64,7 @@ const PayPalComponent = ({ name, amount }) => {
                                 onCancel={onCancel}
                                 onError={onError}
                             />
+                            {payError && <p className="payment-error" role="alert">{payError}</p>}
                         </div>
                     )}
                 </PayPalScriptProvider>

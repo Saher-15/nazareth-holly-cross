@@ -1,26 +1,11 @@
 import express from "express"
 import Order from "../model/order.js";
-import nodemailer from "nodemailer"
-import { config } from "../config/env.js"
-import { v4 as uuidv4 } from 'uuid';
+import { sendMail } from '../services/emailService.js';
+import { createOrder as createPayPalOrder, captureOrder as capturePayPalOrder } from '../services/paypalService.js';
+import { priceFor, priceShopOrder } from '../services/pricing.js';
 import { requireAdmin } from '../middleware/auth.js';
 import { asyncHandler } from "../middleware/asyncHandler.js"
 
-
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false, // Use `true` for port 465, `false` for all other ports
-    auth: {
-        user: config.mail.from,
-        pass: config.mail.appPassword,
-    },
-});
-
-const client_id = config.paypal.clientId;
-const client_secret = config.paypal.clientSecret;
-const endpoint_url = config.paypal.baseUrl;
 
 const routerOrder = express.Router();
 
@@ -39,82 +24,38 @@ routerOrder.get('/getOrder/:id', requireAdmin, asyncHandler(async (req, res) => 
     res.status(200).send(order);
 }))
 
+const REQUIRED_ORDER_FIELDS = ['firstName', 'lastName', 'phone', 'email', 'street', 'city', 'state', 'postal', 'country'];
+
 routerOrder.post('/newOrder', asyncHandler(async (req, res) => {
-    const { firstName, lastName, phone, email, street, city, state, postal, country, totalPrice, products } = req.body;
+    const { products } = req.body;
 
-    if (firstName === null || firstName === undefined || firstName === "") {
+    for (const field of REQUIRED_ORDER_FIELDS) {
+        const value = req.body[field];
+        if (value === null || value === undefined || value === "") {
+            return res.status(422).json({ error: "Bad input" })
+        }
+    }
+    if (!Array.isArray(products) || products.length === 0) {
         return res.status(422).json({ error: "Bad input" })
     }
 
-    if (lastName === null || lastName === undefined || lastName === "") {
-        return res.status(422).json({ error: "Bad input" })
-    }
+    // The price comes from the product prices in the database, never from the browser.
+    const totalPrice = await priceShopOrder(products);
 
-    if (email === null || email === undefined || email === "") {
-        return res.status(422).json({ error: "Bad input" })
-    }
-
-    if (phone === null || phone === undefined || phone === "") {
-        return res.status(422).json({ error: "Bad input" })
-    }
-
-    if (street === null || street === undefined || street === "") {
-        return res.status(422).json({ error: "Bad input" })
-    }
-
-    if (city === null || city === undefined || city === "") {
-        return res.status(422).json({ error: "Bad input" })
-    }
-
-    if (state === null || state === undefined || state === "") {
-        return res.status(422).json({ error: "Bad input" })
-    }
-
-    if (postal === null || postal === undefined || postal === "") {
-        return res.status(422).json({ error: "Bad input" })
-    }
-
-    if (country === null || country === undefined || country === "") {
-        return res.status(422).json({ error: "Bad input" })
-    }
-
-    if (totalPrice === null || totalPrice === undefined || totalPrice === "") {
-        return res.status(422).json({ error: "Bad input" })
-    }
-
-    if (products === null || products === undefined || products === "") {
-        return res.status(422).json({ error: "Bad input" })
-    }
-
-    const newOrder = new Order({
-        firstName: firstName,
-        lastName: lastName,
-        phone: phone,
-        email: email,
+    const { firstName, lastName, phone, email, street, city, state, postal, country } = req.body;
+    const order = await Order.create({
+        firstName, lastName, phone, email, street, city, state, postal, country,
         date: new Date(),
-        street: street,
-        city: city,
-        state: state,
-        postal: postal,
-        country: country,
-        totalPrice: totalPrice,
-        products: products,
+        totalPrice,
+        products,
         done: false
     });
 
-    await newOrder.save().then(order => {
-        const emailMsg = {
-            to: [email],
-            from: {
-                name: "Nazareth Holy Cross",
-                address: config.mail.from,
-            },
-            subject: 'We Got Your Order: Thanks for ordering',
-            text: `Order number ${order._id}, we will let you know when your order ships :)`,
-        };
-
-        // The order is already saved, so a mail failure must not fail the request; SendMail logs it.
-        SendMail(emailMsg);
+    // The order is already saved, so a mail failure must not fail the request; sendMail logs it.
+    sendMail({
+        to: [email],
+        subject: 'We Got Your Order: Thanks for ordering',
+        text: `Order number ${order._id}, we will let you know when your order ships :)`,
     });
     res.status(201).send("Created");
 }))
@@ -128,20 +69,15 @@ routerOrder.patch('/orderSent/:id', requireAdmin, asyncHandler(async (req, res) 
         return res.status(204).send("No Content");
     }
 
-    const order = await Order.findById(orderId);
-    const email = order.email;
+    const email = updatedOrder.email;
 
     const emailMsg = {
         to: [email],
-        from: {
-            name: "Nazareth Holy Cross",
-            address: config.mail.from,
-        },
         subject: 'Your order was shipped',
         text: `Your order number ${orderId} was shipped :)`,
     };
 
-    if (!(await SendMail(emailMsg))) {
+    if (!(await sendMail(emailMsg))) {
         return res.status(500).send("Error: Couldn't send email")
     }
     res.status(200).send("Success")
@@ -152,99 +88,24 @@ routerOrder.delete('/deleteOrder/:id', requireAdmin, asyncHandler(async (req, re
     res.status(200).send("Success");
 }))
 
-async function SendMail(msg) {
+routerOrder.post('/create_order', asyncHandler(async (req, res) => {
+    const amount = await priceFor(req.body);
+    const order = await createPayPalOrder(amount);
+    res.json({ id: order.id, status: order.status, amount });
+}));
 
-    try {
-        await transporter.sendMail(msg)
-    } catch (err) {
-        console.log(err)
-        return false;
-    }
-
-    return true;
-}
-
-async function get_access_token() {
-    const auth = `${client_id}:${client_secret}`
-    const data = 'grant_type=client_credentials'
-    const res = await fetch(endpoint_url + '/v1/oauth2/token', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Authorization': `Basic ${Buffer.from(auth).toString('base64')}`
-        },
-        body: data
-    });
-    const json = await res.json();
-    return json.access_token;
-}
-
-routerOrder.post('/create_order', (req, res) => {
-    const amount = parseFloat(req.body.amount);
-    if (!amount || isNaN(amount) || amount <= 0) {
-        return res.status(400).json({ error: 'Invalid amount' });
-    }
-    const intent = 'CAPTURE';
-
-    get_access_token()
-        .then(access_token => {
-            let order_data_json = {
-                'intent': intent,
-                'purchase_units': [{
-                    'amount': {
-                        'currency_code': 'USD',
-                        'value': amount.toFixed(2)
-                    }
-                }]
-            };
-            const data = JSON.stringify(order_data_json)
-
-            fetch(endpoint_url + '/v2/checkout/orders', { //https://developer.paypal.com/docs/api/orders/v2/#orders_create
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${access_token}`,
-                    'PayPal-Request-Id': uuidv4()
-                },
-                body: data
-            })
-                .then(res => res.json())
-                .then(json => {
-                    res.send(json);
-                }) //Send minimal data to client
-        })
-        .catch(err => {
-            console.error(`[${new Date().toISOString()}] PayPal create_order error:`, err.message || err);
-            res.status(500).json({ error: 'Payment processing error' });
-        })
-});
-
-routerOrder.post('/complete_order', (req, res) => {
+routerOrder.post('/complete_order', asyncHandler(async (req, res) => {
     const order_id = req.body.order_id;
     if (!order_id || !/^[A-Z0-9]{17}$/.test(order_id)) {
         return res.status(400).json({ error: 'Invalid order ID' });
     }
 
-    get_access_token()
-        .then(access_token => {
-            fetch(endpoint_url + '/v2/checkout/orders/' + order_id + '/capture', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${access_token}`,
-                    'PayPal-Request-Id': uuidv4()
-                }
-            })
-                .then(res => res.json())
-                .then(json => {
-                    res.send(json);
-                }) //Send minimal data to client
-        })
-        .catch(err => {
-            console.error(`[${new Date().toISOString()}] PayPal complete_order error:`, err.message || err);
-            res.status(500).json({ error: 'Payment processing error' });
-        })
-});
-
+    const capture = await capturePayPalOrder(order_id);
+    if (capture.status !== 'COMPLETED') {
+        console.error(`[${new Date().toISOString()}] PayPal capture for ${order_id} ended as ${capture.status}`);
+        return res.status(402).json({ error: 'Payment was not completed', status: capture.status });
+    }
+    res.json({ id: capture.id, status: capture.status });
+}));
 
 export default routerOrder;

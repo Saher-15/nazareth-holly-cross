@@ -52,3 +52,10 @@
     font-size: 2rem; /* Adjust font size for portrait orientation on small devices */
   }
 }
+
+/* PayPal checkout error message (shared by the three checkouts) */
+.payment-error {
+  color: #b00020;
+  text-align: center;
+  margin-top: 12px;
+}

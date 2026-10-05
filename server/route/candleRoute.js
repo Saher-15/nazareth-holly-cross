@@ -1,21 +1,10 @@
 import express from "express"
 import Candle from "../model/candle.js";
-import nodemailer from "nodemailer"
-import { config } from "../config/env.js"
+import { sendMail } from '../services/emailService.js';
 import { requireAdmin } from '../middleware/auth.js';
 import { asyncHandler } from "../middleware/asyncHandler.js"
+import { strictLimiter } from '../utils/security.js';
 
-
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false, // Use `true` for port 465, `false` for all other ports
-    auth: {
-      user: config.mail.from,
-      pass: config.mail.appPassword,
-    },
-});
 
 const routerCandle = express.Router();
 
@@ -40,7 +29,7 @@ routerCandle.delete('/delete_lighting_request/:id', requireAdmin, asyncHandler(a
     res.status(200).send("Success");
 }))
 
-routerCandle.post('/lightACandle', asyncHandler(async(req, res)=>{
+routerCandle.post('/lightACandle', strictLimiter, asyncHandler(async(req, res)=>{
     const { firstName, lastName, email, prayer } = req.body;
 
     if(!firstName || typeof firstName !== 'string' || firstName.trim() === ''){
@@ -65,10 +54,6 @@ routerCandle.post('/lightACandle', asyncHandler(async(req, res)=>{
 
     const emailMsg = {
         to: [email],
-        from: {
-            name: "Nazareth Holy Cross",
-            address: config.mail.from,
-        },
         subject: 'We have received your request',
         text: `Dear ${firstName} ${lastName} ,\n\nA video with lighting a candle will be sent to your email \n\nBest regards,\nNazareth Holy Cross`
     };
@@ -82,21 +67,9 @@ routerCandle.post('/lightACandle', asyncHandler(async(req, res)=>{
     });
 
     await newPrayer.save();
-    await SendMail(emailMsg);
+    await sendMail(emailMsg);
 
     res.status(200).send("Success")
 }))
-
-async function SendMail(msg){
-
-    try{
-        await transporter.sendMail(msg)
-    }catch(err){
-        console.log(err)
-        return false;
-    }
-
-    return true;
-}
 
 export default routerCandle;

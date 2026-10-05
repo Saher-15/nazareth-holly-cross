@@ -22,6 +22,8 @@ export const config = {
   jwtSecret: env.JWT_SECRET,
   adminPassword: env.ADMIN_PASSWORD,
   clientUrl: env.CLIENT_URL,
+  // Comma-separated extra origins allowed by CORS (e.g. a new admin domain)
+  extraOrigins: (env.EXTRA_ORIGINS || '').split(',').map((o) => o.trim()).filter(Boolean),
   mail: {
     from: env.MAIL_FROM,
     appPassword: env.MAIL_APP_PASSWORD,
