@@ -49,8 +49,6 @@ function Pray() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log("Submitting data:", formData);
-
         if (formData.fullName === '' || formData.email === '' || formData.phone === '' || formData.msg === '') {
             alert('Please fill in all fields');
             return;
