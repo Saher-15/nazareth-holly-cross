@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import Reveal from './home/Reveal';
+import Reveal from './ui/Reveal';
 import '../styles/Home.css';
 
 const NOTES = ['matthew', 'luke1', 'john', 'luke4'];

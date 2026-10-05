@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import Reveal from './Reveal';
+import Reveal from '../ui/Reveal';
 
 const VERSES = [1, 2, 3, 4, 5, 6];
 

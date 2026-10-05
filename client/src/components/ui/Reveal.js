@@ -31,7 +31,7 @@ function Reveal({ as: Tag = 'div', className = '', delay = 0, children, ...rest 
   return (
     <Tag
       ref={ref}
-      className={`hx-reveal ${seen ? 'is-in' : ''} ${className}`}
+      className={`ui-reveal ${seen ? 'is-in' : ''} ${className}`}
       style={delay ? { transitionDelay: `${delay}ms` } : undefined}
       {...rest}
     >

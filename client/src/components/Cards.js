@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import Reveal from './home/Reveal';
+import Reveal from './ui/Reveal';
 import '../styles/Home.css';
 
 const SITES = [

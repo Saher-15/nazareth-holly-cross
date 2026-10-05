@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { API_URL } from '../../config/env';
-import Reveal from './Reveal';
+import Reveal from '../ui/Reveal';
 
 const SIZE = 8;
 const cleanUrl = (u) => (typeof u === 'string' ? u.replace(/&amp;/g, '&') : u);

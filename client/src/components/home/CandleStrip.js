@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import Reveal from './Reveal';
+import Reveal from '../ui/Reveal';
 
 const KEY = 'hx-flames';
 const MAX_SHOWN = 9;

@@ -59,8 +59,8 @@
 .hx-center { display: flex; justify-content: center; margin-top: 32px; }
 
 /* ---- scroll reveal ---- */
-.hx-reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.8s ease, transform 0.8s cubic-bezier(.2,.7,.2,1); }
-.hx-reveal.is-in { opacity: 1; transform: none; }
+.ui-reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.8s ease, transform 0.8s cubic-bezier(.2,.7,.2,1); }
+.ui-reveal.is-in { opacity: 1; transform: none; }
 
 /* ---- buttons ---- */
 .hx-btn {
