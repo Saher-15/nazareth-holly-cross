@@ -435,5 +435,58 @@
     "aboutPillar1": "Un pèlerinage à distance",
     "aboutPillar2": "Des trésors de Terre sainte",
     "aboutPillar3": "Soutenir notre communauté"
+  },
+  "communityPage": {
+    "opensInNewTab": "(s’ouvre dans un nouvel onglet)",
+    "reviews": {
+      "metaTitle": "Avis des pèlerins et des visiteurs",
+      "metaDescription": "Découvrez ce que disent de Nazareth Holy Cross les pèlerins et visiteurs du monde entier, et partagez quelques mots sur votre propre expérience.",
+      "emptyHint": "Soyez le premier à partager quelques mots sur votre visite.",
+      "unavailableTitle": "Les avis ne peuvent pas être chargés pour le moment.",
+      "unavailableHint": "Veuillez réessayer dans quelques minutes. Vous pouvez tout de même partager votre avis.",
+      "form": {
+        "counter": "{count} / {max}",
+        "sending": "Envoi…",
+        "another": "Écrire un autre avis",
+        "errors": {
+          "nameRequired": "Veuillez indiquer votre nom.",
+          "nameTooShort": "Veuillez saisir au moins {min} caractères.",
+          "placeRequired": "Veuillez nous dire d’où vous venez.",
+          "messageRequired": "Veuillez écrire quelques mots sur votre expérience.",
+          "messageTooShort": "Veuillez écrire au moins {min} caractères.",
+          "tooLong": "Veuillez ne pas dépasser {max} caractères.",
+          "rateLimited": "Vous avez envoyé plusieurs avis en peu de temps. Veuillez patienter quelques minutes avant de réessayer.",
+          "invalid": "Votre avis n’a pas pu être accepté. Veuillez le vérifier et réessayer.",
+          "network": "Impossible de joindre notre serveur. Vérifiez votre connexion et réessayez.",
+          "server": "Un problème est survenu de notre côté. Veuillez réessayer plus tard."
+        }
+      }
+    },
+    "live": {
+      "metaTitle": "Retransmissions en direct de Nazareth",
+      "metaDescription": "Priez avec nous en direct depuis les lieux saints de Nazareth : découvrez la prochaine retransmission et revoyez nos prières et entretiens passés.",
+      "eyebrow": "En direct de Nazareth",
+      "title": "Priez avec nous, en direct",
+      "lead": "Prières et offices diffusés depuis les lieux saints de Nazareth, où que vous soyez.",
+      "status": {
+        "live": "En direct",
+        "upcoming": "À venir",
+        "offline": "Hors ligne"
+      },
+      "offlineHint": "Aucune diffusion en ce moment. Vous pouvez regarder nos diffusions passées ci-dessous.",
+      "follow": "Suivez-nous sur Instagram",
+      "eventStarted": "L’événement a commencé",
+      "units": {
+        "days": "Jours",
+        "hours": "Heures",
+        "minutes": "Minutes",
+        "seconds": "Secondes"
+      },
+      "pastEyebrow": "À revoir",
+      "videoFallback": "Votre navigateur ne peut pas lire cette vidéo.",
+      "events": {
+        "annunciationSunday": "Prière du dimanche depuis la basilique de l’Annonciation"
+      }
+    }
   }
 }

@@ -1,0 +1,131 @@
+/* Share-a-review glass card (design: client/src/styles/Prayer.css). */
+
+.card {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(20px, 3.4vw, 32px);
+  background:
+    radial-gradient(420px 200px at 100% 0%, color-mix(in srgb, var(--gold) 14%, transparent), transparent 70%),
+    var(--glass);
+}
+/* the glow follows the quote mark to the other corner in Hebrew and Arabic */
+:global([dir='rtl']) .card {
+  background:
+    radial-gradient(420px 200px at 0% 0%, color-mix(in srgb, var(--gold) 14%, transparent), transparent 70%),
+    var(--glass);
+}
+.mark {
+  position: absolute;
+  top: -18px;
+  inset-inline-end: 14px;
+  font: 400 7rem/1 var(--serif);
+  color: color-mix(in srgb, var(--gold) 22%, transparent);
+  pointer-events: none;
+}
+.title {
+  position: relative;
+  margin: 0 0 8px;
+  font: 400 clamp(1.5rem, 3.4vw, 1.9rem)/1.2 var(--serif);
+  color: var(--cream);
+}
+.intro {
+  margin: 0 0 20px;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+.card :global(.ui-label) {
+  color: color-mix(in srgb, var(--cream) 88%, transparent);
+}
+
+.fieldError {
+  margin: 0;
+}
+.under {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.counter {
+  margin: 0;
+  margin-inline-start: auto;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0 0 14px;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid color-mix(in srgb, var(--danger) 50%, transparent);
+  background: color-mix(in srgb, var(--danger) 12%, transparent);
+  color: var(--cream);
+  font-size: 0.95rem;
+  line-height: 1.45;
+  text-align: start;
+}
+.alertIcon {
+  flex: none;
+  margin-top: 3px;
+  color: var(--danger);
+}
+.submit {
+  width: 100%;
+}
+
+/* ---- success panel ---- */
+.done {
+  padding: 26px 18px;
+  border-radius: var(--radius);
+  border: 1px solid color-mix(in srgb, var(--success) 40%, transparent);
+  background:
+    radial-gradient(420px 200px at 50% 0%, color-mix(in srgb, var(--success) 14%, transparent), transparent 70%),
+    var(--glass);
+  text-align: center;
+  animation: pop 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.doneIcon {
+  display: grid;
+  place-items: center;
+  width: 68px;
+  height: 68px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--success) 16%, transparent);
+  box-shadow: 0 0 0 8px color-mix(in srgb, var(--success) 6%, transparent);
+  color: var(--success);
+  font-size: 1.6rem;
+}
+.doneTitle {
+  margin: 0 0 8px;
+  font: 400 clamp(1.35rem, 3.4vw, 1.75rem)/1.2 var(--serif);
+  color: var(--cream);
+}
+.done p {
+  margin: 0 0 6px;
+  color: var(--muted);
+}
+.again {
+  margin-top: 14px;
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .done {
+    animation: none;
+  }
+}

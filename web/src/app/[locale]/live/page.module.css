@@ -1,0 +1,38 @@
+/* Live page layout (design: client/src/styles/LiveClient.css + FaithShared.css). */
+
+/* A hero without a photo: a soft gold glow instead of the photo shade. */
+.page :global(.ui-hero) {
+  min-height: clamp(240px, 34vh, 340px);
+  padding-bottom: 72px;
+}
+.page :global(.ui-hero)::after {
+  background: radial-gradient(700px 260px at 50% 30%, color-mix(in srgb, var(--gold) 10%, transparent), transparent 70%);
+}
+
+/* Spaced capitals break Arabic letter joining and read poorly in Hebrew. */
+.page :global(.ui-eyebrow):lang(he) {
+  letter-spacing: 0.04em;
+}
+.page :global(.ui-eyebrow):lang(ar) {
+  letter-spacing: 0;
+}
+
+.stage {
+  position: relative;
+  margin-top: -36px;
+}
+
+.head {
+  max-width: 720px;
+  margin: 0 auto 28px;
+  text-align: center;
+}
+.head :global(.ui-h2) {
+  margin-bottom: 8px;
+}
+
+@media (min-width: 700px) {
+  .stage {
+    margin-top: -48px;
+  }
+}

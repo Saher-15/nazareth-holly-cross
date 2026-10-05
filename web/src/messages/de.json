@@ -435,5 +435,58 @@
     "aboutPillar1": "Eine Pilgerreise aus der Ferne",
     "aboutPillar2": "Schätze aus dem Heiligen Land",
     "aboutPillar3": "Unsere Gemeinschaft unterstützen"
+  },
+  "communityPage": {
+    "opensInNewTab": "(öffnet in einem neuen Tab)",
+    "reviews": {
+      "metaTitle": "Bewertungen von Pilgern und Besuchern",
+      "metaDescription": "Lesen Sie, was Pilger und Besucher aus aller Welt über Nazareth Holy Cross sagen, und teilen Sie ein paar Worte über Ihre eigene Erfahrung.",
+      "emptyHint": "Teilen Sie als Erste oder Erster ein paar Worte über Ihren Besuch.",
+      "unavailableTitle": "Die Bewertungen können gerade nicht geladen werden.",
+      "unavailableHint": "Bitte versuchen Sie es in ein paar Minuten erneut. Ihre eigene Bewertung können Sie trotzdem teilen.",
+      "form": {
+        "counter": "{count} / {max}",
+        "sending": "Wird gesendet…",
+        "another": "Weitere Bewertung schreiben",
+        "errors": {
+          "nameRequired": "Bitte geben Sie Ihren Namen ein.",
+          "nameTooShort": "Bitte geben Sie mindestens {min} Zeichen ein.",
+          "placeRequired": "Bitte sagen Sie uns, woher Sie kommen.",
+          "messageRequired": "Bitte schreiben Sie ein paar Worte über Ihre Erfahrung.",
+          "messageTooShort": "Bitte schreiben Sie mindestens {min} Zeichen.",
+          "tooLong": "Bitte bleiben Sie unter {max} Zeichen.",
+          "rateLimited": "Sie haben in kurzer Zeit mehrere Bewertungen gesendet. Bitte warten Sie ein paar Minuten und versuchen Sie es dann erneut.",
+          "invalid": "Ihre Bewertung konnte nicht angenommen werden. Bitte prüfen Sie sie und versuchen Sie es erneut.",
+          "network": "Unser Server ist nicht erreichbar. Bitte prüfen Sie Ihre Verbindung und versuchen Sie es erneut.",
+          "server": "Bei uns ist etwas schiefgelaufen. Bitte versuchen Sie es später erneut."
+        }
+      }
+    },
+    "live": {
+      "metaTitle": "Live-Übertragungen aus Nazareth",
+      "metaDescription": "Beten Sie live mit uns aus den heiligen Stätten Nazareths: Sehen Sie, wann die nächste Übertragung beginnt, und schauen Sie frühere Gebete und Interviews an.",
+      "eyebrow": "Live aus Nazareth",
+      "title": "Beten Sie live mit uns",
+      "lead": "Gebete und Gottesdienste aus den heiligen Stätten Nazareths, wo immer Sie sind.",
+      "status": {
+        "live": "Live",
+        "upcoming": "Demnächst",
+        "offline": "Offline"
+      },
+      "offlineHint": "Gerade läuft keine Übertragung. Unten können Sie frühere Übertragungen ansehen.",
+      "follow": "Folgen Sie uns auf Instagram",
+      "eventStarted": "Die Übertragung hat begonnen",
+      "units": {
+        "days": "Tage",
+        "hours": "Stunden",
+        "minutes": "Minuten",
+        "seconds": "Sekunden"
+      },
+      "pastEyebrow": "Noch einmal ansehen",
+      "videoFallback": "Ihr Browser kann dieses Video nicht abspielen.",
+      "events": {
+        "annunciationSunday": "Sonntagsgebet aus der Verkündigungsbasilika"
+      }
+    }
   }
 }
