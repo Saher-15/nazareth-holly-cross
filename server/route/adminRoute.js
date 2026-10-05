@@ -7,134 +7,92 @@ import Product from '../model/product.js';
 import { requireAdmin } from '../middleware/auth.js';
 import { loginLimiter } from '../utils/security.js';
 import { config } from '../config/env.js';
+import { asyncHandler } from '../middleware/asyncHandler.js';
 
 const router = express.Router();
 
-const safeError = (err) =>
-  config.isProd ? 'Internal server error' : err.message;
-
 // POST /admin/login
-router.post('/login', loginLimiter, async (req, res) => {
-  try {
-    const { username, password } = req.body;
-    const ip = req.ip || req.headers['x-forwarded-for'] || 'unknown';
+router.post('/login', loginLimiter, asyncHandler(async (req, res) => {
+  const { username, password } = req.body;
+  const ip = req.ip || req.headers['x-forwarded-for'] || 'unknown';
 
-    const admin = await Admin.findOne({ username });
-    if (!admin || !(await admin.comparePassword(password))) {
-      console.warn(
-        `[${new Date().toISOString()}] Failed admin/login attempt for username="${username}" from IP: ${ip}`
-      );
-      return res.status(401).json({ error: 'Invalid credentials' });
-    }
-
-    const token = jwt.sign(
-      { id: admin._id, username: admin.username },
-      config.jwtSecret,
-      { expiresIn: '8h', algorithm: 'HS256' }
+  const admin = await Admin.findOne({ username });
+  if (!admin || !(await admin.comparePassword(password))) {
+    console.warn(
+      `[${new Date().toISOString()}] Failed admin/login attempt for username="${username}" from IP: ${ip}`
     );
-    res.json({ token, username: admin.username });
-  } catch (err) {
-    res.status(500).json({ error: safeError(err) });
+    return res.status(401).json({ error: 'Invalid credentials' });
   }
-});
+
+  const token = jwt.sign(
+    { id: admin._id, username: admin.username },
+    config.jwtSecret,
+    { expiresIn: '8h', algorithm: 'HS256' }
+  );
+  res.json({ token, username: admin.username });
+}));
 
 // GET /admin/stats
-router.get('/stats', requireAdmin, async (req, res) => {
-  try {
-    const [prayers, candles, products] = await Promise.all([
-      Prayer.countDocuments(),
-      Candle.countDocuments(),
-      Product.countDocuments(),
-    ]);
-    const totalLikes = await Prayer.aggregate([{ $group: { _id: null, total: { $sum: '$likes' } } }]);
-    res.json({ prayers, candles, products, totalLikes: totalLikes[0]?.total || 0 });
-  } catch (err) {
-    res.status(500).json({ error: safeError(err) });
-  }
-});
+router.get('/stats', requireAdmin, asyncHandler(async (req, res) => {
+  const [prayers, candles, products] = await Promise.all([
+    Prayer.countDocuments(),
+    Candle.countDocuments(),
+    Product.countDocuments(),
+  ]);
+  const totalLikes = await Prayer.aggregate([{ $group: { _id: null, total: { $sum: '$likes' } } }]);
+  res.json({ prayers, candles, products, totalLikes: totalLikes[0]?.total || 0 });
+}));
 
 // --- PRAYERS ---
-router.get('/prayers', requireAdmin, async (req, res) => {
-  try {
-    const prayers = await Prayer.find().sort({ createdAt: -1 });
-    res.json(prayers);
-  } catch (err) {
-    res.status(500).json({ error: safeError(err) });
-  }
-});
+router.get('/prayers', requireAdmin, asyncHandler(async (req, res) => {
+  const prayers = await Prayer.find().sort({ createdAt: -1 });
+  res.json(prayers);
+}));
 
-router.delete('/prayers/:id', requireAdmin, async (req, res) => {
-  try {
-    await Prayer.findByIdAndDelete(req.params.id);
-    res.json({ message: 'Prayer deleted' });
-  } catch (err) {
-    res.status(500).json({ error: safeError(err) });
-  }
-});
+router.delete('/prayers/:id', requireAdmin, asyncHandler(async (req, res) => {
+  await Prayer.findByIdAndDelete(req.params.id);
+  res.json({ message: 'Prayer deleted' });
+}));
 
 // --- CANDLES ---
-router.get('/candles', requireAdmin, async (req, res) => {
-  try {
-    const candles = await Candle.find().sort({ createdAt: -1 });
-    res.json(candles);
-  } catch (err) {
-    res.status(500).json({ error: safeError(err) });
-  }
-});
+router.get('/candles', requireAdmin, asyncHandler(async (req, res) => {
+  const candles = await Candle.find().sort({ createdAt: -1 });
+  res.json(candles);
+}));
 
-router.delete('/candles/:id', requireAdmin, async (req, res) => {
-  try {
-    await Candle.findByIdAndDelete(req.params.id);
-    res.json({ message: 'Candle deleted' });
-  } catch (err) {
-    res.status(500).json({ error: safeError(err) });
-  }
-});
+router.delete('/candles/:id', requireAdmin, asyncHandler(async (req, res) => {
+  await Candle.findByIdAndDelete(req.params.id);
+  res.json({ message: 'Candle deleted' });
+}));
 
 // --- PRODUCTS ---
-router.get('/products', requireAdmin, async (req, res) => {
-  try {
-    const products = await Product.find().sort({ createdAt: -1 });
-    res.json(products);
-  } catch (err) {
-    res.status(500).json({ error: safeError(err) });
-  }
-});
+router.get('/products', requireAdmin, asyncHandler(async (req, res) => {
+  const products = await Product.find().sort({ createdAt: -1 });
+  res.json(products);
+}));
 
 // Whitelist fields to prevent mass assignment
-router.post('/products', requireAdmin, async (req, res) => {
-  try {
-    const { name, price, img, additionalImageUrls, description, uuidv4_, rate, color, stock } = req.body;
-    const product = new Product({ name, price, img, additionalImageUrls, description, uuidv4_, rate, color, stock });
-    await product.save();
-    res.status(201).json(product);
-  } catch (err) {
-    res.status(500).json({ error: safeError(err) });
-  }
-});
+router.post('/products', requireAdmin, asyncHandler(async (req, res) => {
+  const { name, price, img, additionalImageUrls, description, uuidv4_, rate, color, stock } = req.body;
+  const product = new Product({ name, price, img, additionalImageUrls, description, uuidv4_, rate, color, stock });
+  await product.save();
+  res.status(201).json(product);
+}));
 
-router.put('/products/:id', requireAdmin, async (req, res) => {
-  try {
-    const { name, price, img, additionalImageUrls, description, uuidv4_, rate, color, stock } = req.body;
-    const product = await Product.findByIdAndUpdate(
-      req.params.id,
-      { name, price, img, additionalImageUrls, description, uuidv4_, rate, color, stock },
-      { new: true, runValidators: true }
-    );
-    if (!product) return res.status(404).json({ error: 'Product not found' });
-    res.json(product);
-  } catch (err) {
-    res.status(500).json({ error: safeError(err) });
-  }
-});
+router.put('/products/:id', requireAdmin, asyncHandler(async (req, res) => {
+  const { name, price, img, additionalImageUrls, description, uuidv4_, rate, color, stock } = req.body;
+  const product = await Product.findByIdAndUpdate(
+    req.params.id,
+    { name, price, img, additionalImageUrls, description, uuidv4_, rate, color, stock },
+    { new: true, runValidators: true }
+  );
+  if (!product) return res.status(404).json({ error: 'Product not found' });
+  res.json(product);
+}));
 
-router.delete('/products/:id', requireAdmin, async (req, res) => {
-  try {
-    await Product.findByIdAndDelete(req.params.id);
-    res.json({ message: 'Product deleted' });
-  } catch (err) {
-    res.status(500).json({ error: safeError(err) });
-  }
-});
+router.delete('/products/:id', requireAdmin, asyncHandler(async (req, res) => {
+  await Product.findByIdAndDelete(req.params.id);
+  res.json({ message: 'Product deleted' });
+}));
 
 export default router;

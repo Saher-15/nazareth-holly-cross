@@ -15,6 +15,7 @@ import routerPrayer from './route/prayerRoute.js';
 import routerReview from './route/reviewRoute.js';
 import { globalLimiter } from './utils/security.js';
 import { config } from './config/env.js';
+import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 
 // Builds the Express app without connecting to the DB or listening,
 // so tests can import it and drive it with supertest.
@@ -65,15 +66,8 @@ export function createApp() {
 
   app.get('/health', (req, res) => res.json({ status: 'ok', timestamp: new Date().toISOString() }));
 
-  // Global error handler — never expose stack traces or internal messages in production
-  // eslint-disable-next-line no-unused-vars
-  app.use((err, req, res, next) => {
-    const isProd = config.isProd;
-    console.error(`[${new Date().toISOString()}] Unhandled error: ${err.message}`, isProd ? '' : err.stack);
-    res.status(err.status || 500).json({
-      error: isProd ? 'Internal server error' : err.message,
-    });
-  });
+  app.use(notFoundHandler);
+  app.use(errorHandler);
 
   return app;
 }
