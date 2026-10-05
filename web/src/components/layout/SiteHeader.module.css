@@ -17,7 +17,7 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  min-height: 68px;
+  min-height: var(--header-h);
 }
 
 .brand {
@@ -119,7 +119,7 @@
   }
   .nav {
     position: fixed;
-    inset: 68px 0 auto 0;
+    inset: var(--header-h) 0 auto 0;
     margin: 0;
     background: rgba(10, 14, 26, 0.97);
     border-bottom: 1px solid var(--glass-line);
@@ -142,6 +142,22 @@
     display: block;
     padding: 12px 14px;
     font-size: 1.05rem;
+  }
+}
+
+/* Small phones (360px): keep the brand, language and menu buttons on one line. */
+@media (max-width: 400px) {
+  .bar {
+    gap: 8px;
+  }
+  .brand {
+    font-size: 1rem;
+    gap: 6px;
+    min-width: 0;
+  }
+  .brand span:last-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 

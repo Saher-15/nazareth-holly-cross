@@ -21,6 +21,8 @@
   --radius-sm: 12px;
   --shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
   --container: 1180px;
+  --header-h: 68px; /* height of the sticky site header */
+  --live: #ff4d4f; /* "on air" badge */
 }
 
 /* Hebrew and Arabic get typefaces drawn for their scripts. */

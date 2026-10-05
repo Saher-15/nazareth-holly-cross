@@ -14,7 +14,7 @@
   overflow-x: clip;
 }
 .ui-page *, .ui-page *::before, .ui-page *::after { box-sizing: border-box; }
-.ui-page :focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; border-radius: 6px; }
+.ui-page :focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
 .ui-container { width: min(var(--container), 100% - 32px); margin-inline: auto; }
 .ui-section { padding-block: clamp(40px, 7vw, 80px); }
 
@@ -97,3 +97,10 @@
 /* ---- skeleton loading ---- */
 .ui-skeleton { background: linear-gradient(90deg, var(--glass) 25%, var(--glass-strong) 50%, var(--glass) 75%); background-size: 200% 100%; animation: ui-shimmer 1.4s infinite; border-radius: var(--radius-sm); }
 @keyframes ui-shimmer { to { background-position: -200% 0; } }
+
+/* Letter-spacing breaks Arabic letter joining and looks wrong in Hebrew. */
+:lang(he) .ui-eyebrow,
+:lang(ar) .ui-eyebrow,
+:lang(ar) .ui-btn {
+  letter-spacing: 0;
+}

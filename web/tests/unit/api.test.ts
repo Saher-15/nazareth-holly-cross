@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { productSchema } from '@/lib/api';
+import { catalogProductSchema, productSchema } from '@/lib/api';
 
 describe('productSchema', () => {
   const raw = {
@@ -25,5 +25,21 @@ describe('productSchema', () => {
 
   it('rejects a product without a price', () => {
     expect(() => productSchema.parse({ ...raw, price: undefined })).toThrow();
+  });
+});
+
+describe('null-tolerant schemas (live records hold null in optional fields)', () => {
+  const raw = { _id: 'x', name: 'Rosary', price: 15, img: 'https://a/b' };
+
+  it('accepts null colour, images, description and stock', () => {
+    const p = productSchema.parse({ ...raw, color: null, additionalImageUrls: null, description: null, stock: null });
+    expect(p).toMatchObject({ color: [], additionalImageUrls: [], description: '', stock: null });
+  });
+
+  it('normalises catalog fields and maps unknown categories to gifts', () => {
+    const p = catalogProductSchema.parse({ ...raw, category: 'spaceships', materials: ['gold', 'plastic'], rating: null });
+    expect(p.category).toBe('gifts');
+    expect(p.materials).toEqual(['gold']);
+    expect(p.rating).toEqual({ avg: 0, count: 0 });
   });
 });

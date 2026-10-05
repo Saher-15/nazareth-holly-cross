@@ -20,6 +20,16 @@ const nextConfig: NextConfig = {
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [{ protocol: 'https', hostname: 'firebasestorage.googleapis.com' }],
   },
+  // Addresses of the previous site keep working (search engines, shared links).
+  async redirects() {
+    const places = ['latin', 'greek', 'maryswell', 'oldcity', 'city'];
+    return [
+      ...places.map((slug) => ({ source: `/${slug}`, destination: `/sites/${slug}`, permanent: true })),
+      { source: '/product/:id', destination: '/shop/:id', permanent: true },
+      { source: '/checkoutcandle', destination: '/candle', permanent: true },
+      { source: '/checkoutdonation', destination: '/donate', permanent: true },
+    ];
+  },
   async headers() {
     return [{ source: '/:path*', headers: securityHeaders }];
   },
