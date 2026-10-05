@@ -4,6 +4,7 @@ import "./App.css";
 import Layout from "./components/Layout";
 import ShopContextProvider from "./context/shop-context";
 import ReactGA from "react-ga4";
+import { GA_MEASUREMENT_ID } from "./config/env";
 
 // Lazy load all pages
 const Home = lazy(() => import("./pages/Home"));
@@ -30,7 +31,7 @@ const Loading = ({ message }) => <div>{message || "Loading..."}</div>;
 function App() {
   // Initialize Google Analytics
   useEffect(() => {
-    ReactGA.initialize("G-VE42K6WP4H");  // Replace with your Google Analytics tracking ID
+    ReactGA.initialize(GA_MEASUREMENT_ID);
   }, []);
 
   const location = useLocation();

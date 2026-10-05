@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { useShopContext } from '../context/shop-context'; // Import the context hook
 import { useTranslation } from 'react-i18next'; // Import the translation hook
-import { API_URL } from '../config';
+import { API_URL } from '../config/env';
 
 function ThankYou({ cartItems, firstName, lastName, phone, email, street, city, state, postal, country, totalPrice }) {
     const { clearCart } = useShopContext(); // Get the clearCart function from the context

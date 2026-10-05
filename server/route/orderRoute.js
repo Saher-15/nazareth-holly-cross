@@ -1,11 +1,10 @@
 import express from "express"
 import Order from "../model/order.js";
 import nodemailer from "nodemailer"
-import dotenv from "dotenv"
+import { config } from "../config/env.js"
 import { v4 as uuidv4 } from 'uuid';
 import { requireAdmin } from '../middleware/auth.js';
 
-dotenv.config()
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -13,15 +12,14 @@ const transporter = nodemailer.createTransport({
     port: 587,
     secure: false, // Use `true` for port 465, `false` for all other ports
     auth: {
-        user: process.env.MAIL_FROM,
-        pass: process.env.MAIL_APP_PASSWORD,
+        user: config.mail.from,
+        pass: config.mail.appPassword,
     },
 });
 
-const environment = process.env.ENVIRONMENT || 'sandbox';
-const client_id = process.env.CLIENT_ID;
-const client_secret = process.env.CLIENT_SECRET;
-const endpoint_url = environment === 'sandbox' ? 'https://api-m.sandbox.paypal.com' : 'https://api-m.paypal.com';
+const client_id = config.paypal.clientId;
+const client_secret = config.paypal.clientSecret;
+const endpoint_url = config.paypal.baseUrl;
 
 const routerOrder = express.Router();
 
@@ -117,7 +115,7 @@ routerOrder.post('/newOrder', async (req, res) => {
                 to: [email],
                 from: {
                     name: "Nazareth Holy Cross",
-                    address: process.env.MAIL_FROM,
+                    address: config.mail.from,
                 },
                 subject: 'We Got Your Order: Thanks for ordering',
                 text: `Order number ${order._id}, we will let you know when your order ships :)`,
@@ -151,7 +149,7 @@ routerOrder.patch('/orderSent/:id', requireAdmin, async (req, res) => {
             to: [email],
             from: {
                 name: "Nazareth Holy Cross",
-                address: process.env.MAIL_FROM,
+                address: config.mail.from,
             },
             subject: 'Your order was shipped',
             text: `Your order number ${orderId} was shipped :)`,

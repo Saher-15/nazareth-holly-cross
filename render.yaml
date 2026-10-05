@@ -13,6 +13,10 @@ services:
         value: production
       - key: PORT
         fromService: port
+      # PayPal API mode. Keep 'sandbox' until CLIENT_ID/CLIENT_SECRET are Live credentials,
+      # then set both this and the client's REACT_APP_PAYPAL_CLIENT_ID to the live values together.
+      - key: ENVIRONMENT
+        value: sandbox
       - key: DATABASEURL
         sync: false
       - key: JWT_SECRET

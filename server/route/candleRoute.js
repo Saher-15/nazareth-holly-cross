@@ -1,10 +1,9 @@
 import express from "express"
 import Candle from "../model/candle.js";
 import nodemailer from "nodemailer"
-import dotenv from "dotenv"
+import { config } from "../config/env.js"
 import { requireAdmin } from '../middleware/auth.js';
 
-dotenv.config()
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -12,8 +11,8 @@ const transporter = nodemailer.createTransport({
     port: 587,
     secure: false, // Use `true` for port 465, `false` for all other ports
     auth: {
-      user: process.env.MAIL_FROM,
-      pass: process.env.MAIL_APP_PASSWORD,
+      user: config.mail.from,
+      pass: config.mail.appPassword,
     },
 });
 
@@ -81,7 +80,7 @@ routerCandle.post('/lightACandle', async(req, res)=>{
             to: [email],
             from: {
                 name: "Nazareth Holy Cross",
-                address: process.env.MAIL_FROM,
+                address: config.mail.from,
             },
             subject: 'We have received your request',
             text: `Dear ${firstName} ${lastName} ,\n\nA video with lighting a candle will be sent to your email \n\nBest regards,\nNazareth Holy Cross`

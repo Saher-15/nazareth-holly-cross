@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import { config } from '../config/env.js';
 
 export const requireAdmin = (req, res, next) => {
   const header = req.headers.authorization;
@@ -7,7 +8,7 @@ export const requireAdmin = (req, res, next) => {
   }
   const token = header.slice(7);
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET, { algorithms: ['HS256'] });
+    const payload = jwt.verify(token, config.jwtSecret, { algorithms: ['HS256'] });
     req.admin = payload;
     next();
   } catch {

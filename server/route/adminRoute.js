@@ -6,11 +6,12 @@ import Candle from '../model/candle.js';
 import Product from '../model/product.js';
 import { requireAdmin } from '../middleware/auth.js';
 import { loginLimiter } from '../utils/security.js';
+import { config } from '../config/env.js';
 
 const router = express.Router();
 
 const safeError = (err) =>
-  process.env.NODE_ENV === 'production' ? 'Internal server error' : err.message;
+  config.isProd ? 'Internal server error' : err.message;
 
 // POST /admin/login
 router.post('/login', loginLimiter, async (req, res) => {
@@ -28,7 +29,7 @@ router.post('/login', loginLimiter, async (req, res) => {
 
     const token = jwt.sign(
       { id: admin._id, username: admin.username },
-      process.env.JWT_SECRET,
+      config.jwtSecret,
       { expiresIn: '8h', algorithm: 'HS256' }
     );
     res.json({ token, username: admin.username });

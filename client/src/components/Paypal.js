@@ -7,7 +7,7 @@ import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
 import "../styles/PaypalProduct.css";
 import { useTranslation } from 'react-i18next';
-import { API_URL } from '../config';
+import { API_URL, PAYPAL_CLIENT_ID } from '../config/env';
 
 const PayPalComponent = ({ discountAmount, cartItems }) => {
     const { t } = useTranslation();
@@ -49,7 +49,7 @@ const PayPalComponent = ({ discountAmount, cartItems }) => {
     };
 
     const initialOptions = {
-        clientId: "AfhOc9ToAj72gf5KEowYfhpWShGRSpzSL-Ps2HYX4ky95KmVX8vNRb0o5FZ3AGw3muq8DIvDP0Ua2_ad"
+        clientId: PAYPAL_CLIENT_ID
     };
 
     const intent = 'capture';
