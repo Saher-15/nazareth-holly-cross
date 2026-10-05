@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
-import { pageAlternates } from '@/lib/seo';
+import { ogLocale, pageAlternates } from '@/lib/seo';
 
 type Flow = 'checkout' | 'candle' | 'donate';
 
@@ -27,7 +27,7 @@ export async function flowMetadata(locale: string, flow: Flow, { index = true } 
       siteName: site('name'),
       title,
       description,
-      locale,
+      locale: ogLocale(locale),
       url: `/${locale}${path}`,
       // A page-level openGraph replaces the layout's, so the social card image is set here too.
       images: [SHARE_IMAGES[flow]],

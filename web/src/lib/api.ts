@@ -159,7 +159,9 @@ async function getJson<T>(
       signal: init?.signal ?? AbortSignal.timeout(timeoutMs),
       next: revalidate === false ? undefined : { revalidate },
     });
-    if (!RETRY_STATUSES.has(res.status) || attempt >= MAX_RETRIES || init?.signal?.aborted) break;
+    // A Cloudflare bot challenge (header cf-mitigated) is not a passing rate limit: asking again only
+    // makes the block last longer.
+    if (!RETRY_STATUSES.has(res.status) || res.headers.get('cf-mitigated') || attempt >= MAX_RETRIES || init?.signal?.aborted) break;
     await new Promise((resolve) => setTimeout(resolve, retryDelayMs(attempt, res.headers.get('retry-after'))));
   }
   if (res.status === 404) throw new ApiError(`GET ${path} not found`, 404);

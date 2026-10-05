@@ -277,6 +277,13 @@
 .selected .churchImg {
   filter: none;
 }
+/* Windows high contrast replaces the gold: mark the chosen church with a thick system-colour outline. */
+@media (forced-colors: active) {
+  .selected {
+    outline: 4px solid Highlight;
+    outline-offset: 2px;
+  }
+}
 .selected .churchCheck {
   border-color: var(--gold);
   background: var(--gold);

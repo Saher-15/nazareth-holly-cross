@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { locales } from '@/i18n/routing';
 import { SITE_URL } from '@/lib/config';
+import { ogLocale } from '@/lib/seo';
 import type { Photo, Place } from './places';
 
 // Metadata and schema.org JSON-LD for the holy sites, tour and about pages.
@@ -29,7 +30,7 @@ export function pageMetadata({ locale, path, title, description, image }: PageMe
       siteName: 'Nazareth Holy Cross',
       title,
       description,
-      locale,
+      locale: ogLocale(locale),
       url: localePath(locale, path),
       ...(image && { images: [{ url: image.src, width: image.width, height: image.height }] }),
     },

@@ -26,7 +26,7 @@ for (const vp of WANT) {
       });
       await page.waitForTimeout(1200);
       const name = `${loc}${p.replace(/\//g, '_') || '_home'}-${vp}.png`;
-      await page.screenshot({ path: `${OUT}/${name}`, fullPage: true });
+      await page.screenshot({ path: `${OUT}/${name}`, fullPage: !process.env.QA_VIEWPORT_ONLY });
       await page.close();
     }
   }

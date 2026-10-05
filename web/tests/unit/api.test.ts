@@ -74,6 +74,13 @@ describe('reading from the API retries a rate limit', () => {
     expect(fetchMock).toHaveBeenCalledTimes(3);
   });
 
+  it('does not retry a Cloudflare challenge, which only gets worse when asked again', async () => {
+    const fetchMock = vi.fn().mockImplementation(() => Promise.resolve(reply(429, {}, { 'cf-mitigated': 'challenge' })));
+    vi.stubGlobal('fetch', fetchMock);
+    await expect(api.reviews()).rejects.toMatchObject({ status: 429 });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
   it('does not retry a missing page', async () => {
     const fetchMock = vi.fn().mockImplementation(() => Promise.resolve(reply(404, {})));
     vi.stubGlobal('fetch', fetchMock);

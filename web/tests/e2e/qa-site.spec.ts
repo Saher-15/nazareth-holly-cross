@@ -97,6 +97,8 @@ test.describe('metadata', () => {
         expect(html.match(/<link rel="alternate" hrefLang="[^"]+"/g)?.length, `${where} hreflang`).toBe(12);
         expect(html, `${where} x-default`).toContain('hrefLang="x-default"');
         expect(html, `${where} og:image`).toMatch(/<meta property="og:image" content="[^"]+"/);
+        // Open Graph wants language_TERRITORY (he_IL), starting with the language of the page.
+        expect(head(html, /<meta property="og:locale" content="([^"]+)"/), `${where} og:locale`).toMatch(new RegExp(`^${locale}_[A-Z]{2}$`));
         expect(html, `${where} description`).toMatch(/<meta name="description" content="[^"]{20,}"/);
         for (const ld of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
           expect(() => JSON.parse(ld[1]), `${where} JSON-LD`).not.toThrow();
@@ -234,6 +236,22 @@ test.describe('look and feel', () => {
     }
   });
 
+  test('QA-11 without JavaScript the page content is visible, not waiting to fade in', async ({ browser }) => {
+    const context = await browser.newContext({ javaScriptEnabled: false });
+    const page = await context.newPage();
+    await page.route(
+      (url) => !['localhost', '127.0.0.1'].includes(url.hostname),
+      (route) => route.abort(),
+    );
+    for (const path of ['/en', '/en/about', '/he/sites', '/en/sites/latin']) {
+      await page.goto(path);
+      const hidden = await page.evaluate(() => [...document.querySelectorAll('.ui-reveal')].filter((e) => getComputedStyle(e).opacity === '0').length);
+      expect(hidden, path).toBe(0);
+      await expect(page.locator('h1')).toBeVisible();
+    }
+    await context.close();
+  });
+
   test('forced colours: a focused text field still shows a focus outline', async ({ page }) => {
     await page.emulateMedia({ forcedColors: 'active' });
     await offline(page);
@@ -241,6 +259,21 @@ test.describe('look and feel', () => {
     await page.locator('input.ui-input').first().focus();
     const outline = await page.locator('input.ui-input').first().evaluate((el) => getComputedStyle(el).outlineStyle);
     expect(outline).not.toBe('none');
+  });
+
+  test('QA-12 forced colours: the chosen amount, the current page and the current step stay marked', async ({ page }) => {
+    await page.emulateMedia({ forcedColors: 'active' });
+    await offline(page);
+    await page.goto('/en/donate');
+    const chosen = page.locator('label:has(input[name="amount"]:checked)');
+    await expect(chosen).toHaveCount(1);
+    expect(await chosen.evaluate((el) => getComputedStyle(el).outlineStyle)).not.toBe('none');
+    expect(await page.locator('[aria-current="step"]').first().evaluate((el) => getComputedStyle(el).outlineStyle)).not.toBe('none');
+    await page.goto('/en/sites');
+    const header = page.locator('header');
+    if (await header.locator('a[aria-current="page"]').count()) {
+      expect(await header.locator('a[aria-current="page"]').first().evaluate((el) => getComputedStyle(el).outlineStyle)).not.toBe('none');
+    }
   });
 });
 
@@ -263,6 +296,72 @@ test.describe('accessibility (axe: WCAG 2.x A/AA, 2.2 AA and best practice)', ()
       }
     });
   }
+});
+
+test.describe('accessibility of interactive states', () => {
+  const TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'];
+  async function expectClean(page: Page, label: string) {
+    const results = await new AxeBuilder({ page }).withTags(TAGS).exclude('iframe').analyze();
+    expect(results.violations.map((v) => `${label} ${v.impact} ${v.id}: ${v.nodes.map((n) => n.target.join(' ')).slice(0, 3).join(', ')}`)).toEqual([]);
+  }
+
+  for (const locale of ['en', 'he']) {
+    test(`${locale}: language menu, mobile menu, photo viewer and form errors have no violations`, async ({ page, isMobile }) => {
+      test.setTimeout(90_000);
+      await offline(page);
+      await seedCart(page);
+      await page.goto(`/${locale}`);
+      await page.locator('button[aria-haspopup="true"]').first().click();
+      await expectClean(page, 'language menu');
+      await page.keyboard.press('Escape');
+      if (isMobile) {
+        await page.locator('button[aria-controls="main-nav"]').click();
+        await expectClean(page, 'mobile menu');
+      }
+      for (const path of ['/checkout', '/candle', '/donate', '/reviews']) {
+        await page.goto(`/${locale}${path}`);
+        await page.locator('form button[type=submit]').first().click();
+        await expect(page.locator('[aria-invalid="true"]').first()).toBeVisible();
+        await expectClean(page, `${path} with errors`);
+      }
+      await page.goto(`/${locale}/sites/latin`);
+      await page.locator('button[aria-haspopup="dialog"]').first().click();
+      await expect(page.getByRole('dialog')).toBeVisible();
+      await expectClean(page, 'photo viewer');
+    });
+  }
+});
+
+test.describe('navigation', () => {
+  test('back and forward walk through the visited pages, in a language kept on every link', async ({ page, isMobile }) => {
+    await offline(page);
+    await page.goto('/he');
+    if (isMobile) await page.locator('button[aria-controls="main-nav"]').click();
+    await page.locator('#main-nav a[href="/he/sites"]').click();
+    await expect(page).toHaveURL(/\/he\/sites$/);
+    await page.locator('a[href="/he/sites/latin"]').first().click();
+    await expect(page).toHaveURL(/\/he\/sites\/latin$/);
+    await page.goBack();
+    await expect(page).toHaveURL(/\/he\/sites$/);
+    await page.goBack();
+    await expect(page).toHaveURL(/\/he$/);
+    await page.goForward();
+    await expect(page).toHaveURL(/\/he\/sites$/);
+    await expect(page.locator('html')).toHaveAttribute('lang', 'he');
+    // Every internal link of the page keeps the language.
+    const hrefs = await page.locator('main a[href^="/"], header a[href^="/"], footer a[href^="/"]').evaluateAll((as) => as.map((a) => a.getAttribute('href')));
+    expect(hrefs.filter((h) => h && !h.startsWith('/he'))).toEqual([]);
+  });
+
+  test('the shop answers from outside (smoke: owned by another team)', async ({ page }) => {
+    await page.route(
+      (url) => !['localhost', '127.0.0.1'].includes(url.hostname) && !/nazareth-holy-cross-api/.test(url.hostname),
+      (route) => route.abort(),
+    );
+    const res = await page.goto('/en/shop');
+    expect(res?.status()).toBe(200);
+    await expect(page.locator('h1')).toHaveCount(1);
+  });
 });
 
 test.describe('the cart in two tabs', () => {
