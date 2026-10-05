@@ -1,0 +1,73 @@
+.section {
+  padding-block: 64px;
+}
+
+.head {
+  margin-block-end: 32px;
+  text-align: center;
+}
+
+.scroller {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+  scrollbar-color: var(--glass-line) transparent;
+  border-radius: var(--radius);
+}
+.scroller:focus-visible {
+  outline-offset: -3px;
+}
+
+.strip {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  max-width: none;
+  margin: 0;
+  padding: 4px 4px 20px;
+  list-style: none;
+}
+
+.voice {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  width: min(82vw, 380px);
+  padding: 26px;
+  scroll-snap-align: start;
+}
+
+.quote {
+  margin: 0;
+}
+.quote p {
+  margin: 0;
+  font: italic 400 1.12rem / 1.5 var(--serif);
+  color: var(--cream);
+  overflow-wrap: anywhere;
+}
+
+.by {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--gold);
+}
+/* Letter-spacing pulls Hebrew apart and breaks the joins of Arabic script. */
+.by:lang(he),
+.by:lang(ar) {
+  letter-spacing: 0;
+}
+.place {
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  margin: 32px 0 0;
+}

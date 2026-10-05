@@ -1,0 +1,214 @@
+/* Full-bleed hero. It slides up under the sticky, translucent site header
+   (68px, see components/layout/SiteHeader.module.css) so the photo fills the screen. */
+.hero {
+  --header-h: 68px;
+  --light-gold: color-mix(in srgb, var(--gold) 55%, var(--cream));
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: min(100vh, 880px);
+  min-height: min(100svh, 880px);
+  margin-block-start: calc(-1 * var(--header-h));
+  padding-block-start: var(--header-h);
+  text-align: center;
+  color: var(--cream);
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.media,
+.video,
+.shade {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.media {
+  z-index: -1;
+}
+
+.poster {
+  object-fit: cover;
+  transform: scale(1.04);
+  animation: kenburns 24s ease-in-out infinite alternate;
+}
+.video {
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+.videoOn {
+  opacity: 1;
+}
+.shade {
+  background:
+    radial-gradient(
+      ellipse at 50% 45%,
+      color-mix(in srgb, var(--night) 25%, transparent),
+      color-mix(in srgb, var(--night) 78%, transparent) 80%
+    ),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--night) 55%, transparent) 0%,
+      color-mix(in srgb, var(--night) 10%, transparent) 40%,
+      var(--night) 100%
+    );
+}
+
+@keyframes kenburns {
+  to {
+    transform: scale(1.14) translate(-1.5%, -1%);
+  }
+}
+
+.content {
+  width: min(900px, 100% - 32px);
+  padding-block: 72px 120px;
+  animation: rise 1s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+/* Movement only: the text stays fully opaque so it is readable from the first frame. */
+@keyframes rise {
+  from {
+    transform: translateY(26px);
+  }
+  to {
+    transform: none;
+  }
+}
+
+.eyebrow {
+  font-size: 0.85rem;
+  color: var(--light-gold);
+}
+.title {
+  margin: 0;
+  font: 400 clamp(2.4rem, 8vw, 5.6rem) / 1.04 var(--serif);
+  letter-spacing: -0.01em;
+  color: var(--cream);
+  text-wrap: balance;
+  text-shadow: 0 4px 40px color-mix(in srgb, var(--night) 75%, transparent);
+}
+.sub {
+  margin: 22px auto 0;
+  max-width: 640px;
+  font-size: clamp(1.05rem, 2.4vw, 1.3rem);
+  color: var(--cream);
+  text-wrap: pretty;
+  text-shadow: 0 2px 20px color-mix(in srgb, var(--night) 85%, transparent);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-block-start: 34px;
+}
+.big {
+  min-height: 52px;
+  padding: 14px 28px;
+}
+
+.offer {
+  display: inline-block;
+  margin-block-start: 28px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--gold) 45%, transparent);
+  background: color-mix(in srgb, var(--night) 60%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-size: 0.92rem;
+  color: var(--light-gold);
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+.offer:hover {
+  background: color-mix(in srgb, var(--gold) 18%, var(--night));
+}
+
+.sound {
+  position: absolute;
+  inset-inline-end: 16px;
+  bottom: 20px;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-line);
+  background: color-mix(in srgb, var(--night) 60%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--cream);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.sound:hover {
+  background: color-mix(in srgb, var(--gold) 25%, var(--night));
+}
+.sound[aria-pressed='true'] {
+  color: var(--gold);
+  border-color: color-mix(in srgb, var(--gold) 55%, transparent);
+}
+
+.scroll {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 14px;
+  width: max-content;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 10px;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cream);
+  text-decoration: none;
+}
+/* Letter-spacing pulls Hebrew apart and breaks the joins of Arabic script. */
+.scroll:lang(he),
+.scroll:lang(ar) {
+  letter-spacing: 0;
+}
+.bob {
+  animation: bob 1.8s ease-in-out infinite;
+}
+@keyframes bob {
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+@media (max-width: 560px) {
+  .content {
+    padding-block: 56px 110px;
+  }
+  .actions .big {
+    width: 100%;
+    max-width: 320px;
+  }
+}
+
+/* Short landscape phones: let the hero grow with its content instead of clipping it. */
+@media (max-height: 520px) {
+  .hero {
+    min-height: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .poster,
+  .content,
+  .bob {
+    animation: none;
+  }
+  .video {
+    transition: none;
+  }
+}

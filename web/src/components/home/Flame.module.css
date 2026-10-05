@@ -1,0 +1,40 @@
+.flame {
+  display: inline-block;
+  flex: none;
+  width: 14px;
+  height: 22px;
+  background: radial-gradient(
+    ellipse at 50% 75%,
+    var(--cream) 0%,
+    color-mix(in srgb, var(--gold) 70%, var(--cream)) 38%,
+    color-mix(in srgb, var(--gold-deep) 65%, var(--danger)) 70%,
+    transparent 100%
+  );
+  border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%;
+  transform-origin: 50% 90%;
+  animation: flicker 1.6s ease-in-out infinite;
+}
+
+.sm {
+  width: 9px;
+  height: 15px;
+}
+
+@keyframes flicker {
+  0%,
+  100% {
+    transform: scale(1, 1) rotate(-1.5deg);
+  }
+  30% {
+    transform: scale(0.94, 1.08) rotate(2deg);
+  }
+  60% {
+    transform: scale(1.04, 0.96) rotate(-2deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flame {
+    animation: none;
+  }
+}

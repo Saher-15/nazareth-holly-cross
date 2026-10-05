@@ -1,0 +1,171 @@
+.section {
+  --gutter: max(16px, calc((100% - var(--container)) / 2));
+  padding-block: 40px 72px;
+  scroll-margin-top: 68px;
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  margin-block-end: 24px;
+}
+.head .title {
+  margin-block-end: 0;
+}
+
+.arrows {
+  display: flex;
+  flex: none;
+  gap: 10px;
+}
+.arrow {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-line);
+  background: var(--glass);
+  color: var(--cream);
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+}
+.arrow:hover:not([aria-disabled='true']) {
+  background: var(--gold);
+  color: var(--night);
+}
+.arrow[aria-disabled='true'] {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* Icons that point along the reading direction flip in Hebrew and Arabic. */
+:global([dir='rtl']) .mirror {
+  transform: scaleX(-1);
+}
+
+.track {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--gutter);
+  scrollbar-width: none;
+  cursor: grab;
+}
+.track::-webkit-scrollbar {
+  display: none;
+}
+.track:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: -3px;
+  border-radius: var(--radius);
+}
+.dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
+  user-select: none;
+}
+
+.list {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  margin: 0;
+  padding: 8px var(--gutter) 24px;
+  list-style: none;
+}
+.item {
+  flex: 0 0 min(78vw, 340px);
+  scroll-snap-align: start;
+}
+
+.card {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border-radius: calc(var(--radius) + 4px);
+  border: 1px solid var(--glass-line);
+  box-shadow: var(--shadow);
+  color: var(--cream);
+  text-decoration: none;
+  transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.4s ease;
+}
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow), 0 0 0 1px color-mix(in srgb, var(--gold) 50%, transparent);
+}
+.img {
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+  transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.card:hover .img {
+  transform: scale(1.08);
+}
+.cardShade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, color-mix(in srgb, var(--night) 92%, transparent) 100%);
+}
+.body {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 22px;
+}
+.name {
+  font: 400 1.5rem / 1.15 var(--serif);
+  color: var(--cream);
+}
+.go {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+/* Letter-spacing pulls Hebrew apart and breaks the joins of Arabic script. */
+.go:lang(he),
+.go:lang(ar) {
+  letter-spacing: 0;
+}
+
+@media (min-width: 1000px) {
+  .item {
+    flex-basis: 320px;
+  }
+}
+
+@media (max-width: 560px) {
+  .head {
+    align-items: center;
+  }
+  .arrow {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .img,
+  .arrow {
+    transition: none;
+  }
+  .card:hover {
+    transform: none;
+  }
+  .card:hover .img {
+    transform: none;
+  }
+}

@@ -376,5 +376,12 @@
     "voicesTitle": "Words from our visitors",
     "voicesAll": "Read more and share yours",
     "storyEyebrow": "The story"
+  },
+  "homePage": {
+    "meta": {
+      "title": "Nazareth Holy Cross — Walk where Jesus walked",
+      "description": "Light a candle in Nazareth, journey through its holy sites, read the verse of the day and bring home blessed souvenirs from the city where Jesus grew up."
+    },
+    "carouselHint": "Swipe, drag or use the arrow keys to move through the holy sites."
   }
 }

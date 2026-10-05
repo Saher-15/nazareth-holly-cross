@@ -376,5 +376,12 @@
     "voicesTitle": "Palabras de nuestros visitantes",
     "voicesAll": "Leer más y compartir la tuya",
     "storyEyebrow": "La historia"
+  },
+  "homePage": {
+    "meta": {
+      "title": "Nazareth Holy Cross — Camina donde caminó Jesús",
+      "description": "Enciende una vela en Nazaret, recorre sus lugares santos, lee el versículo del día y lleva a casa recuerdos bendecidos de la ciudad donde creció Jesús."
+    },
+    "carouselHint": "Desliza, arrastra o usa las flechas del teclado para recorrer los lugares santos."
   }
 }

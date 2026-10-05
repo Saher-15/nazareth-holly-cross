@@ -376,5 +376,12 @@
     "voicesTitle": "Le parole dei nostri visitatori",
     "voicesAll": "Leggi di più e condividi la tua",
     "storyEyebrow": "La storia"
+  },
+  "homePage": {
+    "meta": {
+      "title": "Nazareth Holy Cross — Cammina dove ha camminato Gesù",
+      "description": "Accendi una candela a Nazaret, percorri i suoi luoghi santi, leggi il versetto del giorno e porta a casa ricordi benedetti dalla città in cui è cresciuto Gesù."
+    },
+    "carouselHint": "Scorri, trascina o usa i tasti freccia per sfogliare i luoghi santi."
   }
 }

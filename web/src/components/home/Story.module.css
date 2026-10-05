@@ -1,0 +1,44 @@
+.section {
+  padding-block: 64px 96px;
+}
+
+.head {
+  margin-block-end: 32px;
+  text-align: center;
+}
+
+.notes {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.notes .note {
+  padding: 20px 24px;
+  border-inline-start: 3px solid var(--gold);
+  font: italic 400 1.02rem / 1.6 var(--serif);
+  color: var(--cream);
+}
+
+.section .subtitle {
+  margin: 40px 0 16px;
+  text-align: center;
+}
+
+.prose {
+  max-width: 760px;
+  margin: 0 auto;
+}
+.prose p {
+  margin: 0 0 18px;
+  font-size: 1.08rem;
+  color: var(--cream);
+}
+
+@media (min-width: 700px) {
+  .notes {
+    grid-template-columns: 1fr 1fr;
+  }
+}
