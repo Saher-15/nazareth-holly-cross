@@ -1,17 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import i18n from '../i18n';
+import { changeLanguage as changeI18nLanguage } from '../i18n';
 import '../styles/LanguageSwitcher.css';
 
 const LanguageSwitcher = () => {
     const [isOpen, setIsOpen] = useState(false); 
 
     const changeLanguage = (lng) => {
-        if (i18n && typeof i18n.changeLanguage === 'function') {
-            i18n.changeLanguage(lng);
-            setIsOpen(false); 
-        } else {
-            console.error('i18n is not defined or changeLanguage is not a function');
-        }
+        changeI18nLanguage(lng).catch((err) => console.error('Could not load language', lng, err));
+        setIsOpen(false);
     };
 
     const toggleDropdown = () => {
