@@ -341,5 +341,18 @@
     "voicesTitle": "Слова наших гостей",
     "voicesAll": "Читать больше и поделиться своим",
     "storyEyebrow": "История"
+  },
+  "shell": {
+    "skipToContent": "Перейти к содержанию",
+    "mainNav": "Основная навигация",
+    "openMenu": "Открыть меню",
+    "closeMenu": "Закрыть меню",
+    "language": "Язык",
+    "chooseLanguage": "Выберите язык",
+    "loading": "Загрузка…",
+    "explore": "Разделы",
+    "followUs": "Мы в соцсетях",
+    "backToTop": "Наверх",
+    "newTab": "(откроется в новой вкладке)"
   }
 }

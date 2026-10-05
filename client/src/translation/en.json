@@ -341,5 +341,18 @@
     "voicesTitle": "Words from our visitors",
     "voicesAll": "Read more and share yours",
     "storyEyebrow": "The story"
+  },
+  "shell": {
+    "skipToContent": "Skip to content",
+    "mainNav": "Main navigation",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "language": "Language",
+    "chooseLanguage": "Choose language",
+    "loading": "Loading…",
+    "explore": "Explore",
+    "followUs": "Follow us",
+    "backToTop": "Back to top",
+    "newTab": "(opens in a new tab)"
   }
 }
