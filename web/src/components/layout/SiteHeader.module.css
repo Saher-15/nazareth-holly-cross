@@ -133,8 +133,16 @@
   }
 }
 
-/* Drawer layout (keep the 1040px in sync with DRAWER_QUERY in SiteHeader.tsx). */
-@media (max-width: 1040px) {
+/* Russian is the longest set of labels: its Donate button waits for a wider window. */
+@media (max-width: 1319px) {
+  .actions .donate:lang(ru) {
+    display: none;
+  }
+}
+
+/* Drawer layout: below 1100px even the long Russian, Greek and Polish labels would not fit in one row.
+   (SiteHeader.tsx asks the menu button whether it is shown, so there is no second number to keep in sync.) */
+@media (max-width: 1100px) {
   .menuButton {
     display: grid;
   }

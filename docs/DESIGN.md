@@ -132,7 +132,7 @@ No emoji and no text glyphs (`✝`, `★`, `→`) as icons.
 ![Header, Hebrew](design/shell-header-he.png)
 
 Sticky; frosted glass (a blurred pseudo-element, so the fixed drawer is not trapped inside it) that turns
-more opaque after 12px of scrolling. Gold "Donate" button from 1240px; below 1040px the links become a drawer.
+more opaque after 12px of scrolling. Gold "Donate" button from 1240px (1320px in Russian, the longest labels); below 1100px the links become a drawer.
 
 ![Language menu, English](design/shell-language-menu-en.png)
 ![Language menu, Hebrew](design/shell-language-menu-he.png)

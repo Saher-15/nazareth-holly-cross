@@ -243,6 +243,21 @@ test('a slow navigation shows the branded loading screen, and a fast one does no
   await expect(page.getByTestId('navigation-loading')).toHaveCount(0);
 });
 
+test('reduced motion: content shows at once and nothing keeps moving', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  for (const path of ['/en/sites/latin', '/he/about', '/en/nope']) {
+    await page.goto(path);
+    const state = await page.evaluate(() => ({
+      hiddenReveals: [...document.querySelectorAll('.ui-reveal')].filter((el) => getComputedStyle(el).opacity !== '1').length,
+      looping: [...document.querySelectorAll('main *, header *')].filter((el) => {
+        const s = getComputedStyle(el);
+        return s.animationName !== 'none' && s.animationIterationCount === 'infinite';
+      }).length,
+    }));
+    expect(state, path).toEqual({ hiddenReveals: 0, looping: 0 });
+  }
+});
+
 test('hydration never leaves a second copy of the page in the DOM', async ({ page }) => {
   await page.addInitScript(() => {
     (window as unknown as { __maxCopies: number }).__maxCopies = 0;

@@ -53,7 +53,8 @@ Then revert the commit on `main` with a pull request.
 ## 5. Design system
 
 - Look: **"Immersive pilgrimage"** — night background, gold accents, serif headings, glass cards.
-- Tokens (colours, fonts, radius, shadow): `web/src/styles/tokens.css`. Shared blocks (`ui-*`): `web/src/styles/ui.css`.
+- Tokens (colours, fonts, spacing, type, elevation, focus, motion): `web/src/styles/tokens.css`. Shared blocks (`ui-*`): `web/src/styles/ui.css`.
+  Every component, state and rule, with screenshots: **`docs/DESIGN.md`**.
 - Components use tokens only — never raw colours or font names.
 - Fonts are self-hosted by `next/font`: EB Garamond + Inter (Latin, Cyrillic, Greek), Frank Ruhl Libre + Heebo
   (Hebrew), Amiri + IBM Plex Sans Arabic (Arabic).

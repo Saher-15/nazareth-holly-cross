@@ -8,9 +8,6 @@ import { mainNav } from '@/lib/site';
 import LanguageSwitcher from './LanguageSwitcher';
 import styles from './SiteHeader.module.css';
 
-/** Below this width the navigation becomes a drawer opened by the menu button (keep in sync with the CSS). */
-const DRAWER_QUERY = '(max-width: 1040px)';
-
 export default function SiteHeader() {
   const t = useTranslations('site');
   const pathname = usePathname();
@@ -48,9 +45,10 @@ export default function SiteHeader() {
   // While the drawer is open the page behind it does not scroll, and the drawer gets the focus.
   useEffect(() => {
     const root = document.documentElement;
-    const isDrawer = window.matchMedia?.(DRAWER_QUERY).matches ?? false;
+    // The drawer layout is on while the menu button is shown (see the media query in SiteHeader.module.css).
+    const isDrawer = () => !!buttonRef.current && getComputedStyle(buttonRef.current).display !== 'none';
     let frame = 0;
-    if (open && isDrawer) {
+    if (open && isDrawer()) {
       root.dataset.menuOpen = 'true';
       // One frame later: the drawer turns visible (and so focusable) when its open class has been painted.
       frame = requestAnimationFrame(() => navRef.current?.querySelector<HTMLElement>('a')?.focus());
@@ -58,17 +56,16 @@ export default function SiteHeader() {
       delete root.dataset.menuOpen;
     }
     // Leaving the drawer layout (rotating a tablet, resizing) must not leave the page locked.
-    const mql = window.matchMedia?.(DRAWER_QUERY);
-    const onChange = () => {
-      if (!mql?.matches) {
+    const onResize = () => {
+      if (!isDrawer()) {
         delete root.dataset.menuOpen;
         setOpen(false);
       }
     };
-    mql?.addEventListener?.('change', onChange);
+    window.addEventListener('resize', onResize);
     return () => {
       cancelAnimationFrame(frame);
-      mql?.removeEventListener?.('change', onChange);
+      window.removeEventListener('resize', onResize);
       delete root.dataset.menuOpen;
     };
   }, [open]);
