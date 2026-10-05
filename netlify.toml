@@ -29,3 +29,9 @@
   for = "*.html"
     [headers.values]
     Cache-Control = "no-cache"
+
+# The retired service worker must always be re-checked, never served from a cache.
+[[headers]]
+  for = "/sw.js"
+    [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
