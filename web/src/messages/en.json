@@ -376,5 +376,58 @@
     "voicesTitle": "Words from our visitors",
     "voicesAll": "Read more and share yours",
     "storyEyebrow": "The story"
+  },
+  "communityPage": {
+    "opensInNewTab": "(opens in a new tab)",
+    "reviews": {
+      "metaTitle": "Reviews from pilgrims and visitors",
+      "metaDescription": "Read what pilgrims and visitors from around the world say about Nazareth Holy Cross, and share a few words about your own experience.",
+      "emptyHint": "Be the first to share a few words about your visit.",
+      "unavailableTitle": "The reviews could not be loaded right now.",
+      "unavailableHint": "Please try again in a few minutes. You can still share your own review.",
+      "form": {
+        "counter": "{count} / {max}",
+        "sending": "Sending…",
+        "another": "Write another review",
+        "errors": {
+          "nameRequired": "Please enter your name.",
+          "nameTooShort": "Please enter at least {min} characters.",
+          "placeRequired": "Please tell us where you are from.",
+          "messageRequired": "Please write a few words about your experience.",
+          "messageTooShort": "Please write at least {min} characters.",
+          "tooLong": "Please keep this under {max} characters.",
+          "rateLimited": "You have sent several reviews in a short time. Please wait a few minutes and try again.",
+          "invalid": "Your review could not be accepted. Please check it and try again.",
+          "network": "We could not reach our server. Please check your connection and try again.",
+          "server": "Something went wrong on our side. Please try again later."
+        }
+      }
+    },
+    "live": {
+      "metaTitle": "Live broadcasts from Nazareth",
+      "metaDescription": "Pray with us live from the holy sites of Nazareth: see when the next broadcast starts and watch our past prayers and interviews.",
+      "eyebrow": "Live from Nazareth",
+      "title": "Pray with us, live",
+      "lead": "Prayers and services broadcast from the holy sites of Nazareth, wherever you are.",
+      "status": {
+        "live": "Live",
+        "upcoming": "Upcoming",
+        "offline": "Offline"
+      },
+      "offlineHint": "We are not broadcasting right now. You can watch our past broadcasts below.",
+      "follow": "Follow us on Instagram",
+      "eventStarted": "The event has started",
+      "units": {
+        "days": "Days",
+        "hours": "Hours",
+        "minutes": "Minutes",
+        "seconds": "Seconds"
+      },
+      "pastEyebrow": "Watch again",
+      "videoFallback": "Your browser cannot play this video.",
+      "events": {
+        "annunciationSunday": "Sunday prayer from the Church of the Annunciation"
+      }
+    }
   }
 }

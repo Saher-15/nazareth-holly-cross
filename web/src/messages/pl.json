@@ -376,5 +376,58 @@
     "voicesTitle": "Słowa naszych gości",
     "voicesAll": "Czytaj więcej i podziel się swoim",
     "storyEyebrow": "Historia"
+  },
+  "communityPage": {
+    "opensInNewTab": "(otwiera się w nowej karcie)",
+    "reviews": {
+      "metaTitle": "Opinie pielgrzymów i gości",
+      "metaDescription": "Przeczytaj, co pielgrzymi i goście z całego świata mówią o Nazareth Holy Cross, i podziel się kilkoma słowami o swoich wrażeniach.",
+      "emptyHint": "Bądź pierwszą osobą, która podzieli się kilkoma słowami o swojej wizycie.",
+      "unavailableTitle": "Nie udało się teraz wczytać opinii.",
+      "unavailableHint": "Spróbuj ponownie za kilka minut. Nadal możesz podzielić się swoją opinią.",
+      "form": {
+        "counter": "{count} / {max}",
+        "sending": "Wysyłanie…",
+        "another": "Napisz kolejną opinię",
+        "errors": {
+          "nameRequired": "Podaj swoje imię i nazwisko.",
+          "nameTooShort": "Minimalna liczba znaków: {min}.",
+          "placeRequired": "Napisz, skąd jesteś.",
+          "messageRequired": "Napisz kilka słów o swoich wrażeniach.",
+          "messageTooShort": "Minimalna liczba znaków: {min}.",
+          "tooLong": "Maksymalna liczba znaków: {max}.",
+          "rateLimited": "Wysłano kilka opinii w krótkim czasie. Odczekaj kilka minut i spróbuj ponownie.",
+          "invalid": "Nie udało się przyjąć Twojej opinii. Sprawdź ją i spróbuj ponownie.",
+          "network": "Nie udało się połączyć z naszym serwerem. Sprawdź połączenie i spróbuj ponownie.",
+          "server": "Wystąpił błąd po naszej stronie. Spróbuj ponownie później."
+        }
+      }
+    },
+    "live": {
+      "metaTitle": "Transmisje na żywo z Nazaretu",
+      "metaDescription": "Módl się z nami na żywo z miejsc świętych Nazaretu: sprawdź, kiedy zaczyna się następna transmisja, i obejrzyj nasze wcześniejsze modlitwy i wywiady.",
+      "eyebrow": "Na żywo z Nazaretu",
+      "title": "Módl się z nami na żywo",
+      "lead": "Modlitwy i nabożeństwa transmitowane z miejsc świętych Nazaretu, gdziekolwiek jesteś.",
+      "status": {
+        "live": "Na żywo",
+        "upcoming": "Wkrótce",
+        "offline": "Poza anteną"
+      },
+      "offlineHint": "Obecnie nie nadajemy. Poniżej możesz obejrzeć nasze wcześniejsze transmisje.",
+      "follow": "Obserwuj nas na Instagramie",
+      "eventStarted": "Wydarzenie się rozpoczęło",
+      "units": {
+        "days": "Dni",
+        "hours": "Godz.",
+        "minutes": "Min.",
+        "seconds": "Sek."
+      },
+      "pastEyebrow": "Obejrzyj ponownie",
+      "videoFallback": "Twoja przeglądarka nie może odtworzyć tego filmu.",
+      "events": {
+        "annunciationSunday": "Niedzielna modlitwa z Bazyliki Zwiastowania"
+      }
+    }
   }
 }

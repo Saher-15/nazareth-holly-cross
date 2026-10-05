@@ -376,5 +376,58 @@
     "voicesTitle": "Palabras de nuestros visitantes",
     "voicesAll": "Leer más y compartir la tuya",
     "storyEyebrow": "La historia"
+  },
+  "communityPage": {
+    "opensInNewTab": "(se abre en una pestaña nueva)",
+    "reviews": {
+      "metaTitle": "Opiniones de peregrinos y visitantes",
+      "metaDescription": "Lee lo que dicen de Nazareth Holy Cross peregrinos y visitantes de todo el mundo, y comparte unas palabras sobre tu propia experiencia.",
+      "emptyHint": "Sé el primero en compartir unas palabras sobre tu visita.",
+      "unavailableTitle": "No se han podido cargar las opiniones en este momento.",
+      "unavailableHint": "Vuelve a intentarlo en unos minutos. Aun así, puedes compartir tu opinión.",
+      "form": {
+        "counter": "{count} / {max}",
+        "sending": "Enviando…",
+        "another": "Escribir otra opinión",
+        "errors": {
+          "nameRequired": "Escribe tu nombre.",
+          "nameTooShort": "Escribe al menos {min} caracteres.",
+          "placeRequired": "Dinos de dónde eres.",
+          "messageRequired": "Escribe unas palabras sobre tu experiencia.",
+          "messageTooShort": "Escribe al menos {min} caracteres.",
+          "tooLong": "No superes los {max} caracteres.",
+          "rateLimited": "Has enviado varias opiniones en poco tiempo. Espera unos minutos y vuelve a intentarlo.",
+          "invalid": "No hemos podido aceptar tu opinión. Revísala y vuelve a intentarlo.",
+          "network": "No hemos podido conectar con nuestro servidor. Comprueba tu conexión y vuelve a intentarlo.",
+          "server": "Algo ha fallado por nuestra parte. Vuelve a intentarlo más tarde."
+        }
+      }
+    },
+    "live": {
+      "metaTitle": "Transmisiones en directo desde Nazaret",
+      "metaDescription": "Reza con nosotros en directo desde los lugares santos de Nazaret: consulta cuándo empieza la próxima transmisión y vuelve a ver nuestras oraciones y entrevistas.",
+      "eyebrow": "En directo desde Nazaret",
+      "title": "Reza con nosotros, en directo",
+      "lead": "Oraciones y celebraciones transmitidas desde los lugares santos de Nazaret, estés donde estés.",
+      "status": {
+        "live": "En directo",
+        "upcoming": "Próximamente",
+        "offline": "Sin emisión"
+      },
+      "offlineHint": "Ahora no estamos transmitiendo. Puedes ver nuestras transmisiones anteriores más abajo.",
+      "follow": "Síguenos en Instagram",
+      "eventStarted": "El evento ha comenzado",
+      "units": {
+        "days": "Días",
+        "hours": "Horas",
+        "minutes": "Minutos",
+        "seconds": "Segundos"
+      },
+      "pastEyebrow": "Volver a ver",
+      "videoFallback": "Tu navegador no puede reproducir este vídeo.",
+      "events": {
+        "annunciationSunday": "Oración dominical desde la basílica de la Anunciación"
+      }
+    }
   }
 }

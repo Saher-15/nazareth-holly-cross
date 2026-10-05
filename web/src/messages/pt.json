@@ -376,5 +376,58 @@
     "voicesTitle": "Palavras dos nossos visitantes",
     "voicesAll": "Ler mais e partilhar a sua",
     "storyEyebrow": "A história"
+  },
+  "communityPage": {
+    "opensInNewTab": "(abre num novo separador)",
+    "reviews": {
+      "metaTitle": "Avaliações de peregrinos e visitantes",
+      "metaDescription": "Leia o que peregrinos e visitantes de todo o mundo dizem sobre a Nazareth Holy Cross e partilhe algumas palavras sobre a sua experiência.",
+      "emptyHint": "Seja o primeiro a partilhar algumas palavras sobre a sua visita.",
+      "unavailableTitle": "Não foi possível carregar as avaliações neste momento.",
+      "unavailableHint": "Tente novamente dentro de alguns minutos. Pode partilhar a sua avaliação na mesma.",
+      "form": {
+        "counter": "{count} / {max}",
+        "sending": "A enviar…",
+        "another": "Escrever outra avaliação",
+        "errors": {
+          "nameRequired": "Indique o seu nome.",
+          "nameTooShort": "Escreva pelo menos {min} caracteres.",
+          "placeRequired": "Diga-nos de onde é.",
+          "messageRequired": "Escreva algumas palavras sobre a sua experiência.",
+          "messageTooShort": "Escreva pelo menos {min} caracteres.",
+          "tooLong": "Não ultrapasse os {max} caracteres.",
+          "rateLimited": "Enviou várias avaliações em pouco tempo. Aguarde alguns minutos e tente novamente.",
+          "invalid": "Não foi possível aceitar a sua avaliação. Verifique-a e tente novamente.",
+          "network": "Não foi possível contactar o nosso servidor. Verifique a sua ligação e tente novamente.",
+          "server": "Ocorreu um problema do nosso lado. Tente novamente mais tarde."
+        }
+      }
+    },
+    "live": {
+      "metaTitle": "Transmissões em direto de Nazaré",
+      "metaDescription": "Reze connosco em direto dos lugares santos de Nazaré: veja quando começa a próxima transmissão e reveja as nossas orações e entrevistas.",
+      "eyebrow": "Em direto de Nazaré",
+      "title": "Reze connosco, em direto",
+      "lead": "Orações e celebrações transmitidas dos lugares santos de Nazaré, onde quer que esteja.",
+      "status": {
+        "live": "Em direto",
+        "upcoming": "Brevemente",
+        "offline": "Sem emissão"
+      },
+      "offlineHint": "Não estamos a transmitir neste momento. Pode ver as nossas transmissões anteriores abaixo.",
+      "follow": "Siga-nos no Instagram",
+      "eventStarted": "O evento já começou",
+      "units": {
+        "days": "Dias",
+        "hours": "Horas",
+        "minutes": "Minutos",
+        "seconds": "Segundos"
+      },
+      "pastEyebrow": "Ver novamente",
+      "videoFallback": "O seu navegador não consegue reproduzir este vídeo.",
+      "events": {
+        "annunciationSunday": "Oração de domingo a partir da Basílica da Anunciação"
+      }
+    }
   }
 }

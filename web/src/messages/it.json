@@ -376,5 +376,58 @@
     "voicesTitle": "Le parole dei nostri visitatori",
     "voicesAll": "Leggi di più e condividi la tua",
     "storyEyebrow": "La storia"
+  },
+  "communityPage": {
+    "opensInNewTab": "(si apre in una nuova scheda)",
+    "reviews": {
+      "metaTitle": "Recensioni di pellegrini e visitatori",
+      "metaDescription": "Leggi cosa dicono di Nazareth Holy Cross pellegrini e visitatori di tutto il mondo e condividi qualche parola sulla tua esperienza.",
+      "emptyHint": "Sii il primo a condividere qualche parola sulla tua visita.",
+      "unavailableTitle": "Al momento non è possibile caricare le recensioni.",
+      "unavailableHint": "Riprova tra qualche minuto. Puoi comunque condividere la tua recensione.",
+      "form": {
+        "counter": "{count} / {max}",
+        "sending": "Invio in corso…",
+        "another": "Scrivi un’altra recensione",
+        "errors": {
+          "nameRequired": "Inserisci il tuo nome.",
+          "nameTooShort": "Inserisci almeno {min} caratteri.",
+          "placeRequired": "Dicci da dove vieni.",
+          "messageRequired": "Scrivi qualche parola sulla tua esperienza.",
+          "messageTooShort": "Scrivi almeno {min} caratteri.",
+          "tooLong": "Non superare i {max} caratteri.",
+          "rateLimited": "Hai inviato diverse recensioni in poco tempo. Attendi qualche minuto e riprova.",
+          "invalid": "Non è stato possibile accettare la tua recensione. Controllala e riprova.",
+          "network": "Impossibile raggiungere il nostro server. Controlla la connessione e riprova.",
+          "server": "Si è verificato un problema da parte nostra. Riprova più tardi."
+        }
+      }
+    },
+    "live": {
+      "metaTitle": "Dirette da Nazareth",
+      "metaDescription": "Prega con noi in diretta dai luoghi santi di Nazareth: scopri quando inizia la prossima diretta e riguarda le nostre preghiere e interviste passate.",
+      "eyebrow": "In diretta da Nazareth",
+      "title": "Prega con noi, in diretta",
+      "lead": "Preghiere e celebrazioni trasmesse dai luoghi santi di Nazareth, ovunque tu sia.",
+      "status": {
+        "live": "In diretta",
+        "upcoming": "Prossimamente",
+        "offline": "Non in onda"
+      },
+      "offlineHint": "Al momento non siamo in onda. Qui sotto puoi guardare le dirette passate.",
+      "follow": "Seguici su Instagram",
+      "eventStarted": "L’evento è iniziato",
+      "units": {
+        "days": "Giorni",
+        "hours": "Ore",
+        "minutes": "Minuti",
+        "seconds": "Secondi"
+      },
+      "pastEyebrow": "Guarda di nuovo",
+      "videoFallback": "Il tuo browser non può riprodurre questo video.",
+      "events": {
+        "annunciationSunday": "Preghiera domenicale dalla basilica dell’Annunciazione"
+      }
+    }
   }
 }
