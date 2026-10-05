@@ -4,6 +4,7 @@ import nodemailer from "nodemailer"
 import { config } from "../config/env.js"
 import { v4 as uuidv4 } from 'uuid';
 import { requireAdmin } from '../middleware/auth.js';
+import { asyncHandler } from "../middleware/asyncHandler.js"
 
 
 const transporter = nodemailer.createTransport({
@@ -23,156 +24,133 @@ const endpoint_url = config.paypal.baseUrl;
 
 const routerOrder = express.Router();
 
-routerOrder.get('/getAllOrders', requireAdmin, async (req, res) => {
-    try {
-        const orders = await Order.find();
-        res.status(200).send(orders);
-    } catch (err) {
-        res.status(500).json({ error: 'Internal server error' })
+routerOrder.get('/getAllOrders', requireAdmin, asyncHandler(async (req, res) => {
+    const orders = await Order.find();
+    res.status(200).send(orders);
+}))
+
+routerOrder.get('/getOrder/:id', requireAdmin, asyncHandler(async (req, res) => {
+    const order = await Order.findById(req.params.id)
+
+    if (!order) {
+        return res.status(204).send("No Content");
     }
-})
 
-routerOrder.get('/getOrder/:id', requireAdmin, async (req, res) => {
-    try {
-        const order = await Order.findById(req.params.id)
+    res.status(200).send(order);
+}))
 
-        if (!order) {
-            return res.status(204).send("No Content");
-        }
+routerOrder.post('/newOrder', asyncHandler(async (req, res) => {
+    const { firstName, lastName, phone, email, street, city, state, postal, country, totalPrice, products } = req.body;
 
-        res.status(200).send(order);
-    } catch (err) {
-        res.status(500).json({ error: 'Internal server error' })
+    if (firstName === null || firstName === undefined || firstName === "") {
+        return res.status(422).json({ error: "Bad input" })
     }
-})
 
-routerOrder.post('/newOrder', async (req, res) => {
-    try {
-        const { firstName, lastName, phone, email, street, city, state, postal, country, totalPrice, products } = req.body;
-
-        if (firstName === null || firstName === undefined || firstName === "") {
-            return res.status(422).json({ error: "Bad input" })
-        }
-
-        if (lastName === null || lastName === undefined || lastName === "") {
-            return res.status(422).json({ error: "Bad input" })
-        }
-
-        if (email === null || email === undefined || email === "") {
-            return res.status(422).json({ error: "Bad input" })
-        }
-
-        if (phone === null || phone === undefined || phone === "") {
-            return res.status(422).json({ error: "Bad input" })
-        }
-
-        if (street === null || street === undefined || street === "") {
-            return res.status(422).json({ error: "Bad input" })
-        }
-
-        if (city === null || city === undefined || city === "") {
-            return res.status(422).json({ error: "Bad input" })
-        }
-
-        if (state === null || state === undefined || state === "") {
-            return res.status(422).json({ error: "Bad input" })
-        }
-
-        if (postal === null || postal === undefined || postal === "") {
-            return res.status(422).json({ error: "Bad input" })
-        }
-
-        if (country === null || country === undefined || country === "") {
-            return res.status(422).json({ error: "Bad input" })
-        }
-
-        if (totalPrice === null || totalPrice === undefined || totalPrice === "") {
-            return res.status(422).json({ error: "Bad input" })
-        }
-
-        if (products === null || products === undefined || products === "") {
-            return res.status(422).json({ error: "Bad input" })
-        }
-
-        const newOrder = new Order({
-            firstName: firstName,
-            lastName: lastName,
-            phone: phone,
-            email: email,
-            date: new Date(),
-            street: street,
-            city: city,
-            state: state,
-            postal: postal,
-            country: country,
-            totalPrice: totalPrice,
-            products: products,
-            done: false
-        });
-
-        await newOrder.save().then(order => {
-            const emailMsg = {
-                to: [email],
-                from: {
-                    name: "Nazareth Holy Cross",
-                    address: config.mail.from,
-                },
-                subject: 'We Got Your Order: Thanks for ordering',
-                text: `Order number ${order._id}, we will let you know when your order ships :)`,
-            };
-
-            if (!SendMail(emailMsg)) {
-                return res.status(500).send("Error: Couldn't send email")
-            }
-        });
-        res.status(201).send("Created");
-
-    } catch (error) {
-        res.status(500).json({ error: 'Internal server error' })
+    if (lastName === null || lastName === undefined || lastName === "") {
+        return res.status(422).json({ error: "Bad input" })
     }
-})
 
-routerOrder.patch('/orderSent/:id', requireAdmin, async (req, res) => {
-    try {
-        const orderId = req.params.id;
+    if (email === null || email === undefined || email === "") {
+        return res.status(422).json({ error: "Bad input" })
+    }
 
-        const updatedOrder = await Order.findByIdAndUpdate(orderId, { done: true }, { new: true });
+    if (phone === null || phone === undefined || phone === "") {
+        return res.status(422).json({ error: "Bad input" })
+    }
 
-        if (!updatedOrder) {
-            return res.status(204).send("No Content");
-        }
+    if (street === null || street === undefined || street === "") {
+        return res.status(422).json({ error: "Bad input" })
+    }
 
-        const order = await Order.findById(orderId);
-        const email = order.email;
+    if (city === null || city === undefined || city === "") {
+        return res.status(422).json({ error: "Bad input" })
+    }
 
+    if (state === null || state === undefined || state === "") {
+        return res.status(422).json({ error: "Bad input" })
+    }
+
+    if (postal === null || postal === undefined || postal === "") {
+        return res.status(422).json({ error: "Bad input" })
+    }
+
+    if (country === null || country === undefined || country === "") {
+        return res.status(422).json({ error: "Bad input" })
+    }
+
+    if (totalPrice === null || totalPrice === undefined || totalPrice === "") {
+        return res.status(422).json({ error: "Bad input" })
+    }
+
+    if (products === null || products === undefined || products === "") {
+        return res.status(422).json({ error: "Bad input" })
+    }
+
+    const newOrder = new Order({
+        firstName: firstName,
+        lastName: lastName,
+        phone: phone,
+        email: email,
+        date: new Date(),
+        street: street,
+        city: city,
+        state: state,
+        postal: postal,
+        country: country,
+        totalPrice: totalPrice,
+        products: products,
+        done: false
+    });
+
+    await newOrder.save().then(order => {
         const emailMsg = {
             to: [email],
             from: {
                 name: "Nazareth Holy Cross",
                 address: config.mail.from,
             },
-            subject: 'Your order was shipped',
-            text: `Your order number ${orderId} was shipped :)`,
+            subject: 'We Got Your Order: Thanks for ordering',
+            text: `Order number ${order._id}, we will let you know when your order ships :)`,
         };
 
-        if (!SendMail(emailMsg)) {
-            return res.status(500).send("Error: Couldn't send email")
-        }
-        res.status(200).send("Success")
+        // The order is already saved, so a mail failure must not fail the request; SendMail logs it.
+        SendMail(emailMsg);
+    });
+    res.status(201).send("Created");
+}))
 
-    } catch (error) {
-        res.status(500).json({ error: 'Internal server error' })
-    }
-})
+routerOrder.patch('/orderSent/:id', requireAdmin, asyncHandler(async (req, res) => {
+    const orderId = req.params.id;
 
-routerOrder.delete('/deleteOrder/:id', requireAdmin, async (req, res) => {
-    try {
-        await Order.findByIdAndDelete(req.params.id);
-        res.status(200).send("Success");
-    } catch (err) {
-        res.status(500).send("Error")
+    const updatedOrder = await Order.findByIdAndUpdate(orderId, { done: true }, { new: true });
+
+    if (!updatedOrder) {
+        return res.status(204).send("No Content");
     }
-})
+
+    const order = await Order.findById(orderId);
+    const email = order.email;
+
+    const emailMsg = {
+        to: [email],
+        from: {
+            name: "Nazareth Holy Cross",
+            address: config.mail.from,
+        },
+        subject: 'Your order was shipped',
+        text: `Your order number ${orderId} was shipped :)`,
+    };
+
+    if (!(await SendMail(emailMsg))) {
+        return res.status(500).send("Error: Couldn't send email")
+    }
+    res.status(200).send("Success")
+}))
+
+routerOrder.delete('/deleteOrder/:id', requireAdmin, asyncHandler(async (req, res) => {
+    await Order.findByIdAndDelete(req.params.id);
+    res.status(200).send("Success");
+}))
 
 async function SendMail(msg) {
 
