@@ -8,6 +8,7 @@ author, licence and a link to the original: in the photo viewer, on `/credits`, 
 |---|---|
 | The curated list (Commons file, topic, subject, English alt text, focal point) | `web/scripts/media/sources.json` |
 | Builder: licence check, download, resize, AVIF/WebP, blur placeholder, manifest | `web/scripts/media/build.mjs` |
+| Candidate search on Commons (licence-filtered) | `web/scripts/media/search.mjs` |
 | Generated files, `<id>/<width>.avif`, `<id>/<width>.webp`, `<id>/og.jpg` | `web/public/images/nazareth-media/` |
 | Generated manifest (do not edit) | `web/src/data/media.generated.ts` |
 | Types, `getMedia(id)` and the other helpers | `web/src/data/media.ts`, `media-types.ts` |
@@ -127,8 +128,10 @@ Nothing NC or ND appeared in the results (Commons does not host them), but the b
 
 ## 5. How to add more photos
 
-1. Find the file on Commons and read its licence box. Skip it unless it is public domain, CC0, CC BY or CC BY-SA
-   with a named author. Check there are no watermarks, brands, or identifiable people as subject.
+1. Find candidates: `node scripts/media/search.mjs "Mary's Well Nazareth" --min 2400` (or `--category
+   "Category:Well of St. Mary"`) lists only JPEGs of that size whose Commons licence is allowed and that have a
+   named author, with a link to each file page. Open the page, look at the photo, and skip it unless it is sharp
+   and well lit, with no watermark, no brand and no identifiable person as its subject.
 2. Add an entry to `web/scripts/media/sources.json`:
    ```json
    {
