@@ -9,7 +9,7 @@ Read `docs/ENGINEERING.md` first. The short version:
   `web/node_modules/next/dist/docs/` before using an API (Middleware is now `src/proxy.ts`).
 - Use the design tokens in `web/src/styles/tokens.css` and the `ui-*` classes; never hard-code colours or fonts.
   Use logical CSS properties so Hebrew/Arabic mirror correctly.
-- All visible text goes through next-intl (`web/src/messages/*.json`, all 11 languages, ICU placeholders).
+- All visible text goes through next-intl (`web/src/messages/*.json`, all 14 languages, ICU placeholders).
 - Never send real data to the production API while testing, and never click a live PayPal pay button.
 - Never kill processes you did not start (no `taskkill /IM node.exe`).
 - Done means: `npm run check` and `npm run test:e2e` pass in `web/`, `npm test` passes in `server/`, and the
