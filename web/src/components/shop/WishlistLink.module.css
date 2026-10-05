@@ -1,0 +1,25 @@
+/* The wishlist pill shares the cart pill's look (CartPill.module.css); only the heart differs. */
+.link {
+  flex: none;
+}
+.filled path {
+  fill: currentColor;
+}
+
+/* very small phones: icon + count only, like the cart pill (the link keeps its full aria-label) */
+@media (max-width: 400px) {
+  .link {
+    padding-inline: 14px;
+  }
+  .label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+}

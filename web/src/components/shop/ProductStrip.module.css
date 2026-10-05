@@ -1,0 +1,88 @@
+/* Horizontal product row above the shop grid. */
+.strip {
+  margin-block-end: clamp(24px, 4vw, 40px);
+}
+
+.head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-block-end: 14px;
+}
+.title {
+  margin: 0;
+  font: 400 clamp(1.35rem, 3vw, 1.8rem) / 1.2 var(--serif);
+  color: var(--cream);
+}
+.lead {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.arrows {
+  display: none;
+  flex: none;
+  gap: 8px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .arrows {
+    display: flex;
+  }
+}
+.arrow {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-line);
+  background: var(--glass);
+  color: var(--cream);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+}
+.arrow:hover:not([aria-disabled='true']) {
+  background: var(--gold);
+  color: var(--night);
+}
+.arrow[aria-disabled='true'] {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.track {
+  margin-inline: -6px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--glass-line) transparent;
+  border-radius: var(--radius);
+}
+.track:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: -3px;
+}
+
+.list {
+  display: flex;
+  gap: clamp(12px, 2vw, 18px);
+  width: max-content;
+  margin: 0;
+  padding: 6px 6px 16px;
+  list-style: none;
+}
+.item {
+  flex: 0 0 clamp(168px, 44vw, 230px);
+  scroll-snap-align: start;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arrow {
+    transition: none;
+  }
+}

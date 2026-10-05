@@ -1,0 +1,124 @@
+/* Filter drawer for phones and tablets: slides in from the start side (left in LTR, right in RTL). */
+.drawer {
+  --dir: 1;
+  position: fixed;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inset-inline-end: auto;
+  width: min(380px, 100vw - 40px);
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-inline-end: 1px solid var(--glass-line);
+  background: var(--night-2);
+  color: var(--cream);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  color-scheme: dark;
+}
+:global([dir='rtl']) .drawer {
+  --dir: -1;
+}
+.drawer[open] {
+  animation: slide 0.28s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.drawer::backdrop {
+  background: color-mix(in srgb, var(--night) 70%, transparent);
+  backdrop-filter: blur(3px);
+}
+/* the page behind does not scroll while the drawer is open */
+:global(html):has(.drawer[open]) {
+  overflow: hidden;
+}
+
+@keyframes slide {
+  from {
+    translate: calc(-100% * var(--dir)) 0;
+  }
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-family: var(--sans);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-block-end: 1px solid var(--glass-line);
+}
+.title {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font: 400 1.35rem / 1.2 var(--serif);
+}
+.titleIcon {
+  color: var(--gold);
+}
+.close {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--glass-line);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--cream);
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+.close:hover {
+  background: var(--glass-strong);
+}
+
+.body {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 4px 16px 16px;
+}
+
+.foot {
+  display: flex;
+  gap: 10px;
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+  border-block-start: 1px solid var(--glass-line);
+  background: var(--night-2);
+}
+.clear {
+  flex: none;
+  padding-inline: 16px;
+}
+.clear[aria-disabled='true'] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+.apply {
+  flex: 1;
+  min-width: 0;
+  padding-inline: 12px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.drawer :focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drawer[open] {
+    animation: none;
+  }
+}

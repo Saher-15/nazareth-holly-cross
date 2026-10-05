@@ -630,5 +630,148 @@
       "thanksTitle": "Dziękujemy za Twoją darowiznę!",
       "thanksText": "Twoja hojność pomaga podtrzymać światło Nazaretu dla pielgrzymów na całym świecie."
     }
+  },
+  "shopFeatures": {
+    "categories": {
+      "rosaries": "Różańce",
+      "necklaces": "Naszyjniki",
+      "bracelets": "Bransoletki",
+      "stained-glass": "Witraże",
+      "crosses": "Krzyże",
+      "bibles": "Biblie",
+      "holy-land": "Z Ziemi Świętej",
+      "gifts": "Upominki"
+    },
+    "materials": {
+      "gold": "Złoto",
+      "silver": "Srebro",
+      "wood": "Drewno",
+      "glass": "Szkło"
+    },
+    "sort": {
+      "featured": "Polecane",
+      "bestselling": "Najczęściej kupowane",
+      "rating": "Najwyżej oceniane",
+      "newest": "Najnowsze",
+      "priceAsc": "Cena: od najniższej",
+      "priceDesc": "Cena: od najwyższej",
+      "name": "Nazwa (A–Z)"
+    },
+    "allProducts": "Wszystkie pamiątki",
+    "filters": {
+      "title": "Filtry",
+      "openAria": "Filtry{count, plural, =0 {} one {, # aktywny} few {, # aktywne} many {, # aktywnych} other {, # aktywnego}}",
+      "close": "Zamknij filtry",
+      "apply": "Pokaż {count, plural, one {# produkt} few {# produkty} many {# produktów} other {# produktu}}",
+      "clearAll": "Wyczyść wszystko",
+      "active": "Aktywne filtry",
+      "remove": "Usuń filtr: {label}",
+      "noneText": "Spróbuj usunąć filtr albo wyszukać coś innego.",
+      "category": "Kategoria",
+      "allCategories": "Wszystkie kategorie",
+      "material": "Materiał",
+      "price": "Cena (USD)",
+      "minPrice": "Min.",
+      "maxPrice": "Maks.",
+      "rating": "Ocena klientów",
+      "anyRating": "Dowolna ocena",
+      "ratingAtLeast": "{stars, plural, one {# gwiazdka i więcej} few {# gwiazdki i więcej} many {# gwiazdek i więcej} other {# gwiazdki i więcej}}",
+      "availability": "Dostępność",
+      "inStock": "Tylko dostępne",
+      "chipSearch": "Wyszukiwanie: {query}",
+      "chipPriceRange": "{min} – {max}",
+      "chipPriceMin": "Od {min}",
+      "chipPriceMax": "Do {max}"
+    },
+    "strip": {
+      "bestTitle": "Bestsellery",
+      "bestLead": "Pamiątki, które pielgrzymi najczęściej zabierają do domu.",
+      "favTitle": "Nasze ulubione",
+      "favLead": "Starannie wybrane przez nasz sklep w Nazarecie.",
+      "back": "Przewiń wstecz",
+      "forward": "Przewiń dalej"
+    },
+    "badges": {
+      "bestseller": "Bestseller",
+      "new": "Nowość",
+      "lowStock": "Zostało: {count} szt.",
+      "soldOut": "Wyprzedane"
+    },
+    "reviews": {
+      "title": "Opinie klientów",
+      "starsLabel": "{rating} na 5 gwiazdek",
+      "count": "{count, plural, one {# opinia} few {# opinie} many {# opinii} other {# opinii}}",
+      "outOf": "na 5",
+      "basedOn": "Na podstawie {count, plural, one {# opinii} few {# opinii} many {# opinii} other {# opinii}}",
+      "breakdown": "Rozkład ocen",
+      "breakdownRow": "{stars, plural, one {# gwiazdka} few {# gwiazdki} many {# gwiazdek} other {# gwiazdki}}: {count, plural, one {# opinia} few {# opinie} many {# opinii} other {# opinii}}",
+      "emptyTitle": "Brak opinii",
+      "emptyText": "Bądź pierwszą osobą, która powie innym pielgrzymom, co myśli o tej pamiątce.",
+      "unavailable": "Nie udało się teraz wczytać opinii.",
+      "listLabel": "Opinie, od najnowszych",
+      "reviewBy": "Opinia: {name}",
+      "showAll": "Pokaż wszystkie opinie ({count})",
+      "showFewer": "Pokaż mniej opinii",
+      "form": {
+        "heading": "Napisz opinię",
+        "intro": "Powiedz innym pielgrzymom, co myślisz o produkcie {name}. Twoja opinia pojawi się na tej stronie.",
+        "fields": {
+          "name": "Imię",
+          "country": "Kraj (opcjonalnie)",
+          "rating": "Twoja ocena",
+          "title": "Tytuł (opcjonalnie)",
+          "comment": "Twoja opinia"
+        },
+        "star": "{count, plural, one {# gwiazdka} few {# gwiazdki} many {# gwiazdek} other {# gwiazdki}}",
+        "counter": "{count} / {max}",
+        "website": "Strona WWW (zostaw puste)",
+        "submit": "Opublikuj opinię",
+        "sending": "Publikowanie…",
+        "success": "Dziękujemy! Twoja opinia została opublikowana.",
+        "another": "Napisz kolejną opinię",
+        "errors": {
+          "nameRequired": "Wpisz swoje imię.",
+          "nameTooShort": "Imię musi mieć co najmniej {min} znaki.",
+          "ratingRequired": "Wybierz od 1 do 5 gwiazdek.",
+          "commentRequired": "Napisz swoją opinię.",
+          "commentTooShort": "Opinia musi mieć co najmniej {min} znaki.",
+          "tooLong": "Nie przekraczaj {max} znaków.",
+          "invalid": "Niektóre dane nie zostały przyjęte. Sprawdź formularz i spróbuj ponownie.",
+          "rateLimited": "Wysłano kilka opinii w krótkim czasie. Spróbuj ponownie później.",
+          "network": "Nie udało się połączyć z serwerem. Sprawdź połączenie i spróbuj ponownie.",
+          "server": "Coś poszło nie tak po naszej stronie. Spróbuj ponownie za chwilę."
+        }
+      }
+    },
+    "wishlist": {
+      "toggle": "Zapisz {name} na liście życzeń",
+      "added": "Dodano {name} do listy życzeń.",
+      "removed": "Usunięto {name} z listy życzeń.",
+      "save": "Zapisz na liście życzeń",
+      "link": "Lista życzeń",
+      "linkAria": "Lista życzeń: {count, plural, one {# zapisany produkt} few {# zapisane produkty} many {# zapisanych produktów} other {# zapisanego produktu}}",
+      "pageTitle": "Twoja lista życzeń",
+      "pageDescription": "Pamiątki zapisane na później.",
+      "savedHeading": "Zapisane pamiątki",
+      "emptyTitle": "Twoja lista życzeń jest pusta",
+      "emptyText": "Dotknij serca przy pamiątce, aby zachować ją tutaj.",
+      "browse": "Przejdź do sklepu",
+      "count": "{count, plural, one {# zapisana pamiątka} few {# zapisane pamiątki} many {# zapisanych pamiątek} other {# zapisanej pamiątki}}",
+      "addToCart": "Dodaj do koszyka",
+      "chooseOptions": "Wybierz opcje",
+      "remove": "Usuń",
+      "addedToCart": "Dodano {name} do koszyka."
+    },
+    "share": {
+      "button": "Udostępnij",
+      "text": "{name} – pamiątka z Nazaretu",
+      "copied": "Link skopiowany. Możesz go wkleić w dowolnym miejscu.",
+      "failed": "Nie udało się skopiować linku. Skopiuj go z paska adresu."
+    },
+    "product": {
+      "beFirst": "Brak opinii. Napisz pierwszą",
+      "similarTitle": "Może Ci się spodobać",
+      "recentTitle": "Ostatnio oglądane"
+    }
   }
 }

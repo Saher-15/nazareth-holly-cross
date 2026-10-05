@@ -5,7 +5,7 @@ type Props = {
   label: string; // spoken text, e.g. "4.5 out of 5 stars"
   size?: 'sm' | 'md' | 'lg';
   count?: number; // number of reviews, shown after the stars
-  countLabel?: string;
+  countLabel?: string; // spoken instead of "(12)", e.g. "12 reviews"
 };
 
 // Read-only star rating: five outlined stars with a gold fill clipped to the value.
@@ -22,8 +22,10 @@ export default function Stars({ value, label, size = 'sm', count, countLabel }: 
         </span>
       </span>
       {count !== undefined && (
-        <span className={styles.count} aria-label={countLabel}>
-          ({count})
+        <span className={styles.count}>
+          {/* aria-label is not allowed on a plain span, so the spoken text is a hidden sibling */}
+          <span aria-hidden={countLabel ? true : undefined}>({count})</span>
+          {countLabel && <span className="visually-hidden">{countLabel}</span>}
         </span>
       )}
     </span>

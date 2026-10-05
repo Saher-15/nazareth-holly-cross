@@ -1,6 +1,7 @@
-/* Shop product card: glass, photo zoom on hover, gold price. */
+/* Shop product card: glass, photo zoom on hover, badges, stars, gold price, wishlist heart. */
 .card {
   --dir: 1;
+  position: relative;
   height: 100%;
   overflow: hidden;
   transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), border-color 0.35s ease, box-shadow 0.35s ease;
@@ -58,13 +59,80 @@
   transform: scale(1.08);
 }
 
+/* ---- badges over the photo (the heart sits in the other corner) ---- */
+.badges {
+  position: absolute;
+  inset-block-start: 10px;
+  inset-inline-start: 10px;
+  inset-inline-end: 60px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  pointer-events: none;
+}
+.badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--night) 82%, transparent);
+  border: 1px solid var(--glass-line);
+  color: var(--cream);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.badge[data-badge='bestseller'] {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--night);
+}
+.badge[data-badge='new'] {
+  background: var(--cream);
+  border-color: var(--cream);
+  color: var(--night);
+}
+.badge[data-badge='lowStock'] {
+  color: var(--gold);
+}
+.badge[data-badge='soldOut'] {
+  color: var(--danger);
+}
+
+.heart {
+  position: absolute;
+  inset-block-start: 10px;
+  inset-inline-end: 10px;
+  z-index: 1;
+}
+
 .body {
   display: flex;
   flex: 1;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 10px;
+  gap: 8px;
   padding: 14px clamp(12px, 2vw, 18px) 16px;
+}
+
+.category {
+  color: var(--gold);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+:global(:lang(he)) .category,
+:global(:lang(ar)) .category,
+:global(:lang(he)) .badge,
+:global(:lang(ar)) .badge {
+  letter-spacing: 0;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  min-height: 1.2em;
 }
 
 .name {
@@ -83,6 +151,8 @@
   align-items: center;
   justify-content: space-between;
   gap: 8px;
+  margin-block-start: auto;
+  padding-block-start: 2px;
 }
 
 .price {

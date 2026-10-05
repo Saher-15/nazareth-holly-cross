@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import type { Product } from '@/lib/api';
+import type { Product, ProductReview } from '@/lib/api';
 import { locales } from '@/i18n/routing';
 import { SITE_URL } from '@/lib/config';
 import { isInStock } from './catalog';
@@ -32,7 +32,45 @@ export function summarize(text: string, max = 160) {
 /** JSON for a <script type="application/ld+json">, with "<" escaped so data cannot close the tag. */
 export const jsonLdHtml = (data: unknown) => JSON.stringify(data).replace(/</g, '\\u003c');
 
-export function productJsonLd(product: Product, locale: string) {
+export const MAX_LD_REVIEWS = 5;
+
+type LdReviews = {
+  rating: { avg: number; count: number };
+  reviews?: Pick<ProductReview, 'name' | 'rating' | 'title' | 'comment' | 'createdAt'>[];
+};
+
+/** aggregateRating and the newest reviews, only for a product that has been reviewed. */
+function reviewsJsonLd(data: LdReviews | undefined) {
+  if (!data || data.rating.count <= 0) return {};
+  const reviews = (data.reviews ?? []).slice(0, MAX_LD_REVIEWS);
+  return {
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: data.rating.avg,
+      reviewCount: data.rating.count,
+      bestRating: 5,
+      worstRating: 1,
+    },
+    ...(reviews.length
+      ? {
+          review: reviews.map((r) => ({
+            '@type': 'Review',
+            author: { '@type': 'Person', name: r.name },
+            ...(r.createdAt ? { datePublished: r.createdAt.slice(0, 10) } : {}),
+            ...(r.title ? { name: r.title } : {}),
+            reviewBody: r.comment,
+            reviewRating: { '@type': 'Rating', ratingValue: r.rating, bestRating: 5, worstRating: 1 },
+          })),
+        }
+      : {}),
+  };
+}
+
+export function productJsonLd(
+  product: Pick<Product, '_id' | 'name' | 'description' | 'img' | 'additionalImageUrls' | 'price' | 'stock'>,
+  locale: string,
+  reviews?: LdReviews,
+) {
   const url = absoluteUrl(locale, `/shop/${product._id}`);
   return {
     '@context': 'https://schema.org',
@@ -44,6 +82,7 @@ export function productJsonLd(product: Product, locale: string) {
     sku: product._id,
     url,
     brand: { '@type': 'Brand', name: BRAND },
+    ...reviewsJsonLd(reviews),
     offers: {
       '@type': 'Offer',
       url,

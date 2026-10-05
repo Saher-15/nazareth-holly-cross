@@ -1,0 +1,81 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 8px 18px;
+  border: 1px solid var(--glass-line);
+  border-radius: 999px;
+  background: var(--glass);
+  color: var(--cream);
+  font: 700 0.85rem / 1 var(--sans);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.button:hover {
+  background: var(--glass-strong);
+  border-color: color-mix(in srgb, var(--gold) 60%, transparent);
+}
+.icon {
+  color: var(--gold);
+  font-size: 1.15rem;
+}
+:global(:lang(he)) .button,
+:global(:lang(ar)) .button {
+  letter-spacing: 0;
+}
+
+/* The toast floats at the bottom of the screen, above everything but dialogs. */
+.toastRegion {
+  position: fixed;
+  inset-inline: 16px;
+  inset-block-end: max(20px, env(safe-area-inset-bottom));
+  z-index: 90;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+.toast {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 480px;
+  margin: 0;
+  padding: 12px 18px;
+  border: 1px solid color-mix(in srgb, var(--success) 45%, transparent);
+  border-radius: var(--radius-sm);
+  background: var(--night-3);
+  color: var(--cream);
+  box-shadow: var(--shadow);
+  font-size: 0.95rem;
+  animation: toast-in 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.toast[data-kind='error'] {
+  border-color: color-mix(in srgb, var(--danger) 45%, transparent);
+}
+.toastIcon {
+  flex: none;
+  color: var(--success);
+}
+.toast[data-kind='error'] .toastIcon {
+  color: var(--danger);
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    translate: 0 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+  }
+  .toast {
+    animation: none;
+  }
+}

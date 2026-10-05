@@ -1,0 +1,176 @@
+/* Write-a-review card on the product page. */
+.card {
+  padding: clamp(18px, 3vw, 28px);
+  scroll-margin-top: calc(var(--shop-sticky-top, 68px) + 16px);
+}
+.title {
+  margin: 0 0 6px;
+  font: 400 clamp(1.25rem, 2.6vw, 1.5rem) / 1.25 var(--serif);
+  color: var(--gold);
+}
+.intro {
+  margin: 0 0 18px;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.row {
+  display: grid;
+  gap: 0 16px;
+}
+@media (min-width: 640px) {
+  .row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.field {
+  min-width: 0;
+}
+.fieldError {
+  margin: 0;
+}
+
+/* ---- star picker: five radio buttons drawn as stars ---- */
+.rating {
+  min-width: 0;
+  margin: 0 0 14px;
+  padding: 0;
+  border: 0;
+}
+.rating legend {
+  margin-bottom: 6px;
+  padding: 0;
+}
+.stars {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px;
+}
+.star {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  color: color-mix(in srgb, var(--cream) 30%, transparent);
+  font-family: system-ui, sans-serif; /* the star glyph, not the page font */
+  font-size: 1.9rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+.star[data-on='true'] {
+  color: var(--gold);
+}
+.star:hover {
+  transform: scale(1.12);
+}
+.starInput {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.star:has(.starInput:focus-visible) {
+  outline: 3px solid var(--gold);
+  outline-offset: 0;
+}
+.ratingText {
+  margin-inline-start: 10px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.under {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.counter {
+  flex: none;
+  margin: 0;
+  margin-inline-start: auto;
+  direction: ltr; /* "12 / 1000" reads the same in Hebrew and Arabic pages */
+  unicode-bidi: isolate;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* the honeypot field is clipped away (not display:none, which some bots skip) */
+.trap {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 4px 0 16px;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid color-mix(in srgb, var(--danger) 45%, transparent);
+  background: color-mix(in srgb, var(--danger) 10%, transparent);
+  color: var(--cream);
+}
+.alertIcon {
+  flex: none;
+  margin-top: 3px;
+  color: var(--danger);
+}
+
+.submit {
+  width: 100%;
+}
+@media (min-width: 640px) {
+  .submit {
+    width: auto;
+  }
+}
+
+.done {
+  display: grid;
+  justify-items: start;
+  gap: 14px;
+}
+.doneTitle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  color: var(--success);
+  font-weight: 700;
+}
+.doneTitle:focus {
+  outline: none;
+}
+.doneTitle:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 4px;
+}
+.doneIcon {
+  flex: none;
+  font-size: 1.3rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .star {
+    transition: none;
+  }
+  .star:hover {
+    transform: none;
+  }
+}

@@ -31,6 +31,39 @@ describe('productJsonLd', () => {
   it('leaves out an empty description', () => {
     expect(productJsonLd({ ...product, description: '' }, 'en')).not.toHaveProperty('description');
   });
+
+  it('adds aggregateRating and up to five reviews once the product has reviews', () => {
+    const reviews = Array.from({ length: 7 }, (_, i) => ({
+      name: `R${i}`,
+      rating: 5 - (i % 2),
+      title: i === 0 ? 'Lovely' : '',
+      comment: `Comment ${i}`,
+      createdAt: '2026-10-01T10:00:00.000Z',
+    }));
+    const ld: ReturnType<typeof productJsonLd> & { review?: Record<string, unknown>[] } = productJsonLd(product, 'en', {
+      rating: { avg: 4.6, count: 7 },
+      reviews,
+    });
+    expect(ld).toMatchObject({
+      aggregateRating: { '@type': 'AggregateRating', ratingValue: 4.6, reviewCount: 7, bestRating: 5 },
+    });
+    expect(ld.review).toHaveLength(5);
+    expect(ld.review?.[0]).toMatchObject({
+      '@type': 'Review',
+      author: { '@type': 'Person', name: 'R0' },
+      name: 'Lovely',
+      reviewBody: 'Comment 0',
+      datePublished: '2026-10-01',
+      reviewRating: { ratingValue: 5 },
+    });
+    expect(ld.review?.[1]).not.toHaveProperty('name');
+  });
+
+  it('claims no rating for a product nobody reviewed', () => {
+    const ld = productJsonLd(product, 'en', { rating: { avg: 0, count: 0 }, reviews: [] });
+    expect(ld).not.toHaveProperty('aggregateRating');
+    expect(ld).not.toHaveProperty('review');
+  });
 });
 
 describe('shopJsonLd', () => {

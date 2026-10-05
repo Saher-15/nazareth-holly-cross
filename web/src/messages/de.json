@@ -630,5 +630,148 @@
       "thanksTitle": "Vielen Dank für Ihre Spende!",
       "thanksText": "Ihre Großzügigkeit hilft, das Licht Nazareths für Pilger in aller Welt leuchten zu lassen."
     }
+  },
+  "shopFeatures": {
+    "categories": {
+      "rosaries": "Rosenkränze",
+      "necklaces": "Halsketten",
+      "bracelets": "Armbänder",
+      "stained-glass": "Buntglas",
+      "crosses": "Kreuze",
+      "bibles": "Bibeln",
+      "holy-land": "Aus dem Heiligen Land",
+      "gifts": "Geschenke"
+    },
+    "materials": {
+      "gold": "Gold",
+      "silver": "Silber",
+      "wood": "Holz",
+      "glass": "Glas"
+    },
+    "sort": {
+      "featured": "Empfohlen",
+      "bestselling": "Bestseller",
+      "rating": "Beste Bewertung",
+      "newest": "Neueste",
+      "priceAsc": "Preis: aufsteigend",
+      "priceDesc": "Preis: absteigend",
+      "name": "Name (A–Z)"
+    },
+    "allProducts": "Alle Andenken",
+    "filters": {
+      "title": "Filter",
+      "openAria": "Filter{count, plural, =0 {} other {, # aktiv}}",
+      "close": "Filter schließen",
+      "apply": "{count, plural, one {# Produkt} other {# Produkte}} anzeigen",
+      "clearAll": "Alle löschen",
+      "active": "Aktive Filter",
+      "remove": "Filter entfernen: {label}",
+      "noneText": "Entfernen Sie einen Filter oder suchen Sie nach etwas anderem.",
+      "category": "Kategorie",
+      "allCategories": "Alle Kategorien",
+      "material": "Material",
+      "price": "Preis (USD)",
+      "minPrice": "Min.",
+      "maxPrice": "Max.",
+      "rating": "Kundenbewertung",
+      "anyRating": "Alle Bewertungen",
+      "ratingAtLeast": "{stars, plural, one {# Stern und mehr} other {# Sterne und mehr}}",
+      "availability": "Verfügbarkeit",
+      "inStock": "Nur vorrätige",
+      "chipSearch": "Suche: {query}",
+      "chipPriceRange": "{min} – {max}",
+      "chipPriceMin": "Ab {min}",
+      "chipPriceMax": "Bis {max}"
+    },
+    "strip": {
+      "bestTitle": "Bestseller",
+      "bestLead": "Die Andenken, die Pilger am häufigsten mitnehmen.",
+      "favTitle": "Unsere Lieblingsstücke",
+      "favLead": "Mit Sorgfalt ausgewählt von unserem Laden in Nazareth.",
+      "back": "Zurückblättern",
+      "forward": "Weiterblättern"
+    },
+    "badges": {
+      "bestseller": "Bestseller",
+      "new": "Neu",
+      "lowStock": "Nur noch {count}",
+      "soldOut": "Ausverkauft"
+    },
+    "reviews": {
+      "title": "Kundenbewertungen",
+      "starsLabel": "{rating} von 5 Sternen",
+      "count": "{count, plural, one {# Bewertung} other {# Bewertungen}}",
+      "outOf": "von 5",
+      "basedOn": "Basierend auf {count, plural, one {# Bewertung} other {# Bewertungen}}",
+      "breakdown": "Verteilung der Bewertungen",
+      "breakdownRow": "{stars, plural, one {# Stern} other {# Sterne}}: {count, plural, one {# Bewertung} other {# Bewertungen}}",
+      "emptyTitle": "Noch keine Bewertungen",
+      "emptyText": "Erzählen Sie als Erste oder Erster anderen Pilgern, wie Ihnen dieses Andenken gefällt.",
+      "unavailable": "Die Bewertungen können gerade nicht geladen werden.",
+      "listLabel": "Bewertungen, neueste zuerst",
+      "reviewBy": "Bewertung von {name}",
+      "showAll": "Alle Bewertungen anzeigen ({count})",
+      "showFewer": "Weniger Bewertungen anzeigen",
+      "form": {
+        "heading": "Bewertung schreiben",
+        "intro": "Erzählen Sie anderen Pilgern, wie Ihnen {name} gefällt. Ihre Bewertung erscheint auf dieser Seite.",
+        "fields": {
+          "name": "Ihr Name",
+          "country": "Land (optional)",
+          "rating": "Ihre Bewertung",
+          "title": "Titel (optional)",
+          "comment": "Ihr Kommentar"
+        },
+        "star": "{count, plural, one {# Stern} other {# Sterne}}",
+        "counter": "{count} / {max}",
+        "website": "Website (leer lassen)",
+        "submit": "Bewertung veröffentlichen",
+        "sending": "Wird veröffentlicht…",
+        "success": "Vielen Dank! Ihre Bewertung wurde veröffentlicht.",
+        "another": "Weitere Bewertung schreiben",
+        "errors": {
+          "nameRequired": "Bitte geben Sie Ihren Namen ein.",
+          "nameTooShort": "Ihr Name braucht mindestens {min} Zeichen.",
+          "ratingRequired": "Bitte wählen Sie 1 bis 5 Sterne.",
+          "commentRequired": "Bitte schreiben Sie Ihren Kommentar.",
+          "commentTooShort": "Ihr Kommentar braucht mindestens {min} Zeichen.",
+          "tooLong": "Bitte bleiben Sie unter {max} Zeichen.",
+          "invalid": "Einige Angaben wurden nicht akzeptiert. Bitte prüfen Sie das Formular und versuchen Sie es erneut.",
+          "rateLimited": "Sie haben in kurzer Zeit mehrere Bewertungen gesendet. Bitte versuchen Sie es später erneut.",
+          "network": "Der Server ist nicht erreichbar. Prüfen Sie Ihre Verbindung und versuchen Sie es erneut.",
+          "server": "Bei uns ist etwas schiefgelaufen. Bitte versuchen Sie es gleich noch einmal."
+        }
+      }
+    },
+    "wishlist": {
+      "toggle": "{name} auf die Merkliste setzen",
+      "added": "{name} wurde zur Merkliste hinzugefügt.",
+      "removed": "{name} wurde von der Merkliste entfernt.",
+      "save": "Auf die Merkliste",
+      "link": "Merkliste",
+      "linkAria": "Merkliste: {count, plural, one {# gemerkter Artikel} other {# gemerkte Artikel}}",
+      "pageTitle": "Ihre Merkliste",
+      "pageDescription": "Andenken, die Sie sich für später gemerkt haben.",
+      "savedHeading": "Gemerkte Andenken",
+      "emptyTitle": "Ihre Merkliste ist leer",
+      "emptyText": "Tippen Sie bei einem Andenken auf das Herz, um es hier aufzuheben.",
+      "browse": "Zum Shop",
+      "count": "{count, plural, one {# gemerktes Andenken} other {# gemerkte Andenken}}",
+      "addToCart": "In den Warenkorb",
+      "chooseOptions": "Optionen wählen",
+      "remove": "Entfernen",
+      "addedToCart": "{name} wurde in den Warenkorb gelegt."
+    },
+    "share": {
+      "button": "Teilen",
+      "text": "{name}, ein Andenken aus Nazareth",
+      "copied": "Link kopiert. Sie können ihn überall einfügen.",
+      "failed": "Der Link konnte nicht kopiert werden. Bitte kopieren Sie ihn aus der Adressleiste."
+    },
+    "product": {
+      "beFirst": "Noch keine Bewertungen. Schreiben Sie die erste",
+      "similarTitle": "Das könnte Ihnen auch gefallen",
+      "recentTitle": "Zuletzt angesehen"
+    }
   }
 }

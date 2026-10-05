@@ -630,5 +630,148 @@
       "thanksTitle": "Merci pour votre don !",
       "thanksText": "Votre générosité aide à garder la lumière de Nazareth allumée pour les pèlerins du monde entier."
     }
+  },
+  "shopFeatures": {
+    "categories": {
+      "rosaries": "Chapelets",
+      "necklaces": "Colliers",
+      "bracelets": "Bracelets",
+      "stained-glass": "Vitraux",
+      "crosses": "Croix",
+      "bibles": "Bibles",
+      "holy-land": "De Terre sainte",
+      "gifts": "Cadeaux"
+    },
+    "materials": {
+      "gold": "Or",
+      "silver": "Argent",
+      "wood": "Bois",
+      "glass": "Verre"
+    },
+    "sort": {
+      "featured": "En vedette",
+      "bestselling": "Meilleures ventes",
+      "rating": "Mieux notés",
+      "newest": "Nouveautés",
+      "priceAsc": "Prix : croissant",
+      "priceDesc": "Prix : décroissant",
+      "name": "Nom (A–Z)"
+    },
+    "allProducts": "Tous les souvenirs",
+    "filters": {
+      "title": "Filtres",
+      "openAria": "Filtres{count, plural, =0 {} one {, # actif} other {, # actifs}}",
+      "close": "Fermer les filtres",
+      "apply": "Voir {count, plural, one {# produit} other {# produits}}",
+      "clearAll": "Tout effacer",
+      "active": "Filtres actifs",
+      "remove": "Retirer le filtre : {label}",
+      "noneText": "Essayez de retirer un filtre ou de chercher autre chose.",
+      "category": "Catégorie",
+      "allCategories": "Toutes les catégories",
+      "material": "Matière",
+      "price": "Prix (USD)",
+      "minPrice": "Min",
+      "maxPrice": "Max",
+      "rating": "Note des clients",
+      "anyRating": "Toutes les notes",
+      "ratingAtLeast": "{stars, plural, one {# étoile et plus} other {# étoiles et plus}}",
+      "availability": "Disponibilité",
+      "inStock": "En stock uniquement",
+      "chipSearch": "Recherche : {query}",
+      "chipPriceRange": "{min} – {max}",
+      "chipPriceMin": "À partir de {min}",
+      "chipPriceMax": "Jusqu’à {max}"
+    },
+    "strip": {
+      "bestTitle": "Meilleures ventes",
+      "bestLead": "Les souvenirs que les pèlerins emportent le plus souvent.",
+      "favTitle": "Nos coups de cœur",
+      "favLead": "Choisis avec soin par notre boutique de Nazareth.",
+      "back": "Faire défiler vers l’arrière",
+      "forward": "Faire défiler vers l’avant"
+    },
+    "badges": {
+      "bestseller": "Meilleure vente",
+      "new": "Nouveau",
+      "lowStock": "Plus que {count}",
+      "soldOut": "Épuisé"
+    },
+    "reviews": {
+      "title": "Avis des clients",
+      "starsLabel": "{rating} sur 5 étoiles",
+      "count": "{count, plural, one {# avis} other {# avis}}",
+      "outOf": "sur 5",
+      "basedOn": "D’après {count, plural, one {# avis} other {# avis}}",
+      "breakdown": "Répartition des notes",
+      "breakdownRow": "{stars, plural, one {# étoile} other {# étoiles}} : {count, plural, one {# avis} other {# avis}}",
+      "emptyTitle": "Pas encore d’avis",
+      "emptyText": "Soyez le premier à dire aux autres pèlerins ce que vous pensez de ce souvenir.",
+      "unavailable": "Les avis ne peuvent pas être chargés pour le moment.",
+      "listLabel": "Avis, du plus récent au plus ancien",
+      "reviewBy": "Avis de {name}",
+      "showAll": "Voir tous les avis ({count})",
+      "showFewer": "Voir moins d’avis",
+      "form": {
+        "heading": "Écrire un avis",
+        "intro": "Dites aux autres pèlerins ce que vous pensez de {name}. Votre avis paraîtra sur cette page.",
+        "fields": {
+          "name": "Votre nom",
+          "country": "Pays (facultatif)",
+          "rating": "Votre note",
+          "title": "Titre (facultatif)",
+          "comment": "Votre avis"
+        },
+        "star": "{count, plural, one {# étoile} other {# étoiles}}",
+        "counter": "{count} / {max}",
+        "website": "Site web (laisser vide)",
+        "submit": "Publier l’avis",
+        "sending": "Publication…",
+        "success": "Merci ! Votre avis a été publié.",
+        "another": "Écrire un autre avis",
+        "errors": {
+          "nameRequired": "Veuillez saisir votre nom.",
+          "nameTooShort": "Votre nom doit comporter au moins {min} caractères.",
+          "ratingRequired": "Veuillez choisir de 1 à 5 étoiles.",
+          "commentRequired": "Veuillez écrire votre avis.",
+          "commentTooShort": "Votre avis doit comporter au moins {min} caractères.",
+          "tooLong": "Merci de ne pas dépasser {max} caractères.",
+          "invalid": "Certaines informations n’ont pas été acceptées. Vérifiez le formulaire et réessayez.",
+          "rateLimited": "Vous avez envoyé plusieurs avis en peu de temps. Veuillez réessayer plus tard.",
+          "network": "Impossible de joindre le serveur. Vérifiez votre connexion et réessayez.",
+          "server": "Un problème est survenu de notre côté. Veuillez réessayer dans un instant."
+        }
+      }
+    },
+    "wishlist": {
+      "toggle": "Ajouter {name} à vos favoris",
+      "added": "{name} a été ajouté à vos favoris.",
+      "removed": "{name} a été retiré de vos favoris.",
+      "save": "Ajouter aux favoris",
+      "link": "Favoris",
+      "linkAria": "Favoris : {count, plural, one {# article enregistré} other {# articles enregistrés}}",
+      "pageTitle": "Vos favoris",
+      "pageDescription": "Les souvenirs que vous avez gardés pour plus tard.",
+      "savedHeading": "Souvenirs enregistrés",
+      "emptyTitle": "Votre liste de favoris est vide",
+      "emptyText": "Touchez le cœur d’un souvenir pour le garder ici.",
+      "browse": "Parcourir la boutique",
+      "count": "{count, plural, one {# souvenir enregistré} other {# souvenirs enregistrés}}",
+      "addToCart": "Ajouter au panier",
+      "chooseOptions": "Choisir les options",
+      "remove": "Retirer",
+      "addedToCart": "{name} a été ajouté à votre panier."
+    },
+    "share": {
+      "button": "Partager",
+      "text": "{name}, un souvenir de Nazareth",
+      "copied": "Lien copié. Vous pouvez le coller où vous voulez.",
+      "failed": "Impossible de copier le lien. Copiez-le depuis la barre d’adresse."
+    },
+    "product": {
+      "beFirst": "Pas encore d’avis. Écrivez le premier",
+      "similarTitle": "Vous aimerez aussi",
+      "recentTitle": "Vus récemment"
+    }
   }
 }
