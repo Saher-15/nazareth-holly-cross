@@ -1,0 +1,340 @@
+[
+  {
+    "id": "basilica-facade",
+    "file": "Nazaret Verkuendigungsbasilika BW 2010-09-23 13-02-20 stitch3.jpg",
+    "topic": "basilica",
+    "subject": "facade",
+    "alt": "The west facade of the Basilica of the Annunciation in Nazareth under a deep blue sky",
+    "focal": [50, 40],
+    "hero": true,
+    "og": true
+  },
+  {
+    "id": "basilica-night-view",
+    "file": "Basilica of the Annunciation night view.JPG",
+    "topic": "basilica",
+    "subject": "night",
+    "alt": "The floodlit Basilica of the Annunciation above the lights of Nazareth at night",
+    "focal": [30, 72],
+    "hero": true,
+    "og": true
+  },
+  {
+    "id": "basilica-dome-palms",
+    "file": "Nazareth Verkündigungskirche Kuppel 1.JPG",
+    "topic": "basilica",
+    "subject": "dome",
+    "alt": "The conical dome of the Basilica of the Annunciation rising above palm trees",
+    "focal": [50, 45],
+    "hero": true,
+    "og": true
+  },
+  {
+    "id": "basilica-dome-rooftops",
+    "file": "Nazareth Blick auf die Verkündigungskirche 2.JPG",
+    "topic": "basilica",
+    "subject": "dome",
+    "alt": "The dome and facade of the Basilica seen from above, among the rooftops of Nazareth",
+    "focal": [38, 50]
+  },
+  {
+    "id": "basilica-courtyard-dusk",
+    "file": "Nazareth Church of Annunciation.jpg",
+    "topic": "basilica",
+    "subject": "courtyard",
+    "alt": "Strings of lights over the courtyard of the Basilica of the Annunciation at dusk",
+    "focal": [55, 60]
+  },
+  {
+    "id": "basilica-spring-flowers",
+    "file": "View over Basilica of the Annunciation from Arab Cemetery - Nazareth - Israel (5699606334).jpg",
+    "topic": "basilica",
+    "subject": "exterior",
+    "alt": "The Basilica of the Annunciation above a hillside of yellow spring wildflowers",
+    "focal": [62, 42]
+  },
+  {
+    "id": "basilica-upper-nave",
+    "file": "Nazareth. Israel-05281 - Upper Church (33580000733).jpg",
+    "topic": "basilica",
+    "subject": "interior",
+    "alt": "The nave of the upper church of the Basilica of the Annunciation, looking towards the apse mosaic",
+    "focal": [50, 40]
+  },
+  {
+    "id": "basilica-dome-interior",
+    "file": "Nazareth Verkündigungskirche Innen Unterkirche Kuppel 1.JPG",
+    "topic": "basilica",
+    "subject": "ceiling",
+    "alt": "The ribbed concrete dome of the Basilica seen from inside, shaped like an upturned lily",
+    "focal": [50, 45]
+  },
+  {
+    "id": "basilica-grotto-altar",
+    "file": "Nazareth. Israel-05317 - Grotto Altar (34390259885).jpg",
+    "topic": "basilica",
+    "subject": "grotto",
+    "alt": "The altar of the Grotto of the Annunciation, set into the rock of the lower church",
+    "focal": [50, 55]
+  },
+  {
+    "id": "basilica-lower-church",
+    "file": "Basilica of Annunciation - Nazareth - lower level (1) (37173519901).jpg",
+    "topic": "basilica",
+    "subject": "interior",
+    "alt": "The lower church of the Basilica of the Annunciation around the ancient grotto",
+    "focal": [50, 55]
+  },
+  {
+    "id": "basilica-night-front",
+    "file": "Holy Land 2022 (1) P570 Nazareth Church of the Annunciation.jpg",
+    "topic": "basilica",
+    "subject": "night",
+    "alt": "The facade and dome of the Basilica of the Annunciation lit up at night",
+    "focal": [50, 38]
+  },
+  {
+    "id": "stjoseph-facade",
+    "file": "Saint joseph church.jpg",
+    "topic": "stjoseph",
+    "subject": "exterior",
+    "alt": "The stone facade of the Church of St. Joseph beside the Basilica of the Annunciation",
+    "focal": [50, 55]
+  },
+  {
+    "id": "stjoseph-arcades",
+    "file": "Church Nazareth 2.JPG",
+    "topic": "stjoseph",
+    "subject": "interior",
+    "alt": "Round arches and stained-glass windows inside the Church of St. Joseph",
+    "focal": [50, 45]
+  },
+  {
+    "id": "stjoseph-nave",
+    "file": "ISRAEL; Nazareth; Church of St. Joseph (2).JPG",
+    "topic": "stjoseph",
+    "subject": "interior",
+    "alt": "The nave of the Church of St. Joseph, with its Romanesque arches and timber roof, looking to the apse",
+    "focal": [50, 50]
+  },
+  {
+    "id": "stjoseph-columns",
+    "file": "ISRAEL; Nazareth; Church of St. Joseph (3).JPG",
+    "topic": "stjoseph",
+    "subject": "interior",
+    "alt": "Carved columns and the timber roof of the Church of St. Joseph",
+    "focal": [38, 45]
+  },
+  {
+    "id": "greek-church-exterior",
+    "file": "Nazareth-Griechisch-orthodoxe Verkuendigungskirche-02-2010-gje.jpg",
+    "topic": "greek",
+    "subject": "exterior",
+    "alt": "The Greek Orthodox Church of the Annunciation and its bell tower, seen across the square",
+    "focal": [45, 50],
+    "hero": true,
+    "og": true
+  },
+  {
+    "id": "greek-church-porch",
+    "file": "Nazaret Gabrielskirche BW 11.JPG",
+    "topic": "greek",
+    "subject": "bellTower",
+    "alt": "The stone church of St. Gabriel with its bell tower and arched porch",
+    "focal": [50, 45]
+  },
+  {
+    "id": "greek-nave-chandeliers",
+    "file": "Nazareth Orthodoxe Verkündigungskirche Innen 2.JPG",
+    "topic": "greek",
+    "subject": "interior",
+    "alt": "Golden chandeliers and painted pillars inside the Greek Orthodox Church of the Annunciation",
+    "focal": [50, 45]
+  },
+  {
+    "id": "greek-iconostasis",
+    "file": "Nazareth Orthodoxe Verkündigungskirche Innen Ikonostase 1.JPG",
+    "topic": "greek",
+    "subject": "iconostasis",
+    "alt": "The carved wooden iconostasis of the Greek Orthodox Church of the Annunciation",
+    "focal": [50, 50]
+  },
+  {
+    "id": "greek-painted-vault",
+    "file": "Nazareth Orthodoxe Verkündigungskirche Innen Decke 3.JPG",
+    "topic": "greek",
+    "subject": "ceiling",
+    "alt": "A golden chandelier hanging beneath the blue painted vaults of the Greek Orthodox church",
+    "focal": [45, 45]
+  },
+  {
+    "id": "greek-spring-grotto",
+    "file": "Nazareth-Griechisch-orthodoxe Verkuendigungskirche-38-Grotte-2010-gje.jpg",
+    "topic": "greek",
+    "subject": "grotto",
+    "alt": "The vaulted grotto beneath the Greek Orthodox church, where the spring of Nazareth flows",
+    "focal": [45, 50]
+  },
+  {
+    "id": "marys-well-arch",
+    "file": "Nazareth-02-Marienbrunnen-2010-gje.jpg",
+    "topic": "well",
+    "subject": "well",
+    "alt": "Mary's Well in the centre of Nazareth, a stone arch with three spouts",
+    "focal": [50, 55],
+    "hero": true,
+    "og": true
+  },
+  {
+    "id": "marys-well-square",
+    "file": "PikiWiki Israel 28726 Merrys Well in Nazareth.JPG",
+    "topic": "well",
+    "subject": "well",
+    "alt": "Mary's Well and the paved square around it",
+    "focal": [50, 55]
+  },
+  {
+    "id": "marys-well-warm-light",
+    "file": "Israel - Nazareth - 39 (4262916857).jpg",
+    "topic": "well",
+    "subject": "well",
+    "alt": "The stone fountain of Mary's Well glowing in warm light",
+    "focal": [50, 55]
+  },
+  {
+    "id": "souk-vaulted-alley",
+    "file": "Doors and Vaultings of Souk (Bazaar) on a Sunday - Nazareth - Israel (5699103777).jpg",
+    "topic": "oldcity",
+    "subject": "street",
+    "alt": "A quiet vaulted alley of the old souk, its shop doors shut on a Sunday",
+    "focal": [50, 50]
+  },
+  {
+    "id": "souk-arcade",
+    "file": "Nazareth Suq.JPG",
+    "topic": "oldcity",
+    "subject": "market",
+    "alt": "A stone arcade of the old market with green shop doors",
+    "focal": [50, 50]
+  },
+  {
+    "id": "old-city-green-doors",
+    "file": "PikiWiki Israel 83464 old nazareth.jpg",
+    "topic": "oldcity",
+    "subject": "street",
+    "alt": "A narrow lane of the Old City between stone houses and green doors",
+    "focal": [55, 50]
+  },
+  {
+    "id": "old-city-arched-passage",
+    "file": "PikiWiki Israel 83466 old nazareth.jpg",
+    "topic": "oldcity",
+    "subject": "street",
+    "alt": "A vaulted passage in the Old City with flowers trailing over the doorways",
+    "focal": [50, 45],
+    "hero": true,
+    "og": true
+  },
+  {
+    "id": "old-city-lights",
+    "file": "PikiWiki Israel 83460 old nazareth.jpg",
+    "topic": "oldcity",
+    "subject": "exterior",
+    "alt": "Old stone houses of the Old City hung with strings of lights",
+    "focal": [50, 50]
+  },
+  {
+    "id": "synagogue-church-altar",
+    "file": "SynagogueChurchNazareth.jpg",
+    "topic": "synagogue",
+    "subject": "altar",
+    "alt": "The vaulted stone chapel and altar of the Synagogue Church",
+    "focal": [50, 60]
+  },
+  {
+    "id": "synagogue-church-vault",
+    "file": "127769 nazareth-synagogue church PikiWiki Israel.jpg",
+    "topic": "synagogue",
+    "subject": "interior",
+    "alt": "The long barrel-vaulted hall of the Synagogue Church, built of old stone",
+    "focal": [50, 55]
+  },
+  {
+    "id": "synagogue-church-melkite-nave",
+    "file": "PikiWiki Israel 67285 a melakit greek church in nazareth.jpg",
+    "topic": "synagogue",
+    "subject": "interior",
+    "alt": "The Melkite Greek Catholic church next to the Synagogue Church, with chandeliers and a red carpet",
+    "focal": [50, 50]
+  },
+  {
+    "id": "precipice-olive-viewpoint",
+    "file": "PikiWiki Israel 28735 Mount of Precipice.JPG",
+    "topic": "precipice",
+    "subject": "panorama",
+    "alt": "An olive tree on the viewpoint of Mount Precipice, looking out over the Jezreel Valley",
+    "focal": [50, 45]
+  },
+  {
+    "id": "precipice-cliff",
+    "file": "PikiWiki Israel 30995 Mount Precipice.JPG",
+    "topic": "precipice",
+    "subject": "hills",
+    "alt": "The rocky face of Mount Precipice, the Mount of the Leap above Nazareth",
+    "focal": [55, 45]
+  },
+  {
+    "id": "precipice-valley-pine",
+    "file": "98575 mount precipice PikiWiki Israel.jpg",
+    "topic": "precipice",
+    "subject": "panorama",
+    "alt": "A pine tree on Mount Precipice above the fields of the Jezreel Valley",
+    "focal": [50, 55]
+  },
+  {
+    "id": "city-basilica-skyline",
+    "file": "Nazareth Panorama Dafna Tal IMOT (14532097313).jpg",
+    "topic": "city",
+    "subject": "skyline",
+    "alt": "The Basilica of the Annunciation among the hillside houses of Nazareth under a blue sky",
+    "focal": [74, 45],
+    "hero": true,
+    "og": true
+  },
+  {
+    "id": "city-churches-minaret",
+    "file": "PikiWiki Israel 51454 panorama of the city of nazareth.jpg",
+    "topic": "city",
+    "subject": "skyline",
+    "alt": "Nazareth in warm light: church towers, a minaret and homes climbing the hillside",
+    "focal": [60, 45]
+  },
+  {
+    "id": "city-hills-galilee",
+    "file": "Nazareth from a 394 step height (7755448620).jpg",
+    "topic": "city",
+    "subject": "panorama",
+    "alt": "Nazareth below the hills of Galilee, seen from the heights",
+    "focal": [30, 60],
+    "hero": true,
+    "og": true
+  },
+  {
+    "id": "city-sunset-glow",
+    "file": "כנסיית הבשורה נצרת.jpg",
+    "topic": "city",
+    "subject": "skyline",
+    "alt": "Nazareth glowing at sunset, with the Basilica of the Annunciation lit among the rooftops",
+    "focal": [25, 60],
+    "hero": true,
+    "og": true
+  },
+  {
+    "id": "city-snow",
+    "file": "Snow in Nazareth.jpg",
+    "topic": "city",
+    "subject": "skyline",
+    "alt": "Snow on the rooftops of Nazareth with the dome of the Basilica in the middle",
+    "focal": [60, 60]
+  }
+]
