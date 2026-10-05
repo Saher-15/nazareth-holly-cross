@@ -13,10 +13,11 @@ services:
         value: production
       - key: PORT
         fromService: port
-      # PayPal API mode. Keep 'sandbox' until CLIENT_ID/CLIENT_SECRET are Live credentials,
-      # then set both this and the client's REACT_APP_PAYPAL_CLIENT_ID to the live values together.
+      # PayPal API mode: 'sandbox' or 'production'. Set in the Render dashboard (not here), together
+      # with Live CLIENT_ID/CLIENT_SECRET and the site's REACT_APP_PAYPAL_CLIENT_ID on Netlify.
+      # The server falls back to 'sandbox' when it is unset.
       - key: ENVIRONMENT
-        value: sandbox
+        sync: false
       - key: DATABASEURL
         sync: false
       - key: JWT_SECRET
