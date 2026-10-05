@@ -5,6 +5,8 @@ function describe(err) {
   if (err.name === 'HttpError') return { status: err.status, message: err.message, expected: true };
   if (err.name === 'ValidationError') return { status: 400, message: err.message, expected: true };
   if (err.name === 'CastError') return { status: 400, message: 'Invalid id', expected: true };
+  // A unique index refused the write (e.g. a PayPal payment that already paid for an order).
+  if (err.code === 11000) return { status: 409, message: 'Already exists', expected: true };
   if (err.type === 'entity.parse.failed') return { status: 400, message: 'Malformed JSON body', expected: true };
   if (err.type === 'entity.too.large') return { status: 413, message: 'Request body too large', expected: true };
   return { status: err.status || 500, message: null, expected: false };

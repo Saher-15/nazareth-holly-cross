@@ -1,10 +1,12 @@
 import type { Metadata, Viewport } from 'next';
+import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import SiteFooter from '@/components/layout/SiteFooter';
 import SiteHeader from '@/components/layout/SiteHeader';
 import { CartProvider } from '@/lib/cart';
+import { CspNonceProvider } from '@/lib/cspNonce';
 import { isRtl, locales, routing } from '@/i18n/routing';
 import { SITE_URL } from '@/lib/config';
 import { fontVariables } from '@/lib/fonts';
@@ -41,17 +43,23 @@ export default async function LocaleLayout({ children, params }: LayoutProps<'/[
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
 
+  // Every page is rendered per request: the Content-Security-Policy nonce (src/proxy.ts) is different
+  // for each response, and only a request-time render can put it on the page's scripts and styles.
+  const nonce = (await headers()).get('x-nonce') ?? undefined;
+
   return (
     <html lang={locale} dir={isRtl(locale) ? 'rtl' : 'ltr'} className={fontVariables}>
       <body>
         <NextIntlClientProvider>
-          <CartProvider>
-            <SiteHeader />
-            <main id="main" tabIndex={-1}>
-              {children}
-            </main>
-            <SiteFooter />
-          </CartProvider>
+          <CspNonceProvider nonce={nonce}>
+            <CartProvider>
+              <SiteHeader />
+              <main id="main" tabIndex={-1}>
+                {children}
+              </main>
+              <SiteFooter />
+            </CartProvider>
+          </CspNonceProvider>
         </NextIntlClientProvider>
       </body>
     </html>

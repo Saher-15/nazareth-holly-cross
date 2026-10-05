@@ -1,34 +1,33 @@
 import express from 'express';
-import jwt from 'jsonwebtoken';
 import Admin from '../model/admin.js';
 import Prayer from '../model/prayer.js';
 import Candle from '../model/candle.js';
 import Product from '../model/product.js';
 import { requireAdmin } from '../middleware/auth.js';
 import { loginLimiter } from '../utils/security.js';
-import { config } from '../config/env.js';
+import { comparePasswordTimingSafe, forLog, signAdminToken } from '../services/adminAuth.js';
 import { asyncHandler } from '../middleware/asyncHandler.js';
 
 const router = express.Router();
 
-// POST /admin/login
+// POST /admin/login: sign in with an Admin account from the database. The other way in is
+// POST /auth/login (the shared ADMIN_PASSWORD); both give the same kind of token (services/adminAuth.js).
 router.post('/login', loginLimiter, asyncHandler(async (req, res) => {
-  const { username, password } = req.body;
-  const ip = req.ip || req.headers['x-forwarded-for'] || 'unknown';
+  const { username, password } = req.body ?? {};
+  const ip = req.ip || 'unknown';
 
-  const admin = await Admin.findOne({ username });
-  if (!admin || !(await admin.comparePassword(password))) {
-    console.warn(
-      `[${new Date().toISOString()}] Failed admin/login attempt for username="${username}" from IP: ${ip}`
-    );
+  // Both must be plain text: { "username": { "$ne": null } } must never reach the query.
+  const wellFormed = typeof username === 'string' && username.length > 0 && username.length <= 100
+    && typeof password === 'string' && password.length > 0 && password.length <= 200;
+  const admin = wellFormed ? await Admin.findOne({ username }) : null;
+  const ok = await comparePasswordTimingSafe(admin, wellFormed ? password : '') && wellFormed;
+
+  if (!ok) {
+    console.warn(`[${new Date().toISOString()}] Failed admin/login attempt for username=${forLog(username)} from IP: ${ip}`);
     return res.status(401).json({ error: 'Invalid credentials' });
   }
 
-  const token = jwt.sign(
-    { id: admin._id, username: admin.username },
-    config.jwtSecret,
-    { expiresIn: '8h', algorithm: 'HS256' }
-  );
+  const token = signAdminToken({ id: admin._id, username: admin.username, auth: 'account' });
   res.json({ token, username: admin.username });
 }));
 

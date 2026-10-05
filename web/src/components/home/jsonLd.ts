@@ -42,7 +42,5 @@ export function homeJsonLd({ locale, siteName, title, description }: HomeJsonLdI
   };
 }
 
-/** JSON for a <script type="application/ld+json">, with "<" escaped so no text can close the tag. */
-export function serializeJsonLd(data: unknown): string {
-  return JSON.stringify(data).replace(/</g, '\\u003c');
-}
+/** JSON for a <script type="application/ld+json">; no text in it can close the tag (see lib/jsonLd.ts). */
+export { serializeJsonLd } from '@/lib/jsonLd';

@@ -43,8 +43,9 @@ const FIELDS: [Key, string][] = [
 const id = (key: Key) => FIELDS.find(([k]) => k === key)![1];
 
 // Product photos come from Firebase Storage (allowed in next.config.ts) or the site itself.
+// ("//host/..." is a protocol-relative URL to another site, not a path of ours.)
 const canOptimize = (src: string) =>
-  src.startsWith('/') || src.startsWith('https://firebasestorage.googleapis.com/');
+  (src.startsWith('/') && !src.startsWith('//')) || src.startsWith('https://firebasestorage.googleapis.com/');
 
 // The shop checkout: 1) contact + delivery details, 2) order summary + PayPal, 3) thank you.
 export default function CheckoutFlow() {
@@ -71,7 +72,12 @@ export default function CheckoutFlow() {
     async (capture: { id: string }) => {
       setReference(capture.id);
       setStep('done');
-      await save('/order/newOrder', buildOrderBody(values, lines, summary.total, countryName(values.country, 'en')));
+      // paypalOrderId is the proof of payment: the API asks PayPal whether this order was captured in full
+      // before it saves the order, and accepts each payment for one order only.
+      await save('/order/newOrder', {
+        ...buildOrderBody(values, lines, summary.total, countryName(values.country, 'en')),
+        paypalOrderId: capture.id,
+      });
       dispatch({ type: 'clear' });
     },
     [values, lines, summary.total, save, dispatch],

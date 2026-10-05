@@ -45,8 +45,12 @@ Then revert the commit on `main` with a pull request.
 - Every API response is **validated** (`web/src/lib/api.ts`, zod) before the UI uses it.
 - Every public form is **rate-limited**; CORS only allows our own sites.
 - **No new dependency** without a reason in the pull request; Dependabot keeps them current.
-- Security headers are set in `web/next.config.ts`; a full Content-Security-Policy follows once PayPal and
-  analytics are ported.
+- Security headers are set in `web/next.config.ts`; the Content-Security-Policy (per-request nonce) is built by
+  `web/src/proxy.ts` and `web/src/lib/csp.ts`. A new third-party service needs its hosts added there, never a
+  looser policy. Threat model, controls and open items: [SECURITY.md](SECURITY.md).
+- Structured data (JSON-LD) is always written with `web/src/lib/jsonLd.ts`; raw HTML is never rendered from API data.
+- API input is untrusted: check types, use the helpers in `server/utils/validate.js`, copy named fields only, and
+  add a rate limit to any public route that sends mail, calls PayPal or changes data.
 - Accessibility is part of "done": keyboard reachable, visible focus, alt text, labels, contrast (checked by axe
   in CI), and `prefers-reduced-motion` respected.
 

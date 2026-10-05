@@ -4,14 +4,46 @@ import createNextIntlPlugin from 'next-intl/plugin';
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
-// Baseline security headers for every response. A full Content-Security-Policy
-// (PayPal, Firebase, analytics) is added once those integrations are ported.
+// Security headers for every response. The Content-Security-Policy is not here: it carries a
+// per-request nonce, so src/proxy.ts sets it (see src/lib/csp.ts and docs/SECURITY.md).
+// Powerful browser features are off unless the site needs them. PayPal's iframes need `payment`
+// (and passkeys); fullscreen/autoplay/picture-in-picture stay for the site's own videos.
+const permissionsPolicy = [
+  'accelerometer=()',
+  'autoplay=(self)',
+  'bluetooth=()',
+  'browsing-topics=()',
+  'camera=()',
+  'display-capture=()',
+  'fullscreen=(self)',
+  'geolocation=()',
+  'gyroscope=()',
+  'hid=()',
+  'idle-detection=()',
+  'magnetometer=()',
+  'microphone=()',
+  'midi=()',
+  'payment=(self "https://www.paypal.com" "https://www.sandbox.paypal.com")',
+  'picture-in-picture=(self)',
+  'publickey-credentials-get=(self "https://www.paypal.com")',
+  'screen-wake-lock=()',
+  'serial=()',
+  'usb=()',
+  'xr-spatial-tracking=()',
+].join(', ');
+
 const securityHeaders = [
   { key: 'X-Content-Type-Options', value: 'nosniff' },
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
   { key: 'X-Frame-Options', value: 'DENY' },
-  { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+  { key: 'Permissions-Policy', value: permissionsPolicy },
   { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
+  // Other sites cannot hold a reference to our windows, except the PayPal popup we open ourselves.
+  { key: 'Cross-Origin-Opener-Policy', value: 'same-origin-allow-popups' },
+  // Our files are not for embedding by other origins. (No COEP: it would block PayPal and Firebase media.)
+  { key: 'Cross-Origin-Resource-Policy', value: 'same-origin' },
+  { key: 'X-Permitted-Cross-Domain-Policies', value: 'none' },
+  { key: 'X-DNS-Prefetch-Control', value: 'off' },
 ];
 
 const nextConfig: NextConfig = {

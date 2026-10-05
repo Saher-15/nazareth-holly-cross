@@ -4,6 +4,7 @@ import { sendMail } from '../services/emailService.js';
 import { requireAdmin } from '../middleware/auth.js';
 import { asyncHandler } from "../middleware/asyncHandler.js"
 import { strictLimiter } from '../utils/security.js';
+import { isEmail } from '../utils/validate.js';
 
 
 const routerCandle = express.Router();
@@ -44,7 +45,8 @@ routerCandle.post('/lightACandle', strictLimiter, asyncHandler(async(req, res)=>
         return res.status(422).json({error:"Bad input: email is required"})
     }
     // Validate email format
-    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())){
+    // Strict on purpose: this address is handed to the mailer, so "a@b.co,victim@x.com" must not pass.
+    if(!isEmail(email)){
         return res.status(422).json({error:"Bad input: invalid email format"})
     }
 
@@ -53,7 +55,7 @@ routerCandle.post('/lightACandle', strictLimiter, asyncHandler(async(req, res)=>
     }
 
     const emailMsg = {
-        to: [email],
+        to: [email.trim()],
         subject: 'We have received your request',
         text: `Dear ${firstName} ${lastName} ,\n\nA video with lighting a candle will be sent to your email \n\nBest regards,\nNazareth Holy Cross`
     };

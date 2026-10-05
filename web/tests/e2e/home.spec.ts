@@ -81,7 +81,8 @@ test('has no horizontal scroll from 360px to 1440px, in English and Hebrew', asy
       await page.goto(`/${locale}`, { waitUntil: 'domcontentloaded' });
       await page.evaluate(() => document.fonts.ready);
       // The shared site header is checked by its own tests; this measures the home page.
-      await page.addStyleTag({ content: 'body > header { display: none !important; }' });
+      // (Set through the CSSOM: the page's Content-Security-Policy refuses an injected <style> element.)
+      await page.evaluate(() => document.querySelector<HTMLElement>('body > header')?.style.setProperty('display', 'none', 'important'));
       const result = await page.evaluate(() => {
         const sideways = '#home-sites-track, #home-voices [role="group"], #home-hero > :first-child';
         const outside = [...document.querySelectorAll('.ui-page *')]

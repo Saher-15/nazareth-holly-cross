@@ -217,7 +217,8 @@ test.describe('community pages', () => {
       await page.setViewportSize({ width: 360, height: 740 });
       await page.goto(path);
       await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-      await page.addStyleTag({ content: 'body > header { display: none !important; }' });
+      // (Set through the CSSOM: the page's Content-Security-Policy refuses an injected <style> element.)
+      await page.evaluate(() => document.querySelector<HTMLElement>('body > header')?.style.setProperty('display', 'none', 'important'));
       const overflow = await page.evaluate(
         () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
       );
