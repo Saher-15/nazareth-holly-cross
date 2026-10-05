@@ -57,21 +57,57 @@ export function breadcrumbJsonLd(locale: string, items: readonly Crumb[]): JsonL
   };
 }
 
-/** The page itself as a WebPage: its language (inLanguage) and the site it belongs to. */
+/**
+ * The page itself as a WebPage (or a more precise page type such as ContactPage): its language (inLanguage)
+ * and the site it belongs to. `extra` adds fields such as `mainEntity`.
+ */
 export function webPageJsonLd(
   locale: string,
-  { path, name, description }: { path: string; name: string; description: string },
+  {
+    type = 'WebPage',
+    path,
+    name,
+    description,
+    extra = {},
+  }: { type?: string; path: string; name: string; description: string; extra?: JsonLd },
 ): JsonLd {
   const url = absoluteUrl(localePath(locale, path));
   return {
     '@context': 'https://schema.org',
-    '@type': 'WebPage',
+    '@type': type,
     '@id': `${url}#webpage`,
     url,
     name,
     description,
     inLanguage: locale,
     isPartOf: { '@id': `${SITE_URL}/#website` },
+    ...extra,
+  };
+}
+
+export type FaqEntry = { question: string; answer: string };
+
+/** FAQPage: each question with its answer as plain text. */
+export function faqJsonLd(entries: readonly FaqEntry[]): JsonLd {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: entries.map((e) => ({
+      '@type': 'Question',
+      name: e.question,
+      acceptedAnswer: { '@type': 'Answer', text: e.answer },
+    })),
+  };
+}
+
+/** Contact details of the organisation, for the contact page. */
+export function contactPointJsonLd(name: string): JsonLd {
+  return {
+    '@type': 'Organization',
+    name,
+    url: SITE_URL,
+    email: CONTACT_EMAIL,
+    contactPoint: { '@type': 'ContactPoint', contactType: 'customer support', email: CONTACT_EMAIL },
   };
 }
 

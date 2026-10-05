@@ -198,9 +198,9 @@ export const api = {
   productReviews: (productId: string) =>
     getJson(`/product/${id(productId)}/reviews`, productReviewsSchema, { revalidate: 60 }),
   reviews: () => getJson('/review/getReviews', z.array(reviewSchema), { revalidate: 120 }),
-  prayers: (page = 1, size = 20) =>
+  prayers: (page = 1, size = 20, category?: string) =>
     getJson(
-      `/prayer/getPrayers?page=${page}&size=${size}`,
+      `/prayer/getPrayers?page=${page}&size=${size}${category ? `&category=${encodeURIComponent(category)}` : ''}`,
       z.object({ prayers: z.array(prayerSchema), total: z.number() }),
       { revalidate: 60 },
     ),

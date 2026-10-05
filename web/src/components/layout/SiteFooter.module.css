@@ -23,7 +23,7 @@
 }
 @media (min-width: 1000px) {
   .grid {
-    grid-template-columns: 1.3fr 1.2fr 1.2fr 1.1fr;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr 1.25fr;
   }
 }
 
@@ -68,8 +68,7 @@
 }
 .links {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0 var(--space-3);
+  grid-template-columns: minmax(0, 1fr);
 }
 .contact {
   display: grid;
@@ -109,13 +108,16 @@
   text-underline-offset: 0.25em;
 }
 
-.languages {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0 var(--space-3);
+/* All the languages in one row under the columns. */
+.languagesNav {
+  grid-column: 1 / -1;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--glass-line);
 }
-.language {
-  width: 100%;
+.languages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--space-5);
 }
 .language[aria-current='true'] {
   color: var(--gold);
@@ -163,4 +165,18 @@
   .socialLink:hover {
     transform: none;
   }
+}
+
+/* A button that looks like the links around it (the footer's Search entry). */
+.linkButton {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--cream);
+  font: inherit;
+  cursor: pointer;
+}
+.linkButton:hover {
+  color: var(--gold);
+  text-decoration: underline;
 }

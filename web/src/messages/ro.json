@@ -819,5 +819,648 @@
       "home": "Înapoi la pagina principală",
       "reference": "Referință"
     }
+  },
+  "pilgrim": {
+    "nav": {
+      "plan": "Planificator de pelerinaj",
+      "visit": "Ghidul vizitatorului",
+      "gospel": "Nazaretul în Evanghelii",
+      "gallery": "Galerie foto",
+      "prayers": "Zidul rugăciunilor",
+      "contact": "Contactați-ne",
+      "faq": "Întrebări frecvente",
+      "shipping": "Livrare și returnări",
+      "privacy": "Politica de confidențialitate",
+      "terms": "Termeni de utilizare",
+      "groupPlan": "Planificați și descoperiți",
+      "groupHelp": "Ajutor și informații legale"
+    },
+    "common": {
+      "moreEyebrow": "Continuați călătoria",
+      "moreTitle": "Încotro mai departe?",
+      "open": "Deschideți"
+    },
+    "plan": {
+      "meta": {
+        "title": "Planificați pelerinajul dumneavoastră la Nazaret",
+        "description": "Alcătuiți într-un minut un itinerar zi de zi al locurilor sfinte din Nazaret. Alegeți între 1 și 4 zile, interesele și ritmul dumneavoastră, apoi tipăriți-l, distribuiți-l sau adăugați-l în calendar."
+      },
+      "hero": {
+        "eyebrow": "Planificator de pelerinaj",
+        "title": "Planificați pelerinajul dumneavoastră",
+        "lead": "Spuneți-ne câte zile aveți și ce vă mișcă sufletul. Vă pregătim un traseu zi de zi prin locurile sfinte din Nazaret, cu timpii de mers pe jos dintre opriri."
+      },
+      "form": {
+        "title": "Pelerinajul dumneavoastră",
+        "days": "Câte zile aveți?",
+        "dayCount": "{count, plural, one {# zi} few {# zile} other {# de zile}}",
+        "interests": "Ce căutați?",
+        "interestsHint": "Alegeți oricâte sau niciuna, pentru un traseu echilibrat.",
+        "interest": {
+          "gospel": "Locuri din Evanghelie",
+          "churches": "Biserici",
+          "markets": "Piețe și meșteșuguri",
+          "food": "Mâncare și cafea"
+        },
+        "pace": "Ritm",
+        "paces": {
+          "relaxed": "Relaxat",
+          "balanced": "Echilibrat",
+          "full": "Intens"
+        },
+        "paceHint": "{count, plural, one {# oprire pe zi} few {# opriri pe zi} other {# de opriri pe zi}}",
+        "start": "Prima zi (pentru calendarul dumneavoastră)",
+        "startHint": "Opțional. Fără o dată, fișierul de calendar începe de mâine."
+      },
+      "result": {
+        "title": "Itinerarul dumneavoastră",
+        "summary": "{days, plural, one {# zi} few {# zile} other {# de zile}} · {stops, plural, one {# oprire} few {# opriri} other {# de opriri}} · aproximativ {minutes} min de mers pe jos",
+        "day": "Ziua {n}",
+        "walk": "{minutes} min pe jos",
+        "until": "până la {time}"
+      },
+      "lunch": "Pauză de prânz",
+      "lunchHint": "Încercați preparate locale pe străduțele Orașului Vechi.",
+      "tips": {
+        "latin": "Vizitarea poate fi întreruptă în timpul Sfintei Liturghii și al slujbelor, iar programul se schimbă de sărbători. Verificați orele actuale pentru data dumneavoastră.",
+        "greek": "Programul urmează slujbele bisericii și se poate schimba fără înștiințare. Întrebați la intrare dacă biserica este deschisă.",
+        "maryswell": "Se află aproape de biserica greco-ortodoxă, așa că cele două vizite se potrivesc bine împreună. Programul variază; confirmați ce este deschis în ziua respectivă.",
+        "oldcity": "Magazinele își au propriul program, iar unele se închid vinerea sau duminica. Dimineața este cel mai bun moment pentru a vedea piața în plină activitate.",
+        "city": "Cele mai aglomerate străzi sunt dimineața. Lăsați timp să vă opriți la o cafea și să priviți în jur."
+      },
+      "caveat": {
+        "title": "Înainte de plecare",
+        "hours": "Programul de vizitare al bisericilor se schimbă în funcție de slujbe, sărbători și zile libere, uneori fără înștiințare. Confirmați întotdeauna înainte de a călători.",
+        "dress": "În biserici se cere o ținută decentă: acoperiți umerii și genunchii.",
+        "walking": "Timpii de mers pe jos sunt estimări între locuri; străzile Nazaretului sunt pe alocuri abrupte, așa că socotiți ceva timp în plus."
+      },
+      "actions": {
+        "calendar": "Adăugați în calendar",
+        "share": "Distribuiți linkul",
+        "print": "Tipăriți"
+      },
+      "shareTitle": "Pelerinajul meu la Nazaret",
+      "copied": "Linkul a fost copiat în clipboard.",
+      "calendarName": "Pelerinaj la Nazaret",
+      "calendarLocation": "Nazaret, Israel",
+      "calendarDone": "Fișierul de calendar a fost descărcat. Deschideți-l pentru a adăuga evenimentele.",
+      "walking": {
+        "title": "Timpi de mers pe jos între locurile sfinte",
+        "lead": "Minute aproximative pe jos, aceleași cifre pe care le folosește planificatorul.",
+        "caption": "Timpul de mers pe jos, în minute, între fiecare pereche de locuri",
+        "corner": "De la (rânduri) la (coloane)",
+        "minutes": "{minutes} min"
+      }
+    },
+    "visit": {
+      "meta": {
+        "title": "Ghidul vizitatorului în Nazaret",
+        "description": "Tot ce vă trebuie ca să vă pregătiți vizita la Nazaret: cum ajungeți din Haifa, Tel Aviv și de la aeroportul Ben Gurion, ținuta vestimentară, cele mai bune anotimpuri, siguranța, banii și vremea pe luni."
+      },
+      "hero": {
+        "eyebrow": "Ghidul vizitatorului",
+        "title": "Vizitați Nazaretul",
+        "lead": "Răspunsuri practice pentru pelerini și călători: cum ajungeți, cum vă îmbrăcați, când veniți și la ce să vă așteptați."
+      },
+      "getting": {
+        "eyebrow": "Cum ajungeți",
+        "title": "Cum ajungeți la Nazaret",
+        "lead": "Nazaretul se află în dealurile Galileii de Jos, în nordul Israelului, la o distanță ușor de parcurs de coastă.",
+        "distance": "aproximativ {km} km pe șosea",
+        "routes": {
+          "haifa": {
+            "title": "Din Haifa",
+            "text": "Traseul cel mai simplu: aproximativ 40 de minute cu mașina sau cu taxiul, ori cam o oră cu autobuzul."
+          },
+          "telaviv": {
+            "title": "Din Tel Aviv",
+            "text": "Aproximativ două ore cu mașina. Autobuzele și trenurile circulă spre nord; cu transportul public, calea obișnuită este să mergeți până la Haifa sau Afula și să schimbați cu un autobuz spre Nazaret."
+          },
+          "airport": {
+            "title": "De la aeroportul Ben Gurion",
+            "text": "Aproximativ două ore cu mașina sau cu taxiul. Cu transportul public, luați trenul până la Haifa sau Tel Aviv și continuați cu autobuzul; cel mai simplu este un transfer rezervat în prealabil sau o mașină închiriată."
+          }
+        },
+        "local": {
+          "title": "Odată ajunși în Nazaret",
+          "text": "Locurile sfinte se află toate la cel mult 15 minute de mers pe jos unele de altele, așa că puteți parca o singură dată și explora pe jos. Parcările din centru sunt limitate, așa că sosiți devreme sau folosiți o parcare de la marginea orașului vechi."
+        }
+      },
+      "essentials": {
+        "eyebrow": "Bine de știut",
+        "title": "Înainte de a veni",
+        "items": {
+          "dress": {
+            "title": "Ținuta vestimentară",
+            "text": "În biserici, vizitatorii sunt rugați să-și acopere umerii și genunchii, femei și bărbați deopotrivă. O eșarfă sau o șal ușoară în geantă rezolvă problema. Purtați încălțăminte comodă: străduțele vechi sunt abrupte și denivelate."
+          },
+          "etiquette": {
+            "title": "Bunele maniere",
+            "text": "Vorbiți încet în biserici și puneți telefonul pe silențios. Scoateți pălăria înăuntru. Fotografierea este de obicei permisă, dar nu în timpul slujbelor; cereți încuviințarea înainte de a fotografia oameni."
+          },
+          "seasons": {
+            "title": "Cele mai bune anotimpuri",
+            "text": "Primăvara (martie–mai) și toamna (de la sfârșitul lui septembrie până în noiembrie) sunt blânde și cele mai plăcute pentru plimbări. Vara este fierbinte și uscată; iarna este răcoroasă și ploioasă. Paștele, Crăciunul și Sărbătoarea Bunei Vestiri, la 25 martie, sunt cele mai aglomerate și mai emoționante momente."
+          },
+          "safety": {
+            "title": "Siguranța",
+            "text": "Nazaretul este în general primitor și liniștit, dar situația din regiune se poate schimba. Consultați recomandările de călătorie ale guvernului dumneavoastră înainte de plecare, urmăriți știrile locale și țineți lucrurile de valoare aproape în mulțime."
+          },
+          "money": {
+            "title": "Banii",
+            "text": "Moneda este șechelul nou israelian (ILS, ₪). Cardurile sunt larg acceptate și în centru există bancomate; țineți ceva numerar pentru tarabele din piață și cafenelele mici. Tocmeala politicoasă face parte din cumpărăturile din piață."
+          },
+          "language": {
+            "title": "Limba",
+            "text": "Oamenii vorbesc araba și ebraica, iar în locurile vizitate de pelerini veți găsi engleza și adesea și alte limbi. Câteva cuvinte în arabă sunt întotdeauna primite cu căldură."
+          }
+        }
+      },
+      "climate": {
+        "eyebrow": "Vremea",
+        "title": "Vremea pe luni",
+        "lead": "Condiții tipice în Nazaret: veri calde și uscate, ierni răcoroase și ploioase.",
+        "caption": "Temperaturile medii zilnice și precipitațiile pe luni",
+        "month": "Luna",
+        "high": "Maximă",
+        "low": "Minimă",
+        "rain": "Ploaie",
+        "season": "Vizită",
+        "seasons": {
+          "best": "Ideal",
+          "good": "Bun",
+          "hot": "Cald",
+          "cool": "Răcoros"
+        },
+        "mm": "{mm} mm",
+        "note": "Cifrele sunt medii rotunjite pe termen lung, doar cu titlu orientativ. Vremea variază de la un an la altul; verificați prognoza înainte de a călători."
+      },
+      "faq": {
+        "title": "Întrebări ale vizitatorilor",
+        "free": {
+          "q": "Este gratuită intrarea în biserici?",
+          "a": "Intrarea în bisericile principale este în general gratuită, iar donațiile sunt binevenite. Fiecare biserică își stabilește programul și regulile, așa că verificați înainte de vizită."
+        },
+        "dress": {
+          "q": "Cum ar trebui să mă îmbrac?",
+          "a": "Haine decente, care acoperă umerii și genunchii, și încălțăminte comodă pentru străduțele abrupte. Luați un strat ușor iarna și protecție solară vara."
+        },
+        "days": {
+          "q": "Câte zile am nevoie?",
+          "a": "Cei mai mulți pelerini văd principalele locuri sfinte într-o singură zi întreagă. Două sau trei zile vă lasă timp pentru rugăciune, pentru piața din Orașul Vechi și pentru excursii prin Galileea."
+        },
+        "safe": {
+          "q": "Este sigur să vizitez Nazaretul?",
+          "a": "Nazaretul este în general liniștit și primitor, dar situația din regiune se poate schimba. Consultați recomandările de călătorie ale guvernului dumneavoastră și știrile locale înainte și în timpul călătoriei."
+        },
+        "season": {
+          "q": "Când este cel mai bun moment pentru o vizită?",
+          "a": "Primăvara și toamna sunt cele mai confortabile. Vara este fierbinte, iar iarna este ploioasă. Paștele, Crăciunul și 25 martie (Buna Vestire) sunt cele mai aglomerate și mai emoționante momente."
+        }
+      }
+    },
+    "gospel": {
+      "meta": {
+        "title": "Nazaretul în Evanghelii",
+        "description": "Citiți pasajele evanghelice despre Nazaret, de la Buna Vestire până la Iisus în sinagogă, fiecare cu o scurtă reflecție și cu locul sfânt care îi păstrează vie amintirea."
+      },
+      "hero": {
+        "eyebrow": "Scriptura și locul",
+        "title": "Nazaretul în Evanghelii",
+        "lead": "Opt pasaje care pomenesc Nazaretul, în ordinea povestirii, fiecare însoțit de locul pe care îl puteți vizita și astăzi."
+      },
+      "intro": {
+        "title": "De la Buna Vestire la „Vino și vezi”",
+        "text": "Nazaretul apare în Evanghelii ca orașul Bunei Vestiri și al anilor ascunși ai lui Iisus. Citiți un pasaj, opriți-vă asupra reflecției, apoi urmați linkul către locul sfânt."
+      },
+      "visitSite": "Vizitați locul sfânt",
+      "note": "Citatele sunt oferite pentru reflecție și pot diferi ușor de traducerea Bibliei pe care o folosiți. Pasaje: Luca 1, 2 și 4; Matei 2; Ioan 1.",
+      "p": {
+        "luke126": {
+          "quote": "În luna a șasea, îngerul Gavriil a fost trimis de Dumnezeu într-o cetate din Galileea, numită Nazaret, la o fecioară logodită cu un bărbat numit Iosif, din casa lui David. Numele fecioarei era Maria.",
+          "ref": "Luca 1,26-27",
+          "text": "Întreaga poveste începe într-un mic oraș de deal. Dacă astăzi străbateți Nazaretul, pășiți pe locul unde începe Evanghelia."
+        },
+        "luke130": {
+          "text": "Sub Bazilica Buna Vestire se află grota pe care creștinii o cinstesc de veacuri ca locul casei Mariei, unde se amintește salutul îngerului."
+        },
+        "luke138": {
+          "text": "Tradiția ortodoxă amintește că îngerul i s-a adresat mai întâi Mariei când ea mergea să scoată apă, la izvorul de lângă biserica greco-ortodoxă Buna Vestire. Răspunsul ei este inima rugăciunii fiecărui pelerin."
+        },
+        "matthew223": {
+          "text": "După întoarcerea din Egipt, Iosif și-a așezat familia în Nazaret. De atunci Iisus a fost numit „Iisus din Nazaret”, iar numele orașului a călătorit în toată lumea."
+        },
+        "luke240": {
+          "text": "Despre anii ascunși ni se spune foarte puțin: un copil care crește într-un oraș obișnuit. Străduțele și piața Orașului Vechi vă ajută să vă închipuiți acea viață de zi cu zi."
+        },
+        "luke251": {
+          "quote": "Apoi S-a coborât împreună cu ei, a venit la Nazaret și le era supus. Mama Sa păstra toate aceste lucruri în inima ei.",
+          "ref": "Luca 2,51",
+          "text": "Veacuri la rând, izvorul Nazaretului a fost locul unde se aduna orașul în fiecare zi. Stând la Fântâna Mariei, vă puteți închipui munca obișnuită și credința tăcută pe care Maria le păstra în inima ei."
+        },
+        "luke416": {
+          "quote": "A venit în Nazaret, unde fusese crescut. Și, după obiceiul Său, a intrat în ziua sabatului în sinagogă și s-a ridicat să citească.",
+          "ref": "Luca 4,16",
+          "text": "Iisus s-a întors să predice în orașul în care crescuse. Locuri din Orașul Vechi, între care o biserică așezată după tradiție pe locul sinagogii, amintesc acea zi."
+        },
+        "john146": {
+          "text": "Răspunsul lui Filip către Natanael este invitația oricărui pelerinaj: Vino și vezi. Nazaretul se înțelege și acum cel mai bine străbătându-i străzile."
+        }
+      }
+    },
+    "prayers": {
+      "meta": {
+        "title": "Zidul rugăciunilor",
+        "description": "Citiți rugăciunile pelerinilor din toată lumea, rostiți Amin pentru cele care vă ating inima și împărtășiți o rugăciune a dumneavoastră."
+      },
+      "hero": {
+        "eyebrow": "Ne rugăm împreună",
+        "title": "Zidul rugăciunilor",
+        "lead": "Rugăciuni ale pelerinilor din toată lumea. Citiți-le, rostiți Amin și adăugați propria dumneavoastră intenție.",
+        "cta": "Împărtășiți o rugăciune"
+      },
+      "categories": {
+        "all": "Toate",
+        "peace": "Pace",
+        "health": "Sănătate",
+        "gratitude": "Recunoștință",
+        "family": "Familie",
+        "personal": "Intenții personale",
+        "worldPeace": "Pacea în lume"
+      },
+      "wall": {
+        "title": "Rugăciuni",
+        "filter": "Filtrați rugăciunile după categorie",
+        "count": "{count, plural, one {# rugăciune} few {# rugăciuni} other {# de rugăciuni}}",
+        "anonymous": "Un pelerin",
+        "emptyTitle": "Încă nicio rugăciune aici",
+        "emptyText": "Fiți primul care împărtășește o rugăciune în această categorie.",
+        "errorTitle": "Zidul rugăciunilor se odihnește",
+        "errorText": "Nu am putut încărca rugăciunile chiar acum. Vă rugăm să încercați din nou peste puțin timp.",
+        "retry": "Încercați din nou",
+        "pages": "Paginile cu rugăciuni",
+        "prev": "Înapoi",
+        "next": "Înainte",
+        "pageOf": "Pagina {page} din {pages}"
+      },
+      "form": {
+        "title": "Împărtășiți o rugăciune",
+        "intro": "Scrieți o intenție pentru pace, vindecare, mulțumire sau pentru familia dumneavoastră. Ea va apărea pe zid.",
+        "name": "Numele dumneavoastră",
+        "country": "De unde sunteți?",
+        "category": "Categorie",
+        "prayer": "Rugăciunea dumneavoastră",
+        "counter": "{count} / {max}",
+        "public": "Rugăciunile sunt publice. Vă rugăm să nu includeți numere de telefon, adrese sau linkuri web.",
+        "submit": "Împărtășesc rugăciunea mea",
+        "sending": "Se trimite…",
+        "sent": "Vă mulțumim. Rugăciunea dumneavoastră a fost împărtășită.",
+        "sentText": "Va apărea pe zid. Puteți scrie și alta.",
+        "another": "Scrieți o altă rugăciune"
+      },
+      "errors": {
+        "required": "Vă rugăm să completați acest câmp.",
+        "tooShort": "Vă rugăm să scrieți cel puțin {min} caractere.",
+        "tooLong": "Vă rugăm să nu depășiți {max} de caractere.",
+        "noLinks": "Vă rugăm să eliminați linkurile web, adresele de e-mail și codul.",
+        "rateLimited": "De la această conexiune au fost trimise prea multe rugăciuni. Vă rugăm să așteptați câteva minute și să încercați din nou.",
+        "invalid": "Nu am putut accepta această rugăciune. Vă rugăm să verificați ce ați scris.",
+        "network": "Nu am putut contacta serverul. Verificați conexiunea și încercați din nou.",
+        "server": "Ceva nu a mers bine de partea noastră. Vă rugăm să încercați din nou mai târziu."
+      },
+      "amen": "Amin",
+      "amenDone": "Amin rostit",
+      "amenLabel": "Rostiți Amin pentru rugăciunea lui {name}",
+      "amenFirst": "Fiți primul care rostește Amin",
+      "amenCount": "{count, plural, one {# persoană a rostit Amin} few {# persoane au rostit Amin} other {# de persoane au rostit Amin}}",
+      "amenFailed": "Nu am putut salva Amin-ul dumneavoastră. Vă rugăm să încercați din nou."
+    },
+    "contact": {
+      "meta": {
+        "title": "Contactați Nazareth Holy Cross",
+        "description": "Scrieți-le celor de la Nazareth Holy Cross dacă aveți o întrebare despre lumânări, comenzi sau pelerinajul dumneavoastră. Citim fiecare mesaj."
+      },
+      "hero": {
+        "eyebrow": "Luați legătura",
+        "title": "Contactați-ne",
+        "lead": "Aveți o întrebare despre comandă, despre o lumânare sau despre pelerinajul dumneavoastră? Scrieți-ne și vă vom răspunde prin e-mail."
+      },
+      "form": {
+        "title": "Trimiteți-ne un mesaj",
+        "intro": "Toate câmpurile sunt necesare, pentru ca să vă putem răspunde.",
+        "fullName": "Nume complet",
+        "email": "Adresă de e-mail",
+        "phone": "Număr de telefon",
+        "phoneHint": "Includeți prefixul țării, de exemplu +1 555 123 4567.",
+        "msg": "Mesajul dumneavoastră",
+        "counter": "{count} / {max}",
+        "submit": "Trimiteți mesajul",
+        "sending": "Se trimite…",
+        "sent": "Mesajul a fost trimis. Vă mulțumim.",
+        "sentText": "Vă vom răspunde la adresa dumneavoastră de e-mail cât mai curând posibil.",
+        "another": "Trimiteți un alt mesaj"
+      },
+      "errors": {
+        "required": "Vă rugăm să completați acest câmp.",
+        "tooShort": "Vă rugăm să scrieți cel puțin {min} caractere.",
+        "tooLong": "Vă rugăm să nu depășiți {max} de caractere.",
+        "invalidEmail": "Vă rugăm să introduceți o adresă de e-mail validă.",
+        "invalidPhone": "Vă rugăm să introduceți un număr de telefon valid.",
+        "rateLimited": "De la această conexiune au fost trimise prea multe mesaje. Vă rugăm să așteptați câteva minute și să încercați din nou.",
+        "invalid": "Nu am putut accepta acest mesaj. Vă rugăm să verificați câmpurile.",
+        "network": "Nu am putut contacta serverul. Verificați conexiunea și încercați din nou.",
+        "server": "Ceva nu a mers bine de partea noastră. Vă rugăm să încercați din nou mai târziu."
+      },
+      "direct": {
+        "title": "Preferați să ne scrieți direct?",
+        "text": "Ne puteți scrie prin e-mail sau ne puteți găsi pe paginile noastre de socializare.",
+        "email": "Trimiteți un e-mail",
+        "whatsapp": "Scrieți-ne pe WhatsApp",
+        "reply": "Citim fiecare mesaj și răspundem prin e-mail."
+      }
+    },
+    "gallery": {
+      "meta": {
+        "title": "Galerie foto din Nazaret",
+        "description": "Răsfoiți fotografii cu Bazilica Buna Vestire, biserica greco-ortodoxă, Fântâna Mariei, Orașul Vechi și Nazaret și deschideți orice fotografie pe tot ecranul."
+      },
+      "hero": {
+        "eyebrow": "Galerie",
+        "title": "Nazaretul în fotografii",
+        "lead": "Biserici, străduțe și priveliști de la locurile sfinte. Alegeți un loc sau răsfoiți-le pe toate."
+      },
+      "filterLabel": "Filtrați fotografiile după locul sfânt",
+      "all": "Toate locurile",
+      "viewer": "Galerie foto din Nazaret"
+    },
+    "faq": {
+      "meta": {
+        "title": "Întrebări frecvente",
+        "description": "Răspunsuri despre vizita la Nazaret, aprinderea unei lumânări, zidul rugăciunilor, comenzi, livrare, plăți și datele dumneavoastră."
+      },
+      "eyebrow": "Ajutor",
+      "title": "Întrebări frecvente",
+      "lead": "Răspunsuri rapide despre vizită, despre rugăciunea împreună cu noi și despre cumpărături. Nu o găsiți pe a dumneavoastră? Scrieți-ne.",
+      "groupsLabel": "Grupuri de întrebări",
+      "groups": {
+        "visiting": "Vizita la Nazaret",
+        "prayer": "Lumânări și rugăciune",
+        "shop": "Magazin și plăți",
+        "site": "Despre site"
+      },
+      "items": {
+        "candle": {
+          "q": "Cum funcționează aprinderea unei lumânări?",
+          "a": "Alegeți o biserică din Nazaret, scrieți-vă rugăciunea și plătiți {price}. Aprindem o lumânare pentru dumneavoastră, înregistrăm un scurt videoclip cu numele dumneavoastră și vi-l trimitem la adresa de e-mail."
+        },
+        "wall": {
+          "q": "Este public zidul rugăciunilor?",
+          "a": "Da. O rugăciune apare pe zid împreună cu numele și țara pe care le introduceți. Nu includeți date de contact și, dacă preferați, folosiți doar prenumele."
+        },
+        "live": {
+          "q": "Pot să mă rog cu voi în direct?",
+          "a": "Da. Pagina noastră de transmisiuni în direct difuzează rugăciuni și slujbe de la locurile sfinte din Nazaret și arată când începe următoarea transmisiune."
+        },
+        "pay": {
+          "q": "Cum plătesc?",
+          "a": "Plățile se fac prin PayPal. Datele cardului sau ale contului PayPal ajung la PayPal, niciodată la noi; noi nu le vedem și nu le păstrăm."
+        },
+        "account": {
+          "q": "Am nevoie de un cont?",
+          "a": "Nu. Nu există conturi sau parole. Coșul și lista de dorințe sunt păstrate în propriul dumneavoastră browser."
+        },
+        "shipping": {
+          "q": "Cât costă livrarea?",
+          "a": "Livrarea costă o taxă fixă de {shipping} pe comandă, afișată în coșul dumneavoastră înainte de plată."
+        },
+        "discount": {
+          "q": "Există vreo reducere?",
+          "a": "Da: {discount} reducere la produsele din fiecare comandă, aplicată automat în coșul dumneavoastră."
+        },
+        "damaged": {
+          "q": "Ce fac dacă comanda îmi ajunge deteriorată?",
+          "a": "Scrieți-ne, cu datele comenzii și o fotografie. Vă vom răspunde și vom îndrepta situația. Detalii găsiți la Livrare și returnări."
+        },
+        "donate": {
+          "q": "Pot face o donație?",
+          "a": "Da. Donațiile de la {min} la {max} se primesc prin PayPal pe pagina Donații și sprijină activitatea Nazareth Holy Cross."
+        },
+        "languages": {
+          "q": "În ce limbi este site-ul?",
+          "a": "Engleză, franceză, spaniolă, germană, italiană, portugheză, poloneză, rusă, greacă, ebraică și arabă."
+        },
+        "data": {
+          "q": "Ce date păstrați?",
+          "a": "Doar ceea ce are nevoie un serviciu: comenzi, cereri de lumânări, rugăciuni, recenzii și mesaje de contact. Citiți Politica de confidențialitate pentru detalii."
+        },
+        "contact": {
+          "q": "Cum vă pot contacta?",
+          "a": "Folosiți pagina de contact sau scrieți la {email}."
+        }
+      }
+    },
+    "legal": {
+      "eyebrow": "Informații legale",
+      "updated": "Ultima actualizare: {date}",
+      "contents": "Pe această pagină",
+      "related": "Vezi și",
+      "privacy": {
+        "meta": {
+          "title": "Politica de confidențialitate",
+          "description": "Ce date personale păstrează Nazareth Holy Cross când comandați, aprindeți o lumânare, împărtășiți o rugăciune sau ne scrieți, de ce le păstrăm și cum ne puteți cere să le modificăm sau să le ștergem."
+        },
+        "title": "Politica de confidențialitate",
+        "lead": "Păstrăm cât mai puține date. Această pagină explică ce păstrăm, de ce și ce opțiuni aveți.",
+        "sections": {
+          "who": {
+            "title": "Cine suntem",
+            "p1": "Acest site este administrat de Nazareth Holy Cross, care împărtășește locurile sfinte, rugăciunile și meșteșugurile Nazaretului cu pelerinii de pretutindeni. Pentru orice întrebare despre confidențialitate, scrieți la {email}."
+          },
+          "collect": {
+            "title": "Ce colectăm",
+            "p1": "Colectăm doar ceea ce ne dați atunci când folosiți un serviciu:",
+            "items": {
+              "orders": "Comenzi: numele dumneavoastră, adresa de e-mail, numărul de telefon, adresa de livrare, produsele cumpărate, totalul și data.",
+              "candles": "Cereri de lumânări: numele dumneavoastră, adresa de e-mail și rugăciunea.",
+              "prayers": "Zidul rugăciunilor: numele, țara, categoria și rugăciunea pe care le scrieți. Acestea sunt afișate public.",
+              "reviews": "Recenzii: numele dumneavoastră, locul de unde sunteți și mesajul, afișate pe site după aprobare.",
+              "contact": "Mesaje de contact: numele dumneavoastră, adresa de e-mail, numărul de telefon și mesajul.",
+              "payments": "Plăți: gestionate de PayPal. Nu primim și nu păstrăm numărul cardului dumneavoastră."
+            }
+          },
+          "use": {
+            "title": "De ce le folosim",
+            "items": {
+              "u1": "Pentru a onora și livra comenzile dumneavoastră, pentru a aprinde lumânarea și a vă trimite videoclipul.",
+              "u2": "Pentru a răspunde mesajelor dumneavoastră.",
+              "u3": "Pentru a afișa pe site rugăciunile și recenziile aprobate, așa cum ați dorit."
+            }
+          },
+          "share": {
+            "title": "Cine altcineva le vede",
+            "p1": "Nu vindem datele dumneavoastră. Câteva servicii ne ajută să administrăm site-ul și prelucrează date în numele nostru:",
+            "items": {
+              "paypal": "PayPal procesează plățile conform propriei politici de confidențialitate.",
+              "hosting": "Site-ul, serverele, baza de date și spațiul de stocare a imaginilor sunt administrate de furnizori de găzduire, care pot păstra date în afara țării dumneavoastră.",
+              "maps": "Când deschideți o hartă sau indicații de drum ori urmăriți un videoclip de pe alt site, se aplică politica de confidențialitate a acelui site."
+            }
+          },
+          "browser": {
+            "title": "Ce rămâne în browserul dumneavoastră",
+            "p1": "Site-ul nu are conturi și nu folosește cookie-uri de publicitate sau de analiză. Browserul dumneavoastră păstrează:",
+            "items": {
+              "cart": "Coșul de cumpărături și lista de dorințe.",
+              "liked": "Rugăciunile pentru care ați rostit Amin, pentru a-l putea rosti o singură dată.",
+              "language": "Limba aleasă."
+            }
+          },
+          "keep": {
+            "title": "Cât timp le păstrăm",
+            "p1": "Păstrăm comenzile și cererile de lumânări atât timp cât avem nevoie de ele pentru a vă servi și pentru a ne îndeplini obligațiile legale și contabile. Rugăciunile și recenziile rămân pe site până când ne cereți să le eliminăm."
+          },
+          "rights": {
+            "title": "Opțiunile dumneavoastră",
+            "p1": "Ne puteți cere să vă arătăm, să corectăm sau să ștergem datele pe care le deținem despre dumneavoastră ori să eliminăm rugăciunea sau recenzia dumneavoastră. Scrieți la {email} și vă vom răspunde. În funcție de locul în care locuiți, legea vă poate acorda drepturi suplimentare."
+          },
+          "children": {
+            "title": "Copii",
+            "p1": "Site-ul nu se adresează copiilor sub 13 ani și nu colectăm cu bună știință datele acestora. Dacă credeți că un copil ne-a trimis date, scrieți-ne și le vom șterge."
+          },
+          "changes": {
+            "title": "Modificări",
+            "p1": "Dacă modificăm această politică, vom actualiza data din partea de sus a acestei pagini."
+          }
+        }
+      },
+      "terms": {
+        "meta": {
+          "title": "Termeni de utilizare",
+          "description": "Termenii de utilizare a site-ului Nazareth Holy Cross, de comandare a suvenirurilor, de aprindere a lumânărilor, de donare și de împărtășire a rugăciunilor și recenziilor."
+        },
+        "title": "Termeni de utilizare",
+        "lead": "Reguli simple pentru folosirea site-ului, pentru comenzi și pentru împărtășire. Prin folosirea site-ului sunteți de acord cu ele.",
+        "sections": {
+          "use": {
+            "title": "Folosirea site-ului",
+            "p1": "Puteți folosi acest site în scopuri personale, necomerciale. Vă rugăm să nu îl folosiți abuziv, să nu încercați să-i încălcați securitatea și să nu trimiteți conținut dăunător sau ilegal."
+          },
+          "orders": {
+            "title": "Comenzi și plată",
+            "p1": "Comenzile se plătesc prin PayPal. Prețurile sunt în dolari americani și sunt calculate de serverul nostru în momentul plății, nu de browserul dumneavoastră.",
+            "items": {
+              "i1": "Fiecare comandă primește o reducere de {discount} la produse și o taxă fixă de livrare de {shipping}.",
+              "i2": "Putem anula o comandă, cu rambursare integrală, dacă un produs nu este disponibil sau dacă un preț este în mod evident greșit.",
+              "i3": "Livrarea, taxele vamale și returnările sunt explicate la Livrare și returnări."
+            }
+          },
+          "candles": {
+            "title": "Lumânări",
+            "p1": "O lumânare de rugăciune costă {price}. Aprindem o lumânare pentru intenția dumneavoastră în biserica pe care o alegeți și vă trimitem un videoclip. Este un serviciu de rugăciune și de pomenire; nu putem promite o anumită dată sau oră."
+          },
+          "donations": {
+            "title": "Donații",
+            "p1": "Donațiile sunt voluntare și sprijină activitatea Nazareth Holy Cross. Dacă ați donat din greșeală, scrieți-ne cât mai curând posibil."
+          },
+          "content": {
+            "title": "Rugăciuni și recenzii",
+            "p1": "Când împărtășiți o rugăciune sau o recenzie, ne confirmați că ea vă aparține și că sunteți de acord să fie afișată pe site.",
+            "items": {
+              "i1": "Nu publicați conținut care incită la ură, ilegal sau înșelător, nici datele personale ale altor persoane.",
+              "i2": "Putem elimina orice încalcă aceste reguli sau pe care îl considerăm nepotrivit."
+            }
+          },
+          "ip": {
+            "title": "Conținutul nostru",
+            "p1": "Textele, fotografiile, videoclipurile și designul site-ului aparțin Nazareth Holy Cross sau persoanelor care ne-au permis să le folosim. Vă rugăm să cereți încuviințarea înainte de a le copia în alt scop decât uz personal."
+          },
+          "info": {
+            "title": "Informațiile de pe site",
+            "p1": "Facem tot posibilul ca site-ul să fie corect, dar programul de vizitare, prețurile și condițiile de călătorie se pot schimba. Verificați întotdeauna la fața locului înainte de a călători."
+          },
+          "liability": {
+            "title": "Răspundere",
+            "p1": "Site-ul și serviciile sale sunt oferite așa cum sunt. În măsura în care legea permite, nu răspundem pentru pierderile cauzate de folosirea site-ului sau de evenimente aflate în afara controlului nostru. Nimic din cele de aici nu limitează drepturile pe care vi le acordă legea în calitate de consumator."
+          },
+          "changes": {
+            "title": "Modificări",
+            "p1": "Putem actualiza acești termeni. Data din partea de sus a paginii indică versiunea cea mai recentă."
+          }
+        }
+      },
+      "shipping": {
+        "meta": {
+          "title": "Livrare și returnări",
+          "description": "Costurile de livrare, livrarea, vama și ce trebuie făcut dacă un produs ajunge deteriorat: tot ce privește primirea suvenirurilor dumneavoastră din Nazaret."
+        },
+        "title": "Livrare și returnări",
+        "lead": "Ce plătiți, când vă puteți aștepta la comandă și ce să faceți dacă ceva nu este în regulă.",
+        "sections": {
+          "cost": {
+            "title": "Costuri",
+            "p1": "Livrarea are o taxă fixă pe comandă, indiferent câte produse conține.",
+            "items": {
+              "i1": "Livrare: {shipping} pe comandă.",
+              "i2": "Reducere: {discount} la produse, aplicată automat. Totalul este afișat în coșul dumneavoastră înainte de plată."
+            }
+          },
+          "delivery": {
+            "title": "Livrare",
+            "p1": "Trimitem suveniruri din Nazaret la adrese din întreaga lume. Timpul de livrare depinde de țara dumneavoastră și de serviciul poștal. Vă vom contacta prin e-mail dacă avem nevoie de ceva din partea dumneavoastră."
+          },
+          "customs": {
+            "title": "Vamă și taxe de import",
+            "p1": "Comenzile trimise în străinătate pot fi supuse unor taxe de import, impozite sau taxe vamale stabilite de țara dumneavoastră. Acestea nu sunt incluse în prețurile noastre și sunt plătite de destinatar."
+          },
+          "returns": {
+            "title": "Produse deteriorate, greșite sau lipsă",
+            "p1": "Dacă comanda dumneavoastră ajunge deteriorată, nu este ceea ce ați comandat sau este incompletă, vrem să îndreptăm situația.",
+            "items": {
+              "i1": "Scrieți-ne un e-mail cu numele dumneavoastră, adresa de e-mail folosită la comandă și o fotografie a problemei.",
+              "i2": "Păstrați ambalajul până când vă răspundem.",
+              "i3": "Vă vom spune dacă trimitem un înlocuitor sau vă rambursăm banii prin PayPal."
+            }
+          },
+          "digital": {
+            "title": "Lumânări și donații",
+            "p1": "Cererile de lumânări și donațiile sunt servicii, nu produse, așa că nu se expediază. Dacă ați făcut una din greșeală, scrieți-ne."
+          },
+          "contact": {
+            "title": "Întrebări",
+            "p1": "Scrieți la {email} sau folosiți pagina de contact."
+          }
+        }
+      }
+    },
+    "search": {
+      "meta": {
+        "title": "Căutare",
+        "description": "Căutați în Nazareth Holy Cross: pagini, locuri sfinte, răspunsuri și pasaje din Evanghelie."
+      },
+      "label": "Căutați pe site",
+      "placeholder": "Căutați pagini, locuri sfinte, răspunsuri…",
+      "open": "Căutare",
+      "close": "Închideți",
+      "loading": "Se încarcă…",
+      "error": "Căutarea nu este disponibilă acum. Vă rugăm să încercați din nou.",
+      "suggested": "Sugestii",
+      "results": "Rezultatele căutării",
+      "count": "{count, plural, one {# rezultat} few {# rezultate} other {# de rezultate}}",
+      "none": "Niciun rezultat pentru „{query}”. Încercați un alt cuvânt.",
+      "types": {
+        "page": "Pagini",
+        "site": "Locuri sfinte",
+        "faq": "Întrebări",
+        "gospel": "Evanghelie"
+      },
+      "hintMove": "pentru a vă deplasa",
+      "hintOpen": "pentru a deschide",
+      "hintClose": "pentru a închide",
+      "submit": "Căutați",
+      "page": {
+        "eyebrow": "Căutare",
+        "title": "Căutați pe site",
+        "lead": "Găsiți pagini, locuri sfinte, răspunsuri la întrebări frecvente și pasaje din Evanghelie."
+      }
+    }
   }
 }

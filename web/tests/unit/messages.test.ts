@@ -50,6 +50,8 @@ const SAME_AS_ENGLISH = new Set([
   'footer.creditLink2',
   'communityPage.reviews.form.counter',
   'shopFeatures.reviews.form.counter',
+  'pilgrim.prayers.form.counter',
+  'pilgrim.contact.form.counter',
   'email',
   'paypalComponent.email',
 ]);

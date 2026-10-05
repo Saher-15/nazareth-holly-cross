@@ -11,6 +11,7 @@
   body > footer,
   .skip-link,
   [data-print='hide'],
+  [data-noprint],
   #place-gallery,
   video,
   audio,

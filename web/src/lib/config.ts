@@ -14,3 +14,7 @@ export const CONTACT_EMAIL = 'nazarethholycross@gmail.com';
 // The brand name as printed in metadata, structured data and the title template. (Messages hold the
 // same text as `site.name` for visible copy.)
 export const SITE_NAME = 'Nazareth Holy Cross';
+
+// Optional: the organisation's WhatsApp number with country code (digits, e.g. 972501234567). When it is set the
+// contact page offers a "Message us on WhatsApp" link; nothing is shown while it is empty.
+export const CONTACT_WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP ?? '';

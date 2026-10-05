@@ -2,17 +2,20 @@ import { getTranslations } from 'next-intl/server';
 import { CrossMark, FacebookIcon, InstagramIcon, MailIcon, PinIcon, YoutubeIcon } from '@/components/ui/icons';
 import { Link } from '@/i18n/navigation';
 import { CONTACT_EMAIL } from '@/lib/config';
-import { footerNav, socialLinks } from '@/lib/site';
+import SearchButton from '@/components/search/SearchButton';
+import { footerNav, legalNav, pilgrimNav, socialLinks } from '@/lib/site';
 import FooterLanguages from './FooterLanguages';
 import styles from './SiteFooter.module.css';
 
 const SOCIAL_ICONS = { Instagram: InstagramIcon, Facebook: FacebookIcon, YouTube: YoutubeIcon } as const;
 
-// Four quiet columns: who we are and where to follow, where to go, how to reach us, and the languages.
+// Quiet columns: who we are and where to follow, then the pages in three groups (Explore, Plan and learn,
+// Help and information), how to reach us, and a row with every language.
 // No newsletter form and no cookie banner: nothing here asks the visitor for anything.
 export default async function SiteFooter() {
   const t = await getTranslations('site');
   const tx = await getTranslations('ux.footer');
+  const tp = await getTranslations('pilgrim');
   const year = new Date().getFullYear();
 
   return (
@@ -59,6 +62,35 @@ export default async function SiteFooter() {
           </ul>
         </nav>
 
+        <nav aria-label={tp('nav.groupPlan')}>
+          <h2 className={styles.heading}>{tp('nav.groupPlan')}</h2>
+          <ul className={styles.links}>
+            {pilgrimNav.map((item) => (
+              <li key={item.key}>
+                <Link href={item.href} className={styles.link}>
+                  {tp(`nav.${item.key}`)}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <nav aria-label={tp('nav.groupHelp')}>
+          <h2 className={styles.heading}>{tp('nav.groupHelp')}</h2>
+          <ul className={styles.links}>
+            {legalNav.map((item) => (
+              <li key={item.key}>
+                <Link href={item.href} className={styles.link}>
+                  {tp(`nav.${item.key}`)}
+                </Link>
+              </li>
+            ))}
+            <li>
+              <SearchButton className={`${styles.link} ${styles.linkButton}`} />
+            </li>
+          </ul>
+        </nav>
+
         <section>
           <h2 className={styles.heading}>{t('footer.contact')}</h2>
           <ul className={styles.contact}>
@@ -78,7 +110,7 @@ export default async function SiteFooter() {
           </Link>
         </section>
 
-        <nav aria-label={tx('languages')}>
+        <nav aria-label={tx('languages')} className={styles.languagesNav}>
           <h2 className={styles.heading}>{tx('languages')}</h2>
           <FooterLanguages />
         </nav>

@@ -1,0 +1,151 @@
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-line);
+  background: var(--glass);
+  color: var(--cream);
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.filter:hover {
+  border-color: var(--gold);
+}
+.filter[aria-pressed='true'] {
+  border-color: var(--gold);
+  background: var(--gold-soft);
+  color: var(--white);
+}
+.badge {
+  padding: 0 8px;
+  border-radius: 99px;
+  background: color-mix(in srgb, var(--white) 10%, transparent);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+}
+.count {
+  margin: 0 0 18px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* Masonry: CSS columns pack photos of any shape without holes. */
+.masonry {
+  columns: 2;
+  column-gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 700px) {
+  .masonry {
+    columns: 3;
+    column-gap: 12px;
+  }
+}
+@media (min-width: 1100px) {
+  .masonry {
+    columns: 4;
+    column-gap: 14px;
+  }
+}
+.cell {
+  break-inside: avoid;
+  margin: 0 0 10px;
+}
+@media (min-width: 700px) {
+  .cell {
+    margin-bottom: 12px;
+  }
+}
+@media (min-width: 1100px) {
+  .cell {
+    margin-bottom: 14px;
+  }
+}
+
+.thumb {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  appearance: none;
+  font: inherit;
+  color: inherit;
+  cursor: zoom-in;
+  border: 1px solid var(--glass-line);
+  border-radius: 14px;
+  background: linear-gradient(100deg, var(--glass) 30%, var(--glass-strong) 50%, var(--glass) 70%) 0 0 / 200% 100%;
+  box-shadow: var(--shadow);
+  animation: shimmer 1.4s linear infinite;
+  transition: border-color 0.3s ease;
+}
+.thumb[data-loaded] {
+  animation: none;
+  background: var(--night-3);
+}
+.thumb img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.thumb:hover {
+  border-color: var(--gold);
+}
+.thumb:hover img {
+  transform: scale(1.04);
+}
+.zoom {
+  position: absolute;
+  inset-block-end: 10px;
+  inset-inline-end: 10px;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--night) 70%, transparent);
+  color: var(--gold);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.thumb:hover .zoom,
+.thumb:focus-visible .zoom {
+  opacity: 1;
+}
+@media (hover: none) {
+  .zoom {
+    opacity: 1;
+  }
+}
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .thumb {
+    animation: none;
+  }
+  .thumb img {
+    transition: none;
+  }
+  .thumb:hover img {
+    transform: none;
+  }
+}

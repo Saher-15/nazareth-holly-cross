@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from 'next';
 import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
-import { hasLocale, NextIntlClientProvider } from 'next-intl';
-import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { hasLocale, NextIntlClientProvider, type AbstractIntlMessages } from 'next-intl';
+import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
 import BackToTop from '@/components/layout/BackToTop';
 import PageTransitions from '@/components/layout/PageTransitions';
 import ReadingProgress from '@/components/layout/ReadingProgress';
@@ -44,7 +44,11 @@ export async function generateMetadata({ params }: LayoutProps<'/[locale]'>): Pr
   };
 }
 
-export default async function LocaleLayout({ children, params }: LayoutProps<'/[locale]'>) {
+// Only these parts of the pilgrim texts are used by client components. The rest (legal pages, guides, FAQ) is
+// rendered on the server, so it is kept out of the messages sent to every browser.
+const CLIENT_PILGRIM_NAMESPACES = ['plan', 'prayers', 'contact', 'gallery', 'search'] as const;
+
+export default async function LocaleLayout({ children, search, params }: LayoutProps<'/[locale]'>) {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
@@ -53,10 +57,16 @@ export default async function LocaleLayout({ children, params }: LayoutProps<'/[
   // for each response, and only a request-time render can put it on the page's scripts and styles.
   const nonce = (await headers()).get('x-nonce') ?? undefined;
 
+  const { pilgrim, ...messages } = (await getMessages()) as Record<string, Record<string, unknown>>;
+  const clientMessages = {
+    ...messages,
+    pilgrim: Object.fromEntries(CLIENT_PILGRIM_NAMESPACES.map((key) => [key, pilgrim?.[key]])),
+  } as unknown as AbstractIntlMessages;
+
   return (
     <html lang={locale} dir={isRtl(locale) ? 'rtl' : 'ltr'} className={fontVariables}>
       <body>
-        <NextIntlClientProvider>
+        <NextIntlClientProvider messages={clientMessages}>
           <CspNonceProvider nonce={nonce}>
             <CartProvider>
               <ToastProvider>
@@ -66,6 +76,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<'/[
                   {children}
                 </main>
                 <SiteFooter />
+                {search}
                 <BackToTop />
                 <RouteFocus />
                 <PageTransitions />
