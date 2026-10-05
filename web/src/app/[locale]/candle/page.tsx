@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import Flame from '@/components/ui/Flame';
 import PageHero from '@/components/ui/PageHero';
+import { getMedia } from '@/data/media';
 import { flowMetadata } from '@/components/checkout/metadata';
 import shared from '@/components/checkout/checkout.module.css';
 import CandleFlow from './CandleFlow';
@@ -26,7 +27,7 @@ export default async function CandlePage({ params }: PageProps<'/[locale]/candle
         eyebrow={t('checkoutPage.hero.candleEyebrow')}
         title={t('home.candleTitle')}
         lead={t('home.candleText')}
-        image="/images/candle.jpg"
+        media={getMedia('basilica-grotto-altar')}
       />
 
       <div className={`ui-container ${styles.layout}`}>

@@ -101,6 +101,11 @@
 .contact .link {
   overflow-wrap: anywhere;
 }
+/* Each language is named in its own script (Русский, Ελληνικά, עברית, العربية). Set in the system font so that the
+   fourteen names do not make every page download the Cyrillic, Greek and Latin-extended web fonts (about 120 kB). */
+.language {
+  font-family: var(--symbols);
+}
 .link:hover,
 .language:hover {
   color: var(--gold);

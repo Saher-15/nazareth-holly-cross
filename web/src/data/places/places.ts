@@ -223,7 +223,7 @@ export const TOUR_CARD: PlaceCard = {
   key: 'tour',
   href: '/tour',
   nameKey: 'home.siteTour',
-  cover: photo('old', 11),
+  cover: mediaPhoto('old-city-arched-passage'),
 };
 
 export const placeCard = (place: Place): PlaceCard => ({

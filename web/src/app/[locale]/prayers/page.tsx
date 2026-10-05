@@ -13,13 +13,14 @@ import {
 import { api, type Prayer } from '@/lib/api';
 import JsonLd from '@/components/ui/JsonLd';
 import PlaceHero from '@/components/places/PlaceHero';
+import { mediaPhoto } from '@/data/places/places';
 import LikeButton from '@/components/pilgrim/LikeButton';
 import NextSteps from '@/components/pilgrim/NextSteps';
 import PrayerForm from '@/components/pilgrim/PrayerForm';
 import Reveal from '@/components/ui/Reveal';
 import styles from './page.module.css';
 
-const HERO = { src: '/images/candle.jpg', width: 1600, height: 1067 };
+const HERO = mediaPhoto('greek-iconostasis');
 
 export async function generateMetadata({ params }: PageProps<'/[locale]/prayers'>): Promise<Metadata> {
   const { locale } = await params;

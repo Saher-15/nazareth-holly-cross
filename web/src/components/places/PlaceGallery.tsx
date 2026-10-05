@@ -1,14 +1,17 @@
 'use client';
 
 import { useCallback, useMemo, useRef, useState, type CSSProperties, type SyntheticEvent } from 'react';
+import dynamic from 'next/dynamic';
 import { useLocale, useTranslations } from 'next-intl';
 import { isRtl } from '@/i18n/routing';
 import type { Photo } from '@/data/places/places';
 import { lastTileSpan, tileOf } from './galleryLogic';
 import { ZoomIcon } from './icons';
-import Lightbox from './Lightbox';
 import PhotoImage from './PhotoImage';
 import styles from './PlaceGallery.module.css';
+
+// The photo viewer is only needed after a click: its code is fetched then, not with the page.
+const Lightbox = dynamic(() => import('./Lightbox'));
 
 // Responsive widths of a tile: 2 columns on phones, 3 from 640px, 4 from 1000px (1180px container).
 const SIZES = {

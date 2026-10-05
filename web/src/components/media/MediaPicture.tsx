@@ -1,5 +1,6 @@
 import type { CSSProperties, SyntheticEvent } from 'react';
-import { mediaDefaultFile, mediaObjectPosition, mediaSrcSet, type MediaItem } from '@/data/media';
+import { preload } from 'react-dom';
+import { mediaDefaultFile, mediaFile, mediaObjectPosition, mediaSrcSet, type MediaItem } from '@/data/media';
 
 type Props = {
   item: MediaItem;
@@ -9,6 +10,8 @@ type Props = {
   className?: string;
   /** Above-the-fold picture (a hero): loads at once and with high priority. */
   priority?: boolean;
+  /** Use the lean copies (about half the bytes): only for a photo under a dark gradient, like the home hero. */
+  lean?: boolean;
   /** Cover the positioned parent (like next/image `fill`); the focal point of the photo stays in view. */
   fill?: boolean;
   draggable?: boolean;
@@ -27,11 +30,23 @@ export default function MediaPicture({
   sizes,
   className,
   priority = false,
+  lean = false,
   fill = false,
   draggable,
   onLoad,
   onError,
 }: Props) {
+  // The hero photo is the largest paint of its page: ask for the AVIF file in the document head, before the
+  // stylesheet and scripts, with the same srcset/sizes as the <img> so the browser picks (and reuses) one file.
+  if (priority) {
+    preload(mediaFile(item, 1280, 'avif', lean), {
+      as: 'image',
+      type: 'image/avif',
+      imageSrcSet: mediaSrcSet(item, 'avif', lean),
+      imageSizes: sizes,
+      fetchPriority: 'high',
+    });
+  }
   const style: CSSProperties = {
     ...(fill ? COVER : { maxWidth: '100%', height: 'auto' }),
     objectPosition: mediaObjectPosition(item),
@@ -41,12 +56,12 @@ export default function MediaPicture({
   };
   return (
     <picture>
-      <source type="image/avif" srcSet={mediaSrcSet(item, 'avif')} sizes={sizes} />
-      <source type="image/webp" srcSet={mediaSrcSet(item, 'webp')} sizes={sizes} />
+      <source type="image/avif" srcSet={mediaSrcSet(item, 'avif', lean)} sizes={sizes} />
+      <source type="image/webp" srcSet={mediaSrcSet(item, 'webp', lean)} sizes={sizes} />
       {/* A plain <img> on purpose: the responsive AVIF/WebP files were generated ahead of time (scripts/media). */}
       <img
         className={className}
-        src={mediaDefaultFile(item)}
+        src={lean ? mediaFile(item, 1280, 'webp', true) : mediaDefaultFile(item)}
         alt={alt}
         width={item.width}
         height={item.height}

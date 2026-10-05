@@ -96,6 +96,23 @@ describe('the remembered language (cookie)', () => {
     expect(response.headers.get('set-cookie')).toMatch(/NEXT_LOCALE=ar/);
   });
 
+  it('is not set on a page whose language matches the browser (nothing to remember, and a shared cache may keep it)', () => {
+    const response = ask({ path: '/en/shop', acceptLanguage: 'en-US,en;q=0.9' });
+    expect(redirectTo(response)).toBeNull();
+    expect(response.headers.get('set-cookie')).toBeNull();
+  });
+
+  it('is not set for a client that sent no language at all (a probe, curl): it has no preference to remember', () => {
+    const response = ask({ path: '/en', userAgent: 'curl/8.0' });
+    expect(redirectTo(response)).toBeNull();
+    expect(response.headers.get('set-cookie')).toBeNull();
+  });
+
+  it('is still set when a browser asks for a page in a language other than its own', () => {
+    const response = ask({ path: '/he/shop', acceptLanguage: 'en-US,en;q=0.9' });
+    expect(response.headers.get('set-cookie')).toMatch(/NEXT_LOCALE=he/);
+  });
+
   it('lasts a year and is not sent to other sites', () => {
     const response = ask({ path: '/ar/live', acceptLanguage: 'en', cookie: 'NEXT_LOCALE=en' });
     const cookie = response.headers.get('set-cookie') ?? '';

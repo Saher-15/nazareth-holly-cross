@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { photo } from '@/data/places/places';
+import { mediaPhoto } from '@/data/places/places';
 import { breadcrumbJsonLd, webPageJsonLd } from '@/lib/jsonLd';
 import { pilgrimMetadata } from '@/data/pilgrim/meta';
 import JsonLd from '@/components/ui/JsonLd';
@@ -11,7 +11,7 @@ import WalkingTable from '@/components/pilgrim/WalkingTable';
 import shared from '@/components/pilgrim/shared.module.css';
 import Reveal from '@/components/ui/Reveal';
 
-const HERO = photo('old', 9);
+const HERO = mediaPhoto('old-city-green-doors');
 
 export async function generateMetadata({ params }: PageProps<'/[locale]/plan'>): Promise<Metadata> {
   const { locale } = await params;

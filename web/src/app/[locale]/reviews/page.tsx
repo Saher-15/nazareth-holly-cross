@@ -4,6 +4,7 @@ import ReviewForm from '@/components/community/ReviewForm';
 import ReviewWall from '@/components/community/ReviewWall';
 import JsonLd from '@/components/ui/JsonLd';
 import PageHero from '@/components/ui/PageHero';
+import { mediaPhoto } from '@/data/places/places';
 import Reveal from '@/components/ui/Reveal';
 import { api, type Review } from '@/lib/api';
 import { organizationJsonLd, webPageJsonLd } from '@/lib/jsonLd';
@@ -14,7 +15,7 @@ import styles from './page.module.css';
 // review is accepted (components/community/actions.ts).
 export const revalidate = 120;
 
-const HERO_IMAGE = '/images/vitrage-bg.jpg';
+const HERO = mediaPhoto('stjoseph-nave');
 
 export async function generateMetadata({ params }: PageProps<'/[locale]/reviews'>): Promise<Metadata> {
   const { locale } = await params;
@@ -24,7 +25,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/reviews'
     path: '/reviews',
     title: t('metaTitle'),
     description: t('metaDescription'),
-    image: HERO_IMAGE,
+    image: HERO,
   });
 }
 
@@ -73,7 +74,7 @@ export default async function ReviewsPage({ params }: PageProps<'/[locale]/revie
         eyebrow={home('voicesEyebrow')}
         title={home('voicesTitle')}
         lead={pray('messagesDescription')}
-        image={HERO_IMAGE}
+        media={HERO.media}
       />
 
       <div className={`ui-container ${styles.layout}`}>

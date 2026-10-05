@@ -11,7 +11,7 @@ export default function ShopLoading() {
   const tHome = useTranslations('home');
   return (
     <div className={`ui-page ${styles.page}`}>
-      <PageHero eyebrow={tHome('shopEyebrow')} title={t('heroTitle')} lead={t('heroLead')} image="/images/vitrage-bg.jpg" />
+      <PageHero eyebrow={tHome('shopEyebrow')} title={t('heroTitle')} lead={t('heroLead')} />
       <ShopBarSkeleton />
       <div className="ui-container">
         <GridSkeleton label={t('loading')} />

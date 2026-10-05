@@ -97,6 +97,8 @@
 .name {
   min-width: 0;
   overflow-wrap: anywhere;
+  /* The names are in fourteen scripts: the system font, so no web font for them is downloaded (see SiteFooter). */
+  font-family: var(--symbols);
 }
 .tag {
   flex: none;

@@ -56,6 +56,16 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   images: {
     formats: ['image/avif', 'image/webp'],
+    // Optimised copies are kept for 31 days (the default is 4 hours, so a quiet page re-encoded its photos all the
+    // time). Safe because a product photo's address carries a download token that changes with the file, and the
+    // site's own photos are renamed when they change.
+    minimumCacheTTL: 60 * 60 * 24 * 31,
+    // The widths next/image may produce. 3840 and 2048 (the defaults) are never asked for by a photo that is at
+    // most 2560 px wide; 828 and 1280 cover the common phone and laptop widths. `imageSizes` are for photos that
+    // do not fill the width (cards, thumbnails).
+    deviceSizes: [640, 828, 1080, 1280, 1920, 2560],
+    imageSizes: [64, 128, 256, 384, 512],
+    qualities: [75, 85],
     remotePatterns: [{ protocol: 'https', hostname: 'firebasestorage.googleapis.com' }],
   },
   // Addresses of the previous site keep working (search engines, shared links).
@@ -77,6 +87,11 @@ const nextConfig: NextConfig = {
       {
         source: '/:folder(images|sounds)/:path*',
         headers: [{ key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=604800' }],
+      },
+      // The re-encoded videos (public/videos, see docs/PERFORMANCE.md). Change a film by giving it a new name.
+      {
+        source: '/videos/:path*',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=2592000, stale-while-revalidate=604800' }],
       },
       // public/sw.js retires the service worker an older version of the site installed; never cache it.
       { source: '/sw.js', headers: [{ key: 'Cache-Control', value: 'no-cache, no-store, must-revalidate' }] },

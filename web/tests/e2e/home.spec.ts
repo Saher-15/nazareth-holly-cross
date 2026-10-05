@@ -230,11 +230,20 @@ test('sections reveal as they scroll into view', async ({ page }) => {
   await expect(story).toHaveClass(/is-in/);
 });
 
-test('the background video loads lazily and is skipped for reduced motion', async ({ page }) => {
+test('the background film joins after the page loaded, on wide screens, and is skipped for reduced motion', async ({ page, isMobile }) => {
   await page.goto('/en');
   const video = page.locator('#home-hero video');
-  await expect(video).toHaveAttribute('preload', 'none');
-  await expect(video).toHaveAttribute('poster', /nazareth1\.webp/);
+  if (isMobile) {
+    // A phone gets the photo only: no film is downloaded.
+    await page.waitForLoadState('load');
+    await page.waitForTimeout(1500);
+    await expect(video).toHaveCount(0);
+    return;
+  }
+  await expect(video).toHaveAttribute('poster', /city-sunset-glow/);
+  await expect(video.locator('source')).toHaveCount(2);
+  await expect(video.locator('source').first()).toHaveAttribute('type', /video\/webm/);
+  await expect(video.locator('source').last()).toHaveAttribute('type', 'video/mp4');
 
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.reload();

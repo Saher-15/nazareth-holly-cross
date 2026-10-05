@@ -6,6 +6,7 @@ import type { Translate } from '@/data/pilgrim/faqEntries';
 import { buildSearchIndex } from '@/data/pilgrim/searchIndex';
 import { searchEntries, snippet, type SearchType } from '@/lib/search';
 import PageHero from '@/components/ui/PageHero';
+import { getMedia } from '@/data/media';
 import shared from '@/components/pilgrim/shared.module.css';
 import styles from './page.module.css';
 
@@ -34,7 +35,7 @@ export default async function SearchPage({ params, searchParams }: PageProps<'/[
         eyebrow={t('pilgrim.search.page.eyebrow')}
         title={t('pilgrim.search.page.title')}
         lead={t('pilgrim.search.page.lead')}
-        image="/images/vitrage-bg.jpg"
+        media={getMedia('old-city-lights')}
       />
 
       <section className="ui-section">

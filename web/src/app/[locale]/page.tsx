@@ -7,6 +7,7 @@ import HomeHero, { HERO_ID, HERO_POSTER } from '@/components/home/HomeHero';
 import { homeJsonLd } from '@/components/home/jsonLd';
 import SitesCarousel from '@/components/home/SitesCarousel';
 import Souvenirs from '@/components/home/Souvenirs';
+import { placeCards } from '@/data/places/places';
 import StickyCta from '@/components/home/StickyCta';
 import Story from '@/components/home/Story';
 import VerseOfDay from '@/components/home/VerseOfDay';
@@ -56,7 +57,7 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
       <JsonLd data={jsonLd} />
       <HomeHero nextSectionId={ids.candle} />
       <CandleStrip id={ids.candle} />
-      <SitesCarousel id={ids.sites} />
+      <SitesCarousel id={ids.sites} cards={placeCards({ withTour: true })} />
       <VerseOfDay id={ids.verse} locale={locale} />
       <Souvenirs id={ids.shop} locale={locale} />
       <Voices id={ids.voices} />

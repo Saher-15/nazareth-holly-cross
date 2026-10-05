@@ -1,13 +1,13 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent, type MouseEvent, type PointerEvent } from 'react';
-import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { scrollBehavior } from '@/lib/motion';
 import Reveal from '@/components/ui/Reveal';
+import PhotoImage from '@/components/places/PhotoImage';
+import type { PlaceCard } from '@/data/places/places';
 import { ArrowEnd, ChevronEnd, ChevronStart } from './icons';
-import { homeSites } from './sites';
 import styles from './SitesCarousel.module.css';
 
 const GAP = 16;
@@ -17,8 +17,9 @@ const isRtl = (el: HTMLElement) => getComputedStyle(el).direction === 'rtl';
 // Horizontal scroll-snap carousel of the holy sites. Touch swipe is native scrolling;
 // mouse drag, the arrow buttons and the keyboard (arrows, Home, End on the focused
 // track) are added on top. Works in both reading directions.
-export default function SitesCarousel({ id }: { id: string }) {
+export default function SitesCarousel({ id, cards }: { id: string; cards: readonly PlaceCard[] }) {
   const t = useTranslations('home');
+  const tAll = useTranslations();
   const tPage = useTranslations('homePage');
   const trackRef = useRef<HTMLDivElement>(null);
   const drag = useRef({ active: false, startX: 0, startLeft: 0, moved: false });
@@ -167,20 +168,19 @@ export default function SitesCarousel({ id }: { id: string }) {
           onClickCapture={onClickCapture}
         >
           <ul className={styles.list}>
-            {homeSites.map((site) => (
-              <li key={site.href} className={styles.item}>
-                <Link href={site.href} className={styles.card} draggable={false}>
-                  <Image
+            {cards.map((card) => (
+              <li key={card.key} className={styles.item}>
+                <Link href={card.href} className={styles.card} draggable={false}>
+                  <PhotoImage
                     className={styles.img}
-                    src={site.img}
+                    photo={card.cover}
                     alt=""
-                    fill
                     sizes="(min-width: 1000px) 320px, min(78vw, 340px)"
                     draggable={false}
                   />
                   <span className={styles.cardShade} aria-hidden="true" />
                   <span className={styles.body}>
-                    <span className={styles.name}>{t(site.nameKey)}</span>
+                    <span className={styles.name}>{tAll(card.nameKey)}</span>
                     <span className={styles.go}>
                       {t('explore')} <ArrowEnd className={styles.mirror} />
                     </span>

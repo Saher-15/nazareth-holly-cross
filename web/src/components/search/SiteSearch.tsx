@@ -38,7 +38,7 @@ function loadIndex(locale: string): Promise<SearchEntry[]> {
 // The command-palette search: Ctrl or Cmd + K (or the Search button in the footer) opens a dialog that finds
 // pages, holy sites, FAQ answers and Gospel passages in the visitor's language. The index is a small static
 // file loaded on first use. Combobox pattern: the input keeps focus, arrows move the highlighted result.
-export default function SiteSearch() {
+export default function SiteSearch({ defaultOpen = false }: { defaultOpen?: boolean }) {
   const t = useTranslations('pilgrim.search');
   const locale = useLocale();
   const router = useRouter();
@@ -46,7 +46,7 @@ export default function SiteSearch() {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const listId = useId();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(defaultOpen);
   const [query, setQuery] = useState('');
   const [entries, setEntries] = useState<SearchEntry[] | null>(null);
   const [failed, setFailed] = useState(false);

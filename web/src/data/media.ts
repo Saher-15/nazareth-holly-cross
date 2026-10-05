@@ -28,12 +28,17 @@ export const hasMedia = (id: string) => BY_ID.has(id);
 export const mediaByTopic = (topic: MediaTopic): readonly MediaItem[] => MEDIA.filter((item) => item.topic === topic);
 
 /** Path of one generated file: `mediaFile(item, 1280, 'webp')` is `/images/nazareth-media/<id>/1280.webp`. */
-export const mediaFile = (item: Pick<MediaItem, 'id'>, width: number, format: 'avif' | 'webp') =>
-  `${MEDIA_BASE}/${item.id}/${width}.${format}`;
+export const mediaFile = (item: Pick<MediaItem, 'id'>, width: number, format: 'avif' | 'webp', lean = false) =>
+  `${MEDIA_BASE}/${item.id}/${lean ? 'lean-' : ''}${width}.${format}`;
+
+/** Widths of the lean copies (scripts/media/lean.mjs): harder compression, for photos under a heavy gradient. */
+export const LEAN_WIDTHS = [1280, 1920, 2560] as const;
 
 /** `srcset` of one format: every generated width, e.g. "/…/640.avif 640w, /…/1280.avif 1280w". */
-export const mediaSrcSet = (item: MediaItem, format: 'avif' | 'webp') =>
-  item.widths.map((w) => `${mediaFile(item, w, format)} ${w}w`).join(', ');
+export const mediaSrcSet = (item: MediaItem, format: 'avif' | 'webp', lean = false) =>
+  (lean ? LEAN_WIDTHS.filter((w) => item.widths.includes(w)) : item.widths)
+    .map((w) => `${mediaFile(item, w, format, lean)} ${w}w`)
+    .join(', ');
 
 /** A mid-size file (the largest width up to 1280): the fallback `src` and the share image. */
 export function mediaDefaultFile(item: MediaItem, format: 'avif' | 'webp' = 'webp') {

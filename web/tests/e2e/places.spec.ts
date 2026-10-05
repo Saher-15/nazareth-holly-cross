@@ -193,8 +193,8 @@ test.describe('virtual tour', () => {
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Explore Nazareth');
     const video = page.locator('video');
     await expect(video).toHaveAttribute('preload', 'none');
-    await expect(video).toHaveAttribute('poster', /\/_next\/image\?url=/);
-    await expect(video.locator('source')).toHaveAttribute('type', 'video/mp4');
+    await expect(video).toHaveAttribute('poster', /\/images\/nazareth-media\/old-city-arched-passage\/1280\.webp$/);
+    await expect(video.locator('source').first()).toHaveAttribute('type', 'video/mp4');
     await expect(page.getByRole('link', { name: 'Learn More About Nazareth' })).toHaveAttribute(
       'href',
       '/en/sites/city',

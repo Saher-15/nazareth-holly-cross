@@ -141,22 +141,47 @@ export class ApiError extends Error {
 
 type FetchOptions = { revalidate?: number | false; init?: RequestInit; timeoutMs?: number };
 
-// The API rate-limits (429) and its host sometimes answers 502-504 while waking up. A build renders
-// hundreds of pages at once, so without a short retry whole sections would be baked in empty until the
-// next revalidation. Two retries at most, never longer than a few seconds in total.
+// The API rate-limits (429: 200 requests per 15 minutes per address, shared by every visitor of a shared host
+// such as Netlify) and its host sometimes answers 502-504 while waking up. What reaches a visitor must never be
+// worse than the last answer we had:
+//   1. a read is retried with a growing pause (and a much longer one while `next build` runs, where nobody waits);
+//   2. when it still fails, the last good answer for the same address is used instead (stale-if-error), so a
+//      refresh during a rate limit or an outage keeps the shop on screen instead of replacing it with an error;
+//   3. identical reads that are in flight at the same moment share one request.
+// Only an address that has never been read successfully in this process can still fail, and then the caller
+// shows its own error state.
 const RETRY_STATUSES = new Set([429, 502, 503, 504]);
 const MAX_RETRIES = 2;
-export const retryDelayMs = (attempt: number, retryAfter: string | null) => {
+const MAX_BUILD_RETRIES = 5;
+const MAX_WAIT_MS = 3000;
+const MAX_BUILD_WAIT_MS = 20_000;
+const building = () => process.env.NEXT_PHASE === 'phase-production-build';
+
+export const retryDelayMs = (attempt: number, retryAfter: string | null, maxMs = MAX_WAIT_MS) => {
   const seconds = Number(retryAfter);
-  if (retryAfter && Number.isFinite(seconds) && seconds >= 0) return Math.min(seconds, 3) * 1000;
-  return 400 * 2 ** attempt + Math.floor(Math.random() * 300);
+  if (retryAfter && Number.isFinite(seconds) && seconds >= 0) return Math.min(seconds * 1000, maxMs);
+  return Math.min(400 * 2 ** attempt + Math.floor(Math.random() * 300), maxMs);
 };
 
-async function getJson<T>(
-  path: string,
-  schema: z.ZodType<T>,
-  { revalidate = 300, init, timeoutMs = 10_000 }: FetchOptions = {},
-) {
+const LAST_GOOD_LIMIT = 300;
+const lastGood = new Map<string, unknown>();
+const inFlight = new Map<string, Promise<unknown>>();
+
+/** Forgets the stored answers (tests). */
+export function clearApiMemory() {
+  lastGood.clear();
+  inFlight.clear();
+}
+
+function remember(path: string, data: unknown) {
+  lastGood.delete(path);
+  lastGood.set(path, data);
+  if (lastGood.size > LAST_GOOD_LIMIT) lastGood.delete(lastGood.keys().next().value as string);
+}
+
+async function fetchJson<T>(path: string, schema: z.ZodType<T>, { revalidate = 300, init, timeoutMs = 10_000 }: FetchOptions) {
+  const retries = building() ? MAX_BUILD_RETRIES : MAX_RETRIES;
+  const maxWait = building() ? MAX_BUILD_WAIT_MS : MAX_WAIT_MS;
   let res: Response;
   for (let attempt = 0; ; attempt++) {
     res = await fetch(`${API_URL}${path}`, {
@@ -167,8 +192,8 @@ async function getJson<T>(
     });
     // A Cloudflare bot challenge (header cf-mitigated) is not a passing rate limit: asking again only
     // makes the block last longer.
-    if (!RETRY_STATUSES.has(res.status) || res.headers.get('cf-mitigated') || attempt >= MAX_RETRIES || init?.signal?.aborted) break;
-    await new Promise((resolve) => setTimeout(resolve, retryDelayMs(attempt, res.headers.get('retry-after'))));
+    if (!RETRY_STATUSES.has(res.status) || res.headers.get('cf-mitigated') || attempt >= retries || init?.signal?.aborted) break;
+    await new Promise((resolve) => setTimeout(resolve, retryDelayMs(attempt, res.headers.get('retry-after'), maxWait)));
   }
   if (res.status === 404) throw new ApiError(`GET ${path} not found`, 404);
   if (!res.ok) throw new ApiError(`GET ${path} failed with ${res.status}`, res.status);
@@ -185,17 +210,52 @@ async function getJson<T>(
   return parsed.data;
 }
 
+async function getJson<T>(path: string, schema: z.ZodType<T>, options: FetchOptions = {}): Promise<T> {
+  // A read with its own abort signal belongs to one caller: it is neither shared nor remembered.
+  if (options.init?.signal) return fetchJson(path, schema, options);
+
+  const pending = inFlight.get(path) as Promise<T> | undefined;
+  if (pending) return pending;
+
+  const read = fetchJson(path, schema, options).then(
+    (data) => {
+      remember(path, data);
+      return data;
+    },
+    (error: unknown) => {
+      // "Not found" is an answer, not a failure: never replaced by an older page of the same address.
+      if (error instanceof ApiError && error.status === 404) throw error;
+      if (lastGood.has(path)) {
+        console.warn(`[api] ${path} failed (${error instanceof Error ? error.message : error}); serving the last good answer`);
+        return lastGood.get(path) as T;
+      }
+      throw error;
+    },
+  );
+  inFlight.set(path, read);
+  // Remove the entry when the read ends; the returned promise (not this one) carries the result or the error.
+  read.then(
+    () => inFlight.delete(path),
+    () => inFlight.delete(path),
+  );
+  return read;
+}
+
+// The catalogue changes a few times a week, and every refresh is a request against the API's rate limit: ten
+// minutes (and thirty for the "similar products" lists), served stale-while-revalidate by Next's data cache.
+const CATALOG_REVALIDATE = 600;
+
 const id = (value: string) => encodeURIComponent(value);
 
 export const api = {
   products: (page = 1, size = 24) =>
     getJson(`/product/getNProducts?page=${page}&size=${size}`, productPageSchema).then((r) => r.data),
   product: (productId: string) => getJson(`/product/getProduct/${id(productId)}`, productSchema),
-  catalog: () => getJson('/product/catalog', catalogSchema, { revalidate: 120 }),
+  catalog: () => getJson('/product/catalog', catalogSchema, { revalidate: CATALOG_REVALIDATE }),
   bestSellers: (limit = 8) =>
-    getJson(`/product/bestSellers?limit=${limit}`, z.array(catalogProductSchema), { revalidate: 120 }),
+    getJson(`/product/bestSellers?limit=${limit}`, z.array(catalogProductSchema), { revalidate: CATALOG_REVALIDATE }),
   similar: (productId: string, limit = 4) =>
-    getJson(`/product/${id(productId)}/similar?limit=${limit}`, z.array(catalogProductSchema), { revalidate: 300 }),
+    getJson(`/product/${id(productId)}/similar?limit=${limit}`, z.array(catalogProductSchema), { revalidate: CATALOG_REVALIDATE * 3 }),
   productReviews: (productId: string) =>
     getJson(`/product/${id(productId)}/reviews`, productReviewsSchema, { revalidate: 60 }),
   reviews: () => getJson('/review/getReviews', z.array(reviewSchema), { revalidate: 120 }),

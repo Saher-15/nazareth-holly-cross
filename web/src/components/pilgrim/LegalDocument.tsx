@@ -6,6 +6,7 @@ import { LEGAL, type LegalPage } from '@/data/pilgrim/legal';
 import { legalNav } from '@/lib/site';
 import JsonLd from '@/components/ui/JsonLd';
 import PageHero from '@/components/ui/PageHero';
+import { getMedia } from '@/data/media';
 import shared from './shared.module.css';
 
 /** When the legal texts were last revised (YYYY-MM-DD). Update it with every change to the messages. */
@@ -42,7 +43,7 @@ export default async function LegalDocument({ page, locale }: { page: LegalPage;
         eyebrow={t('pilgrim.legal.eyebrow')}
         title={text('title')}
         lead={text('lead')}
-        image="/images/vitrage-bg.jpg"
+        media={getMedia('souk-vaulted-alley')}
       />
 
       <section className="ui-section">

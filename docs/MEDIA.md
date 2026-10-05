@@ -205,12 +205,29 @@ For the UI/home work (the home components were not touched):
 Already applied in this change: the five holy-site pages (hero, card cover, gallery), the holy-sites index hero
 (`city-sunset-glow`), the About hero (`city-hills-galilee`), `/gallery`, `/credits`.
 
+Applied by the performance work (`docs/PERFORMANCE.md`): home hero `city-sunset-glow` (lean copies, below); home sites
+carousel (the place covers, `placeCards({ withTour: true })`); shop `souk-arcade`; candle `basilica-grotto-altar`;
+prayers `greek-iconostasis`; reviews `stjoseph-nave`; FAQ `basilica-night-front`; search `old-city-lights`; legal pages
+`souk-vaulted-alley`; live `basilica-night-front`; plan `old-city-green-doors`; visit `city-basilica-skyline`; tour
+poster and card `old-city-arched-passage`; the social cards of cart, checkout, candle and donate. Page heroes take
+`<PageHero media={getMedia(id)} />` (a licensed photo) instead of `image="/images/..."` (an older file).
+
+### Lean copies
+
+A photo that sits under a dark gradient and a headline does not need the full quality. `node scripts/media/lean.mjs
+<id>` writes `<id>/lean-1280|1920|2560.avif|webp` (AVIF quality 38, about half the bytes), and `<MediaPicture lean />`
+uses them. Only the home hero does so far; rerun the script after `npm run media:build` changes that photo. Leave
+photos that are looked at (galleries, the lightbox) at full quality.
+
 ## 8. Notes and open points
 
 * The older photos in `public/images/{latin,greek,mary,old,nazareth}` are kept and follow the licensed ones in each
   gallery. Their origin and licence are not recorded in the repository, so they are not on `/credits`; the owner
   should confirm that they own them or add a source. Several are small (300 to 900 px wide) and look soft next to
   the new ones; replacing them with licensed or own photos would lift the galleries further.
+* `node scripts/media/audit.mjs` lists every older photo with its pixel size and flags the ones that are soft as a wide
+  picture (34 of 85 on 2026-10-05). Do not use those as heroes; `scripts/media/sheet.mjs` makes a contact sheet of
+  licensed photos to choose a placement by eye.
 * Hebrew author names appear as written on Commons, in every language.
 * The builder needs network access only to `commons.wikimedia.org` and `upload.wikimedia.org`.
 * Sharp (used for resizing) ships with Next.js; no dependency was added.
