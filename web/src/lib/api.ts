@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { API_URL } from './config';
+import { decodeEntities } from './plainText';
 
 // Every response from the API is validated before the UI touches it, so a bad
 // record shows up as a clear error instead of a broken page. Old records hold
@@ -100,20 +101,24 @@ export type ProductReviews = z.infer<typeof productReviewsSchema>;
 
 // --- site reviews and prayers ---
 
+// Visitor-written text is stored HTML-escaped by the API; it is shown as text, so it is decoded here.
+const visitorText = z.string().transform(decodeEntities);
+const visitorTextOrEmpty = text.transform(decodeEntities);
+
 export const reviewSchema = z.object({
   _id: z.string(),
-  fullName: z.string(),
-  email: text, // holds the reviewer's country
-  msg: z.string(),
+  fullName: visitorText,
+  email: visitorTextOrEmpty, // holds the reviewer's country
+  msg: visitorText,
   createdAt: z.string().optional(),
 });
 export type Review = z.infer<typeof reviewSchema>;
 
 export const prayerSchema = z.object({
   _id: z.string(),
-  name: z.string(),
-  country: text,
-  prayer: z.string(),
+  name: visitorText,
+  country: visitorTextOrEmpty,
+  prayer: visitorText,
   category: z
     .string()
     .nullish()

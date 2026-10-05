@@ -60,9 +60,21 @@ function readStored(): CartLine[] {
   try {
     const parsed: unknown = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '[]');
     if (!Array.isArray(parsed)) return [];
+    // localStorage can be edited by anything running on this origin: keep only well-formed lines
+    // (a Mongo ObjectId, text fields, a sane price and quantity) so nothing odd reaches a link or image.
     return parsed.filter(
       (l): l is CartLine =>
-        l && typeof l._id === 'string' && typeof l.price === 'number' && Number.isInteger(l.quantity),
+        l &&
+        typeof l._id === 'string' &&
+        /^[a-f0-9]{24}$/i.test(l._id) &&
+        typeof l.name === 'string' &&
+        typeof l.img === 'string' &&
+        typeof l.color === 'string' &&
+        typeof l.price === 'number' &&
+        Number.isFinite(l.price) &&
+        Number.isInteger(l.quantity) &&
+        l.quantity >= 1 &&
+        l.quantity <= MAX_LINE_QUANTITY,
     );
   } catch {
     return [];

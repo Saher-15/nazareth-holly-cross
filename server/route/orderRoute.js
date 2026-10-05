@@ -5,6 +5,7 @@ import { createOrder as createPayPalOrder, captureOrder as capturePayPalOrder, a
 import { priceFor, quoteShopOrder } from '../services/pricing.js';
 import { requireAdmin } from '../middleware/auth.js';
 import { asyncHandler } from "../middleware/asyncHandler.js"
+import { config } from '../config/env.js';
 import { HttpError } from '../utils/httpError.js';
 import { paymentLimiter, newOrderLimiter } from '../utils/security.js';
 import { isEmail, isPayPalOrderId } from '../utils/validate.js';
@@ -69,6 +70,8 @@ routerOrder.post('/newOrder', newOrderLimiter, asyncHandler(async (req, res) => 
         }
         await assertPaid(body.paypalOrderId, totalPrice);
         paypalOrderId = body.paypalOrderId;
+    } else if (config.requirePaymentProof) {
+        throw new HttpError(402, 'Payment proof is required');
     } else {
         console.warn(`[${new Date().toISOString()}] [unverified-order] /order/newOrder without paypalOrderId (${totalPrice} USD): payment not checked`);
     }

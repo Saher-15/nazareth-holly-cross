@@ -44,6 +44,9 @@ export const config = {
   jwtSecret: env.JWT_SECRET,
   adminPassword: env.ADMIN_PASSWORD,
   clientUrl: env.CLIENT_URL,
+  // When "true", /order/newOrder refuses an order that does not carry a paypalOrderId PayPal confirmed.
+  // Off until every client sends it (the current CRA site does not); then switch it on.
+  requirePaymentProof: env.REQUIRE_PAYMENT_PROOF === 'true',
   // Comma-separated extra origins allowed by CORS (e.g. a new admin domain)
   extraOrigins: (env.EXTRA_ORIGINS || '').split(',').map((o) => o.trim()).filter(Boolean),
   mail: {

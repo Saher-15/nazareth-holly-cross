@@ -1,14 +1,13 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { PayPalButtons, PayPalScriptProvider, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import { PAYPAL_CLIENT_ID } from '@/lib/config';
+import { useCspNonce } from '@/lib/cspNonce';
 import { usePayPalOrder, type PaymentPayload } from '@/lib/paypal';
 import { AlertIcon, LockIcon } from './icons';
 import styles from './checkout.module.css';
-
-const SCRIPT_OPTIONS = { clientId: PAYPAL_CLIENT_ID, currency: 'USD', intent: 'capture' };
 
 type Props = {
   getPayload: () => PaymentPayload;
@@ -21,6 +20,12 @@ export default function PayPalPanel({ getPayload, onPaid }: Props) {
   const t = useTranslations('checkoutPage.payment');
   const { createOrder, onApprove, onError, error } = usePayPalOrder({ getPayload, onPaid });
   const [cancelled, setCancelled] = useState(false);
+  // The SDK adds script and style tags of its own; the nonce lets the Content-Security-Policy accept them.
+  const nonce = useCspNonce();
+  const scriptOptions = useMemo(
+    () => ({ clientId: PAYPAL_CLIENT_ID, currency: 'USD', intent: 'capture', dataCspNonce: nonce }),
+    [nonce],
+  );
 
   const start = useCallback(() => {
     setCancelled(false);
@@ -30,7 +35,7 @@ export default function PayPalPanel({ getPayload, onPaid }: Props) {
 
   return (
     <div>
-      <PayPalScriptProvider options={SCRIPT_OPTIONS}>
+      <PayPalScriptProvider options={scriptOptions}>
         <Buttons createOrder={start} onApprove={onApprove} onError={onError} onCancel={cancel} />
       </PayPalScriptProvider>
       {error && (

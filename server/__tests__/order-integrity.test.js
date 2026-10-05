@@ -23,6 +23,7 @@ vi.mock('../model/order.js', () => ({
 vi.mock('../services/emailService.js', () => ({ sendMail: (...a) => mocks.sendMail(...a), SENDER: {} }));
 
 const { createApp } = await import('../app.js');
+const { config } = await import('../config/env.js');
 const app = createApp();
 
 const address = { firstName: 'A', lastName: 'B', phone: '1', email: 'a@b.co', street: 's', city: 'c', state: 'x', postal: '1', country: 'IL' };
@@ -162,6 +163,21 @@ describe('newOrder without proof of payment (clients that do not send it yet)', 
   it.each([[''], [null]])('treats an empty paypalOrderId (%j) as not sent', async (empty) => {
     const res = await post({ ...address, products, paypalOrderId: empty });
     expect(res.status).toBe(201);
+  });
+
+  it('is refused (402) once REQUIRE_PAYMENT_PROOF is on, and a verified payment still works', async () => {
+    config.requirePaymentProof = true;
+    try {
+      const refused = await post({ ...address, products });
+      expect(refused.status).toBe(402);
+      expect(mocks.orderCreate).not.toHaveBeenCalled();
+
+      mockPayPal();
+      const accepted = await post({ ...address, products, paypalOrderId: PAYPAL_ID });
+      expect(accepted.status).toBe(201);
+    } finally {
+      config.requirePaymentProof = false;
+    }
   });
 });
 

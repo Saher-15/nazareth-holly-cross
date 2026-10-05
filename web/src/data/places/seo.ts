@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { locales } from '@/i18n/routing';
 import { SITE_URL } from '@/lib/config';
+import { serializeJsonLd as serializeJsonLdText } from '@/lib/jsonLd';
 import type { Photo, Place } from './places';
 
 // Metadata and schema.org JSON-LD for the holy sites, tour and about pages.
@@ -94,5 +95,5 @@ export function itemListJsonLd(
   };
 }
 
-/** JSON for a <script type="application/ld+json">, safe against "</script>" in any text. */
-export const serializeJsonLd = (data: JsonLd | JsonLd[]) => JSON.stringify(data).replace(/</g, '\\u003c');
+/** JSON for a <script type="application/ld+json">, safe against "</script>" in any text (see lib/jsonLd.ts). */
+export const serializeJsonLd = (data: JsonLd | JsonLd[]) => serializeJsonLdText(data);

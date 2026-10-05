@@ -1,0 +1,38 @@
+# Configuration for the gitleaks scan in .github/workflows/security.yml.
+# gitleaks's default rules stay on; this file only says what is NOT a secret.
+# (Not run locally when this was written: the first CI run may ask for another entry here.)
+
+title = "Nazareth Holy Cross"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Public values, placeholders and test data"
+paths = [
+  # Placeholders for people setting the API up (no real values).
+  '''server/\.env\.example$''',
+  # Fake credentials that exist only inside automated tests.
+  '''server/__tests__/''',
+  '''web/tests/''',
+  # Lock files hold package integrity hashes, which look like keys.
+  '''package-lock\.json$''',
+]
+# Values that are public on purpose. Each one is listed exactly, so a NEW value of the same shape is
+# still reported and has to be reviewed before it is added here.
+regexes = [
+  # The PayPal *client id* of the sandbox app: it is sent to every browser that shows the PayPal
+  # buttons. The client SECRET is never public and is not listed.
+  '''AfhOc9ToAj72gf5KEowYfhpWShGRSpzSL-Ps2HYX4ky95KmVX8vNRb0o5FZ3AGw3muq8DIvDP0Ua2_ad''',
+  # Firebase Storage download tokens: part of the public link of one product photo or video.
+  '''006a14aa-9398-49f4-bbf5-464c144f14f0''',
+  '''4052f0b5-aac5-42a2-9a43-b7e70bae5fc3''',
+  '''8465ecc1-614f-4080-acc6-1113f1623ea6''',
+  '''8d03dac8-640b-466c-81f0-bc35ce0a7230''',
+  '''9bbb1fe2-4439-497c-adf6-038697cde4e0''',
+  '''abc653e4-85ff-425d-b8b5-fa9d903a3d49''',
+  '''af5c1463-2e97-4ae3-b205-a7566f45f9be''',
+  '''b0173721-21a1-46d0-b15b-f2001b912e72''',
+  '''cab3d08c-237e-40b6-a64d-957d19d71731''',
+  '''cd8ea957-6c00-499e-9374-cdd99d2cbec1''',
+]

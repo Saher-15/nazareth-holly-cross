@@ -17,6 +17,10 @@ services:
       # then set both this and the client's REACT_APP_PAYPAL_CLIENT_ID to the live values together.
       - key: ENVIRONMENT
         value: sandbox
+      # 'true' = /order/newOrder refuses orders without a PayPal-verified payment (docs/SECURITY.md).
+      # Switch on once every client sends paypalOrderId (the new site does; the old CRA site does not).
+      - key: REQUIRE_PAYMENT_PROOF
+        value: 'false'
       - key: DATABASEURL
         sync: false
       - key: JWT_SECRET

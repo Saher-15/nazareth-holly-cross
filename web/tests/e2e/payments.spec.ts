@@ -225,6 +225,8 @@ test.describe('checkout', () => {
           country: 'Israel',
           totalPrice: 41,
           products: [{ productID: '66eb4665c7e03262956c8d1d', productName: 'Olive wood cross', quantity: 2, color: 'brown' }],
+          // the proof of payment: the API checks it with PayPal before it saves the order
+          paypalOrderId: 'TESTCAPTURE0000001',
         },
       },
     ]);
