@@ -3,11 +3,12 @@ import Contact from "../model/contact.js"
 import { config } from "../config/env.js"
 import { requireAdmin } from '../middleware/auth.js';
 import { asyncHandler } from "../middleware/asyncHandler.js"
+import { strictLimiter } from '../utils/security.js';
 
 
 const routerContact = express.Router();
 
-routerContact.post('/contact_us_request', asyncHandler(async (req, res) => {
+routerContact.post('/contact_us_request', strictLimiter, asyncHandler(async (req, res) => {
     const { fullName, email, phone, msg } = req.body;
 
     if(!fullName || typeof fullName !== 'string' || fullName.trim() === ''){

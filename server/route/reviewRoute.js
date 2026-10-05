@@ -2,6 +2,7 @@ import express from 'express';
 import Review from '../model/review.js';
 import { requireAdmin } from '../middleware/auth.js';
 import { asyncHandler } from '../middleware/asyncHandler.js';
+import { strictLimiter } from '../utils/security.js';
 
 const routerReview = express.Router();
 
@@ -15,7 +16,7 @@ routerReview.get('/getReviews', asyncHandler(async (req, res) => {
 }));
 
 // Public: submit a review
-routerReview.post('/addReview', asyncHandler(async (req, res) => {
+routerReview.post('/addReview', strictLimiter, asyncHandler(async (req, res) => {
   const { fullName, email, phone, msg } = req.body;
   if (!fullName || !msg) {
     return res.status(400).json({ error: 'Name and review message are required' });

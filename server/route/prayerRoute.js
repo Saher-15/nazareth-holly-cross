@@ -2,6 +2,7 @@ import express from 'express';
 import Prayer from '../model/prayer.js';
 import { requireAdmin } from '../middleware/auth.js';
 import { asyncHandler } from '../middleware/asyncHandler.js';
+import { strictLimiter } from '../utils/security.js';
 
 const routerPrayer = express.Router();
 
@@ -15,7 +16,7 @@ routerPrayer.get('/getPrayers', asyncHandler(async (req, res) => {
   res.json({ prayers, total, page, size });
 }));
 
-routerPrayer.post('/create', asyncHandler(async (req, res) => {
+routerPrayer.post('/create', strictLimiter, asyncHandler(async (req, res) => {
   const { name, country, prayer, category } = req.body;
   if (!name || !prayer) return res.status(400).json({ error: 'Name and prayer are required' });
   const newPrayer = new Prayer({ name, country, prayer, category });

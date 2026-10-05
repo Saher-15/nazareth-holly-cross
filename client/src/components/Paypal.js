@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import Select from 'react-select';
 import countryList from 'react-select-country-list';
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
@@ -7,7 +7,8 @@ import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
 import "../styles/PaypalProduct.css";
 import { useTranslation } from 'react-i18next';
-import { API_URL, PAYPAL_CLIENT_ID } from '../config/env';
+import { PAYPAL_CLIENT_ID } from '../config/env';
+import usePayPalOrder from '../payments/usePayPalOrder';
 
 const PayPalComponent = ({ discountAmount, cartItems }) => {
     const { t } = useTranslation();
@@ -52,7 +53,6 @@ const PayPalComponent = ({ discountAmount, cartItems }) => {
         clientId: PAYPAL_CLIENT_ID
     };
 
-    const intent = 'capture';
 
     const onCancel = (data) => {
         setShowAlert(true);
@@ -61,53 +61,16 @@ const PayPalComponent = ({ discountAmount, cartItems }) => {
         }, 2000);
     };
 
-    const onError = (err) => {
-        // Handle error
-    };
 
-    const createOrder = async () => {
-        try {
-            const response = await fetch(`${API_URL}/order/create_order`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json; charset=utf-8"
-                },
-                body: JSON.stringify({ "intent": intent, "amount": discountAmount })
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to create order');
-            }
-
-            const order = await response.json();
-            return order.id;
-        } catch (error) {
-            console.error('Error creating order:');
-        }
-    };
-
-    const onApprove = async (data) => {
-        const order_id = data.orderID;
-
-        const requestBody = {
-            "intent": intent,
-            "order_id": order_id
-        };
-
-        await fetch(`${API_URL}/order/complete_order`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json; charset=utf-8"
-            },
-            body: JSON.stringify(requestBody)
-        })
-            .then((response) => {
-                setShowConfirmation(true);
-                response.json();
-            })
-            .catch((error) => {
-            });
-    };
+    const getPayload = useCallback(() => ({
+        type: 'order',
+        items: cartItems.map((item) => ({ _id: item._id, quantity: item.quantity })),
+        amount: discountAmount, // only read by the pre-stage-6 API; the server now prices the items itself
+    }), [cartItems, discountAmount]);
+    const onPaid = useCallback(() => {
+        setShowConfirmation(true);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    const { createOrder, onApprove, onError, error: payError } = usePayPalOrder({ getPayload, onPaid });
 
     const isFormIncomplete = Object.values(form).some(value => value === "");
     const doEmailsMatch = form.email === form.confirmEmail;
@@ -239,6 +202,7 @@ const PayPalComponent = ({ discountAmount, cartItems }) => {
                                     onCancel={onCancel}
                                     onError={onError}
                                 />
+                                {payError && <p className="payment-error" role="alert">{payError}</p>}
                             </div>
                         )}
                     </PayPalScriptProvider>

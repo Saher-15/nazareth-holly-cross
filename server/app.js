@@ -15,6 +15,7 @@ import routerPrayer from './route/prayerRoute.js';
 import routerReview from './route/reviewRoute.js';
 import { globalLimiter } from './utils/security.js';
 import { config } from './config/env.js';
+import { HttpError } from './utils/httpError.js';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 
 // Builds the Express app without connecting to the DB or listening,
@@ -27,13 +28,17 @@ export function createApp() {
     app.use(morgan('dev'));
   }
 
+  // Only our own sites may call the API from a browser (any *.netlify.app used to be allowed).
   const allowedOrigins = [
     'http://localhost:3000',
     'http://localhost:5173',
     'http://localhost:5174',
+    'https://nazarethholycross.com',
+    'https://www.nazarethholycross.com',
+    // the public site and the admin site on Netlify, including deploy previews
+    /^https:\/\/([a-z0-9-]+--)?(nazarethholycross|nazaretholycrossadmin)\.netlify\.app$/,
     config.clientUrl,
-    /\.netlify\.app$/,
-    /\.netlify\.com$/,
+    ...config.extraOrigins,
   ].filter(Boolean);
 
   app.use(helmet());
@@ -44,7 +49,7 @@ export function createApp() {
         o instanceof RegExp ? o.test(origin) : o === origin
       );
       if (allowed) return cb(null, true);
-      cb(new Error('Not allowed by CORS'));
+      cb(new HttpError(403, 'Not allowed by CORS'));
     },
     credentials: true,
   }));
