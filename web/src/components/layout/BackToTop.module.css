@@ -11,7 +11,6 @@
   border: 1px solid var(--glass-line);
   background: rgba(17, 24, 48, 0.92);
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   color: var(--gold);
   box-shadow: var(--elev-3);
   cursor: pointer;

@@ -633,7 +633,7 @@
   },
   "ux": {
     "backToTop": "Back to top",
-    "loading": "Loadingג€¦",
+    "loading": "Loading…",
     "toast": {
       "region": "Notifications",
       "dismiss": "Dismiss notification"

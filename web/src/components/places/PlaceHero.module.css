@@ -19,14 +19,28 @@
   to { transform: scale(1.12) translate(-1%, -1%); }
 }
 
+:global(.ui-hero).hero::after {
+  /* The photo is the point of these pages: a light veil on top and a deeper one at the foot, with a soft
+     pool of shade behind the title instead of dimming everything. */
+  background:
+    radial-gradient(85% 65% at 50% 50%, color-mix(in srgb, var(--night) 62%, transparent), transparent 80%),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--night) 55%, transparent) 0%,
+      color-mix(in srgb, var(--night) 12%, transparent) 30%,
+      color-mix(in srgb, var(--night) 28%, transparent) 62%,
+      var(--night) 100%
+    );
+}
+
 .title {
   max-width: 920px;
   margin-inline: auto;
-  text-shadow: 0 4px 34px color-mix(in srgb, var(--night) 70%, transparent);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55), 0 4px 34px color-mix(in srgb, var(--night) 80%, transparent);
 }
 .lead {
   color: var(--cream);
-  text-shadow: 0 2px 18px color-mix(in srgb, var(--night) 80%, transparent);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7), 0 2px 18px color-mix(in srgb, var(--night) 90%, transparent);
 }
 
 .back {

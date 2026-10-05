@@ -12,6 +12,8 @@ type Props = {
   /** Turns the eyebrow into a link back to a parent page (e.g. all holy sites). */
   eyebrowHref?: string;
   lead?: string;
+  /** CSS object-position of the photo (its subject), so narrow screens crop around it. */
+  focus?: string;
   /** `tall` for a place, `medium` for the index, tour and about pages. */
   size?: 'tall' | 'medium';
   children?: ReactNode;
@@ -19,7 +21,7 @@ type Props = {
 
 // Full-bleed photo header of the holy sites pages: slow Ken Burns zoom (off for reduced motion),
 // eyebrow, title, lead and call-to-action buttons. Builds on the shared ui-hero block.
-export default function PlaceHero({ image, title, eyebrow, eyebrowHref, lead, size = 'tall', children }: Props) {
+export default function PlaceHero({ image, title, eyebrow, eyebrowHref, lead, focus, size = 'tall', children }: Props) {
   return (
     <header className={`ui-hero ${styles.hero} ${size === 'tall' ? styles.tall : styles.medium}`}>
       <Image
@@ -30,6 +32,7 @@ export default function PlaceHero({ image, title, eyebrow, eyebrowHref, lead, si
         sizes="100vw"
         loading="eager"
         fetchPriority="high"
+        style={focus ? { objectPosition: focus } : undefined}
       />
       <div className="ui-container">
         {eyebrowHref ? (

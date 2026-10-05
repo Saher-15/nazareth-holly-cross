@@ -59,7 +59,7 @@ export default async function PlacePage({ params }: PageProps<'/[locale]/sites/[
   return (
     <div className="ui-page">
       <JsonLd data={jsonLd} />
-      <PlaceHero image={place.hero} eyebrow={t('placesPage.allSites')} eyebrowHref="/sites" title={name}>
+      <PlaceHero image={place.hero} focus={place.heroFocus} eyebrow={t('placesPage.allSites')} eyebrowHref="/sites" title={name}>
         <ExternalLink
           href={place.mapUrl}
           className="ui-btn ui-btn--gold"

@@ -14,7 +14,6 @@
   z-index: -1;
   background: rgba(10, 14, 26, 0.55);
   backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
   transition: background var(--dur-base) ease;
 }
 .scrolled {

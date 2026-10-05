@@ -29,7 +29,6 @@
   .dialog {
     background: color-mix(in srgb, var(--night) 86%, transparent);
     backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
   }
 }
 .dialog *,

@@ -80,7 +80,7 @@
 .ui-btn--gold:focus-visible { outline-color: var(--cream); }
 .ui-btn--ghost { background: transparent; color: var(--cream); border-color: rgba(247, 239, 220, 0.5); }
 .ui-btn--ghost:hover { background: rgba(255, 255, 255, 0.1); border-color: var(--cream); }
-.ui-btn--glass { background: var(--glass); color: #fff; border-color: var(--glass-line); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.ui-btn--glass { background: var(--glass); color: #fff; border-color: var(--glass-line); backdrop-filter: blur(10px); }
 .ui-btn--glass:hover { background: var(--glass-strong); }
 .ui-btn--sm { padding: 8px 16px; font-size: 0.82rem; } /* still 44px tall: small is about padding and type, not the touch target */
 .ui-btn--lg { min-height: 52px; padding: 14px 30px; font-size: 1rem; }
@@ -97,7 +97,6 @@
   border: 1px solid var(--glass-line);
   border-radius: var(--radius);
   backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
   box-shadow: var(--shadow);
 }
 .ui-card { padding: clamp(18px, 3vw, 28px); }
@@ -152,7 +151,9 @@
 .ui-state { display: grid; justify-items: center; gap: var(--space-3); padding: clamp(28px, 6vw, 56px) var(--space-5); text-align: center; border-radius: var(--radius); border: 1px dashed var(--glass-line); background: var(--glass); }
 .ui-state__title { margin: 0; font: 400 var(--text-xl)/1.25 var(--serif); color: #fff; }
 .ui-state__text { margin: 0; max-width: 46ch; color: var(--muted); }
+.ui-state > .ui-icon { color: var(--gold); }
 .ui-state--error { border-color: color-mix(in srgb, var(--danger) 55%, transparent); border-style: solid; }
+.ui-state--error > .ui-icon { color: var(--danger); }
 .ui-state--error .ui-state__title { color: var(--danger); }
 .ui-alert { display: flex; gap: var(--space-3); align-items: flex-start; padding: var(--space-3) var(--space-4); border-radius: var(--radius-sm); border: 1px solid var(--glass-line); background: var(--glass); }
 .ui-alert--error { border-color: color-mix(in srgb, var(--danger) 60%, transparent); color: var(--danger); }
