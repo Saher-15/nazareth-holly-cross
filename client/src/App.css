@@ -64,7 +64,7 @@ body {
 
 /* PayPal checkout error message (shared by the three checkouts) */
 .payment-error {
-  color: #b00020;
+  color: var(--danger);
   text-align: center;
   margin-top: 12px;
 }
