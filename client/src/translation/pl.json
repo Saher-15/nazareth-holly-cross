@@ -342,5 +342,18 @@
     "voicesTitle": "Słowa naszych gości",
     "voicesAll": "Czytaj więcej i podziel się swoim",
     "storyEyebrow": "Historia"
+  },
+  "shell": {
+    "skipToContent": "Przejdź do treści",
+    "mainNav": "Nawigacja główna",
+    "openMenu": "Otwórz menu",
+    "closeMenu": "Zamknij menu",
+    "language": "Język",
+    "chooseLanguage": "Wybierz język",
+    "loading": "Ładowanie…",
+    "explore": "Odkrywaj",
+    "followUs": "Obserwuj nas",
+    "backToTop": "Do góry",
+    "newTab": "(otwiera się w nowej karcie)"
   }
 }

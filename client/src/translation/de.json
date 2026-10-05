@@ -338,5 +338,18 @@
     "voicesTitle": "Worte unserer Besucher",
     "voicesAll": "Mehr lesen und eigene Worte teilen",
     "storyEyebrow": "Die Geschichte"
+  },
+  "shell": {
+    "skipToContent": "Zum Inhalt springen",
+    "mainNav": "Hauptnavigation",
+    "openMenu": "Menü öffnen",
+    "closeMenu": "Menü schließen",
+    "language": "Sprache",
+    "chooseLanguage": "Sprache wählen",
+    "loading": "Wird geladen…",
+    "explore": "Entdecken",
+    "followUs": "Folgen Sie uns",
+    "backToTop": "Nach oben",
+    "newTab": "(öffnet in neuem Tab)"
   }
 }

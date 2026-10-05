@@ -341,5 +341,18 @@
     "voicesTitle": "Palabras de nuestros visitantes",
     "voicesAll": "Leer más y compartir la tuya",
     "storyEyebrow": "La historia"
+  },
+  "shell": {
+    "skipToContent": "Saltar al contenido",
+    "mainNav": "Navegación principal",
+    "openMenu": "Abrir menú",
+    "closeMenu": "Cerrar menú",
+    "language": "Idioma",
+    "chooseLanguage": "Elegir idioma",
+    "loading": "Cargando…",
+    "explore": "Explorar",
+    "followUs": "Síguenos",
+    "backToTop": "Volver arriba",
+    "newTab": "(se abre en una pestaña nueva)"
   }
 }
