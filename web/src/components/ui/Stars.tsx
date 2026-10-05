@@ -8,6 +8,19 @@ type Props = {
   countLabel?: string;
 };
 
+// Five drawn stars (not the ★ character, whose shape depends on the visitor's fonts).
+function StarRow() {
+  return (
+    <>
+      {[0, 1, 2, 3, 4].map((i) => (
+        <svg key={i} viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" focusable="false">
+          <path d="m12 2.6 2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.2 1.2-6.5-4.8-4.6 6.6-.9z" />
+        </svg>
+      ))}
+    </>
+  );
+}
+
 // Read-only star rating: five outlined stars with a gold fill clipped to the value.
 export default function Stars({ value, label, size = 'sm', count, countLabel }: Props) {
   const pct = Math.max(0, Math.min(100, (value / 5) * 100));
@@ -15,10 +28,10 @@ export default function Stars({ value, label, size = 'sm', count, countLabel }: 
     <span className={`${styles.root} ${styles[size]}`}>
       <span className={styles.stars} role="img" aria-label={label}>
         <span className={styles.base} aria-hidden="true">
-          ★★★★★
+          <StarRow />
         </span>
         <span className={styles.fill} style={{ inlineSize: `${pct}%` }} aria-hidden="true">
-          ★★★★★
+          <StarRow />
         </span>
       </span>
       {count !== undefined && (

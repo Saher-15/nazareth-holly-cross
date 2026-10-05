@@ -1,6 +1,5 @@
 .list {
   padding-top: clamp(24px, 4vw, 48px);
-  scroll-margin-top: 72px;
 }
 .head {
   margin-bottom: clamp(24px, 4vw, 40px);

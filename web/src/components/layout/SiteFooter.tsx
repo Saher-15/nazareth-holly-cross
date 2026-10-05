@@ -83,7 +83,13 @@ export default async function SiteFooter() {
           <FooterLanguages />
         </nav>
       </div>
-      <p className={styles.rights}>{t('footer.rights', { year })}</p>
+      <p className={styles.rights}>
+        {/* The brand and the year are one left-to-right unit, so the line reads right in Hebrew and Arabic. */}
+        <bdi dir="ltr">
+          © {year} {t('name')}
+        </bdi>{' '}
+        · {tx('rights')}
+      </p>
     </footer>
   );
 }

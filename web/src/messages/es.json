@@ -651,7 +651,8 @@
     "footer": {
       "languages": "Idiomas",
       "address": "Nazaret, Galilea",
-      "followOn": "Síguenos en {network} (se abre en una pestaña nueva)"
+      "followOn": "Síguenos en {network} (se abre en una pestaña nueva)",
+      "rights": "Todos los derechos reservados."
     },
     "notFound": {
       "suggestions": "¿A dónde quieres ir?",

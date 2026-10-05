@@ -9,6 +9,8 @@ import { isRtl, locales, localeNames, type Locale } from '@/i18n/routing';
 import styles from './LanguageSwitcher.module.css';
 
 const COLUMNS = 2;
+/** A language change rebuilds the page under the new language; this flag lets the new button take the focus back. */
+const FOCUS_FLAG = 'nhc:focus-language-button';
 const NAV_KEYS = ['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp', 'Home', 'End'];
 
 /** Index the arrow keys lead to from `index` in a grid of `COLUMNS` columns (mirrored in RTL). */
@@ -49,6 +51,18 @@ export default function LanguageSwitcher() {
   const menuId = useId();
   const rtl = isRtl(current);
 
+  // The page is rebuilt when the language changes, so the button that had the focus is a new element.
+  useEffect(() => {
+    try {
+      if (sessionStorage.getItem(FOCUS_FLAG)) {
+        sessionStorage.removeItem(FOCUS_FLAG);
+        triggerRef.current?.focus();
+      }
+    } catch {
+      /* storage blocked: the focus simply starts from the top */
+    }
+  }, []);
+
   const options = () => Array.from(rootRef.current?.querySelectorAll<HTMLButtonElement>('[data-locale]') ?? []);
 
   // Opening moves the focus to the current language; closing from outside needs no focus change.
@@ -80,6 +94,11 @@ export default function LanguageSwitcher() {
     if (pending) return;
     close(true);
     if (locale === current) return;
+    try {
+      sessionStorage.setItem(FOCUS_FLAG, '1');
+    } catch {
+      /* storage blocked */
+    }
     startTransition(() => {
       // Same page in the other language: /en/shop/123 -> /he/shop/123
       router.replace(

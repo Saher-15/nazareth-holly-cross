@@ -651,7 +651,8 @@
     "footer": {
       "languages": "Idiomas",
       "address": "Nazaré, Galileia",
-      "followOn": "Siga-nos no {network} (abre em uma nova aba)"
+      "followOn": "Siga-nos no {network} (abre em uma nova aba)",
+      "rights": "Todos os direitos reservados."
     },
     "notFound": {
       "suggestions": "Para onde você quer ir?",

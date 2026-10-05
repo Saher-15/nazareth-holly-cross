@@ -633,7 +633,7 @@
   },
   "ux": {
     "backToTop": "Back to top",
-    "loading": "Loading…",
+    "loading": "Loadingג€¦",
     "toast": {
       "region": "Notifications",
       "dismiss": "Dismiss notification"
@@ -651,7 +651,8 @@
     "footer": {
       "languages": "Languages",
       "address": "Nazareth, Galilee",
-      "followOn": "Follow us on {network} (opens in a new tab)"
+      "followOn": "Follow us on {network} (opens in a new tab)",
+      "rights": "All rights reserved."
     },
     "notFound": {
       "suggestions": "Where would you like to go?",

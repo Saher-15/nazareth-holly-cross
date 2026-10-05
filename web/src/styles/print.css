@@ -19,7 +19,24 @@
     display: none !important;
   }
 
-  .ui-page { background: none !important; color: #000 !important; padding: 0 !important; min-height: 0; overflow: visible; }
+  /* Ink on paper: whatever colours the screen design uses, text prints dark on white, without glass,
+     shadows or photo backgrounds. */
+  .ui-page, .ui-page * {
+    color: #111 !important;
+    background: none !important;
+    border-color: #999 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    backdrop-filter: none !important;
+    filter: none !important;
+  }
+  .ui-page { padding: 0 !important; min-height: 0; overflow: visible; }
+  /* Buttons and the "more places" photo cards are for the screen; the facts stay. */
+  .ui-page a.ui-btn,
+  .ui-page button,
+  [aria-labelledby='place-more-title'] {
+    display: none !important;
+  }
   .ui-section { padding-block: 10pt !important; }
   .ui-container { width: 100% !important; }
 
@@ -27,15 +44,13 @@
   .ui-hero { display: block !important; min-height: 0 !important; padding: 0 0 10pt !important; text-align: start !important; background: none !important; }
   .ui-hero::after { display: none !important; }
   .ui-hero__bg { display: none !important; }
-  .ui-hero a.ui-btn { display: none !important; }
-  .ui-hero__title, .ui-h2, .ui-h3 { color: #000 !important; text-shadow: none !important; page-break-after: avoid; break-after: avoid; }
+  .ui-hero__title, .ui-h2, .ui-h3 { color: #000 !important; page-break-after: avoid; break-after: avoid; }
   .ui-hero__title { font-size: 24pt; }
-  .ui-eyebrow { color: #555 !important; }
-  .ui-hero__lead, .ui-muted { color: #333 !important; text-shadow: none !important; }
+  .ui-eyebrow, .ui-eyebrow a { color: #555 !important; border: 0 !important; padding: 0 !important; }
+  .ui-hero__lead, .ui-muted { color: #333 !important; }
 
-  .ui-glass { background: none !important; box-shadow: none !important; border: 1px solid #999 !important; backdrop-filter: none !important; border-radius: 6pt; break-inside: avoid; }
+  .ui-glass { border: 1px solid #999 !important; border-radius: 6pt; break-inside: avoid; }
   .ui-reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
-  .ui-btn { border: 1px solid #000 !important; background: none !important; color: #000 !important; box-shadow: none !important; }
 
   /* Links print their address, so a paper copy is still useful. */
   a[href^='http']::after { content: ' (' attr(href) ')'; font-size: 9pt; word-break: break-all; color: #333; }

@@ -49,9 +49,11 @@ export default function SiteHeader() {
   useEffect(() => {
     const root = document.documentElement;
     const isDrawer = window.matchMedia?.(DRAWER_QUERY).matches ?? false;
+    let frame = 0;
     if (open && isDrawer) {
       root.dataset.menuOpen = 'true';
-      navRef.current?.querySelector<HTMLElement>('a')?.focus();
+      // One frame later: the drawer turns visible (and so focusable) when its open class has been painted.
+      frame = requestAnimationFrame(() => navRef.current?.querySelector<HTMLElement>('a')?.focus());
     } else {
       delete root.dataset.menuOpen;
     }
@@ -65,6 +67,7 @@ export default function SiteHeader() {
     };
     mql?.addEventListener?.('change', onChange);
     return () => {
+      cancelAnimationFrame(frame);
       mql?.removeEventListener?.('change', onChange);
       delete root.dataset.menuOpen;
     };

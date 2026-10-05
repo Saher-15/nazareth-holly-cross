@@ -52,12 +52,6 @@
   color: var(--gold);
   transition: transform var(--dur-base) var(--ease-out);
 }
-/* Hebrew and Arabic names are set in their own serif and need no tracking. */
-.brand:lang(he),
-.brand:lang(ar) {
-  letter-spacing: 0;
-  font-size: 1.3rem;
-}
 
 .nav {
   margin-inline-start: auto;
@@ -135,7 +129,7 @@
 
 /* Wide screens: the donate button joins the bar. */
 @media (max-width: 1239px) {
-  .donate {
+  .actions .donate {
     display: none;
   }
 }
@@ -168,6 +162,8 @@
     opacity: 1;
     transform: none;
     visibility: visible;
+    /* Visible at once (so it can take the focus); only the fade is animated. */
+    transition: opacity var(--dur-base) ease, transform var(--dur-base) ease, visibility 0s;
   }
   .nav ul {
     flex-direction: column;

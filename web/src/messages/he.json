@@ -651,7 +651,8 @@
     "footer": {
       "languages": "שפות",
       "address": "נצרת, הגליל",
-      "followOn": "עקבו אחרינו ב-{network} (נפתח בלשונית חדשה)"
+      "followOn": "עקבו אחרינו ב-{network} (נפתח בלשונית חדשה)",
+      "rights": "כל הזכויות שמורות."
     },
     "notFound": {
       "suggestions": "לאן תרצו ללכת?",

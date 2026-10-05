@@ -16,8 +16,6 @@
 .ui-page :focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-offset); }
 .ui-container { width: min(var(--container), 100% - 32px); margin-inline: auto; }
 .ui-section { padding-block: clamp(40px, 7vw, 80px); }
-/* Anchors inside a page stop below the sticky header instead of under it. */
-.ui-section, [id].ui-anchor { scroll-margin-top: var(--scroll-offset); }
 
 /* ---- page header (see components/ui/PageHero.tsx) ---- */
 .ui-hero {

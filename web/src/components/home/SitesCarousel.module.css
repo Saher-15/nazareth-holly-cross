@@ -1,7 +1,6 @@
 .section {
   --gutter: max(16px, calc((100% - var(--container)) / 2));
   padding-block: 40px 72px;
-  scroll-margin-top: 68px;
 }
 
 .head {

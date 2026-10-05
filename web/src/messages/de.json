@@ -651,7 +651,8 @@
     "footer": {
       "languages": "Sprachen",
       "address": "Nazareth, Galiläa",
-      "followOn": "Folgen Sie uns auf {network} (öffnet in einem neuen Tab)"
+      "followOn": "Folgen Sie uns auf {network} (öffnet in einem neuen Tab)",
+      "rights": "Alle Rechte vorbehalten."
     },
     "notFound": {
       "suggestions": "Wohin möchten Sie?",

@@ -6,12 +6,20 @@
 }
 .stars {
   position: relative;
-  display: inline-block;
-  letter-spacing: 2px;
-  font-family: system-ui, sans-serif; /* the star glyph, not the page font */
+  display: inline-flex;
+}
+.base,
+.fill {
+  display: inline-flex;
+  gap: 0.12em;
 }
 .base {
   color: rgba(255, 255, 255, 0.22);
+}
+/* The fill is clipped by its width, so the star shapes inside must keep their size. */
+.base svg,
+.fill svg {
+  flex: none;
 }
 .fill {
   position: absolute;

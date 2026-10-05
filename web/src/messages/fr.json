@@ -651,7 +651,8 @@
     "footer": {
       "languages": "Langues",
       "address": "Nazareth, Galilée",
-      "followOn": "Suivez-nous sur {network} (s’ouvre dans un nouvel onglet)"
+      "followOn": "Suivez-nous sur {network} (s’ouvre dans un nouvel onglet)",
+      "rights": "Tous droits réservés."
     },
     "notFound": {
       "suggestions": "Où souhaitez-vous aller ?",
