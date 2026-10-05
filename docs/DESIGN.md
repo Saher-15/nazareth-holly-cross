@@ -15,7 +15,7 @@ accent colour, photographs do the talking.
    values or font names in components.
 2. **Logical CSS only.** `margin-inline-start`, `inset-inline-end`, `text-align: start`, `border-inline-start`.
    Never `left`/`right` for layout. The site is mirrored in Hebrew and Arabic with no extra stylesheet.
-3. **Every visible word goes through next-intl** (`messages/*.json`, all 11 languages). New strings of the shell
+3. **Every visible word goes through next-intl** (`messages/*.json`, all 14 languages). New strings of the shell
    live in the `ux` namespace.
 4. **44px touch targets** (`--tap`) for everything pressable in the header, footer and shared components.
 5. **One focus ring** (`--focus-ring`, 3px gold) on everything focusable, never removed.
@@ -137,7 +137,7 @@ more opaque after 12px of scrolling. Gold "Donate" button from 1240px (1320px in
 ![Language menu, English](design/shell-language-menu-en.png)
 ![Language menu, Hebrew](design/shell-language-menu-he.png)
 
-**Language menu:** all 11 languages, each in its own script, two columns, current one ticked. Keyboard: Enter or
+**Language menu:** all 14 languages, each in its own script, two columns, current one ticked. Keyboard: Enter or
 arrow-down opens and focuses the current language; arrows (mirrored in RTL), Home, End move; Escape closes;
 choosing a language reopens the same page in it and puts the focus back on the button.
 

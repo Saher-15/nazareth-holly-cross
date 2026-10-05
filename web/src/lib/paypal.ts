@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from 'react';
 import { z } from 'zod';
+import './zodConfig';
 import { postJson } from './apiClient';
 
 // What is being paid for. The API decides the amount; the browser only says what.

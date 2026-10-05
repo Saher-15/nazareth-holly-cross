@@ -68,9 +68,15 @@ Then revert the commit on `main` with a pull request.
   exports and mis-ordered imports; `npm test` rejects raw colours, typeface names and `left`/`right` in CSS
   (`tests/unit/conventions.test.ts`), message keys that do not exist, and new unused messages
   (`tests/unit/i18n-usage.test.ts`).
-- Shared building blocks, use them instead of writing another copy: `lib/seo.ts` (`pageMetadata`), `lib/jsonld.ts`
+- Shared building blocks, use them instead of writing another copy: `lib/seo.ts` (`pageMetadata`), `lib/jsonLd.ts`
   + `components/ui/JsonLd`, `components/ui/{Notice,Flame,SvgIcon,icons}`, `lib/images.isOptimizable`, `lib/motion.ts`,
-  `lib/time.ts`. The code review that introduced them is in `docs/REVIEW.md`.
+  `lib/time.ts`. The code review that introduced them is in `docs/REVIEW.md`. Every page builds its metadata with
+  `pageMetadata` (hreflang for all languages + x-default, `og:locale` from `ogLocale`) and its JSON-LD with
+  `lib/jsonLd.ts` (`webPageJsonLd`, `breadcrumbJsonLd`, `faqJsonLd`, ...); `tests/unit/security.test.ts` enforces it.
+- Navigation lives in `lib/site.ts`: `mainNav` (header), `footerNav` (Explore), `pilgrimNav` (Plan and discover),
+  `legalNav` + `creditsPage` (Help and legal). The sitemap, the footer and the site search read the same lists.
+- `/gallery` is one page: the licensed photos (`data/media.ts`, see `docs/MEDIA.md`) grouped by topic, a filter by
+  holy site, and the lightbox that names the photographer; `/credits` lists every author and licence.
 
 ## 6. Languages
 

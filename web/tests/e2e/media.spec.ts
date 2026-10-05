@@ -150,6 +150,8 @@ test.describe('licensed photos on the holy-site pages', () => {
     await page.waitForLoadState('networkidle');
     await page.locator('#place-gallery').scrollIntoViewIfNeeded();
     await page.locator('#place-gallery li').nth(3).scrollIntoViewIfNeeded();
+    // The lazy tiles start loading a frame after the scroll, which "networkidle" can miss: wait for a tile.
+    await expect.poll(() => loaded.filter((u) => !u.includes('/basilica-facade/')).length).toBeGreaterThan(0);
     await page.waitForLoadState('networkidle');
     const hero = loaded.filter((u) => u.includes('/basilica-facade/'));
     expect(hero.length).toBeGreaterThan(0);

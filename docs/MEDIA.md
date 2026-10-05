@@ -15,7 +15,7 @@ author, licence and a link to the original: in the photo viewer, on `/credits`, 
 | Responsive `<picture>` component | `web/src/components/media/MediaPicture.tsx` |
 | `/credits` (every photo, author, licence, source) | `web/src/app/[locale]/credits/` |
 | `/gallery` (Nazareth in pictures, grouped by topic) | `web/src/app/[locale]/gallery/` |
-| Translated strings (all 11 languages) | `media` namespace in `web/src/messages/*.json` |
+| Translated strings (all 14 languages) | `media` namespace in `web/src/messages/*.json` |
 
 ## 1. The photos
 
@@ -153,7 +153,7 @@ Nothing NC or ND appeared in the results (Commons does not host them), but the b
 3. From `web/`: `npm run media:build`. It checks the licence, downloads the original from `upload.wikimedia.org`
    (only), writes the AVIF/WebP files and rewrites `media.generated.ts`. Originals stay outside the repository
    (`MEDIA_CACHE`, default `<repo>/.media-cache`, git-ignored); `--offline` rebuilds from the cache.
-4. A new `subject` or `topic` needs a translation in all 11 `media` blocks (the unit test fails until it has one).
+4. A new `subject` or `topic` needs a translation in all 14 `media` blocks (the unit test fails until it has one).
 5. Look at it (`npm run build`, `npm start`, open `/gallery` and the holy-site page) and run the tests.
 6. Every few months: `npm run media:verify` asks Commons again and fails if a file vanished or its licence or
    author changed.

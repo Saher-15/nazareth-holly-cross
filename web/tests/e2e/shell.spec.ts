@@ -20,7 +20,7 @@ test('Hebrew and Arabic pages are right-to-left', async ({ page }) => {
 test('the language switcher keeps the visitor on the same page', async ({ page }) => {
   await page.goto('/en');
   await page.getByRole('button', { name: /language/i }).click();
-  await page.getByRole('link', { name: 'Ελληνικά' }).click();
+  await page.getByRole('list', { name: /language/i }).getByRole('link', { name: 'Ελληνικά' }).click();
   await expect(page).toHaveURL(/\/el$/);
   await expect(page.locator('html')).toHaveAttribute('lang', 'el');
 });

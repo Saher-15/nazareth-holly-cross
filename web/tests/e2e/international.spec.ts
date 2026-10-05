@@ -104,7 +104,7 @@ test.describe('the language a visitor lands on', () => {
     const page = await context.newPage();
     await page.goto('/en/about');
     await page.getByRole('button', { name: /language/i }).click();
-    await page.getByRole('link', { name: 'Nederlands' }).click();
+    await page.getByRole('list', { name: /language/i }).getByRole('link', { name: 'Nederlands' }).click();
     await expect(page).toHaveURL(/\/nl\/about$/);
     await expect(page.locator('html')).toHaveAttribute('lang', 'nl');
     await page.goto('/'); // the bare address now follows the saved choice, not the browser language
@@ -232,8 +232,9 @@ test.describe('accessibility in other languages', () => {
 test('the footer line reads correctly in Hebrew and Arabic (isolated, so the © and year stay with the name)', async ({ page }) => {
   for (const locale of ['he', 'ar']) {
     await page.goto(`/${locale}`);
-    const text = await page.locator('footer p').last().textContent();
-    expect(text, locale).toMatch(/^⁦© \d{4} Nazareth Holy Cross⁩\./);
+    // The brand and the year sit in their own left-to-right <bdi>, so they stay together in right-to-left text.
+    const line = page.locator('footer p').last();
+    await expect(line.locator('bdi[dir="ltr"]'), locale).toHaveText(/^© \d{4} Nazareth Holy Cross$/);
   }
 });
 

@@ -9,7 +9,13 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/cart'>):
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'shopPage.meta' });
   // A cart is personal: keep it out of search results, but let crawlers follow its links.
-  return pageMetadata({ locale, path: '/cart', title: t('cartTitle'), description: t('cartDescription'), noindex: true });
+  return pageMetadata({
+    locale,
+    path: '/cart',
+    title: t('cartTitle'), description: t('cartDescription'),
+    image: { src: '/images/nazareth/nazareth1.webp', width: 1024, height: 683 },
+    noindex: true,
+  });
 }
 
 // The page shell is static; the cart itself is read from the browser by <CartView />.

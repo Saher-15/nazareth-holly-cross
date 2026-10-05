@@ -1,3 +1,4 @@
+import './zodConfig';
 import { z } from 'zod';
 import { API_URL } from './config';
 import { decodeEntities } from './plainText';

@@ -1,11 +1,12 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
+import { locales } from '../../src/i18n/routing';
 
 // Cross-cutting QA of the whole site: routing, every language, metadata, icons, focus and accessibility.
 // Regression tests for the bugs listed in docs/QA.md (QA-01 ...). Nothing here reaches the real API:
 // every request that leaves localhost is aborted.
 
-const LOCALES = ['en', 'fr', 'es', 'de', 'it', 'pt', 'pl', 'ru', 'el', 'he', 'ar'] as const;
+const LOCALES = locales;
 const RTL = ['he', 'ar'];
 const PLACES = ['latin', 'greek', 'maryswell', 'oldcity', 'city'];
 // Every page except the shop (another team's work), with the paths that need no data from the API.
@@ -86,7 +87,7 @@ test.describe('every language', () => {
 });
 
 test.describe('metadata', () => {
-  test('QA-02 every page names its canonical address and all 11 languages plus x-default, with a share image', async ({ request, isMobile }) => {
+  test('QA-02 every page names its canonical address and every language plus x-default, with a share image', async ({ request, isMobile }) => {
     test.skip(isMobile, 'markup is the same on every device');
     test.setTimeout(120_000);
     for (const locale of LOCALES) {
@@ -94,7 +95,7 @@ test.describe('metadata', () => {
         const html = await (await request.get(`/${locale}${path}`)).text();
         const where = `${locale}${path}`;
         expect(head(html, /<link rel="canonical" href="([^"]+)"/), where).toMatch(new RegExp(`/${locale}${path}$`));
-        expect(html.match(/<link rel="alternate" hrefLang="[^"]+"/g)?.length, `${where} hreflang`).toBe(12);
+        expect(html.match(/<link rel="alternate" hrefLang="[^"]+"/g)?.length, `${where} hreflang`).toBe(locales.length + 1);
         expect(html, `${where} x-default`).toContain('hrefLang="x-default"');
         expect(html, `${where} og:image`).toMatch(/<meta property="og:image" content="[^"]+"/);
         // Open Graph wants language_TERRITORY (he_IL), starting with the language of the page.
@@ -153,7 +154,7 @@ test.describe('language switcher', () => {
     await offline(page);
     await page.goto('/en/reviews?utm_source=qa#review-wall-title');
     await page.getByRole('button', { name: /language/i }).click();
-    await page.getByRole('link', { name: 'עברית' }).click();
+    await page.getByRole('list', { name: /language/i }).getByRole('link', { name: 'עברית' }).click();
     await expect(page).toHaveURL(/\/he\/reviews\?utm_source=qa#review-wall-title$/);
     await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
     // Focus is on the switcher, not lost on <body>.
@@ -165,9 +166,10 @@ test.describe('language switcher', () => {
     await page.goto('/en');
     const trigger = page.getByRole('button', { name: /language/i });
     await trigger.click();
-    await page.getByRole('link', { name: 'Français' }).focus();
+    const menu = page.getByRole('list', { name: /language/i });
+    await menu.getByRole('link', { name: 'Français' }).focus();
     await page.keyboard.press('Escape');
-    await expect(page.getByRole('link', { name: 'Français' })).toHaveCount(0);
+    await expect(menu).toHaveCount(0);
     await expect(trigger).toBeFocused();
   });
 });
@@ -181,7 +183,7 @@ test.describe('keyboard', () => {
       await page.keyboard.press('Tab');
       const skip = page.locator('a.skip-link');
       await expect(skip).toBeFocused();
-      expect((await skip.boundingBox())!.y).toBeGreaterThanOrEqual(0);
+      await expect(skip).toBeInViewport(); // it slides in, so wait for it instead of measuring mid-way
       await page.keyboard.press('Enter');
       await expect(page.locator('#main')).toBeFocused();
     }
@@ -321,7 +323,7 @@ test.describe('accessibility of interactive states', () => {
       await offline(page);
       await seedCart(page);
       await page.goto(`/${locale}`);
-      await page.locator('button[aria-haspopup="true"]').first().click();
+      await page.getByRole('button', { name: /language|שפה/i }).first().click();
       await expectClean(page, 'language menu');
       await page.keyboard.press('Escape');
       if (isMobile) {
@@ -359,7 +361,8 @@ test.describe('navigation', () => {
     await expect(page).toHaveURL(/\/he\/sites$/);
     await expect(page.locator('html')).toHaveAttribute('lang', 'he');
     // Every internal link of the page keeps the language.
-    const hrefs = await page.locator('main a[href^="/"], header a[href^="/"], footer a[href^="/"]').evaluateAll((as) => as.map((a) => a.getAttribute('href')));
+    // (the language links, which carry hreflang, point to the other languages on purpose)
+    const hrefs = await page.locator('main a[href^="/"]:not([hreflang]), header a[href^="/"]:not([hreflang]), footer a[href^="/"]:not([hreflang])').evaluateAll((as) => as.map((a) => a.getAttribute('href')));
     expect(hrefs.filter((h) => h && !h.startsWith('/he'))).toEqual([]);
   });
 

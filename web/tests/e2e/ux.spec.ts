@@ -1,5 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
+import { locales } from '../../src/i18n/routing';
 
 // UI/UX behaviour of the site shell: skip link, language menus, 404, back-to-top, reading progress,
 // share toast, print styles, right-to-left mirroring and touch targets.
@@ -24,22 +25,23 @@ test('the language menu works with the keyboard and returns the focus', async ({
   test.skip(isMobile, 'keyboard only');
   await page.goto('/en/about');
   const trigger = page.getByRole('button', { name: /language/i });
+  const menu = page.getByRole('list', { name: 'Choose a language' });
   await trigger.focus();
   await page.keyboard.press('Enter');
   await expect(trigger).toHaveAttribute('aria-expanded', 'true');
   // The current language has the focus; the arrow keys move through the grid.
-  await expect(page.getByRole('button', { name: 'English', exact: true })).toBeFocused();
+  await expect(menu.getByRole('link', { name: 'English', exact: true })).toBeFocused();
   await page.keyboard.press('ArrowRight');
-  await expect(page.getByRole('button', { name: 'Français' })).toBeFocused();
+  await expect(menu.getByRole('link', { name: 'Français' })).toBeFocused();
   await page.keyboard.press('End');
-  await expect(page.getByRole('button', { name: 'العربية' })).toBeFocused();
+  await expect(menu.getByRole('link', { name: 'العربية' })).toBeFocused();
   await page.keyboard.press('Escape');
   await expect(trigger).toHaveAttribute('aria-expanded', 'false');
   await expect(trigger).toBeFocused();
 
   // Choosing a language opens the same page in it and gives the focus back to the button.
   await page.keyboard.press('Enter');
-  await page.getByRole('button', { name: 'Deutsch' }).click();
+  await menu.getByRole('link', { name: 'Deutsch' }).click();
   await expect(page).toHaveURL(/\/de\/about$/);
   await expect(page.locator('html')).toHaveAttribute('lang', 'de');
   await expect(page.getByRole('button', { name: /sprache/i })).toBeFocused();
@@ -49,7 +51,7 @@ test('the footer lists every language as a link to the same page', async ({ page
   await page.goto('/en/about');
   const nav = page.getByRole('navigation', { name: 'Languages' });
   const links = nav.getByRole('link');
-  await expect(links).toHaveCount(11);
+  await expect(links).toHaveCount(locales.length);
   await expect(nav.getByRole('link', { name: 'English' })).toHaveAttribute('aria-current', 'true');
   await expect(nav.getByRole('link', { name: 'עברית' })).toHaveAttribute('hreflang', 'he');
   await nav.getByRole('link', { name: 'Ελληνικά' }).click();

@@ -3,7 +3,7 @@
 The pages `/privacy`, `/terms` and `/shipping-returns` were written by an AI agent from facts in the code. They are
 deliberately conservative, but they are **not legal advice** and must be read by the owner and, ideally, a lawyer
 before the new site replaces the old one. Texts live in `web/src/messages/<locale>.json` under `pilgrim.legal.*`
-(11 languages, machine-made: native-speaker review needed too). Update `LEGAL_UPDATED` in
+(14 languages, machine-made: native-speaker review needed too). Update `LEGAL_UPDATED` in
 `web/src/components/pilgrim/LegalDocument.tsx` with every change.
 
 ## Decisions only the owner can make
