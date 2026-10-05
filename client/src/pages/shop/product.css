@@ -1,0 +1,152 @@
+/* General Styles */
+.product {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  padding-bottom: 80px;
+  /* Space for the button */
+  display: flex;
+  flex-direction: column;
+  /* Stacking children vertically */
+  justify-content: space-between;
+  /* Space out children */
+}
+
+.img-size {
+  width: 100%;
+  height: 50vh;
+  border-radius: 25px !important;
+  object-fit:cover;
+}
+
+.product-info {
+  flex: 1;
+  /* Allow info section to take available space */
+}
+
+.nameCard {
+  margin: 0;
+  padding: 0;
+  font-size: 1.1rem;
+  /* Adjust font size as needed */
+  font-weight: bold;
+}
+
+.price {
+  font-size: 1.2rem;
+  /* Adjust font size as needed */
+  font-weight: bold;
+  margin: 10px 0;
+  color: tomato;
+  /* Space between price and other elements */
+}
+
+
+.message {
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+
+.cart-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #242424;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1200px) {
+  .img-size {
+    width: 100%;
+    height: 50vh;
+  }
+  
+
+  .addToCartBttn- {
+    padding: 8px 16px;
+  }
+}
+
+@media (max-width: 992px) {
+  .product {
+    padding: 15px;
+  }
+
+  .img-size {
+    width: 100%;
+    height: 50vh;
+  }
+
+  .addToCartBttn- {
+    padding: 7px 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .product {
+    padding: 10px;
+    margin-bottom: 15px;
+  }
+
+  .img-size {
+    width: 100%;
+    height: 50vh;
+  }
+
+  .addToCartBttn- {
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+
+  .message {
+    padding: 4px 8px;
+  }
+}
+
+@media (max-width: 576px) {
+  .product {
+    padding: 8px;
+    margin-bottom: 10px;
+  }
+
+  .img-size {
+    width: 100%;
+    height: 50vh;
+  }
+
+  .addToCartBttn- {
+    padding: 5px 10px;
+    font-size: 10px;
+  }
+
+  .message {
+    padding: 3px 6px;
+  }
+}
+
+@media (max-width: 320px) {
+  .product {
+    padding: 8px;
+    margin-bottom: 10px;
+  }
+
+  .img-size {
+    width: 100%;
+    height: 50vh;
+  }
+
+  .addToCartBttn- {
+    padding: 5px 10px;
+    font-size: 8px;
+  }
+
+  .message {
+    padding: 3px 6px;
+  }
+}

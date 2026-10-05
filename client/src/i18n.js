@@ -1,40 +1,39 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
-
-import en from './translation/en.json';
-import fr from './translation/fr.json';
-import es from './translation/es.json';
-import de from './translation/de.json';
-import ru from './translation/ru.json';
-import pt from './translation/pt.json';
-import it from './translation/it.json';
-import pl from './translation/pl.json';
-import el from './translation/el.json';
 
 i18n
-  .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     resources: {
-      en: { translation: en },
-      fr: { translation: fr },
-      es: { translation: es },
-      de: { translation: de },
-      ru: { translation: ru },
-      pt: { translation: pt },
-      it: { translation: it },
-      pl: { translation: pl },
-      el: { translation: el },
+      en: {
+        translation: require('./translation/en.json'), // Ensure path is correct
+      },
+      fr: {
+        translation: require('./translation/fr.json'), // Ensure path is correct
+      },
+      es: {
+        translation: require('./translation/es.json'), // Ensure path is correct
+      },
+      ru: {
+        translation: require('./translation/ru.json'), // Ensure path is correct
+      },
+      pt: {
+        translation: require('./translation/pt.json'), // Ensure path is correct
+      },
+      it: {
+        translation: require('./translation/it.json'), // Ensure path is correct
+      },
+      pl: {
+        translation: require('./translation/pl.json'), // Ensure path is correct
+      },
+      de: {
+        translation: require('./translation/de.json'), // Ensure path is correct
+      }
     },
-    fallbackLng: 'en',
-    detection: {
-      order: ['localStorage', 'navigator'],
-      caches: ['localStorage'],
-      lookupLocalStorage: 'nhc-language',
-    },
+    lng: 'en', // Default language
+    fallbackLng: 'en', // Fallback language
     interpolation: {
-      escapeValue: false,
+      escapeValue: false, // React already safeguards from XSS
     },
   });
 

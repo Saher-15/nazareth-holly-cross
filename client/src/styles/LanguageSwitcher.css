@@ -1,0 +1,169 @@
+.language-switcher {
+    position: relative;
+    margin: 20px;
+    font-family: 'Montserrat', sans-serif;
+    color: #242424;
+}
+
+.language-button {
+    margin-right: 10px;
+    background-color: #ffdf00;
+    color: #242424;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 18px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.language-button:hover {
+    background-color: #e0c200;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.language-options {
+    position: absolute;
+    top: 100%;
+    left: 0; /* Center the dropdown */
+    transform: translateX(-50%); /* Adjust the dropdown to be centered */
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    margin-top: 8px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+    min-width: 200px;
+    transition: all 0.3s ease;
+    max-width: 90vw; /* Ensure it doesn't overflow */
+    max-height: 300px; /* Set a max height to trigger scrolling */
+    overflow-y: auto; /* Allow vertical scrolling */
+}
+
+/* Scrollbar styles */
+.language-options::-webkit-scrollbar {
+    width: 8px;
+}
+
+.language-options::-webkit-scrollbar-thumb {
+    background-color: #ffdf00;
+    border-radius: 10px;
+    border: 2px solid #e0c200;
+}
+
+.language-options::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 10px;
+}
+
+.language-card {
+    background-color: #ffdf00;
+    color: #242424;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    padding: 12px 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.language-card:hover {
+    background-color: #e0c200;
+    transform: translateY(-3px);
+    border-color: #ff9900;
+}
+
+.language-card h3 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.icon-language {
+    font-size: 2.2rem;
+    margin-right: 8px;
+}
+
+/* Media Queries for Responsiveness */
+
+/* For devices larger than 768px (tablets and desktops) */
+@media (max-width: 768px) {
+    .language-button {
+        font-size: 1rem;
+        padding: 10px 16px;
+    }
+
+    .language-options {
+        min-width: 160px;
+        max-width: 200px; /* Limit max width on smaller screens */
+        left: 0; /* Center the dropdown */
+        transform: translateX(-50%); /* Adjust the dropdown to center it */
+    }
+
+    .language-card h3 {
+        font-size: 1rem;
+    }
+
+    .icon-language {
+        font-size: 2rem;
+    }
+}
+
+/* For small devices (mobile phones in portrait) */
+@media (max-width: 480px) {
+    .language-button {
+        font-size: 0.9rem;
+        padding: 8px 14px;
+    }
+
+    .language-options {
+        min-width: 140px;
+        max-width: 90vw; /* Ensure dropdown stays within screen width */
+        left: 0; /* Center the dropdown */
+        transform: translateX(-50%); /* Adjust the dropdown to center it */
+        padding: 10px;
+    }
+
+    .language-card {
+        padding: 10px;
+    }
+
+    .language-card h3 {
+        font-size: 0.9rem;
+    }
+
+    .icon-language {
+        font-size: 1.8rem;
+    }
+}
+
+/* For portrait mode (even smaller devices) */
+@media (max-width: 320px) {
+    .language-button {
+        font-size: 0.8rem;
+        padding: 8px 12px;
+    }
+
+    .language-options {
+        min-width: 120px;
+        max-width: 80vw; /* Ensure it fits smaller devices */
+        padding: 8px;
+        left: 0;
+        transform: translateX(-50%);
+    }
+
+    .language-card {
+        padding: 8px;
+    }
+
+    .language-card h3 {
+        font-size: 0.8rem;
+    }
+
+    .icon-language {
+        font-size: 1.6rem;
+    }
+}

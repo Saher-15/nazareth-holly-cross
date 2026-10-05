@@ -1,0 +1,105 @@
+/* NazarethTour.css */
+
+.container-tour {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f7f7f7;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial, sans-serif';
+  text-align: center;
+}
+
+.page-heading {
+  font-size: 3rem;
+  color: #2a2a2a;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.video-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 15px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.video-container video {
+  width: 70%;
+  height: auto;
+  border-radius: 15px;
+}
+
+.video-message {
+  font-size: 1.5rem;
+  color: #333;
+  margin: 20px 0;
+  line-height: 1.6;
+  padding: 0 10px;
+  text-align: justify;
+}
+
+.video-description {
+  font-size: 1.25rem;
+  color: #555;
+  margin: 10px 0;
+  line-height: 1.6;
+  padding: 0 10px;
+  text-align: justify;
+}
+
+.cta-button {
+  display: inline-block;
+  padding: 15px 30px;
+  background-color: #3b5998;
+  color: #fff;
+  font-size: 1.25rem;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  margin-top: 30px;
+}
+
+.cta-button:hover {
+  background-color: #2a4276;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container-tour {
+    padding: 15px;
+  }
+
+  .page-heading {
+    font-size: 2.5rem;
+  }
+
+  .video-message,
+  .video-description {
+    font-size: 1.1rem;
+    padding: 0 5px;
+  }
+
+  .cta-button {
+    font-size: 1rem;
+    padding: 12px 25px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-heading {
+    font-size: 2rem;
+  }
+
+  .video-message,
+  .video-description {
+    font-size: 1rem;
+  }
+
+  .cta-button {
+    font-size: 0.9rem;
+    padding: 10px 20px;
+  }
+}

@@ -1,0 +1,298 @@
+/* Container for positioning */
+.hero-container-wrapper {
+  position: relative;
+  height: 100vh; /* Full height of the viewport */
+  width: 100%;
+  overflow: hidden; /* Hide anything that overflows */
+}
+
+/* Video Background */
+.hero-v {
+  position: absolute; /* Position the video absolutely within the wrapper */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Cover the area without stretching */
+  z-index: -1; /* Place the video behind the content */
+  filter: brightness(0.5); 
+}
+
+/* Hero Section Container */
+.hero-container {
+  min-height: 100vh;
+  position: relative; /* Ensure this is relative to the wrapper */
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  z-index: 1; /* Ensure it is above the video */
+  text-align: center;
+}
+
+/* Hero Heading */
+.hero-container > h1 {
+  color: #fff;
+  font-size: 4vw;
+  margin-top: -8vh;
+  text-transform: uppercase;
+  letter-spacing: 2px; /* Ensure heading does not overflow */
+  max-width: 90%;
+  overflow-wrap: break-word;
+  font-family: Arial, sans-serif;
+}
+
+/* Hero Subtext */
+.hero-container > p {
+  margin-top: 2vh;
+  color: #fff;
+  font-size: 2vw;
+  font-style: italic; /* Ensure text does not overflow */
+  max-width: 90%;
+  overflow-wrap: break-word;
+  font-family: Arial, sans-serif;
+}
+
+/* Button Container */
+.hero-btns {
+  margin-top: 4vh;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Individual Button Styles */
+.hero-btns .btn {
+  margin: 10px;
+  border-radius: 10px;
+  padding: 12px 24px;
+  font-size: 1.2rem;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  font-family: Arial, sans-serif;
+}
+
+.hero-btns .btn:hover {
+  transform: scale(1.05);
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Sound Control Button */
+.sound-control-btn {
+  position: fixed;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+  z-index: 2; /* Ensure it is above the video */
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.sound-control-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* Sound Control Icon */
+.sound-control-btn i {
+  font-size: 1.5rem;
+}
+
+/* Donate Button */
+.donate-btn {
+  position: fixed;
+  top: 18%;
+  right: 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  z-index: 2; /* Ensure it is above other elements */
+}
+
+.donate-btn i {
+  font-size: 1.5rem;
+}
+
+.donate-btn:hover {
+  background-color: #45a049;
+  transform: scale(1.1);
+}
+
+/* Modal Styles */
+.donation-modal {
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6); /* Darken background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3; /* Ensure it's above other elements */
+  visibility: hidden; /* Hidden by default */
+  opacity: 0; /* Hidden by default */
+  transition: opacity 0.3s ease, visibility 0.3s ease; /* Smooth transition */
+}
+
+.donation-modal.show {
+  visibility: visible;
+  opacity: 1;
+}
+
+.donation-content {
+  background-image: url('/public/images/nazareth/nazareth10.jpg');
+  background-size: cover; /* Ensure the image covers the content area */
+  background-repeat: no-repeat; /* Ensure the image does not repeat */
+  background-position: center; /* Center the image within the container */
+  padding: 20px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 400px;
+  height: 300px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Form styles inside modal */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button[type='submit'] {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+button[type='submit']:hover {
+  background-color: #45a049;
+}
+
+button[type='submit']:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Hero Mission Text */
+.hero-mission-text {
+  margin-top: 2vh;
+  color: #ffcc00;
+  font-size: 1.5vw; /* Adjust font size as needed */
+  text-align: center;
+  font-style: italic; /* Optional */
+  max-width: 90%;
+  overflow-wrap: break-word;
+  font-family: Arial, sans-serif;
+}
+
+/* Adjust spacing if needed */
+.hero-container {
+  /* Existing styles... */
+  padding: 0 20px;
+}
+
+/* Adjust responsiveness if needed */
+@media screen and (max-width: 768px) {
+  .hero-mission-text {
+    font-size: 2.5vw;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .hero-mission-text {
+    font-size: 3.5vw;
+  }
+}
+
+/* Media Queries for Responsiveness */
+@media screen and (max-width: 768px) {
+  .hero-container > h1 {
+    font-size: 8vw;
+    margin-top: -10vh;
+  }
+
+  .hero-container > p {
+    font-size: 3vw;
+  }
+
+  .hero-btns {
+    margin-top: 2vh;
+  }
+
+  .sound-control-btn {
+    padding: 8px;
+  }
+
+  .sound-control-btn i {
+    font-size: 1.2rem;
+  }
+
+  .donate-btn {
+    padding: 12px;
+    font-size: 1.2rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .hero-container > h1 {
+    font-size: 10vw;
+    margin-top: -12vh;
+  }
+
+  .hero-container > p {
+    font-size: 4vw;
+  }
+
+  .hero-btns {
+    margin-top: 1vh;
+  }
+
+  .donate-btn {
+    padding: 10px;
+    font-size: 1rem;
+  }
+}

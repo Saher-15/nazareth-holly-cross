@@ -1,0 +1,293 @@
+/* Container for the live client */
+.live-client-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #c31432, #240b36);
+    padding: 20px;
+    overflow: hidden;
+    transition: background-color 0.3s ease;
+}
+
+/* Main content styling */
+.live-client-content {
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+    position: relative;
+}
+
+/* Styling for the live video element */
+.live-client-video {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    background: #000;
+}
+
+/* Placeholder for when the live stream is not active */
+.live-client-placeholder {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background: linear-gradient(135deg, #ff7e5f, #feb47b);
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    transition: background 0.3s ease;
+}
+
+/* Event information box */
+.live-client-event-info {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Heading styling */
+.live-client-event-info h2 {
+    font-size: 36px;
+    margin-bottom: 10px;
+    color: #333;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Description styling */
+.live-client-event-info p {
+    font-size: 18px;
+    color: #555;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Event name styling */
+.event-name {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #222;
+}
+
+/* Time remaining styling */
+.time-remaining-frame {
+    display: inline-block;
+    padding: 15px;
+    background: #fff;
+    border: 2px solid #333;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    margin-top: 10px;
+    font-size: 24px;
+    color: #333;
+    font-weight: bold;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Coming soon message */
+.event-coming-soon {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #e53935;
+}
+
+/* Live mode styles */
+.live-mode {
+    background-color: #000;
+}
+
+/* Live mode placeholder styles */
+.live-mode .live-client-placeholder {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+/* Live mode event info styles */
+.live-mode .live-client-event-info {
+    background: rgba(255, 255, 255, 0.8);
+    color: #fff;
+}
+
+/* Join live button */
+.join-live-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 15px 30px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #c31432;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Join live button hover effect */
+.join-live-button:hover {
+    background-color: #240b36;
+    transform: scale(1.05);
+}
+
+/* Past lives section */
+.past-lives-container {
+    margin-top: 40px;
+    width: 100%;
+    text-align: center;
+}
+
+.past-videos-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px;
+}
+
+.past-live-item {
+    width: 300px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+}
+
+.past-live-video {
+    width: 100%;
+    height: 360px;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    background: #000;
+}
+
+.past-live-item h3 {
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+.past-live-item p {
+    color: #555;
+}
+
+.live-note, .refresh-note {
+    margin-top: 10px;
+    font-size: 0.9em; /* Slightly smaller font size */
+  }
+  
+/* For tablets and smaller devices */
+@media (max-width: 768px) {
+    .live-client-event-info h2 {
+        font-size: 30px;
+    }
+
+    .live-client-event-info p {
+        font-size: 16px;
+    }
+
+    .live-client-placeholder {
+        padding: 15px;
+    }
+
+    .time-remaining-frame {
+        font-size: 20px;
+        padding: 12px;
+    }
+
+    .event-coming-soon {
+        font-size: 16px;
+    }
+
+    .join-live-button {
+        font-size: 18px;
+        padding: 12px 25px;
+    }
+
+    .past-live-item {
+        width: 100%;
+    }
+
+    .past-live-video {
+        width: 100%;
+        height: 360px;
+        object-fit: contain;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        background: #000;
+    }
+}
+
+/* For phones and very small devices */
+@media (max-width: 480px) {
+    .live-client-event-info h2 {
+        font-size: 24px;
+    }
+
+    .live-client-event-info p {
+        font-size: 14px;
+    }
+
+    .live-client-placeholder {
+        padding: 10px;
+    }
+
+    .time-remaining-frame {
+        font-size: 18px;
+        padding: 10px;
+    }
+
+    .event-coming-soon {
+        font-size: 14px;
+    }
+
+    .join-live-button {
+        font-size: 16px;
+        padding: 10px 20px;
+    }
+
+    .past-live-item {
+        width: 100%;
+    }
+
+    .past-live-video {
+        width: 100%;
+        height: 360px;
+        object-fit: contain;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        background: #000;
+    }
+}
+
+/* Add hover effects */
+.live-client-placeholder:hover {
+    background: linear-gradient(135deg, #feb47b, #ff7e5f);
+    cursor: pointer;
+}
+
+.live-client-event-info:hover {
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.time-remaining-frame:hover {
+    background: #f5f5f5;
+    color: #111;
+    border-color: #111;
+}
+
+.thumbnail-cover {
+    width: 100%; /* Make sure the image takes the full width of its container */
+    height: 200px; /* Set a fixed height or adjust as needed */
+    object-fit: cover; /* Ensure the image covers the container while maintaining its aspect ratio */
+    border-radius: 10px; /* Optional: for rounded corners */
+    background: #000; /* Optional: fallback background if image fails to load */
+}

@@ -1,0 +1,171 @@
+/* General styles */
+.footer-container {
+  background-color: #1b1b1b;
+  padding: 3rem 1rem;
+  color: #fff;
+  font-family: 'Arial', sans-serif;
+  text-align: center;
+  position: relative; /* Ensure z-index is effective */
+}
+
+.footer-logo {
+  margin-bottom: 2rem;
+}
+
+.footer-logo img {
+  max-width: 150px;
+  height: auto;
+}
+
+/* Content Styling */
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center the sections */
+  gap: 2rem;
+}
+
+.footer-section {
+  margin-bottom: 2rem;
+  text-align: center; /* Center the text */
+  max-width: 400px;
+}
+
+.footer-section h2 {
+  font-size: 1.8rem;
+  color: #ffcc00;
+  margin-bottom: 1rem;
+}
+
+.about-us {
+  border-left: 4px solid #ffcc00;
+  padding-left: 1rem;
+}
+
+.about-us p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.about-us-link {
+  color: #ffcc00;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+  padding: 0.5rem 1rem;
+  border: 2px solid #ffcc00;
+  border-radius: 4px;
+  transition: all 0.3s ease-in-out;
+}
+
+.about-us-link:hover {
+  background-color: #ffcc00;
+  color: #1b1b1b;
+}
+
+/* Contact Us styling */
+.contact-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center contact items */
+  gap: 1rem;
+}
+
+.email-button, .instagram-button {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  text-decoration: none;
+  padding: 0.7rem 1.2rem;
+  border-radius: 4px;
+  background-color: #333;
+  transition: background-color 0.3s ease;
+}
+
+.email-button:hover, .instagram-button:hover {
+  background-color: #ffcc00;
+  color: #1b1b1b;
+}
+
+.icon {
+  font-size: 1.5rem;
+  margin-right: 10px;
+}
+
+/* Footer credits */
+.credits {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center credits section */
+}
+
+.credits .credit-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.linkedin-link {
+  color: #ffcc00;
+  text-decoration: none;
+  font-size: 1.2rem;
+}
+
+.linkedin-link:hover {
+  color: #fff;
+}
+
+.linkedin-icon {
+  font-size: 1.5rem;
+  margin-right: 10px;
+}
+
+/* Footer bottom */
+.footer-bottom {
+  margin-top: 2rem;
+}
+
+.copyright-text {
+  font-size: 1rem;
+  color: #aaa;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer-section {
+    max-width: 100%;
+  }
+
+  .footer-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .about-us-link {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .icon {
+    font-size: 1.3rem;
+  }
+
+  .footer-section h2 {
+    font-size: 1.4rem;
+  }
+
+  .about-us-link {
+    font-size: 0.9rem;
+  }
+
+  .email-button, .instagram-button {
+    padding: 0.6rem 1rem;
+  }
+}

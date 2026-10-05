@@ -1,0 +1,119 @@
+/* GallaryPage.css */
+
+.gallery-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.gallery-page h1 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+}
+
+
+.intro-paragraph {
+  max-width: 800px;
+  text-align: justify;
+  font-size: 1.1em;
+  line-height: 1.6;
+  color: #555;
+  padding: 15px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+/* Paragraph spacing */
+.intro-paragraph p {
+  margin-bottom: 15px;
+}
+
+/* Scripture section containing the notes */
+.scripture-section {
+  margin-top: 40px;
+}
+
+/* Individual note style */
+.note {
+  background: #fffbc1; /* Light yellow background to mimic sticky notes */
+  padding: 15px 20px;
+  margin: 20px auto;
+  border-left: 5px solid #ffcc00; /* Yellow border to resemble sticky note glue */
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+  font-family: 'Indie Flower', cursive; /* Handwritten font */
+  font-size: 1.1em;
+  max-width: 600px;
+  border-radius: 5px;
+  line-height: 1.6;
+  color: #333;
+  position: relative;
+}
+
+/* Small highlight on the note's corner for a 3D effect */
+.note::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 20px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for the strong elements inside notes */
+.note strong {
+  color: #333;
+}
+
+/* Text paragraph styling for additional information */
+.scripture-section p {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 1em;
+}
+
+/* Medium screens (tablets) */
+@media screen and (max-width: 1024px) {
+  .gallery-page h1 {
+      font-size: 2.2em;
+  }
+
+  .intro-paragraph {
+      max-width: 85%;
+  }
+}
+
+/* Small screens (smartphones) */
+@media screen and (max-width: 768px) {
+  .gallery-page h1 {
+      font-size: 1.8em;
+  }
+
+  .intro-paragraph {
+      max-width: 95%;
+      font-size: 1em;
+      padding: 10px;
+  }
+}
+
+/* Extra small screens (portrait mode) */
+@media screen and (max-width: 480px) {
+  .gallery-page h1 {
+      font-size: 1.5em;
+      margin-bottom: 15px;
+  }
+
+  .intro-paragraph {
+      max-width: 100%;
+      font-size: 0.9em;
+      padding: 10px;
+  }
+}

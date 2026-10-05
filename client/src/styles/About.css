@@ -1,0 +1,55 @@
+/* About Container */
+.about-container {
+    min-height: 100vh; /* Ensure the container takes up at least the viewport height */
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack content vertically */
+    align-items: center; /* Center content horizontally */
+    padding: 20px;
+    box-sizing: border-box; /* Ensure padding is included in the height */
+    max-width: 1200px; /* Optional: limits width for large screens */
+    margin: 0 auto; /* Center container */
+  }
+  
+  /* About Title */
+  .about-title {
+    font-size: 36px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center; /* Center title horizontally */
+    width: 100%; /* Ensure title takes full width for proper alignment */
+  }
+  
+  /* About Description */
+  .about-description {
+    text-align: left;
+    font-size: 18px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    max-width: 800px; /* Optional: limits width for readability */
+    width: 100%; /* Ensure description takes full width for proper alignment */
+  }
+  
+  /* Responsive Design */
+  @media screen and (max-width: 768px) {
+    .about-title {
+      font-size: 28px; /* Adjust title size for smaller screens */
+    }
+  
+    .about-description {
+      font-size: 16px; /* Adjust font size for smaller screens */
+      padding: 0 10px; /* Add padding for better readability */
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .about-title {
+      font-size: 24px; /* Further adjust title size for very small screens */
+    }
+  
+    .about-description {
+      font-size: 14px; /* Further adjust font size for very small screens */
+      padding: 0 5px; /* Add padding for better readability */
+    }
+  }
+  

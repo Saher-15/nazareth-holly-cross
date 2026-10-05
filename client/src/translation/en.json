@@ -32,8 +32,7 @@
     "no_upcoming_events": "No upcoming events available.",
     "past_live_events": "Past Live Events",
     "refresh_note": "Note: Please refresh the page before pressing the 'Join Live' button.",
-    "live_note": "Note: The 'Join Live' button is available only after the live event starts.",
-    "event_has_started": "The event has started! Click below to join."
+    "live_note": "Note: The 'Join Live' button is available only after the live event starts."
   },
   "common": {
     "home": "Home",
@@ -55,7 +54,6 @@
     "toLightACandlePay": "To light a candle, pay 3$",
     "light": "LIGHT",
     "emailMatchError": "Emails don't match",
-    "emailsDontMatch": "Emails do not match",
     "inputWarning": "Please select a church.",
     "firstName": "First Name",
     "lastName": "Last Name",

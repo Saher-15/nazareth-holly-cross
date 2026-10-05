@@ -1,0 +1,451 @@
+/* Hero Buttons */
+.hero-btns {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Confirmation Message */
+.confirmation-msg {
+  color: #fff;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.personal-pray {
+  font-size: 1.5rem; /* Consistent font sizing */
+  text-align: center;
+  margin: 10px 0;
+}
+
+.hero-btns-candle button {
+  padding: 12px 24px;
+  /* background-color: rgba(255,255,255,0.5); */
+  background-color: #ffdf00;
+  /* color: #fff; */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.hero-btns-candle button:hover {
+  background-color: rgba(0,0,0,0.5);
+}
+
+.hero-btns button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+h5 {
+  font-size: 16px;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.candle {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.candle::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/public/images/candle.jpg");
+  
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.45);
+  z-index: -1;
+}
+
+.candle .leftSide, .candle .rightSide {
+  position: relative;
+  width: 100%;
+  padding: 20px;
+}
+
+.candle .rightSide {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #fff;
+}
+
+form input, form textarea {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #121619;
+  color: black;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+form textarea {
+  margin-top: 15px;
+  height: 120px;
+}
+
+input::placeholder,
+textarea::placeholder {
+  font-weight: normal;
+  color: rgba(197, 197, 197, 0.7);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+input[type="email"]::placeholder,
+input[name="confirmEmail"]::placeholder {
+  color: rgba(197, 197, 197, 0.9);
+}
+
+form input:focus,
+textarea:focus {
+  outline: none;
+  border-bottom: 1px solid #007bff;
+}
+
+.prayer-message {
+  display: flex;
+  justify-content: space-between;
+  font-size: 24px;
+  font-family: 'Lato', sans-serif;
+  color: white;
+  text-align: center;
+  border-bottom: 1px solid #d1d5db;
+  padding-bottom: 0.5rem;
+}
+
+.name-container input[type="text"]:last-child {
+  margin-left: 10px;
+}
+
+/* Name inputs */
+input[type="text"],
+input[type="email"],
+input[name="confirmEmail"],
+textarea[name="pray"],
+[type="tel"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.candle-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.form-group {
+  width: 100%;
+  max-width: 350px; /* Adjusted for larger form size */
+  margin-bottom: 20px;
+}
+
+.name-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Styling the scrollbar */
+.video-container::-webkit-scrollbar {
+  width: 8px; /* Set the width of the scrollbar */
+}
+
+.video-container::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Light background for the track */
+  border-radius: 4px; /* Round the corners of the track */
+}
+
+.video-container::-webkit-scrollbar-thumb {
+  background-color: #f9c846; /* Yellow color for the thumb */
+  border-radius: 4px; /* Round the corners of the thumb */
+  border: 2px solid #f1f1f1; /* Add a border to the thumb for contrast */
+}
+
+.video-container::-webkit-scrollbar-thumb:hover {
+  background-color: #f8b640; /* Darken the yellow when hovered */
+}
+
+.video-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;  /* Align to the top to allow scrolling */
+  padding: 20px;
+  background-color: #f9f9f9;  /* Light gray background for contrast */
+  border-radius: 8px;  /* Soft rounded corners for a modern look */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);  /* Subtle shadow for depth */
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow: hidden;
+  height: 500px;  /* Set a fixed height to allow scrolling */
+}
+
+video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.video-container:hover::before {
+  border-color: rgba(255, 255, 255, 0.9);
+}
+.church-selection {
+  margin-top: 2rem; /* Increased margin for better spacing */
+  text-align: left; /* Center the text */
+}
+
+.church-label {
+  font-size: 1.3rem; /* Increased font size for emphasis */
+  color: white; /* Label color */
+  margin-bottom: 1rem; /* More space below the label */
+}
+
+.church-options {
+  display: flex;
+  flex-direction: column; /* Stack options vertically */
+  align-items: left; /* Center options */
+}
+
+.church-option {
+  display: flex;
+  align-items: center;
+  margin: 0.5rem 0; /* Space between options */
+  cursor: pointer; /* Change cursor on hover */
+  position: relative; /* To position custom radio */
+  padding-left: 30px; /* Add space for custom radio */
+  transition: transform 0.2s; /* Smooth scaling on hover */
+}
+
+.church-option:hover {
+  transform: scale(1.05); /* Slightly scale up on hover */
+  background-color: rgba(255, 255, 255, 0.1); /* Light background on hover */
+  border-radius: 10px; /* Rounded corners for better aesthetics */
+}
+
+.custom-radio {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 25px; /* Size of custom radio */
+  height: 25px; /* Size of custom radio */
+  border: 2px solid white; /* Border color */
+  border-radius: 50%; /* Make it round */
+  background-color: transparent; /* Background color */
+  transition: background-color 0.3s, border-color 0.3s; /* Transition effects */
+}
+
+.radio-input:checked + .custom-radio {
+  background-color: white; /* Change color when checked */
+  border-color: #4A90E2; /* Change border color when checked */
+}
+
+.radio-input {
+  display: none; /* Hide the default radio input */
+}
+
+.error-message {
+  color: white; /* Error message color */
+  font-size: 0.875rem; /* Smaller font size for error messages */
+  margin-top: 0.5rem; /* Space above the error message */
+}
+
+.video-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));  /* Responsive grid */
+  gap: 20px;
+  width: 100%;
+  justify-items: center;
+  overflow-y: auto;  /* Enable vertical scrolling */
+  max-height: 100%;  /* Ensure the gallery doesn't overflow the container */
+}
+
+.video-gallery::-webkit-scrollbar {
+  height: 8px; /* Adjust scrollbar height */
+}
+
+.video-gallery::-webkit-scrollbar-thumb {
+  background: #ffdf00; /* Scrollbar thumb color */
+  border-radius: 4px; /* Rounded scrollbar */
+}
+
+.video-gallery::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2); /* Scrollbar track color */
+}
+
+.video-item {
+  position: relative;
+  width: 100%;
+  height: 200px;  /* Fixed height */
+  border-radius: 8px;  /* Rounded corners */
+  overflow: hidden;  /* Ensures video fits well */
+  background-color: #000;  /* Default background color */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);  /* Soft shadow for the video items */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.video-item:hover video {
+  opacity: 1; /* Reveal the video on hover */
+}
+
+.video-item:hover {
+  transform: scale(1.05);  /* Slight zoom effect on hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);  /* Increased shadow on hover */
+}
+
+.video-item video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;  /* Ensures videos cover the area without distortion */
+  border-radius: 8px;  /* Rounded corners on the video itself */
+  transition: opacity 0.3s ease;  /* Smooth transition */
+}
+
+.video-title {
+  text-align: center;
+  font-size: 1rem;
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+  color: #fff;
+  margin-top: 0.5rem;
+}
+
+.video-item::after {
+  content: ''; /* Create a decorative line */
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  width: 50px;
+  height: 5px;
+  background-color: #f9c846; /* Yellow accent at the bottom of the video */
+}
+
+.video-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: inherit;  /* Inherit the background image */
+  background-size: cover;
+  background-position: center;
+  transition: opacity 0.3s ease;
+}
+
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .church-option {
+    font-size: 13px;
+  }
+
+  .radio-input {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .church-option {
+    font-size: 12px;
+  }
+
+  .radio-input {
+    width: 16px;
+    height: 16px;
+  }
+
+  .video-container {
+    width: 100%; /* Full width on small devices */
+    height: auto;
+  }
+}
+
+@media (orientation: portrait) {
+  .church-options {
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 768px) {
+  .hero-btns-candle button {
+    padding: 15px 30px;
+  }
+
+  .candle .leftSide, .candle .rightSide {
+    padding: 40px;
+  }
+}
+
+@media (min-width: 992px) {
+  .video-container {
+    max-width: 1000px;
+    height: 500px; /* Adjusted height for larger screens */
+  }
+
+  .candle-form {
+    height: 70vh;
+  }
+}
+
+@media (min-width: 600px) {
+  .candle {
+    flex-direction: row;
+  }
+
+  .candle .leftSide, .candle .rightSide {
+    width: 50%;
+  }
+
+  .name-container {
+    flex-direction: row;
+    gap: 20px; /* Add space between name inputs */
+  }
+}
+
+@media (max-width: 768px) {
+  .video-item {
+    min-width: 250px; /* Adjust video size for smaller devices */
+  }
+
+  .video-title {
+    font-size: 0.9rem; /* Slightly smaller font for titles */
+  }
+}
+
+@media (max-width: 480px) {
+  .video-item {
+    min-width: 200px; /* Smaller width for very small devices */
+  }
+
+  .video-title {
+    font-size: 0.8rem;
+  }
+}
+
+@media (orientation: portrait) {
+  .video-gallery {
+    flex-direction: column; /* Stack videos vertically on portrait mode */
+    align-items: center;
+  }
+}
