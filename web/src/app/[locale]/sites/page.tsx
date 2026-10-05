@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { PLACES, TOUR_CARD, mediaPhoto, placeHref } from '@/data/places/places';
+import PhotoImage from '@/components/places/PhotoImage';
 import PlaceHero from '@/components/places/PlaceHero';
 import SiteList from '@/components/places/SiteList';
 import { PlayIcon } from '@/components/places/icons';
@@ -83,7 +83,7 @@ export default async function SitesPage({ params }: PageProps<'/[locale]/sites'>
       <section className="ui-section" aria-labelledby="sites-tour-title">
         <div className="ui-container">
           <Reveal className={styles.band}>
-            <Image className={styles.bandBg} src={TOUR_CARD.cover.src} alt="" fill sizes="(min-width: 1212px) 1180px, 100vw" />
+            <PhotoImage className={styles.bandBg} photo={TOUR_CARD.cover} alt="" sizes="(min-width: 1212px) 1180px, 100vw" />
             <div className={styles.bandBody}>
               <p className="ui-eyebrow">{t('home.siteTour')}</p>
               <h2 id="sites-tour-title" className="ui-h2">

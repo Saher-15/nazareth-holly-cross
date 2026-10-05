@@ -5,9 +5,10 @@ import { ChevronIcon } from './icons';
 import PhotoImage from './PhotoImage';
 import styles from './PlaceHero.module.css';
 
-// The photo covers a box that is taller than wide on a phone, so it is cropped sideways: the file must be about as
-// wide as the box is tall times the photo's aspect ratio (up to ~1200px), not just as wide as the screen.
-const HERO_SIZES = 'max(100vw, 1200px)';
+// The photo covers a box that is taller than wide on a phone, so it is cropped sideways: the file must be wider than
+// the screen (about the box's height times the photo's aspect ratio). 740 px at 2x-3x density picks the 1920 px file,
+// which is sharp enough there and about a third lighter than the 2560 px one; wide screens get the width they have.
+const HERO_SIZES = '(max-width: 767px) 740px, 100vw';
 
 type Props = {
   image: Photo;

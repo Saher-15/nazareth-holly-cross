@@ -14,7 +14,7 @@ import routerAuth from './route/authRoute.js';
 import routerAdmin from './route/adminRoute.js';
 import routerPrayer from './route/prayerRoute.js';
 import routerReview from './route/reviewRoute.js';
-import { globalLimiter } from './utils/security.js';
+import { apiLimiter, publicReadCache } from './utils/security.js';
 import { config } from './config/env.js';
 import { HttpError } from './utils/httpError.js';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
@@ -71,7 +71,8 @@ export function createApp() {
   // BEFORE xss(): express-xss-sanitizer 2.x makes req.query read-only, and this one assigns to it.
   app.use(mongoSanitize());
   app.use(xss()); // strips HTML tags from every string (and escapes & < >; see web/src/lib/plainText.ts)
-  app.use(globalLimiter);
+  app.use(publicReadCache);
+  app.use(apiLimiter);
 
   app.use('/auth', routerAuth);
   app.use('/product', routerProduct);

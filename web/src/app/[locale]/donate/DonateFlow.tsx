@@ -7,7 +7,7 @@ import type { PaymentPayload } from '@/lib/paypal';
 import { formatUsd, formatUsdWhole } from '@/lib/pricing';
 import DonePanel from '@/components/checkout/DonePanel';
 import Field, { invalidProps } from '@/components/checkout/Field';
-import PayPalPanel from '@/components/checkout/PayPalPanel';
+import PayPalPanel from '@/components/checkout/LazyPayPalPanel';
 import StepIndicator, { type FlowStep } from '@/components/checkout/StepIndicator';
 import CurrencyNote from '@/components/intl/CurrencyNote';
 import { fieldOrder, useErrorText, useStepFocus, useValidatedForm } from '@/components/checkout/hooks';

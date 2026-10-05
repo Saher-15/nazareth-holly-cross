@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { getFormatter, getTranslations, setRequestLocale } from 'next-intl/server';
-import { photo } from '@/data/places/places';
+import { mediaPhoto } from '@/data/places/places';
 import { breadcrumbJsonLd, faqJsonLd, webPageJsonLd } from '@/lib/jsonLd';
 import { pilgrimMetadata } from '@/data/pilgrim/meta';
 import { faqItems, type Translate } from '@/data/pilgrim/faqEntries';
@@ -16,7 +16,7 @@ import styles from './page.module.css';
 
 // Unit label of the weather table (a unit symbol, not a sentence).
 const FAHRENHEIT = '°F';
-const HERO = photo('nazareth', 9);
+const HERO = mediaPhoto('city-basilica-skyline');
 
 const ESSENTIALS = ['dress', 'etiquette', 'seasons', 'safety', 'money', 'language'] as const;
 

@@ -97,12 +97,12 @@ Severity: **High** = visitors cannot reach content or money is at risk; **Med** 
 
 | Sev | Where | Note |
 |---|---|---|
-| Med | home hero video | `video-7.mp4` is **21 MB** and autoplays on every desktop visit; `tour.mp4` is **851 MB** (loaded only on play, but a phone on mobile data should never be offered it). Re-encode (H.264/AV1, 1080p, ~2-4 MB for the loop, adaptive/HLS for the tour) |
-| Med | images | the home hero and several page heroes are small sources stretched over a full-width hero (`nazareth1.webp` 1024x683, `candle.jpg` 640x428, `vitrage-bg.jpg` 612x408, `interview.jpg` 518x445): visibly soft on large and high-density screens. Needs higher-resolution originals |
+| Med | home hero video | **Fixed for the hero** (a 2 MB, 16 s silent loop, wide screens only, after the page loaded; see PERFORMANCE.md). `tour.mp4` (851 MB) and `interview.mp4` (69 MB) are still the Firebase originals until the re-encoded files are uploaded (instructions in PERFORMANCE.md) |
+| Med | images | **Fixed** for the home hero and the heroes of shop, candle, FAQ, reviews, search, legal, prayers, live, plan, visit, tour (licensed 2560 px photos, see MEDIA.md and PERFORMANCE.md). Still soft: the older gallery photos in `public/images/{latin,greek,mary,old,nazareth}` (`node scripts/media/audit.mjs` lists them) and the two video posters (the videos themselves are 520x850) |
 | Med | videos | no captions or transcript on any video (WCAG 1.2.2); content task |
-| Med | caching | every response carries `Set-Cookie: NEXT_LOCALE` (next-intl). Shared caches (Netlify/Cloudflare edge) normally do not cache responses with `Set-Cookie`, so the `s-maxage` of the static pages may not be honoured at the edge. Consider `localeCookie: false` and setting the cookie from the language switcher |
+| Med | caching | **Fixed**: a client without Accept-Language or cookie (probe, curl) no longer gets `Set-Cookie: NEXT_LOCALE`; a browser gets it only when it opens a language other than its own (next-intl's rule, kept). Every page is still rendered per request because of the CSP nonce, so the HTML is `no-store` by design; see PERFORMANCE.md |
 | Low | QA-08 | see bug log |
-| Low | home hero | on a slow phone the first visit shows the hero title in the fallback font and re-wraps it when the web font arrives (a 40 px jump of the centred block, layout-shift 0.09-0.10 in en/de at 4G + CPU x4). Fix options: a tighter fallback-font adjustment for EB Garamond, or a fixed `min-height` per line count |
+| Low | home hero | **Fixed**: only the two Latin font files are preloaded now (8 files, 375 kB before, 2 files and 90 kB after, the duplicate downloads of Inter and EB Garamond gone), so the font arrives before the first paint; layout shift 0.000 in the measured runs. See PERFORMANCE.md |
 | Low | console | on phone widths Chromium warns that five route CSS files were "preloaded but not used" within a few seconds; harmless, framework-generated |
 | Low | SEO | 22 descriptions are longer than 170 characters (fr, es, de, it, el `sites`, `greek`, `latin`, home, about, live) and Google will cut them; the cart descriptions in he/ar/pl are very short (noindex pages) |
 | Low | `/cart` | has no `og:image` (noindex page, owned by the shop team) |

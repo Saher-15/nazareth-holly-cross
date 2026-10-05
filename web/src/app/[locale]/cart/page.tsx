@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import PageHero from '@/components/ui/PageHero';
+import { mediaPhoto } from '@/data/places/places';
 import CartView from '@/components/shop/CartView';
 import { pageMetadata } from '@/lib/seo';
 import styles from './cart.module.css';
@@ -13,7 +14,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/cart'>):
     locale,
     path: '/cart',
     title: t('cartTitle'), description: t('cartDescription'),
-    image: { src: '/images/nazareth/nazareth1.webp', width: 1024, height: 683 },
+    image: mediaPhoto('souk-arcade'),
     noindex: true,
   });
 }

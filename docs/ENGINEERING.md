@@ -51,6 +51,10 @@ Then revert the commit on `main` with a pull request.
 - Structured data (JSON-LD) is always written with `web/src/lib/jsonLd.ts`; raw HTML is never rendered from API data.
 - API input is untrusted: check types, use the helpers in `server/utils/validate.js`, copy named fields only, and
   add a rate limit to any public route that sends mail, calls PayPal or changes data.
+- Performance is part of "done" too: see `docs/PERFORMANCE.md` (budgets, how to measure, how images, videos, fonts and
+  API reads are handled). `tests/e2e/performance.spec.ts` fails on a regression of LCP, layout shift, or the bytes of
+  images, scripts, fonts and the hero film. New hero photos use `getMedia` + `MediaPicture`/`PageHero media`, never a
+  small file stretched full-width; a video over 8 MB does not go into the repository.
 - Accessibility is part of "done": keyboard reachable, visible focus, alt text, labels, contrast (checked by axe
   in CI), and `prefers-reduced-motion` respected.
 

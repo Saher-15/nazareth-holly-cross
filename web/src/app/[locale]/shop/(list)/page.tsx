@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import PageHero from '@/components/ui/PageHero';
+import { mediaPhoto } from '@/data/places/places';
 import RetryButton from '@/components/shop/RetryButton';
 import ShopBrowser from '@/components/shop/ShopBrowser';
 import StateCard from '@/components/shop/StateCard';
@@ -13,7 +14,7 @@ import styles from '../shop.module.css';
 // The catalogue is rendered on the server and refreshed every two minutes (ISR).
 export const revalidate = 120;
 
-const HERO_IMAGE = '/images/vitrage-bg.jpg';
+const HERO = mediaPhoto('souk-arcade');
 
 export async function generateMetadata({ params }: PageProps<'/[locale]/shop'>): Promise<Metadata> {
   const { locale } = await params;
@@ -31,7 +32,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/shop'>):
       description,
       locale,
       url: `/${locale}/shop`,
-      images: [{ url: HERO_IMAGE, width: 612, height: 408, alt: title }],
+      images: [{ url: HERO.src, width: HERO.width, height: HERO.height, alt: title }],
     },
   };
 }
@@ -62,7 +63,7 @@ export default async function ShopPage({ params }: PageProps<'/[locale]/shop'>) 
           }}
         />
       )}
-      <PageHero eyebrow={tHome('shopEyebrow')} title={t('heroTitle')} lead={t('heroLead')} image={HERO_IMAGE} />
+      <PageHero eyebrow={tHome('shopEyebrow')} title={t('heroTitle')} lead={t('heroLead')} media={HERO.media} />
 
       {items && strip ? (
         <ShopBrowser products={items} strip={strip} />

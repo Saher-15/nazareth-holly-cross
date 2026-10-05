@@ -29,7 +29,9 @@ export default function PastBroadcasts() {
                 poster={poster.src}
                 aria-labelledby={titleId}
               >
-                <source src={video.src} type="video/mp4" />
+                {video.sources.map((source) => (
+                  <source key={source.src} src={source.src} type={source.type} />
+                ))}
                 {t('communityPage.live.videoFallback')}
               </video>
             </div>

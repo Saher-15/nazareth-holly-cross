@@ -28,7 +28,7 @@ export function homeJsonLd({ locale, siteName, title, description }: HomeJsonLdI
         inLanguage: locale,
         isPartOf: { '@id': website },
         about: { '@type': 'City', name: 'Nazareth' },
-        primaryImageOfPage: `${SITE_URL}/images/nazareth/nazareth1.webp`,
+        primaryImageOfPage: `${SITE_URL}/images/nazareth-media/city-sunset-glow/og.jpg`,
       },
     ],
   };

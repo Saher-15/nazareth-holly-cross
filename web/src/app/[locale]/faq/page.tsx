@@ -9,6 +9,7 @@ import FaqList from '@/components/pilgrim/FaqList';
 import NextSteps from '@/components/pilgrim/NextSteps';
 import shared from '@/components/pilgrim/shared.module.css';
 import PageHero from '@/components/ui/PageHero';
+import { getMedia } from '@/data/media';
 
 export async function generateMetadata({ params }: PageProps<'/[locale]/faq'>): Promise<Metadata> {
   const { locale } = await params;
@@ -46,7 +47,7 @@ export default async function FaqPage({ params }: PageProps<'/[locale]/faq'>) {
         eyebrow={t('pilgrim.faq.eyebrow')}
         title={t('pilgrim.faq.title')}
         lead={t('pilgrim.faq.lead')}
-        image="/images/vitrage-bg.jpg"
+        media={getMedia('basilica-night-front')}
       />
 
       <section className="ui-section">

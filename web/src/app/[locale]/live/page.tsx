@@ -1,14 +1,16 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import { getFormatter, getTranslations, setRequestLocale } from 'next-intl/server';
 import LivePlayer, { type PlayerBroadcast } from '@/components/community/LivePlayer';
 import PastBroadcasts from '@/components/community/PastBroadcasts';
 import { broadcasts, LIVE_WINDOW_MS } from '@/components/community/liveSchedule';
 import { pastBroadcasts } from '@/components/community/recordings';
 import JsonLd from '@/components/ui/JsonLd';
+import MediaPicture from '@/components/media/MediaPicture';
 import PageHero from '@/components/ui/PageHero';
+import { getMedia, mediaShareFile } from '@/data/media';
 import Reveal from '@/components/ui/Reveal';
 import { SITE_URL } from '@/lib/config';
+import { contentUrl } from '@/lib/videos';
 import { organizationJsonLd } from '@/lib/jsonLd';
 import { pageMetadata } from '@/lib/seo';
 import { socialLinks } from '@/lib/site';
@@ -29,7 +31,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/live'>):
     path: '/live',
     title: t('metaTitle'),
     description: t('metaDescription'),
-    image: '/images/latin/latin8.jpg',
+    image: mediaShareFile(getMedia('basilica-night-front')),
   });
 }
 
@@ -70,7 +72,7 @@ async function loadLiveData(locale: string) {
         name: all(`videos.${video.messageKey}.title`),
         description: all(`videos.${video.messageKey}.description`),
         thumbnailUrl: `${SITE_URL}${video.poster.src}`,
-        contentUrl: video.src,
+        contentUrl: contentUrl(video.sources, SITE_URL),
         ...(video.recordedOn ? { uploadDate: video.recordedOn } : {}),
       })),
       ...broadcasts
@@ -107,8 +109,8 @@ export default async function LivePage({ params }: PageProps<'/[locale]/live'>) 
           joinUrl={INSTAGRAM_URL}
           titleId="live-stage-title"
           background={
-            <Image
-              src="/images/latin/latin8.jpg"
+            <MediaPicture
+              item={getMedia('basilica-night-front')}
               alt=""
               fill
               sizes="(min-width: 1212px) 1180px, calc(100vw - 32px)"

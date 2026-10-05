@@ -53,8 +53,13 @@ export default function proxy(request: NextRequest): NextResponse {
   const response = intl(seen);
   response.headers.set('Content-Security-Policy', csp);
 
-  // A crawler has no preference to remember.
-  if (crawler) response.headers.delete('set-cookie');
+  // A crawler has no preference to remember. Neither has a client that sent no Accept-Language and no language
+  // cookie (an uptime probe, a CDN health check, curl): next-intl would set NEXT_LOCALE on its answer, and a
+  // shared cache does not store a response that sets a cookie. A real browser whose language matches the URL
+  // already gets no cookie from next-intl; one that opens another language does, so a later visit to "/" opens it.
+  if (crawler || (!request.headers.get('accept-language') && !request.cookies.has('NEXT_LOCALE'))) {
+    response.headers.delete('set-cookie');
+  }
 
   // The redirect from a bare URL depends on the request headers: say so, and keep shared caches from
   // handing one visitor's redirect to the next.

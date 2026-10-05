@@ -1,19 +1,18 @@
 import type { Metadata } from 'next';
-import { getImageProps } from 'next/image';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
-import { PLACES, TOUR_CARD, photo, placeCards, placeHref } from '@/data/places/places';
+import { getMedia, mediaDefaultFile } from '@/data/media';
+import { PLACES, TOUR_CARD, placeCards, placeHref } from '@/data/places/places';
 import PlaceCards from '@/components/places/PlaceCards';
 import PlaceHero from '@/components/places/PlaceHero';
 import JsonLd from '@/components/ui/JsonLd';
 import Reveal from '@/components/ui/Reveal';
 import { breadcrumbJsonLd, webPageJsonLd } from '@/lib/jsonLd';
 import { absoluteUrl, localePath, pageMetadata } from '@/lib/seo';
+import { TOUR_VIDEO } from '@/lib/videos';
 import styles from './page.module.css';
 
-const TOUR_VIDEO =
-  'https://firebasestorage.googleapis.com/v0/b/nazareth-holy-cross.appspot.com/o/videos%2Ftour.mp4?alt=media&token=af5c1463-2e97-4ae3-b205-a7566f45f9be';
-const POSTER = photo('nazareth', 1, { 1: 'webp' });
+// The poster is a licensed 2560 px photo (docs/MEDIA.md): its 1280 px WebP, sharp on a high-density screen.
 
 export async function generateMetadata({ params }: PageProps<'/[locale]/tour'>): Promise<Metadata> {
   const { locale } = await params;
@@ -33,8 +32,7 @@ export default async function TourPage({ params }: PageProps<'/[locale]/tour'>) 
   setRequestLocale(locale);
   const t = await getTranslations();
 
-  // The poster goes through the image optimizer like every other photo (resized, AVIF/WebP).
-  const { props: poster } = getImageProps({ src: POSTER.src, width: POSTER.width, height: POSTER.height, alt: '' });
+  const poster = mediaDefaultFile(getMedia('old-city-arched-passage'));
 
   const jsonLd = [
     webPageJsonLd(locale, {
@@ -86,10 +84,12 @@ export default async function TourPage({ params }: PageProps<'/[locale]/tour'>) 
               controls
               preload="none"
               playsInline
-              poster={poster.src}
+              poster={poster}
               aria-labelledby="tour-watch-title"
             >
-              <source src={TOUR_VIDEO} type="video/mp4" />
+              {TOUR_VIDEO.map((source) => (
+                <source key={source.src} src={source.src} type={source.type} />
+              ))}
               {t('placesPage.videoFallback')}
             </video>
           </Reveal>

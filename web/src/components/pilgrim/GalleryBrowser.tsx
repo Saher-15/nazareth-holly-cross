@@ -1,17 +1,20 @@
 'use client';
 
 import { useCallback, useMemo, useRef, useState, type SyntheticEvent } from 'react';
+import dynamic from 'next/dynamic';
 import { useLocale, useTranslations } from 'next-intl';
 import { ArrowEndIcon } from '@/components/ui/icons';
 import { Link } from '@/i18n/navigation';
 import { isRtl } from '@/i18n/routing';
 import type { MediaTopic } from '@/data/media';
 import { isPlaceSlug, type Photo, type PlaceSlug } from '@/data/places/places';
-import Lightbox from '@/components/places/Lightbox';
 import PhotoImage from '@/components/places/PhotoImage';
 import { ZoomIcon } from '@/components/places/icons';
 import { replaceQueryString, useQueryString } from '@/lib/urlState';
 import styles from './GalleryBrowser.module.css';
+
+// The photo viewer is only needed after a click: its code is fetched then, not with the page.
+const Lightbox = dynamic(() => import('@/components/places/Lightbox'));
 
 /** The licensed photos of one topic (what they show), and the holy-site page that topic belongs to. */
 export type GalleryGroup = {
