@@ -630,5 +630,68 @@
       "thanksTitle": "¡Gracias por tu donativo!",
       "thanksText": "Tu generosidad ayuda a mantener encendida la luz de Nazaret para los peregrinos de todo el mundo."
     }
+  },
+  "media": {
+    "meta": {
+      "creditsTitle": "Créditos fotográficos",
+      "creditsDescription": "Quién tomó las fotografías de Nazaret y sus iglesias que se muestran en este sitio, bajo qué licencia abierta y dónde encontrar los originales en Wikimedia Commons.",
+      "galleryTitle": "Nazaret en imágenes",
+      "galleryDescription": "Fotografías de la Basílica de la Anunciación, la iglesia de San José, la iglesia greco-ortodoxa, el Pozo de María, el zoco de la Ciudad Vieja, la Iglesia de la Sinagoga, el Monte del Precipicio y la ciudad de Nazaret."
+    },
+    "nav": {
+      "gallery": "Galería de fotos",
+      "credits": "Créditos fotográficos"
+    },
+    "topic": {
+      "basilica": "Basílica de la Anunciación",
+      "stjoseph": "Iglesia de San José",
+      "greek": "Iglesia greco-ortodoxa de la Anunciación",
+      "well": "Pozo de María",
+      "oldcity": "Ciudad Vieja y zoco",
+      "synagogue": "Iglesia de la Sinagoga",
+      "precipice": "Monte del Precipicio",
+      "city": "La ciudad de Nazaret"
+    },
+    "subject": {
+      "facade": "fachada",
+      "exterior": "exterior",
+      "dome": "cúpula",
+      "courtyard": "patio",
+      "interior": "interior",
+      "grotto": "gruta",
+      "altar": "altar",
+      "iconostasis": "iconostasio",
+      "ceiling": "techo y bóvedas",
+      "bellTower": "campanario",
+      "well": "el pozo",
+      "market": "mercado",
+      "street": "calle",
+      "skyline": "vista de la ciudad",
+      "panorama": "vista panorámica",
+      "hills": "colinas",
+      "night": "de noche"
+    },
+    "alt": "{topic}: {subject}",
+    "creditLine": "Foto: {author} · {license}",
+    "source": "Fuente",
+    "gallery": {
+      "eyebrow": "Galería de fotos",
+      "title": "Nazaret en imágenes",
+      "lead": "Ocho lugares, una ciudad: la Basílica de la Anunciación, la iglesia de San José, la iglesia greco-ortodoxa, el Pozo de María, el zoco de la Ciudad Vieja, la Iglesia de la Sinagoga, el Monte del Precipicio y la propia ciudad. Toque una foto para ampliarla; el visor indica quién la tomó.",
+      "creditsLink": "Créditos fotográficos",
+      "visitPage": "Leer sobre este lugar"
+    },
+    "credits": {
+      "eyebrow": "Créditos fotográficos",
+      "title": "Créditos fotográficos",
+      "lead": "Las fotografías de Nazaret y sus iglesias de este sitio las comparten sus autores con licencias abiertas. Gracias a cada fotógrafo.",
+      "howTitle": "Cómo están licenciadas estas fotos",
+      "howText": "Cada foto procede de Wikimedia Commons y es de dominio público o tiene una licencia Creative Commons (CC0, CC BY o CC BY-SA) que permite reutilizarla, también en un sitio comercial, siempre que se mencione al autor. El autor, la licencia y un enlace al original figuran a continuación y en el visor de fotos.",
+      "howNote": "Las fotos CC BY-SA pueden reutilizarse con la misma licencia. Si eres el autor de una foto y quieres cambiar su crédito o que la retiremos, escríbenos.",
+      "jump": "Ir a un grupo de fotos",
+      "author": "Autor",
+      "license": "Licencia",
+      "viewOnCommons": "Ver en Wikimedia Commons"
+    }
   }
 }

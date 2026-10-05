@@ -6,6 +6,7 @@ import styles from './SiteFooter.module.css';
 
 export default async function SiteFooter() {
   const t = await getTranslations('site');
+  const tRoot = await getTranslations();
   const year = new Date().getFullYear();
 
   return (
@@ -23,7 +24,7 @@ export default async function SiteFooter() {
           <ul className={styles.links}>
             {footerNav.map((item) => (
               <li key={item.key}>
-                <Link href={item.href}>{t(`nav.${item.key}`)}</Link>
+                <Link href={item.href}>{item.labelKey ? tRoot(item.labelKey) : t(`nav.${item.key}`)}</Link>
               </li>
             ))}
           </ul>

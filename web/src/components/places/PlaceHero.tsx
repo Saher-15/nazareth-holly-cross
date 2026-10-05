@@ -1,9 +1,13 @@
 import type { ReactNode } from 'react';
-import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
 import type { Photo } from '@/data/places/places';
 import { ChevronIcon } from './icons';
+import PhotoImage from './PhotoImage';
 import styles from './PlaceHero.module.css';
+
+// The photo covers a box that is taller than wide on a phone, so it is cropped sideways: the file must be about as
+// wide as the box is tall times the photo's aspect ratio (up to ~1200px), not just as wide as the screen.
+const HERO_SIZES = 'max(100vw, 1200px)';
 
 type Props = {
   image: Photo;
@@ -22,15 +26,7 @@ type Props = {
 export default function PlaceHero({ image, title, eyebrow, eyebrowHref, lead, size = 'tall', children }: Props) {
   return (
     <header className={`ui-hero ${styles.hero} ${size === 'tall' ? styles.tall : styles.medium}`}>
-      <Image
-        className={`ui-hero__bg ${styles.bg}`}
-        src={image.src}
-        alt=""
-        fill
-        sizes="100vw"
-        loading="eager"
-        fetchPriority="high"
-      />
+      <PhotoImage className={`ui-hero__bg ${styles.bg}`} photo={image} alt="" sizes={HERO_SIZES} priority />
       <div className="ui-container">
         {eyebrowHref ? (
           <p className="ui-eyebrow">

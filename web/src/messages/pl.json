@@ -630,5 +630,68 @@
       "thanksTitle": "Dziękujemy za Twoją darowiznę!",
       "thanksText": "Twoja hojność pomaga podtrzymać światło Nazaretu dla pielgrzymów na całym świecie."
     }
+  },
+  "media": {
+    "meta": {
+      "creditsTitle": "Autorzy zdjęć",
+      "creditsDescription": "Kto wykonał zdjęcia Nazaretu i jego kościołów pokazane na tej stronie, na jakiej otwartej licencji i gdzie znaleźć oryginały w Wikimedia Commons.",
+      "galleryTitle": "Nazaret w obrazach",
+      "galleryDescription": "Zdjęcia Bazyliki Zwiastowania, kościoła św. Józefa, cerkwi grecko-prawosławnej, Studni Maryi, suku na Starym Mieście, Kościoła Synagogi, Góry Skoku i miasta Nazaret."
+    },
+    "nav": {
+      "gallery": "Galeria zdjęć",
+      "credits": "Autorzy zdjęć"
+    },
+    "topic": {
+      "basilica": "Bazylika Zwiastowania",
+      "stjoseph": "Kościół św. Józefa",
+      "greek": "Cerkiew grecko-prawosławna Zwiastowania",
+      "well": "Studnia Maryi",
+      "oldcity": "Stare Miasto i suk",
+      "synagogue": "Kościół Synagogi",
+      "precipice": "Góra Skoku",
+      "city": "Miasto Nazaret"
+    },
+    "subject": {
+      "facade": "fasada",
+      "exterior": "widok z zewnątrz",
+      "dome": "kopuła",
+      "courtyard": "dziedziniec",
+      "interior": "wnętrze",
+      "grotto": "grota",
+      "altar": "ołtarz",
+      "iconostasis": "ikonostas",
+      "ceiling": "sklepienie i sufit",
+      "bellTower": "dzwonnica",
+      "well": "studnia",
+      "market": "targ",
+      "street": "ulica",
+      "skyline": "panorama miasta",
+      "panorama": "widok",
+      "hills": "wzgórza",
+      "night": "nocą"
+    },
+    "alt": "{topic}: {subject}",
+    "creditLine": "Zdjęcie: {author} · {license}",
+    "source": "Źródło",
+    "gallery": {
+      "eyebrow": "Galeria zdjęć",
+      "title": "Nazaret w obrazach",
+      "lead": "Osiem miejsc, jedno miasto: Bazylika Zwiastowania, kościół św. Józefa, cerkiew grecko-prawosławna, Studnia Maryi, suk na Starym Mieście, Kościół Synagogi, Góra Skoku i samo miasto. Dotknij zdjęcia, aby je powiększyć; przeglądarka podaje autora.",
+      "creditsLink": "Autorzy zdjęć",
+      "visitPage": "Przeczytaj o tym miejscu"
+    },
+    "credits": {
+      "eyebrow": "Autorzy zdjęć",
+      "title": "Autorzy zdjęć",
+      "lead": "Zdjęcia Nazaretu i jego kościołów na tej stronie są udostępniane przez autorów na otwartych licencjach. Dziękujemy każdemu fotografowi.",
+      "howTitle": "Na jakich licencjach są te zdjęcia",
+      "howText": "Każde zdjęcie pochodzi z Wikimedia Commons i jest własnością publiczną albo objęte licencją Creative Commons (CC0, CC BY lub CC BY-SA), która pozwala na ponowne wykorzystanie, także na stronie komercyjnej, pod warunkiem podania autora. Autor, licencja i odnośnik do oryginału są podane poniżej oraz w przeglądarce zdjęć.",
+      "howNote": "Zdjęcia CC BY-SA można wykorzystywać ponownie na tej samej licencji. Jeśli jesteś autorem zdjęcia i chcesz zmienić podpis lub usunąć zdjęcie, napisz do nas.",
+      "jump": "Przejdź do grupy zdjęć",
+      "author": "Autor",
+      "license": "Licencja",
+      "viewOnCommons": "Zobacz w Wikimedia Commons"
+    }
   }
 }

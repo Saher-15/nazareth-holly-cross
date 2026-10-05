@@ -630,5 +630,68 @@
       "thanksTitle": "Grazie per la tua donazione!",
       "thanksText": "La tua generosità aiuta a mantenere accesa la luce di Nazaret per i pellegrini di tutto il mondo."
     }
+  },
+  "media": {
+    "meta": {
+      "creditsTitle": "Crediti fotografici",
+      "creditsDescription": "Chi ha scattato le fotografie di Nazaret e delle sue chiese mostrate in questo sito, con quale licenza aperta e dove trovare gli originali su Wikimedia Commons.",
+      "galleryTitle": "Nazaret in immagini",
+      "galleryDescription": "Fotografie della Basilica dell'Annunciazione, della chiesa di San Giuseppe, della chiesa greco-ortodossa, del Pozzo di Maria, del suq della Città Vecchia, della Chiesa della Sinagoga, del Monte del Precipizio e della città di Nazaret."
+    },
+    "nav": {
+      "gallery": "Galleria fotografica",
+      "credits": "Crediti fotografici"
+    },
+    "topic": {
+      "basilica": "Basilica dell'Annunciazione",
+      "stjoseph": "Chiesa di San Giuseppe",
+      "greek": "Chiesa greco-ortodossa dell'Annunciazione",
+      "well": "Pozzo di Maria",
+      "oldcity": "Città Vecchia e suq",
+      "synagogue": "Chiesa della Sinagoga",
+      "precipice": "Monte del Precipizio",
+      "city": "La città di Nazaret"
+    },
+    "subject": {
+      "facade": "facciata",
+      "exterior": "esterno",
+      "dome": "cupola",
+      "courtyard": "cortile",
+      "interior": "interno",
+      "grotto": "grotta",
+      "altar": "altare",
+      "iconostasis": "iconostasi",
+      "ceiling": "soffitto e volte",
+      "bellTower": "campanile",
+      "well": "il pozzo",
+      "market": "mercato",
+      "street": "strada",
+      "skyline": "vista della città",
+      "panorama": "panorama",
+      "hills": "colline",
+      "night": "di notte"
+    },
+    "alt": "{topic}: {subject}",
+    "creditLine": "Foto: {author} · {license}",
+    "source": "Fonte",
+    "gallery": {
+      "eyebrow": "Galleria fotografica",
+      "title": "Nazaret in immagini",
+      "lead": "Otto luoghi, una città: la Basilica dell'Annunciazione, la chiesa di San Giuseppe, la chiesa greco-ortodossa, il Pozzo di Maria, il suq della Città Vecchia, la Chiesa della Sinagoga, il Monte del Precipizio e la città stessa. Tocca una foto per ingrandirla; il visualizzatore indica chi l'ha scattata.",
+      "creditsLink": "Crediti fotografici",
+      "visitPage": "Leggi di questo luogo"
+    },
+    "credits": {
+      "eyebrow": "Crediti fotografici",
+      "title": "Crediti fotografici",
+      "lead": "Le fotografie di Nazaret e delle sue chiese presenti in questo sito sono condivise dai loro autori con licenze aperte. Grazie a ogni fotografo.",
+      "howTitle": "Come sono concesse in licenza queste foto",
+      "howText": "Ogni foto proviene da Wikimedia Commons ed è di pubblico dominio o con licenza Creative Commons (CC0, CC BY o CC BY-SA), che ne consente il riutilizzo, anche su un sito commerciale, purché sia citato l'autore. Autore, licenza e un link all'originale sono indicati qui sotto e nel visualizzatore.",
+      "howNote": "Le foto CC BY-SA possono essere riutilizzate con la stessa licenza. Se sei l'autore di una foto e vuoi modificarne il credito o farla rimuovere, scrivici.",
+      "jump": "Vai a un gruppo di foto",
+      "author": "Autore",
+      "license": "Licenza",
+      "viewOnCommons": "Vedi su Wikimedia Commons"
+    }
   }
 }

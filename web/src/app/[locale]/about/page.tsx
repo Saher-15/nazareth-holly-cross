@@ -4,7 +4,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { CONTACT_EMAIL, SITE_URL } from '@/lib/config';
 import { socialLinks } from '@/lib/site';
-import { photo } from '@/data/places/places';
+import { mediaPhoto } from '@/data/places/places';
 import { absoluteUrl, breadcrumbJsonLd, localePath, pageMetadata } from '@/data/places/seo';
 import JsonLd from '@/components/places/JsonLd';
 import PlaceHero from '@/components/places/PlaceHero';
@@ -12,7 +12,7 @@ import { ArrowIcon, ChurchIcon, GiftIcon, HandsHeartIcon } from '@/components/pl
 import Reveal from '@/components/ui/Reveal';
 import styles from './page.module.css';
 
-const HERO = photo('greek', 10);
+const HERO = mediaPhoto('city-hills-galilee');
 
 // The three ways the site brings Nazareth to visitors, one per About paragraph.
 const PILLARS: readonly { icon: ReactNode; title: string; text: string; href: string; cta: string }[] = [

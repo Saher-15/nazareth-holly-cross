@@ -114,9 +114,11 @@ describe('places data', () => {
       expect(p.width).toBeGreaterThan(0);
       expect(p.height).toBeGreaterThan(0);
     }
-    expect(PLACES.map((p) => p.photos.length)).toEqual([27, 18, 7, 16, 12]);
+    // The licensed photos (data/media.ts) come first, then every photo the site had before.
+    expect(PLACES.map((p) => p.photos.length)).toEqual([42, 24, 10, 24, 20]);
+    expect(PLACES.map((p) => p.photos.filter((x) => !x.media).length)).toEqual([27, 18, 7, 16, 12]);
     expect(photo('old', 5).src).toBe('/images/old/old5.jpg');
-    expect(getPlace('oldcity')?.photos[4].src).toBe('/images/old/old5.webp');
+    expect(getPlace('oldcity')?.photos.some((p) => p.src === '/images/old/old5.webp')).toBe(true);
     expect(() => photo('mary', 8)).toThrow();
   });
 

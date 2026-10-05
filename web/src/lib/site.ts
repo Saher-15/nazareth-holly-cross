@@ -9,11 +9,16 @@ export const mainNav = [
   { key: 'reviews', href: '/reviews' },
 ] as const;
 
-export const footerNav = [
+/** `labelKey` is a full message key for entries whose label is not under `site.nav` (see the `media` namespace). */
+type FooterItem = { key: string; href: string; labelKey?: string };
+
+export const footerNav: readonly FooterItem[] = [
   ...mainNav.filter((item) => item.key !== 'home'),
   { key: 'donate', href: '/donate' },
   { key: 'about', href: '/about' },
-] as const;
+  { key: 'gallery', href: '/gallery', labelKey: 'media.nav.gallery' },
+  { key: 'credits', href: '/credits', labelKey: 'media.nav.credits' },
+];
 
 export const socialLinks = [
   { name: 'Instagram', href: 'https://www.instagram.com/nazareth_holy_cross/' },

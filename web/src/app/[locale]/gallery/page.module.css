@@ -1,0 +1,30 @@
+/* /gallery: Nazareth in pictures, one gallery per topic. */
+
+.group {
+  padding-block: clamp(28px, 5vw, 56px);
+  scroll-margin-top: 72px;
+}
+.head {
+  margin-bottom: 24px;
+  text-align: center;
+}
+.more {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  color: var(--gold);
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+.more:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+/* The arrow points towards the reading end: mirrored in right-to-left languages. */
+.arrow {
+  flex: none;
+}
+:global([dir='rtl']) .arrow {
+  transform: scaleX(-1);
+}

@@ -4,11 +4,11 @@ import { expect, test, type Page } from '@playwright/test';
 // Holy sites (/sites, /sites/<slug>), the virtual tour and the about page.
 
 const PLACES = [
-  { slug: 'latin', en: 'Church of the Annunciation', he: 'כנסיית הבשורה', photos: 27 },
-  { slug: 'greek', en: 'Greek Orthodox Church', he: 'הכנסייה היוונית־אורתודוקסית', photos: 18 },
-  { slug: 'maryswell', en: "Mary's Well", he: 'מעיין מרים', photos: 7 },
-  { slug: 'oldcity', en: 'The Old City', he: 'העיר העתיקה', photos: 16 },
-  { slug: 'city', en: 'The City of Nazareth', he: 'העיר נצרת', photos: 12 },
+  { slug: 'latin', en: 'Church of the Annunciation', he: 'כנסיית הבשורה', photos: 42 },
+  { slug: 'greek', en: 'Greek Orthodox Church', he: 'הכנסייה היוונית־אורתודוקסית', photos: 24 },
+  { slug: 'maryswell', en: "Mary's Well", he: 'מעיין מרים', photos: 10 },
+  { slug: 'oldcity', en: 'The Old City', he: 'העיר העתיקה', photos: 24 },
+  { slug: 'city', en: 'The City of Nazareth', he: 'העיר נצרת', photos: 20 },
 ];
 
 const PAGES = ['/sites', '/sites/latin', '/sites/maryswell', '/tour', '/about'];
@@ -46,7 +46,7 @@ test.describe('holy sites index', () => {
         `/en/sites/${place.slug}`,
       );
     }
-    await expect(cards.first()).toContainText('27 photos');
+    await expect(cards.first()).toContainText('42 photos');
     expect(await jsonLdTypes(page)).toEqual(expect.arrayContaining(['ItemList', 'BreadcrumbList']));
   });
 
@@ -124,19 +124,19 @@ test.describe('place pages', () => {
 test.describe('photo viewer', () => {
   test('opens on a photo, steps with the arrow keys, keeps focus inside and closes with Escape', async ({ page }) => {
     await page.goto('/en/sites/maryswell');
-    const thumb = page.getByRole('button', { name: "Mary's Well, photo 1 of 7" });
+    const thumb = page.getByRole('button', { name: "Mary's Well: the well, photo 1 of 10" });
     await thumb.click();
 
     const viewer = page.getByRole('dialog', { name: "Photos of Mary's Well" });
     await expect(viewer).toBeVisible();
     await expect(viewer.getByRole('button', { name: 'Close' })).toBeFocused();
-    await expect(viewer.getByRole('img', { name: "Mary's Well, photo 1 of 7" })).toBeVisible();
+    await expect(viewer.getByRole('img', { name: "Mary's Well: the well, photo 1 of 10" })).toBeVisible();
 
     await page.keyboard.press('ArrowRight');
-    await expect(viewer.getByRole('img', { name: "Mary's Well, photo 2 of 7" })).toBeVisible();
+    await expect(viewer.getByRole('img', { name: "Mary's Well: the well, photo 2 of 10" })).toBeVisible();
     await page.keyboard.press('ArrowLeft');
     await page.keyboard.press('ArrowLeft');
-    await expect(viewer.getByRole('img', { name: "Mary's Well, photo 7 of 7" })).toBeVisible();
+    await expect(viewer.getByRole('img', { name: "Mary's Well, photo 10 of 10" })).toBeVisible();
 
     for (let i = 0; i < 5; i += 1) {
       await page.keyboard.press(i % 2 ? 'Shift+Tab' : 'Tab');
@@ -145,7 +145,7 @@ test.describe('photo viewer', () => {
     }
 
     await viewer.getByRole('button', { name: 'Next' }).click();
-    await expect(viewer.getByRole('img', { name: "Mary's Well, photo 1 of 7" })).toBeVisible();
+    await expect(viewer.getByRole('img', { name: "Mary's Well: the well, photo 1 of 10" })).toBeVisible();
 
     await page.keyboard.press('Escape');
     await expect(viewer).toBeHidden();
@@ -154,18 +154,18 @@ test.describe('photo viewer', () => {
 
   test('has no serious accessibility violations while open', async ({ page }) => {
     await page.goto('/en/sites/greek');
-    await page.getByRole('button', { name: 'Greek Orthodox Church, photo 3 of 18' }).click();
+    await page.getByRole('button', { name: 'Greek Orthodox Church of the Annunciation: interior, photo 3 of 24' }).click();
     await expect(page.getByRole('dialog')).toBeVisible();
     expect(await seriousViolations(page)).toEqual([]);
   });
 
   test('mirrors the arrow keys in Hebrew', async ({ page }) => {
     await page.goto('/he/sites/maryswell');
-    await page.getByRole('button', { name: 'מעיין מרים, תמונה 1 מתוך 7' }).click();
+    await page.getByRole('button', { name: 'מעיין מרים: המעיין, תמונה 1 מתוך 10' }).click();
     const viewer = page.getByRole('dialog', { name: 'תמונות של מעיין מרים' });
     await expect(viewer).toBeVisible();
     await page.keyboard.press('ArrowLeft');
-    await expect(viewer.getByRole('img', { name: 'מעיין מרים, תמונה 2 מתוך 7' })).toBeVisible();
+    await expect(viewer.getByRole('img', { name: 'מעיין מרים: המעיין, תמונה 2 מתוך 10' })).toBeVisible();
     await viewer.getByRole('button', { name: 'סגירה' }).click();
     await expect(viewer).toBeHidden();
   });
@@ -173,7 +173,7 @@ test.describe('photo viewer', () => {
   test('a sideways swipe changes the photo', async ({ page, isMobile }) => {
     test.skip(!isMobile, 'touch screens only');
     await page.goto('/en/sites/maryswell');
-    await page.getByRole('button', { name: "Mary's Well, photo 1 of 7" }).click();
+    await page.getByRole('button', { name: "Mary's Well: the well, photo 1 of 10" }).click();
     const viewer = page.getByRole('dialog');
     await expect(viewer).toBeVisible();
     await page.evaluate(() => {
@@ -182,7 +182,7 @@ test.describe('photo viewer', () => {
       el.dispatchEvent(new TouchEvent('touchstart', { bubbles: true, touches: [at(320)], changedTouches: [at(320)] }));
       el.dispatchEvent(new TouchEvent('touchend', { bubbles: true, touches: [], changedTouches: [at(120)] }));
     });
-    await expect(viewer.getByRole('img', { name: "Mary's Well, photo 2 of 7" })).toBeVisible();
+    await expect(viewer.getByRole('img', { name: "Mary's Well: the well, photo 2 of 10" })).toBeVisible();
   });
 });
 

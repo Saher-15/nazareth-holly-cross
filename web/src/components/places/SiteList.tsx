@@ -1,10 +1,10 @@
-import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { placeHref, type Place } from '@/data/places/places';
 import Reveal from '@/components/ui/Reveal';
 import ExternalLink from './ExternalLink';
 import { ArrowIcon, PhotosIcon, PinIcon } from './icons';
+import PhotoImage from './PhotoImage';
 import styles from './SiteList.module.css';
 
 // The holy sites index: one large editorial card per place, photo and text alternating sides.
@@ -18,7 +18,7 @@ export default async function SiteList({ places }: { places: readonly Place[] })
         <Reveal as="li" key={place.slug} className={styles.item}>
           <article className={styles.card} aria-labelledby={`site-${place.slug}`}>
             <div className={styles.media}>
-              <Image src={place.hero.src} alt="" fill sizes="(min-width: 900px) 640px, 100vw" />
+              <PhotoImage photo={place.hero} alt="" sizes="(min-width: 900px) 640px, 100vw" />
               <span className={styles.badge}>
                 <PhotosIcon size={16} />
                 {t('placesPage.photoCount', { count: place.photos.length })}

@@ -1,10 +1,39 @@
+import { MEDIA, getMedia, mediaShareFile, type MediaItem, type MediaTopic } from '../media';
 import { PHOTO_SIZES, type PhotoFolder } from './photos';
 
 // The holy places of Nazareth: one statically generated page each at /sites/<slug>.
 // Texts are message keys (the story texts are the existing contentLatin/contentGreek/... messages);
-// photos live in public/images/<folder>/<folder><n>.jpg.
+// photos live in public/images/<folder>/<folder><n>.jpg, or are licensed photos from data/media.ts.
 
-export type Photo = { src: string; width: number; height: number };
+/**
+ * A photo. For a licensed photo (`media` set) the components show the pre-built responsive AVIF/WebP files and
+ * the credit; `src` / `width` / `height` then describe the share image (social cards, JSON-LD).
+ */
+export type Photo = { src: string; width: number; height: number; media?: MediaItem };
+
+/** A licensed photo from the media manifest (data/media.ts) as a place photo. */
+export function mediaPhoto(id: string): Photo {
+  const media = getMedia(id);
+  return media.og
+    ? { src: mediaShareFile(media), width: 1200, height: 630, media }
+    : { src: mediaShareFile(media), width: media.width, height: media.height, media };
+}
+
+/** Which holy-site page a media topic belongs to. */
+export const PLACE_OF_TOPIC = {
+  basilica: 'latin',
+  stjoseph: 'latin',
+  greek: 'greek',
+  well: 'maryswell',
+  oldcity: 'oldcity',
+  synagogue: 'oldcity',
+  precipice: 'city',
+  city: 'city',
+} as const satisfies Record<MediaTopic, string>;
+
+/** The licensed photos of one holy-site page, in manifest order. */
+const mediaPhotosOf = (slug: string): Photo[] =>
+  MEDIA.filter((item) => PLACE_OF_TOPIC[item.topic] === slug).map((item) => mediaPhoto(item.id));
 
 type Ext = Partial<Record<number, 'webp'>>;
 
@@ -54,13 +83,13 @@ const latin: Place = {
   legacyPath: '/latin',
   nameKey: 'home.siteLatin',
   titleKey: 'headerLatin.title',
-  hero: photo('latin', 1),
-  cover: photo('latin', 1),
+  hero: mediaPhoto('basilica-facade'),
+  cover: mediaPhoto('basilica-dome-palms'),
   // The old site pointed at "Nazareth City center"; this opens the basilica itself.
   mapUrl: 'https://www.google.com/maps/search/?api=1&query=Basilica+of+the+Annunciation%2C+Nazareth',
   geo: { lat: 32.70222, lng: 35.2975 },
   schemaTypes: ['TouristAttraction', 'CatholicChurch'],
-  photos: photosOf('latin'),
+  photos: [...mediaPhotosOf('latin'), ...photosOf('latin')],
   story: [
     { kind: 'text', text: 'contentLatin.paragraph1' },
     { kind: 'section', title: 'contentLatin.history.title', text: 'contentLatin.history.text' },
@@ -74,13 +103,13 @@ const greek: Place = {
   legacyPath: '/greek',
   nameKey: 'home.siteGreek',
   titleKey: 'headerGreek.title',
-  hero: photo('greek', 9),
-  cover: photo('greek', 1),
+  hero: mediaPhoto('greek-church-exterior'),
+  cover: mediaPhoto('greek-church-porch'),
   mapUrl:
     'https://www.google.com/maps/place/The+Greek+Orthodox+Church+of+the+Annunciation/@32.7070723,35.3016619,17z/data=!3m1!4b1!4m6!3m5!1s0x151c4c29d17b5477:0xc7296709e9a3ab85!8m2!3d32.7070723!4d35.3016619!16s%2Fm%2F03gtxsl?entry=ttu',
   geo: { lat: 32.7070723, lng: 35.3016619 },
   schemaTypes: ['TouristAttraction', 'Church'],
-  photos: photosOf('greek'),
+  photos: [...mediaPhotosOf('greek'), ...photosOf('greek')],
   story: [
     { kind: 'text', text: 'contentGreek.paragraph1' },
     { kind: 'text', text: 'contentGreek.paragraph2' },
@@ -93,13 +122,13 @@ const maryswell: Place = {
   legacyPath: '/maryswell',
   nameKey: 'home.siteMary',
   titleKey: 'headerMary.title',
-  hero: photo('mary', 5),
-  cover: photo('mary', 4),
+  hero: mediaPhoto('marys-well-arch'),
+  cover: mediaPhoto('marys-well-warm-light'),
   mapUrl:
     'https://www.google.com/maps/place/Mary%E2%80%99s+Well/@32.7035145,35.296555,14z/data=!4m6!3m5!1s0x151c4c29c6d1008d:0x23e218b489e18311!8m2!3d32.7060586!4d35.3013417!16zL20vMGY3XzJ2?entry=ttu',
   geo: { lat: 32.7060586, lng: 35.3013417 },
   schemaTypes: ['TouristAttraction', 'LandmarksOrHistoricalBuildings'],
-  photos: photosOf('mary'),
+  photos: [...mediaPhotosOf('maryswell'), ...photosOf('mary')],
   story: [
     { kind: 'text', text: 'contentMary.intro' },
     {
@@ -137,13 +166,13 @@ const oldcity: Place = {
   legacyPath: '/oldcity',
   nameKey: 'home.siteOld',
   titleKey: 'headerTitleOld',
-  hero: photo('old', 9),
-  cover: photo('old', 2),
+  hero: mediaPhoto('old-city-arched-passage'),
+  cover: mediaPhoto('old-city-green-doors'),
   mapUrl:
     'https://www.google.com/maps/place/The+Old+City,+Nazareth/@32.7035145,35.296555,14z/data=!3m1!4b1!4m6!3m5!1s0x151c4c2c9a805123:0x994648ecbf8111f3!8m2!3d32.703515!4d35.296555!16s%2Fg%2F1v5wddhc?entry=ttu',
   geo: { lat: 32.703515, lng: 35.296555 },
   schemaTypes: ['TouristAttraction'],
-  photos: photosOf('old', OLD_EXT),
+  photos: [...mediaPhotosOf('oldcity'), ...photosOf('old', OLD_EXT)],
   story: [
     { kind: 'text', text: 'mapDescriptionOld' },
     { kind: 'text', text: 'churchDescriptionOld' },
@@ -156,13 +185,13 @@ const city: Place = {
   legacyPath: '/city',
   nameKey: 'home.siteCity',
   titleKey: 'headerTitleNaz',
-  hero: photo('nazareth', 1, CITY_EXT),
-  cover: photo('nazareth', 1, CITY_EXT),
+  hero: mediaPhoto('city-basilica-skyline'),
+  cover: mediaPhoto('city-churches-minaret'),
   mapUrl:
     'https://www.google.com/maps/place/Nazareth+City+center/@32.7012442,35.2981717,17z/data=!3m1!4b1!4m6!3m5!1s0x151c4dd4b3386aef:0x652378b0cec4d358!8m2!3d32.7012442!4d35.2981717!16s%2Fg%2F11c5s6wx03?entry=ttu',
   geo: { lat: 32.7012442, lng: 35.2981717 },
   schemaTypes: ['TouristAttraction', 'City'],
-  photos: photosOf('nazareth', CITY_EXT),
+  photos: [...mediaPhotosOf('city'), ...photosOf('nazareth', CITY_EXT)],
   story: [
     { kind: 'text', text: 'contentNaz.introduction' },
     { kind: 'section', title: 'contentNaz.historicalSignificance.title', text: 'contentNaz.historicalSignificance.text' },

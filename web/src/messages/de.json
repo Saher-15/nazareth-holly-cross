@@ -630,5 +630,68 @@
       "thanksTitle": "Vielen Dank für Ihre Spende!",
       "thanksText": "Ihre Großzügigkeit hilft, das Licht Nazareths für Pilger in aller Welt leuchten zu lassen."
     }
+  },
+  "media": {
+    "meta": {
+      "creditsTitle": "Bildnachweise",
+      "creditsDescription": "Wer die auf dieser Website gezeigten Fotos von Nazareth und seinen Kirchen aufgenommen hat, unter welcher offenen Lizenz sie stehen und wo man die Originale auf Wikimedia Commons findet.",
+      "galleryTitle": "Nazareth in Bildern",
+      "galleryDescription": "Fotos der Verkündigungsbasilika, der Josefskirche, der griechisch-orthodoxen Kirche, des Marienbrunnens, des Souks der Altstadt, der Synagogenkirche, des Bergs des Absprungs und der Stadt Nazareth."
+    },
+    "nav": {
+      "gallery": "Fotogalerie",
+      "credits": "Bildnachweise"
+    },
+    "topic": {
+      "basilica": "Verkündigungsbasilika",
+      "stjoseph": "Josefskirche",
+      "greek": "Griechisch-orthodoxe Verkündigungskirche",
+      "well": "Marienbrunnen",
+      "oldcity": "Altstadt und Souk",
+      "synagogue": "Synagogenkirche",
+      "precipice": "Berg des Absprungs",
+      "city": "Die Stadt Nazareth"
+    },
+    "subject": {
+      "facade": "Fassade",
+      "exterior": "Außenansicht",
+      "dome": "Kuppel",
+      "courtyard": "Hof",
+      "interior": "Innenraum",
+      "grotto": "Grotte",
+      "altar": "Altar",
+      "iconostasis": "Ikonostase",
+      "ceiling": "Decke und Gewölbe",
+      "bellTower": "Glockenturm",
+      "well": "der Brunnen",
+      "market": "Markt",
+      "street": "Gasse",
+      "skyline": "Stadtansicht",
+      "panorama": "Panorama",
+      "hills": "Hügel",
+      "night": "bei Nacht"
+    },
+    "alt": "{topic}: {subject}",
+    "creditLine": "Foto: {author} · {license}",
+    "source": "Quelle",
+    "gallery": {
+      "eyebrow": "Fotogalerie",
+      "title": "Nazareth in Bildern",
+      "lead": "Acht Orte, eine Stadt: die Verkündigungsbasilika, die Josefskirche, die griechisch-orthodoxe Kirche, der Marienbrunnen, der Souk der Altstadt, die Synagogenkirche, der Berg des Absprungs und die Stadt selbst. Tippen Sie auf ein Foto, um es zu vergrößern; die Ansicht nennt den Fotografen.",
+      "creditsLink": "Bildnachweise",
+      "visitPage": "Mehr über diesen Ort"
+    },
+    "credits": {
+      "eyebrow": "Bildnachweise",
+      "title": "Bildnachweise",
+      "lead": "Die Fotos von Nazareth und seinen Kirchen auf dieser Website werden von ihren Urhebern unter offenen Lizenzen geteilt. Danke an jede Fotografin und jeden Fotografen.",
+      "howTitle": "Wie diese Fotos lizenziert sind",
+      "howText": "Jedes Foto stammt von Wikimedia Commons und ist gemeinfrei oder steht unter einer Creative-Commons-Lizenz (CC0, CC BY oder CC BY-SA), die die Weiterverwendung erlaubt, auch auf einer kommerziellen Website, sofern der Urheber genannt wird. Urheber, Lizenz und ein Link zum Original stehen unten und im Foto-Viewer.",
+      "howNote": "Fotos unter CC BY-SA dürfen unter derselben Lizenz weiterverwendet werden. Wenn Sie Urheber eines Fotos sind und die Nennung ändern oder das Foto entfernen lassen möchten, schreiben Sie uns bitte.",
+      "jump": "Zu einer Fotogruppe springen",
+      "author": "Urheber",
+      "license": "Lizenz",
+      "viewOnCommons": "Auf Wikimedia Commons ansehen"
+    }
   }
 }

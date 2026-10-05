@@ -630,5 +630,68 @@
       "thanksTitle": "Thank you for your donation!",
       "thanksText": "Your generosity helps keep the light of Nazareth shining for pilgrims around the world."
     }
+  },
+  "media": {
+    "meta": {
+      "creditsTitle": "Photo credits",
+      "creditsDescription": "Who took the photographs of Nazareth and its churches shown on this site, under which open licence, and where to find the originals on Wikimedia Commons.",
+      "galleryTitle": "Nazareth in pictures",
+      "galleryDescription": "Photographs of the Basilica of the Annunciation, St. Joseph's Church, the Greek Orthodox church, Mary's Well, the Old City souk, the Synagogue Church, Mount Precipice and the city of Nazareth."
+    },
+    "nav": {
+      "gallery": "Photo gallery",
+      "credits": "Photo credits"
+    },
+    "topic": {
+      "basilica": "Basilica of the Annunciation",
+      "stjoseph": "Church of St. Joseph",
+      "greek": "Greek Orthodox Church of the Annunciation",
+      "well": "Mary's Well",
+      "oldcity": "Old City and souk",
+      "synagogue": "Synagogue Church",
+      "precipice": "Mount Precipice",
+      "city": "The city of Nazareth"
+    },
+    "subject": {
+      "facade": "facade",
+      "exterior": "exterior",
+      "dome": "dome",
+      "courtyard": "courtyard",
+      "interior": "interior",
+      "grotto": "grotto",
+      "altar": "altar",
+      "iconostasis": "iconostasis",
+      "ceiling": "ceiling and vaults",
+      "bellTower": "bell tower",
+      "well": "the well",
+      "market": "market",
+      "street": "street",
+      "skyline": "city view",
+      "panorama": "panorama",
+      "hills": "hills",
+      "night": "at night"
+    },
+    "alt": "{topic}: {subject}",
+    "creditLine": "Photo: {author} · {license}",
+    "source": "Source",
+    "gallery": {
+      "eyebrow": "Photo gallery",
+      "title": "Nazareth in pictures",
+      "lead": "Eight places, one city: the Basilica of the Annunciation, St. Joseph's Church, the Greek Orthodox church, Mary's Well, the Old City souk, the Synagogue Church, Mount Precipice and the city itself. Select a photo to enlarge it; the viewer names the photographer.",
+      "creditsLink": "Photo credits",
+      "visitPage": "Read about this place"
+    },
+    "credits": {
+      "eyebrow": "Photo credits",
+      "title": "Photo credits",
+      "lead": "The photographs of Nazareth and its churches on this site are shared by their authors under open licences. Thank you to every photographer.",
+      "howTitle": "How these photos are licensed",
+      "howText": "Each photo comes from Wikimedia Commons and is in the public domain or under a Creative Commons licence (CC0, CC BY or CC BY-SA) that allows reuse, including on a commercial site, as long as the author is credited. The author, licence and a link to the original are listed below and in the photo viewer.",
+      "howNote": "Photos marked CC BY-SA may be reused under the same licence. If you are the author of a photo and want its credit changed or the photo removed, please write to us.",
+      "jump": "Jump to a group of photos",
+      "author": "Author",
+      "license": "Licence",
+      "viewOnCommons": "View on Wikimedia Commons"
+    }
   }
 }

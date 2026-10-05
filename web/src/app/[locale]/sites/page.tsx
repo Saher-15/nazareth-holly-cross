@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
-import { PLACES, TOUR_CARD, photo, placeHref } from '@/data/places/places';
+import { PLACES, TOUR_CARD, mediaPhoto, placeHref } from '@/data/places/places';
 import { breadcrumbJsonLd, itemListJsonLd, pageMetadata } from '@/data/places/seo';
 import JsonLd from '@/components/places/JsonLd';
 import PlaceHero from '@/components/places/PlaceHero';
@@ -11,7 +11,7 @@ import { PlayIcon } from '@/components/places/icons';
 import Reveal from '@/components/ui/Reveal';
 import styles from './page.module.css';
 
-const HERO = photo('nazareth', 5);
+const HERO = mediaPhoto('city-sunset-glow');
 
 export async function generateMetadata({ params }: PageProps<'/[locale]/sites'>): Promise<Metadata> {
   const { locale } = await params;
