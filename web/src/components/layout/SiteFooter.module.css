@@ -1,0 +1,63 @@
+.footer {
+  margin-top: auto;
+  padding-top: 56px;
+  background: linear-gradient(180deg, var(--night) 0%, #070a13 100%);
+  border-top: 1px solid var(--glass-line);
+  color: var(--muted);
+}
+.grid {
+  display: grid;
+  gap: 32px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  padding-bottom: 40px;
+}
+.brand {
+  margin: 0 0 12px;
+  font: 600 1.2rem/1.2 var(--serif);
+  color: #fff;
+}
+.brand span {
+  color: var(--gold);
+}
+.about {
+  margin: 0;
+  max-width: 34ch;
+}
+.heading {
+  margin: 0 0 10px;
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.heading:not(:first-child) {
+  margin-top: 20px;
+}
+.links,
+.social {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+.footer a {
+  color: var(--cream);
+  text-decoration: none;
+}
+.footer a:hover {
+  color: var(--gold);
+  text-decoration: underline;
+}
+.rights {
+  margin: 0;
+  padding: 18px 16px 28px;
+  border-top: 1px solid var(--glass-line);
+  text-align: center;
+  font-size: 0.85rem;
+}
