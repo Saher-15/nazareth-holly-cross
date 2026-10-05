@@ -36,7 +36,7 @@ const PRODUCTS = [
 
 describe('parseQuery / toSearchParams', () => {
   it('reads a shared URL and writes it back the same way', () => {
-    const url = 'q=rosary&category=rosaries&material=gold,wood&min=5&max=20&rating=4&stock=1&sort=price-asc&page=2';
+    const url = 'q=rosary&category=rosaries&material=gold,wood&min=5&max=20&rating=4&stock=1&sort=priceAsc&page=2';
     const q = parseQuery(new URLSearchParams(url));
     expect(q).toEqual({
       q: 'rosary',
@@ -46,7 +46,7 @@ describe('parseQuery / toSearchParams', () => {
       max: 20,
       rating: 4,
       inStock: true,
-      sort: 'price-asc',
+      sort: 'priceAsc',
       page: 2,
     });
     expect(toSearchParams(q).toString()).toBe(url.replace('material=gold,wood', 'material=gold%2Cwood'));
@@ -83,7 +83,7 @@ describe('runQuery', () => {
 
   it('sorts by best selling, price and featured', () => {
     expect(run({ sort: 'bestselling' }).items[0]._id).toBe('2');
-    expect(run({ sort: 'price-desc' }).items[0]._id).toBe('3');
+    expect(run({ sort: 'priceDesc' }).items[0]._id).toBe('3');
     expect(run({ sort: 'featured' }).items[0]._id).toBe('4');
   });
 

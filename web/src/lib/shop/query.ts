@@ -3,7 +3,7 @@ import { CATEGORIES, MATERIALS, type CatalogProduct, type Category, type Materia
 // Shop filtering, sorting and paging as pure functions, so the URL is the single source of
 // truth (/shop?category=rosaries&material=gold&sort=bestselling) and every view is shareable.
 
-export const SORTS = ['featured', 'bestselling', 'rating', 'newest', 'price-asc', 'price-desc', 'name'] as const;
+export const SORTS = ['featured', 'bestselling', 'rating', 'newest', 'priceAsc', 'priceDesc', 'name'] as const;
 export type Sort = (typeof SORTS)[number];
 
 export const PAGE_SIZE = 12;
@@ -126,9 +126,9 @@ export function sortProducts(products: CatalogProduct[], sort: Sort) {
       return list.sort((a, b) => b.rating.avg - a.rating.avg || b.rating.count - a.rating.count || byName(a, b));
     case 'newest':
       return list.sort((a, b) => (b.createdAt ?? '').localeCompare(a.createdAt ?? '') || byName(a, b));
-    case 'price-asc':
+    case 'priceAsc':
       return list.sort((a, b) => a.price - b.price || byName(a, b));
-    case 'price-desc':
+    case 'priceDesc':
       return list.sort((a, b) => b.price - a.price || byName(a, b));
     case 'name':
       return list.sort(byName);
