@@ -136,7 +136,7 @@ describe('places data', () => {
   it('maps the old site routes to the new ones', () => {
     expect(LEGACY_REDIRECTS).toContainEqual({ from: '/maryswell', to: '/sites/maryswell' });
     expect(LEGACY_REDIRECTS).toContainEqual({ from: '/city', to: '/sites/city' });
-    expect(LEGACY_REDIRECTS).toHaveLength(7);
+    expect(LEGACY_REDIRECTS).toHaveLength(PLACES.length);
   });
 
   it('links directions to the coordinates of the place', () => {

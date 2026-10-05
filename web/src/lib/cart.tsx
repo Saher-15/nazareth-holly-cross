@@ -56,16 +56,43 @@ export function cartReducer(lines: CartLine[], action: CartAction): CartLine[] {
   }
 }
 
-function readStored(): CartLine[] {
+const isLine = (l: unknown): l is CartLine =>
+  typeof l === 'object' &&
+  l !== null &&
+  'quantity' in l &&
+  '_id' in l &&
+  typeof l._id === 'string' &&
+  'name' in l &&
+  typeof l.name === 'string' &&
+  'price' in l &&
+  typeof l.price === 'number' &&
+  Number.isFinite(l.price) &&
+  l.price >= 0 &&
+  'img' in l &&
+  typeof l.img === 'string' &&
+  'color' in l &&
+  typeof l.color === 'string' &&
+  typeof l.quantity === 'number' &&
+  Number.isInteger(l.quantity) &&
+  l.quantity >= 1 &&
+  l.quantity <= MAX_LINE_QUANTITY;
+
+/** The cart a stored string holds: only well-formed lines, one per product + colour. Never throws. */
+export function parseStoredCart(raw: string | null): CartLine[] {
   try {
-    const parsed: unknown = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '[]');
+    const parsed: unknown = JSON.parse(raw ?? '[]');
     if (!Array.isArray(parsed)) return [];
-    return parsed.filter(
-      (l): l is CartLine =>
-        l && typeof l._id === 'string' && typeof l.price === 'number' && Number.isInteger(l.quantity),
-    );
+    return parsed.filter(isLine).reduce<CartLine[]>((lines, line) => (lines.some((l) => sameLine(l, line)) ? lines : [...lines, line]), []);
   } catch {
     return [];
+  }
+}
+
+function readStored(): CartLine[] {
+  try {
+    return parseStoredCart(localStorage.getItem(STORAGE_KEY));
+  } catch {
+    return []; // storage blocked
   }
 }
 

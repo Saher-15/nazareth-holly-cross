@@ -3,10 +3,10 @@
 import type { ReactNode, Ref } from 'react';
 import { useTranslations } from 'next-intl';
 import { CONTACT_EMAIL } from '@/lib/config';
-import type { SaveStatus } from './hooks';
 import Flame from '@/components/ui/Flame';
 import { CheckIcon } from '@/components/ui/icons';
 import Notice from '@/components/ui/Notice';
+import type { SaveStatus } from './hooks';
 import { HeartIcon } from './icons';
 import styles from './checkout.module.css';
 

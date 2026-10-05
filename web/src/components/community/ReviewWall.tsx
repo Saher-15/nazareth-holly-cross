@@ -1,8 +1,8 @@
 import { useFormatter, useTranslations } from 'next-intl';
 import type { Review } from '@/lib/api';
-import Icon from './Icon';
 import { reviewerPlace } from '@/lib/reviews';
 import { NAZARETH_TIME_ZONE } from '@/lib/time';
+import Icon from './Icon';
 import styles from './ReviewWall.module.css';
 
 /** The first letter of a name for the avatar (whole characters, so emoji and accents stay intact). */

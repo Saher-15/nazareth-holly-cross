@@ -3,8 +3,8 @@
 import { useEffect, useId, useRef, useState, useTransition, type ChangeEvent, type FormEvent } from 'react';
 import { useTranslations } from 'next-intl';
 import { postJson } from '@/lib/apiClient';
-import { revalidateReviews } from './actions';
 import Notice from '@/components/ui/Notice';
+import { revalidateReviews } from './actions';
 import Icon from './Icon';
 import {
   emptyReview,
@@ -40,6 +40,7 @@ export default function ReviewForm({ titleId }: { titleId: string }) {
   const msgRef = useRef<HTMLTextAreaElement>(null);
   const doneRef = useRef<HTMLHeadingElement>(null);
   const firstFieldAfterReset = useRef(false);
+  const posting = useRef(false); // state would still read "idle" when a second submit arrives in the same tick
 
   useEffect(() => {
     if (status === 'sent') doneRef.current?.focus();
@@ -67,7 +68,7 @@ export default function ReviewForm({ titleId }: { titleId: string }) {
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (status === 'sending') return;
+    if (posting.current) return;
 
     const found = validateReview(values);
     setErrors(found);
@@ -77,9 +78,11 @@ export default function ReviewForm({ titleId }: { titleId: string }) {
       return;
     }
 
+    posting.current = true;
     setStatus('sending');
     setSubmitError(null);
     const result = await postJson('/review/addReview', toReviewPayload(values));
+    posting.current = false;
     if (!result.ok) {
       setStatus('idle');
       setSubmitError(submitErrorKey(result.status));

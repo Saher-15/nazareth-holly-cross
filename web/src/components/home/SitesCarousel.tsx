@@ -96,6 +96,11 @@ export default function SitesCarousel({ id }: { id: string }) {
   const endDrag = () => {
     drag.current.active = false;
     trackRef.current?.classList.remove(styles.dragging);
+    // The click that ends a drag comes right after pointerup; a drag that ended elsewhere gets none,
+    // and must not swallow the next real click (a keyboard Enter on a card, for instance).
+    setTimeout(() => {
+      drag.current.moved = false;
+    }, 0);
   };
   // A drag must not count as a click on the card underneath.
   const onClickCapture = (e: MouseEvent<HTMLDivElement>) => {

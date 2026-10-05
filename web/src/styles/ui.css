@@ -18,7 +18,7 @@
 .ui-container { width: min(var(--container), 100% - 32px); margin-inline: auto; }
 .ui-section { padding-block: clamp(40px, 7vw, 80px); }
 
-/* ---- page header (see components/ui/PageHero.js) ---- */
+/* ---- page header (see components/ui/PageHero.tsx) ---- */
 .ui-hero {
   position: relative;
   display: grid;
@@ -95,10 +95,10 @@
 .ui-error { color: var(--danger); font-size: 0.9rem; }
 .ui-success { color: var(--success); }
 
-/* ---- scroll reveal (components/ui/Reveal.js) ---- */
+/* ---- scroll reveal (components/ui/Reveal.tsx) ---- */
 .ui-reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.8s ease, transform 0.8s cubic-bezier(.2, .7, .2, 1); }
 .ui-reveal.is-in { opacity: 1; transform: none; }
-@media (prefers-reduced-motion: reduce) {
+@media (prefers-reduced-motion: reduce), (scripting: none) {
   .ui-reveal { opacity: 1; transform: none; transition: none; }
   .ui-btn:hover { transform: none; }
 }

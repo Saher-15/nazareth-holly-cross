@@ -208,9 +208,8 @@ export function placeCards({ exclude, withTour = false }: { exclude?: PlaceSlug;
   return withTour ? [...cards, TOUR_CARD] : cards;
 }
 
-/** Old site routes and where they live now (paths without the language prefix). */
-export const LEGACY_REDIRECTS: readonly { from: string; to: string }[] = [
-  ...PLACES.map((p) => ({ from: p.legacyPath, to: placeHref(p.slug) })),
-  { from: '/tour', to: '/tour' },
-  { from: '/about', to: '/about' },
-];
+/** Old site routes that moved, and where they live now (paths without the language prefix). */
+export const LEGACY_REDIRECTS: readonly { from: string; to: string }[] = PLACES.map((p) => ({
+  from: p.legacyPath,
+  to: placeHref(p.slug),
+}));

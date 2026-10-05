@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, useTransition } from 'react';
+import { useEffect, useId, useRef, useState, useTransition } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { usePathname, useRouter } from '@/i18n/navigation';
@@ -13,9 +13,11 @@ export default function LanguageSwitcher() {
   const router = useRouter();
   const pathname = usePathname();
   const params = useParams();
+  const menuId = useId();
   const [open, setOpen] = useState(false);
   const [pending, startTransition] = useTransition();
   const ref = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (!open) return undefined;
@@ -23,7 +25,10 @@ export default function LanguageSwitcher() {
       if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
     };
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false);
+      if (e.key === 'Escape') {
+        setOpen(false);
+        triggerRef.current?.focus();
+      }
     };
     document.addEventListener('mousedown', onDown);
     document.addEventListener('keydown', onKey);
@@ -48,10 +53,11 @@ export default function LanguageSwitcher() {
   return (
     <div className={styles.root} ref={ref}>
       <button
+        ref={triggerRef}
         type="button"
         className={styles.trigger}
-        aria-haspopup="true"
         aria-expanded={open}
+        aria-controls={menuId}
         aria-label={`${t('language')}: ${localeNames[current]}`}
         disabled={pending}
         onClick={() => setOpen((v) => !v)}
@@ -60,7 +66,7 @@ export default function LanguageSwitcher() {
         <span className={styles.code}>{current.toUpperCase()}</span>
       </button>
       {open && (
-        <ul className={styles.menu} aria-label={t('language')}>
+        <ul id={menuId} className={styles.menu} aria-label={t('language')}>
           {locales.map((locale) => (
             <li key={locale}>
               <button
