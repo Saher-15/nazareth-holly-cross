@@ -1,31 +1,46 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useTranslations } from 'next-intl';
+import { AlertIcon } from '@/components/ui/icons';
 import { Link } from '@/i18n/navigation';
-import PageHero from '@/components/ui/PageHero';
+import styles from './error.module.css';
 
-// Last-resort boundary for every page of a language (the shop has its own, closer one). The header
-// and footer stay, the visitor can try again or go home. Uses messages that already exist in all languages.
+// Catches anything unexpected while a page renders (the shop has its own, friendlier boundary).
+// The heading takes the focus, so a screen-reader visitor hears what happened at once.
 export default function LocaleError({ error, retry }: { error: Error & { digest?: string }; retry: () => void }) {
-  const t = useTranslations();
+  const t = useTranslations('ux.error');
+  const heading = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
     console.error(error);
+    heading.current?.focus();
   }, [error]);
 
   return (
-    <div className="ui-page" role="alert">
-      <PageHero eyebrow="500" title={t('communityPage.reviews.form.errors.server')}>
-        <p style={{ marginTop: 28, display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-          <button type="button" className="ui-btn ui-btn--gold" onClick={() => retry()}>
-            {t('home.retry')}
-          </button>
-          <Link href="/" className="ui-btn ui-btn--ghost">
-            {t('site.notFound.backHome')}
-          </Link>
-        </p>
-      </PageHero>
+    <div className={`ui-page ${styles.page}`}>
+      <div className={`ui-container ${styles.wrap}`}>
+        <div className="ui-state ui-state--error" role="alert">
+          <AlertIcon size={40} />
+          <h1 className="ui-state__title" ref={heading} tabIndex={-1}>
+            {t('title')}
+          </h1>
+          <p className="ui-state__text">{t('text')}</p>
+          {error.digest && (
+            <p className={styles.digest}>
+              {t('reference')}: <span className="ui-ltr">{error.digest}</span>
+            </p>
+          )}
+          <div className={styles.actions}>
+            <button type="button" className="ui-btn ui-btn--gold" onClick={() => retry()}>
+              {t('retry')}
+            </button>
+            <Link href="/" className="ui-btn ui-btn--ghost">
+              {t('home')}
+            </Link>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

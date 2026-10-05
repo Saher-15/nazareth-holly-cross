@@ -1,0 +1,61 @@
+/* Print styles: a holy-site page prints as a clean, ink-friendly article (title, story, visit details),
+   without the site chrome, the photo gallery or the floating buttons. Used for every page. */
+@media print {
+  @page { margin: 16mm 14mm; }
+
+  html, body { background: var(--white) !important; color: black !important; }
+  body { display: block; font-size: 11.5pt; line-height: 1.5; }
+
+  /* Site chrome and everything interactive that has no meaning on paper. */
+  body > header,
+  body > footer,
+  .skip-link,
+  [data-print='hide'],
+  #place-gallery,
+  video,
+  audio,
+  button,
+  iframe {
+    display: none !important;
+  }
+
+  /* Ink on paper: whatever colours the screen design uses, text prints dark on white, without glass,
+     shadows or photo backgrounds. */
+  .ui-page, .ui-page * {
+    color: black !important;
+    background: none !important;
+    border-color: gray !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    backdrop-filter: none !important;
+    filter: none !important;
+  }
+  .ui-page { padding: 0 !important; min-height: 0; overflow: visible; }
+  /* Buttons and the "more places" photo cards are for the screen; the facts stay. */
+  .ui-page a.ui-btn,
+  .ui-page button,
+  [aria-labelledby='place-more-title'] {
+    display: none !important;
+  }
+  .ui-section { padding-block: 10pt !important; }
+  .ui-container { width: 100% !important; }
+
+  /* The hero keeps its title but loses the photo and the dark scrim. */
+  .ui-hero { display: block !important; min-height: 0 !important; padding: 0 0 10pt !important; text-align: start !important; background: none !important; }
+  .ui-hero::after { display: none !important; }
+  .ui-hero__bg { display: none !important; }
+  .ui-hero__title, .ui-h2, .ui-h3 { color: black !important; page-break-after: avoid; break-after: avoid; }
+  .ui-hero__title { font-size: 24pt; }
+  .ui-eyebrow, .ui-eyebrow a { color: dimgray !important; border: 0 !important; padding: 0 !important; }
+  .ui-hero__lead, .ui-muted { color: black !important; }
+
+  .ui-glass { border: 1px solid gray !important; border-radius: 6pt; break-inside: avoid; }
+  .ui-reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+
+  /* Links print their address, so a paper copy is still useful. */
+  a[href^='http']::after { content: ' (' attr(href) ')'; font-size: 9pt; word-break: break-all; color: black; }
+  .ui-btn[href]::after, a[href^='http'][aria-label]::after { content: none; }
+
+  p, li { orphans: 3; widows: 3; }
+  img { max-width: 100% !important; break-inside: avoid; }
+}

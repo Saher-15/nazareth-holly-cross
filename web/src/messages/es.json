@@ -105,7 +105,7 @@
     "tourButton": "TOUR POR NAZARET",
     "shopIcon": "fa fa-shopping-cart",
     "tourIcon": "far fa-play-circle",
-    "discount": "Disfruta de un 10\u00a0% de descuento en todos los artículos de nuestra tienda — ¡exclusivamente en nuestro sitio web!"
+    "discount": "Disfruta de un 10 % de descuento en todos los artículos de nuestra tienda — ¡exclusivamente en nuestro sitio web!"
   },
   "cards": {
     "title": "¡Descubre estos destinos EXTRAORDINARIOS!",
@@ -240,7 +240,7 @@
     },
     "modernNazareth": {
       "title": "Nazaret hoy",
-      "text": "La ciudad tiene una población diversa, formada sobre todo por árabes musulmanes y cristianos. Según estimaciones recientes, Nazaret tiene unos 77\u00a0000 habitantes. Es un vibrante centro cultural con diversas instituciones religiosas, culturales y educativas. Acoge festivales y eventos que reflejan su rica herencia y su comunidad diversa. El turismo es una parte importante de la economía de Nazaret, impulsado por sus lugares religiosos y monumentos históricos. Además, la ciudad cuenta con una mezcla de pequeños negocios, tiendas y mercados que contribuyen a su economía local."
+      "text": "La ciudad tiene una población diversa, formada sobre todo por árabes musulmanes y cristianos. Según estimaciones recientes, Nazaret tiene unos 77 000 habitantes. Es un vibrante centro cultural con diversas instituciones religiosas, culturales y educativas. Acoge festivales y eventos que reflejan su rica herencia y su comunidad diversa. El turismo es una parte importante de la economía de Nazaret, impulsado por sus lugares religiosos y monumentos históricos. Además, la ciudad cuenta con una mezcla de pequeños negocios, tiendas y mercados que contribuyen a su economía local."
     },
     "accessibility": {
       "title": "Accesibilidad y turismo",
@@ -551,7 +551,7 @@
     "removed": "{name} se ha quitado de tu carrito.",
     "summaryTitle": "Resumen del pedido",
     "subtotal": "Subtotal",
-    "discount": "Descuento del 10\u00a0%",
+    "discount": "Descuento del 10 %",
     "shipping": "Envío",
     "total": "Total",
     "secure": "Pago seguro con PayPal",
@@ -599,7 +599,7 @@
     "summary": {
       "quantity": "Cant.: {count}",
       "subtotal": "Subtotal",
-      "discount": "Descuento web (10\u00a0%)",
+      "discount": "Descuento web (10 %)",
       "shipping": "Envío",
       "total": "Total",
       "address": "Dirección de entrega"
@@ -779,6 +779,45 @@
       "beFirst": "Aún no hay opiniones. Escriba la primera",
       "similarTitle": "También le puede gustar",
       "recentTitle": "Vistos recientemente"
+    }
+  },
+  "ux": {
+    "backToTop": "Volver arriba",
+    "loading": "Cargando…",
+    "toast": {
+      "region": "Notificaciones",
+      "dismiss": "Cerrar notificación"
+    },
+    "share": {
+      "share": "Compartir",
+      "copy": "Copiar enlace",
+      "copied": "Enlace copiado",
+      "failed": "No se pudo copiar el enlace",
+      "print": "Imprimir"
+    },
+    "language": {
+      "choose": "Elige un idioma"
+    },
+    "footer": {
+      "languages": "Idiomas",
+      "address": "Nazaret, Galilea",
+      "followOn": "Síguenos en {network} (se abre en una pestaña nueva)",
+      "rights": "Todos los derechos reservados."
+    },
+    "notFound": {
+      "suggestions": "¿A dónde quieres ir?",
+      "hint": {
+        "sites": "Iglesias, la fuente y la ciudad vieja",
+        "tour": "Recorre Nazaret paso a paso",
+        "candle": "Enciende una vela por tu intención"
+      }
+    },
+    "error": {
+      "title": "Algo salió mal",
+      "text": "Un error inesperado detuvo esta página. Inténtalo de nuevo.",
+      "retry": "Intentar de nuevo",
+      "home": "Volver al inicio",
+      "reference": "Referencia"
     }
   }
 }

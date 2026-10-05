@@ -43,6 +43,7 @@ const LEGACY_UNUSED = [
   'footer.creditLink1',
   'footer.creditLink2',
   'footer.copyright',
+  'site.footer.rights', // replaced by ux.footer.rights (the footer now writes the year itself)
   'paypalComponent.orderCancelled',
   'paypalComponent.thankYou',
   'paypalComponent.cost',

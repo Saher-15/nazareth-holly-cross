@@ -34,7 +34,7 @@ describe('QA-10 the page error boundary', () => {
         <LocaleError error={error} retry={retry} />
       </NextIntlClientProvider>,
     );
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Something went wrong on our side');
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Something went wrong');
     expect(screen.getByRole('alert')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Back to home' })).toHaveAttribute('href', '/en/');
     fireEvent.click(screen.getByRole('button', { name: 'Try again' }));

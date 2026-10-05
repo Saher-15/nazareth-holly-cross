@@ -780,5 +780,44 @@
       "similarTitle": "Może Ci się spodobać",
       "recentTitle": "Ostatnio oglądane"
     }
+  },
+  "ux": {
+    "backToTop": "Wróć na górę",
+    "loading": "Ładowanie…",
+    "toast": {
+      "region": "Powiadomienia",
+      "dismiss": "Zamknij powiadomienie"
+    },
+    "share": {
+      "share": "Udostępnij",
+      "copy": "Kopiuj link",
+      "copied": "Skopiowano link",
+      "failed": "Nie udało się skopiować linku",
+      "print": "Drukuj"
+    },
+    "language": {
+      "choose": "Wybierz język"
+    },
+    "footer": {
+      "languages": "Języki",
+      "address": "Nazaret, Galilea",
+      "followOn": "Obserwuj nas na {network} (otwiera się w nowej karcie)",
+      "rights": "Wszelkie prawa zastrzeżone."
+    },
+    "notFound": {
+      "suggestions": "Dokąd chcesz pójść?",
+      "hint": {
+        "sites": "Kościoły, źródło i stare miasto",
+        "tour": "Przejdź Nazaret krok po kroku",
+        "candle": "Zapal świecę w swojej intencji"
+      }
+    },
+    "error": {
+      "title": "Coś poszło nie tak",
+      "text": "Nieoczekiwany błąd zatrzymał tę stronę. Spróbuj ponownie.",
+      "retry": "Spróbuj ponownie",
+      "home": "Wróć na stronę główną",
+      "reference": "Numer referencyjny"
+    }
   }
 }

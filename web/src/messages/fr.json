@@ -19,7 +19,7 @@
       "donate": "Faire un don"
     },
     "footer": {
-      "about": "Nous partageons l’esprit de Nazareth avec les pèlerins du monde entier\u00a0: ses lieux saints, ses prières et son artisanat.",
+      "about": "Nous partageons l’esprit de Nazareth avec les pèlerins du monde entier : ses lieux saints, ses prières et son artisanat.",
       "explore": "Découvrir",
       "contact": "Contact",
       "follow": "Suivez-nous",
@@ -39,16 +39,16 @@
     "title": "Bienvenue sur le portail officiel de Nazareth",
     "description1": "Le cœur de la foi chrétienne. Nous savons que tout le monde ne peut pas se rendre à Nazareth, la ville où Jésus a grandi et où des expériences spirituelles attendent chaque visiteur. C’est pourquoi nous sommes heureux de vous offrir la possibilité de faire venir Nazareth jusqu’à vous.",
     "description2": "Grâce à notre site, vous pouvez faire une visite virtuelle des principales églises et des lieux saints de Nazareth et vous relier à la riche histoire et à la tradition religieuse qui caractérisent ce lieu. Nous vous offrons aussi une occasion unique d’acheter des souvenirs locaux et même d’allumer une bougie à la mémoire ou en l’honneur de vos proches, comme si vous étiez ici avec nous.",
-    "description3": "Dans notre boutique en ligne, vous trouverez un large choix de produits\u00a0: des croix en bois d’olivier local, des bijoux inspirés des symboles chrétiens, des peintures et des mosaïques qui reflètent la richesse de l’art religieux, et bien plus encore. Vous pouvez désormais aussi acquérir de l’eau de la légendaire source de Nazareth, du sable de Nazareth et des olives locales – de quoi ressentir la grandeur de la ville de Nazareth et de Jésus. Vous pouvez également choisir d’allumer une bougie virtuelle, un geste qui porte la prière et le souvenir par-delà les distances.",
+    "description3": "Dans notre boutique en ligne, vous trouverez un large choix de produits : des croix en bois d’olivier local, des bijoux inspirés des symboles chrétiens, des peintures et des mosaïques qui reflètent la richesse de l’art religieux, et bien plus encore. Vous pouvez désormais aussi acquérir de l’eau de la légendaire source de Nazareth, du sable de Nazareth et des olives locales – de quoi ressentir la grandeur de la ville de Nazareth et de Jésus. Vous pouvez également choisir d’allumer une bougie virtuelle, un geste qui porte la prière et le souvenir par-delà les distances.",
     "description4": "Nous vous invitons à ouvrir votre cœur et à ressentir la chaleur de notre communauté à travers chaque produit que vous choisissez d’acheter. Chaque achat soutient la communauté locale et aide à préserver le riche patrimoine de Nazareth pour les générations futures. Visitez notre site et trouvez votre façon de vous relier à Nazareth, à tout moment et en tout lieu."
   },
   "whatIsNew": {
     "title": "Références bibliques à Nazareth",
     "scriptureNotes": {
-      "matthew": "Matthieu 2,23\u00a0: «\u00a0Et il vint habiter dans une ville appelée Nazareth, afin que s’accomplisse ce qui avait été dit par les prophètes\u00a0: Il sera appelé Nazaréen.\u00a0»",
-      "luke1": "Luc 1,26-27\u00a0: «\u00a0Au sixième mois, l’ange Gabriel fut envoyé par Dieu dans une ville de Galilée, appelée Nazareth, à une vierge fiancée à un homme du nom de Joseph, de la maison de David. Le nom de la vierge était Marie.\u00a0»",
-      "john": "Jean 1,46\u00a0: «\u00a0Nathanaël lui dit\u00a0: De Nazareth peut-il sortir quelque chose de bon\u00a0? Philippe lui dit\u00a0: Viens et vois.\u00a0»",
-      "luke4": "Luc 4,16\u00a0: «\u00a0Il se rendit à Nazareth, où il avait été élevé. Et, selon sa coutume, il entra dans la synagogue le jour du sabbat et se leva pour lire.\u00a0»"
+      "matthew": "Matthieu 2,23 : « Et il vint habiter dans une ville appelée Nazareth, afin que s’accomplisse ce qui avait été dit par les prophètes : Il sera appelé Nazaréen. »",
+      "luke1": "Luc 1,26-27 : « Au sixième mois, l’ange Gabriel fut envoyé par Dieu dans une ville de Galilée, appelée Nazareth, à une vierge fiancée à un homme du nom de Joseph, de la maison de David. Le nom de la vierge était Marie. »",
+      "john": "Jean 1,46 : « Nathanaël lui dit : De Nazareth peut-il sortir quelque chose de bon ? Philippe lui dit : Viens et vois. »",
+      "luke4": "Luc 4,16 : « Il se rendit à Nazareth, où il avait été élevé. Et, selon sa coutume, il entra dans la synagogue le jour du sabbat et se leva pour lire. »"
     },
     "touchingTheSacred": "Toucher le sacré, sentir battre le cœur",
     "introParagraphs": {
@@ -62,13 +62,13 @@
   "live": {
     "event_ongoing": "Événement en direct en cours",
     "upcoming_event": "Prochain événement en direct",
-    "nazareth_date_time": "Date et heure à Nazareth\u00a0:",
-    "time_remaining": "Temps restant\u00a0:",
+    "nazareth_date_time": "Date et heure à Nazareth :",
+    "time_remaining": "Temps restant :",
     "join_live": "Rejoindre le direct",
     "no_upcoming_events": "Aucun événement à venir.",
     "past_live_events": "Événements en direct passés",
-    "refresh_note": "Remarque\u00a0: veuillez actualiser la page avant d’appuyer sur le bouton «\u00a0Rejoindre le direct\u00a0».",
-    "live_note": "Remarque\u00a0: le bouton «\u00a0Rejoindre le direct\u00a0» n’est disponible qu’après le début de l’événement en direct."
+    "refresh_note": "Remarque : veuillez actualiser la page avant d’appuyer sur le bouton « Rejoindre le direct ».",
+    "live_note": "Remarque : le bouton « Rejoindre le direct » n’est disponible qu’après le début de l’événement en direct."
   },
   "common": {
     "home": "Accueil",
@@ -79,15 +79,15 @@
     "reviews": "Avis"
   },
   "candle": {
-    "howToLightACandle": "Comment allumer une bougie\u00a0?",
-    "itsSimple": "C’est simple\u00a0:",
+    "howToLightACandle": "Comment allumer une bougie ?",
+    "itsSimple": "C’est simple :",
     "step1": "Choisissez une église où vous aimeriez que la bougie soit allumée.",
     "step2": "Écrivez une prière ou une demande personnelle que vous souhaitez associer à l’allumage de la bougie.",
     "step3": "Nous irons à l’église, allumerons la bougie pour vous, enregistrerons une vidéo avec votre nom et vous enverrons la vidéo directement.",
-    "note": "Remarque\u00a0: cette vidéo est présentée à titre d’illustration uniquement\u00a0; elle montre comment une bougie est allumée dans l’église grecque orthodoxe.",
+    "note": "Remarque : cette vidéo est présentée à titre d’illustration uniquement ; elle montre comment une bougie est allumée dans l’église grecque orthodoxe.",
     "lightAPrayCandle": "ALLUMER UNE BOUGIE DE PRIÈRE",
-    "selectChurch": "Sélectionnez l’église où allumer la bougie\u00a0:",
-    "toLightACandlePay": "Pour allumer une bougie, payez 3\u00a0$",
+    "selectChurch": "Sélectionnez l’église où allumer la bougie :",
+    "toLightACandlePay": "Pour allumer une bougie, payez 3 $",
     "light": "ALLUMER",
     "emailMatchError": "Les adresses e-mail ne correspondent pas",
     "inputWarning": "Veuillez sélectionner une église.",
@@ -105,10 +105,10 @@
     "tourButton": "VISITE DE NAZARETH",
     "shopIcon": "fa fa-shopping-cart",
     "tourIcon": "far fa-play-circle",
-    "discount": "Profitez de 10\u00a0% de réduction sur tous les articles de notre boutique — exclusivement sur notre site\u00a0!"
+    "discount": "Profitez de 10 % de réduction sur tous les articles de notre boutique — exclusivement sur notre site !"
   },
   "cards": {
-    "title": "Découvrez ces destinations EXCEPTIONNELLES\u00a0!",
+    "title": "Découvrez ces destinations EXCEPTIONNELLES !",
     "latinChurch": "Explorez la basilique de l’Annonciation",
     "greekChurch": "Explorez l’église grecque orthodoxe",
     "marysWell": "Découvrez le puits de Marie au cœur de Nazareth",
@@ -135,26 +135,26 @@
     "formTitle": "Partagez votre avis",
     "formDescription": "Veuillez partager votre expérience avec notre site web. Vos commentaires nous aident à nous améliorer et à fournir un meilleur service. Remplissez le formulaire ci-dessous et votre avis sera publié une fois approuvé par notre équipe.",
     "placeholderFullName": "Nom complet",
-    "placeholderCountry": "D’où venez-vous\u00a0?",
+    "placeholderCountry": "D’où venez-vous ?",
     "placeholderMessage": "Parlez-nous de votre expérience avec notre site web",
     "submitButton": "Envoyer",
-    "successMessage": "Message soumis avec succès\u00a0!",
+    "successMessage": "Message soumis avec succès !",
     "confirmationMessage": "Votre message apparaîtra sur le mur une fois confirmé par l’équipe de Nazareth Holy Cross.",
     "messagesTitle": "Avis de nos clients",
     "messagesDescription": "Voici les avis qui ont été approuvés par notre équipe. Merci de partager vos commentaires avec nous.",
     "noMessages": "Aucun message soumis pour le moment."
   },
   "confirmationCandle": {
-    "thankYou": "Merci\u00a0!",
+    "thankYou": "Merci !",
     "paymentSuccess": "Votre paiement a été traité avec succès.",
     "receipt": "Un reçu a été envoyé à votre adresse e-mail.",
-    "gratitude": "Merci pour votre commande\u00a0!"
+    "gratitude": "Merci pour votre commande !"
   },
   "thankYou": {
-    "thankYou": "Merci\u00a0!",
+    "thankYou": "Merci !",
     "paymentSuccess": "Votre paiement a été traité avec succès.",
     "receipt": "Un reçu a été envoyé à votre adresse e-mail.",
-    "gratitude": "Merci pour votre commande\u00a0!"
+    "gratitude": "Merci pour votre commande !"
   },
   "footer": {
     "aboutUs": "À propos de nous",
@@ -186,7 +186,7 @@
     "paragraph1": "L’église latine, également connue sous le nom de basilique de l’Annonciation, est un important site religieux situé à Nazareth, en Israël. C’est l’une des plus grandes églises du Moyen-Orient et elle revêt une profonde signification religieuse pour les chrétiens du monde entier.",
     "history": {
       "title": "Contexte historique",
-      "text": "Selon la tradition, c’est ici que l’ange Gabriel a annoncé à la Vierge Marie qu’elle concevrait et donnerait naissance à Jésus, un événement connu sous le nom d’Annonciation. La basilique a une longue histoire qui remonte aux premiers siècles du christianisme\u00a0; des églises successives ont été bâties sur le site au fil du temps."
+      "text": "Selon la tradition, c’est ici que l’ange Gabriel a annoncé à la Vierge Marie qu’elle concevrait et donnerait naissance à Jésus, un événement connu sous le nom d’Annonciation. La basilique a une longue histoire qui remonte aux premiers siècles du christianisme ; des églises successives ont été bâties sur le site au fil du temps."
     },
     "architecture": {
       "title": "Caractéristiques architecturales",
@@ -252,14 +252,14 @@
   "churchDescriptionOld": "L’église grecque orthodoxe de l’Annonciation se dresse au-dessus de la source où, selon les chrétiens orthodoxes, l’Annonciation a eu lieu. Alors que la Vierge Marie allait puiser de l’eau à la source, l’archange Gabriel lui est apparu et lui a annoncé qu’elle concevrait et mettrait au monde un fils qu’elle appellerait Jésus. L’église actuelle date de 1750, lorsque Daher al-Omar, le souverain bédouin de la Galilée, a autorisé la communauté grecque orthodoxe à la construire.",
   "waterSourceOld": "À environ 140 mètres de l’église se trouve le puits de Marie, autrefois alimenté par la source et qui a servi de point d’eau local pendant plusieurs siècles. La fontaine a été réparée en 1967, puis de nouveau en 2000, mais elle ne fonctionne plus aujourd’hui.",
   "orderSummary": "Récapitulatif de la commande",
-  "firstName": "Prénom\u00a0:",
-  "lastName": "Nom de famille\u00a0:",
-  "email": "E-mail\u00a0:",
-  "prayerAt": "Prière à\u00a0:",
-  "cost": "Coût\u00a0:",
+  "firstName": "Prénom :",
+  "lastName": "Nom de famille :",
+  "email": "E-mail :",
+  "prayerAt": "Prière à :",
+  "cost": "Coût :",
   "confirmDetails": "Confirmer les informations et payer",
   "confirmed": "Confirmé",
-  "orderCancelled": "Commande annulée\u00a0!",
+  "orderCancelled": "Commande annulée !",
   "paypalComponent": {
     "contactInfo": "Informations de contact et de livraison",
     "firstName": "Prénom",
@@ -273,10 +273,10 @@
     "state": "État / Province",
     "paymentMethod": "Méthode de paiement",
     "pleaseFillAllDetails": "Veuillez remplir tous les détails pour continuer.",
-    "orderCancelled": "Commande annulée\u00a0!",
-    "thankYou": "Merci pour votre commande\u00a0!",
+    "orderCancelled": "Commande annulée !",
+    "thankYou": "Merci pour votre commande !",
     "summary": "Résumé de la commande",
-    "cost": "Coût\u00a0: $",
+    "cost": "Coût : $",
     "country": "Sélectionnez votre pays"
   },
   "navbar": {
@@ -292,28 +292,28 @@
       "addToCart": "Ajouter au panier"
     },
     "message": {
-      "productAdded": "Produit ajouté au panier\u00a0!",
+      "productAdded": "Produit ajouté au panier !",
       "error": {
         "fetchProduct": "Échec de la récupération du produit.",
         "selectColor": "Veuillez sélectionner une couleur."
       }
     },
     "note": {
-      "shippingFee": "Remarque\u00a0: des frais d’expédition supplémentaires de 5\u00a0$ seront appliqués."
+      "shippingFee": "Remarque : des frais d’expédition supplémentaires de 5 $ seront appliqués."
     },
     "error": {
       "productNotFound": "Produit non trouvé."
     }
   },
   "cart": {
-    "shipping": "Expédition\u00a0: 5\u00a0$",
-    "subtotal": "Sous-total\u00a0: ${amount}",
-    "subtotalDiscount": "Après 10\u00a0% de réduction\u00a0: ${amount}",
+    "shipping": "Expédition : 5 $",
+    "subtotal": "Sous-total : ${amount}",
+    "subtotalDiscount": "Après 10 % de réduction : ${amount}",
     "emptyCart": "Votre panier est vide",
     "continueShopping": "Continuer vos achats",
     "backToShopping": "Retour à la boutique",
     "remove": "Retirer",
-    "price": "Prix\u00a0: ${price}",
+    "price": "Prix : ${price}",
     "quantity": "Quantité",
     "checkout": "Payer"
   },
@@ -321,8 +321,8 @@
     "searchPlaceholder": "Rechercher des produits...",
     "noProducts": "Aucun produit trouvé correspondant à vos critères.",
     "sortNone": "Aucun",
-    "sortLowToHigh": "Prix\u00a0: du moins cher au plus cher",
-    "sortHighToLow": "Prix\u00a0: du plus cher au moins cher",
+    "sortLowToHigh": "Prix : du moins cher au plus cher",
+    "sortHighToLow": "Prix : du plus cher au moins cher",
     "resetFilters": "Réinitialiser les filtres",
     "pagination": "Page {currentPage} sur {totalPages}"
   },
@@ -347,19 +347,19 @@
     "candleTitle": "Une flamme pour chaque prière",
     "candleText": "Allumez une bougie dans la Ville Sainte et nous prierons pour votre intention à Nazareth.",
     "flameBtn": "Allumer une flamme",
-    "flameCount": "Flammes allumées sur cet appareil\u00a0: {count}",
+    "flameCount": "Flammes allumées sur cet appareil : {count}",
     "flameNote": "Une flamme symbolique. Pour faire allumer une vraie bougie à Nazareth, rendez-vous sur notre page des bougies.",
     "verseEyebrow": "Verset du jour",
     "verseCaption": "La méditation du jour",
     "v1": "Sois sans crainte, Marie, car tu as trouvé grâce auprès de Dieu.",
     "r1": "Luc 1,30",
-    "v2": "De Nazareth peut-il sortir quelque chose de bon\u00a0? Viens et vois.",
+    "v2": "De Nazareth peut-il sortir quelque chose de bon ? Viens et vois.",
     "r2": "Jean 1,46",
     "v3": "Il vint habiter dans une ville appelée Nazareth.",
     "r3": "Matthieu 2,23",
     "v4": "L’enfant grandissait et se fortifiait, rempli de sagesse, et la grâce de Dieu était sur lui.",
     "r4": "Luc 2,40",
-    "v5": "Voici la servante du Seigneur\u00a0; que tout m’advienne selon ta parole.",
+    "v5": "Voici la servante du Seigneur ; que tout m’advienne selon ta parole.",
     "r5": "Luc 1,38",
     "v6": "Je suis la lumière du monde. Celui qui me suit ne marchera jamais dans les ténèbres.",
     "r6": "Jean 8,12",
@@ -399,7 +399,7 @@
       "tourTitle": "Visite virtuelle de Nazareth",
       "tourDescription": "Regardez une visite vidéo de Nazareth, de ses marchés animés à ses églises historiques, puis découvrez chaque lieu saint en photos.",
       "aboutTitle": "À propos de nous",
-      "aboutDescription": "Nazareth Holy Cross vous apporte la ville de Jésus\u00a0: visites virtuelles de ses lieux saints, souvenirs de Nazareth et bougies allumées à vos intentions."
+      "aboutDescription": "Nazareth Holy Cross vous apporte la ville de Jésus : visites virtuelles de ses lieux saints, souvenirs de Nazareth et bougies allumées à vos intentions."
     },
     "index": {
       "title": "Les lieux saints de Nazareth",
@@ -418,7 +418,7 @@
     "teaser": {
       "latin": "L’une des plus grandes églises du Moyen-Orient, bâtie sur la grotte où, selon la tradition, l’ange Gabriel annonça à Marie qu’elle enfanterait Jésus.",
       "greek": "Bâtie en 1750 au-dessus de la source où la tradition orthodoxe situe l’Annonciation, avec une iconostase en bois sculpté et une chapelle aux marches datant des croisés.",
-      "maryswell": "L’ancienne source de Nazareth où, selon la tradition, Marie puisait l’eau\u00a0: pendant des siècles, le lieu de rencontre de la ville.",
+      "maryswell": "L’ancienne source de Nazareth où, selon la tradition, Marie puisait l’eau : pendant des siècles, le lieu de rencontre de la ville.",
       "oldcity": "Ruelles étroites, marché animé et quelques-uns des plus importants sites chrétiens de Nazareth, le tout à quelques pas.",
       "city": "La ville de Galilée, à flanc de colline, où Jésus a grandi, aujourd’hui un centre vivant de foi, de culture et d’hospitalité."
     },
@@ -433,7 +433,7 @@
     "galleryHint": "Sélectionnez une photo pour l’agrandir",
     "photoCount": "{count, plural, one {# photo} other {# photos}}",
     "photoAlt": "{place}, photo {n} sur {total}",
-    "viewer": "Photos\u00a0: {place}",
+    "viewer": "Photos : {place}",
     "close": "Fermer",
     "moreEyebrow": "Poursuivez le voyage",
     "tourWatchEyebrow": "Regardez la visite",
@@ -472,7 +472,7 @@
     },
     "live": {
       "metaTitle": "Retransmissions en direct de Nazareth",
-      "metaDescription": "Priez avec nous en direct depuis les lieux saints de Nazareth\u00a0: découvrez la prochaine retransmission et revoyez nos prières et entretiens passés.",
+      "metaDescription": "Priez avec nous en direct depuis les lieux saints de Nazareth : découvrez la prochaine retransmission et revoyez nos prières et entretiens passés.",
       "eyebrow": "En direct de Nazareth",
       "title": "Priez avec nous, en direct",
       "lead": "Prières et offices diffusés depuis les lieux saints de Nazareth, où que vous soyez.",
@@ -521,14 +521,14 @@
     "loadError": "Impossible de charger la boutique pour le moment.",
     "loadErrorText": "Veuillez réessayer dans un instant.",
     "cartLink": "Panier",
-    "cartAria": "Voir le panier\u00a0: {count, plural, one {# article} other {# articles}}",
+    "cartAria": "Voir le panier : {count, plural, one {# article} other {# articles}}",
     "galleryLabel": "Photos de {name}",
-    "enlarge": "Agrandir l’image\u00a0: {name}",
+    "enlarge": "Agrandir l’image : {name}",
     "zoomHint": "Survolez l’image pour zoomer.",
     "close": "Fermer",
     "showImage": "Afficher l’image {n} sur {total}",
     "colour": "Couleur",
-    "colourName": "Couleur {n}\u00a0: {name}",
+    "colourName": "Couleur {n} : {name}",
     "design": "Modèle",
     "designName": "Modèle {name}",
     "selectDesign": "Veuillez choisir un modèle.",
@@ -551,7 +551,7 @@
     "removed": "{name} a été retiré de votre panier.",
     "summaryTitle": "Récapitulatif de la commande",
     "subtotal": "Sous-total",
-    "discount": "Remise de 10\u00a0%",
+    "discount": "Remise de 10 %",
     "shipping": "Livraison",
     "total": "Total",
     "secure": "Paiement sécurisé avec PayPal",
@@ -597,9 +597,9 @@
       }
     },
     "summary": {
-      "quantity": "Qté\u00a0: {count}",
+      "quantity": "Qté : {count}",
       "subtotal": "Sous-total",
-      "discount": "Remise du site (10\u00a0%)",
+      "discount": "Remise du site (10 %)",
       "shipping": "Livraison",
       "total": "Total",
       "address": "Adresse de livraison"
@@ -614,7 +614,7 @@
         "notCompleted": "Le paiement n’a pas abouti. Vous n’avez pas été débité.",
         "paypal": "PayPal a signalé une erreur. Veuillez réessayer."
       },
-      "reference": "Référence du paiement\u00a0: {id}",
+      "reference": "Référence du paiement : {id}",
       "saving": "Enregistrement de vos informations…",
       "saveFailed": "Votre paiement a bien été effectué, mais nous n’avons pas pu enregistrer vos informations. Veuillez réessayer, ou écrivez à <mail>{email}</mail> en indiquant la référence du paiement."
     },
@@ -622,7 +622,7 @@
       "text": "Découvrez chapelets, croix et souvenirs de Nazareth."
     },
     "candle": {
-      "price": "Pour allumer une bougie\u00a0: {price}",
+      "price": "Pour allumer une bougie : {price}",
       "secureNext": "Vous vérifierez ensuite vos informations et paierez en toute sécurité avec PayPal."
     },
     "donate": {
@@ -634,7 +634,7 @@
       "summaryTitle": "Votre don",
       "nameLabel": "Nom",
       "donation": "Don",
-      "thanksTitle": "Merci pour votre don\u00a0!",
+      "thanksTitle": "Merci pour votre don !",
       "thanksText": "Votre générosité aide à garder la lumière de Nazareth allumée pour les pèlerins du monde entier."
     }
   },
@@ -779,6 +779,45 @@
       "beFirst": "Pas encore d’avis. Écrivez le premier",
       "similarTitle": "Vous aimerez aussi",
       "recentTitle": "Vus récemment"
+    }
+  },
+  "ux": {
+    "backToTop": "Retour en haut",
+    "loading": "Chargement…",
+    "toast": {
+      "region": "Notifications",
+      "dismiss": "Fermer la notification"
+    },
+    "share": {
+      "share": "Partager",
+      "copy": "Copier le lien",
+      "copied": "Lien copié",
+      "failed": "Impossible de copier le lien",
+      "print": "Imprimer"
+    },
+    "language": {
+      "choose": "Choisir une langue"
+    },
+    "footer": {
+      "languages": "Langues",
+      "address": "Nazareth, Galilée",
+      "followOn": "Suivez-nous sur {network} (s’ouvre dans un nouvel onglet)",
+      "rights": "Tous droits réservés."
+    },
+    "notFound": {
+      "suggestions": "Où souhaitez-vous aller ?",
+      "hint": {
+        "sites": "Églises, source et vieille ville",
+        "tour": "Parcourez Nazareth pas à pas",
+        "candle": "Allumez une bougie pour votre intention"
+      }
+    },
+    "error": {
+      "title": "Une erreur est survenue",
+      "text": "Une erreur inattendue a interrompu cette page. Veuillez réessayer.",
+      "retry": "Réessayer",
+      "home": "Retour à l’accueil",
+      "reference": "Référence"
     }
   }
 }

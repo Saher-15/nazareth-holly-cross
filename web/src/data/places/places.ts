@@ -37,6 +37,8 @@ export type Place = {
   nameKey: string;
   titleKey: string;
   hero: Photo;
+  /** CSS object-position of the hero photo: where its subject sits, so a tall phone crop keeps it in view. */
+  heroFocus?: string;
   cover: Photo;
   mapUrl: string;
   geo: { lat: number; lng: number };
@@ -55,6 +57,7 @@ const latin: Place = {
   nameKey: 'home.siteLatin',
   titleKey: 'headerLatin.title',
   hero: photo('latin', 1),
+  heroFocus: '50% 18%',
   cover: photo('latin', 1),
   // The old site pointed at "Nazareth City center"; this opens the basilica itself.
   mapUrl: 'https://www.google.com/maps/search/?api=1&query=Basilica+of+the+Annunciation%2C+Nazareth',
@@ -75,6 +78,7 @@ const greek: Place = {
   nameKey: 'home.siteGreek',
   titleKey: 'headerGreek.title',
   hero: photo('greek', 9),
+  heroFocus: '50% 30%',
   cover: photo('greek', 1),
   mapUrl:
     'https://www.google.com/maps/place/The+Greek+Orthodox+Church+of+the+Annunciation/@32.7070723,35.3016619,17z/data=!3m1!4b1!4m6!3m5!1s0x151c4c29d17b5477:0xc7296709e9a3ab85!8m2!3d32.7070723!4d35.3016619!16s%2Fm%2F03gtxsl?entry=ttu',
@@ -94,6 +98,7 @@ const maryswell: Place = {
   nameKey: 'home.siteMary',
   titleKey: 'headerMary.title',
   hero: photo('mary', 5),
+  heroFocus: '50% 55%',
   cover: photo('mary', 4),
   mapUrl:
     'https://www.google.com/maps/place/Mary%E2%80%99s+Well/@32.7035145,35.296555,14z/data=!4m6!3m5!1s0x151c4c29c6d1008d:0x23e218b489e18311!8m2!3d32.7060586!4d35.3013417!16zL20vMGY3XzJ2?entry=ttu',
@@ -138,6 +143,7 @@ const oldcity: Place = {
   nameKey: 'home.siteOld',
   titleKey: 'headerTitleOld',
   hero: photo('old', 9),
+  heroFocus: '50% 45%',
   cover: photo('old', 2),
   mapUrl:
     'https://www.google.com/maps/place/The+Old+City,+Nazareth/@32.7035145,35.296555,14z/data=!3m1!4b1!4m6!3m5!1s0x151c4c2c9a805123:0x994648ecbf8111f3!8m2!3d32.703515!4d35.296555!16s%2Fg%2F1v5wddhc?entry=ttu',
@@ -157,6 +163,7 @@ const city: Place = {
   nameKey: 'home.siteCity',
   titleKey: 'headerTitleNaz',
   hero: photo('nazareth', 1, CITY_EXT),
+  heroFocus: '50% 62%',
   cover: photo('nazareth', 1, CITY_EXT),
   mapUrl:
     'https://www.google.com/maps/place/Nazareth+City+center/@32.7012442,35.2981717,17z/data=!3m1!4b1!4m6!3m5!1s0x151c4dd4b3386aef:0x652378b0cec4d358!8m2!3d32.7012442!4d35.2981717!16s%2Fg%2F11c5s6wx03?entry=ttu',

@@ -780,5 +780,44 @@
       "similarTitle": "Você também pode gostar",
       "recentTitle": "Vistos recentemente"
     }
+  },
+  "ux": {
+    "backToTop": "Voltar ao topo",
+    "loading": "Carregando…",
+    "toast": {
+      "region": "Notificações",
+      "dismiss": "Fechar notificação"
+    },
+    "share": {
+      "share": "Compartilhar",
+      "copy": "Copiar link",
+      "copied": "Link copiado",
+      "failed": "Não foi possível copiar o link",
+      "print": "Imprimir"
+    },
+    "language": {
+      "choose": "Escolha um idioma"
+    },
+    "footer": {
+      "languages": "Idiomas",
+      "address": "Nazaré, Galileia",
+      "followOn": "Siga-nos no {network} (abre em uma nova aba)",
+      "rights": "Todos os direitos reservados."
+    },
+    "notFound": {
+      "suggestions": "Para onde você quer ir?",
+      "hint": {
+        "sites": "Igrejas, a fonte e a cidade velha",
+        "tour": "Percorra Nazaré passo a passo",
+        "candle": "Acenda uma vela pela sua intenção"
+      }
+    },
+    "error": {
+      "title": "Algo deu errado",
+      "text": "Um erro inesperado interrompeu esta página. Tente novamente.",
+      "retry": "Tentar novamente",
+      "home": "Voltar ao início",
+      "reference": "Referência"
+    }
   }
 }

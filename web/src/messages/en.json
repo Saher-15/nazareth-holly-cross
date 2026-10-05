@@ -780,5 +780,44 @@
       "similarTitle": "You may also like",
       "recentTitle": "Recently viewed"
     }
+  },
+  "ux": {
+    "backToTop": "Back to top",
+    "loading": "Loading…",
+    "toast": {
+      "region": "Notifications",
+      "dismiss": "Dismiss notification"
+    },
+    "share": {
+      "share": "Share",
+      "copy": "Copy link",
+      "copied": "Link copied",
+      "failed": "Could not copy the link",
+      "print": "Print"
+    },
+    "language": {
+      "choose": "Choose a language"
+    },
+    "footer": {
+      "languages": "Languages",
+      "address": "Nazareth, Galilee",
+      "followOn": "Follow us on {network} (opens in a new tab)",
+      "rights": "All rights reserved."
+    },
+    "notFound": {
+      "suggestions": "Where would you like to go?",
+      "hint": {
+        "sites": "Churches, the spring and the old city",
+        "tour": "Walk through Nazareth step by step",
+        "candle": "Light a candle for your intention"
+      }
+    },
+    "error": {
+      "title": "Something went wrong",
+      "text": "An unexpected error stopped this page. Please try again.",
+      "retry": "Try again",
+      "home": "Back to home",
+      "reference": "Reference"
+    }
   }
 }

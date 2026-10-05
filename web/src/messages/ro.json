@@ -780,5 +780,44 @@
       "similarTitle": "Ați putea îndrăgi și",
       "recentTitle": "Vizualizate recent"
     }
+  },
+  "ux": {
+    "backToTop": "Înapoi sus",
+    "loading": "Se încarcă…",
+    "toast": {
+      "region": "Notificări",
+      "dismiss": "Închideți notificarea"
+    },
+    "share": {
+      "share": "Distribuiți",
+      "copy": "Copiați linkul",
+      "copied": "Linkul a fost copiat",
+      "failed": "Linkul nu a putut fi copiat",
+      "print": "Imprimați"
+    },
+    "language": {
+      "choose": "Alegeți limba"
+    },
+    "footer": {
+      "languages": "Limbi",
+      "address": "Nazaret, Galileea",
+      "followOn": "Urmăriți-ne pe {network} (se deschide într-o filă nouă)",
+      "rights": "Toate drepturile rezervate."
+    },
+    "notFound": {
+      "suggestions": "Unde ați dori să mergeți?",
+      "hint": {
+        "sites": "Bisericile, izvorul și orașul vechi",
+        "tour": "O plimbare prin Nazaret, pas cu pas",
+        "candle": "Aprindeți o lumânare pentru intenția dumneavoastră"
+      }
+    },
+    "error": {
+      "title": "Ceva nu a mers bine",
+      "text": "O eroare neașteptată a oprit această pagină. Vă rugăm să încercați din nou.",
+      "retry": "Încercați din nou",
+      "home": "Înapoi la pagina principală",
+      "reference": "Referință"
+    }
   }
 }

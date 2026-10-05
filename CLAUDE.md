@@ -14,3 +14,5 @@ Read `docs/ENGINEERING.md` first. The short version:
 - Never kill processes you did not start (no `taskkill /IM node.exe`).
 - Done means: `npm run check` and `npm run test:e2e` pass in `web/`, `npm test` passes in `server/`, and the
   change was looked at on desktop and phone width, in an LTR and an RTL language.
+- Write `backdrop-filter` alone in CSS, never with a hand-written `-webkit-backdrop-filter` twin: the production CSS
+  minifier keeps only the twin and Chrome/Edge lose the blur (see `docs/DESIGN.md`, "Build pitfall").

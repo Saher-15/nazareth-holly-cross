@@ -780,5 +780,44 @@
       "similarTitle": "Dit vindt u misschien ook mooi",
       "recentTitle": "Recent bekeken"
     }
+  },
+  "ux": {
+    "backToTop": "Naar boven",
+    "loading": "Laden…",
+    "toast": {
+      "region": "Meldingen",
+      "dismiss": "Melding sluiten"
+    },
+    "share": {
+      "share": "Delen",
+      "copy": "Link kopiëren",
+      "copied": "Link gekopieerd",
+      "failed": "De link kon niet worden gekopieerd",
+      "print": "Afdrukken"
+    },
+    "language": {
+      "choose": "Kies een taal"
+    },
+    "footer": {
+      "languages": "Talen",
+      "address": "Nazareth, Galilea",
+      "followOn": "Volg ons op {network} (opent in een nieuw tabblad)",
+      "rights": "Alle rechten voorbehouden."
+    },
+    "notFound": {
+      "suggestions": "Waar wilt u naartoe?",
+      "hint": {
+        "sites": "De kerken, de bron en de oude stad",
+        "tour": "Stap voor stap door Nazareth",
+        "candle": "Steek een kaars aan voor uw intentie"
+      }
+    },
+    "error": {
+      "title": "Er ging iets mis",
+      "text": "Een onverwachte fout heeft deze pagina gestopt. Probeer het opnieuw.",
+      "retry": "Opnieuw proberen",
+      "home": "Terug naar de startpagina",
+      "reference": "Referentie"
+    }
   }
 }

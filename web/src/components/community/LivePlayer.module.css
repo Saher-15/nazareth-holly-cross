@@ -90,7 +90,6 @@
   letter-spacing: 0.18em;
   text-transform: uppercase;
   backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
 }
 .dot {
   width: 9px;

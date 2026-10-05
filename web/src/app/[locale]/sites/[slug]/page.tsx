@@ -11,6 +11,7 @@ import PlaceStory from '@/components/places/PlaceStory';
 import VisitCard from '@/components/places/VisitCard';
 import { PhotosIcon, PinIcon } from '@/components/places/icons';
 import JsonLd from '@/components/ui/JsonLd';
+import PageTools from '@/components/ui/PageTools';
 import Reveal from '@/components/ui/Reveal';
 import { breadcrumbJsonLd, webPageJsonLd } from '@/lib/jsonLd';
 import { pageMetadata } from '@/lib/seo';
@@ -61,7 +62,7 @@ export default async function PlacePage({ params }: PageProps<'/[locale]/sites/[
   return (
     <div className="ui-page">
       <JsonLd data={jsonLd} />
-      <PlaceHero image={place.hero} eyebrow={t('placesPage.allSites')} eyebrowHref="/sites" title={name}>
+      <PlaceHero image={place.hero} focus={place.heroFocus} eyebrow={t('placesPage.allSites')} eyebrowHref="/sites" title={name}>
         <ExternalLink
           href={place.mapUrl}
           className="ui-btn ui-btn--gold"
@@ -85,6 +86,7 @@ export default async function PlacePage({ params }: PageProps<'/[locale]/sites/[
               {t(place.titleKey)}
             </h2>
             <PlaceStory story={place.story} />
+            <PageTools title={name} />
           </Reveal>
           <VisitCard place={place} />
         </div>

@@ -27,7 +27,8 @@
 }
 
 .gallery {
-  scroll-margin-top: 72px;
+  /* The jump from "View the photos" stops below the sticky header: html scroll-padding-top (globals.css). */
+  position: relative;
 }
 
 .head {

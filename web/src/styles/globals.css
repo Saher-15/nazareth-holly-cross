@@ -1,9 +1,16 @@
 @import './tokens.css';
 @import './ui.css';
+@import './print.css';
 
 *, *::before, *::after { box-sizing: border-box; }
 
-html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  /* In-page links and focus jumps land below the sticky header, never under it. */
+  scroll-padding-top: var(--scroll-offset);
+  scrollbar-color: color-mix(in srgb, var(--gold) 45%, var(--night-3)) var(--night);
+}
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
 body {
@@ -14,31 +21,42 @@ body {
   background: var(--night);
   color: var(--cream);
   font-family: var(--sans);
-  line-height: 1.6;
+  line-height: var(--leading-body);
   -webkit-font-smoothing: antialiased;
+  overflow-wrap: break-word;
 }
 
 main { flex: 1; }
+/* The skip link and route changes move focus to <main>; it is not a control, so it gets no ring. */
+main:focus, main:focus-visible { outline: none; }
+h1, h2, h3, h4 { text-wrap: balance; }
+[hidden] { display: none !important; }
 img, video { max-width: 100%; display: block; }
 a { color: inherit; }
 button, input, select, textarea { font: inherit; }
-:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-offset); }
 ::selection { background: var(--gold); color: var(--night); }
 
 /* Visible only when focused with the keyboard. */
 .skip-link {
-  position: absolute;
+  position: fixed;
   inset-inline-start: 16px;
-  top: -60px;
-  z-index: 100;
-  padding: 10px 16px;
+  top: 12px;
+  z-index: var(--z-skip);
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  padding: 10px 20px;
   border-radius: 999px;
   background: var(--gold);
   color: var(--night);
   font-weight: 700;
   text-decoration: none;
+  box-shadow: var(--elev-3);
+  transform: translateY(-200%);
+  transition: transform var(--dur-base) var(--ease-out);
 }
-.skip-link:focus { top: 12px; }
+.skip-link:focus { transform: none; outline: 3px solid var(--cream); outline-offset: 2px; }
 
 .visually-hidden {
   position: absolute !important;
@@ -71,3 +89,18 @@ h1, h2, h3, .ui-hero__title, .ui-h2, .ui-h3 { hyphens: auto; overflow-wrap: brea
 :lang(he) *, :lang(ar) * { hyphens: manual; }
 /* Numbers, prices and e-mail addresses inside Hebrew or Arabic text keep their own direction. */
 .ui-ltr { direction: ltr; unicode-bidi: isolate; }
+
+/* ---- page transitions (components/layout/PageTransitions.tsx marks <html> with .vt-page while a link
+   navigation is in flight; browsers without the View Transitions API simply navigate without the fade) ---- */
+html.vt-page main { view-transition-name: page; }
+::view-transition-old(root),
+::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-old(page) { animation: 140ms ease-in both page-fade reverse; }
+::view-transition-new(page) { animation: 260ms var(--ease-out) 60ms both page-fade, 380ms var(--ease-out) 60ms both page-rise; }
+@keyframes page-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes page-rise { from { transform: translateY(10px); } to { transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) { animation: none !important; }
+}
