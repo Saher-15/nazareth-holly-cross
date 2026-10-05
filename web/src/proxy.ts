@@ -6,5 +6,7 @@ export default createMiddleware(routing);
 
 export const config = {
   // Everything except API routes, Next internals and files with an extension.
-  matcher: ['/((?!api|_next|_vercel|.*\..*).*)'],
+  // The dot is escaped twice on purpose: inside a JS string `\.` is just `.`, which would
+  // exclude every path and leave /shop, /latin... without a language redirect.
+  matcher: ['/((?!api|_next|_vercel|.*\\..*).*)'],
 };

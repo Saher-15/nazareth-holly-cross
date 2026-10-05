@@ -135,17 +135,33 @@ export class ApiError extends Error {
 
 type FetchOptions = { revalidate?: number | false; init?: RequestInit; timeoutMs?: number };
 
+// The API rate-limits (429) and its host sometimes answers 502-504 while waking up. A build renders
+// hundreds of pages at once, so without a short retry whole sections would be baked in empty until the
+// next revalidation. Two retries at most, never longer than a few seconds in total.
+const RETRY_STATUSES = new Set([429, 502, 503, 504]);
+const MAX_RETRIES = 2;
+export const retryDelayMs = (attempt: number, retryAfter: string | null) => {
+  const seconds = Number(retryAfter);
+  if (retryAfter && Number.isFinite(seconds) && seconds >= 0) return Math.min(seconds, 3) * 1000;
+  return 400 * 2 ** attempt + Math.floor(Math.random() * 300);
+};
+
 async function getJson<T>(
   path: string,
   schema: z.ZodType<T>,
   { revalidate = 300, init, timeoutMs = 10_000 }: FetchOptions = {},
 ) {
-  const res = await fetch(`${API_URL}${path}`, {
-    ...init,
-    headers: { Accept: 'application/json', ...init?.headers },
-    signal: init?.signal ?? AbortSignal.timeout(timeoutMs),
-    next: revalidate === false ? undefined : { revalidate },
-  });
+  let res: Response;
+  for (let attempt = 0; ; attempt++) {
+    res = await fetch(`${API_URL}${path}`, {
+      ...init,
+      headers: { Accept: 'application/json', ...init?.headers },
+      signal: init?.signal ?? AbortSignal.timeout(timeoutMs),
+      next: revalidate === false ? undefined : { revalidate },
+    });
+    if (!RETRY_STATUSES.has(res.status) || attempt >= MAX_RETRIES || init?.signal?.aborted) break;
+    await new Promise((resolve) => setTimeout(resolve, retryDelayMs(attempt, res.headers.get('retry-after'))));
+  }
   if (res.status === 404) throw new ApiError(`GET ${path} not found`, 404);
   if (!res.ok) throw new ApiError(`GET ${path} failed with ${res.status}`, res.status);
   const parsed = schema.safeParse(await res.json());
