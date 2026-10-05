@@ -376,5 +376,86 @@
     "voicesTitle": "Słowa naszych gości",
     "voicesAll": "Czytaj więcej i podziel się swoim",
     "storyEyebrow": "Historia"
+  },
+  "checkoutPage": {
+    "meta": {
+      "checkoutTitle": "Kasa",
+      "checkoutDescription": "Dokończ zamówienie pamiątek z Nazaretu i zapłać bezpiecznie przez PayPal.",
+      "candleTitle": "Zapal świecę w Nazarecie",
+      "candleDescription": "Wybierz kościół w Nazarecie i napisz swoją modlitwę. Zapalimy za Ciebie świecę i wyślemy Ci nagranie.",
+      "donateTitle": "Przekaż darowiznę",
+      "donateDescription": "Wesprzyj Nazareth Holy Cross darowizną, bezpiecznie opłaconą przez PayPal."
+    },
+    "hero": {
+      "eyebrow": "Bezpieczna płatność",
+      "orderTitle": "Dokończ zamówienie",
+      "lead": "Twoja płatność jest bezpiecznie obsługiwana przez PayPal.",
+      "candleEyebrow": "Świeca modlitewna",
+      "donateEyebrow": "Darowizna",
+      "donateTitle": "Wesprzyj Nazareth Holy Cross",
+      "donateLead": "Twój dar pomaga nam dzielić się świętymi miejscami, modlitwami i rękodziełem Nazaretu z pielgrzymami na całym świecie."
+    },
+    "steps": {
+      "label": "Etapy płatności",
+      "details": "Twoje dane",
+      "payment": "Płatność",
+      "done": "Potwierdzenie"
+    },
+    "loading": "Wczytywanie koszyka…",
+    "form": {
+      "phone": "Telefon",
+      "country": "Kraj",
+      "continue": "Przejdź do płatności",
+      "edit": "Edytuj dane",
+      "fixErrors": "Popraw zaznaczone pola.",
+      "errors": {
+        "required": "To pole jest wymagane.",
+        "tooLong": "Użyj najwyżej {max} znaków.",
+        "email": "Podaj prawidłowy adres e-mail, np. imie@przyklad.pl.",
+        "phone": "Podaj prawidłowy numer telefonu z numerem kierunkowym kraju.",
+        "amount": "Podaj kwotę od {min} do {max}."
+      }
+    },
+    "summary": {
+      "quantity": "Ilość: {count}",
+      "subtotal": "Suma częściowa",
+      "discount": "Rabat w sklepie internetowym (10%)",
+      "shipping": "Wysyłka",
+      "total": "Razem",
+      "address": "Adres dostawy"
+    },
+    "payment": {
+      "loading": "Wczytywanie PayPal…",
+      "unavailable": "Nie udało się wczytać PayPal. Sprawdź połączenie lub wyłącz blokowanie treści, a następnie odśwież stronę.",
+      "secured": "Bezpieczna płatność przez PayPal. Nigdy nie widzimy danych Twojej karty.",
+      "cancelled": "Płatność anulowana. Nie pobrano żadnej opłaty.",
+      "errors": {
+        "start": "Nie udało się rozpocząć płatności. Spróbuj ponownie.",
+        "notCompleted": "Płatność nie została ukończona. Nie pobrano żadnej opłaty.",
+        "paypal": "PayPal zgłosił błąd. Spróbuj ponownie."
+      },
+      "reference": "Numer płatności: {id}",
+      "saving": "Zapisywanie Twoich danych…",
+      "saveFailed": "Płatność została zrealizowana, ale nie udało się zapisać Twoich danych. Spróbuj ponownie lub napisz na adres <mail>{email}</mail>, podając numer płatności."
+    },
+    "empty": {
+      "text": "Zobacz różańce, krzyże i pamiątki z Nazaretu."
+    },
+    "candle": {
+      "price": "Zapalenie świecy: {price}",
+      "secureNext": "Następnie sprawdzisz swoje dane i bezpiecznie zapłacisz przez PayPal."
+    },
+    "donate": {
+      "formTitle": "Przekaż darowiznę",
+      "name": "Imię i nazwisko",
+      "amount": "Kwota",
+      "other": "Inna kwota",
+      "customAmount": "Kwota w dolarach amerykańskich",
+      "summaryTitle": "Twoja darowizna",
+      "nameLabel": "Imię i nazwisko",
+      "donation": "Darowizna",
+      "thanksTitle": "Dziękujemy za Twoją darowiznę!",
+      "thanksText": "Twoja hojność pomaga podtrzymać światło Nazaretu dla pielgrzymów na całym świecie."
+    }
   }
 }

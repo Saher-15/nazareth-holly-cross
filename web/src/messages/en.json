@@ -376,5 +376,86 @@
     "voicesTitle": "Words from our visitors",
     "voicesAll": "Read more and share yours",
     "storyEyebrow": "The story"
+  },
+  "checkoutPage": {
+    "meta": {
+      "checkoutTitle": "Checkout",
+      "checkoutDescription": "Complete your order of souvenirs from Nazareth and pay securely with PayPal.",
+      "candleTitle": "Light a candle in Nazareth",
+      "candleDescription": "Choose a church in Nazareth and write your prayer. We will light a candle for you and send you the video.",
+      "donateTitle": "Donate",
+      "donateDescription": "Support Nazareth Holy Cross with a donation, paid securely with PayPal."
+    },
+    "hero": {
+      "eyebrow": "Secure checkout",
+      "orderTitle": "Complete your order",
+      "lead": "Your payment is processed securely by PayPal.",
+      "candleEyebrow": "Prayer candle",
+      "donateEyebrow": "Donation",
+      "donateTitle": "Support Nazareth Holy Cross",
+      "donateLead": "Your gift helps us share the holy places, prayers and crafts of Nazareth with pilgrims everywhere."
+    },
+    "steps": {
+      "label": "Checkout steps",
+      "details": "Your details",
+      "payment": "Payment",
+      "done": "Confirmation"
+    },
+    "loading": "Loading your cart…",
+    "form": {
+      "phone": "Phone",
+      "country": "Country",
+      "continue": "Continue to payment",
+      "edit": "Edit details",
+      "fixErrors": "Please correct the highlighted fields.",
+      "errors": {
+        "required": "This field is required.",
+        "tooLong": "Please use at most {max} characters.",
+        "email": "Enter a valid email address, for example name@example.com.",
+        "phone": "Enter a valid phone number, including the country code.",
+        "amount": "Enter an amount between {min} and {max}."
+      }
+    },
+    "summary": {
+      "quantity": "Qty: {count}",
+      "subtotal": "Subtotal",
+      "discount": "Website discount (10%)",
+      "shipping": "Shipping",
+      "total": "Total",
+      "address": "Delivery address"
+    },
+    "payment": {
+      "loading": "Loading PayPal…",
+      "unavailable": "PayPal could not be loaded. Check your connection or turn off content blockers, then reload the page.",
+      "secured": "Secure payment with PayPal. We never see your card details.",
+      "cancelled": "Payment cancelled. You have not been charged.",
+      "errors": {
+        "start": "We could not start the payment. Please try again.",
+        "notCompleted": "The payment was not completed. You have not been charged.",
+        "paypal": "PayPal reported an error. Please try again."
+      },
+      "reference": "Payment reference: {id}",
+      "saving": "Saving your details…",
+      "saveFailed": "Your payment went through, but we could not save your details. Please try again, or write to <mail>{email}</mail> with your payment reference."
+    },
+    "empty": {
+      "text": "Browse rosaries, crosses and keepsakes from Nazareth."
+    },
+    "candle": {
+      "price": "To light a candle: {price}",
+      "secureNext": "Next you will review your details and pay securely with PayPal."
+    },
+    "donate": {
+      "formTitle": "Make a donation",
+      "name": "Your name",
+      "amount": "Amount",
+      "other": "Other amount",
+      "customAmount": "Amount in US dollars",
+      "summaryTitle": "Your donation",
+      "nameLabel": "Name",
+      "donation": "Donation",
+      "thanksTitle": "Thank you for your donation!",
+      "thanksText": "Your generosity helps keep the light of Nazareth shining for pilgrims around the world."
+    }
   }
 }

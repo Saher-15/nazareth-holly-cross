@@ -376,5 +376,86 @@
     "voicesTitle": "Les mots de nos visiteurs",
     "voicesAll": "Lire la suite et partager le vôtre",
     "storyEyebrow": "L'histoire"
+  },
+  "checkoutPage": {
+    "meta": {
+      "checkoutTitle": "Paiement",
+      "checkoutDescription": "Finalisez votre commande de souvenirs de Nazareth et payez en toute sécurité avec PayPal.",
+      "candleTitle": "Allumez une bougie à Nazareth",
+      "candleDescription": "Choisissez une église de Nazareth et écrivez votre prière. Nous allumerons une bougie pour vous et vous enverrons la vidéo.",
+      "donateTitle": "Faire un don",
+      "donateDescription": "Soutenez Nazareth Holy Cross par un don, réglé en toute sécurité avec PayPal."
+    },
+    "hero": {
+      "eyebrow": "Paiement sécurisé",
+      "orderTitle": "Finalisez votre commande",
+      "lead": "Votre paiement est traité en toute sécurité par PayPal.",
+      "candleEyebrow": "Bougie de prière",
+      "donateEyebrow": "Don",
+      "donateTitle": "Soutenez Nazareth Holy Cross",
+      "donateLead": "Votre don nous aide à partager les lieux saints, les prières et l'artisanat de Nazareth avec les pèlerins du monde entier."
+    },
+    "steps": {
+      "label": "Étapes du paiement",
+      "details": "Vos informations",
+      "payment": "Paiement",
+      "done": "Confirmation"
+    },
+    "loading": "Chargement de votre panier…",
+    "form": {
+      "phone": "Téléphone",
+      "country": "Pays",
+      "continue": "Continuer vers le paiement",
+      "edit": "Modifier les informations",
+      "fixErrors": "Veuillez corriger les champs signalés.",
+      "errors": {
+        "required": "Ce champ est obligatoire.",
+        "tooLong": "Utilisez au maximum {max} caractères.",
+        "email": "Saisissez une adresse e-mail valide, par exemple nom@exemple.com.",
+        "phone": "Saisissez un numéro de téléphone valide, avec l'indicatif du pays.",
+        "amount": "Saisissez un montant entre {min} et {max}."
+      }
+    },
+    "summary": {
+      "quantity": "Qté : {count}",
+      "subtotal": "Sous-total",
+      "discount": "Remise du site (10 %)",
+      "shipping": "Livraison",
+      "total": "Total",
+      "address": "Adresse de livraison"
+    },
+    "payment": {
+      "loading": "Chargement de PayPal…",
+      "unavailable": "PayPal n'a pas pu être chargé. Vérifiez votre connexion ou désactivez les bloqueurs de contenu, puis rechargez la page.",
+      "secured": "Paiement sécurisé avec PayPal. Nous ne voyons jamais les données de votre carte.",
+      "cancelled": "Paiement annulé. Vous n'avez pas été débité.",
+      "errors": {
+        "start": "Impossible de lancer le paiement. Veuillez réessayer.",
+        "notCompleted": "Le paiement n'a pas abouti. Vous n'avez pas été débité.",
+        "paypal": "PayPal a signalé une erreur. Veuillez réessayer."
+      },
+      "reference": "Référence du paiement : {id}",
+      "saving": "Enregistrement de vos informations…",
+      "saveFailed": "Votre paiement a bien été effectué, mais nous n'avons pas pu enregistrer vos informations. Veuillez réessayer, ou écrivez à <mail>{email}</mail> en indiquant la référence du paiement."
+    },
+    "empty": {
+      "text": "Découvrez chapelets, croix et souvenirs de Nazareth."
+    },
+    "candle": {
+      "price": "Pour allumer une bougie : {price}",
+      "secureNext": "Vous vérifierez ensuite vos informations et paierez en toute sécurité avec PayPal."
+    },
+    "donate": {
+      "formTitle": "Faire un don",
+      "name": "Votre nom",
+      "amount": "Montant",
+      "other": "Autre montant",
+      "customAmount": "Montant en dollars américains",
+      "summaryTitle": "Votre don",
+      "nameLabel": "Nom",
+      "donation": "Don",
+      "thanksTitle": "Merci pour votre don !",
+      "thanksText": "Votre générosité aide à garder la lumière de Nazareth allumée pour les pèlerins du monde entier."
+    }
   }
 }

@@ -1,0 +1,85 @@
+/* Donation page; the shared flow look lives in components/checkout/checkout.module.css. */
+
+.card {
+  max-width: 620px;
+  margin: -28px auto 0;
+}
+
+.amounts {
+  min-width: 0;
+  margin: 0 0 14px;
+  padding: 0;
+  border: 0;
+}
+.legend {
+  display: block;
+  margin-block-end: 8px;
+  padding: 0;
+  color: var(--cream);
+}
+.chips {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+.chip {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 52px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--glass-line);
+  background: var(--glass);
+  color: var(--cream);
+  font: 400 1.2rem/1.1 var(--serif);
+  text-align: center;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.chip:hover {
+  border-color: color-mix(in srgb, var(--gold) 60%, transparent);
+}
+.chipOther {
+  grid-column: 1 / -1;
+  font: 700 0.95rem/1.2 var(--sans);
+}
+.chipInput {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  opacity: 0;
+}
+.chip:has(.chipInput:focus-visible) {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+.selected {
+  border-color: var(--gold);
+  background: var(--gold-soft);
+  color: var(--gold);
+  box-shadow: 0 0 0 1px var(--gold);
+}
+.amountInput {
+  font-size: 1.15rem;
+}
+:global(html[dir='rtl']) .amountInput {
+  text-align: end;
+}
+
+@media (max-width: 360px) {
+  .chips {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chip {
+    transition: none;
+  }
+}

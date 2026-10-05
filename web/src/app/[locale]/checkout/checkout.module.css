@@ -1,0 +1,102 @@
+/* Shop checkout extras; the shared flow look lives in components/checkout/checkout.module.css. */
+
+.stepsTop {
+  margin-block-start: -28px;
+}
+.narrow {
+  max-width: 640px;
+  margin-inline: auto;
+}
+.skeleton {
+  height: 460px;
+}
+
+/* E-mail, phone and postal code are written left to right in every language; on a
+   right-to-left page they still line up with the other fields. */
+:global(html[dir='rtl']) .ltr,
+:global(html[dir='rtl']) .ltrValue {
+  text-align: end;
+}
+
+/* ---- empty cart ---- */
+.empty {
+  max-width: 480px;
+  margin: -28px auto 0;
+  padding: clamp(28px, 5vw, 44px) clamp(20px, 4vw, 36px);
+  text-align: center;
+}
+.emptyIcon {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--gold) 35%, transparent);
+  background: var(--gold-soft);
+  color: var(--gold);
+}
+.emptyTitle {
+  margin: 0 0 8px;
+  font: 400 clamp(1.5rem, 3.4vw, 1.9rem)/1.2 var(--serif);
+  color: var(--cream);
+}
+.emptyText {
+  margin: 0 0 22px;
+  color: var(--muted);
+}
+
+/* ---- order lines ---- */
+.items {
+  display: grid;
+  gap: 12px;
+  margin: 0 0 16px;
+  padding: 0;
+  list-style: none;
+}
+.item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.thumb {
+  position: relative;
+  flex: 0 0 52px;
+  width: 52px;
+  height: 52px;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid var(--glass-line);
+  background: var(--glass-strong);
+}
+.thumb img {
+  object-fit: cover;
+}
+.itemText {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+}
+/* Names wrap (at most two lines) instead of being cut: a cut Latin name on a
+   right-to-left page would lose its first letters. */
+.itemName {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  color: var(--cream);
+  font-weight: 700;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+.itemMeta {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.itemPrice {
+  color: var(--cream);
+  font-weight: 700;
+  white-space: nowrap;
+}
