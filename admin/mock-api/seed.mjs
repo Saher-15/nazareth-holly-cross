@@ -58,18 +58,19 @@ const COMMENTS = [
 ];
 
 export const PRODUCT_DEFS = [
-  ['Nazareth Beeswax Candle', 18, 'candle', ['white', 'gold'], 60, 'Candles'],
-  ['Annunciation Taper Candles (set of 6)', 24, 'candle', ['white'], 34, 'Candles'],
-  ['Olive Wood Cross', 32, 'cross', [], 22, 'Crosses'],
-  ['Pilgrim Rosary, Olive Wood', 28, 'rosary', ['brown', 'black'], 4, 'Rosaries'],
-  ['Mary\'s Well Icon, hand painted', 96, 'icon', [], 7, 'Icons'],
-  ['Holy Land Soap Trio', 15, 'dove', [], 48, 'Gifts'],
-  ['Mount Tabor Olive Oil, 500 ml', 21, 'branch', [], 0, 'Gifts'],
-  ['Basilica Star Ornament', 12, 'star', ['gold', 'silver'], 71, 'Ornaments'],
-  ['Carved Nativity Scene', 140, 'cross', [], 3, 'Crafts'],
-  ['Blessed Holy Water Bottle', 9, 'dove', [], 120, 'Gifts'],
-  ['Galilee Dove Pendant', 36, 'dove', ['silver'], 15, 'Jewellery'],
-  ['Prayer Card Collection', 6, 'star', [], null, 'Gifts'],
+  ['Nazareth Beeswax Candle', 18, 'candle', ['white', 'gold'], 60, null],
+  ['Annunciation Taper Candles (set of 6)', 24, 'candle', ['white'], 34, null],
+  ['Olive Wood Cross', 32, 'cross', [], 22, 'crosses'],
+  ['Pilgrim Rosary, Olive Wood', 28, 'rosary', ['brown', 'black'], 4, 'rosaries'],
+  ['Mary\'s Well Icon, hand painted', 96, 'icon', [], 7, 'gifts'],
+  ['Holy Land Soap Trio', 15, 'dove', [], 48, 'gifts'],
+  ['Mount Tabor Olive Oil, 500 ml', 21, 'branch', [], 0, 'gifts'],
+  ['Basilica Star Ornament', 12, 'star', ['gold', 'silver'], 71, 'gifts'],
+  ['Carved Nativity Scene', 140, 'cross', [], 3, 'gifts'],
+  ['Blessed Holy Water Bottle', 9, 'dove', [], 120, 'gifts'],
+  ['Galilee Dove Pendant', 36, 'dove', ['silver'], 15, 'necklaces'],
+  ['Prayer Card Collection', 6, 'star', [], null, 'gifts'],
+  ['Fish &amp; Loaves Plate', 27, 'branch', [], 9, 'gifts'], // stored with an entity, as the real API stores "&"
 ];
 
 export function buildSeed(now = Date.now(), assetBase = 'http://localhost:3901') {
@@ -108,12 +109,13 @@ export function buildSeed(now = Date.now(), assetBase = 'http://localhost:3901')
     const ageDays = Math.floor((i / 42) * 33 + rand() * 1.5);
     const created = now - ageDays * day - Math.floor(rand() * 20) * 3_600_000;
     const first = pick(FIRST);
-    const last = pick(LAST);
+    const last = i === 5 ? '-2+3' : pick(LAST); // starts with a character a spreadsheet would run as a formula
+    const unverified = i === 7 || i === 19 || i === 33;
     orders.push({
       _id: newId('c'),
-      firstName: first,
+      firstName: i === 11 ? 'Tom &amp; Jerry' : first,
       lastName: last,
-      email: `${first}.${last}${i}@example.com`.toLowerCase(),
+      email: `${first}.${last.replace(/[^a-z]/gi, '')}${i}@example.com`.toLowerCase(),
       phone: `+1 555 01${String(i).padStart(2, '0')}`,
       street: `${10 + Math.floor(rand() * 90)} Pilgrim Road`,
       city,
@@ -125,8 +127,8 @@ export function buildSeed(now = Date.now(), assetBase = 'http://localhost:3901')
       totalPrice: Math.round(total * 100) / 100,
       products: lines,
       done: ageDays > 6 ? rand() > 0.08 : rand() > 0.7,
-      paymentVerified: rand() > 0.05,
-      paypalOrderId: `MOCKPAY${String(1000 + i)}`,
+      paymentVerified: !unverified,
+      ...(unverified ? {} : { paypalOrderId: `MOCKPAY${String(1000 + i)}` }),
     });
   }
 
@@ -139,7 +141,7 @@ export function buildSeed(now = Date.now(), assetBase = 'http://localhost:3901')
       firstName: first,
       lastName: pick(LAST),
       email: `${first}${i}@example.org`.toLowerCase(),
-      prayer: pick(PRAYERS),
+      prayer: i === 4 ? '=HYPERLINK("https://evil.example/","click")' : pick(PRAYERS),
       done: i > 8 ? rand() > 0.15 : false,
       createdAt: iso(created),
     });
@@ -155,7 +157,7 @@ export function buildSeed(now = Date.now(), assetBase = 'http://localhost:3901')
       fullName: `${first} ${last}`,
       email: `${first}.${last}@example.net`.toLowerCase(),
       phone: i % 3 === 0 ? '' : `+44 20 7946 0${String(100 + i)}`,
-      msg: pick(MESSAGES),
+      msg: i === 1 ? "@SUM(1+1)*cmd|' /C calc'!A0" : i === 6 ? '+1+1 and "quotes", commas' : pick(MESSAGES),
       done: i > 6 ? rand() > 0.2 : false,
       createdAt: iso(created),
     });

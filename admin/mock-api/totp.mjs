@@ -51,6 +51,19 @@ export function totpCode(secret, timeMs = Date.now(), stepSeconds = 30) {
   return String(binary % 1_000_000).padStart(6, '0');
 }
 
+/**
+ * Like the real API: accepts the current step and one either side, returns the matching step, and refuses a step that
+ * is not newer than `afterStep` (the last one used), so a code works once. Null when nothing matches.
+ */
+export function totpStep(secret, code, { afterStep = -1, timeMs = Date.now() } = {}) {
+  if (!/^\d{6}$/.test(String(code ?? ''))) return null;
+  const current = Math.floor(timeMs / 1000 / 30);
+  for (let step = current - 1; step <= current + 1; step += 1) {
+    if (totpCode(secret, step * 30_000) === code && step > afterStep) return step;
+  }
+  return null;
+}
+
 /** Accepts the current step and one step either side (clock drift). */
 export function verifyTotp(secret, code, timeMs = Date.now()) {
   if (!/^\d{6}$/.test(String(code ?? '').trim())) return false;

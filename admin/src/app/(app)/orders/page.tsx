@@ -5,7 +5,7 @@ import { Drawer } from '@/components/ui/Drawer';
 import { Badge, DataTable, EmptyState, ErrorState, Field, hrefWith, ListToolbar, Ltr, PageHeader, Pagination, paramsOf } from '@/components/ui/Primitives';
 import { getI18n } from '@/i18n/server';
 import { orderSchema, ordersPage, parseListParams, type Order } from '@/lib/api';
-import { formatDateTime, formatMoney, fullName, shortId } from '@/lib/format';
+import { formatDateTime, formatMoney, fullName, mailtoHref, shortId } from '@/lib/format';
 import { can } from '@/lib/roles';
 import { getSession, load, serverApi } from '@/lib/server-api';
 import { openParam } from '@/lib/search-params';
@@ -155,7 +155,7 @@ async function OrderDetail({ order, canWrite, canDelete, closeHref }: { order: O
       </div>
       <dl className="fields">
         <Field label={t('orders.colCustomer')}>{name}</Field>
-        <Field label={t('common.email')}><a className="link" href={`mailto:${order.email}`}><Ltr>{order.email}</Ltr></a></Field>
+        <Field label={t('common.email')}><a className="link" href={mailtoHref(order.email) ?? undefined}><Ltr>{order.email}</Ltr></a></Field>
         <Field label={t('common.phone')}>{order.phone ? <Ltr>{order.phone}</Ltr> : '-'}</Field>
         <Field label={t('orders.address')} wide>{address || '-'}</Field>
         <Field label={t('orders.payment')}>

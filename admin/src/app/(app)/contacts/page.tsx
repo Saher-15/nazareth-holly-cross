@@ -5,7 +5,7 @@ import { Drawer } from '@/components/ui/Drawer';
 import { Badge, DataTable, EmptyState, ErrorState, Field, hrefWith, ListToolbar, Ltr, PageHeader, Pagination, paramsOf } from '@/components/ui/Primitives';
 import { getI18n } from '@/i18n/server';
 import { contactSchema, contactsPage, parseListParams, type Contact } from '@/lib/api';
-import { formatDateTime, truncate } from '@/lib/format';
+import { formatDateTime, mailtoHref, truncate } from '@/lib/format';
 import { can } from '@/lib/roles';
 import { openParam } from '@/lib/search-params';
 import { getSession, load, serverApi } from '@/lib/server-api';
@@ -121,13 +121,13 @@ export default async function ContactsPage({ searchParams }: { searchParams: Pro
                 <Badge tone={detail.data.done ? 'success' : 'gold'}>{detail.data.done ? t('status.done') : t('status.open')}</Badge>
               </div>
               <dl className="fields">
-                <Field label={t('common.email')}><a className="link" href={`mailto:${detail.data.email}`}><Ltr>{detail.data.email}</Ltr></a></Field>
+                <Field label={t('common.email')}><a className="link" href={mailtoHref(detail.data.email) ?? undefined}><Ltr>{detail.data.email}</Ltr></a></Field>
                 <Field label={t('common.phone')}>{detail.data.phone ? <Ltr>{detail.data.phone}</Ltr> : '-'}</Field>
                 <Field label={t('contacts.colMessage')} wide><p className="prose">{detail.data.msg}</p></Field>
               </dl>
               {canWrite ? (
                 <div className="drawer__actions">
-                  <a className="btn btn--ghost btn--sm" href={`mailto:${detail.data.email}`}>{t('contacts.reply')}</a>
+                  <a className="btn btn--ghost btn--sm" href={mailtoHref(detail.data.email) ?? undefined}>{t('contacts.reply')}</a>
                   {!detail.data.done ? (
                     <ApiAction label={t('common.markDone')} icon="check" method="PATCH" path={`contacts/${detail.data.id}`} body={{ done: true }} tone="gold" successText={t('contacts.doneToast')} />
                   ) : null}

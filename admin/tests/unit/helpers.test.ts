@@ -173,7 +173,7 @@ describe('product form', () => {
   const ok: ProductValues = { ...EMPTY_PRODUCT, name: 'Candle', price: '19.5', img: 'https://firebasestorage.googleapis.com/v0/b/x/o/y?alt=media', stock: '4', rate: '2.5', colors: ' white , gold,,' };
   it('accepts valid values and builds the API body', () => {
     expect(validateProduct(ok)).toEqual({});
-    expect(toBody({ ...ok, additional: ['https://a.example/1.png', ' '], category: ' Candles ' }, 'uuid-1')).toEqual({
+    expect(toBody({ ...ok, additional: ['https://a.example/1.png', ' '], category: 'crosses' }, 'uuid-1')).toEqual({
       name: 'Candle',
       price: 19.5,
       img: ok.img,
@@ -183,12 +183,12 @@ describe('product form', () => {
       rate: 2.5,
       color: ['white', 'gold'],
       stock: 4,
-      category: 'Candles',
+      category: 'crosses',
     });
     expect(toBody({ ...ok, stock: '', category: '' }, 'u')).toMatchObject({ stock: null, category: null });
   });
   it('reports every problem', () => {
-    const errors = validateProduct({ ...EMPTY_PRODUCT, name: 'x', price: '0', stock: '-1', rate: '9', img: 'javascript:alert(1)', additional: ['http://insecure.example/a.png'], description: 'x'.repeat(2001), colors: 'y'.repeat(41), category: 'z'.repeat(61) });
+    const errors = validateProduct({ ...EMPTY_PRODUCT, name: 'x', price: '0', stock: '-1', rate: '9', img: 'javascript:alert(1)', additional: ['http://insecure.example/a.png'], description: 'x'.repeat(2001), colors: 'y'.repeat(41), category: 'z'.repeat(6) });
     expect(Object.keys(errors).sort()).toEqual(['additional', 'category', 'colors', 'description', 'img', 'name', 'price', 'rate', 'stock']);
     expect(validateProduct({ ...ok, price: '10001' }).price).toBe('price');
     expect(validateProduct({ ...ok, stock: '1.5' }).stock).toBe('stock');

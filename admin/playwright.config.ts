@@ -53,7 +53,8 @@ export default defineConfig({
       command: `npx next start -p ${APP_PORT}`,
       url: `http://localhost:${APP_PORT}/login`,
       reuseExistingServer: !process.env.CI,
-      env: { ADMIN_API_URL: `http://127.0.0.1:${API_PORT}` },
+      // ADMIN_TRUST_XFF: the tests give each sign-in attempt its own address (see src/lib/client-hints.ts).
+      env: { ADMIN_API_URL: `http://127.0.0.1:${API_PORT}`, ADMIN_TRUST_XFF: '1' },
       timeout: 120_000,
     },
   ],

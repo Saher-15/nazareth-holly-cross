@@ -3,6 +3,7 @@ import { cookies, headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import type { z } from 'zod';
 import { ApiError, apiRequest, meSchema, type Me, type Query } from './api';
+import { clientHintsFrom } from './client-hints';
 import { decodeClaims, looksValid, readSessionToken } from './session';
 
 // Server-side access to the admin API for server components and route handlers.
@@ -24,14 +25,9 @@ export function goToLogin(reason: 'expired' | 'required' = 'expired', next?: str
   redirect(`/api/session/expire?${params.toString()}`);
 }
 
+/** The visitor's address and browser, for the API's per-address limit and audit trail (see lib/client-hints.ts). */
 export async function clientHints(): Promise<Record<string, string>> {
-  const h = await headers();
-  const forwarded = h.get('x-nf-client-connection-ip') || h.get('x-forwarded-for')?.split(',')[0].trim() || h.get('x-real-ip') || '';
-  const out: Record<string, string> = {};
-  if (forwarded) out['X-Forwarded-For'] = forwarded;
-  const ua = h.get('user-agent');
-  if (ua) out['User-Agent'] = ua.slice(0, 300);
-  return out;
+  return clientHintsFrom(await headers());
 }
 
 type Call<T> = { path: string; method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'; body?: unknown; query?: Query; schema?: z.ZodType<T> };

@@ -205,14 +205,14 @@ export const auditSchema = doc({
   actorId: z.string().nullish(),
   role: z.string().nullish(),
   action: z.string(),
-  target: z.union([z.string(), z.looseObject({ type: z.string().nullish(), id: z.string().nullish() })]).nullish(),
+  target: z.union([z.string(), z.looseObject({ type: z.unknown().optional(), id: z.unknown().optional() })]).nullish(),
   meta: z.unknown().optional(),
   ipHash: z.string().nullish(),
   ua: z.string().nullish(),
   userAgent: z.string().nullish(),
 }).transform((e) => {
   const { actor, actorName, target, ua, userAgent, ...rest } = e;
-  const targetText = typeof target === 'string' ? target : target ? [target.type, target.id].filter(Boolean).join(':') : '';
+  const targetText = typeof target === 'string' ? target : target ? [target.type, target.id].filter((v) => v !== undefined && v !== null && v !== '').map(String).join(':') : '';
   return {
     ...rest,
     when: e.at ?? e.createdAt ?? '',

@@ -78,8 +78,9 @@ const compare = (a, b) => {
 // Options: hidden (fields not returned unless selected with +name), onSave(doc), defaults (schema defaults),
 // methods (instance methods), statics (static properties, e.g. schema), collection (name used by $lookup),
 // populateRefs ({ path: 'ModelName' }: what .populate(path) resolves, used by the local harness), timestamps
-// (set createdAt/updatedAt like { timestamps: true }).
-export function fakeModule(name, { hidden = [], onSave, defaults = {}, methods = {}, statics = {}, collection, populateRefs = {}, timestamps = false } = {}) {
+// (set createdAt/updatedAt like { timestamps: true }), autoCreatedAt (default true: save() stamps createdAt; the
+// audit log and session models have their own date fields and no createdAt).
+export function fakeModule(name, { hidden = [], onSave, defaults = {}, methods = {}, statics = {}, collection, populateRefs = {}, timestamps = false, autoCreatedAt = true } = {}) {
   const store = { docs: [] };
 
   class Model {
@@ -90,7 +91,7 @@ export function fakeModule(name, { hidden = [], onSave, defaults = {}, methods =
 
     async save() {
       this._id ??= oid();
-      this.createdAt ??= new Date();
+      if (autoCreatedAt) this.createdAt ??= new Date();
       if (timestamps) this.updatedAt = new Date();
       if (onSave) await onSave(this);
       if (!store.docs.includes(this)) store.docs.push(this);

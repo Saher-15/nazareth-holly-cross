@@ -27,7 +27,7 @@ take('Prayer', {
 });
 take('Product', { collection: 'product', timestamps: true, defaults: { rate: 1, stock: null, additionalImageUrls: [], color: [] } });
 take('AdminSession', { collection: 'adminSession', defaults: { revokedAt: null } });
-take('AuditLog', { collection: 'auditLog', defaults: { actorId: null, actorName: '', role: '', meta: {}, ipHash: '', ua: '' } });
+take('AuditLog', { collection: 'auditLog', autoCreatedAt: false, defaults: { actorId: null, actorName: '', role: '', meta: {}, ipHash: '', ua: '' } });
 take('Admin', {
   collection: 'admins',
   timestamps: true,

@@ -82,6 +82,16 @@ export function formatCountdown(totalSeconds: number): string {
   return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
 }
 
+/**
+ * A mailto: link for an address a visitor typed, or null when it does not look like one. The address is encoded, so
+ * characters the public forms allow in the local part (? and &) cannot add Cc, Bcc or body parameters to the mail
+ * the admin is about to write.
+ */
+export function mailtoHref(email: string | null | undefined): string | null {
+  const value = (email ?? '').trim();
+  return value.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? `mailto:${encodeURIComponent(value)}` : null;
+}
+
 /** A mailto/tel-safe plain string for display only; never used to build HTML. */
 export function cleanText(value: unknown): string {
   return typeof value === 'string' ? value : '';
