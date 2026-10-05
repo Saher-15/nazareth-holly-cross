@@ -21,7 +21,8 @@ export default async function EditProductPage({ params }: { params: Promise<{ id
   if (!/^[A-Za-z0-9_-]{1,64}$/.test(id)) notFound();
   const { user } = await getSession();
   const result = await load(() => serverApi({ path: `/admin/products/${id}`, schema: productSchema }));
-  if (!result.ok && result.error.status === 404) notFound();
+  // The API answers 404 for a missing product and 400 for an id that is not an id at all: both are "not found".
+  if (!result.ok && (result.error.status === 404 || result.error.status === 400)) notFound();
   const canWrite = can(user.role, 'write');
 
   return (

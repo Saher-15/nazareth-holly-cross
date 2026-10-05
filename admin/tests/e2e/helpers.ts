@@ -4,9 +4,11 @@ import AxeBuilder from '@axe-core/playwright';
 import { totpCode } from '../../mock-api/totp.mjs';
 
 export const APP = `http://localhost:${process.env.E2E_PORT ?? 3901}`;
-export const MOCK = `http://127.0.0.1:${process.env.E2E_MOCK_PORT ?? 3902}`;
+export const HARNESS = process.env.E2E_BACKEND === 'harness';
+export const API = `http://127.0.0.1:${process.env.E2E_API_PORT ?? process.env.E2E_MOCK_PORT ?? (HARNESS ? 3912 : 3902)}`;
 
-// Mock-only accounts (mock-api/seed.mjs). They exist nowhere else.
+// Throw-away accounts of the backend under test (mock-api/seed.mjs and server/test-harness/seed.mjs use the same
+// ones, so the suite runs unchanged against either). They exist nowhere else.
 export const USERS = {
   owner: { username: 'owner', password: 'Owner-Mock-Pass-1' },
   editor: { username: 'editor', password: 'Editor-Mock-Pass-1' },
@@ -66,7 +68,19 @@ export async function noHorizontalScroll(page: Page) {
   expect(overflow, 'page is wider than the viewport').toBeLessThanOrEqual(1);
 }
 
-export async function resetMock() {
-  const res = await fetch(`${MOCK}/__mock/reset`, { method: 'POST' });
+/** Back to the seed data: every account, lock, session and rate-limit counter of the backend under test. */
+export async function resetBackend() {
+  const res = await fetch(`${API}${HARNESS ? '/__harness/reset' : '/__mock/reset'}`, { method: 'POST' });
   expect(res.ok).toBeTruthy();
 }
+
+/** The mails the backend would have sent (the mock records them, the harness's fake mailer does). */
+export async function sentEmails(): Promise<{ to: string | string[]; subject: string }[]> {
+  const res = await fetch(`${API}${HARNESS ? '/__harness/emails' : '/__mock/emails'}`);
+  expect(res.ok).toBeTruthy();
+  return res.json();
+}
+
+let ipCounter = 0;
+/** A fresh client address for the API's per-address sign-in limit (sent as X-Forwarded-For through the app). */
+export const freshIp = () => `10.77.${Math.floor(++ipCounter / 250)}.${(ipCounter % 250) + 1}`;

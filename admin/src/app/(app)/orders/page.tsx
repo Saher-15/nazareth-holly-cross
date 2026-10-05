@@ -45,6 +45,7 @@ export default async function OrdersPage({ searchParams }: { searchParams: Promi
         statuses={[
           { value: 'pending', label: t('status.pending') },
           { value: 'shipped', label: t('status.shipped') },
+          { value: 'unverified', label: t('status.unverified') },
         ]}
         sort={params.sort}
         sorts={[
@@ -54,7 +55,7 @@ export default async function OrdersPage({ searchParams }: { searchParams: Promi
           { value: 'totalPrice', label: t('sort.totalLow') },
         ]}
         hidden={{ size: params.size !== 25 ? params.size : undefined }}
-        exportPath="/api/proxy/export/orders.csv"
+        exportPath={can(user.role, 'export') ? '/api/proxy/export/orders.csv' : undefined}
         searchLabel={t('orders.search')}
       />
 
@@ -113,6 +114,7 @@ export default async function OrdersPage({ searchParams }: { searchParams: Promi
                         body={{ done: true }}
                         tone="gold"
                         successText={t('orders.shippedToast')}
+                        emailResult={{ failed: t('orders.shippedNoMail'), none: t('orders.shippedAlready') }}
                         confirm={{ title: t('orders.confirmShipTitle'), message: t('orders.confirmShipText', { name: fullName(o.firstName, o.lastName), email: o.email }), confirmLabel: t('orders.markShipped'), tone: 'primary' }}
                       />
                     ) : null}
@@ -182,6 +184,7 @@ async function OrderDetail({ order, canWrite, canDelete, closeHref }: { order: O
               body={{ done: true }}
               tone="gold"
               successText={t('orders.shippedToast')}
+                        emailResult={{ failed: t('orders.shippedNoMail'), none: t('orders.shippedAlready') }}
               confirm={{ title: t('orders.confirmShipTitle'), message: t('orders.confirmShipText', { name, email: order.email }), confirmLabel: t('orders.markShipped'), tone: 'primary' }}
             />
           ) : null}

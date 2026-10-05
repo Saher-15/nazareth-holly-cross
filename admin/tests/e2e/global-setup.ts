@@ -1,13 +1,12 @@
 import { request } from '@playwright/test';
 import fs from 'node:fs';
 import path from 'node:path';
-import { APP, MOCK, USERS } from './helpers';
+import { APP, resetBackend, USERS } from './helpers';
 
-// Resets the mock API to its seed, then signs in once per role through the real BFF route and stores the
+// Resets the backend (mock or real-API harness) to its seed, then signs in once per role through the real BFF route and stores the
 // cookies, so most tests start already signed in. (Login, lockout, TOTP and sign-out are tested through the UI.)
 export default async function globalSetup() {
-  const reset = await fetch(`${MOCK}/__mock/reset`, { method: 'POST' });
-  if (!reset.ok) throw new Error('mock API did not reset');
+  await resetBackend();
 
   fs.mkdirSync(path.join(__dirname, '.auth'), { recursive: true });
   for (const role of ['owner', 'editor', 'viewer'] as const) {

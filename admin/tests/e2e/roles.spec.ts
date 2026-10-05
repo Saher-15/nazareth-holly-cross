@@ -33,7 +33,7 @@ test.describe('viewer', () => {
     await expect(page.getByRole('heading', { name: 'You do not have access to this' }).first()).toBeVisible();
   });
 
-  test('can still read details and export', async ({ page }) => {
+  test('can still read details', async ({ page }) => {
     await page.goto('/orders');
     await page.locator('tbody tr').first().getByRole('link', { name: 'View' }).click();
     const drawer = page.getByRole('dialog', { name: 'Order details' });
@@ -41,9 +41,17 @@ test.describe('viewer', () => {
     await expect(drawer.getByRole('button', { name: /Mark shipped|Delete/ })).toHaveCount(0);
     await page.keyboard.press('Escape');
     await expect(drawer).toBeHidden();
-    const csv = await page.request.get('/api/proxy/export/orders.csv');
-    expect(csv.status()).toBe(200);
-    expect(csv.headers()['content-type']).toContain('text/csv');
+  });
+
+  test('cannot export: no button, and the API refuses a bulk copy of personal data', async ({ page }) => {
+    for (const path of ['/orders', '/candles', '/contacts']) {
+      await page.goto(path);
+      await expect(page.locator('tbody tr').first()).toBeVisible();
+      await expect(page.getByRole('link', { name: 'Export CSV' })).toHaveCount(0);
+    }
+    for (const file of ['orders', 'candles', 'contacts']) {
+      expect((await page.request.get(`/api/proxy/export/${file}.csv`)).status()).toBe(403);
+    }
   });
 });
 
@@ -58,6 +66,15 @@ test.describe('editor', () => {
     await expect(nav.getByRole('link', { name: 'Users' })).toHaveCount(0);
     await page.goto('/users');
     await expect(page.getByRole('heading', { name: 'You do not have access to this' }).first()).toBeVisible();
+  });
+
+  test('can export the lists as CSV', async ({ page }) => {
+    await page.goto('/orders');
+    await expect(page.getByRole('link', { name: 'Export CSV' })).toBeVisible();
+    const csv = await page.request.get('/api/proxy/export/orders.csv');
+    expect(csv.status()).toBe(200);
+    expect(csv.headers()['content-type']).toContain('text/csv');
+    expect(csv.headers()['content-disposition']).toMatch(/attachment; filename="orders-\d{4}-\d{2}-\d{2}\.csv"/);
   });
 
   test('cannot delete an order (owner only)', async ({ page }) => {

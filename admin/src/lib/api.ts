@@ -8,6 +8,7 @@
 // token; the browser only ever calls the same-origin /api/proxy route (lib/client-api.ts).
 
 import { z } from 'zod';
+import { decodeDeep } from './entities';
 import { ROLES } from './roles';
 
 // ---------------------------------------------------------------- errors
@@ -194,23 +195,32 @@ export const userSchema = doc({
 });
 export type AdminUser = z.infer<typeof userSchema>;
 
+// The API's entry: { at, actorId, actorName, role, action, target: { type, id }, meta, ipHash, ua } (docs/ADMIN.md 5.2).
+// `createdAt`, `actor` (a name or {username}) and `userAgent` are still read, for older or mocked answers.
 export const auditSchema = doc({
-  // `at` or `createdAt`, `actor` as a name or as {username}
   at: isoDate.optional(),
   createdAt: isoDate.optional(),
   actor: z.union([z.string(), z.looseObject({ username: z.string().optional() })]).nullish(),
+  actorName: z.string().nullish(),
   actorId: z.string().nullish(),
+  role: z.string().nullish(),
   action: z.string(),
-  target: z.union([z.string(), z.looseObject({})]).nullish(),
+  target: z.union([z.string(), z.looseObject({ type: z.string().nullish(), id: z.string().nullish() })]).nullish(),
   meta: z.unknown().optional(),
   ipHash: z.string().nullish(),
+  ua: z.string().nullish(),
   userAgent: z.string().nullish(),
-}).transform((e) => ({
-  ...e,
-  when: e.at ?? e.createdAt ?? '',
-  actorName: typeof e.actor === 'string' ? e.actor : (e.actor?.username ?? ''),
-  targetText: typeof e.target === 'string' ? e.target : e.target ? JSON.stringify(e.target) : '',
-}));
+}).transform((e) => {
+  const { actor, actorName, target, ua, userAgent, ...rest } = e;
+  const targetText = typeof target === 'string' ? target : target ? [target.type, target.id].filter(Boolean).join(':') : '';
+  return {
+    ...rest,
+    when: e.at ?? e.createdAt ?? '',
+    actorName: actorName || (typeof actor === 'string' ? actor : (actor?.username ?? '')),
+    targetText,
+    userAgent: ua ?? userAgent ?? null,
+  };
+});
 export type AuditEntry = z.infer<typeof auditSchema>;
 
 export function pageOf<T extends z.ZodType>(item: T) {
@@ -345,7 +355,7 @@ export async function apiRequest<T = void>(options: RequestOptions<T>): Promise<
   if (!result.success) {
     throw new ApiError(502, 'The server sent an unexpected answer.', { code: 'bad_shape' });
   }
-  return result.data;
+  return decodeDeep(result.data); // stored text arrives HTML-escaped (docs/ADMIN.md 4.2)
 }
 
 /** Page parameters shared by every list screen; parsed from the URL, so a bad value never reaches the API. */

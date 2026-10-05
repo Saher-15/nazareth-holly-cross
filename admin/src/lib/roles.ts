@@ -6,13 +6,14 @@ export type Role = (typeof ROLES)[number];
 
 export type Capability =
   | 'write' // create / update / delete products, orders, candles, contacts, reviews, prayers
+  | 'export' // GET /admin/export/*.csv (a bulk copy of personal data: editor and owner, not viewer)
   | 'deleteOrders' // DELETE /admin/orders/:id
   | 'manageUsers' // /admin/users
   | 'viewAudit'; // /admin/audit
 
 const CAPABILITIES: Record<Role, readonly Capability[]> = {
-  owner: ['write', 'deleteOrders', 'manageUsers', 'viewAudit'],
-  editor: ['write'],
+  owner: ['write', 'export', 'deleteOrders', 'manageUsers', 'viewAudit'],
+  editor: ['write', 'export'],
   viewer: [],
 };
 

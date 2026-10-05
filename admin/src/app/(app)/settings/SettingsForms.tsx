@@ -39,8 +39,11 @@ function FormError({ message }: { message: string | null }) {
   );
 }
 
-function errorText(error: unknown, generic: string): string {
-  return isApiError(error) && error.status < 500 && error.status !== 429 ? error.message : generic;
+/** The API's own wording is English; the cases a person can fix get a translated text, keyed by the status. */
+function errorText(error: unknown, generic: string, byStatus: Record<number, string> = {}): string {
+  if (!isApiError(error)) return generic;
+  if (byStatus[error.status]) return byStatus[error.status];
+  return error.status < 500 && error.status !== 429 ? error.message : generic;
 }
 
 export function ChangePasswordForm({ username }: { username: string }) {
@@ -70,7 +73,7 @@ export function ChangePasswordForm({ username }: { username: string }) {
       toast(t('settings.passwordChanged'), 'success');
     } catch (e) {
       if (isApiError(e) && e.unauthorized) return;
-      setError(errorText(e, t('error.generic')));
+      setError(errorText(e, t('error.generic'), { 403: t('settings.wrongCurrent') }));
     } finally {
       setBusy(false);
     }
@@ -136,7 +139,7 @@ export function TotpPanel({ enabled, username }: { enabled: boolean; username: s
       router.refresh();
     } catch (e) {
       if (isApiError(e) && e.unauthorized) return;
-      setError(errorText(e, t('error.generic')));
+      setError(errorText(e, t('error.generic'), { 400: t('totp.wrongCode') }));
     } finally {
       setBusy(false);
     }
@@ -157,7 +160,7 @@ export function TotpPanel({ enabled, username }: { enabled: boolean; username: s
       router.refresh();
     } catch (e) {
       if (isApiError(e) && e.unauthorized) return;
-      setError(errorText(e, t('error.generic')));
+      setError(errorText(e, t('error.generic'), { 403: t('totp.wrongCodeOrPassword') }));
     } finally {
       setBusy(false);
     }

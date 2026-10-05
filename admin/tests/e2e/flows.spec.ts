@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { MOCK, stateFile } from './helpers';
+import { sentEmails, stateFile } from './helpers';
 
 // Working flows. They change the shared mock, so they run on the desktop project only (see playwright.config.ts).
 test.use({ storageState: stateFile('owner') });
@@ -29,8 +29,8 @@ test.describe('orders', () => {
     await expect(page.getByRole('status').filter({ hasText: 'Marked as shipped. The customer was e-mailed.' })).toBeVisible();
     await expect(rows).toHaveCount(pendingBefore - 1);
 
-    const emails = (await (await fetch(`${MOCK}/__mock/emails`)).json()) as { subject: string }[];
-    expect(emails.some((e) => /shipped/i.test(e.subject))).toBe(true);
+    const emails = (await sentEmails()).filter((e) => /shipped/i.test(e.subject));
+    expect(emails).toHaveLength(1); // once: marking it again would send nothing
   });
 
   test('detail drawer is a deep link, closes with Escape and keeps the list filters', async ({ page }) => {
@@ -70,10 +70,19 @@ test.describe('orders', () => {
   test('CSV export is a formula-safe CSV download', async ({ page }) => {
     await page.goto('/orders');
     const [download] = await Promise.all([page.waitForEvent('download'), page.getByRole('link', { name: 'Export CSV' }).click()]);
-    expect(download.suggestedFilename()).toBe('orders.csv');
+    expect(download.suggestedFilename()).toMatch(/^orders-\d{4}-\d{2}-\d{2}\.csv$/);
     const text = await page.request.get('/api/proxy/export/orders.csv').then((r) => r.text());
-    expect(text.split('\r\n')[0]).toContain('"Order"');
+    expect(text.charCodeAt(0)).toBe(0xfeff); // byte-order mark: Excel reads Hebrew and Arabic names right
+    const lines = text.slice(1).split('\r\n');
+    expect(lines[0]).toBe('id,createdAt,firstName,lastName,email,phone,street,city,state,postal,country,totalPrice,done,paymentVerified,paypalOrderId,products');
     expect(text.length).toBeGreaterThan(1000);
+    // Formula injection: no cell may START with = + - @ (the seed has a last name "-2+3" and a message "=HYPERLINK(...)").
+    const cells = lines.flatMap((line) => line.split(','));
+    expect(cells.filter((c) => /^["]?[=+\-@]/.test(c) && !/^-?\d+(\.\d+)?$/.test(c))).toEqual([]);
+    expect(text).toContain("'-2+3");
+    const contacts = await page.request.get('/api/proxy/export/contacts.csv').then((r) => r.text());
+    expect(contacts).toContain("'@SUM");
+    expect(contacts).not.toMatch(/(^|,)"?[=+\-@]/m);
   });
 
   test('owner can delete an order after confirming', async ({ page }) => {
@@ -105,7 +114,7 @@ test.describe('inbox pages', () => {
   });
 
   test('contact message: read in the drawer, mark done', async ({ page }) => {
-    await page.goto('/contacts?status=pending');
+    await page.goto('/contacts?status=open');
     await page.locator('tbody tr').first().getByRole('link', { name: 'View' }).click();
     const drawer = page.getByRole('dialog', { name: 'Message' });
     await expect(drawer.getByRole('link', { name: 'Reply by e-mail' })).toBeVisible();
@@ -156,7 +165,7 @@ test.describe('products', () => {
     await page.getByLabel(/^Name/).fill(name);
     await page.getByLabel(/^Price/).fill('19.5');
     await page.getByLabel('Stock', { exact: true }).fill('3');
-    await page.getByLabel('Category').fill('Candles');
+    await page.getByLabel('Category').selectOption('gifts');
     await page.getByLabel('Colours').fill('white, gold');
     await page.getByLabel('Description').fill('A test candle.');
     await page.getByLabel(/^Main photo/).fill('http://localhost:3901/mock/candle.svg');

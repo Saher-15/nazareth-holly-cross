@@ -257,6 +257,15 @@ describe('candles, contacts, site reviews, product reviews, prayers', () => {
       expect((await call('delete', `/admin/${path}/${doc._id}`, editor)).status).toBe(404);
     });
 
+    it('GET /:id returns one document to a viewer (the dashboard opens its detail drawers by address)', async () => {
+      const [doc] = fakes[Model].seed([seed]);
+      const res = await call('get', `/admin/${path}/${doc._id}`, viewer);
+      expect(res.status).toBe(200);
+      expect(res.body).toMatchObject({ _id: doc._id, ...seed });
+      expect((await call('get', `/admin/${path}/${oid()}`, viewer)).status).toBe(404);
+      expect((await call('get', `/admin/${path}/not-an-id`, viewer)).status).toBe(400);
+    });
+
     it('lists with the status filter', async () => {
       fakes[Model].seed([seed, { ...seed, [flag]: !initial }]);
       expect((await call('get', `/admin/${path}?status=${status[0]}`)).body.total).toBe(1);
@@ -277,6 +286,7 @@ describe('candles, contacts, site reviews, product reviews, prayers', () => {
   it('prayers can be listed, searched and deleted (no PATCH)', async () => {
     const [p] = fakes.Prayer.seed([{ name: 'Maria', country: 'Brazil', prayer: 'Peace please', category: 'Peace', likes: 3 }]);
     expect((await call('get', '/admin/prayers?q=maria')).body.total).toBe(1);
+    expect((await call('get', `/admin/prayers/${p._id}`, viewer)).body).toMatchObject({ name: 'Maria' });
     expect((await call('patch', `/admin/prayers/${p._id}`, editor, { approved: false })).status).toBe(404);
     expect((await call('delete', `/admin/prayers/${p._id}`, editor)).status).toBe(200);
     expect(audits('prayer.delete')).toHaveLength(1);
@@ -392,6 +402,8 @@ describe('products', () => {
     expect((await call('get', '/admin/products?q=ros')).body.items.map((p) => p.name).sort()).toEqual(['Cross', 'Rosary']); // "contains"
     expect((await call('get', '/admin/products?status=low')).body.items.map((p) => p.name).sort()).toEqual(['Cross', 'Rosary']);
     expect((await call('get', '/admin/products?status=out')).body.items.map((p) => p.name)).toEqual(['Cross']);
+    // ok = not tracked, or more than 5 left (the dashboard's "In stock" filter)
+    expect((await call('get', '/admin/products?status=ok')).body.items.map((p) => p.name).sort()).toEqual(['Bible', 'Candle']);
     expect((await call('get', '/admin/products?sort=name')).body.items.map((p) => p.name)).toEqual(['Bible', 'Candle', 'Cross', 'Rosary']);
   });
 });
@@ -519,6 +531,11 @@ describe('GET /admin/dashboard', () => {
     expect(res.body.recent.orders[0].lastName).toBe('R5'); // newest first
     expect(res.body.recent.candles).toHaveLength(3);
     expect(res.body.recent.contacts).toHaveLength(2);
+    // The dashboard UI renders these as the same documents its lists use: a candle needs its prayer and e-mail, a
+    // message needs its text (found by running the UI against this API: its zod schemas rejected the short rows).
+    const selected = (Model) => String(Model.calls.find((c) => c.op === 'find' && c.select)?.select ?? '').split(/\s+/);
+    expect(selected(fakes.Candle)).toEqual(expect.arrayContaining(['firstName', 'lastName', 'email', 'prayer', 'done', 'createdAt']));
+    expect(selected(fakes.Contact)).toEqual(expect.arrayContaining(['fullName', 'email', 'msg', 'done', 'createdAt']));
   });
 
   it('is correct on an empty shop (zeros, 30 empty days, no products)', async () => {
@@ -662,7 +679,8 @@ describe('query filters survive Mongoose sanitizeFilter (which the server runs w
       ['get', '/admin/candles?status=pending&q=b'], ['patch', `/admin/candles/${c._id}`, { done: true }],
       ['get', '/admin/contacts?status=open'], ['get', '/admin/site-reviews?status=hidden'],
       ['get', '/admin/product-reviews?status=approved&q=x'], ['get', '/admin/prayers?status=Peace&q=x'],
-      ['get', '/admin/products?status=low'], ['get', '/admin/products?status=out&q=cross'],
+      ['get', '/admin/products?status=low'], ['get', '/admin/products?status=ok'], ['get', '/admin/products?status=out&q=cross'],
+      ['get', `/admin/candles/${c._id}`], ['get', '/admin/users?status=active'],
       ['get', '/admin/dashboard'],
     ];
     for (const [method, path, body] of requests) expect((await call(method, path, owner, body)).status, `${method} ${path}`).toBeLessThan(500);

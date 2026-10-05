@@ -102,8 +102,8 @@ export async function buildDashboard(now = new Date()) {
     Prayer.countDocuments(),
     Review.countDocuments(),
     recent(Order, 'firstName lastName email totalPrice done paymentVerified createdAt'),
-    recent(Candle, 'firstName lastName done createdAt'),
-    recent(Contact, 'fullName email done createdAt'),
+    recent(Candle, 'firstName lastName email prayer done createdAt'),
+    recent(Contact, 'fullName email msg done createdAt'),
   ]);
 
   const t = totalsRows[0] ?? {};

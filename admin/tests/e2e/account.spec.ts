@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { code, loginUi, signIn, USERS } from './helpers';
+import { APP, code, loginUi, signIn, USERS } from './helpers';
 
 // Password change, two-factor set-up, idle time-out and language: each uses its own mock account.
 test.beforeEach(({}, testInfo) => {
@@ -28,7 +28,7 @@ test.describe('security settings', () => {
     // another browser: old password refused, new one accepted
     const other = await browser.newContext();
     const page2 = await other.newPage();
-    await page2.goto('http://localhost:3901/login');
+    await page2.goto(`${APP}/login`);
     await page2.getByLabel('Username').fill(USERS.passchange.username);
     await page2.getByLabel('Password', { exact: true }).fill(USERS.passchange.password);
     await page2.getByRole('button', { name: 'Sign in' }).click();
@@ -56,26 +56,26 @@ test.describe('security settings', () => {
     await page.getByRole('button', { name: 'Turn on' }).click();
     await expect(page.getByRole('alert').filter({ hasText: 'That code is not right' })).toBeVisible();
 
-    await page.getByLabel('Authentication code').fill(code(secret));
+    await page.getByLabel('Authentication code').fill(code(secret, -1)); // a code works once and steps only go forward: enable on the previous step,
     await page.getByRole('button', { name: 'Turn on' }).click();
     await expect(page.getByRole('status').filter({ hasText: 'Two-factor sign-in is on.' }).first()).toBeVisible();
     await expect(page.getByText('Two-factor sign-in is on.').first()).toBeVisible();
 
     const other = await browser.newContext();
     const page2 = await other.newPage();
-    await page2.goto('http://localhost:3901/login');
+    await page2.goto(`${APP}/login`);
     await page2.getByLabel('Username').fill(USERS.totpsetup.username);
     await page2.getByLabel('Password', { exact: true }).fill(USERS.totpsetup.password);
     await page2.getByRole('button', { name: 'Sign in' }).click();
     await expect(page2.getByLabel('Authentication code')).toBeVisible();
-    await page2.getByLabel('Authentication code').fill(code(secret));
+    await page2.getByLabel('Authentication code').fill(code(secret)); // sign in on the current one,
     await page2.getByRole('button', { name: 'Verify and sign in' }).click();
     await expect(page2.getByRole('heading', { level: 1, name: 'Dashboard' })).toBeVisible();
     await other.close();
 
     await page.reload();
     await page.getByLabel('Current password').last().fill(USERS.totpsetup.password); // the second form on the page
-    await page.getByLabel('Authentication code').fill(code(secret));
+    await page.getByLabel('Authentication code').fill(code(secret, 1)); // turn off on the next one
     await page.getByRole('button', { name: 'Turn off' }).click();
     await page.getByRole('dialog', { name: 'Turn off two-factor sign-in?' }).getByRole('button', { name: 'Turn off' }).click();
     await expect(page.getByRole('status').filter({ hasText: 'Two-factor sign-in is off.' })).toBeVisible();

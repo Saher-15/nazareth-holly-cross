@@ -6,6 +6,7 @@ import { Badge, DataTable, EmptyState, ErrorState, hrefWith, ListToolbar, PageHe
 import { getI18n } from '@/i18n/server';
 import { parseListParams, productsPage, type Product } from '@/lib/api';
 import { formatMoney, formatNumber } from '@/lib/format';
+import { isCategory } from '@/lib/product-form';
 import { can } from '@/lib/roles';
 import { one } from '@/lib/search-params';
 import { getSession, load, serverApi } from '@/lib/server-api';
@@ -32,6 +33,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
   const view = one(raw, 'view') === 'grid' ? 'grid' : 'table';
   const keep = { ...paramsOf(params, DEFAULT_SORT), view: view === 'grid' ? 'grid' : undefined };
   const canWrite = can(user.role, 'write');
+  const categoryLabel = (key: string | null | undefined) => (isCategory(key) ? t(`category.${key}`) : (key ?? ''));
   const list = await load(() => serverApi({ path: '/admin/products', query: { page: params.page, size: params.size, q: params.q, status: params.status, sort: params.sort }, schema: productsPage }));
 
   return (
@@ -95,7 +97,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
                   </Link>
                   <div className="product-card__body">
                     <Link href={`/products/${p.id}`} className="product-card__name">{p.name}</Link>
-                    <p className="product-card__meta">{p.category ?? ''}</p>
+                    <p className="product-card__meta">{categoryLabel(p.category)}</p>
                     <div className="product-card__row">
                       <strong>{formatMoney(p.price, locale)}</strong>
                       <StockBadge stock={p.stock} t={t} />
@@ -119,7 +121,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
                       <img className="thumb" src={p.img} alt="" loading="lazy" width={44} height={44} />
                       <div>
                         <Link className="link link--strong" href={`/products/${p.id}`}>{p.name}</Link>
-                        {p.category ? <span className="cell-sub">{p.category}</span> : null}
+                        {p.category ? <span className="cell-sub">{categoryLabel(p.category)}</span> : null}
                       </div>
                     </div>
                   ),

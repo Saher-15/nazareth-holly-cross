@@ -1,5 +1,5 @@
 import { expect, test, request as pwRequest } from '@playwright/test';
-import { APP, code, expectNoAxeViolations, loginUi, noHorizontalScroll, USERS, watchProblems } from './helpers';
+import { APP, code, expectNoAxeViolations, freshIp, loginUi, noHorizontalScroll, USERS, watchProblems } from './helpers';
 
 test.describe('sign-in', () => {
   test('a signed-out visitor is sent to the login page and back after signing in', async ({ page }) => {
@@ -63,7 +63,9 @@ test.describe('sign-in', () => {
     test.skip(testInfo.project.name !== 'desktop', 'locks a mock account for 15 minutes: run once');
     const api = await pwRequest.newContext({ baseURL: APP, extraHTTPHeaders: { Origin: APP } });
     for (let i = 0; i < 5; i += 1) {
-      const res = await api.post('/api/session/login', { data: { username: USERS.locktest.username, password: `wrong-password-${i}` } });
+      // Each attempt from its own address (the app forwards X-Forwarded-For): the API's sign-in limit counts 5 failures per
+      // address and name, which would otherwise answer 429 before the account lock can be seen.
+      const res = await api.post('/api/session/login', { data: { username: USERS.locktest.username, password: `wrong-password-${i}` }, headers: { 'X-Forwarded-For': freshIp() } });
       expect(res.status()).toBe(401);
     }
     await api.dispose();

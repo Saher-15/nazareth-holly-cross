@@ -48,7 +48,7 @@ export default async function CandlesPage({ searchParams }: { searchParams: Prom
           { value: '-createdAt', label: t('sort.newest') },
           { value: 'createdAt', label: t('sort.oldest') },
         ]}
-        exportPath="/api/proxy/export/candles.csv"
+        exportPath={can(user.role, 'export') ? '/api/proxy/export/candles.csv' : undefined}
         searchLabel={t('candles.search')}
       />
 

@@ -40,7 +40,7 @@ export default async function ContactsPage({ searchParams }: { searchParams: Pro
         q={params.q}
         status={params.status}
         statuses={[
-          { value: 'pending', label: t('status.open') },
+          { value: 'open', label: t('status.open') },
           { value: 'done', label: t('status.done') },
         ]}
         sort={params.sort}
@@ -48,7 +48,7 @@ export default async function ContactsPage({ searchParams }: { searchParams: Pro
           { value: '-createdAt', label: t('sort.newest') },
           { value: 'createdAt', label: t('sort.oldest') },
         ]}
-        exportPath="/api/proxy/export/contacts.csv"
+        exportPath={can(user.role, 'export') ? '/api/proxy/export/contacts.csv' : undefined}
         searchLabel={t('contacts.search')}
       />
 

@@ -20,6 +20,8 @@ export type ApiActionProps = {
   path: string;
   body?: unknown;
   successText: string;
+  /** For marking an order shipped: the API answers { emailSent: true | false | null }; each case gets its own toast. */
+  emailResult?: { failed: string; none: string };
   tone?: 'default' | 'gold' | 'danger';
   confirm?: { title: string; message?: string; confirmLabel?: string; tone?: 'danger' | 'primary' };
   /** Where to go afterwards instead of refreshing in place (e.g. leave a detail drawer after a delete). */
@@ -29,7 +31,7 @@ export type ApiActionProps = {
   testId?: string;
 };
 
-export function ApiAction({ label, ariaLabel, icon, method, path, body, successText, tone = 'default', confirm, then, iconOnly, disabled, testId }: ApiActionProps) {
+export function ApiAction({ label, ariaLabel, icon, method, path, body, successText, emailResult, tone = 'default', confirm, then, iconOnly, disabled, testId }: ApiActionProps) {
   const router = useRouter();
   const { toast, confirm: ask } = useFeedback();
   const { t } = useI18n();
@@ -39,8 +41,10 @@ export function ApiAction({ label, ariaLabel, icon, method, path, body, successT
     if (confirm && !(await ask(confirm))) return;
     setBusy(true);
     try {
-      await proxyCall({ method, path, body });
-      toast(successText, 'success');
+      const result = await proxyCall<{ emailSent?: boolean | null } | undefined>({ method, path, body });
+      if (emailResult && result?.emailSent === false) toast(emailResult.failed, 'error');
+      else if (emailResult && result?.emailSent === null) toast(emailResult.none, 'info');
+      else toast(successText, 'success');
       if (then) router.replace(then);
       router.refresh();
     } catch (error) {
