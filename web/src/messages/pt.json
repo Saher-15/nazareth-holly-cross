@@ -1462,5 +1462,68 @@
         "lead": "Encontre páginas, lugares santos, respostas a perguntas frequentes e passagens do Evangelho."
       }
     }
+  },
+  "media": {
+    "meta": {
+      "creditsTitle": "Créditos das fotos",
+      "creditsDescription": "Quem tirou as fotografias de Nazaré e de suas igrejas mostradas neste site, sob qual licença aberta e onde encontrar os originais no Wikimedia Commons.",
+      "galleryTitle": "Nazaré em imagens",
+      "galleryDescription": "Fotografias da Basílica da Anunciação, da Igreja de São José, da igreja greco-ortodoxa, do Poço de Maria, do souk da Cidade Velha, da Igreja da Sinagoga, do Monte do Precipício e da cidade de Nazaré."
+    },
+    "nav": {
+      "gallery": "Galeria de fotos",
+      "credits": "Créditos das fotos"
+    },
+    "topic": {
+      "basilica": "Basílica da Anunciação",
+      "stjoseph": "Igreja de São José",
+      "greek": "Igreja Greco-Ortodoxa da Anunciação",
+      "well": "Poço de Maria",
+      "oldcity": "Cidade Velha e souk",
+      "synagogue": "Igreja da Sinagoga",
+      "precipice": "Monte do Precipício",
+      "city": "A cidade de Nazaré"
+    },
+    "subject": {
+      "facade": "fachada",
+      "exterior": "exterior",
+      "dome": "cúpula",
+      "courtyard": "pátio",
+      "interior": "interior",
+      "grotto": "gruta",
+      "altar": "altar",
+      "iconostasis": "iconóstase",
+      "ceiling": "teto e abóbadas",
+      "bellTower": "campanário",
+      "well": "o poço",
+      "market": "mercado",
+      "street": "rua",
+      "skyline": "vista da cidade",
+      "panorama": "panorama",
+      "hills": "colinas",
+      "night": "à noite"
+    },
+    "alt": "{topic}: {subject}",
+    "creditLine": "Foto: {author} · {license}",
+    "source": "Fonte",
+    "gallery": {
+      "eyebrow": "Galeria de fotos",
+      "title": "Nazaré em imagens",
+      "lead": "Oito lugares, uma cidade: a Basílica da Anunciação, a Igreja de São José, a igreja greco-ortodoxa, o Poço de Maria, o souk da Cidade Velha, a Igreja da Sinagoga, o Monte do Precipício e a própria cidade. Toque em uma foto para ampliá-la; o visualizador indica quem a tirou.",
+      "creditsLink": "Créditos das fotos",
+      "visitPage": "Saiba mais sobre este lugar"
+    },
+    "credits": {
+      "eyebrow": "Créditos das fotos",
+      "title": "Créditos das fotos",
+      "lead": "As fotografias de Nazaré e de suas igrejas deste site são compartilhadas por seus autores sob licenças abertas. Obrigado a cada fotógrafo.",
+      "howTitle": "Como estas fotos são licenciadas",
+      "howText": "Cada foto vem do Wikimedia Commons e é de domínio público ou tem uma licença Creative Commons (CC0, CC BY ou CC BY-SA) que permite a reutilização, inclusive em um site comercial, desde que o autor seja citado. O autor, a licença e um link para o original estão listados abaixo e no visualizador de fotos.",
+      "howNote": "Fotos CC BY-SA podem ser reutilizadas sob a mesma licença. Se você é o autor de uma foto e quer alterar o crédito ou pedir a remoção, escreva para nós.",
+      "jump": "Ir para um grupo de fotos",
+      "author": "Autor",
+      "license": "Licença",
+      "viewOnCommons": "Ver no Wikimedia Commons"
+    }
   }
 }

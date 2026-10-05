@@ -1462,5 +1462,68 @@
         "lead": "Găsiți pagini, locuri sfinte, răspunsuri la întrebări frecvente și pasaje din Evanghelie."
       }
     }
+  },
+  "media": {
+    "meta": {
+      "creditsTitle": "Credite foto",
+      "creditsDescription": "Cine a realizat fotografiile Nazaretului și ale bisericilor sale prezentate pe acest site, sub ce licență deschisă și unde pot fi găsite originalele pe Wikimedia Commons.",
+      "galleryTitle": "Nazaretul în fotografii",
+      "galleryDescription": "Fotografii cu Bazilica Buna Vestire, Biserica Sfântul Iosif, biserica greco-ortodoxă, Fântâna Mariei, souk-ul din Orașul Vechi, Biserica Sinagogii, Muntele Precipiciului și orașul Nazaret."
+    },
+    "nav": {
+      "gallery": "Galerie foto",
+      "credits": "Credite foto"
+    },
+    "topic": {
+      "basilica": "Bazilica Buna Vestire",
+      "stjoseph": "Biserica Sfântul Iosif",
+      "greek": "Biserica greco-ortodoxă a Bunei Vestiri",
+      "well": "Fântâna Mariei",
+      "oldcity": "Orașul Vechi și souk-ul",
+      "synagogue": "Biserica Sinagogii",
+      "precipice": "Muntele Precipiciului",
+      "city": "Orașul Nazaret"
+    },
+    "subject": {
+      "facade": "fațadă",
+      "exterior": "exterior",
+      "dome": "cupolă",
+      "courtyard": "curte interioară",
+      "interior": "interior",
+      "grotto": "grotă",
+      "altar": "altar",
+      "iconostasis": "iconostas",
+      "ceiling": "tavan și bolți",
+      "bellTower": "clopotniță",
+      "well": "fântâna",
+      "market": "piață",
+      "street": "stradă",
+      "skyline": "priveliște asupra orașului",
+      "panorama": "panoramă",
+      "hills": "dealuri",
+      "night": "noaptea"
+    },
+    "alt": "{topic}: {subject}",
+    "creditLine": "Foto: {author} · {license}",
+    "source": "Sursă",
+    "gallery": {
+      "eyebrow": "Galerie foto",
+      "title": "Nazaretul în fotografii",
+      "lead": "Opt locuri, un singur oraș: Bazilica Buna Vestire, Biserica Sfântul Iosif, biserica greco-ortodoxă, Fântâna Mariei, souk-ul din Orașul Vechi, Biserica Sinagogii, Muntele Precipiciului și orașul însuși. Selectați o fotografie pentru a o mări; vizualizatorul indică numele fotografului.",
+      "creditsLink": "Credite foto",
+      "visitPage": "Citiți despre acest loc"
+    },
+    "credits": {
+      "eyebrow": "Credite foto",
+      "title": "Credite foto",
+      "lead": "Fotografiile Nazaretului și ale bisericilor sale de pe acest site sunt puse la dispoziție de autorii lor sub licențe deschise. Mulțumim fiecărui fotograf.",
+      "howTitle": "Cum sunt licențiate aceste fotografii",
+      "howText": "Fiecare fotografie provine de pe Wikimedia Commons și se află în domeniul public sau sub o licență Creative Commons (CC0, CC BY sau CC BY-SA) care permite reutilizarea, inclusiv pe un site comercial, cu condiția menționării autorului. Autorul, licența și un link către original sunt indicate mai jos și în vizualizatorul de fotografii.",
+      "howNote": "Fotografiile marcate CC BY-SA pot fi reutilizate sub aceeași licență. Dacă sunteți autorul unei fotografii și doriți modificarea creditării sau eliminarea fotografiei, vă rugăm să ne scrieți.",
+      "jump": "Salt la un grup de fotografii",
+      "author": "Autor",
+      "license": "Licență",
+      "viewOnCommons": "Vedeți pe Wikimedia Commons"
+    }
   }
 }

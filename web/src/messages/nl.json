@@ -1462,5 +1462,68 @@
         "lead": "Vind pagina’s, heilige plaatsen, antwoorden op veelgestelde vragen en evangelieteksten."
       }
     }
+  },
+  "media": {
+    "meta": {
+      "creditsTitle": "Fotocredits",
+      "creditsDescription": "Wie de foto’s van Nazareth en zijn kerken op deze site heeft gemaakt, onder welke open licentie, en waar u de originelen vindt op Wikimedia Commons.",
+      "galleryTitle": "Nazareth in beeld",
+      "galleryDescription": "Foto’s van de Annunciatiebasiliek, de Jozefkerk, de Grieks-orthodoxe kerk, de Mariabron, de soek van de Oude Stad, de Synagogekerk, de Berg van de Sprong en de stad Nazareth."
+    },
+    "nav": {
+      "gallery": "Fotogalerij",
+      "credits": "Fotocredits"
+    },
+    "topic": {
+      "basilica": "Annunciatiebasiliek",
+      "stjoseph": "Jozefkerk",
+      "greek": "Grieks-orthodoxe Annunciatiekerk",
+      "well": "Mariabron",
+      "oldcity": "Oude Stad en soek",
+      "synagogue": "Synagogekerk",
+      "precipice": "Berg van de Sprong",
+      "city": "De stad Nazareth"
+    },
+    "subject": {
+      "facade": "gevel",
+      "exterior": "buitenkant",
+      "dome": "koepel",
+      "courtyard": "binnenplaats",
+      "interior": "interieur",
+      "grotto": "grot",
+      "altar": "altaar",
+      "iconostasis": "iconostase",
+      "ceiling": "plafond en gewelven",
+      "bellTower": "klokkentoren",
+      "well": "de bron",
+      "market": "markt",
+      "street": "straat",
+      "skyline": "stadsgezicht",
+      "panorama": "panorama",
+      "hills": "heuvels",
+      "night": "bij nacht"
+    },
+    "alt": "{topic}: {subject}",
+    "creditLine": "Foto: {author} · {license}",
+    "source": "Bron",
+    "gallery": {
+      "eyebrow": "Fotogalerij",
+      "title": "Nazareth in beeld",
+      "lead": "Acht plekken, één stad: de Annunciatiebasiliek, de Jozefkerk, de Grieks-orthodoxe kerk, de Mariabron, de soek van de Oude Stad, de Synagogekerk, de Berg van de Sprong en de stad zelf. Selecteer een foto om die te vergroten; de viewer vermeldt de fotograaf.",
+      "creditsLink": "Fotocredits",
+      "visitPage": "Lees meer over deze plek"
+    },
+    "credits": {
+      "eyebrow": "Fotocredits",
+      "title": "Fotocredits",
+      "lead": "De foto’s van Nazareth en zijn kerken op deze site worden door hun makers gedeeld onder open licenties. Dank aan elke fotograaf.",
+      "howTitle": "Zo zijn deze foto’s gelicentieerd",
+      "howText": "Elke foto komt van Wikimedia Commons en valt onder het publiek domein of onder een Creative Commons-licentie (CC0, CC BY of CC BY-SA) die hergebruik toestaat, ook op een commerciële site, mits de maker wordt vermeld. De maker, de licentie en een link naar het origineel staan hieronder en in de fotoviewer.",
+      "howNote": "Foto’s met CC BY-SA mogen onder dezelfde licentie worden hergebruikt. Bent u de maker van een foto en wilt u de vermelding laten wijzigen of de foto laten verwijderen, schrijf ons dan gerust.",
+      "jump": "Ga naar een groep foto’s",
+      "author": "Maker",
+      "license": "Licentie",
+      "viewOnCommons": "Bekijk op Wikimedia Commons"
+    }
   }
 }

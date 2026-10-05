@@ -1462,5 +1462,68 @@
         "lead": "Trouvez des pages, des lieux saints, des réponses aux questions fréquentes et des passages de l’Évangile."
       }
     }
+  },
+  "media": {
+    "meta": {
+      "creditsTitle": "Crédits photo",
+      "creditsDescription": "Qui a pris les photographies de Nazareth et de ses églises présentées sur ce site, sous quelle licence libre, et où trouver les originaux sur Wikimedia Commons.",
+      "galleryTitle": "Nazareth en images",
+      "galleryDescription": "Photographies de la basilique de l’Annonciation, de l’église Saint-Joseph, de l’église grecque orthodoxe, du Puits de Marie, du souk de la vieille ville, de l’église de la Synagogue, du mont du Précipice et de la ville de Nazareth."
+    },
+    "nav": {
+      "gallery": "Galerie de photos",
+      "credits": "Crédits photo"
+    },
+    "topic": {
+      "basilica": "Basilique de l’Annonciation",
+      "stjoseph": "Église Saint-Joseph",
+      "greek": "Église grecque orthodoxe de l’Annonciation",
+      "well": "Puits de Marie",
+      "oldcity": "Vieille ville et souk",
+      "synagogue": "Église de la Synagogue",
+      "precipice": "Mont du Précipice",
+      "city": "La ville de Nazareth"
+    },
+    "subject": {
+      "facade": "façade",
+      "exterior": "extérieur",
+      "dome": "coupole",
+      "courtyard": "cour",
+      "interior": "intérieur",
+      "grotto": "grotte",
+      "altar": "autel",
+      "iconostasis": "iconostase",
+      "ceiling": "plafond et voûtes",
+      "bellTower": "clocher",
+      "well": "le puits",
+      "market": "marché",
+      "street": "rue",
+      "skyline": "vue sur la ville",
+      "panorama": "panorama",
+      "hills": "collines",
+      "night": "de nuit"
+    },
+    "alt": "{topic}: {subject}",
+    "creditLine": "Photo : {author} · {license}",
+    "source": "Source",
+    "gallery": {
+      "eyebrow": "Galerie de photos",
+      "title": "Nazareth en images",
+      "lead": "Huit lieux, une ville : la basilique de l’Annonciation, l’église Saint-Joseph, l’église grecque orthodoxe, le Puits de Marie, le souk de la vieille ville, l’église de la Synagogue, le mont du Précipice et la ville elle-même. Touchez une photo pour l’agrandir ; la visionneuse nomme le photographe.",
+      "creditsLink": "Crédits photo",
+      "visitPage": "Découvrir ce lieu"
+    },
+    "credits": {
+      "eyebrow": "Crédits photo",
+      "title": "Crédits photo",
+      "lead": "Les photographies de Nazareth et de ses églises présentées sur ce site sont partagées par leurs auteurs sous licences libres. Merci à chaque photographe.",
+      "howTitle": "Sous quelle licence sont ces photos",
+      "howText": "Chaque photo provient de Wikimedia Commons et relève du domaine public ou d’une licence Creative Commons (CC0, CC BY ou CC BY-SA) qui autorise la réutilisation, y compris sur un site commercial, à condition de citer l’auteur. L’auteur, la licence et un lien vers l’original figurent ci-dessous et dans la visionneuse.",
+      "howNote": "Les photos CC BY-SA peuvent être réutilisées sous la même licence. Si vous êtes l’auteur d’une photo et souhaitez modifier sa mention ou la faire retirer, écrivez-nous.",
+      "jump": "Aller à un groupe de photos",
+      "author": "Auteur",
+      "license": "Licence",
+      "viewOnCommons": "Voir sur Wikimedia Commons"
+    }
   }
 }

@@ -3,7 +3,7 @@ import { CrossMark, FacebookIcon, InstagramIcon, MailIcon, PinIcon, YoutubeIcon 
 import { Link } from '@/i18n/navigation';
 import { CONTACT_EMAIL } from '@/lib/config';
 import SearchButton from '@/components/search/SearchButton';
-import { footerNav, legalNav, pilgrimNav, socialLinks } from '@/lib/site';
+import { creditsPage, footerNav, legalNav, pilgrimNav, socialLinks } from '@/lib/site';
 import FooterLanguages from './FooterLanguages';
 import styles from './SiteFooter.module.css';
 
@@ -16,6 +16,7 @@ export default async function SiteFooter() {
   const t = await getTranslations('site');
   const tx = await getTranslations('ux.footer');
   const tp = await getTranslations('pilgrim');
+  const tm = await getTranslations('media');
   const year = new Date().getFullYear();
 
   return (
@@ -85,6 +86,11 @@ export default async function SiteFooter() {
                 </Link>
               </li>
             ))}
+            <li>
+              <Link href={creditsPage.href} className={styles.link}>
+                {tm('nav.credits')}
+              </Link>
+            </li>
             <li>
               <SearchButton className={`${styles.link} ${styles.linkButton}`} />
             </li>

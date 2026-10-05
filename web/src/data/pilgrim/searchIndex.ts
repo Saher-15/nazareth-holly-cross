@@ -2,7 +2,7 @@ import { PLACES, placeHref } from '@/data/places/places';
 import { PASSAGES } from '@/data/pilgrim/gospel';
 import { FAQ_GROUPS } from '@/data/pilgrim/faq';
 import { faqItems, type Translate } from '@/data/pilgrim/faqEntries';
-import { legalNav, mainNav, pilgrimNav } from '@/lib/site';
+import { creditsPage, legalNav, mainNav, pilgrimNav } from '@/lib/site';
 import type { SearchEntry } from '@/lib/search';
 
 // The search index of one language: pages, holy sites, FAQ entries and Gospel passages, built from the messages.
@@ -50,6 +50,7 @@ export function buildSearchIndex(t: Translate, locale: string): SearchEntry[] {
         href: item.href,
       };
     }),
+    { id: 'page-credits', type: 'page', title: t('media.nav.credits'), text: t('media.meta.creditsDescription'), href: creditsPage.href },
   ];
 
   const sites: SearchEntry[] = PLACES.map((place) => ({

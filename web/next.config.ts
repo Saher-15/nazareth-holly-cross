@@ -80,6 +80,12 @@ const nextConfig: NextConfig = {
       },
       // public/sw.js retires the service worker an older version of the site installed; never cache it.
       { source: '/sw.js', headers: [{ key: 'Cache-Control', value: 'no-cache, no-store, must-revalidate' }] },
+      // The pre-built AVIF/WebP files of the licensed photos (scripts/media): cached for a month, revalidated in the
+      // background for another week. Change a crop by building a new id, not by overwriting a file.
+      {
+        source: '/images/nazareth-media/:path*',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=2592000, stale-while-revalidate=604800' }],
+      },
     ];
   },
 };

@@ -15,6 +15,10 @@ export const footerNav = [
   { key: 'about', href: '/about' },
 ] as const;
 
+// Photo credits: the licence and author of every photograph on the site (messages media.nav.credits).
+// The gallery itself is `pilgrimNav` 'gallery'.
+export const creditsPage = { key: 'credits', href: '/credits', labelKey: 'media.nav.credits' } as const;
+
 // Pilgrim guides and community pages (footer group, sitemap, site search). Labels: messages pilgrim.nav.<key>.
 export const pilgrimNav = [
   { key: 'plan', href: '/plan' },

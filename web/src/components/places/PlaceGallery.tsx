@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import { useCallback, useMemo, useRef, useState, type CSSProperties, type SyntheticEvent } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { isRtl } from '@/i18n/routing';
@@ -8,6 +7,7 @@ import type { Photo } from '@/data/places/places';
 import { lastTileSpan, tileOf } from './galleryLogic';
 import { ZoomIcon } from './icons';
 import Lightbox from './Lightbox';
+import PhotoImage from './PhotoImage';
 import styles from './PlaceGallery.module.css';
 
 // Responsive widths of a tile: 2 columns on phones, 3 from 640px, 4 from 1000px (1180px container).
@@ -20,13 +20,14 @@ const SIZES = {
 
 // Stop the shimmer of a tile once its photo has arrived.
 const markLoaded = (e: SyntheticEvent<HTMLImageElement>) => {
-  e.currentTarget.parentElement?.setAttribute('data-loaded', '');
+  e.currentTarget.closest('button')?.setAttribute('data-loaded', '');
 };
 
 // Photo grid of one place; a photo opens the full-screen viewer.
 export default function PlaceGallery({ photos, name }: { photos: readonly Photo[]; name: string }) {
   const t = useTranslations('placesPage');
   const tHome = useTranslations('home');
+  const tMedia = useTranslations('media');
   const rtl = isRtl(useLocale());
   const [index, setIndex] = useState<number | null>(null);
   const opener = useRef<HTMLButtonElement | null>(null);
@@ -39,7 +40,31 @@ export default function PlaceGallery({ photos, name }: { photos: readonly Photo[
   );
   const lastIsWide = Object.values(lastSpans).some((span) => span > 1);
 
-  const altOf = useCallback((i: number) => t('photoAlt', { place: name, n: i + 1, total }), [t, name, total]);
+  // Licensed photos describe themselves (topic and subject, translated); every alt ends in "photo n of N" so
+  // the photos of a gallery are told apart.
+  const altOf = useCallback(
+    (i: number) => {
+      const media = photos[i].media;
+      const place = media
+        ? tMedia('alt', { topic: tMedia(`topic.${media.topic}`), subject: tMedia(`subject.${media.subject}`) })
+        : name;
+      return t('photoAlt', { place, n: i + 1, total });
+    },
+    [t, tMedia, photos, name, total],
+  );
+  const creditOf = useCallback(
+    (i: number) => {
+      const media = photos[i].media;
+      return media
+        ? {
+            text: tMedia('creditLine', { author: media.author, license: media.license }),
+            sourceUrl: media.sourceUrl,
+            sourceLabel: tMedia('source'),
+          }
+        : null;
+    },
+    [tMedia, photos],
+  );
   const close = useCallback(() => setIndex(null), []);
 
   return (
@@ -63,10 +88,9 @@ export default function PlaceGallery({ photos, name }: { photos: readonly Photo[
                   setIndex(i);
                 }}
               >
-                <Image
-                  src={photo.src}
+                <PhotoImage
+                  photo={photo}
                   alt={altOf(i)}
-                  fill
                   sizes={isLast && lastIsWide ? SIZES.wide : SIZES[tile]}
                   onLoad={markLoaded}
                   onError={markLoaded}
@@ -89,6 +113,7 @@ export default function PlaceGallery({ photos, name }: { photos: readonly Photo[
           title={name}
           label={t('viewer', { place: name })}
           altOf={altOf}
+          creditOf={creditOf}
           labels={{ close: t('close'), prev: tHome('prev'), next: tHome('next') }}
           rtl={rtl}
           returnFocus={opener}

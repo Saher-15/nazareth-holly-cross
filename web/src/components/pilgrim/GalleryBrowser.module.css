@@ -149,3 +149,33 @@
     transform: none;
   }
 }
+
+/* One group per topic: a heading with a link to the holy-site page, then the photos. */
+.group {
+  padding-block: clamp(20px, 4vw, 40px);
+  scroll-margin-top: var(--scroll-offset);
+}
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 16px;
+  margin-bottom: 16px;
+}
+.title {
+  margin: 0;
+}
+.more {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  color: var(--gold);
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+.more:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}

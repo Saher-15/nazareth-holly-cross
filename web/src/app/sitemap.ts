@@ -3,7 +3,7 @@ import { PLACE_SLUGS, placeHref } from '@/data/places/places';
 import { locales } from '@/i18n/routing';
 import { SITE_URL } from '@/lib/config';
 import { loadCatalog } from '@/lib/shop/load';
-import { footerNav, legalNav, pilgrimNav } from '@/lib/site';
+import { creditsPage, footerNav, legalNav, pilgrimNav } from '@/lib/site';
 
 type Entry = { path: string; priority: number; changeFrequency: 'daily' | 'weekly' | 'monthly' };
 
@@ -35,7 +35,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changeFrequency: 'weekly',
   }));
   // Help and legal pages: indexed, but they change rarely and matter less than the content.
-  const legal: Entry[] = legalNav.map((item) => ({ path: item.href, priority: 0.4, changeFrequency: 'monthly' }));
+  const legal: Entry[] = [...legalNav, creditsPage].map((item) => ({ path: item.href, priority: 0.4, changeFrequency: 'monthly' }));
   const places: Entry[] = PLACE_SLUGS.map((slug) => ({ path: placeHref(slug), priority: 0.6, changeFrequency: 'monthly' }));
   const catalog = await loadCatalog().catch(() => null);
   const products: Entry[] = (catalog?.products ?? []).map((p) => ({

@@ -1,6 +1,8 @@
 import { readFileSync } from 'node:fs';
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
+import { MEDIA } from '../../src/data/media';
+import { PLACE_OF_TOPIC } from '../../src/data/places/places';
 import en from '../../src/messages/en.json';
 import he from '../../src/messages/he.json';
 
@@ -281,23 +283,28 @@ test.describe('contact', () => {
 
 test.describe('gallery', () => {
   test('filters by holy site, keeps the filter in the URL and opens the lightbox', async ({ page }) => {
+    // The licensed photos, grouped by topic; a site's count is the sum of its topics.
+    const ofSite = (slug: string) => MEDIA.filter((item) => PLACE_OF_TOPIC[item.topic] === slug).length;
+    const wellCount = ofSite('maryswell');
     await page.goto('/en/gallery');
-    await expect(page.getByRole('status')).toHaveText('80 photos');
-    await page.getByRole('button', { name: "Mary's Well 7", exact: true }).click();
-    await expect(page.getByRole('status')).toHaveText('7 photos');
+    await expect(page.getByRole('status')).toHaveText(`${MEDIA.length} photos`);
+    await page.getByRole('button', { name: `Mary's Well ${wellCount}`, exact: true }).click();
+    await expect(page.getByRole('status')).toHaveText(`${wellCount} photos`);
     await expect(page).toHaveURL(/site=maryswell/);
+    await expect(page.locator('#gallery-well')).toBeVisible();
+    await expect(page.locator('#gallery-basilica')).toHaveCount(0);
 
     await page.reload();
-    await expect(page.getByRole('status')).toHaveText('7 photos');
+    await expect(page.getByRole('status')).toHaveText(`${wellCount} photos`);
 
-    await page.getByRole('button', { name: /photo 1 of 7/ }).click();
+    await page.getByRole('button', { name: new RegExp(`photo 1 of ${wellCount}`) }).click();
     const dialog = page.getByRole('dialog');
     await expect(dialog).toBeVisible();
     await page.keyboard.press('ArrowRight');
-    await expect(dialog.getByRole('img')).toHaveAttribute('alt', /photo 2 of 7/);
+    await expect(dialog.getByRole('img')).toHaveAttribute('alt', new RegExp(`photo 2 of ${wellCount}`));
     await page.keyboard.press('Escape');
     await expect(dialog).toHaveCount(0);
-    await expect(page.getByRole('button', { name: /photo 1 of 7/ })).toBeFocused();
+    await expect(page.getByRole('button', { name: new RegExp(`photo 1 of ${wellCount}`) })).toBeFocused();
   });
 });
 

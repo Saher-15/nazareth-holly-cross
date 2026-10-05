@@ -19,7 +19,7 @@
 }
 .dialog[open] {
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
   animation: fade-in 0.25s ease both;
 }
 .dialog::backdrop {
@@ -101,6 +101,25 @@
   border: 3px solid var(--glass-line);
   border-top-color: var(--gold);
   animation: spin 0.9s linear infinite;
+}
+
+/* Photographer, licence and source of a licensed photo. */
+.credit {
+  margin: 0;
+  padding: 10px 16px 0;
+  text-align: center;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--muted);
+}
+.credit a {
+  color: var(--gold);
+  text-underline-offset: 3px;
+}
+.dialog a:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 .nav {

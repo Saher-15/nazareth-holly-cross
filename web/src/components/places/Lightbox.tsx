@@ -1,10 +1,11 @@
 'use client';
 
-import Image, { getImageProps } from 'next/image';
+import { getImageProps } from 'next/image';
 import { useCallback, useEffect, useRef, useState, type MouseEvent, type RefObject, type TouchEvent } from 'react';
 import type { Photo } from '@/data/places/places';
 import { keyStep, stepIndex, swipeStep } from './galleryLogic';
 import { ChevronIcon, CloseIcon } from './icons';
+import PhotoImage from './PhotoImage';
 import styles from './Lightbox.module.css';
 
 const SIZES = '100vw';
@@ -19,6 +20,8 @@ type Props = {
   /** Accessible name of the dialog. */
   label: string;
   altOf: (index: number) => string;
+  /** Caption under the photo: who took it, the licence and where to see the source (licensed photos only). */
+  creditOf?: (index: number) => { text: string; sourceUrl: string; sourceLabel: string } | null;
   labels: { close: string; prev: string; next: string };
   rtl: boolean;
   /** Gets the focus back when the viewer closes (the photo that opened it). */
@@ -37,6 +40,7 @@ export default function Lightbox({
   title,
   label,
   altOf,
+  creditOf,
   labels,
   rtl,
   returnFocus,
@@ -83,7 +87,7 @@ export default function Lightbox({
       }
       const dialog = dialogRef.current;
       if (e.key !== 'Tab' || !dialog) return;
-      const buttons = Array.from(dialog.querySelectorAll<HTMLButtonElement>('button:not([disabled])'));
+      const buttons = Array.from(dialog.querySelectorAll<HTMLElement>('button:not([disabled]), a[href]'));
       if (!buttons.length) return;
       const first = buttons[0];
       const last = buttons[buttons.length - 1];
@@ -102,6 +106,7 @@ export default function Lightbox({
     if (total < 2) return;
     for (const delta of [1, -1]) {
       const next = photos[stepIndex(index, delta, total)];
+      if (next.media) continue; // the browser picks AVIF or WebP itself; warming only works for the next/image files
       const { props } = getImageProps({ src: next.src, width: next.width, height: next.height, alt: '', sizes: SIZES });
       const img = new window.Image();
       if (props.sizes) img.sizes = props.sizes;
@@ -126,10 +131,11 @@ export default function Lightbox({
 
   // Any click that is not on a control (the dimmed area, the photo) closes the viewer.
   const onClick = (e: MouseEvent) => {
-    if (!(e.target as Element).closest('button')) onClose();
+    if (!(e.target as Element).closest('button, a')) onClose();
   };
 
   const isLoaded = loadedSrc === photo.src;
+  const credit = creditOf?.(index) ?? null;
 
   return (
     // The keyboard is handled on the document above; the click only adds a pointer shortcut to "Close".
@@ -160,15 +166,14 @@ export default function Lightbox({
 
       <div className={styles.stage}>
         {!isLoaded && <span className={styles.spinner} aria-hidden="true" />}
-        <Image
+        <PhotoImage
           key={photo.src}
           className={`${styles.img} ${isLoaded ? styles.loaded : ''}`}
-          src={photo.src}
-          width={photo.width}
-          height={photo.height}
+          photo={photo}
+          fill={false}
           sizes={SIZES}
           alt={altOf(index)}
-          loading="eager"
+          priority
           draggable={false}
           onLoad={() => setLoadedSrc(photo.src)}
           onError={() => setLoadedSrc(photo.src)}
@@ -178,6 +183,16 @@ export default function Lightbox({
       <p className="visually-hidden" aria-live="polite">
         {altOf(index)}
       </p>
+
+      {credit && (
+        <p className={styles.credit}>
+          {credit.text}
+          {' · '}
+          <a href={credit.sourceUrl} target="_blank" rel="noopener noreferrer">
+            {credit.sourceLabel}
+          </a>
+        </p>
+      )}
 
       {total > 1 && (
         <div className={styles.nav}>
