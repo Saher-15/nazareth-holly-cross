@@ -16,7 +16,8 @@ const RULES = [
   ['server setting name', /\b(JWT_SECRET|ADMIN_PASSWORD|MAIL_APP_PASSWORD|CLIENT_SECRET|DATABASEURL)\b/],
   ['database connection string', /mongodb(\+srv)?:\/\/[^\s"'`]+/],
   ['private key', /-----BEGIN [A-Z ]*PRIVATE KEY-----/],
-  ['PayPal secret-shaped token', /\bE[A-Za-z0-9_-]{70,90}\b/],
+  // Not inside a longer base64 run: embedded assets (fonts, images, source maps) contain such runs.
+  ['PayPal secret-shaped token', /(?<![A-Za-z0-9+/=_-])E[A-Za-z0-9_-]{70,90}(?![A-Za-z0-9+/=_-])/],
   ['GitHub token', /\bgh[pousr]_[A-Za-z0-9]{36,}\b/],
   ['Slack token', /\bxox[abprs]-[A-Za-z0-9-]{10,}\b/],
   ['AWS access key', /\bAKIA[0-9A-Z]{16}\b/],
