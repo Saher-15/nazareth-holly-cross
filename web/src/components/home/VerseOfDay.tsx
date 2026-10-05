@@ -15,6 +15,7 @@ export default function VerseOfDay({ id, locale, now = new Date() }: Props) {
     day: 'numeric',
     month: 'long',
     timeZone: NAZARETH_TIME_ZONE,
+    numberingSystem: 'latn',
   }).format(now);
 
   return (

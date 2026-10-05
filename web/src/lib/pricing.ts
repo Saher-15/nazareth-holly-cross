@@ -16,4 +16,4 @@ export function orderSummary(lines: PricedLine[]) {
 }
 
 export const formatUsd = (amount: number, locale = 'en') =>
-  new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD' }).format(amount);
+  new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD', numberingSystem: 'latn' }).format(amount);

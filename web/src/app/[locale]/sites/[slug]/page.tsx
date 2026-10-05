@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { PLACE_SLUGS, getPlace, placeCards, placeHref } from '@/data/places/places';
-import { breadcrumbJsonLd, pageMetadata, placeJsonLd } from '@/data/places/seo';
+import { breadcrumbJsonLd, pageMetadata, placeJsonLd, webPageJsonLd } from '@/data/places/seo';
 import ExternalLink from '@/components/places/ExternalLink';
 import JsonLd from '@/components/places/JsonLd';
 import PlaceCards from '@/components/places/PlaceCards';
@@ -47,6 +47,7 @@ export default async function PlacePage({ params }: PageProps<'/[locale]/sites/[
   const name = t(place.nameKey);
   const count = place.photos.length;
   const jsonLd = [
+    webPageJsonLd(locale, { path: placeHref(place.slug), name, description: t(`placesPage.teaser.${place.slug}`) }),
     placeJsonLd(place, { locale, name, description: t(`placesPage.teaser.${place.slug}`) }),
     breadcrumbJsonLd(locale, [
       { name: t('site.nav.home'), path: '/' },

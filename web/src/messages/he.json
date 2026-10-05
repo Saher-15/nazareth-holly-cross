@@ -23,7 +23,7 @@
       "explore": "גלו",
       "contact": "צרו קשר",
       "follow": "עקבו אחרינו",
-      "rights": "© {year} Nazareth Holy Cross. כל הזכויות שמורות."
+      "rights": "\u2066© {year} Nazareth Holy Cross\u2069. כל הזכויות שמורות."
     },
     "notFound": {
       "title": "לא מצאנו את הדף הזה",
@@ -478,10 +478,10 @@
       "follow": "עקבו אחרינו באינסטגרם",
       "eventStarted": "השידור התחיל",
       "units": {
-        "days": "ימים",
-        "hours": "שעות",
-        "minutes": "דקות",
-        "seconds": "שניות"
+        "days": "{count, plural, one {יום} other {ימים}}",
+        "hours": "{count, plural, one {שעה} other {שעות}}",
+        "minutes": "{count, plural, one {דקה} other {דקות}}",
+        "seconds": "{count, plural, one {שנייה} other {שניות}}"
       },
       "pastEyebrow": "לצפייה חוזרת",
       "videoFallback": "הדפדפן שלכם לא יכול להפעיל את הסרטון הזה.",
@@ -493,13 +493,13 @@
   "shopPage": {
     "meta": {
       "shopTitle": "מזכרות מנצרת",
-      "shopDescription": "מחרוזות תפילה, צלבים מעץ זית, ויטראז'ים ומזכרות מעיר הבשורה, במשלוח עד הבית.",
+      "shopDescription": "מחרוזות תפילה, צלבים מעץ זית, ויטראז׳ים ומזכרות מעיר הבשורה, במשלוח עד הבית.",
       "productDescription": "{name} – מזכרת מנצרת, במשלוח עד הבית מעיר הבשורה.",
       "cartTitle": "סל הקניות שלכם",
       "cartDescription": "בדקו את המזכרות שבסל לפני התשלום."
     },
     "heroTitle": "מזכרות מנצרת",
-    "heroLead": "מחרוזות תפילה, צלבים, ויטראז'ים ומזכרות מעיר הבשורה, במשלוח עד הבית.",
+    "heroLead": "מחרוזות תפילה, צלבים, ויטראז׳ים ומזכרות מעיר הבשורה, במשלוח עד הבית.",
     "filtersLabel": "חיפוש ומיון מוצרים",
     "searchLabel": "חיפוש מוצרים",
     "clearSearch": "ניקוי החיפוש",
@@ -557,7 +557,7 @@
       "candleTitle": "הדלקת נר בנצרת",
       "candleDescription": "בחרו כנסייה בנצרת וכתבו את תפילתכם. נדליק עבורכם נר ונשלח אליכם את הסרטון.",
       "donateTitle": "תרומה",
-      "donateDescription": "תמכו ב-Nazareth Holy Cross בתרומה, בתשלום מאובטח באמצעות PayPal."
+      "donateDescription": "תמכו ב־Nazareth Holy Cross בתרומה, בתשלום מאובטח באמצעות PayPal."
     },
     "hero": {
       "eyebrow": "תשלום מאובטח",
@@ -586,7 +586,7 @@
         "tooLong": "ניתן להזין עד {max} תווים.",
         "email": "יש להזין כתובת דוא״ל תקינה, למשל name@example.com.",
         "phone": "יש להזין מספר טלפון תקין, כולל קידומת המדינה.",
-        "amount": "יש להזין סכום בין {min} ל-{max}."
+        "amount": "יש להזין סכום בין {min} ל־{max}."
       }
     },
     "summary": {
@@ -600,7 +600,7 @@
     "payment": {
       "loading": "PayPal נטען…",
       "unavailable": "לא ניתן היה לטעון את PayPal. בדקו את החיבור או כבו חוסמי תוכן, ואז טענו את הדף מחדש.",
-      "secured": "תשלום מאובטח עם PayPal. אנחנו אף פעם לא רואים את פרטי הכרטיס שלכם.",
+      "secured": "תשלום מאובטח באמצעות PayPal. אנחנו אף פעם לא רואים את פרטי הכרטיס שלכם.",
       "cancelled": "התשלום בוטל. לא חויבתם.",
       "errors": {
         "start": "לא הצלחנו להתחיל את התשלום. נסו שוב.",

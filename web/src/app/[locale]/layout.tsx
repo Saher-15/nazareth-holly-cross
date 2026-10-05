@@ -8,6 +8,7 @@ import { CartProvider } from '@/lib/cart';
 import { isRtl, locales, routing } from '@/i18n/routing';
 import { SITE_URL } from '@/lib/config';
 import { fontVariables } from '@/lib/fonts';
+import { openGraphLocale } from '@/lib/seo';
 import '@/styles/globals.css';
 
 export function generateStaticParams() {
@@ -31,7 +32,7 @@ export async function generateMetadata({ params }: LayoutProps<'/[locale]'>): Pr
       siteName: 'Nazareth Holy Cross',
       title: t('title'),
       description: t('description'),
-      locale,
+      ...openGraphLocale(locale),
     },
   };
 }

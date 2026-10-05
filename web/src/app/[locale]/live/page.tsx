@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/live'>):
  * render (at most hourly, see `revalidate`), like any other data; in the browser the player then follows
  * the visitor's own clock.
  */
-async function loadLiveData() {
+async function loadLiveData(locale: string) {
   const [t, all, site, format] = await Promise.all([
     getTranslations('communityPage.live'),
     getTranslations(),
@@ -53,7 +53,7 @@ async function loadLiveData() {
       id: b.id,
       start: start.getTime(),
       title: t(`events.${b.titleKey}`),
-      when: format.dateTime(start, { dateStyle: 'full', timeStyle: 'short', timeZone: NAZARETH_TIME_ZONE }),
+      when: format.dateTime(start, { dateStyle: 'full', timeStyle: 'short', timeZone: NAZARETH_TIME_ZONE, numberingSystem: 'latn' }),
     };
   });
 
@@ -61,6 +61,15 @@ async function loadLiveData() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
+      {
+        '@type': 'WebPage',
+        '@id': `${SITE_URL}/${locale}/live#webpage`,
+        url: `${SITE_URL}/${locale}/live`,
+        name: t('metaTitle'),
+        description: t('metaDescription'),
+        inLanguage: locale,
+        isPartOf: { '@id': `${SITE_URL}/#website` },
+      },
       ...pastBroadcasts.map((video) => ({
         '@type': 'VideoObject',
         name: all(`videos.${video.messageKey}.title`),
@@ -90,7 +99,7 @@ async function loadLiveData() {
 export default async function LivePage({ params }: PageProps<'/[locale]/live'>) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const { t, all, renderedAt, schedule, jsonLd } = await loadLiveData();
+  const { t, all, renderedAt, schedule, jsonLd } = await loadLiveData(locale);
 
   return (
     <div className={`ui-page ${styles.page}`}>

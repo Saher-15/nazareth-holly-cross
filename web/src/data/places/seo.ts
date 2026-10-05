@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { locales } from '@/i18n/routing';
 import { SITE_URL } from '@/lib/config';
+import { openGraphLocale } from '@/lib/seo';
 import type { Photo, Place } from './places';
 
 // Metadata and schema.org JSON-LD for the holy sites, tour and about pages.
@@ -29,7 +30,7 @@ export function pageMetadata({ locale, path, title, description, image }: PageMe
       siteName: 'Nazareth Holy Cross',
       title,
       description,
-      locale,
+      ...openGraphLocale(locale),
       url: localePath(locale, path),
       ...(image && { images: [{ url: image.src, width: image.width, height: image.height }] }),
     },
@@ -91,6 +92,24 @@ export function itemListJsonLd(
       name: item.name,
       url: absoluteUrl(localePath(locale, item.path)),
     })),
+  };
+}
+
+/** The page itself as a WebPage: its language (inLanguage) and the site it belongs to. */
+export function webPageJsonLd(
+  locale: string,
+  { path, name, description }: { path: string; name: string; description: string },
+): JsonLd {
+  const url = absoluteUrl(localePath(locale, path));
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': `${url}#webpage`,
+    url,
+    name,
+    description,
+    inLanguage: locale,
+    isPartOf: { '@id': `${SITE_URL}/#website` },
   };
 }
 

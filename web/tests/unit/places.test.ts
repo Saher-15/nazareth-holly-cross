@@ -22,6 +22,7 @@ import {
   placeJsonLd,
   serializeJsonLd,
 } from '@/data/places/seo';
+import { locales } from '@/i18n/routing';
 
 type Messages = { [key: string]: string | Messages };
 const english = JSON.parse(readFileSync(join(__dirname, '../../src/messages/en.json'), 'utf8')) as Messages;
@@ -156,7 +157,7 @@ describe('seo', () => {
     const meta = pageMetadata({ locale: 'he', path: '/sites/latin', title: 'T', description: 'D' });
     expect(meta.alternates?.canonical).toBe('/he/sites/latin');
     const languages = meta.alternates?.languages as Record<string, string>;
-    expect(Object.keys(languages)).toHaveLength(12); // 11 languages + x-default
+    expect(Object.keys(languages)).toHaveLength(locales.length + 1); // every language + x-default
     expect(languages.ar).toBe('/ar/sites/latin');
     expect(languages['x-default']).toBe('/en/sites/latin');
     expect(localePath('fr', '/')).toBe('/fr');

@@ -1,20 +1,19 @@
 'use client';
 
-import { useEffect, useRef, useState, useTransition } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { useParams } from 'next/navigation';
-import { usePathname, useRouter } from '@/i18n/navigation';
+import { Link, usePathname } from '@/i18n/navigation';
 import { locales, localeNames, type Locale } from '@/i18n/routing';
 import styles from './LanguageSwitcher.module.css';
 
+// The language menu. Every language is a real link to the same page in that language (so it works
+// without JavaScript, can be opened in a new tab and is found by search engines); next-intl remembers
+// the choice in the NEXT_LOCALE cookie when one is followed.
 export default function LanguageSwitcher() {
   const t = useTranslations('site');
   const current = useLocale() as Locale;
-  const router = useRouter();
   const pathname = usePathname();
-  const params = useParams();
   const [open, setOpen] = useState(false);
-  const [pending, startTransition] = useTransition();
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -33,18 +32,6 @@ export default function LanguageSwitcher() {
     };
   }, [open]);
 
-  const choose = (locale: Locale) => {
-    setOpen(false);
-    startTransition(() => {
-      // Same page in the other language: /en/shop/123 -> /he/shop/123
-      router.replace(
-        // @ts-expect-error -- the current route's params are passed through unchanged
-        { pathname, params },
-        { locale },
-      );
-    });
-  };
-
   return (
     <div className={styles.root} ref={ref}>
       <button
@@ -53,7 +40,6 @@ export default function LanguageSwitcher() {
         aria-haspopup="true"
         aria-expanded={open}
         aria-label={`${t('language')}: ${localeNames[current]}`}
-        disabled={pending}
         onClick={() => setOpen((v) => !v)}
       >
         <span aria-hidden="true">🌐</span>
@@ -63,15 +49,18 @@ export default function LanguageSwitcher() {
         <ul className={styles.menu} aria-label={t('language')}>
           {locales.map((locale) => (
             <li key={locale}>
-              <button
-                type="button"
+              <Link
+                href={pathname}
+                locale={locale}
                 lang={locale}
+                hrefLang={locale}
+                prefetch={false}
                 className={styles.option}
                 aria-current={locale === current ? 'true' : undefined}
-                onClick={() => choose(locale)}
+                onClick={() => setOpen(false)}
               >
                 {localeNames[locale]}
-              </button>
+              </Link>
             </li>
           ))}
         </ul>

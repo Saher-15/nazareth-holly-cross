@@ -11,5 +11,7 @@ export default defineConfig({
     environment: 'jsdom',
     include: ['tests/unit/**/*.test.{ts,tsx}'],
     setupFiles: ['./tests/unit/setup.ts'],
+    // next-intl's middleware imports "next/server" without the .js extension; let Vite resolve it (proxy.test.ts).
+    server: { deps: { inline: ['next-intl'] } },
   },
 });

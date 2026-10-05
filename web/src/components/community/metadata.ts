@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { locales } from '@/i18n/routing';
+import { openGraphLocale, pageAlternates } from '@/lib/seo';
 
 type Options = {
   locale: string;
@@ -18,16 +18,13 @@ export function communityMetadata({ locale, path, title, description, siteName, 
   return {
     title,
     description,
-    alternates: {
-      canonical: url,
-      languages: { ...Object.fromEntries(locales.map((l) => [l, `/${l}${path}`])), 'x-default': `/en${path}` },
-    },
+    alternates: pageAlternates(locale, path),
     openGraph: {
       type: 'website',
       siteName,
       title,
       description,
-      locale,
+      ...openGraphLocale(locale),
       url,
       ...(image ? { images: [{ url: image }] } : {}),
     },

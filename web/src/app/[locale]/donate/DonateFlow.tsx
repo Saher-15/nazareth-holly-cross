@@ -34,6 +34,7 @@ const wholeUsd = (amount: number, locale: string) =>
     currency: 'USD',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
+    numberingSystem: 'latn',
   }).format(amount);
 
 // 1) name + amount, 2) summary + PayPal, 3) thank you. The API checks the amount (1–5000 USD).

@@ -3,7 +3,7 @@ import { getImageProps } from 'next/image';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { PLACES, TOUR_CARD, photo, placeCards, placeHref } from '@/data/places/places';
-import { absoluteUrl, breadcrumbJsonLd, localePath, pageMetadata } from '@/data/places/seo';
+import { absoluteUrl, breadcrumbJsonLd, localePath, pageMetadata, webPageJsonLd } from '@/data/places/seo';
 import JsonLd from '@/components/places/JsonLd';
 import PlaceCards from '@/components/places/PlaceCards';
 import PlaceHero from '@/components/places/PlaceHero';
@@ -36,6 +36,11 @@ export default async function TourPage({ params }: PageProps<'/[locale]/tour'>) 
   const { props: poster } = getImageProps({ src: POSTER.src, width: POSTER.width, height: POSTER.height, alt: '' });
 
   const jsonLd = [
+    webPageJsonLd(locale, {
+      path: '/tour',
+      name: t('placesPage.meta.tourTitle'),
+      description: t('placesPage.meta.tourDescription'),
+    }),
     {
       '@context': 'https://schema.org',
       '@type': 'TouristTrip',

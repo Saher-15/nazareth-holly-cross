@@ -74,14 +74,16 @@ export default function LivePlayer({ broadcasts, renderedAt, joinUrl, titleId, b
                     <span className={styles.started}>{t('live.eventStarted')}</span>
                   ) : (
                     <span className={styles.countdown} role="timer">
-                      {UNITS.map((unit) => (
-                        <span key={unit} className={styles.unit}>
-                          <span className={styles.value}>
-                            {hydrated ? String(countdownParts(event.start - now)[unit]).padStart(2, '0') : '--'}
+                      {UNITS.map((unit) => {
+                        const value = countdownParts(event.start - now)[unit];
+                        return (
+                          <span key={unit} className={styles.unit}>
+                            <span className={styles.value}>{hydrated ? String(value).padStart(2, '0') : '--'}</span>
+                            {/* A plural message, so the label agrees with the number (1 day, 2 days; Russian 1 день, 5 дней). */}
+                            <span className={styles.unitLabel}>{t(`live.units.${unit}`, { count: value })}</span>
                           </span>
-                          <span className={styles.unitLabel}>{t(`live.units.${unit}`)}</span>
-                        </span>
-                      ))}
+                        );
+                      })}
                     </span>
                   )}
                 </dd>

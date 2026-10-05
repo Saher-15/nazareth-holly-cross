@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
-import { locales } from '@/i18n/routing';
+import { openGraphLocale, pageAlternates } from '@/lib/seo';
 
 type Flow = 'checkout' | 'candle' | 'donate';
 
@@ -15,16 +15,13 @@ export async function flowMetadata(locale: string, flow: Flow, { index = true } 
   return {
     title,
     description,
-    alternates: {
-      canonical: `/${locale}${path}`,
-      languages: Object.fromEntries(locales.map((l) => [l, `/${l}${path}`])),
-    },
+    alternates: pageAlternates(locale, path),
     openGraph: {
       type: 'website',
       siteName: site('name'),
       title,
       description,
-      locale,
+      ...openGraphLocale(locale),
       url: `/${locale}${path}`,
     },
     robots: index ? undefined : { index: false, follow: true },

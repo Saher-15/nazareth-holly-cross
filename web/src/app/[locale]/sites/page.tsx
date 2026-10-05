@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { PLACES, TOUR_CARD, photo, placeHref } from '@/data/places/places';
-import { breadcrumbJsonLd, itemListJsonLd, pageMetadata } from '@/data/places/seo';
+import { breadcrumbJsonLd, itemListJsonLd, pageMetadata, webPageJsonLd } from '@/data/places/seo';
 import JsonLd from '@/components/places/JsonLd';
 import PlaceHero from '@/components/places/PlaceHero';
 import SiteList from '@/components/places/SiteList';
@@ -32,6 +32,11 @@ export default async function SitesPage({ params }: PageProps<'/[locale]/sites'>
   const t = await getTranslations();
 
   const jsonLd = [
+    webPageJsonLd(locale, {
+      path: '/sites',
+      name: t('placesPage.meta.sitesTitle'),
+      description: t('placesPage.meta.sitesDescription'),
+    }),
     itemListJsonLd(
       locale,
       t('placesPage.meta.sitesTitle'),

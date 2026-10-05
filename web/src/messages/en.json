@@ -478,10 +478,10 @@
       "follow": "Follow us on Instagram",
       "eventStarted": "The event has started",
       "units": {
-        "days": "Days",
-        "hours": "Hours",
-        "minutes": "Minutes",
-        "seconds": "Seconds"
+        "days": "{count, plural, one {Day} other {Days}}",
+        "hours": "{count, plural, one {Hour} other {Hours}}",
+        "minutes": "{count, plural, one {Minute} other {Minutes}}",
+        "seconds": "{count, plural, one {Second} other {Seconds}}"
       },
       "pastEyebrow": "Watch again",
       "videoFallback": "Your browser cannot play this video.",

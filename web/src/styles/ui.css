@@ -101,6 +101,7 @@
 /* Letter-spacing breaks Arabic letter joining and looks wrong in Hebrew. */
 :lang(he) .ui-eyebrow,
 :lang(ar) .ui-eyebrow,
+:lang(he) .ui-btn,
 :lang(ar) .ui-btn {
   letter-spacing: 0;
 }
