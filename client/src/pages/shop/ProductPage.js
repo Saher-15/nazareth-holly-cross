@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import "../shop/productPage.css";
 import { useShopContext } from "../../context/shop-context";
-import { nanoid } from "nanoid";
 import LoadingLogo from './loading'; // Import your LoadingLogo component
 import { useTranslation } from 'react-i18next'; // Import the translation hook
 import { API_URL } from '../../config';
@@ -182,7 +181,7 @@ const ProductPage = () => {
           <div className="other-product-images">
             <img
               src={img}
-              key={nanoid()}
+              key="main"
               onClick={() => handleImageClick(0)} // Handle click for the main image
               alt={name}
               className={`thumbnail ${currentImage === 0 ? 'active' : ''}`}
@@ -190,7 +189,7 @@ const ProductPage = () => {
             {additionalImageUrls.map((imageObj, index) => (
               <img
                 src={imageObj}
-                key={nanoid()}
+                key="main"
                 onClick={() => handleImageClick(index + 1)} // Handle click for additional images
                 alt={name}
                 className={`thumbnail ${currentImage === index + 1 ? 'active' : ''}`}
