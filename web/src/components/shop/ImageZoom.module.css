@@ -1,0 +1,108 @@
+/* Zoom dialog: fills the screen, photo centred, dimmed and blurred page behind. */
+.dialog {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: 72px 16px 24px;
+  border: 0;
+  background: transparent;
+  color: var(--cream);
+  font-family: var(--sans);
+}
+.dialog[open] {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 14px;
+  animation: fade 0.25s ease both;
+}
+.dialog::backdrop {
+  background: color-mix(in srgb, var(--night) 92%, transparent);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+/* keep the page behind from scrolling while the photo is open */
+:global(html):has(.dialog[open]) {
+  overflow: hidden;
+}
+
+.frame {
+  position: relative;
+  width: min(92vw, calc(100vh - 160px), 760px);
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--cream);
+  box-shadow: var(--shadow);
+  cursor: zoom-in;
+  touch-action: none; /* a finger drag pans the magnified photo instead of the page */
+}
+.img {
+  object-fit: contain;
+  transition: transform 0.25s ease;
+}
+.frame[data-zoomed='true'] {
+  cursor: crosshair;
+}
+.frame[data-zoomed='true'] .img {
+  transform: scale(2.2);
+}
+
+.close {
+  position: absolute;
+  top: 16px;
+  inset-inline-end: 16px;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-line);
+  background: var(--glass-strong);
+  color: var(--cream);
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+.close:hover {
+  background: var(--gold);
+  color: var(--night);
+}
+.close:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 3px;
+}
+
+.hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  text-align: center;
+}
+@media (hover: none) {
+  .hint {
+    display: none;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dialog[open] {
+    animation: none;
+  }
+  .img {
+    transition: none;
+  }
+}

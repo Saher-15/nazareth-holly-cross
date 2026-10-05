@@ -1,0 +1,83 @@
+.pill {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-line);
+  background: var(--glass);
+  color: var(--cream);
+  font: 700 0.9rem / 1 var(--sans);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.pill:hover {
+  background: var(--glass-strong);
+  border-color: color-mix(in srgb, var(--gold) 60%, transparent);
+}
+
+.icon {
+  color: var(--gold);
+  font-size: 1.15rem;
+}
+
+.count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--gold) 55%, var(--cream)), var(--gold) 55%, var(--gold-deep));
+  color: var(--night);
+  font-size: 0.8rem;
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+  animation: bump 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@keyframes bump {
+  0% {
+    transform: scale(0.6);
+  }
+  60% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: none;
+  }
+}
+
+/* very small phones: icon + count only (the link keeps its full aria-label) */
+@media (max-width: 400px) {
+  .pill {
+    padding-inline: 14px;
+  }
+  .label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pill {
+    transition: none;
+  }
+  .count {
+    animation: none;
+  }
+}

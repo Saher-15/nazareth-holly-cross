@@ -1,0 +1,9 @@
+.icon {
+  flex: none;
+  display: inline-block;
+  vertical-align: -0.125em;
+}
+
+:global([dir='rtl']) .mirror {
+  transform: scaleX(-1);
+}

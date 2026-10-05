@@ -1,0 +1,12 @@
+/* Cart page: a shorter header without a photo, blending into the page background. */
+.page {
+  --shop-sticky-top: 68px;
+  color-scheme: dark;
+}
+.page :global(.ui-hero) {
+  min-height: clamp(200px, 30vh, 300px);
+  padding-bottom: 32px;
+}
+.page :global(.ui-hero)::after {
+  display: none;
+}
