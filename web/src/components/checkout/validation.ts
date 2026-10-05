@@ -39,9 +39,16 @@ function confirmation(value: string, original: string): FieldError | undefined {
   return value.trim().toLowerCase() === original.trim().toLowerCase() ? undefined : 'emailMismatch';
 }
 
+// Arabic-Indic (٠-٩) and Extended Arabic-Indic (۰-۹) digits, as typed on Arabic and Persian keyboards,
+// become 0-9: the team reads the number and the API stores it as written.
+export const asciiDigits = (value: string) =>
+  value
+    .replace(/[٠-٩]/g, (d) => String(d.charCodeAt(0) - 0x0660))
+    .replace(/[۰-۹]/g, (d) => String(d.charCodeAt(0) - 0x06f0));
+
 // Digits with the usual separators: "+972 52-123 4567", "(555) 010-2030".
 export function isPhone(value: string): boolean {
-  const v = value.trim();
+  const v = asciiDigits(value.trim());
   if (!/^\+?[\d\s().-]+$/.test(v)) return false;
   const digits = v.replace(/\D/g, '').length;
   return digits >= 6 && digits <= 20;
@@ -104,7 +111,7 @@ export function buildOrderBody(f: ContactForm, lines: OrderLine[], totalPrice: n
   return {
     firstName: f.firstName.trim(),
     lastName: f.lastName.trim(),
-    phone: f.phone.trim(),
+    phone: asciiDigits(f.phone.trim()),
     email: f.email.trim(),
     street: f.street.trim(),
     city: f.city.trim(),
@@ -170,11 +177,7 @@ export const DONATION_PRESETS = [10, 25, 50, 100] as const;
 
 // "25", "25.5", "25,50" and Arabic-Indic digits ("٢٥") all read as dollars; at most 2 decimals.
 export function parseAmount(input: string): number | null {
-  const v = input
-    .trim()
-    .replace(/[٠-٩]/g, (d) => String(d.charCodeAt(0) - 0x0660))
-    .replace(/[۰-۹]/g, (d) => String(d.charCodeAt(0) - 0x06f0))
-    .replace(/[,٫]/, '.');
+  const v = asciiDigits(input.trim()).replace(/[,٫]/, '.');
   if (!/^\d{1,7}(\.\d{1,2})?$/.test(v)) return null;
   return Number(v);
 }

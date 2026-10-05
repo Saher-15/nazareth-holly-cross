@@ -66,6 +66,13 @@
   color: var(--gold);
   box-shadow: 0 0 0 1px var(--gold);
 }
+/* Windows high contrast replaces the gold: mark the chosen amount with a thick system-colour outline. */
+@media (forced-colors: active) {
+  .selected {
+    outline: 3px solid Highlight;
+    outline-offset: 1px;
+  }
+}
 .amountInput {
   font-size: 1.15rem;
 }

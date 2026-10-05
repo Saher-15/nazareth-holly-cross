@@ -71,6 +71,13 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       { source: '/:path*', headers: securityHeaders },
+      // Photos and sounds in public/ are not fingerprinted, so by default the browser re-asks the server on every
+      // visit (max-age=0). A day of freshness plus a week of stale-while-revalidate keeps repeat visits fast and
+      // still lets a replaced file show up within a day.
+      {
+        source: '/:folder(images|sounds)/:path*',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=604800' }],
+      },
       // public/sw.js retires the service worker an older version of the site installed; never cache it.
       { source: '/sw.js', headers: [{ key: 'Cache-Control', value: 'no-cache, no-store, must-revalidate' }] },
     ];

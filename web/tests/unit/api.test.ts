@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest';
-import { catalogProductSchema, productSchema } from '@/lib/api';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import { api, catalogProductSchema, productSchema, retryDelayMs } from '@/lib/api';
 
 describe('productSchema', () => {
   const raw = {
@@ -41,5 +41,58 @@ describe('null-tolerant schemas (live records hold null in optional fields)', ()
     expect(p.category).toBe('gifts');
     expect(p.materials).toEqual(['gold']);
     expect(p.rating).toEqual({ avg: 0, count: 0 });
+  });
+});
+
+describe('reading from the API retries a rate limit', () => {
+  const review = { _id: 'r1', fullName: 'Maria', email: 'Israel', msg: 'Beautiful' };
+  const reply = (status: number, body: unknown = [], headers: Record<string, string> = {}) =>
+    new Response(JSON.stringify(body), { status, headers });
+
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.unstubAllGlobals();
+  });
+
+  it('QA-09 answers after a 429 followed by a success, honouring Retry-After', async () => {
+    vi.useFakeTimers();
+    const fetchMock = vi.fn().mockResolvedValueOnce(reply(429, {}, { 'Retry-After': '1' })).mockResolvedValueOnce(reply(200, [review]));
+    vi.stubGlobal('fetch', fetchMock);
+    const pending = api.reviews();
+    await vi.advanceTimersByTimeAsync(1000);
+    await expect(pending).resolves.toEqual([review]);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it('gives up after two retries with the status of the last answer', async () => {
+    vi.useFakeTimers();
+    const fetchMock = vi.fn().mockImplementation(() => Promise.resolve(reply(503, {})));
+    vi.stubGlobal('fetch', fetchMock);
+    const assertion = expect(api.reviews()).rejects.toMatchObject({ name: 'ApiError', status: 503 });
+    await vi.advanceTimersByTimeAsync(10_000);
+    await assertion;
+    expect(fetchMock).toHaveBeenCalledTimes(3);
+  });
+
+  it('does not retry a Cloudflare challenge, which only gets worse when asked again', async () => {
+    const fetchMock = vi.fn().mockImplementation(() => Promise.resolve(reply(429, {}, { 'cf-mitigated': 'challenge' })));
+    vi.stubGlobal('fetch', fetchMock);
+    await expect(api.reviews()).rejects.toMatchObject({ status: 429 });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not retry a missing page', async () => {
+    const fetchMock = vi.fn().mockImplementation(() => Promise.resolve(reply(404, {})));
+    vi.stubGlobal('fetch', fetchMock);
+    await expect(api.reviews()).rejects.toMatchObject({ status: 404 });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('waits at most 3 seconds, however long the API asks', () => {
+    expect(retryDelayMs(0, '120')).toBe(3000);
+    expect(retryDelayMs(0, '1')).toBe(1000);
+    expect(retryDelayMs(1, null)).toBeGreaterThanOrEqual(800);
+    expect(retryDelayMs(1, null)).toBeLessThan(1200);
+    expect(retryDelayMs(0, 'Wed, 21 Oct 2026 07:28:00 GMT')).toBeLessThan(800);
   });
 });

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { locales } from '@/i18n/routing';
+import { ogLocale } from '@/lib/seo';
 
 type Options = {
   locale: string;
@@ -27,7 +28,7 @@ export function communityMetadata({ locale, path, title, description, siteName, 
       siteName,
       title,
       description,
-      locale,
+      locale: ogLocale(locale),
       url,
       ...(image ? { images: [{ url: image }] } : {}),
     },

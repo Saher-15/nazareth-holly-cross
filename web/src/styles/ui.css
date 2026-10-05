@@ -76,19 +76,27 @@
 .ui-label { font-size: 0.85rem; color: var(--muted); }
 .ui-input, .ui-select, .ui-textarea {
   width: 100%; min-height: 46px; padding: 10px 14px;
-  border-radius: var(--radius-sm); border: 1px solid var(--glass-line);
+  border-radius: var(--radius-sm); border: 1px solid var(--field-line);
   background: rgba(255, 255, 255, 0.06); color: var(--cream);
   font: 1rem/1.4 var(--sans);
 }
 .ui-textarea { min-height: 120px; resize: vertical; }
 .ui-input::placeholder, .ui-textarea::placeholder { color: rgba(185, 191, 211, 0.7); }
 .ui-input:focus, .ui-select:focus, .ui-textarea:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-soft); }
+/* Forced-colors (Windows high contrast) drops box-shadow, so give the focused field a real outline. */
+@media (forced-colors: active) {
+  .ui-input:focus, .ui-select:focus, .ui-textarea:focus { outline: 3px solid Highlight; outline-offset: 2px; }
+}
 .ui-error { color: var(--danger); font-size: 0.9rem; }
 .ui-success { color: var(--success); }
 
 /* ---- scroll reveal (components/ui/Reveal.js) ---- */
 .ui-reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.8s ease, transform 0.8s cubic-bezier(.2, .7, .2, 1); }
 .ui-reveal.is-in { opacity: 1; transform: none; }
+/* Without JavaScript nothing would ever add .is-in, so the content would stay invisible. */
+@media (scripting: none) {
+  .ui-reveal { opacity: 1; transform: none; transition: none; }
+}
 @media (prefers-reduced-motion: reduce) {
   .ui-reveal { opacity: 1; transform: none; transition: none; }
   .ui-btn:hover { transform: none; }

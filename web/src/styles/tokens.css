@@ -14,6 +14,8 @@
   --glass: rgba(255, 255, 255, 0.07);
   --glass-strong: rgba(255, 255, 255, 0.12);
   --glass-line: rgba(255, 255, 255, 0.16);
+  /* Border of text fields: at least 3:1 against the night background (WCAG 1.4.11); --glass-line is only 1.6:1. */
+  --field-line: rgba(255, 255, 255, 0.45);
   /* next/font variables are set on <html> in app/[locale]/layout.tsx */
   --serif: var(--font-serif), Georgia, 'Times New Roman', serif;
   --sans: var(--font-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;

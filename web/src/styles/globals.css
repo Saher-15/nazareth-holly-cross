@@ -47,3 +47,15 @@ button, input, select, textarea { font: inherit; }
   overflow: hidden; clip: rect(0 0 0 0);
   white-space: nowrap; border: 0;
 }
+
+/* Windows high contrast removes the gold/background that shows "you are here" or "switched on";
+   an outline in the system highlight colour keeps those states visible. */
+@media (forced-colors: active) {
+  [aria-current='page'],
+  [aria-current='true'],
+  [aria-pressed='true'],
+  [data-state='current'] {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+}
