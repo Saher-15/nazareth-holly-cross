@@ -2,14 +2,13 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
-import { CONTACT_EMAIL, SITE_URL } from '@/lib/config';
-import { socialLinks } from '@/lib/site';
 import { photo } from '@/data/places/places';
-import { absoluteUrl, breadcrumbJsonLd, localePath, pageMetadata } from '@/data/places/seo';
-import JsonLd from '@/components/places/JsonLd';
 import PlaceHero from '@/components/places/PlaceHero';
 import { ArrowIcon, ChurchIcon, GiftIcon, HandsHeartIcon } from '@/components/places/icons';
+import JsonLd from '@/components/ui/JsonLd';
 import Reveal from '@/components/ui/Reveal';
+import { breadcrumbJsonLd, organizationJsonLd } from '@/lib/jsonld';
+import { absoluteUrl, localePath, pageMetadata } from '@/lib/seo';
 import styles from './page.module.css';
 
 const HERO = photo('greek', 10);
@@ -47,14 +46,7 @@ export default async function AboutPage({ params }: PageProps<'/[locale]/about'>
       description: t('placesPage.meta.aboutDescription'),
       url: absoluteUrl(localePath(locale, '/about')),
       inLanguage: locale,
-      mainEntity: {
-        '@type': 'Organization',
-        name: t('site.name'),
-        url: SITE_URL,
-        logo: absoluteUrl('/images/logo.webp'),
-        email: CONTACT_EMAIL,
-        sameAs: socialLinks.map((s) => s.href),
-      },
+      mainEntity: organizationJsonLd({ name: t('site.name') }),
     },
     breadcrumbJsonLd(locale, [
       { name: t('site.nav.home'), path: '/' },

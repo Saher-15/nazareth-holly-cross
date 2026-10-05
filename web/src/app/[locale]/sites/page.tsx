@@ -3,12 +3,13 @@ import Image from 'next/image';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { PLACES, TOUR_CARD, photo, placeHref } from '@/data/places/places';
-import { breadcrumbJsonLd, itemListJsonLd, pageMetadata } from '@/data/places/seo';
-import JsonLd from '@/components/places/JsonLd';
 import PlaceHero from '@/components/places/PlaceHero';
 import SiteList from '@/components/places/SiteList';
 import { PlayIcon } from '@/components/places/icons';
+import JsonLd from '@/components/ui/JsonLd';
 import Reveal from '@/components/ui/Reveal';
+import { breadcrumbJsonLd, itemListJsonLd } from '@/lib/jsonld';
+import { pageMetadata } from '@/lib/seo';
 import styles from './page.module.css';
 
 const HERO = photo('nazareth', 5);

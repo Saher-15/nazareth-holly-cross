@@ -6,7 +6,7 @@ import SiteFooter from '@/components/layout/SiteFooter';
 import SiteHeader from '@/components/layout/SiteHeader';
 import { CartProvider } from '@/lib/cart';
 import { isRtl, locales, routing } from '@/i18n/routing';
-import { SITE_URL } from '@/lib/config';
+import { SITE_NAME, SITE_URL } from '@/lib/config';
 import { fontVariables } from '@/lib/fonts';
 import '@/styles/globals.css';
 
@@ -24,11 +24,11 @@ export async function generateMetadata({ params }: LayoutProps<'/[locale]'>): Pr
   const t = await getTranslations({ locale, namespace: 'site.meta' });
   return {
     metadataBase: new URL(SITE_URL),
-    title: { default: t('title'), template: `%s · Nazareth Holy Cross` },
+    title: { default: t('title'), template: `%s · ${SITE_NAME}` },
     description: t('description'),
     openGraph: {
       type: 'website',
-      siteName: 'Nazareth Holy Cross',
+      siteName: SITE_NAME,
       title: t('title'),
       description: t('description'),
       locale,

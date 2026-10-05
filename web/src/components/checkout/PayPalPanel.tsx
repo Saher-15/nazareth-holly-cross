@@ -5,7 +5,8 @@ import { useTranslations } from 'next-intl';
 import { PayPalButtons, PayPalScriptProvider, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import { PAYPAL_CLIENT_ID } from '@/lib/config';
 import { usePayPalOrder, type PaymentPayload } from '@/lib/paypal';
-import { AlertIcon, LockIcon } from './icons';
+import Notice from '@/components/ui/Notice';
+import { LockIcon } from './icons';
 import styles from './checkout.module.css';
 
 const SCRIPT_OPTIONS = { clientId: PAYPAL_CLIENT_ID, currency: 'USD', intent: 'capture' };
@@ -34,16 +35,12 @@ export default function PayPalPanel({ getPayload, onPaid }: Props) {
         <Buttons createOrder={start} onApprove={onApprove} onError={onError} onCancel={cancel} />
       </PayPalScriptProvider>
       {error && (
-        <p className={`${styles.alert} ${styles.alertDanger}`} role="alert">
-          <AlertIcon />
-          {t(`errors.${error}`)}
-        </p>
+        <Notice role="alert">{t(`errors.${error}`)}</Notice>
       )}
       {cancelled && !error && (
-        <p className={`${styles.alert} ${styles.alertInfo}`} role="status">
-          <AlertIcon />
+        <Notice tone="info" role="status">
           {t('cancelled')}
-        </p>
+        </Notice>
       )}
       <p className={styles.secure}>
         <LockIcon />
@@ -66,10 +63,7 @@ function Buttons(props: ButtonsProps) {
 
   if (isRejected) {
     return (
-      <p className={`${styles.alert} ${styles.alertDanger}`} role="alert">
-        <AlertIcon />
-        {t('unavailable')}
-      </p>
+      <Notice role="alert">{t('unavailable')}</Notice>
     );
   }
 

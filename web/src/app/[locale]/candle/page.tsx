@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import Flame from '@/components/ui/Flame';
 import PageHero from '@/components/ui/PageHero';
 import { flowMetadata } from '@/components/checkout/metadata';
 import shared from '@/components/checkout/checkout.module.css';
@@ -32,7 +33,7 @@ export default async function CandlePage({ params }: PageProps<'/[locale]/candle
         <aside className={styles.guide} aria-labelledby="candle-howto">
           <div className={styles.visual} aria-hidden="true">
             <span className={styles.halo} />
-            <span className={`${shared.flame} ${shared.flameLg} ${styles.visualFlame}`} />
+            <Flame size="lg" className={styles.visualFlame} />
             <span className={styles.wick} />
             <span className={styles.wax} />
             <span className={styles.plate} />

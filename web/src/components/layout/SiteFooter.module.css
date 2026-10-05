@@ -1,7 +1,7 @@
 .footer {
   margin-top: auto;
   padding-top: 56px;
-  background: linear-gradient(180deg, var(--night) 0%, #070a13 100%);
+  background: linear-gradient(180deg, var(--night) 0%, var(--night-deep) 100%);
   border-top: 1px solid var(--glass-line);
   color: var(--muted);
 }
@@ -14,7 +14,7 @@
 .brand {
   margin: 0 0 12px;
   font: 600 1.2rem/1.2 var(--serif);
-  color: #fff;
+  color: var(--white);
 }
 .brand span {
   color: var(--gold);

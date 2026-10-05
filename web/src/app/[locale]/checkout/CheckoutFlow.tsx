@@ -5,15 +5,16 @@ import Image from 'next/image';
 import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { useCart, type CartLine } from '@/lib/cart';
+import { isOptimizable } from '@/lib/images';
 import type { PaymentPayload } from '@/lib/paypal';
 import { formatUsd } from '@/lib/pricing';
 import DonePanel from '@/components/checkout/DonePanel';
-import Field, { invalidProps } from '@/components/checkout/Field';
+import Field, { invalidProps, TextField } from '@/components/checkout/Field';
 import PayPalPanel from '@/components/checkout/PayPalPanel';
 import StepIndicator, { type FlowStep } from '@/components/checkout/StepIndicator';
 import { countryName, countryOptions } from '@/components/checkout/countries';
-import { useErrorText, useSaveAfterPayment, useStepFocus, useValidatedForm } from '@/components/checkout/hooks';
-import { AlertIcon, BasketIcon } from '@/components/checkout/icons';
+import { fieldOrder, useErrorText, useSaveAfterPayment, useStepFocus, useValidatedForm } from '@/components/checkout/hooks';
+import { BasketIcon } from '@/components/checkout/icons';
 import {
   buildOrderBody,
   emptyContact,
@@ -23,28 +24,26 @@ import {
   type ContactForm,
 } from '@/components/checkout/validation';
 import shared from '@/components/checkout/checkout.module.css';
+import Notice from '@/components/ui/Notice';
 import styles from './checkout.module.css';
 
 type Key = keyof ContactForm;
 
-// Screen order of the fields, with their element ids (used to focus the first error).
-const FIELDS: [Key, string][] = [
-  ['firstName', 'co-first-name'],
-  ['lastName', 'co-last-name'],
-  ['email', 'co-email'],
-  ['confirmEmail', 'co-confirm-email'],
-  ['phone', 'co-phone'],
-  ['country', 'co-country'],
-  ['street', 'co-street'],
-  ['city', 'co-city'],
-  ['state', 'co-state'],
-  ['postal', 'co-postal'],
-];
-const id = (key: Key) => FIELDS.find(([k]) => k === key)![1];
-
-// Product photos come from Firebase Storage (allowed in next.config.ts) or the site itself.
-const canOptimize = (src: string) =>
-  src.startsWith('/') || src.startsWith('https://firebasestorage.googleapis.com/');
+// Element ids of the fields, in screen order (the first invalid one gets the focus).
+const IDS: Record<Key, string> = {
+  firstName: 'co-first-name',
+  lastName: 'co-last-name',
+  email: 'co-email',
+  confirmEmail: 'co-confirm-email',
+  phone: 'co-phone',
+  country: 'co-country',
+  street: 'co-street',
+  city: 'co-city',
+  state: 'co-state',
+  postal: 'co-postal',
+};
+const ORDER = fieldOrder(IDS);
+const id = (key: Key) => IDS[key];
 
 // The shop checkout: 1) contact + delivery details, 2) order summary + PayPal, 3) thank you.
 export default function CheckoutFlow() {
@@ -79,7 +78,7 @@ export default function CheckoutFlow() {
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (form.submit(FIELDS)) setStep('payment');
+    if (form.submit(ORDER)) setStep('payment');
   };
 
   if (step === 'done') {
@@ -132,24 +131,18 @@ export default function CheckoutFlow() {
     );
   }
 
-  const text = (key: Key, label: string, extra: InputHTMLAttributes<HTMLInputElement> = {}) => {
-    const error = errorText(shown(key), extra.maxLength);
-    return (
-      <Field id={id(key)} label={label} error={error}>
-        <input
-          id={id(key)}
-          name={key}
-          className={`ui-input ${extra.dir === 'ltr' ? styles.ltr : ''}`}
-          value={values[key]}
-          onChange={(e) => set(key, e.target.value)}
-          onBlur={() => touch(key)}
-          required
-          {...extra}
-          {...invalidProps(id(key), error)}
-        />
-      </Field>
-    );
-  };
+  const text = (key: Key, label: string, extra: InputHTMLAttributes<HTMLInputElement> = {}) => (
+    <TextField
+      id={id(key)}
+      name={key}
+      label={label}
+      error={errorText(shown(key), extra.maxLength)}
+      value={values[key]}
+      onChange={(e) => set(key, e.target.value)}
+      onBlur={() => touch(key)}
+      {...extra}
+    />
+  );
   const countryError = errorText(shown('country'));
 
   return (
@@ -229,10 +222,7 @@ export default function CheckoutFlow() {
               </div>
 
               {form.submitted && hasErrors(form.errors) && (
-                <p className={`${shared.alert} ${shared.alertDanger}`} role="alert">
-                  <AlertIcon />
-                  {t('form.fixErrors')}
-                </p>
+                <Notice role="alert">{t('form.fixErrors')}</Notice>
               )}
               <div className={shared.actions}>
                 <button type="submit" className={`ui-btn ui-btn--gold ${shared.btnLg} ${shared.btnBlock}`}>
@@ -315,10 +305,7 @@ export default function CheckoutFlow() {
               <PayPalPanel getPayload={getPayload} onPaid={onPaid} />
             </>
           ) : (
-            <p className={`${shared.alert} ${shared.alertInfo}`}>
-              <AlertIcon />
-              {tr('paypalComponent.pleaseFillAllDetails')}
-            </p>
+            <Notice tone="info">{tr('paypalComponent.pleaseFillAllDetails')}</Notice>
           )}
         </aside>
       </div>
@@ -331,7 +318,7 @@ function OrderItem({ line, locale }: { line: CartLine; locale: string }) {
   return (
     <li className={styles.item}>
       <span className={styles.thumb}>
-        {line.img && canOptimize(line.img) && <Image src={line.img} alt="" fill sizes="52px" />}
+        {line.img && <Image src={line.img} alt="" fill sizes="52px" unoptimized={!isOptimizable(line.img)} />}
       </span>
       <span className={styles.itemText}>
         <span className={styles.itemName}>{line.name}</span>

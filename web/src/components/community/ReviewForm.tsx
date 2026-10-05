@@ -4,6 +4,7 @@ import { useEffect, useId, useRef, useState, useTransition, type ChangeEvent, ty
 import { useTranslations } from 'next-intl';
 import { postJson } from '@/lib/apiClient';
 import { revalidateReviews } from './actions';
+import Notice from '@/components/ui/Notice';
 import Icon from './Icon';
 import {
   emptyReview,
@@ -213,10 +214,7 @@ export default function ReviewForm({ titleId }: { titleId: string }) {
           </div>
 
           {submitError && (
-            <p className={styles.alert} role="alert">
-              <Icon name="alert" className={styles.alertIcon} />
-              <span>{tf(`errors.${submitError}`)}</span>
-            </p>
+            <Notice role="alert">{tf(`errors.${submitError}`)}</Notice>
           )}
 
           <button

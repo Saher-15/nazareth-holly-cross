@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
-import Flame from './Flame';
+import Flame from '@/components/ui/Flame';
 import HeroVideo from './HeroVideo';
 import SoundToggle from './SoundToggle';
 import { ChevronDown } from './icons';

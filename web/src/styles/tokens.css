@@ -23,6 +23,10 @@
   --container: 1180px;
   --header-h: 68px; /* height of the sticky site header */
   --live: #ff4d4f; /* "on air" badge */
+  --white: #ffffff;
+  --night-deep: #070a13; /* footer end of the night gradient */
+  --gold-light: #ffe08a; /* highlight of the gold button gradient */
+  --on-gold: #1a1405; /* ink on gold surfaces */
 }
 
 /* Hebrew and Arabic get typefaces drawn for their scripts. */

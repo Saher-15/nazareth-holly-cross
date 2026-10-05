@@ -11,7 +11,7 @@
   font-family: system-ui, sans-serif; /* the star glyph, not the page font */
 }
 .base {
-  color: rgba(255, 255, 255, 0.22);
+  color: color-mix(in srgb, var(--white) 22%, transparent);
 }
 .fill {
   position: absolute;

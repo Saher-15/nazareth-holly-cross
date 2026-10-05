@@ -14,14 +14,9 @@ import {
   placeCards,
   type StoryBlock,
 } from '@/data/places/places';
-import {
-  breadcrumbJsonLd,
-  itemListJsonLd,
-  localePath,
-  pageMetadata,
-  placeJsonLd,
-  serializeJsonLd,
-} from '@/data/places/seo';
+import { placeJsonLd } from '@/data/places/seo';
+import { breadcrumbJsonLd, itemListJsonLd, serializeJsonLd } from '@/lib/jsonld';
+import { localePath, pageMetadata } from '@/lib/seo';
 
 type Messages = { [key: string]: string | Messages };
 const english = JSON.parse(readFileSync(join(__dirname, '../../src/messages/en.json'), 'utf8')) as Messages;

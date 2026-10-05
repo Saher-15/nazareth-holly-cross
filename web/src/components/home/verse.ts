@@ -1,8 +1,9 @@
 // Verse of the day: the same verse for every visitor on the same calendar day in
 // Nazareth, rotating daily through the verses in messages (home.v1..v6 / home.r1..r6).
 
+import { NAZARETH_TIME_ZONE } from '@/lib/time';
+
 export const VERSE_COUNT = 6;
-export const NAZARETH_TIME_ZONE = 'Asia/Jerusalem';
 
 const DAY_MS = 86_400_000;
 

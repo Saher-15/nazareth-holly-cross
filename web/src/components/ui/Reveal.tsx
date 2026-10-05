@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState, type ElementType, type ReactNode } from 'react';
+import { prefersReducedMotion } from '@/lib/motion';
 
 type Props = {
   as?: ElementType;
@@ -17,8 +18,7 @@ export default function Reveal({ as: Tag = 'div', className = '', delay = 0, chi
 
   useEffect(() => {
     const el = ref.current;
-    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-    if (!el || reduce || typeof IntersectionObserver === 'undefined') {
+    if (!el || prefersReducedMotion() || typeof IntersectionObserver === 'undefined') {
       setSeen(true);
       return undefined;
     }

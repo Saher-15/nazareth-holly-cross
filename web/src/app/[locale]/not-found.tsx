@@ -7,7 +7,7 @@ export default function NotFound() {
   return (
     <div className="ui-page">
       <PageHero eyebrow="404" title={t('title')} lead={t('text')}>
-        <p style={{ marginTop: 28 }}>
+        <p className="ui-hero__action">
           <Link href="/" className="ui-btn ui-btn--gold">
             {t('backHome')}
           </Link>

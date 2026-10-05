@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import SvgIcon from '@/components/ui/SvgIcon';
 
 // Small line icons for the reviews and live pages (shapes after Feather icons, MIT).
 // Decorative only: the text next to each icon carries the meaning.
@@ -61,20 +62,8 @@ export type IconName = keyof typeof shapes;
 
 export default function Icon({ name, className }: { name: IconName; className?: string }) {
   return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      width="1em"
-      height="1em"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      focusable="false"
-    >
+    <SvgIcon size="1em" className={className}>
       {shapes[name]}
-    </svg>
+    </SvgIcon>
   );
 }

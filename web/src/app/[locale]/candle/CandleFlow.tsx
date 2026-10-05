@@ -7,11 +7,11 @@ import { Link } from '@/i18n/navigation';
 import type { PaymentPayload } from '@/lib/paypal';
 import { CANDLE_PRICE, formatUsd } from '@/lib/pricing';
 import DonePanel from '@/components/checkout/DonePanel';
-import Field, { invalidProps } from '@/components/checkout/Field';
+import Field, { invalidProps, TextField } from '@/components/checkout/Field';
 import PayPalPanel from '@/components/checkout/PayPalPanel';
 import StepIndicator, { type FlowStep } from '@/components/checkout/StepIndicator';
-import { useErrorText, useSaveAfterPayment, useStepFocus, useValidatedForm } from '@/components/checkout/hooks';
-import { AlertIcon, CheckIcon, LockIcon } from '@/components/checkout/icons';
+import { fieldOrder, useErrorText, useSaveAfterPayment, useStepFocus, useValidatedForm } from '@/components/checkout/hooks';
+import { LockIcon } from '@/components/checkout/icons';
 import {
   buildCandleBody,
   emptyCandle,
@@ -22,6 +22,9 @@ import {
   type Church,
 } from '@/components/checkout/validation';
 import shared from '@/components/checkout/checkout.module.css';
+import Flame from '@/components/ui/Flame';
+import { AlertIcon, CheckIcon } from '@/components/ui/icons';
+import Notice from '@/components/ui/Notice';
 import styles from './candle.module.css';
 
 type Key = keyof CandleForm;
@@ -31,15 +34,17 @@ const CHURCH_CARDS: { value: Church; labelKey: 'home.siteLatin' | 'home.siteGree
   { value: 'Greek orthodox church', labelKey: 'home.siteGreek', img: '/images/greek/greek11.jpg' },
 ];
 
-const FIELDS: [Key, string][] = [
-  ['church', 'candle-church'],
-  ['firstName', 'candle-first-name'],
-  ['lastName', 'candle-last-name'],
-  ['email', 'candle-email'],
-  ['confirmEmail', 'candle-confirm-email'],
-  ['prayer', 'candle-prayer'],
-];
-const id = (key: Key) => FIELDS.find(([k]) => k === key)![1];
+// Element ids of the fields, in screen order (the first invalid one gets the focus).
+const IDS: Record<Key, string> = {
+  church: 'candle-church',
+  firstName: 'candle-first-name',
+  lastName: 'candle-last-name',
+  email: 'candle-email',
+  confirmEmail: 'candle-confirm-email',
+  prayer: 'candle-prayer',
+};
+const ORDER = fieldOrder(IDS);
+const id = (key: Key) => IDS[key];
 
 const getPayload = (): PaymentPayload => ({ type: 'candle' });
 
@@ -70,27 +75,21 @@ export default function CandleFlow() {
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (form.submit(FIELDS)) setStep('payment');
+    if (form.submit(ORDER)) setStep('payment');
   };
 
-  const text = (key: Key, label: string, extra: InputHTMLAttributes<HTMLInputElement> = {}) => {
-    const error = errorText(shown(key), extra.maxLength);
-    return (
-      <Field id={id(key)} label={label} error={error}>
-        <input
-          id={id(key)}
-          name={key}
-          className="ui-input"
-          value={values[key]}
-          onChange={(e) => set(key, e.target.value)}
-          onBlur={() => touch(key)}
-          required
-          {...extra}
-          {...invalidProps(id(key), error)}
-        />
-      </Field>
-    );
-  };
+  const text = (key: Key, label: string, extra: InputHTMLAttributes<HTMLInputElement> = {}) => (
+    <TextField
+      id={id(key)}
+      name={key}
+      label={label}
+      error={errorText(shown(key), extra.maxLength)}
+      value={values[key]}
+      onChange={(e) => set(key, e.target.value)}
+      onBlur={() => touch(key)}
+      {...extra}
+    />
+  );
   const churchError = errorText(shown('church'));
   const prayerError = errorText(shown('prayer'), LIMITS.prayer);
 
@@ -101,7 +100,7 @@ export default function CandleFlow() {
       {step === 'details' && (
         <form className={shared.form} onSubmit={onSubmit} noValidate>
           <h2 ref={headingRef} tabIndex={-1} className={`${shared.eyebrow} ${styles.formTitle}`}>
-            <span className={`${shared.flame} ${shared.flameSm}`} aria-hidden="true" />
+            <Flame size="sm" />
             {tr('candle.lightAPrayCandle')}
           </h2>
 
@@ -181,16 +180,13 @@ export default function CandleFlow() {
           </Field>
 
           {form.submitted && hasErrors(form.errors) && (
-            <p className={`${shared.alert} ${shared.alertDanger}`} role="alert">
-              <AlertIcon />
-              {t('form.fixErrors')}
-            </p>
+            <Notice role="alert">{t('form.fixErrors')}</Notice>
           )}
 
           <div className={styles.pay}>
             <p className={styles.price}>{t('candle.price', { price })}</p>
             <button type="submit" className={`ui-btn ui-btn--gold ${shared.btnLg}`}>
-              <span className={`${shared.flame} ${shared.flameSm} ${shared.flameInk}`} aria-hidden="true" />
+              <Flame size="sm" ink />
               {tr('candle.light')}
             </button>
           </div>
@@ -232,7 +228,7 @@ export default function CandleFlow() {
           </dl>
           <dl className={shared.total}>
             <dt>
-              <span className={`${shared.flame} ${shared.flameSm}`} aria-hidden="true" />
+              <Flame size="sm" />
               {tr('cost')}
             </dt>
             <dd data-testid="candle-total">{price}</dd>

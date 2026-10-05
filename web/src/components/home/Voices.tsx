@@ -2,7 +2,8 @@ import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import Reveal from '@/components/ui/Reveal';
 import type { Review } from '@/lib/api';
-import { clip, loadVoices, reviewerPlace } from './data';
+import { reviewerPlace } from '@/lib/reviews';
+import { clip, loadVoices } from './data';
 import styles from './Voices.module.css';
 
 type ViewProps = { id: string; reviews: Review[] };

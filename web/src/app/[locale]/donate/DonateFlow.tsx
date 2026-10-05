@@ -4,13 +4,13 @@ import { useCallback, useState, type FormEvent } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import type { PaymentPayload } from '@/lib/paypal';
-import { formatUsd } from '@/lib/pricing';
+import { formatUsd, formatUsdWhole } from '@/lib/pricing';
 import DonePanel from '@/components/checkout/DonePanel';
 import Field, { invalidProps } from '@/components/checkout/Field';
 import PayPalPanel from '@/components/checkout/PayPalPanel';
 import StepIndicator, { type FlowStep } from '@/components/checkout/StepIndicator';
-import { useErrorText, useStepFocus, useValidatedForm } from '@/components/checkout/hooks';
-import { AlertIcon, LockIcon } from '@/components/checkout/icons';
+import { fieldOrder, useErrorText, useStepFocus, useValidatedForm } from '@/components/checkout/hooks';
+import { LockIcon } from '@/components/checkout/icons';
 import {
   DONATION_PRESETS,
   donationAmount,
@@ -20,21 +20,11 @@ import {
   validateDonation,
 } from '@/components/checkout/validation';
 import shared from '@/components/checkout/checkout.module.css';
+import Notice from '@/components/ui/Notice';
 import styles from './donate.module.css';
 
-const FIELDS: ['name' | 'amount', string][] = [
-  ['name', 'donate-name'],
-  ['amount', 'donate-amount'],
-];
-
-// "$25" rather than "$25.00" on the preset buttons.
-const wholeUsd = (amount: number, locale: string) =>
-  new Intl.NumberFormat(locale, {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(amount);
+// Element ids of the fields, in screen order (the first invalid one gets the focus).
+const ORDER = fieldOrder({ name: 'donate-name', amount: 'donate-amount' });
 
 // 1) name + amount, 2) summary + PayPal, 3) thank you. The API checks the amount (1–5000 USD).
 export default function DonateFlow() {
@@ -57,7 +47,7 @@ export default function DonateFlow() {
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (form.submit(FIELDS)) setStep('payment');
+    if (form.submit(ORDER)) setStep('payment');
   };
 
   const nameError = errorText(shown('name'), LIMITS.name);
@@ -104,7 +94,7 @@ export default function DonateFlow() {
                     onChange={() => set('preset', preset)}
                     className={styles.chipInput}
                   />
-                  <span>{wholeUsd(preset, locale)}</span>
+                  <span>{formatUsdWhole(preset, locale)}</span>
                 </label>
               ))}
               <label className={`${styles.chip} ${styles.chipOther} ${values.preset === 'other' ? styles.selected : ''}`}>
@@ -141,10 +131,7 @@ export default function DonateFlow() {
           )}
 
           {form.submitted && hasErrors(form.errors) && (
-            <p className={`${shared.alert} ${shared.alertDanger}`} role="alert">
-              <AlertIcon />
-              {t('form.fixErrors')}
-            </p>
+            <Notice role="alert">{t('form.fixErrors')}</Notice>
           )}
           <div className={shared.actions}>
             <button type="submit" className={`ui-btn ui-btn--gold ${shared.btnLg} ${shared.btnBlock}`}>

@@ -54,25 +54,6 @@
   white-space: nowrap;
 }
 
-.alert {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  margin: 0 0 14px;
-  padding: 12px 14px;
-  border-radius: var(--radius-sm);
-  border: 1px solid color-mix(in srgb, var(--danger) 50%, transparent);
-  background: color-mix(in srgb, var(--danger) 12%, transparent);
-  color: var(--cream);
-  font-size: 0.95rem;
-  line-height: 1.45;
-  text-align: start;
-}
-.alertIcon {
-  flex: none;
-  margin-top: 3px;
-  color: var(--danger);
-}
 .submit {
   width: 100%;
 }

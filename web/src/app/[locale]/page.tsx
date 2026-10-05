@@ -4,15 +4,16 @@ import { hasLocale } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import CandleStrip from '@/components/home/CandleStrip';
 import HomeHero, { HERO_ID, HERO_POSTER } from '@/components/home/HomeHero';
-import { homeJsonLd, serializeJsonLd } from '@/components/home/jsonLd';
+import { homeJsonLd } from '@/components/home/jsonLd';
 import SitesCarousel from '@/components/home/SitesCarousel';
 import Souvenirs from '@/components/home/Souvenirs';
 import StickyCta from '@/components/home/StickyCta';
 import Story from '@/components/home/Story';
 import VerseOfDay from '@/components/home/VerseOfDay';
 import Voices from '@/components/home/Voices';
+import JsonLd from '@/components/ui/JsonLd';
 import { routing } from '@/i18n/routing';
-import { pageAlternates } from '@/lib/seo';
+import { pageMetadata } from '@/lib/seo';
 
 // Static page, regenerated in the background: products every 5 minutes, reviews every
 // 2 (their fetches ask for it), and at least hourly so the verse follows the date.
@@ -33,21 +34,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]'>): Prom
   const t = await getTranslations({ locale, namespace: 'homePage.meta' });
   const title = t('title');
   const description = t('description');
-  return {
-    title: { absolute: title },
-    description,
-    alternates: pageAlternates(locale),
-    openGraph: {
-      type: 'website',
-      siteName: 'Nazareth Holy Cross',
-      url: `/${locale}`,
-      title,
-      description,
-      locale,
-      images: [{ url: HERO_POSTER }],
-    },
-    twitter: { card: 'summary_large_image', title, description },
-  };
+  return pageMetadata({ locale, path: '/', title, description, image: HERO_POSTER, absoluteTitle: true });
 }
 
 export default async function HomePage({ params }: PageProps<'/[locale]'>) {
@@ -66,7 +53,7 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
 
   return (
     <div className="ui-page">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }} />
+      <JsonLd data={jsonLd} />
       <HomeHero nextSectionId={ids.candle} />
       <CandleStrip id={ids.candle} />
       <SitesCarousel id={ids.sites} />

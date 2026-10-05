@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react';
-import { AlertIcon } from './icons';
+import type { InputHTMLAttributes, ReactNode } from 'react';
+import { AlertIcon } from '@/components/ui/icons';
 import styles from './checkout.module.css';
 
 type Props = {
@@ -31,4 +31,19 @@ export default function Field({ id, label, error, className = '', children }: Pr
 
 export function invalidProps(id: string, error?: string) {
   return error ? { 'aria-invalid': true as const, 'aria-describedby': `${id}-error` } : {};
+}
+
+type TextFieldProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'id'> & {
+  id: string;
+  label: string;
+  error?: string;
+};
+
+// A labelled text <input> with its inline error: the field every payment form is made of.
+export function TextField({ id, label, error, className = '', ...input }: TextFieldProps) {
+  return (
+    <Field id={id} label={label} error={error}>
+      <input id={id} className={`ui-input ${className}`} required {...input} {...invalidProps(id, error)} />
+    </Field>
+  );
 }

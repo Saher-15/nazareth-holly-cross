@@ -1,7 +1,8 @@
 import { useFormatter, useTranslations } from 'next-intl';
 import type { Review } from '@/lib/api';
 import Icon from './Icon';
-import { NAZARETH_TIME_ZONE } from './liveSchedule';
+import { reviewerPlace } from '@/lib/reviews';
+import { NAZARETH_TIME_ZONE } from '@/lib/time';
 import styles from './ReviewWall.module.css';
 
 /** The first letter of a name for the avatar (whole characters, so emoji and accents stay intact). */
@@ -20,18 +21,9 @@ export function scriptOf(text: string): 'hebrew' | 'arabic' | undefined {
   return undefined;
 }
 
-/**
- * Where the reviewer is from. The API stores it in the review's `email` field; a value that looks like an
- * e-mail address (older reviews) is never shown.
- */
-export function placeOf(review: Pick<Review, 'email'>): string {
-  const place = review.email.trim();
-  return place.includes('@') ? '' : place;
-}
-
 function ReviewCard({ review }: { review: Review }) {
   const format = useFormatter();
-  const place = placeOf(review);
+  const place = reviewerPlace(review);
   const created = review.createdAt ? new Date(review.createdAt) : null;
   const hasDate = created !== null && !Number.isNaN(created.getTime());
 

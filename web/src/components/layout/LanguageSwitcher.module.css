@@ -37,7 +37,7 @@
   margin: 0;
   padding: 8px;
   list-style: none;
-  background: rgba(17, 24, 48, 0.97);
+  background: color-mix(in srgb, var(--night-2) 97%, transparent);
   border: 1px solid var(--glass-line);
   border-radius: var(--radius-sm);
   box-shadow: var(--shadow);

@@ -1,5 +1,5 @@
-import { CONTACT_EMAIL, SITE_URL } from '@/lib/config';
-import { socialLinks } from '@/lib/site';
+import { SITE_URL } from '@/lib/config';
+import { organizationJsonLd } from '@/lib/jsonld';
 
 type HomeJsonLdInput = { locale: string; siteName: string; title: string; description: string };
 
@@ -11,15 +11,7 @@ export function homeJsonLd({ locale, siteName, title, description }: HomeJsonLdI
   return {
     '@context': 'https://schema.org',
     '@graph': [
-      {
-        '@type': 'Organization',
-        '@id': organization,
-        name: siteName,
-        url: SITE_URL,
-        logo: `${SITE_URL}/images/logo.webp`,
-        email: CONTACT_EMAIL,
-        sameAs: socialLinks.map((s) => s.href),
-      },
+      organizationJsonLd({ name: siteName, id: organization }),
       {
         '@type': 'WebSite',
         '@id': website,
@@ -40,9 +32,4 @@ export function homeJsonLd({ locale, siteName, title, description }: HomeJsonLdI
       },
     ],
   };
-}
-
-/** JSON for a <script type="application/ld+json">, with "<" escaped so no text can close the tag. */
-export function serializeJsonLd(data: unknown): string {
-  return JSON.stringify(data).replace(/</g, '\\u003c');
 }

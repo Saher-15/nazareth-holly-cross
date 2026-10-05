@@ -17,3 +17,7 @@ export function orderSummary(lines: PricedLine[]) {
 
 export const formatUsd = (amount: number, locale = 'en') =>
   new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD' }).format(amount);
+
+/** "$25" rather than "$25.00": for round amounts such as the donation presets. */
+export const formatUsdWhole = (amount: number, locale = 'en') =>
+  new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(amount);

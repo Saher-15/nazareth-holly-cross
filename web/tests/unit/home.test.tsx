@@ -2,13 +2,15 @@ import { cleanup, render, screen } from '@testing-library/react';
 import { NextIntlClientProvider } from 'next-intl';
 import type { ReactNode } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { clip, FEATURED_COUNT, loadFeatured, loadVoices, MAX_VOICES, reviewerPlace, withTimeout } from '@/components/home/data';
+import { clip, FEATURED_COUNT, loadFeatured, loadVoices, MAX_VOICES, withTimeout } from '@/components/home/data';
 import { localDay, parseFlames, serializeFlames } from '@/components/home/flames';
-import { homeJsonLd, serializeJsonLd } from '@/components/home/jsonLd';
+import { homeJsonLd } from '@/components/home/jsonLd';
 import { SouvenirsView } from '@/components/home/Souvenirs';
 import { nazarethDate, VERSE_COUNT, verseNumberFor } from '@/components/home/verse';
 import { VoicesView } from '@/components/home/Voices';
 import type { Product, Review } from '@/lib/api';
+import { serializeJsonLd } from '@/lib/jsonld';
+import { reviewerPlace } from '@/lib/reviews';
 import messages from '@/messages/en.json';
 
 vi.mock('next/image', () => ({

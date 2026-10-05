@@ -8,9 +8,6 @@
 /** How long after its start a broadcast counts as on air. */
 export const LIVE_WINDOW_MS = 2 * 60 * 60 * 1000;
 
-/** Broadcast times are shown in Nazareth time, wherever the visitor is. */
-export const NAZARETH_TIME_ZONE = 'Asia/Jerusalem';
-
 export type ScheduledBroadcast = {
   id: string;
   /** Start in Nazareth time, ISO 8601 with the UTC offset of that day (+02:00 winter, +03:00 summer). */

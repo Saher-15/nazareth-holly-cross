@@ -20,6 +20,17 @@
   height: 15px;
 }
 
+.lg {
+  width: 28px;
+  height: 46px;
+  filter: drop-shadow(0 0 14px color-mix(in srgb, var(--gold) 90%, transparent));
+}
+
+/* on a gold button the flame is drawn in ink */
+.ink {
+  background: radial-gradient(ellipse at 50% 75%, var(--night-3) 0%, var(--night) 70%, transparent 100%);
+}
+
 @keyframes flicker {
   0%,
   100% {
