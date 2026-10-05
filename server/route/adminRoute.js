@@ -21,6 +21,7 @@ router.use('/products', (req, res, next) => {
 // POST /admin/login: sign in with an Admin account from the database. The other way in is
 // POST /auth/login (the shared ADMIN_PASSWORD); both give the same kind of token (services/adminAuth.js).
 router.post('/login', loginLimiter, asyncHandler(async (req, res) => {
+  res.set('Deprecation', 'true'); // docs/ADMIN.md: replaced by POST /admin/auth/login
   const { username, password } = req.body ?? {};
   const ip = req.ip || 'unknown';
 

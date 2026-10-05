@@ -74,7 +74,47 @@ export function publicReadCache(req, res, next) {
   return next();
 }
 
+// ---- Admin dashboard (route/admin/*, docs/ADMIN.md) ----
+//
+// Three layers. (1) apiLimiter: a generous per-IP ceiling on every /admin request, before anything is looked up.
+// (2) The sign-in limiters below. (3) adminLimiter: 300 requests per 15 minutes per signed-in admin, counted after
+// the token is checked, so several staff behind one office address do not share a budget.
+
+export const ADMIN_IP_LIMIT = 1000;
+export const adminIpLimiter = limiter(ADMIN_IP_LIMIT);
+
+const loginName = (req) => String(typeof req.body?.username === 'string' ? req.body.username : '').toLowerCase().slice(0, 100);
+const succeeded = (req, res) => res.statusCode < 400 || res.statusCode === 428; // 428 = "now send the TOTP code"
+
+// POST /admin/auth/login: 5 failures per 15 minutes per address AND username (successful sign-ins do not count).
+export const adminLoginLimiter = limiter(5, 'Too many login attempts, please try again in 15 minutes.', {
+  skipSuccessfulRequests: true,
+  requestWasSuccessful: succeeded,
+  keyGenerator: (req) => `${req.ip}|${loginName(req)}`,
+});
+
+// ... and 30 failures per address across all usernames, so rotating names does not reset the allowance.
+export const adminLoginIpLimiter = limiter(30, 'Too many login attempts, please try again in 15 minutes.', {
+  skipSuccessfulRequests: true,
+  requestWasSuccessful: succeeded,
+});
+
+const adminKey = (req) => `admin:${req.adminUser?.id}`;
+
+// Every authenticated admin request.
+export const adminLimiter = limiter(300, 'Too many requests, please slow down.', {
+  keyGenerator: adminKey,
+  skip: (req) => !req.adminUser, // legacy tokens are handled by the legacy routes (and the per-IP layer)
+});
+
+// Password and second-factor changes: a stolen token must not be able to guess the current password.
+export const adminSensitiveLimiter = limiter(5, 'Too many attempts, please try again in 15 minutes.', {
+  keyGenerator: adminKey,
+  skipSuccessfulRequests: true,
+});
+
 /** The per-IP limit for every request: the large read allowance for public reads, the strict one for the rest. */
 export function apiLimiter(req, res, next) {
+  if (req.path.startsWith('/admin/')) return adminIpLimiter(req, res, next);
   return (publicReadCacheControl(req) ? readLimiter : globalLimiter)(req, res, next);
 }

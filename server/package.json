@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "vitest run"
+    "test": "vitest run",
+    "create-admin": "node scripts/create-admin.js"
   },
   "keywords": [],
   "author": "",

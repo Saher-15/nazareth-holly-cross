@@ -43,11 +43,15 @@ export function verifyAdminToken(token) {
   return payload;
 }
 
+// bcrypt work factor for every password hash made from now on (accounts hashed with a lower cost stay valid).
+export const BCRYPT_COST = 12;
+export const hashPassword = (plain) => bcrypt.hash(plain, BCRYPT_COST);
+
 // A password check that takes as long for an unknown username as for a wrong password,
 // so response time does not reveal which usernames exist.
 let dummyHash;
 export async function comparePasswordTimingSafe(admin, password) {
-  dummyHash ??= bcrypt.hashSync('not-a-real-password', 10);
+  dummyHash ??= bcrypt.hashSync('not-a-real-password', BCRYPT_COST);
   const text = typeof password === 'string' ? password : '';
   if (!admin) {
     await bcrypt.compare(text, dummyHash);
