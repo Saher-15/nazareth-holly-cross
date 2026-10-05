@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import axios from 'axios';
 import { useTranslation } from 'react-i18next'; // Import the translation hook
 import { API_URL } from '../config/env';
+import '../styles/FaithShared.css';
 
 const ConfirmationCandle = ({ firstName, lastName, email, prayer }) => {
     const navigate = useNavigate(); // Get the navigate function
@@ -35,23 +36,16 @@ const ConfirmationCandle = ({ firstName, lastName, email, prayer }) => {
     }, [firstName, lastName, email, prayer, navigate]); // Add dependencies here
 
     return (
-        <div style={styles.container}>
-            <h1>{t('confirmationCandle.thankYou')}</h1>
+        <div className="fx-done" role="status">
+            <span className="fx-done__icon fx-done__icon--flame" aria-hidden="true">
+                <span className="fx-flame fx-flame--lg" />
+            </span>
+            <h2 className="fx-done__title">{t('confirmationCandle.thankYou')}</h2>
             <p>{t('confirmationCandle.paymentSuccess')}</p>
             <p>{t('confirmationCandle.receipt')}</p>
-            <p>{t('confirmationCandle.gratitude')}</p>
+            <p className="fx-done__strong">{t('confirmationCandle.gratitude')}</p>
         </div>
     );
-};
-
-const styles = {
-    container: {
-        fontFamily: 'Arial, sans-serif',
-        textAlign: 'center',
-        padding: '20px',
-        backgroundColor: '#f4f4f4',
-        margin: 0,
-    },
 };
 
 export default ConfirmationCandle;

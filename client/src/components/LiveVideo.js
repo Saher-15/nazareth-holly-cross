@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import "../styles/FaithShared.css";
 import "../styles/LiveClient.css";
 import { useTranslation } from 'react-i18next';
+import PageHero from './ui/PageHero';
+import Reveal from './ui/Reveal';
 
 // Define events with a specific start time in local timezone (Israel Time)
 const events = [
@@ -22,11 +25,16 @@ const pastVideos = [
   }
 ];
 
+const STATUS_LABEL = {
+  live: 'faithUi.liveBadge',
+  upcoming: 'faithUi.upcomingBadge',
+  offline: 'faithUi.offlineBadge',
+};
 
 const LiveVideo = () => {
   const { t } = useTranslation(); // Initialize translation hook
   const [upcomingEvent, setUpcomingEvent] = useState(null);
-  const [pastEvents, setPastEvents] = useState([]);
+  const [pastEvents, setPastEvents] = useState([]); // eslint-disable-line no-unused-vars
   const [timeRemaining, setTimeRemaining] = useState('');
   const [inLiveMode, setInLiveMode] = useState(false);
   const [canJoinLive, setCanJoinLive] = useState(false);
@@ -73,7 +81,7 @@ const LiveVideo = () => {
         const timeDiff = eventDateTime - now;
 
         if (timeDiff <= 0) {
-          setTimeRemaining(t('live.event_has_started'));
+          setTimeRemaining(t('faithUi.eventStarted')); // live.event_has_started never existed in the locales
           return;
         }
 
@@ -94,59 +102,108 @@ const LiveVideo = () => {
     window.open('https://www.instagram.com/nazareth_holy_cross/', '_blank');
   };
 
+  const status = inLiveMode ? 'live' : upcomingEvent ? 'upcoming' : 'offline';
+
   return (
-    <div className={`live-client-container ${inLiveMode ? 'live-mode' : ''}`}>
-      <div className="live-client-content">
-        <div className="live-client-placeholder">
-          {upcomingEvent ? (
-            <div className="live-client-event-info">
-              <h2>{inLiveMode ? t('live.event_ongoing') : t('live.upcoming_event')}</h2>
-              <p className="event-name"><strong>{upcomingEvent.description}</strong></p>
-              <p><strong>{t('live.nazareth_date_time')}</strong> {new Date(upcomingEvent.dateTime).toLocaleString()}</p>
-              <p><strong>{t('live.time_remaining')}</strong> <span className="time-remaining-frame">{timeRemaining}</span></p>
+    <main className={`ui-page fx fx-hero-plain fx-live ${inLiveMode ? 'live-mode' : ''}`}>
+      <PageHero
+        eyebrow={t('faithUi.liveEyebrow')}
+        title={t('faithUi.liveTitle')}
+        lead={t('faithUi.liveLead')}
+      />
 
-              {inLiveMode && (
-                <p className="live-note" style={{ color: 'red' }}>
-                  {t('live.live_note')}
-                </p>
-              )}
-              <p className="refresh-note" style={{ color: 'red' }}>
-                {t('live.refresh_note')}
-              </p>
+      <section className="ui-container fx-stage" aria-labelledby="fx-stage-title">
+        <div className={`fx-player fx-player--${status}`}>
+          <img className="fx-player__bg" src="/images/latin/latin8.jpg" alt="" />
+          <span className="fx-player__shade" aria-hidden="true" />
 
-              <button className="join-live-button" onClick={handleJoinLive} disabled={!canJoinLive}>
-                {t('live.join_live')}
-              </button>
-            </div>
-          ) : (
-            <p>{t('live.no_upcoming_events')}</p>
-          )}
-        </div>
-
-        <div className="past-lives-container">
-          <h2 style={{ color: '#ffcc00' }}>{t('live.past_live_events')}</h2>
-          <div className="past-videos-gallery">
-            {pastVideos.map((video, index) => (
-              <div key={index} className="past-live-item">
-                <video
-                  controls
-                  width="100%"
-                  height="auto"
-                  poster={video.thumbnail}
-                  className="past-live-video"
-                >
-                  <source src={video.src} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-                <h3>{t(video.titleKey)}</h3>
-                <p>{t(video.descriptionKey)}</p>
-              </div>
-            ))}
+          <div className="fx-player__top">
+            <span className={`fx-badge fx-badge--${status}`}>
+              <span className="fx-badge__dot" aria-hidden="true" />
+              {t(STATUS_LABEL[status])}
+            </span>
+            <span className="fx-player__brand" aria-hidden="true">
+              <i className="fas fa-broadcast-tower" />
+            </span>
           </div>
 
+          <div className="fx-player__body">
+            {upcomingEvent ? (
+              <>
+                <h2 id="fx-stage-title" className="fx-player__title">
+                  {inLiveMode ? t('live.event_ongoing') : t('live.upcoming_event')}
+                </h2>
+                <p className="fx-player__event">{upcomingEvent.description}</p>
+                <dl className="fx-player__meta">
+                  <div>
+                    <dt>{t('live.nazareth_date_time')}</dt>
+                    <dd>{new Date(upcomingEvent.dateTime).toLocaleString()}</dd>
+                  </div>
+                  <div>
+                    <dt>{t('live.time_remaining')}</dt>
+                    <dd><span className="fx-countdown" role="timer">{timeRemaining}</span></dd>
+                  </div>
+                </dl>
+
+                {inLiveMode && (
+                  <p className="fx-player__note">
+                    <i className="fas fa-info-circle" aria-hidden="true" />
+                    {t('live.live_note')}
+                  </p>
+                )}
+                <p className="fx-player__note">
+                  <i className="fas fa-redo-alt" aria-hidden="true" />
+                  {t('live.refresh_note')}
+                </p>
+
+                <button type="button" className="ui-btn ui-btn--gold fx-btn-lg fx-player__join" onClick={handleJoinLive} disabled={!canJoinLive}>
+                  <i className="fab fa-instagram" aria-hidden="true" />
+                  {t('live.join_live')}
+                </button>
+              </>
+            ) : (
+              <>
+                <span className="fx-player__icon" aria-hidden="true"><i className="fas fa-video-slash" /></span>
+                <h2 id="fx-stage-title" className="fx-player__title">{t('live.no_upcoming_events')}</h2>
+                <p className="fx-player__hint">{t('faithUi.offlineHint')}</p>
+              </>
+            )}
+          </div>
         </div>
-      </div>
-    </div>
+      </section>
+
+      <Reveal as="section" className="ui-section fx-past" aria-labelledby="fx-past-title">
+        <div className="ui-container">
+          <header className="fx-head">
+            <p className="ui-eyebrow">{t('faithUi.pastEyebrow')}</p>
+            <h2 id="fx-past-title" className="ui-h2">{t('live.past_live_events')}</h2>
+          </header>
+          <ul className="fx-past__grid">
+            {pastVideos.map((video, index) => (
+              <li key={index} className="fx-past__item ui-glass">
+                <div className="fx-past__frame">
+                  <video
+                    controls
+                    playsInline
+                    preload="none"
+                    poster={video.thumbnail}
+                    className="fx-past__video"
+                    aria-label={t(video.titleKey)}
+                  >
+                    <source src={video.src} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+                <div className="fx-past__body">
+                  <h3 className="ui-h3">{t(video.titleKey)}</h3>
+                  <p className="ui-muted">{t(video.descriptionKey)}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Reveal>
+    </main>
   );
 };
 

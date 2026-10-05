@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { useShopContext } from '../context/shop-context'; // Import the context hook
 import { useTranslation } from 'react-i18next'; // Import the translation hook
 import { API_URL } from '../config/env';
+import '../styles/FaithShared.css';
 
 function ThankYou({ cartItems, firstName, lastName, phone, email, street, city, state, postal, country, totalPrice }) {
     const { clearCart } = useShopContext(); // Get the clearCart function from the context
@@ -51,23 +52,14 @@ function ThankYou({ cartItems, firstName, lastName, phone, email, street, city, 
     }, [cartItems, firstName, lastName, phone, email, street, city, state, postal, country, totalPrice, navigate, clearCart]); // Add dependencies here
 
     return (
-        <div style={styles.container}>
-            <h1>{t('thankYou.thankYou')}</h1>
+        <div className="fx-done" role="status">
+            <span className="fx-done__icon" aria-hidden="true"><i className="fas fa-check" /></span>
+            <h2 className="fx-done__title">{t('thankYou.thankYou')}</h2>
             <p>{t('thankYou.paymentSuccess')}</p>
             <p>{t('thankYou.receipt')}</p>
-            <p>{t('thankYou.gratitude')}</p>
+            <p className="fx-done__strong">{t('thankYou.gratitude')}</p>
         </div>
     );
 }
-
-const styles = {
-    container: {
-        fontFamily: 'Arial, sans-serif',
-        textAlign: 'center',
-        padding: '20px',
-        backgroundColor: '#f4f4f4',
-        margin: 0,
-    },
-};
 
 export default ThankYou;

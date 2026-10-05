@@ -6,6 +6,15 @@
   font-family: 'PT Sans', sans-serif;
 }
 
+/* The whole site sits on the night background (no white flash behind the
+   translucent navbar, between lazy pages or on overscroll). Text colour is
+   left to each page (.ui-page sets cream) so text inside light cards keeps
+   its default dark colour. */
+html,
+body {
+  background-color: var(--night);
+}
+
 /* Main sections */
 .home,
 .services,
@@ -55,7 +64,7 @@
 
 /* PayPal checkout error message (shared by the three checkouts) */
 .payment-error {
-  color: #b00020;
+  color: var(--danger);
   text-align: center;
   margin-top: 12px;
 }

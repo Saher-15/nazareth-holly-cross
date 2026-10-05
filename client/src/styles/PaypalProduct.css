@@ -1,117 +1,83 @@
-.App-paypal-product {
-  background-color: #f9f9f9;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  max-width: 800px;
-  margin: 0 auto;
-}
+/* ===== Shop order checkout extras (components/Paypal.js); layout lives in PaypalCandle.css ===== */
 
-.container {
+.fx-co__fields { display: grid; grid-template-columns: 1fr; column-gap: 14px; }
+.fx-co__fields .fx-alert { margin-top: -4px; }
+.fx-co--order .ui-label { color: var(--cream); opacity: 0.85; }
+
+/* phone input (react-phone-number-input): country flag + number in one themed field */
+.fx-co .fx-phone {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 0 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--glass-line);
+  background: rgba(255, 255, 255, 0.06);
 }
-
-.paypal-product-form {
-  background-color: #fff;
-  padding: 15px;
-  border-radius: 6px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 500px;
+.fx-co .fx-phone:focus-within { border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-soft); }
+.fx-co .fx-phone .PhoneInputInput {
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--cream);
+  font: 1rem/1.4 var(--sans);
 }
+.fx-co .fx-phone .PhoneInputInput:focus { outline: none; }
+.fx-co .fx-phone .PhoneInputCountrySelectArrow { color: var(--cream); opacity: 0.7; }
+.fx-co .fx-phone .PhoneInputCountrySelect:focus + .PhoneInputCountryIcon { box-shadow: 0 0 0 2px var(--gold); }
+.fx-co .fx-phone .PhoneInputCountrySelect option { color: #111; }
 
-.form-group-paypal {
-  display: flex;
-  flex-direction: column;
-}
-
-.form-control {
-  padding: 8px;
-  border-radius: 4px;
-  border: 1px solid #ddd;
-  font-size: 14px;
-  width: 100%;
-}
-
-.form-control:focus {
-  border-color: #007bff;
-  outline: none;
-}
-
-.country-select {
-  margin-top: 10px;
-}
-
-.PhoneInputInput {
-  width: 100%;
-  padding: 8px;
-  border-radius: 4px;
-  border: 1px solid #ddd;
-  font-size: 14px;
-}
-
-.error-message {
-  color: #e74c3c;
-  font-size: 12px;
-  margin-top: 5px;
-}
-
-.paypal-card {
-  margin-top: 15px;
-  text-align: center;
-}
-
-.paypal-buttons-container {
-  margin-top: 15px;
-}
-
-.ms-alert {
-  background-color: #e74c3c;
-  color: #fff;
-  padding: 8px 15px;
-  border-radius: 20px;
-  margin-top: 15px;
-  text-align: center;
-  font-size: 12px;
-}
-
-.ms-close {
+/* country picker (react-select, classNamePrefix="fx-select") */
+.fx-co .fx-select__control {
+  min-height: 46px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--glass-line);
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: none;
   cursor: pointer;
-  font-weight: bold;
-  margin-left: 8px;
 }
-
-.confirmation-order {
-  background-color: #fff;
-  padding: 15px;
-  border-radius: 6px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  margin-top: 15px;
+.fx-co .fx-select__control:hover { border-color: rgba(240, 192, 74, 0.6); }
+.fx-co .fx-select__control--is-focused { border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-soft); }
+.fx-co .fx-select__value-container { padding: 2px 12px; }
+.fx-co .fx-select__single-value, .fx-co .fx-select__input-container { color: var(--cream); }
+.fx-co .fx-select__placeholder { color: rgba(185, 191, 211, 0.85); }
+.fx-co .fx-select__indicator-separator { background-color: var(--glass-line); }
+.fx-co .fx-select__indicator { color: var(--muted); }
+.fx-co .fx-select__menu {
+  z-index: 20;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--glass-line);
+  background: var(--night-3);
+  box-shadow: var(--shadow);
 }
+.fx-co .fx-select__option { color: var(--cream); background: transparent; cursor: pointer; }
+.fx-co .fx-select__option--is-focused { background: rgba(255, 255, 255, 0.08); }
+.fx-co .fx-select__option--is-selected { background: var(--gold-soft); color: var(--gold); }
 
-.confirmation-order h2 {
-  margin-top: 0;
-  font-size: 18px;
+/* order lines in the summary card */
+.fx-co__items { display: grid; gap: 12px; margin: 0 0 14px; padding: 0; list-style: none; }
+.fx-co__item { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.fx-co__thumb {
+  flex: 0 0 52px;
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  object-fit: cover;
+  background: #fff;
+  border: 1px solid var(--glass-line);
 }
+.fx-co__itemtext { display: grid; flex: 1; min-width: 0; }
+.fx-co__itemname { color: #fff; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fx-co__itemmeta { color: var(--muted); font-size: 0.85rem; }
+.fx-co__itemprice { color: var(--cream); font-weight: 700; white-space: nowrap; }
+.fx-co__line { margin: 0 0 10px; color: var(--muted); font-size: 0.92rem; }
+.fx-co__note { display: flex; align-items: center; gap: 8px; margin: -6px 0 18px; color: var(--success); font-size: 0.85rem; }
+.fx-co__paytitle { margin: 0 0 12px; font: 700 0.78rem/1.2 var(--sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
 
-.confirmation-order p {
-  margin-bottom: 5px;
-  font-size: 14px;
-  color: #333;
-}
-
-@media (max-width: 768px) {
-  .paypal-product-form {
-    padding: 12px;
-  }
-
-  .form-control {
-    font-size: 12px;
-  }
-
-  .PhoneInputInput {
-    font-size: 12px;
-  }
+@media (min-width: 560px) {
+  .fx-co__fields { grid-template-columns: 1fr 1fr; }
+  .fx-co__wide { grid-column: 1 / -1; }
 }
