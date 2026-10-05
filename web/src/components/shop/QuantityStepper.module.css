@@ -1,0 +1,45 @@
+.stepper {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px;
+  border: 1px solid var(--glass-line);
+  border-radius: 999px;
+  background: var(--glass);
+}
+
+.button {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--cream);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.button:hover:not([aria-disabled='true']) {
+  background: var(--gold);
+  color: var(--night);
+}
+.button[aria-disabled='true'] {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.value {
+  min-width: 36px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--cream);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+  }
+}
