@@ -19,6 +19,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { gold, goldDark, crimson, textSecondary, goldGradientText } from '../../theme';
+import { getProductImages } from '../../utils/productImages';
 
 export default function Cart() {
   const { t } = useTranslation();
@@ -120,7 +121,7 @@ export default function Cart() {
                         border: `1px solid ${alpha(gold, 0.18)}`,
                       }}
                     >
-                      <Box component="img" src={item.images?.[0] || '/images/placeholder.jpg'} alt={item.name} sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <Box component="img" src={getProductImages(item)[0] || '/images/placeholder.jpg'} alt={item.name} sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     </Box>
 
                     {/* Info */}

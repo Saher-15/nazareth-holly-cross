@@ -23,6 +23,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import StarIcon from '@mui/icons-material/Star';
 import api from '../../api';
 import { gold, goldDark, crimson, goldGradientText, textSecondary } from '../../theme';
+import { getProductImages } from '../../utils/productImages';
 
 export default function ProductPage() {
   const { t } = useTranslation();
@@ -86,9 +87,9 @@ export default function ProductPage() {
     );
   }
 
-  const images  = product.images || [];
+  const images  = getProductImages(product);
   const outOfStock = product.stock === 0;
-  const stars = Math.round(product.rating || 4);
+  const stars = Math.round((product.rate ?? product.rating) || 4);
 
   return (
     <Box sx={{ backgroundColor: '#F7F2E8', minHeight: '80vh', pb: { xs: 8, md: 12 } }}>

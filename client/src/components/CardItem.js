@@ -16,6 +16,7 @@ import StarIcon from '@mui/icons-material/Star';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { gold, goldDark, crimson, textSecondary } from '../theme';
 import { useShopContext } from '../context/shop-context';
+import { getProductImages } from '../utils/productImages';
 
 export default function CardItem({ product }) {
   const { addToCart } = useShopContext();
@@ -24,8 +25,9 @@ export default function CardItem({ product }) {
 
   if (!product) return null;
 
-  const { _id, name, price, images, stock, rating } = product;
-  const image      = images?.[0] || '/images/placeholder.jpg';
+  const { _id, name, price, stock } = product;
+  const rating     = product.rate ?? product.rating;
+  const image      = getProductImages(product)[0] || '/images/placeholder.jpg';
   const outOfStock = stock === 0;
   const stars      = Math.round(rating || 4);
 
