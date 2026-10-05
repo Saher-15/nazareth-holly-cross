@@ -548,5 +548,86 @@
     "total": "Totale",
     "secure": "Pagamento sicuro con PayPal",
     "emptyLead": "Scopri rosari, croci e ricordi da Nazareth."
+  },
+  "checkoutPage": {
+    "meta": {
+      "checkoutTitle": "Cassa",
+      "checkoutDescription": "Completa il tuo ordine di ricordi da Nazaret e paga in sicurezza con PayPal.",
+      "candleTitle": "Accendi una candela a Nazaret",
+      "candleDescription": "Scegli una chiesa di Nazaret e scrivi la tua preghiera. Accenderemo una candela per te e ti invieremo il video.",
+      "donateTitle": "Dona",
+      "donateDescription": "Sostieni Nazareth Holy Cross con una donazione, pagata in sicurezza con PayPal."
+    },
+    "hero": {
+      "eyebrow": "Pagamento sicuro",
+      "orderTitle": "Completa il tuo ordine",
+      "lead": "Il tuo pagamento è elaborato in modo sicuro da PayPal.",
+      "candleEyebrow": "Candela di preghiera",
+      "donateEyebrow": "Donazione",
+      "donateTitle": "Sostieni Nazareth Holy Cross",
+      "donateLead": "Il tuo dono ci aiuta a condividere i luoghi santi, le preghiere e l'artigianato di Nazaret con i pellegrini di tutto il mondo."
+    },
+    "steps": {
+      "label": "Fasi del pagamento",
+      "details": "I tuoi dati",
+      "payment": "Pagamento",
+      "done": "Conferma"
+    },
+    "loading": "Caricamento del carrello…",
+    "form": {
+      "phone": "Telefono",
+      "country": "Paese",
+      "continue": "Continua al pagamento",
+      "edit": "Modifica i dati",
+      "fixErrors": "Correggi i campi evidenziati.",
+      "errors": {
+        "required": "Questo campo è obbligatorio.",
+        "tooLong": "Usa al massimo {max} caratteri.",
+        "email": "Inserisci un indirizzo email valido, ad esempio nome@esempio.com.",
+        "phone": "Inserisci un numero di telefono valido, con il prefisso internazionale.",
+        "amount": "Inserisci un importo tra {min} e {max}."
+      }
+    },
+    "summary": {
+      "quantity": "Q.tà: {count}",
+      "subtotal": "Subtotale",
+      "discount": "Sconto del sito (10%)",
+      "shipping": "Spedizione",
+      "total": "Totale",
+      "address": "Indirizzo di consegna"
+    },
+    "payment": {
+      "loading": "Caricamento di PayPal…",
+      "unavailable": "Impossibile caricare PayPal. Controlla la connessione o disattiva i blocchi dei contenuti, poi ricarica la pagina.",
+      "secured": "Pagamento sicuro con PayPal. Non vediamo mai i dati della tua carta.",
+      "cancelled": "Pagamento annullato. Non ti è stato addebitato nulla.",
+      "errors": {
+        "start": "Non è stato possibile avviare il pagamento. Riprova.",
+        "notCompleted": "Il pagamento non è stato completato. Non ti è stato addebitato nulla.",
+        "paypal": "PayPal ha segnalato un errore. Riprova."
+      },
+      "reference": "Riferimento del pagamento: {id}",
+      "saving": "Salvataggio dei tuoi dati…",
+      "saveFailed": "Il pagamento è andato a buon fine, ma non siamo riusciti a salvare i tuoi dati. Riprova oppure scrivi a <mail>{email}</mail> indicando il riferimento del pagamento."
+    },
+    "empty": {
+      "text": "Scopri rosari, croci e ricordi da Nazaret."
+    },
+    "candle": {
+      "price": "Per accendere una candela: {price}",
+      "secureNext": "Poi controllerai i tuoi dati e pagherai in sicurezza con PayPal."
+    },
+    "donate": {
+      "formTitle": "Fai una donazione",
+      "name": "Il tuo nome",
+      "amount": "Importo",
+      "other": "Altro importo",
+      "customAmount": "Importo in dollari statunitensi",
+      "summaryTitle": "La tua donazione",
+      "nameLabel": "Nome",
+      "donation": "Donazione",
+      "thanksTitle": "Grazie per la tua donazione!",
+      "thanksText": "La tua generosità aiuta a mantenere accesa la luce di Nazaret per i pellegrini di tutto il mondo."
+    }
   }
 }

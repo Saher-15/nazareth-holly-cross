@@ -548,5 +548,86 @@
     "total": "Gesamt",
     "secure": "Sichere Zahlung mit PayPal",
     "emptyLead": "Entdecken Sie Rosenkränze, Kreuze und Andenken aus Nazareth."
+  },
+  "checkoutPage": {
+    "meta": {
+      "checkoutTitle": "Kasse",
+      "checkoutDescription": "Schließen Sie Ihre Bestellung von Andenken aus Nazareth ab und bezahlen Sie sicher mit PayPal.",
+      "candleTitle": "Eine Kerze in Nazareth anzünden",
+      "candleDescription": "Wählen Sie eine Kirche in Nazareth und schreiben Sie Ihr Gebet. Wir zünden eine Kerze für Sie an und senden Ihnen das Video.",
+      "donateTitle": "Spenden",
+      "donateDescription": "Unterstützen Sie Nazareth Holy Cross mit einer Spende, sicher bezahlt mit PayPal."
+    },
+    "hero": {
+      "eyebrow": "Sichere Kasse",
+      "orderTitle": "Bestellung abschließen",
+      "lead": "Ihre Zahlung wird sicher über PayPal abgewickelt.",
+      "candleEyebrow": "Gebetskerze",
+      "donateEyebrow": "Spende",
+      "donateTitle": "Unterstützen Sie Nazareth Holy Cross",
+      "donateLead": "Ihre Spende hilft uns, die heiligen Stätten, Gebete und das Handwerk Nazareths mit Pilgern in aller Welt zu teilen."
+    },
+    "steps": {
+      "label": "Schritte zur Bezahlung",
+      "details": "Ihre Angaben",
+      "payment": "Zahlung",
+      "done": "Bestätigung"
+    },
+    "loading": "Ihr Warenkorb wird geladen…",
+    "form": {
+      "phone": "Telefon",
+      "country": "Land",
+      "continue": "Weiter zur Zahlung",
+      "edit": "Angaben bearbeiten",
+      "fixErrors": "Bitte korrigieren Sie die markierten Felder.",
+      "errors": {
+        "required": "Dieses Feld ist erforderlich.",
+        "tooLong": "Bitte verwenden Sie höchstens {max} Zeichen.",
+        "email": "Geben Sie eine gültige E-Mail-Adresse ein, zum Beispiel name@beispiel.de.",
+        "phone": "Geben Sie eine gültige Telefonnummer mit Ländervorwahl ein.",
+        "amount": "Geben Sie einen Betrag zwischen {min} und {max} ein."
+      }
+    },
+    "summary": {
+      "quantity": "Menge: {count}",
+      "subtotal": "Zwischensumme",
+      "discount": "Website-Rabatt (10 %)",
+      "shipping": "Versand",
+      "total": "Gesamt",
+      "address": "Lieferadresse"
+    },
+    "payment": {
+      "loading": "PayPal wird geladen…",
+      "unavailable": "PayPal konnte nicht geladen werden. Prüfen Sie Ihre Verbindung oder deaktivieren Sie Inhaltsblocker und laden Sie die Seite neu.",
+      "secured": "Sichere Zahlung mit PayPal. Ihre Kartendaten sehen wir nie.",
+      "cancelled": "Zahlung abgebrochen. Ihnen wurde nichts berechnet.",
+      "errors": {
+        "start": "Die Zahlung konnte nicht gestartet werden. Bitte versuchen Sie es erneut.",
+        "notCompleted": "Die Zahlung wurde nicht abgeschlossen. Ihnen wurde nichts berechnet.",
+        "paypal": "PayPal hat einen Fehler gemeldet. Bitte versuchen Sie es erneut."
+      },
+      "reference": "Zahlungsreferenz: {id}",
+      "saving": "Ihre Angaben werden gespeichert…",
+      "saveFailed": "Ihre Zahlung ist eingegangen, aber wir konnten Ihre Angaben nicht speichern. Bitte versuchen Sie es erneut oder schreiben Sie mit Ihrer Zahlungsreferenz an <mail>{email}</mail>."
+    },
+    "empty": {
+      "text": "Entdecken Sie Rosenkränze, Kreuze und Andenken aus Nazareth."
+    },
+    "candle": {
+      "price": "Eine Kerze anzünden: {price}",
+      "secureNext": "Als Nächstes prüfen Sie Ihre Angaben und bezahlen sicher mit PayPal."
+    },
+    "donate": {
+      "formTitle": "Spenden",
+      "name": "Ihr Name",
+      "amount": "Betrag",
+      "other": "Anderer Betrag",
+      "customAmount": "Betrag in US-Dollar",
+      "summaryTitle": "Ihre Spende",
+      "nameLabel": "Name",
+      "donation": "Spende",
+      "thanksTitle": "Vielen Dank für Ihre Spende!",
+      "thanksText": "Ihre Großzügigkeit hilft, das Licht Nazareths für Pilger in aller Welt leuchten zu lassen."
+    }
   }
 }

@@ -548,5 +548,86 @@
     "total": "Total",
     "secure": "Pagamento seguro com PayPal",
     "emptyLead": "Conheça terços, cruzes e lembranças de Nazaré."
+  },
+  "checkoutPage": {
+    "meta": {
+      "checkoutTitle": "Finalizar compra",
+      "checkoutDescription": "Conclua seu pedido de lembranças de Nazaré e pague com segurança pelo PayPal.",
+      "candleTitle": "Acenda uma vela em Nazaré",
+      "candleDescription": "Escolha uma igreja em Nazaré e escreva sua oração. Acenderemos uma vela por você e enviaremos o vídeo.",
+      "donateTitle": "Doar",
+      "donateDescription": "Apoie o Nazareth Holy Cross com uma doação, paga com segurança pelo PayPal."
+    },
+    "hero": {
+      "eyebrow": "Pagamento seguro",
+      "orderTitle": "Conclua seu pedido",
+      "lead": "Seu pagamento é processado com segurança pelo PayPal.",
+      "candleEyebrow": "Vela de oração",
+      "donateEyebrow": "Doação",
+      "donateTitle": "Apoie o Nazareth Holy Cross",
+      "donateLead": "Sua doação nos ajuda a compartilhar os lugares santos, as orações e o artesanato de Nazaré com peregrinos do mundo inteiro."
+    },
+    "steps": {
+      "label": "Etapas do pagamento",
+      "details": "Seus dados",
+      "payment": "Pagamento",
+      "done": "Confirmação"
+    },
+    "loading": "Carregando seu carrinho…",
+    "form": {
+      "phone": "Telefone",
+      "country": "País",
+      "continue": "Continuar para o pagamento",
+      "edit": "Editar dados",
+      "fixErrors": "Corrija os campos destacados.",
+      "errors": {
+        "required": "Este campo é obrigatório.",
+        "tooLong": "Use no máximo {max} caracteres.",
+        "email": "Informe um e-mail válido, por exemplo nome@exemplo.com.",
+        "phone": "Informe um número de telefone válido, com o código do país.",
+        "amount": "Informe um valor entre {min} e {max}."
+      }
+    },
+    "summary": {
+      "quantity": "Qtd.: {count}",
+      "subtotal": "Subtotal",
+      "discount": "Desconto do site (10%)",
+      "shipping": "Frete",
+      "total": "Total",
+      "address": "Endereço de entrega"
+    },
+    "payment": {
+      "loading": "Carregando o PayPal…",
+      "unavailable": "Não foi possível carregar o PayPal. Verifique sua conexão ou desative bloqueadores de conteúdo e recarregue a página.",
+      "secured": "Pagamento seguro com PayPal. Nunca vemos os dados do seu cartão.",
+      "cancelled": "Pagamento cancelado. Nada foi cobrado.",
+      "errors": {
+        "start": "Não foi possível iniciar o pagamento. Tente novamente.",
+        "notCompleted": "O pagamento não foi concluído. Nada foi cobrado.",
+        "paypal": "O PayPal informou um erro. Tente novamente."
+      },
+      "reference": "Referência do pagamento: {id}",
+      "saving": "Salvando seus dados…",
+      "saveFailed": "Seu pagamento foi realizado, mas não conseguimos salvar seus dados. Tente novamente ou escreva para <mail>{email}</mail> informando a referência do pagamento."
+    },
+    "empty": {
+      "text": "Conheça terços, cruzes e lembranças de Nazaré."
+    },
+    "candle": {
+      "price": "Para acender uma vela: {price}",
+      "secureNext": "Em seguida, você vai revisar seus dados e pagar com segurança pelo PayPal."
+    },
+    "donate": {
+      "formTitle": "Faça uma doação",
+      "name": "Seu nome",
+      "amount": "Valor",
+      "other": "Outro valor",
+      "customAmount": "Valor em dólares americanos",
+      "summaryTitle": "Sua doação",
+      "nameLabel": "Nome",
+      "donation": "Doação",
+      "thanksTitle": "Obrigado pela sua doação!",
+      "thanksText": "Sua generosidade ajuda a manter acesa a luz de Nazaré para peregrinos do mundo inteiro."
+    }
   }
 }
