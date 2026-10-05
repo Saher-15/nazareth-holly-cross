@@ -39,6 +39,17 @@ async function liveCatalog(request: APIRequestContext): Promise<CatalogProduct[]
   return res.ok() ? ((await res.json()) as { products: CatalogProduct[] }).products : null;
 }
 
+/** Clicks the n-th star of the review form like a visitor would, until the choice sticks. */
+async function pickStars(form: Locator, n: number) {
+  const name = n === 1 ? '1 star' : `${n} stars`;
+  const radio = form.getByRole('radio', { name });
+  const star = form.locator('label').filter({ hasText: new RegExp(`\\b${name}$`) });
+  await expect(async () => {
+    await star.click();
+    await expect(radio).toBeChecked({ timeout: 1000 });
+  }).toPass({ timeout: 15_000 });
+}
+
 const CATEGORY_LABELS = Object.values(en.shopFeatures.categories);
 
 const inMain = (page: Page) => page.getByRole('main');
@@ -360,7 +371,7 @@ test.describe('product page features', () => {
     await hydrated(submit);
     await form.getByLabel('Your name').fill('Maria Rossi');
     await form.getByLabel('Country (optional)').fill('Italy');
-    await form.getByRole('radio', { name: '4 stars' }).check({ force: true });
+    await pickStars(form, 4);
     await form.getByLabel('Title (optional)').fill('Beautiful');
     await form.getByLabel('Your review').fill('It arrived quickly and looks lovely.');
 
@@ -396,7 +407,7 @@ test.describe('product page features', () => {
     const submit = form.getByRole('button', { name: 'Post review' });
     await hydrated(submit);
     await form.getByLabel('Your name').fill('Maria');
-    await form.getByRole('radio', { name: '5 stars' }).check({ force: true });
+    await pickStars(form, 5);
     await form.getByLabel('Your review').fill('Lovely');
     await submit.click();
     await expect(form.getByRole('alert')).toHaveText('We could not reach the server. Check your connection and try again.');
