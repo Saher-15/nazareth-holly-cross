@@ -69,7 +69,7 @@
     "tourButton": "TOUR POR NAZARET",
     "shopIcon": "fa fa-shopping-cart",
     "tourIcon": "far fa-play-circle",
-    "discount":"Disfruta de un 10% de descuento en todos los artículos de nuestra tienda—¡exclusivamente en nuestro sitio web!"
+    "discount": "Disfruta de un 10% de descuento en todos los artículos de nuestra tienda—¡exclusivamente en nuestro sitio web!"
   },
   "cards": {
     "title": "¡Descubre estos destinos ÉPICOS!",
@@ -292,7 +292,7 @@
   },
   "pagination": {
     "prev": "Anterior",
-    "next":"Siguiente"
+    "next": "Siguiente"
   },
   "home": {
     "eyebrow": "Nazaret · La ciudad de Jesús",
@@ -354,5 +354,26 @@
     "followUs": "Síguenos",
     "backToTop": "Volver arriba",
     "newTab": "(se abre en una pestaña nueva)"
+  },
+  "places": {
+    "newTab": "(se abre en una pestaña nueva)",
+    "viewGallery": "Ver las fotos",
+    "visitEyebrow": "Planifica tu visita",
+    "visitText": "Encuentra este lugar santo en el mapa o enciende una vela por tu intención desde donde estés.",
+    "galleryEyebrow": "Galería",
+    "galleryTitle": "Galería de fotos",
+    "galleryHint": "Selecciona una foto para ampliarla",
+    "photoCount": "{{n}} fotos",
+    "photoAlt": "{{place}}, foto {{n}} de {{total}}",
+    "viewer": "Fotos de {{place}}",
+    "close": "Cerrar",
+    "moreEyebrow": "Continúa el viaje",
+    "tourWatchEyebrow": "Mira el recorrido",
+    "tourVideoLabel": "Recorrido en vídeo por Nazaret",
+    "videoFallback": "Tu navegador no admite la reproducción de vídeo.",
+    "aboutEyebrow": "Sobre nosotros",
+    "aboutPillar1": "Una peregrinación a distancia",
+    "aboutPillar2": "Tesoros de Tierra Santa",
+    "aboutPillar3": "Apoyar a nuestra comunidad"
   }
 }

@@ -354,5 +354,26 @@
     "followUs": "Follow us",
     "backToTop": "Back to top",
     "newTab": "(opens in a new tab)"
+  },
+  "places": {
+    "newTab": "(opens in a new tab)",
+    "viewGallery": "View the photos",
+    "visitEyebrow": "Plan your visit",
+    "visitText": "Find this holy place on the map, or light a candle for your intention from wherever you are.",
+    "galleryEyebrow": "Gallery",
+    "galleryTitle": "Photo gallery",
+    "galleryHint": "Select a photo to enlarge it",
+    "photoCount": "{{n}} photos",
+    "photoAlt": "{{place}}, photo {{n}} of {{total}}",
+    "viewer": "Photos of {{place}}",
+    "close": "Close",
+    "moreEyebrow": "Continue the journey",
+    "tourWatchEyebrow": "Watch the tour",
+    "tourVideoLabel": "Video tour of Nazareth",
+    "videoFallback": "Your browser does not support the video tag.",
+    "aboutEyebrow": "About us",
+    "aboutPillar1": "A pilgrimage from afar",
+    "aboutPillar2": "Treasures from the Holy Land",
+    "aboutPillar3": "Supporting our community"
   }
 }
