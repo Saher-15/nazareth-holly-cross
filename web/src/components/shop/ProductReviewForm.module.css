@@ -93,7 +93,10 @@
 }
 .counter {
   flex: none;
-  margin: 0 0 0 auto;
+  margin: 0;
+  margin-inline-start: auto;
+  direction: ltr; /* "12 / 1000" reads the same in Hebrew and Arabic pages */
+  unicode-bidi: isolate;
   color: var(--muted);
   font-size: 0.8rem;
   font-variant-numeric: tabular-nums;
