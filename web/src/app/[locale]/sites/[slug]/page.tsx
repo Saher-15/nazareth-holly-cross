@@ -12,7 +12,7 @@ import VisitCard from '@/components/places/VisitCard';
 import { PhotosIcon, PinIcon } from '@/components/places/icons';
 import JsonLd from '@/components/ui/JsonLd';
 import Reveal from '@/components/ui/Reveal';
-import { breadcrumbJsonLd } from '@/lib/jsonLd';
+import { breadcrumbJsonLd, webPageJsonLd } from '@/lib/jsonLd';
 import { pageMetadata } from '@/lib/seo';
 import styles from './page.module.css';
 
@@ -49,6 +49,7 @@ export default async function PlacePage({ params }: PageProps<'/[locale]/sites/[
   const name = t(place.nameKey);
   const count = place.photos.length;
   const jsonLd = [
+    webPageJsonLd(locale, { path: placeHref(place.slug), name, description: t(`placesPage.teaser.${place.slug}`) }),
     placeJsonLd(place, { locale, name, description: t(`placesPage.teaser.${place.slug}`) }),
     breadcrumbJsonLd(locale, [
       { name: t('site.nav.home'), path: '/' },

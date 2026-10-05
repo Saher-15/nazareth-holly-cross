@@ -186,7 +186,8 @@ test.describe('live page', () => {
 
     await expect(page.getByRole('status')).toHaveText(status.upcoming);
     await expect(page.getByRole('heading', { name: en.live.upcoming_event })).toBeVisible();
-    await expect(page.getByRole('timer')).toContainText(en.communityPage.live.units.minutes);
+    // The unit labels are plural messages ("Minute" / "Minutes"), chosen by the number above them.
+    await expect(page.getByRole('timer')).toContainText(/Minutes?/);
     await expect(page.getByRole('button', { name: en.live.join_live })).toBeDisabled();
 
     await page.clock.fastForward('01:06:00');

@@ -15,6 +15,7 @@ import {
   type StoryBlock,
 } from '@/data/places/places';
 import { placeJsonLd } from '@/data/places/seo';
+import { locales } from '@/i18n/routing';
 import { breadcrumbJsonLd, itemListJsonLd, serializeJsonLd } from '@/lib/jsonLd';
 import { localePath, pageMetadata } from '@/lib/seo';
 
@@ -151,7 +152,7 @@ describe('seo', () => {
     const meta = pageMetadata({ locale: 'he', path: '/sites/latin', title: 'T', description: 'D' });
     expect(meta.alternates?.canonical).toBe('/he/sites/latin');
     const languages = meta.alternates?.languages as Record<string, string>;
-    expect(Object.keys(languages)).toHaveLength(12); // 11 languages + x-default
+    expect(Object.keys(languages)).toHaveLength(locales.length + 1); // every language + x-default
     expect(languages.ar).toBe('/ar/sites/latin');
     expect(languages['x-default']).toBe('/en/sites/latin');
     expect(localePath('fr', '/')).toBe('/fr');

@@ -57,6 +57,24 @@ export function breadcrumbJsonLd(locale: string, items: readonly Crumb[]): JsonL
   };
 }
 
+/** The page itself as a WebPage: its language (inLanguage) and the site it belongs to. */
+export function webPageJsonLd(
+  locale: string,
+  { path, name, description }: { path: string; name: string; description: string },
+): JsonLd {
+  const url = absoluteUrl(localePath(locale, path));
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': `${url}#webpage`,
+    url,
+    name,
+    description,
+    inLanguage: locale,
+    isPartOf: { '@id': `${SITE_URL}/#website` },
+  };
+}
+
 /** An ordered list of pages (the holy sites index, the stops of the tour). */
 export function itemListJsonLd(locale: string, name: string, items: readonly Crumb[]): JsonLd {
   return {

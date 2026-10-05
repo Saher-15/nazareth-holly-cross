@@ -7,23 +7,27 @@ import { footerNav } from '@/lib/site';
 
 type Entry = { path: string; priority: number; changeFrequency: 'daily' | 'weekly' | 'monthly' };
 
-/** One entry per page, listing all its language versions (hreflang). */
+const urlFor = (locale: string, path: string) => `${SITE_URL}/${locale}${path === '/' ? '' : path}`;
+
+// One entry for every language version of every page. Each entry lists all of its alternates, itself
+// included, plus x-default (English): Google expects the hreflang annotations to be reciprocal.
 function sitemapEntries(entries: Entry[]): MetadataRoute.Sitemap {
-  return entries.map(({ path, priority, changeFrequency }) => {
-    const suffix = path === '/' ? '' : path;
-    return {
-      url: `${SITE_URL}/en${suffix}`,
+  return entries.flatMap(({ path, priority, changeFrequency }) => {
+    const languages = {
+      ...Object.fromEntries(locales.map((l) => [l, urlFor(l, path)])),
+      'x-default': urlFor('en', path),
+    };
+    return locales.map((locale) => ({
+      url: urlFor(locale, path),
       changeFrequency,
       priority,
-      alternates: {
-        languages: Object.fromEntries(locales.map((l) => [l, `${SITE_URL}/${l}${suffix}`])),
-      },
-    };
+      alternates: { languages },
+    }));
   });
 }
 
-// Every page, the holy places and every product in the shop. If the API cannot be
-// reached, the sitemap still lists every other page.
+// Every page, the holy places and every product in the shop. The cart and the checkout are personal and
+// carry noindex, so they are left out. If the API cannot be reached, the sitemap still lists every other page.
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const pages: Entry[] = ['/', ...footerNav.map((item) => item.href)].map((path) => ({
     path,

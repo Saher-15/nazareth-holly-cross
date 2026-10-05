@@ -153,7 +153,7 @@ test.describe('language switcher', () => {
     await offline(page);
     await page.goto('/en/reviews?utm_source=qa#review-wall-title');
     await page.getByRole('button', { name: /language/i }).click();
-    await page.getByRole('button', { name: 'עברית' }).click();
+    await page.getByRole('link', { name: 'עברית' }).click();
     await expect(page).toHaveURL(/\/he\/reviews\?utm_source=qa#review-wall-title$/);
     await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
     // Focus is on the switcher, not lost on <body>.
@@ -165,9 +165,9 @@ test.describe('language switcher', () => {
     await page.goto('/en');
     const trigger = page.getByRole('button', { name: /language/i });
     await trigger.click();
-    await page.getByRole('button', { name: 'Français' }).focus();
+    await page.getByRole('link', { name: 'Français' }).focus();
     await page.keyboard.press('Escape');
-    await expect(page.getByRole('button', { name: 'Français' })).toHaveCount(0);
+    await expect(page.getByRole('link', { name: 'Français' })).toHaveCount(0);
     await expect(trigger).toBeFocused();
   });
 });

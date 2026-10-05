@@ -52,6 +52,7 @@ function ReviewCard({ review }: { review: Review }) {
                 month: 'long',
                 year: 'numeric',
                 timeZone: NAZARETH_TIME_ZONE,
+                numberingSystem: 'latn',
               })}
             </time>
           )}

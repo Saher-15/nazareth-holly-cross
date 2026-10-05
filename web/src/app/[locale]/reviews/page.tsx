@@ -6,7 +6,7 @@ import JsonLd from '@/components/ui/JsonLd';
 import PageHero from '@/components/ui/PageHero';
 import Reveal from '@/components/ui/Reveal';
 import { api, type Review } from '@/lib/api';
-import { organizationJsonLd } from '@/lib/jsonLd';
+import { organizationJsonLd, webPageJsonLd } from '@/lib/jsonLd';
 import { pageMetadata } from '@/lib/seo';
 import styles from './page.module.css';
 
@@ -41,25 +41,31 @@ async function loadReviews(): Promise<Review[] | null> {
 export default async function ReviewsPage({ params }: PageProps<'/[locale]/reviews'>) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const [home, pray, site, reviews] = await Promise.all([
+  const [home, pray, site, meta, reviews] = await Promise.all([
     getTranslations('home'),
     getTranslations('pray'),
     getTranslations('site'),
+    getTranslations('communityPage.reviews'),
     loadReviews(),
   ]);
 
-  const jsonLd = reviews?.length
-    ? {
-        '@context': 'https://schema.org',
-        ...organizationJsonLd({ name: site('name') }),
-        review: reviews.slice(0, 20).map((review) => ({
-          '@type': 'Review',
-          author: { '@type': 'Person', name: review.fullName },
-          reviewBody: review.msg,
-          ...(review.createdAt ? { datePublished: review.createdAt.slice(0, 10) } : {}),
-        })),
-      }
-    : null;
+  const jsonLd = [
+    webPageJsonLd(locale, { path: '/reviews', name: meta('metaTitle'), description: meta('metaDescription') }),
+    ...(reviews?.length
+      ? [
+          {
+            '@context': 'https://schema.org',
+            ...organizationJsonLd({ name: site('name') }),
+            review: reviews.slice(0, 20).map((review) => ({
+              '@type': 'Review',
+              author: { '@type': 'Person', name: review.fullName },
+              reviewBody: review.msg,
+              ...(review.createdAt ? { datePublished: review.createdAt.slice(0, 10) } : {}),
+            })),
+          },
+        ]
+      : []),
+  ];
 
   return (
     <div className={`ui-page ${styles.page}`}>
@@ -79,7 +85,7 @@ export default async function ReviewsPage({ params }: PageProps<'/[locale]/revie
         <ReviewWall reviews={reviews} titleId="review-wall-title" />
       </div>
 
-      {jsonLd && <JsonLd data={jsonLd} />}
+      <JsonLd data={jsonLd} />
     </div>
   );
 }

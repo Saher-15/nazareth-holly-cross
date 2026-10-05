@@ -10,7 +10,7 @@ import { CspNonceProvider } from '@/lib/cspNonce';
 import { isRtl, locales, routing } from '@/i18n/routing';
 import { SITE_NAME, SITE_URL } from '@/lib/config';
 import { fontVariables } from '@/lib/fonts';
-import { ogLocale } from '@/lib/seo';
+import { openGraphLocale } from '@/lib/seo';
 import '@/styles/globals.css';
 
 export function generateStaticParams() {
@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: LayoutProps<'/[locale]'>): Pr
       siteName: SITE_NAME,
       title: t('title'),
       description: t('description'),
-      locale: ogLocale(locale),
+      ...openGraphLocale(locale),
     },
   };
 }

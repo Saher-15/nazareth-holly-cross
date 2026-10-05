@@ -8,7 +8,7 @@ import SiteList from '@/components/places/SiteList';
 import { PlayIcon } from '@/components/places/icons';
 import JsonLd from '@/components/ui/JsonLd';
 import Reveal from '@/components/ui/Reveal';
-import { breadcrumbJsonLd, itemListJsonLd } from '@/lib/jsonLd';
+import { breadcrumbJsonLd, itemListJsonLd, webPageJsonLd } from '@/lib/jsonLd';
 import { pageMetadata } from '@/lib/seo';
 import styles from './page.module.css';
 
@@ -33,6 +33,11 @@ export default async function SitesPage({ params }: PageProps<'/[locale]/sites'>
   const t = await getTranslations();
 
   const jsonLd = [
+    webPageJsonLd(locale, {
+      path: '/sites',
+      name: t('placesPage.meta.sitesTitle'),
+      description: t('placesPage.meta.sitesDescription'),
+    }),
     itemListJsonLd(
       locale,
       t('placesPage.meta.sitesTitle'),

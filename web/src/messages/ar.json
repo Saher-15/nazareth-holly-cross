@@ -23,7 +23,7 @@
       "explore": "استكشف",
       "contact": "تواصل معنا",
       "follow": "تابعنا",
-      "rights": "© {year} Nazareth Holy Cross. جميع الحقوق محفوظة."
+      "rights": "\u2066© {year} Nazareth Holy Cross\u2069. جميع الحقوق محفوظة."
     },
     "notFound": {
       "title": "تعذّر العثور على هذه الصفحة",
@@ -330,6 +330,13 @@
     "prev": "السابق",
     "next": "التالي"
   },
+  "intl": {
+    "currencyNote": {
+      "usd": "الأسعار بالدولار الأمريكي (USD). تحوّلها بطاقتك أو PayPal وفق سعر الصرف الخاص بها.",
+      "approx": "نحو {amount} وفق سعر صرف استرشادي. قد يختلف المبلغ الذي يخصمه مصرفك.",
+      "shipping": "رسوم الشحن ثابتة وقدرها {fee} لكل طلب."
+    }
+  },
   "home": {
     "eyebrow": "الناصرة · مدينة يسوع",
     "title": "سِر حيث سار يسوع",
@@ -478,10 +485,10 @@
       "follow": "تابعنا على إنستغرام",
       "eventStarted": "بدأ البث",
       "units": {
-        "days": "أيام",
-        "hours": "ساعات",
-        "minutes": "دقائق",
-        "seconds": "ثوانٍ"
+        "days": "{count, plural, one {يوم} two {يومان} few {أيام} many {يومًا} other {يوم}}",
+        "hours": "{count, plural, one {ساعة} two {ساعتان} few {ساعات} many {ساعةً} other {ساعة}}",
+        "minutes": "{count, plural, one {دقيقة} two {دقيقتان} few {دقائق} many {دقيقةً} other {دقيقة}}",
+        "seconds": "{count, plural, one {ثانية} two {ثانيتان} few {ثوانٍ} many {ثانيةً} other {ثانية}}"
       },
       "pastEyebrow": "شاهد مجددًا",
       "videoFallback": "لا يستطيع متصفحك تشغيل هذا الفيديو.",

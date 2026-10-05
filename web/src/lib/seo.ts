@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
-import { locales } from '@/i18n/routing';
+import { locales, openGraphLocales, type Locale } from '@/i18n/routing';
 import { SITE_NAME, SITE_URL } from './config';
+
+const isLocale = (value: string): value is Locale => (locales as readonly string[]).includes(value);
 
 // Canonical URLs, hreflang lists and page metadata. Every page sets its own: the layout deliberately
 // sets no canonical, otherwise every page would claim the home page as canonical.
@@ -11,11 +13,29 @@ export const localePath = (locale: string, path = '') => `/${locale}${path === '
 /** A path (or URL) made absolute against the public site address. */
 export const absoluteUrl = (path: string) => new URL(path, SITE_URL).toString();
 
-/** Canonical URL + hreflang list for one page in every language. */
+/**
+ * Canonical URL + hreflang list for one page in every language. Every language lists all the others and
+ * itself, plus x-default (English) for visitors of any other language.
+ */
 export function pageAlternates(locale: string, path = '') {
   return {
     canonical: localePath(locale, path),
     languages: { ...Object.fromEntries(locales.map((l) => [l, localePath(l, path)])), 'x-default': localePath('en', path) },
+  };
+}
+
+/** Open Graph wants language_TERRITORY ("he_IL"), not the bare language the URLs use. */
+export const ogLocale = (locale: string) => openGraphLocales[isLocale(locale) ? locale : 'en'];
+
+/**
+ * Open Graph language of a page: og:locale in the language_TERRITORY form social networks expect
+ * (he_IL, not "he") and every other language as og:locale:alternate.
+ */
+export function openGraphLocale(locale: string) {
+  const current = isLocale(locale) ? locale : 'en';
+  return {
+    locale: ogLocale(current),
+    alternateLocale: locales.filter((l) => l !== current).map((l) => openGraphLocales[l]),
   };
 }
 
@@ -51,7 +71,7 @@ export function pageMetadata({ locale, path, title, description, image, absolute
       siteName: SITE_NAME,
       title,
       description,
-      locale: ogLocale(locale),
+      ...openGraphLocale(locale),
       url,
       ...(picture && { images: [{ url: picture.src, width: picture.width, height: picture.height }] }),
     },
@@ -59,19 +79,3 @@ export function pageMetadata({ locale, path, title, description, image, absolute
     robots: noindex ? { index: false, follow: true } : undefined,
   };
 }
-
-// Open Graph wants language_TERRITORY ("he_IL"), not the bare language the URLs use.
-const OG_LOCALES: Record<string, string> = {
-  en: 'en_US',
-  fr: 'fr_FR',
-  es: 'es_ES',
-  de: 'de_DE',
-  it: 'it_IT',
-  pt: 'pt_PT',
-  pl: 'pl_PL',
-  ru: 'ru_RU',
-  el: 'el_GR',
-  he: 'he_IL',
-  ar: 'ar_AR',
-};
-export const ogLocale = (locale: string) => OG_LOCALES[locale] ?? 'en_US';

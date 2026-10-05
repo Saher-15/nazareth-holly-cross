@@ -7,6 +7,7 @@ import Flame from '@/components/ui/Flame';
 import JsonLd from '@/components/ui/JsonLd';
 import Notice from '@/components/ui/Notice';
 import SvgIcon from '@/components/ui/SvgIcon';
+import { locales } from '@/i18n/routing';
 import { postJson } from '@/lib/apiClient';
 import { isOptimizable } from '@/lib/images';
 import { breadcrumbJsonLd, itemListJsonLd, organizationJsonLd, serializeJsonLd } from '@/lib/jsonLd';
@@ -34,7 +35,7 @@ describe('lib/seo', () => {
   it('lists every language plus x-default, and a canonical of its own', () => {
     const alt = pageAlternates('ar', '/shop');
     expect(alt.canonical).toBe('/ar/shop');
-    expect(Object.keys(alt.languages)).toHaveLength(12);
+    expect(Object.keys(alt.languages)).toHaveLength(locales.length + 1); // every language + x-default
     expect(alt.languages['x-default']).toBe('/en/shop');
     expect(pageAlternates('de').canonical).toBe('/de');
   });

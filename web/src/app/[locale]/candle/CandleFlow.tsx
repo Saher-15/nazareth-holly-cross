@@ -10,6 +10,7 @@ import DonePanel from '@/components/checkout/DonePanel';
 import Field, { invalidProps, TextField } from '@/components/checkout/Field';
 import PayPalPanel from '@/components/checkout/PayPalPanel';
 import StepIndicator, { type FlowStep } from '@/components/checkout/StepIndicator';
+import CurrencyNote from '@/components/intl/CurrencyNote';
 import { fieldOrder, useErrorText, useSaveAfterPayment, useStepFocus, useValidatedForm } from '@/components/checkout/hooks';
 import { LockIcon } from '@/components/checkout/icons';
 import {
@@ -233,6 +234,7 @@ export default function CandleFlow() {
             </dt>
             <dd data-testid="candle-total">{price}</dd>
           </dl>
+          <CurrencyNote amountUsd={CANDLE_PRICE} />
           <h3 className={shared.payTitle}>{tr('paypalComponent.paymentMethod')}</h3>
           <PayPalPanel getPayload={getPayload} onPaid={onPaid} />
           <div className={shared.actions}>

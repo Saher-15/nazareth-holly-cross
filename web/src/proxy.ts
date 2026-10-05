@@ -1,10 +1,16 @@
-import { NextRequest } from 'next/server';
+import { NextRequest, type NextResponse } from 'next/server';
 import createMiddleware from 'next-intl/middleware';
-import { routing } from './i18n/routing';
+import { defaultLocale, languageFallbacks, locales, routing } from './i18n/routing';
 import { API_URL } from './lib/config';
 import { buildCsp, generateNonce, isLocalHost, originOf } from './lib/csp';
+import { isCrawler, withLanguageFallbacks } from './lib/negotiate';
 
-// 1. Sends visitors without a language in the URL to their preferred one (Accept-Language, cookie).
+// 1. Sends visitors without a language in the URL to the one they prefer, in this order:
+//      a. the language they chose before (next-intl keeps it in the NEXT_LOCALE cookie),
+//      b. their browser's Accept-Language (next-intl's matching, plus a few neighbours such as Belarusian → Russian),
+//      c. English.
+//    A URL that already names a language is never redirected: /fr/shop stays /fr/shop whoever asks.
+//    Robots get English for a bare URL whatever their headers say, so the answer is stable for search engines.
 // 2. Gives every page response its own Content-Security-Policy nonce (see lib/csp.ts). The nonce travels
 //    to the renderer in the request headers (Next.js reads it from the CSP header and tags its scripts),
 //    and `x-nonce` lets server components hand it to third-party scripts.
@@ -13,7 +19,9 @@ const intl = createMiddleware(routing);
 const isDev = process.env.NODE_ENV === 'development';
 const apiOrigin = originOf(API_URL);
 
-export default function proxy(request: NextRequest) {
+export default function proxy(request: NextRequest): NextResponse {
+  const crawler = isCrawler(request.headers.get('user-agent'));
+
   const nonce = generateNonce();
   const csp = buildCsp({
     nonce,
@@ -23,12 +31,38 @@ export default function proxy(request: NextRequest) {
     upgradeInsecure: !isDev && !isLocalHost(request.headers.get('host')),
   });
 
-  const requestHeaders = new Headers(request.headers);
-  requestHeaders.set('x-nonce', nonce);
-  requestHeaders.set('content-security-policy', csp);
+  // Rebuilding the request is needed to hand the nonce to the renderer and to change what next-intl sees,
+  // and only for GET/HEAD: a POST (a server action) must reach the page with its body untouched.
+  const safeMethod = request.method === 'GET' || request.method === 'HEAD';
+  let seen = request;
+  if (safeMethod) {
+    const headers = new Headers(request.headers);
+    headers.set('x-nonce', nonce);
+    headers.set('content-security-policy', csp);
+    if (crawler) {
+      headers.delete('cookie');
+      headers.set('accept-language', defaultLocale);
+    } else {
+      const requested = headers.get('accept-language');
+      const adjusted = requested ? withLanguageFallbacks(requested, locales, languageFallbacks) : requested;
+      if (requested && adjusted !== requested) headers.set('accept-language', adjusted ?? requested);
+    }
+    seen = new NextRequest(request, { headers });
+  }
 
-  const response = intl(new NextRequest(request, { headers: requestHeaders }));
+  const response = intl(seen);
   response.headers.set('Content-Security-Policy', csp);
+
+  // A crawler has no preference to remember.
+  if (crawler) response.headers.delete('set-cookie');
+
+  // The redirect from a bare URL depends on the request headers: say so, and keep shared caches from
+  // handing one visitor's redirect to the next.
+  if (response.status >= 300 && response.status < 400) {
+    response.headers.append('Vary', 'Accept-Language');
+    response.headers.append('Vary', 'Cookie');
+    response.headers.set('Cache-Control', 'private, no-cache, no-store');
+  }
   return response;
 }
 

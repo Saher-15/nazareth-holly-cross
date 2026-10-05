@@ -7,7 +7,7 @@ import PlaceCards from '@/components/places/PlaceCards';
 import PlaceHero from '@/components/places/PlaceHero';
 import JsonLd from '@/components/ui/JsonLd';
 import Reveal from '@/components/ui/Reveal';
-import { breadcrumbJsonLd } from '@/lib/jsonLd';
+import { breadcrumbJsonLd, webPageJsonLd } from '@/lib/jsonLd';
 import { absoluteUrl, localePath, pageMetadata } from '@/lib/seo';
 import styles from './page.module.css';
 
@@ -37,6 +37,11 @@ export default async function TourPage({ params }: PageProps<'/[locale]/tour'>) 
   const { props: poster } = getImageProps({ src: POSTER.src, width: POSTER.width, height: POSTER.height, alt: '' });
 
   const jsonLd = [
+    webPageJsonLd(locale, {
+      path: '/tour',
+      name: t('placesPage.meta.tourTitle'),
+      description: t('placesPage.meta.tourDescription'),
+    }),
     {
       '@context': 'https://schema.org',
       '@type': 'TouristTrip',
