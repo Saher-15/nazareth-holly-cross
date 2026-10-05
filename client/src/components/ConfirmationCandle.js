@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import axios from 'axios';
 import { useTranslation } from 'react-i18next'; // Import the translation hook
-import { API_URL } from '../config';
+import { API_URL } from '../config/env';
 
 const ConfirmationCandle = ({ firstName, lastName, email, prayer }) => {
     const navigate = useNavigate(); // Get the navigate function

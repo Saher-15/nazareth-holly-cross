@@ -1,9 +1,8 @@
 import express from "express"
 import Contact from "../model/contact.js"
-import dotenv from "dotenv"
+import { config } from "../config/env.js"
 import { requireAdmin } from '../middleware/auth.js';
 
-dotenv.config()
 
 const routerContact = express.Router();
 

@@ -14,6 +14,7 @@ import routerAdmin from './route/adminRoute.js';
 import routerPrayer from './route/prayerRoute.js';
 import routerReview from './route/reviewRoute.js';
 import { globalLimiter } from './utils/security.js';
+import { config } from './config/env.js';
 
 // Builds the Express app without connecting to the DB or listening,
 // so tests can import it and drive it with supertest.
@@ -21,7 +22,7 @@ export function createApp() {
   const app = express();
   app.set('trust proxy', 1);
 
-  if (process.env.NODE_ENV !== 'production') {
+  if (!config.isProd) {
     app.use(morgan('dev'));
   }
 
@@ -29,7 +30,7 @@ export function createApp() {
     'http://localhost:3000',
     'http://localhost:5173',
     'http://localhost:5174',
-    process.env.CLIENT_URL,
+    config.clientUrl,
     /\.netlify\.app$/,
     /\.netlify\.com$/,
   ].filter(Boolean);
@@ -67,7 +68,7 @@ export function createApp() {
   // Global error handler — never expose stack traces or internal messages in production
   // eslint-disable-next-line no-unused-vars
   app.use((err, req, res, next) => {
-    const isProd = process.env.NODE_ENV === 'production';
+    const isProd = config.isProd;
     console.error(`[${new Date().toISOString()}] Unhandled error: ${err.message}`, isProd ? '' : err.stack);
     res.status(err.status || 500).json({
       error: isProd ? 'Internal server error' : err.message,

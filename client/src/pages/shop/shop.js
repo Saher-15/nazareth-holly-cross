@@ -6,7 +6,7 @@ import LoadingLogo from "./loading"; // Assuming you have a LoadingLogo componen
 import { useShopContext } from "../../context/shop-context";
 import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import { useTranslation } from 'react-i18next'; // Import useTranslation from i18next
-import { API_URL } from '../../config';
+import { API_URL } from '../../config/env';
 
 const Shop = () => {
   const { t } = useTranslation(); // Initialize the translation function

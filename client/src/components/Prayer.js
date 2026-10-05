@@ -3,7 +3,7 @@ import axios from 'axios';
 import "../App.css";
 import "../styles/Prayer.css";
 import { useTranslation } from 'react-i18next'; // Import the translation hook
-import { API_URL } from '../config';
+import { API_URL } from '../config/env';
 
 function Pray() {
     const { t } = useTranslation(); // Initialize the translation hook

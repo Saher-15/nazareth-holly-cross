@@ -4,7 +4,7 @@ import "../shop/productPage.css";
 import { useShopContext } from "../../context/shop-context";
 import LoadingLogo from './loading'; // Import your LoadingLogo component
 import { useTranslation } from 'react-i18next'; // Import the translation hook
-import { API_URL } from '../../config';
+import { API_URL } from '../../config/env';
 
 const ProductPage = () => {
   const { t } = useTranslation(); // Initialize translation

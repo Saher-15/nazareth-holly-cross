@@ -3,7 +3,7 @@ import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { useTranslation } from 'react-i18next';
 import "../styles/PaypalCandle.css";
 import ConfirmationCandle from '../components/ConfirmationCandle';
-import { API_URL } from '../config';
+import { API_URL, PAYPAL_CLIENT_ID } from '../config/env';
 
 const PayPalComponent = ({ form }) => {
     const { t } = useTranslation(); // Hook to use translations
@@ -12,7 +12,7 @@ const PayPalComponent = ({ form }) => {
     const [showConfirmation, setShowConfirmation] = useState(false);
 
     const initialOptions = {
-        clientId: "AfhOc9ToAj72gf5KEowYfhpWShGRSpzSL-Ps2HYX4ky95KmVX8vNRb0o5FZ3AGw3muq8DIvDP0Ua2_ad"
+        clientId: PAYPAL_CLIENT_ID
     };
 
     const intent = 'capture';
