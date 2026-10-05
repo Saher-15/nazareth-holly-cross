@@ -1,0 +1,1529 @@
+{
+  "site": {
+    "name": "Nazareth Holy Cross",
+    "tagline": "De stad van Jezus, vanaf elke plek ter wereld",
+    "skipToContent": "Naar de inhoud",
+    "menuOpen": "Menu openen",
+    "menuClose": "Menu sluiten",
+    "language": "Taal",
+    "nav": {
+      "home": "Home",
+      "sites": "Heilige plaatsen",
+      "tour": "Rondleiding",
+      "candle": "Steek een kaars aan",
+      "shop": "Winkel",
+      "live": "Live",
+      "reviews": "Reviews",
+      "about": "Over ons",
+      "cart": "Winkelwagen",
+      "donate": "Doneren"
+    },
+    "footer": {
+      "about": "Wij delen de geest van Nazareth met pelgrims over de hele wereld: de heilige plaatsen, de gebeden en het ambacht van de stad.",
+      "explore": "Ontdekken",
+      "contact": "Contact",
+      "follow": "Volg ons",
+      "rights": "© {year} Nazareth Holy Cross. Alle rechten voorbehouden."
+    },
+    "notFound": {
+      "title": "Deze pagina is niet gevonden",
+      "text": "De pagina die u zoekt, is mogelijk verplaatst. Wij brengen u graag terug.",
+      "backHome": "Terug naar de homepage"
+    },
+    "meta": {
+      "title": "Nazareth Holy Cross — De stad van Jezus",
+      "description": "Steek een kaars aan in Nazareth, ontdek de heilige plaatsen en neem gezegende souvenirs mee naar huis uit de stad waar Jezus opgroeide."
+    }
+  },
+  "about": {
+    "title": "Welkom op het officiële portaal van Nazareth",
+    "description1": "Het hart van het christelijk geloof. Wij begrijpen dat niet iedereen Nazareth in persoon kan bezoeken, de stad waar Jezus opgroeide en waar elke bezoeker geestelijke ervaringen te wachten staan. Daarom bieden wij u graag de mogelijkheid om Nazareth naar u toe te brengen.",
+    "description2": "Via onze website kunt u een virtuele rondleiding maken langs de belangrijkste kerken en heilige plaatsen van Nazareth en kennismaken met de rijke geschiedenis en religieuze traditie die deze plek kenmerken. Daarnaast bieden wij u de unieke kans om lokale souvenirs te kopen en zelfs een kaars aan te steken ter nagedachtenis aan of ter ere van uw dierbaren, alsof u hier bij ons was.",
+    "description3": "In onze webwinkel vindt u een breed assortiment: kruisen van lokaal olijfhout, sieraden geïnspireerd op christelijke symbolen, schilderijen en mozaïeken die de rijkdom van de religieuze kunst weerspiegelen, en nog veel meer. Nu kunt u ook water uit de legendarische bron van Nazareth, zand uit Nazareth en lokale olijven kopen — alles om de grootsheid van de stad Nazareth en van Jezus te voelen. U kunt er ook voor kiezen een virtuele kaars aan te steken, een gebaar dat gebed en herinnering over de afstand heen draagt.",
+    "description4": "Wij nodigen u uit uw hart te openen en de warmte van onze gemeenschap te voelen in elk product dat u koopt. Elke aankoop steunt de lokale gemeenschap en helpt het rijke erfgoed van Nazareth te bewaren voor toekomstige generaties. Bezoek onze website en vind uw eigen weg naar Nazareth, op elk moment en vanaf elke plek."
+  },
+  "whatIsNew": {
+    "title": "Nazareth in de Bijbel",
+    "scriptureNotes": {
+      "matthew": "Matteüs 2:23: ‘En hij vestigde zich in een stad die Nazareth heette. Zo ging in vervulling wat de profeten gezegd hebben: Hij zal Nazoreeër genoemd worden.’",
+      "luke1": "Lucas 1:26-27: ‘In de zesde maand werd de engel Gabriël door God gezonden naar een stad in Galilea die Nazareth heette, naar een maagd die verloofd was met een man die Jozef heette, uit het huis van David. De maagd heette Maria.’",
+      "john": "Johannes 1:46: ‘Nathanaël zei tegen hem: Kan er iets goeds uit Nazareth komen? Filippus antwoordde: Kom het maar zien.’",
+      "luke4": "Lucas 4:16: ‘Zo kwam hij ook in Nazareth, waar hij was opgegroeid. Op de sabbat ging hij, zoals zijn gewoonte was, naar de synagoge en stond op om voor te lezen.’"
+    },
+    "touchingTheSacred": "Het heilige aanraken, de hartslag voelen",
+    "introParagraphs": {
+      "part1": "Nazareth, de stad waar het wonder plaatsvond, is de plek waar Jezus zijn eerste stappen zette, waar de maagd Maria haar Zoon omarmde en bad voor zijn veiligheid. Hier, in de eeuwenoude kerken, bij de heilige bron waar Maria Jezus voedde en op de levendige markt van de oude stad, zult u uw geloof opnieuw tot leven voelen komen.",
+      "part2": "Stelt u zich voor dat u door de smalle straatjes loopt, in de voetsporen van Jezus naar de kerken, en een moment van bezinning vindt bij de Mariabron, waar de ogen van de heilige Moeder het eeuwenoude water ontmoetten. Elke steen, elk steegje vertelt een verhaal van onwankelbaar geloof, van een geestelijke reis die de tijd overstijgt.",
+      "part3": "Wanneer u een kaars aansteekt in de Annunciatiebasiliek, verbindt u zich opnieuw met de plek waar Jezus voor het eerst zijn goddelijke roeping hoorde. Terwijl uw hart verlangt naar Nazareth, dragen onze souvenirs de heilige geest van de stad met zich mee en herinneren ze u aan uw diepe band met de plek waar alles begon.",
+      "part4": "Laat ons Nazareth naar u toe brengen, rechtstreeks naar uw huis. Met elk souvenir bewaart u een diepe band met Nazareth — de stad waar Jezus en Maria liepen, de stad waar het geloof werd geboren. Denk terug aan de momenten die hier plaatsvonden, de harten die zich openden in gebed en de tranen die zachtjes op de eeuwenoude stenen vielen.",
+      "part5": "Nazareth wacht op u, omarmt u van verre en brengt u zijn heiligheid. Houd de vlam in uw hart brandend, tot de dag waarop u bij ons terugkeert — in de stad waar het geloof klopt."
+    }
+  },
+  "live": {
+    "event_ongoing": "Livestream is bezig",
+    "upcoming_event": "Eerstvolgende livestream",
+    "nazareth_date_time": "Datum en tijd in Nazareth:",
+    "time_remaining": "Resterende tijd:",
+    "join_live": "Live meekijken",
+    "no_upcoming_events": "Er zijn geen livestreams gepland.",
+    "past_live_events": "Eerdere livestreams",
+    "refresh_note": "Let op: vernieuw de pagina voordat u op de knop ‘Live meekijken’ klikt.",
+    "live_note": "Let op: de knop ‘Live meekijken’ is pas beschikbaar nadat de livestream is begonnen."
+  },
+  "common": {
+    "home": "Home",
+    "live": "Live",
+    "tour": "Rondleiding",
+    "candle": "Kaars",
+    "shop": "Winkel",
+    "reviews": "Reviews"
+  },
+  "candle": {
+    "howToLightACandle": "Hoe steekt u een kaars aan?",
+    "itsSimple": "Het is eenvoudig:",
+    "step1": "Kies de kerk waar u de kaars wilt laten aansteken.",
+    "step2": "Schrijf een gebed of een persoonlijke wens die u bij het aansteken van de kaars wilt meegeven.",
+    "step3": "Wij gaan naar de kerk, steken de kaars voor u aan, nemen een video op met uw naam en sturen die rechtstreeks naar u toe.",
+    "note": "Let op: deze video is slechts ter illustratie en laat zien hoe een kaars wordt aangestoken in de Grieks-orthodoxe kerk.",
+    "lightAPrayCandle": "STEEK EEN GEBEDSKAARS AAN",
+    "selectChurch": "Kies de kerk waar de kaars moet worden aangestoken:",
+    "toLightACandlePay": "Om een kaars aan te steken, betaalt u $ 3",
+    "light": "AANSTEKEN",
+    "emailMatchError": "De e-mailadressen komen niet overeen",
+    "inputWarning": "Kies een kerk.",
+    "firstName": "Voornaam",
+    "lastName": "Achternaam",
+    "yourEmail": "Uw e-mailadres",
+    "confirmEmail": "Bevestig uw e-mailadres",
+    "yourPrayer": "Uw gebed"
+  },
+  "heroSection": {
+    "heading": "DE STAD VAN JEZUS WACHT OP U",
+    "subHeading": "GENADE IN ELKE KLIK",
+    "lightCandle": "STEEK EEN KAARS AAN",
+    "shopButton": "Winkel",
+    "tourButton": "RONDLEIDING NAZARETH",
+    "shopIcon": "fa fa-shopping-cart",
+    "tourIcon": "far fa-play-circle",
+    "discount": "10% korting op alle artikelen in onze winkel — exclusief via onze website!"
+  },
+  "cards": {
+    "title": "Ontdek deze BIJZONDERE bestemmingen!",
+    "latinChurch": "Ontdek de Annunciatiebasiliek",
+    "greekChurch": "Ontdek de Grieks-orthodoxe kerk",
+    "marysWell": "Ontdek de Mariabron in het hart van Nazareth",
+    "oldCity": "Ontdek de Oude Stad",
+    "cityOfNazareth": "De stad Nazareth, de stad van Jezus"
+  },
+  "videos": {
+    "interview_nazareth": {
+      "title": "Interview met de gemeenschap van Nazareth",
+      "description": "Bekijk het exclusieve interview dat live vanuit Nazareth werd uitgezonden."
+    },
+    "live_prayer_latin": {
+      "title": "Gebed live vanuit de Latijnse kerk",
+      "description": "Beleef een live-uitzending van gebeden uit het hart in de Latijnse kerk."
+    }
+  },
+  "nazarethTour": {
+    "pageHeading": "Ontdek Nazareth",
+    "videoMessage": "Laten we een rondleiding maken door Nazareth, een stad vol geschiedenis en cultuur. Ontdek levendige markten, historische kerken en unieke bezienswaardigheden voor een onvergetelijke ervaring.",
+    "videoDescription": "Geniet van de beelden en geluiden van Nazareth in deze meeslepende videorondleiding. Van drukke markten tot rustige historische plekken: laat u verrassen door de schoonheid en de charme van deze oude stad.",
+    "ctaButton": "Meer over Nazareth"
+  },
+  "pray": {
+    "formTitle": "Deel uw review",
+    "formDescription": "Deel uw ervaring met onze website. Uw feedback helpt ons te verbeteren en betere service te bieden. Vul het onderstaande formulier in en uw review wordt geplaatst zodra ons team die heeft goedgekeurd.",
+    "placeholderFullName": "Volledige naam",
+    "placeholderCountry": "Waar komt u vandaan?",
+    "placeholderMessage": "Vertel ons over uw ervaring met onze website",
+    "submitButton": "Verzenden",
+    "successMessage": "Bericht succesvol verzonden!",
+    "confirmationMessage": "Uw bericht verschijnt op de muur zodra het is bevestigd door het team van Nazareth Holy Cross.",
+    "messagesTitle": "Reviews van onze klanten",
+    "messagesDescription": "Dit zijn de reviews die door ons team zijn goedgekeurd. Bedankt dat u uw feedback met ons hebt gedeeld.",
+    "noMessages": "Er zijn nog geen berichten verzonden."
+  },
+  "confirmationCandle": {
+    "thankYou": "Hartelijk dank!",
+    "paymentSuccess": "Uw betaling is succesvol verwerkt.",
+    "receipt": "Er is een bevestiging naar uw e-mailadres gestuurd.",
+    "gratitude": "Bedankt voor uw bestelling!"
+  },
+  "thankYou": {
+    "thankYou": "Hartelijk dank!",
+    "paymentSuccess": "Uw betaling is succesvol verwerkt.",
+    "receipt": "Er is een bevestiging naar uw e-mailadres gestuurd.",
+    "gratitude": "Bedankt voor uw bestelling!"
+  },
+  "footer": {
+    "aboutUs": "Over ons",
+    "aboutUsDescription": "Wij zetten ons in voor het behoud van de geest van Nazareth en het verspreiden van de boodschap van hoop. Bezoek onze website om de reis te beginnen.",
+    "learnMore": "Meer informatie",
+    "contactUs": "Neem contact met ons op",
+    "email": "nazarethholycross@gmail.com",
+    "followInstagram": "Volg ons op Instagram",
+    "followFacebook": "Volg ons op Facebook",
+    "subscribeYoutube": "Sluit u aan op YouTube",
+    "credits": "Credits",
+    "creditLink1": "Saher Saadi",
+    "creditLink2": "Haytham Taweel",
+    "copyright": "Copyright © 2024 — Alle rechten voorbehouden, NazarethHolyCross"
+  },
+  "headerGreek": {
+    "title": "Ontdek de schoonheid van de Griekse kerk",
+    "mapButton": "Bekijk op Google Maps"
+  },
+  "contentGreek": {
+    "paragraph1": "De Grieks-orthodoxe Annunciatiekerk staat boven de bron waar volgens orthodoxe christenen de Annunciatie plaatsvond. Toen de maagd Maria water ging scheppen bij de bron, verscheen de aartsengel Gabriël aan haar en verkondigde haar dat zij zwanger zou worden en een zoon zou baren, die zij Jezus zou noemen. De huidige kerk dateert uit 1750, toen Daher al-Omar, de Bedoeïenenheerser van Galilea, de Grieks-orthodoxe gemeenschap toestemming gaf haar te bouwen.",
+    "paragraph2": "De kerk heeft een middenschip met twee zijbeuken en een prachtige houten iconostase, in 1767 geschonken door een Griekse koopman. In 1977–1978 werd de kerk opnieuw gedecoreerd door Roemeense kunstenaars. Een overwelfde gang leidt naar beneden naar een kleine kapel, versierd met Armeense tegels, vanwaar zeven treden afdalen naar de bron, die volgens de overlevering door de kruisvaarders in de twaalfde eeuw is aangelegd.",
+    "paragraph3": "Ongeveer 140 meter van de kerk ligt de Mariabron, die vroeger door de bron werd gevoed en eeuwenlang diende als lokale waterbron. De fontein werd gerepareerd in 1967 en opnieuw in 2000, maar functioneert tegenwoordig niet meer."
+  },
+  "headerLatin": {
+    "title": "Ontdek de schoonheid van de Latijnse kerk"
+  },
+  "contentLatin": {
+    "paragraph1": "De Latijnse kerk, ook bekend als de Annunciatiebasiliek, is een belangrijke religieuze plaats in Nazareth, Israël. Het is een van de grootste kerken van het Midden-Oosten en heeft diepe religieuze betekenis voor christenen over de hele wereld.",
+    "history": {
+      "title": "Historische achtergrond",
+      "text": "Volgens de overlevering is dit de plaats waar de engel Gabriël aan de maagd Maria verkondigde dat zij Jezus zou ontvangen en baren, een gebeurtenis die bekendstaat als de Annunciatie. De basiliek heeft een lange geschiedenis die teruggaat tot de eerste eeuwen van het christendom; in de loop der tijd zijn hier achtereenvolgens meerdere kerken gebouwd."
+    },
+    "architecture": {
+      "title": "Architectonische kenmerken",
+      "text": "De huidige basiliek, gebouwd tussen 1955 en 1969, heeft een opvallende structuur van twee verdiepingen. De bovenkerk wordt gebruikt voor erediensten, terwijl de onderkerk de Annunciatiegrot omsluit, die wordt beschouwd als de werkelijke plaats van de Annunciatie. De architectuur van de basiliek combineert moderne stijlen met traditionele elementen en het interieur is versierd met mozaïeken, fresco’s en kunstwerken die scènes uit het leven van Christus uitbeelden."
+    },
+    "visiting": {
+      "title": "De basiliek bezoeken",
+      "text": "De Annunciatiebasiliek is een geliefde bestemming voor pelgrims en toeristen die Nazareth bezoeken. Bezoekers kunnen zowel de boven- als de onderkerk verkennen, de artistieke en architectonische kenmerken bewonderen en deelnemen aan de religieuze plechtigheden en evenementen die in de basiliek plaatsvinden. De plek biedt een diepe geestelijke ervaring en is een symbool van geloof en erfgoed."
+    }
+  },
+  "headerMary": {
+    "title": "Ontdek de schoonheid van de Mariabron"
+  },
+  "contentMary": {
+    "intro": "De Mariabron, ook bekend als de Maagdenbron, is een belangrijke historische en religieuze plaats in Nazareth, Israël. Volgens de overlevering is dit de plek waar de engel Gabriël aan de maagd Maria verkondigde dat zij Jezus zou baren, een gebeurtenis die bekendstaat als de Annunciatie.",
+    "significance": {
+      "title": "Historische en religieuze betekenis",
+      "biblical": "Verband met de Bijbel",
+      "biblicalText": "Volgens de christelijke traditie schepte Maria bij de Mariabron water toen de engel Gabriël aan haar verscheen en verkondigde dat zij Jezus Christus zou ontvangen en baren. Deze gebeurtenis is een centraal onderdeel van het christelijke verhaal van de Annunciatie.",
+      "cultural": "Culturele betekenis",
+      "culturalText": "Eeuwenlang was de bron een vitale waterbron voor de lokale gemeenschap. Hij diende als ontmoetingsplaats voor de inwoners van Nazareth en was een vast onderdeel van het dagelijks leven in de stad.",
+      "architecture": "Architectonische kenmerken",
+      "architectureText": "De bron zelf maakt deel uit van een groter complex waartoe ook de Grieks-orthodoxe Annunciatiekerk behoort. Het huidige kerkgebouw dateert uit de achttiende eeuw, maar de bron en de plek hebben veel oudere wortels."
+    },
+    "modern": {
+      "title": "De plek vandaag",
+      "restoration": "Restauratiewerkzaamheden",
+      "restorationText": "De fontein bij de Mariabron is in de loop der jaren meerdere keren gerestaureerd, met name in 1967 en 2000. Ondanks deze inspanningen functioneert de bron tegenwoordig niet meer zoals vroeger.",
+      "attraction": "Toeristische attractie",
+      "attractionText": "De Mariabron is een geliefde bestemming voor pelgrims en toeristen. Bezoekers komen om de historische plek te zien en de plaats te beleven waar volgens de overlevering de Annunciatie plaatsvond.",
+      "surroundings": "Omgeving",
+      "surroundingsText": "De bron ligt in de Oude Stad van Nazareth, een buurt vol historische en religieuze bezienswaardigheden. In de buurt liggen de Annunciatiebasiliek, de Grieks-orthodoxe Annunciatiekerk en diverse andere plaatsen die verband houden met het leven van Jezus en Maria."
+    },
+    "visiting": {
+      "title": "De Mariabron bezoeken",
+      "location": "Locatie",
+      "locationText": "De Mariabron ligt in het hart van Nazareth en is daardoor goed bereikbaar voor bezoekers die de Oude Stad verkennen.",
+      "accessibility": "Toegankelijkheid",
+      "accessibilityText": "De plek is openbaar toegankelijk en het hele jaar te bezoeken. Het is raadzaam de lokale bezoekersinformatie te raadplegen voor eventuele bezoektijden of richtlijnen.",
+      "culturalExperience": "Culturele beleving",
+      "culturalExperienceText": "Een bezoek aan de Mariabron biedt een unieke kans om kennis te maken met het rijke religieuze en culturele erfgoed van Nazareth. De plek geeft inzicht in het dagelijks leven van mensen in de oudheid en in hun geestelijke praktijken."
+    }
+  },
+  "headerTitleNaz": "Ontdek de schoonheid van de stad Nazareth",
+  "mapButton": "Kaart openen",
+  "contentNaz": {
+    "introduction": "De Oude Stad van Nazareth is vooral beroemd om zijn sjoek (openluchtmarkt), die Israëliërs uit het hele land trekt op zoek naar traditionele Arabische producten. Dat is op zichzelf al een ervaring en een groot contrast met de gekoelde winkelcentra verspreid over het land. Voor wie geïnteresseerd is in het christendom zit de Oude Stad en omgeving vol belangrijke christelijke plaatsen, waaronder de Annunciatiebasiliek.",
+    "historicalSignificance": {
+      "title": "Historische en religieuze betekenis",
+      "text": "Nazareth wordt prominent genoemd in het Nieuwe Testament. Volgens de christelijke traditie is het de plek waar de engel Gabriël aan Maria verkondigde dat zij Jezus zou baren, een gebeurtenis die wordt herdacht door de Annunciatiebasiliek. Archeologische vondsten wijzen erop dat Nazareth ten tijde van Jezus een klein Joods dorp was. De plaats is sinds de oudheid onafgebroken bewoond."
+    },
+    "modernNazareth": {
+      "title": "Nazareth vandaag",
+      "text": "De stad heeft een gevarieerde bevolking, voornamelijk Arabische moslims en christenen. Volgens recente schattingen telt Nazareth ongeveer 77.000 inwoners. Het is een levendig cultureel centrum met uiteenlopende religieuze, culturele en onderwijsinstellingen. Er worden festivals en evenementen gehouden die het rijke erfgoed en de diverse gemeenschap weerspiegelen. Toerisme, gedreven door de religieuze plaatsen en historische bezienswaardigheden, vormt een belangrijk deel van de economie van Nazareth. Daarnaast heeft de stad een mix van kleine bedrijven, winkels en markten die bijdragen aan de lokale economie."
+    },
+    "accessibility": {
+      "title": "Bereikbaarheid en toerisme",
+      "text": "Nazareth is goed bereikbaar over de weg, met frequente busverbindingen vanuit grote steden zoals Tel Aviv, Haifa en Jeruzalem. De stad biedt uiteenlopende overnachtingsmogelijkheden, van hotels tot gastenverblijven, voor toeristen en pelgrims."
+    }
+  },
+  "headerTitleOld": "Ontdek de schoonheid van de Oude Stad van Nazareth",
+  "mapDescriptionOld": "De Oude Stad van Nazareth is vooral beroemd om zijn sjoek (openluchtmarkt), die Israëliërs uit het hele land trekt op zoek naar traditionele Arabische producten. Dat is op zichzelf al een ervaring en een groot contrast met de gekoelde winkelcentra verspreid over het land. Voor wie geïnteresseerd is in het christendom zit de Oude Stad en omgeving vol belangrijke christelijke plaatsen, waaronder de Annunciatiebasiliek.",
+  "churchDescriptionOld": "De Grieks-orthodoxe Annunciatiekerk staat boven de bron waar volgens orthodoxe christenen de Annunciatie plaatsvond. Toen de maagd Maria water ging scheppen bij de bron, verscheen de aartsengel Gabriël aan haar en verkondigde haar dat zij zwanger zou worden en een zoon zou baren, die zij Jezus zou noemen. De huidige kerk dateert uit 1750, toen Daher al-Omar, de Bedoeïenenheerser van Galilea, de Grieks-orthodoxe gemeenschap toestemming gaf haar te bouwen.",
+  "waterSourceOld": "Ongeveer 140 meter van de kerk ligt de Mariabron, die vroeger door de bron werd gevoed en eeuwenlang diende als lokale waterbron. De fontein werd gerepareerd in 1967 en opnieuw in 2000, maar functioneert tegenwoordig niet meer.",
+  "orderSummary": "Besteloverzicht",
+  "firstName": "Voornaam:",
+  "lastName": "Achternaam:",
+  "email": "E-mail:",
+  "prayerAt": "Plaats van het gebed:",
+  "cost": "Kosten:",
+  "confirmDetails": "Gegevens bevestigen en betalen",
+  "confirmed": "Bevestigd",
+  "orderCancelled": "Bestelling geannuleerd!",
+  "paypalComponent": {
+    "contactInfo": "Contact- en bezorggegevens",
+    "firstName": "Voornaam",
+    "lastName": "Achternaam",
+    "email": "E-mail",
+    "confirmEmail": "E-mailadres bevestigen",
+    "emailsDontMatch": "De e-mailadressen komen niet overeen",
+    "city": "Plaats",
+    "street": "Straat en huisnummer",
+    "postal": "Postcode",
+    "state": "Staat / provincie",
+    "paymentMethod": "Betaalmethode",
+    "pleaseFillAllDetails": "Vul alle gegevens in om verder te gaan.",
+    "orderCancelled": "Bestelling geannuleerd!",
+    "thankYou": "Bedankt voor uw bestelling!",
+    "summary": "Besteloverzicht",
+    "cost": "Kosten: $",
+    "country": "Kies uw land"
+  },
+  "navbar": {
+    "home": "Home",
+    "live": "Live",
+    "tour": "Rondleiding",
+    "candle": "Kaars",
+    "shop": "Winkel",
+    "reviews": "Reviews"
+  },
+  "product": {
+    "button": {
+      "addToCart": "In winkelwagen"
+    },
+    "message": {
+      "productAdded": "Product toegevoegd aan de winkelwagen!",
+      "error": {
+        "fetchProduct": "Het product kon niet worden opgehaald.",
+        "selectColor": "Kies een kleur."
+      }
+    },
+    "note": {
+      "shippingFee": "Let op: er komen $ 5 verzendkosten bij."
+    },
+    "error": {
+      "productNotFound": "Product niet gevonden."
+    }
+  },
+  "cart": {
+    "shipping": "Verzending: $ 5",
+    "subtotal": "Subtotaal: ${amount}",
+    "subtotalDiscount": "Na 10% korting: ${amount}",
+    "emptyCart": "Uw winkelwagen is leeg",
+    "continueShopping": "Verder winkelen",
+    "backToShopping": "Terug naar de winkel",
+    "remove": "Verwijderen",
+    "price": "Prijs: ${price}",
+    "quantity": "Aantal",
+    "checkout": "Afrekenen"
+  },
+  "shop": {
+    "searchPlaceholder": "Producten zoeken...",
+    "noProducts": "Geen producten gevonden die aan uw criteria voldoen.",
+    "sortNone": "Geen",
+    "sortLowToHigh": "Prijs: laag naar hoog",
+    "sortHighToLow": "Prijs: hoog naar laag",
+    "resetFilters": "Filters wissen",
+    "pagination": "Pagina {currentPage} van {totalPages}"
+  },
+  "pagination": {
+    "prev": "Vorige",
+    "next": "Volgende"
+  },
+  "intl": {
+    "currencyNote": {
+      "usd": "Prijzen zijn in Amerikaanse dollars (USD). Uw kaart of PayPal rekent ze om tegen de eigen wisselkoers.",
+      "approx": "Ongeveer {amount} tegen een indicatieve koers. Het bedrag dat uw bank in rekening brengt, kan afwijken.",
+      "shipping": "De verzendkosten zijn een vast bedrag van {fee} per bestelling."
+    }
+  },
+  "home": {
+    "eyebrow": "Nazareth · De stad van Jezus",
+    "title": "Wandel waar Jezus wandelde",
+    "subtitle": "Steek een kaars aan, ontdek de heilige plaatsen en neem een stukje Nazareth mee naar huis, vanaf elke plek ter wereld.",
+    "scroll": "Scrollen",
+    "soundToggle": "Geluid aan- of uitzetten",
+    "stickyCandle": "Steek een kaars aan",
+    "candleTitle": "Een vlam voor elk gebed",
+    "candleText": "Steek een kaars aan in de Heilige Stad en wij bidden in Nazareth voor uw intentie.",
+    "flameBtn": "Steek een vlam aan",
+    "flameCount": "Vlammen aangestoken op dit apparaat: {count}",
+    "flameNote": "Een symbolische vlam. Wilt u een echte kaars in Nazareth laten aansteken, ga dan naar onze kaarsenpagina.",
+    "verseEyebrow": "Vers van de dag",
+    "verseCaption": "De overweging van vandaag",
+    "v1": "Wees niet bang, Maria, want u hebt genade gevonden bij God.",
+    "r1": "Lucas 1:30",
+    "v2": "Kan er iets goeds uit Nazareth komen? Kom het maar zien.",
+    "r2": "Johannes 1:46",
+    "v3": "Hij vestigde zich in een stad die Nazareth heette.",
+    "r3": "Matteüs 2:23",
+    "v4": "Het kind groeide en werd sterk, het was vol wijsheid en de gunst van God rustte op hem.",
+    "r4": "Lucas 2:40",
+    "v5": "Ik ben de dienares van de Heer; laat met mij gebeuren wat u gezegd hebt.",
+    "r5": "Lucas 1:38",
+    "v6": "Ik ben het licht van de wereld. Wie mij volgt, zal niet in de duisternis wandelen.",
+    "r6": "Johannes 8:12",
+    "sitesEyebrow": "Heilige plaatsen",
+    "sitesTitle": "Een reis door Nazareth",
+    "sitesLabel": "Carrousel van de heilige plaatsen",
+    "prev": "Vorige",
+    "next": "Volgende",
+    "explore": "Ontdekken",
+    "siteLatin": "Annunciatiebasiliek",
+    "siteGreek": "Grieks-orthodoxe kerk",
+    "siteMary": "Mariabron",
+    "siteOld": "De Oude Stad",
+    "siteCity": "De stad Nazareth",
+    "siteTour": "Virtuele rondleiding",
+    "shopEyebrow": "Souvenirs",
+    "shopTitle": "Uitgelicht uit onze winkel",
+    "shopAll": "Naar de winkel",
+    "shopError": "De souvenirs konden nu niet worden geladen.",
+    "retry": "Opnieuw proberen",
+    "voicesEyebrow": "Stemmen van pelgrims",
+    "voicesTitle": "Woorden van onze bezoekers",
+    "voicesAll": "Lees meer en deel uw eigen woorden",
+    "storyEyebrow": "Het verhaal"
+  },
+  "homePage": {
+    "meta": {
+      "title": "Nazareth Holy Cross — Wandel waar Jezus wandelde",
+      "description": "Steek een kaars aan in Nazareth, loop langs de heilige plaatsen, lees het vers van de dag en neem gezegende souvenirs mee naar huis uit de stad waar Jezus opgroeide."
+    },
+    "carouselHint": "Veeg, sleep of gebruik de pijltjestoetsen om langs de heilige plaatsen te bladeren."
+  },
+  "placesPage": {
+    "meta": {
+      "sitesTitle": "Heilige plaatsen in Nazareth",
+      "sitesDescription": "Bezoek in foto’s de Annunciatiebasiliek, de Grieks-orthodoxe kerk, de Mariabron, de Oude Stad en de stad Nazareth, met kaarten en routebeschrijvingen voor uw pelgrimstocht.",
+      "tourTitle": "Virtuele rondleiding door Nazareth",
+      "tourDescription": "Bekijk een videorondleiding door Nazareth, van de levendige markten tot de historische kerken, en ontdek daarna elke heilige plaats in foto’s.",
+      "aboutTitle": "Over ons",
+      "aboutDescription": "Nazareth Holy Cross brengt de stad van Jezus naar u toe: virtuele bezoeken aan de heilige plaatsen, souvenirs uit Nazareth en kaarsen die voor uw intenties worden aangestoken."
+    },
+    "index": {
+      "title": "De heilige plaatsen van Nazareth",
+      "lead": "Vijf plaatsen waar het verhaal van de Annunciatie en de jeugd van Jezus nog altijd leeft. Loop er in foto’s doorheen, zoek ze op de kaart of steek van een afstand een kaars aan.",
+      "listEyebrow": "Vijf heilige plaatsen",
+      "tourTitle": "Wandel door de straten van Nazareth",
+      "tourText": "Bekijk onze videorondleiding en ontdek de markten, kerken en bezienswaardigheden van de stad waar Jezus opgroeide."
+    },
+    "kind": {
+      "latin": "Katholieke basiliek",
+      "greek": "Grieks-orthodoxe kerk",
+      "maryswell": "Eeuwenoude bron",
+      "oldcity": "Historische wijk en markt",
+      "city": "De stad van Jezus"
+    },
+    "teaser": {
+      "latin": "Een van de grootste kerken van het Midden-Oosten, gebouwd boven de grot waar volgens de overlevering de engel Gabriël aan Maria verkondigde dat zij Jezus zou baren.",
+      "greek": "Gebouwd in 1750 boven de bron waar de orthodoxe traditie de Annunciatie situeert, met een gesneden houten iconostase en een kapel die bereikbaar is via trappen uit de tijd van de kruisvaarders.",
+      "maryswell": "De oude bron van Nazareth waar Maria volgens de overlevering water schepte: eeuwenlang de ontmoetingsplek van de stad.",
+      "oldcity": "Smalle steegjes, een levendige markt en enkele van de belangrijkste christelijke plaatsen van Nazareth, allemaal op loopafstand.",
+      "city": "De stad op de heuvels van Galilea waar Jezus opgroeide, nu een bruisend centrum van geloof, cultuur en gastvrijheid."
+    },
+    "allSites": "Alle heilige plaatsen",
+    "newTab": "(opent in een nieuw tabblad)",
+    "viewGallery": "Bekijk de foto’s",
+    "visitEyebrow": "Plan uw bezoek",
+    "visitText": "Vind deze heilige plaats op de kaart, of steek vanaf elke plek een kaars aan voor uw intentie.",
+    "directions": "Routebeschrijving",
+    "galleryEyebrow": "Galerij",
+    "galleryTitle": "Fotogalerij",
+    "galleryHint": "Selecteer een foto om die te vergroten",
+    "photoCount": "{count, plural, one {# foto} other {# foto’s}}",
+    "photoAlt": "{place}, foto {n} van {total}",
+    "viewer": "Foto’s van {place}",
+    "close": "Sluiten",
+    "moreEyebrow": "Zet de reis voort",
+    "tourWatchEyebrow": "Bekijk de rondleiding",
+    "tourVideoLabel": "Videorondleiding door Nazareth",
+    "videoFallback": "Uw browser kan deze video niet afspelen.",
+    "aboutEyebrow": "Over ons",
+    "aboutPillar1": "Een pelgrimstocht op afstand",
+    "aboutPillar2": "Schatten uit het Heilige Land",
+    "aboutPillar3": "Onze gemeenschap steunen"
+  },
+  "communityPage": {
+    "opensInNewTab": "(opent in een nieuw tabblad)",
+    "reviews": {
+      "metaTitle": "Reviews van pelgrims en bezoekers",
+      "metaDescription": "Lees wat pelgrims en bezoekers van over de hele wereld over Nazareth Holy Cross zeggen en deel een paar woorden over uw eigen ervaring.",
+      "emptyHint": "Wees de eerste die een paar woorden deelt over uw bezoek.",
+      "unavailableTitle": "De reviews konden nu niet worden geladen.",
+      "unavailableHint": "Probeer het over een paar minuten opnieuw. U kunt nog steeds uw eigen review delen.",
+      "form": {
+        "counter": "{count} / {max}",
+        "sending": "Verzenden…",
+        "another": "Nog een review schrijven",
+        "errors": {
+          "nameRequired": "Vul uw naam in.",
+          "nameTooShort": "Minimaal aantal tekens: {min}.",
+          "placeRequired": "Vertel ons waar u vandaan komt.",
+          "messageRequired": "Schrijf een paar woorden over uw ervaring.",
+          "messageTooShort": "Minimaal aantal tekens: {min}.",
+          "tooLong": "Maximaal aantal tekens: {max}.",
+          "rateLimited": "U hebt in korte tijd meerdere reviews verstuurd. Wacht een paar minuten en probeer het opnieuw.",
+          "invalid": "Uw review kon niet worden geaccepteerd. Controleer de review en probeer het opnieuw.",
+          "network": "We konden onze server niet bereiken. Controleer uw verbinding en probeer het opnieuw.",
+          "server": "Er ging iets mis aan onze kant. Probeer het later opnieuw."
+        }
+      }
+    },
+    "live": {
+      "metaTitle": "Live-uitzendingen uit Nazareth",
+      "metaDescription": "Bid live met ons mee vanuit de heilige plaatsen van Nazareth: bekijk wanneer de volgende uitzending begint en kijk onze eerdere gebeden en interviews terug.",
+      "eyebrow": "Live uit Nazareth",
+      "title": "Bid live met ons mee",
+      "lead": "Gebeden en diensten, uitgezonden vanuit de heilige plaatsen van Nazareth, waar u ook bent.",
+      "status": {
+        "live": "Live",
+        "upcoming": "Binnenkort",
+        "offline": "Offline"
+      },
+      "offlineHint": "We zenden nu niet uit. Hieronder kunt u onze eerdere uitzendingen bekijken.",
+      "follow": "Volg ons op Instagram",
+      "eventStarted": "De uitzending is begonnen",
+      "units": {
+        "days": "{count, plural, one {Dag} other {Dagen}}",
+        "hours": "{count, plural, one {Uur} other {Uren}}",
+        "minutes": "{count, plural, one {Minuut} other {Minuten}}",
+        "seconds": "{count, plural, one {Seconde} other {Seconden}}"
+      },
+      "pastEyebrow": "Opnieuw bekijken",
+      "videoFallback": "Uw browser kan deze video niet afspelen.",
+      "events": {
+        "annunciationSunday": "Zondagsgebed vanuit de Annunciatiebasiliek"
+      }
+    }
+  },
+  "shopPage": {
+    "meta": {
+      "shopTitle": "Souvenirs uit Nazareth",
+      "shopDescription": "Rozenkransen, kruisen van olijfhout, glas-in-lood en aandenkens uit de stad van de Annunciatie, thuisbezorgd.",
+      "productDescription": "{name}: een souvenir uit Nazareth, thuisbezorgd vanuit de stad van de Annunciatie.",
+      "cartTitle": "Uw winkelwagen",
+      "cartDescription": "Controleer de souvenirs in uw winkelwagen voordat u afrekent."
+    },
+    "heroTitle": "Souvenirs uit Nazareth",
+    "heroLead": "Rozenkransen, kruisen, glas-in-lood en aandenkens uit de stad van de Annunciatie, thuisbezorgd.",
+    "filtersLabel": "Producten zoeken en sorteren",
+    "searchLabel": "Producten zoeken",
+    "clearSearch": "Zoekopdracht wissen",
+    "sortLabel": "Sorteren op",
+    "sortRating": "Best beoordeeld",
+    "sortName": "Naam (A–Z)",
+    "productsHeading": "Producten",
+    "showing": "{from}–{to} van {total}",
+    "pagesLabel": "Productpagina’s",
+    "pageLabel": "Pagina {page}",
+    "loading": "Laden…",
+    "loadError": "De winkel kon nu niet worden geladen.",
+    "loadErrorText": "Probeer het zo meteen opnieuw.",
+    "cartLink": "Winkelwagen",
+    "cartAria": "Winkelwagen bekijken: {count, plural, one {# artikel} other {# artikelen}}",
+    "galleryLabel": "Foto’s van {name}",
+    "enlarge": "Afbeelding vergroten: {name}",
+    "zoomHint": "Beweeg de muis over de afbeelding om in te zoomen.",
+    "close": "Sluiten",
+    "showImage": "Afbeelding {n} van {total} tonen",
+    "colour": "Kleur",
+    "colourName": "Kleur {n}: {name}",
+    "design": "Ontwerp",
+    "designName": "Ontwerp {name}",
+    "selectDesign": "Kies een ontwerp.",
+    "decrease": "Aantal verlagen",
+    "increase": "Aantal verhogen",
+    "quantityOf": "Aantal van {name}",
+    "added": "Toegevoegd",
+    "viewCart": "Winkelwagen bekijken",
+    "inStock": "Op voorraad",
+    "lowStock": "Nog maar {count} beschikbaar",
+    "outOfStock": "Uitverkocht",
+    "maxInCart": "U hebt al het maximum van {max} in uw winkelwagen.",
+    "productError": "Dit product kon nu niet worden geladen.",
+    "notFoundText": "Dit souvenir is mogelijk uitverkocht of verplaatst. De rest van de winkel wacht op u.",
+    "cartTitle": "Uw winkelwagen",
+    "cartCount": "{count, plural, one {# artikel in uw winkelwagen} other {# artikelen in uw winkelwagen}}",
+    "itemsHeading": "Artikelen in uw winkelwagen",
+    "unitPrice": "{price} per stuk",
+    "removeItem": "{name} verwijderen",
+    "removed": "{name} is uit uw winkelwagen verwijderd.",
+    "summaryTitle": "Besteloverzicht",
+    "subtotal": "Subtotaal",
+    "discount": "10% korting",
+    "shipping": "Verzending",
+    "total": "Totaal",
+    "secure": "Veilig betalen met PayPal",
+    "emptyLead": "Ontdek rozenkransen, kruisen en aandenkens uit Nazareth."
+  },
+  "checkoutPage": {
+    "meta": {
+      "checkoutTitle": "Afrekenen",
+      "checkoutDescription": "Rond uw bestelling van souvenirs uit Nazareth af en betaal veilig met PayPal.",
+      "candleTitle": "Steek een kaars aan in Nazareth",
+      "candleDescription": "Kies een kerk in Nazareth en schrijf uw gebed. Wij steken een kaars voor u aan en sturen u de video.",
+      "donateTitle": "Doneren",
+      "donateDescription": "Steun Nazareth Holy Cross met een gift, veilig betaald via PayPal."
+    },
+    "hero": {
+      "eyebrow": "Veilig afrekenen",
+      "orderTitle": "Rond uw bestelling af",
+      "lead": "Uw betaling wordt veilig verwerkt door PayPal.",
+      "candleEyebrow": "Gebedskaars",
+      "donateEyebrow": "Gift",
+      "donateTitle": "Steun Nazareth Holy Cross",
+      "donateLead": "Uw gift helpt ons de heilige plaatsen, gebeden en het ambacht van Nazareth te delen met pelgrims over de hele wereld."
+    },
+    "steps": {
+      "label": "Stappen van het afrekenen",
+      "details": "Uw gegevens",
+      "payment": "Betaling",
+      "done": "Bevestiging"
+    },
+    "loading": "Uw winkelwagen wordt geladen…",
+    "form": {
+      "phone": "Telefoon",
+      "country": "Land",
+      "continue": "Verder naar betalen",
+      "edit": "Gegevens wijzigen",
+      "fixErrors": "Corrigeer de gemarkeerde velden.",
+      "errors": {
+        "required": "Dit veld is verplicht.",
+        "tooLong": "Maximaal aantal tekens: {max}.",
+        "email": "Voer een geldig e-mailadres in, bijvoorbeeld naam@voorbeeld.nl.",
+        "phone": "Voer een geldig telefoonnummer in, inclusief landcode.",
+        "amount": "Voer een bedrag in tussen {min} en {max}."
+      }
+    },
+    "summary": {
+      "quantity": "Aantal: {count}",
+      "subtotal": "Subtotaal",
+      "discount": "Websitekorting (10%)",
+      "shipping": "Verzending",
+      "total": "Totaal",
+      "address": "Bezorgadres"
+    },
+    "payment": {
+      "loading": "PayPal wordt geladen…",
+      "unavailable": "PayPal kon niet worden geladen. Controleer uw verbinding of schakel contentblokkers uit en laad de pagina opnieuw.",
+      "secured": "Veilig betalen met PayPal. Wij zien uw kaartgegevens nooit.",
+      "cancelled": "Betaling geannuleerd. Er is niets van uw rekening afgeschreven.",
+      "errors": {
+        "start": "De betaling kon niet worden gestart. Probeer het opnieuw.",
+        "notCompleted": "De betaling is niet voltooid. Er is niets van uw rekening afgeschreven.",
+        "paypal": "PayPal meldde een fout. Probeer het opnieuw."
+      },
+      "reference": "Betalingsreferentie: {id}",
+      "saving": "Uw gegevens worden opgeslagen…",
+      "saveFailed": "Uw betaling is gelukt, maar wij konden uw gegevens niet opslaan. Probeer het opnieuw of schrijf naar <mail>{email}</mail> onder vermelding van de betalingsreferentie."
+    },
+    "empty": {
+      "text": "Ontdek rozenkransen, kruisen en souvenirs uit Nazareth."
+    },
+    "candle": {
+      "price": "Een kaars aansteken: {price}",
+      "secureNext": "Hierna controleert u uw gegevens en betaalt u veilig met PayPal."
+    },
+    "donate": {
+      "formTitle": "Doe een gift",
+      "name": "Uw naam",
+      "amount": "Bedrag",
+      "other": "Ander bedrag",
+      "customAmount": "Bedrag in Amerikaanse dollars",
+      "summaryTitle": "Uw gift",
+      "nameLabel": "Naam",
+      "donation": "Gift",
+      "thanksTitle": "Bedankt voor uw gift!",
+      "thanksText": "Uw vrijgevigheid helpt het licht van Nazareth te laten schijnen voor pelgrims over de hele wereld."
+    }
+  },
+  "shopFeatures": {
+    "categories": {
+      "rosaries": "Rozenkransen",
+      "necklaces": "Kettingen",
+      "bracelets": "Armbanden",
+      "stained-glass": "Glas-in-lood",
+      "crosses": "Kruisen",
+      "bibles": "Bijbels",
+      "holy-land": "Uit het Heilige Land",
+      "gifts": "Cadeaus"
+    },
+    "materials": {
+      "gold": "Goud",
+      "silver": "Zilver",
+      "wood": "Hout",
+      "glass": "Glas"
+    },
+    "sort": {
+      "featured": "Uitgelicht",
+      "bestselling": "Best verkocht",
+      "rating": "Hoogst beoordeeld",
+      "newest": "Nieuwste",
+      "priceAsc": "Prijs: laag naar hoog",
+      "priceDesc": "Prijs: hoog naar laag",
+      "name": "Naam (A–Z)"
+    },
+    "allProducts": "Alle souvenirs",
+    "filters": {
+      "title": "Filters",
+      "openAria": "Filters{count, plural, =0 {} other {, # actief}}",
+      "close": "Filters sluiten",
+      "apply": "Toon {count, plural, one {# product} other {# producten}}",
+      "clearAll": "Alles wissen",
+      "active": "Actieve filters",
+      "remove": "Filter verwijderen: {label}",
+      "noneText": "Verwijder een filter of zoek naar iets anders.",
+      "category": "Categorie",
+      "allCategories": "Alle categorieën",
+      "material": "Materiaal",
+      "price": "Prijs (USD)",
+      "minPrice": "Min.",
+      "maxPrice": "Max.",
+      "rating": "Beoordeling door klanten",
+      "anyRating": "Elke beoordeling",
+      "ratingAtLeast": "{stars, plural, one {# ster of meer} other {# sterren of meer}}",
+      "availability": "Beschikbaarheid",
+      "inStock": "Alleen op voorraad",
+      "chipSearch": "Zoeken: {query}",
+      "chipPriceRange": "{min} – {max}",
+      "chipPriceMin": "Vanaf {min}",
+      "chipPriceMax": "Tot {max}"
+    },
+    "strip": {
+      "bestTitle": "Bestsellers",
+      "bestLead": "De souvenirs die pelgrims het vaakst mee naar huis nemen.",
+      "favTitle": "Onze favorieten",
+      "favLead": "Met zorg uitgekozen door onze winkel in Nazareth.",
+      "back": "Terugscrollen",
+      "forward": "Vooruit scrollen"
+    },
+    "badges": {
+      "bestseller": "Bestseller",
+      "new": "Nieuw",
+      "lowStock": "Nog maar {count} beschikbaar",
+      "soldOut": "Uitverkocht"
+    },
+    "reviews": {
+      "title": "Klantreviews",
+      "starsLabel": "{rating} van de 5 sterren",
+      "count": "{count, plural, one {# review} other {# reviews}}",
+      "outOf": "van de 5",
+      "basedOn": "Gebaseerd op {count, plural, one {# review} other {# reviews}}",
+      "breakdown": "Verdeling van de beoordelingen",
+      "breakdownRow": "{stars, plural, one {# ster} other {# sterren}}: {count, plural, one {# review} other {# reviews}}",
+      "emptyTitle": "Nog geen reviews",
+      "emptyText": "Wees de eerste die andere pelgrims vertelt wat u van dit souvenir vindt.",
+      "unavailable": "De reviews konden nu niet worden geladen.",
+      "listLabel": "Reviews, nieuwste eerst",
+      "reviewBy": "Review van {name}",
+      "showAll": "Alle reviews tonen ({count})",
+      "showFewer": "Minder reviews tonen",
+      "form": {
+        "heading": "Schrijf een review",
+        "intro": "Vertel andere pelgrims wat u van {name} vindt. Uw review verschijnt op deze pagina.",
+        "fields": {
+          "name": "Uw naam",
+          "country": "Land (optioneel)",
+          "rating": "Uw beoordeling",
+          "title": "Titel (optioneel)",
+          "comment": "Uw review"
+        },
+        "star": "{count, plural, one {# ster} other {# sterren}}",
+        "counter": "{count} / {max}",
+        "website": "Website (leeg laten)",
+        "submit": "Review plaatsen",
+        "sending": "Bezig met plaatsen…",
+        "success": "Hartelijk dank! Uw review is geplaatst.",
+        "another": "Nog een review schrijven",
+        "errors": {
+          "nameRequired": "Voer uw naam in.",
+          "nameTooShort": "Uw naam moet minstens {min} tekens bevatten.",
+          "ratingRequired": "Kies een beoordeling van 1 tot 5 sterren.",
+          "commentRequired": "Schrijf uw review.",
+          "commentTooShort": "Uw review moet minstens {min} tekens bevatten.",
+          "tooLong": "Houd dit onder de {max} tekens.",
+          "invalid": "Sommige gegevens zijn niet geaccepteerd. Controleer het formulier en probeer het opnieuw.",
+          "rateLimited": "U hebt in korte tijd meerdere reviews verstuurd. Probeer het later opnieuw.",
+          "network": "We konden de server niet bereiken. Controleer uw verbinding en probeer het opnieuw.",
+          "server": "Er is aan onze kant iets misgegaan. Probeer het over een ogenblik opnieuw."
+        }
+      }
+    },
+    "wishlist": {
+      "toggle": "Bewaar {name} op uw verlanglijstje",
+      "added": "{name} is toegevoegd aan uw verlanglijstje.",
+      "removed": "{name} is van uw verlanglijstje verwijderd.",
+      "save": "Bewaren op verlanglijstje",
+      "link": "Verlanglijstje",
+      "linkAria": "Verlanglijstje: {count, plural, one {# bewaard artikel} other {# bewaarde artikelen}}",
+      "pageTitle": "Uw verlanglijstje",
+      "pageDescription": "Souvenirs die u voor later hebt bewaard.",
+      "savedHeading": "Bewaarde souvenirs",
+      "emptyTitle": "Uw verlanglijstje is leeg",
+      "emptyText": "Tik op het hartje bij een souvenir om het hier te bewaren voor later.",
+      "browse": "Naar de winkel",
+      "count": "{count, plural, one {# bewaard souvenir} other {# bewaarde souvenirs}}",
+      "addToCart": "In winkelwagen",
+      "chooseOptions": "Kies opties",
+      "remove": "Verwijderen",
+      "addedToCart": "{name} is toegevoegd aan uw winkelwagen."
+    },
+    "share": {
+      "button": "Delen",
+      "text": "{name}, een souvenir uit Nazareth",
+      "copied": "Link gekopieerd. U kunt hem overal plakken.",
+      "failed": "De link kon niet worden gekopieerd. Kopieer hem uit de adresbalk."
+    },
+    "product": {
+      "beFirst": "Nog geen reviews. Schrijf de eerste",
+      "similarTitle": "Dit vindt u misschien ook mooi",
+      "recentTitle": "Recent bekeken"
+    }
+  },
+  "ux": {
+    "backToTop": "Naar boven",
+    "loading": "Laden…",
+    "toast": {
+      "region": "Meldingen",
+      "dismiss": "Melding sluiten"
+    },
+    "share": {
+      "share": "Delen",
+      "copy": "Link kopiëren",
+      "copied": "Link gekopieerd",
+      "failed": "De link kon niet worden gekopieerd",
+      "print": "Afdrukken"
+    },
+    "language": {
+      "choose": "Kies een taal"
+    },
+    "footer": {
+      "languages": "Talen",
+      "address": "Nazareth, Galilea",
+      "followOn": "Volg ons op {network} (opent in een nieuw tabblad)",
+      "rights": "Alle rechten voorbehouden."
+    },
+    "notFound": {
+      "suggestions": "Waar wilt u naartoe?",
+      "hint": {
+        "sites": "De kerken, de bron en de oude stad",
+        "tour": "Stap voor stap door Nazareth",
+        "candle": "Steek een kaars aan voor uw intentie"
+      }
+    },
+    "error": {
+      "title": "Er ging iets mis",
+      "text": "Een onverwachte fout heeft deze pagina gestopt. Probeer het opnieuw.",
+      "retry": "Opnieuw proberen",
+      "home": "Terug naar de startpagina",
+      "reference": "Referentie"
+    }
+  },
+  "pilgrim": {
+    "nav": {
+      "plan": "Pelgrimsplanner",
+      "visit": "Bezoekersgids",
+      "gospel": "Nazareth in de evangeliën",
+      "gallery": "Fotogalerij",
+      "prayers": "Gebedsmuur",
+      "contact": "Neem contact op",
+      "faq": "Veelgestelde vragen",
+      "shipping": "Verzending en retouren",
+      "privacy": "Privacybeleid",
+      "terms": "Gebruiksvoorwaarden",
+      "groupPlan": "Plannen en ontdekken",
+      "groupHelp": "Hulp en juridisch"
+    },
+    "common": {
+      "moreEyebrow": "Zet de reis voort",
+      "moreTitle": "Waar gaat u nu heen?",
+      "open": "Openen"
+    },
+    "plan": {
+      "meta": {
+        "title": "Plan uw pelgrimstocht naar Nazareth",
+        "description": "Stel in een minuut een dagprogramma samen van de heilige plaatsen van Nazareth. Kies 1 tot 4 dagen, uw interesses en uw tempo, en print het, deel het of voeg het toe aan uw agenda."
+      },
+      "hero": {
+        "eyebrow": "Pelgrimsplanner",
+        "title": "Plan uw pelgrimstocht",
+        "lead": "Vertel ons hoeveel dagen u hebt en wat u raakt. Wij stellen een wandeling per dag samen langs de heilige plaatsen van Nazareth, met de wandeltijd tussen de stops."
+      },
+      "form": {
+        "title": "Uw pelgrimstocht",
+        "days": "Hoeveel dagen?",
+        "dayCount": "{count, plural, one {# dag} other {# dagen}}",
+        "interests": "Waar bent u naar op zoek?",
+        "interestsHint": "Kies er één of meer, of geen voor een evenwichtige wandeling.",
+        "interest": {
+          "gospel": "Plaatsen uit het evangelie",
+          "churches": "Kerken",
+          "markets": "Markten en ambachten",
+          "food": "Eten en koffie"
+        },
+        "pace": "Tempo",
+        "paces": {
+          "relaxed": "Rustig",
+          "balanced": "Evenwichtig",
+          "full": "Vol"
+        },
+        "paceHint": "{count, plural, one {# stop per dag} other {# stops per dag}}",
+        "start": "Eerste dag (voor uw agenda)",
+        "startHint": "Optioneel. Zonder datum begint het agendabestand morgen."
+      },
+      "result": {
+        "title": "Uw reisschema",
+        "summary": "{days, plural, one {# dag} other {# dagen}} · {stops, plural, one {# stop} other {# stops}} · ongeveer {minutes} min lopen",
+        "day": "Dag {n}",
+        "walk": "{minutes} min lopen",
+        "until": "tot {time}"
+      },
+      "lunch": "Lunchpauze",
+      "lunchHint": "Proef lokale gerechten in de steegjes van de Oude Stad.",
+      "tips": {
+        "latin": "Tijdens de mis en andere diensten kan een bezoek even stilvallen, en op feestdagen veranderen de openingstijden. Controleer de actuele tijden voor uw datum.",
+        "greek": "De openingstijden volgen de kerkdiensten en kunnen zonder bericht veranderen. Vraag bij de ingang of de kerk open is.",
+        "maryswell": "Vlak bij de Grieks-orthodoxe kerk, dus de twee bezoeken combineren goed. De openingstijden verschillen; controleer wat er die dag open is.",
+        "oldcity": "Winkels hanteren hun eigen openingstijden en sommige zijn op vrijdag of zondag gesloten. ’s Ochtends ziet u de markt het best in bedrijf.",
+        "city": "De drukste straten zijn ’s ochtends. Neem de tijd om ergens koffie te drinken en rond te kijken."
+      },
+      "caveat": {
+        "title": "Voordat u gaat",
+        "hours": "De openingstijden van kerken veranderen met diensten, feestdagen en vakanties, soms zonder bericht. Controleer ze altijd voordat u op reis gaat.",
+        "dress": "In kerken wordt ingetogen kleding gevraagd: bedek schouders en knieën.",
+        "walking": "De wandeltijden tussen de plaatsen zijn schattingen; de straten van Nazareth zijn op sommige plekken steil, dus reken op extra tijd."
+      },
+      "actions": {
+        "calendar": "Toevoegen aan agenda",
+        "share": "Link delen",
+        "print": "Afdrukken"
+      },
+      "shareTitle": "Mijn pelgrimstocht naar Nazareth",
+      "copied": "Link gekopieerd naar het klembord.",
+      "calendarName": "Pelgrimstocht naar Nazareth",
+      "calendarLocation": "Nazareth, Israël",
+      "calendarDone": "Agendabestand gedownload. Open het om de activiteiten toe te voegen.",
+      "walking": {
+        "title": "Wandeltijden tussen de heilige plaatsen",
+        "lead": "Geschatte wandelminuten, dezelfde cijfers die de planner gebruikt.",
+        "caption": "Wandeltijd in minuten tussen elk paar plaatsen",
+        "corner": "Van (rijen) naar (kolommen)",
+        "minutes": "{minutes} min"
+      }
+    },
+    "visit": {
+      "meta": {
+        "title": "Bezoekersgids voor Nazareth",
+        "description": "Alles om uw bezoek aan Nazareth voor te bereiden: hoe u er komt vanuit Haifa, Tel Aviv en de luchthaven Ben Goerion, kledingvoorschriften, de beste seizoenen, veiligheid, geld en het weer per maand."
+      },
+      "hero": {
+        "eyebrow": "Bezoekersgids",
+        "title": "Bezoek Nazareth",
+        "lead": "Praktische antwoorden voor pelgrims en reizigers: hoe u er komt, wat u aantrekt, wanneer u komt en wat u kunt verwachten."
+      },
+      "getting": {
+        "eyebrow": "Er komen",
+        "title": "Hoe u in Nazareth komt",
+        "lead": "Nazareth ligt in de heuvels van Neder-Galilea in het noorden van Israël, een gemakkelijke reis vanaf de kust.",
+        "distance": "ongeveer {km} km over de weg",
+        "routes": {
+          "haifa": {
+            "title": "Vanuit Haifa",
+            "text": "De eenvoudigste route: ongeveer 40 minuten met de auto of taxi, of ongeveer een uur met de bus."
+          },
+          "telaviv": {
+            "title": "Vanuit Tel Aviv",
+            "text": "Ongeveer twee uur met de auto. Er rijden bussen en treinen naar het noorden; met het openbaar vervoer reist u gewoonlijk naar Haifa of Afula en stapt u over op een bus naar Nazareth."
+          },
+          "airport": {
+            "title": "Vanaf de luchthaven Ben Goerion",
+            "text": "Ongeveer twee uur met de auto of taxi. Met het openbaar vervoer neemt u de trein naar Haifa of Tel Aviv en reist u verder met de bus; een vooraf geboekte shuttle of een huurauto is het gemakkelijkst."
+          }
+        },
+        "local": {
+          "title": "Zodra u in Nazareth bent",
+          "text": "De heilige plaatsen liggen allemaal binnen ongeveer 15 minuten lopen van elkaar, dus u kunt één keer parkeren en te voet verder. Parkeren in het centrum is beperkt: kom vroeg of gebruik een parkeerterrein aan de rand van de oude stad."
+        }
+      },
+      "essentials": {
+        "eyebrow": "Goed om te weten",
+        "title": "Voordat u komt",
+        "items": {
+          "dress": {
+            "title": "Kledingvoorschriften",
+            "text": "In kerken moeten bezoekers hun schouders en knieën bedekken, vrouwen en mannen. Een lichte sjaal of omslagdoek in uw tas lost dat op. Draag gemakkelijke schoenen: de oude steegjes zijn steil en ongelijk."
+          },
+          "etiquette": {
+            "title": "Etiquette",
+            "text": "Praat zacht in de kerken en zet uw telefoon op stil. Neem binnen uw hoed af. Fotograferen mag meestal, maar niet tijdens diensten; vraag toestemming voordat u mensen fotografeert."
+          },
+          "seasons": {
+            "title": "Beste seizoenen",
+            "text": "Lente (maart tot mei) en herfst (eind september tot november) zijn mild en het prettigst om te wandelen. De zomer is heet en droog; de winter is koel en regenachtig. Pasen, Kerstmis en het feest van de Annunciatie op 25 maart zijn de drukste en meest ontroerende momenten."
+          },
+          "safety": {
+            "title": "Veiligheid",
+            "text": "Nazareth is over het algemeen gastvrij en rustig, maar de omstandigheden in de regio kunnen veranderen. Raadpleeg het reisadvies van uw regering voordat u vertrekt, volg het lokale nieuws en houd uw spullen dicht bij u in drukte."
+          },
+          "money": {
+            "title": "Geld",
+            "text": "De munteenheid is de Israëlische nieuwe sjekel (ILS, ₪). Pinpassen en creditcards worden breed geaccepteerd en er zijn geldautomaten in het centrum; neem wat contant geld mee voor marktkramen en kleine cafés. Beleefd afdingen hoort bij het winkelen op de markt."
+          },
+          "language": {
+            "title": "Taal",
+            "text": "Men spreekt Arabisch en Hebreeuws, en op de plaatsen die pelgrims bezoeken vindt u Engels en vaak ook andere talen. Een paar woorden Arabisch worden altijd hartelijk onthaald."
+          }
+        }
+      },
+      "climate": {
+        "eyebrow": "Weer",
+        "title": "Weer per maand",
+        "lead": "Typische omstandigheden in Nazareth: warme, droge zomers en koele, natte winters.",
+        "caption": "Gemiddelde dagtemperaturen en neerslag per maand",
+        "month": "Maand",
+        "high": "Max.",
+        "low": "Min.",
+        "rain": "Regen",
+        "season": "Bezoek",
+        "seasons": {
+          "best": "Beste",
+          "good": "Goed",
+          "hot": "Heet",
+          "cool": "Koel"
+        },
+        "mm": "{mm} mm",
+        "note": "De cijfers zijn afgeronde langjarige gemiddelden, alleen ter indicatie. Het weer verschilt van jaar tot jaar; raadpleeg de weersverwachting voordat u op reis gaat."
+      },
+      "faq": {
+        "title": "Vragen van bezoekers",
+        "free": {
+          "q": "Zijn de kerken gratis toegankelijk?",
+          "a": "De toegang tot de belangrijkste kerken is over het algemeen gratis en giften zijn welkom. Elke kerk bepaalt haar eigen openingstijden en regels, dus controleer die voor uw bezoek."
+        },
+        "dress": {
+          "q": "Wat moet ik aantrekken?",
+          "a": "Ingetogen kleding die schouders en knieën bedekt, en gemakkelijke schoenen voor steile steegjes. Neem in de winter een extra laagje mee en in de zomer zonbescherming."
+        },
+        "days": {
+          "q": "Hoeveel dagen heb ik nodig?",
+          "a": "De meeste pelgrims zien de belangrijkste heilige plaatsen in één volle dag. Met twee of drie dagen kunt u rustiger aan doen voor gebed, de markt van de Oude Stad en uitstapjes door Galilea."
+        },
+        "safe": {
+          "q": "Is Nazareth veilig om te bezoeken?",
+          "a": "Nazareth is over het algemeen rustig en gastvrij, maar de omstandigheden in de regio kunnen veranderen. Raadpleeg het reisadvies van uw regering en het lokale nieuws voor en tijdens uw reis."
+        },
+        "season": {
+          "q": "Wanneer kan ik het best komen?",
+          "a": "Lente en herfst zijn het aangenaamst. De zomer is heet en de winter regenachtig. Pasen, Kerstmis en 25 maart (de Annunciatie) zijn de drukste en meest ontroerende momenten."
+        }
+      }
+    },
+    "gospel": {
+      "meta": {
+        "title": "Nazareth in de evangeliën",
+        "description": "Lees de evangelieteksten over Nazareth, van de Annunciatie tot Jezus in de synagoge, elk met een korte overweging en de heilige plaats die de herinnering levend houdt."
+      },
+      "hero": {
+        "eyebrow": "Schrift en plaats",
+        "title": "Nazareth in de evangeliën",
+        "lead": "Acht teksten waarin Nazareth wordt genoemd, in de volgorde van het verhaal, elk gekoppeld aan de plaats die u nog steeds kunt bezoeken."
+      },
+      "intro": {
+        "title": "Van de Annunciatie tot ‘Kom maar kijken’",
+        "text": "In de evangeliën verschijnt Nazareth als de stad van de Annunciatie en van de verborgen jaren van Jezus. Lees een tekst, sta stil bij de overweging en volg dan de link naar de heilige plaats."
+      },
+      "visitSite": "Bezoek de heilige plaats",
+      "note": "De citaten zijn bedoeld voor overweging en kunnen enigszins afwijken van de bijbelvertaling die u gebruikt. Teksten: Lucas 1, 2 en 4; Matteüs 2; Johannes 1.",
+      "p": {
+        "luke126": {
+          "quote": "In de zesde maand werd de engel Gabriël door God naar een stad in Galilea gestuurd, Nazareth genaamd, naar een maagd die verloofd was met een man die Josef heette, een nakomeling van David. De maagd heette Maria.",
+          "ref": "Lucas 1:26-27",
+          "text": "Het hele verhaal begint in een klein heuvelstadje. Wie vandaag door Nazareth loopt, loopt waar het evangelie begint."
+        },
+        "luke130": {
+          "text": "Onder de Annunciatiebasiliek ligt de grot die christenen al eeuwenlang vereren als de plaats van het huis van Maria, waar de groet van de engel wordt herdacht."
+        },
+        "luke138": {
+          "text": "De orthodoxe traditie herinnert eraan dat de engel Maria voor het eerst aansprak toen zij water ging putten, bij de bron naast de Grieks-orthodoxe Kerk van de Annunciatie. Haar antwoord is de kern van het gebed van elke pelgrim."
+        },
+        "matthew223": {
+          "text": "Na de terugkeer uit Egypte vestigde Josef zijn gezin in Nazareth. Vanaf toen stond Jezus bekend als ‘Jezus van Nazareth’, en de naam van de stad ging de hele wereld over."
+        },
+        "luke240": {
+          "text": "Over de verborgen jaren wordt ons weinig verteld: een kind dat opgroeit in een gewone stad. De steegjes en de markt van de Oude Stad helpen u dat dagelijks leven voor te stellen."
+        },
+        "luke251": {
+          "quote": "Hij ging met hen mee terug naar Nazareth en bleef hun gehoorzaam. Zijn moeder bewaarde al deze dingen in haar hart.",
+          "ref": "Lucas 2:51",
+          "text": "Eeuwenlang was de bron van Nazareth de plek waar de stad elke dag samenkwam. Bij de Mariabron kunt u zich het gewone werk en het stille geloof voorstellen dat Maria in haar hart bewaarde."
+        },
+        "luke416": {
+          "quote": "Zo kwam hij in Nazareth, waar hij was opgegroeid, en op de sabbat ging hij, zoals zijn gewoonte was, naar de synagoge. Hij stond op om voor te lezen.",
+          "ref": "Lucas 4:16",
+          "text": "Jezus keerde terug om te prediken in de stad waar hij was opgegroeid. Plaatsen in de Oude Stad, waaronder een kerk die van oudsher op de plek van de synagoge wordt gesitueerd, herinneren aan die dag."
+        },
+        "john146": {
+          "text": "Het antwoord van Filippus aan Nathanaël is de uitnodiging van elke pelgrimstocht: kom maar kijken. Nazareth begrijpt men nog steeds het best door door de straten te lopen."
+        }
+      }
+    },
+    "prayers": {
+      "meta": {
+        "title": "Gebedsmuur",
+        "description": "Lees gebeden van pelgrims van over de hele wereld, zeg Amen bij de gebeden die u raken en deel een eigen gebed."
+      },
+      "hero": {
+        "eyebrow": "Samen bidden",
+        "title": "De gebedsmuur",
+        "lead": "Gebeden van pelgrims van over de hele wereld. Lees ze, zeg Amen en voeg uw eigen intentie toe.",
+        "cta": "Deel een gebed"
+      },
+      "categories": {
+        "all": "Alle",
+        "peace": "Vrede",
+        "health": "Gezondheid",
+        "gratitude": "Dankbaarheid",
+        "family": "Gezin",
+        "personal": "Persoonlijk",
+        "worldPeace": "Wereldvrede"
+      },
+      "wall": {
+        "title": "Gebeden",
+        "filter": "Gebeden filteren op categorie",
+        "count": "{count, plural, one {# gebed} other {# gebeden}}",
+        "anonymous": "Een pelgrim",
+        "emptyTitle": "Hier staan nog geen gebeden",
+        "emptyText": "Wees de eerste die een gebed in deze categorie deelt.",
+        "errorTitle": "De gebedsmuur rust even",
+        "errorText": "We konden de gebeden nu niet laden. Probeer het over enkele ogenblikken opnieuw.",
+        "retry": "Opnieuw proberen",
+        "pages": "Gebedspagina’s",
+        "prev": "Vorige",
+        "next": "Volgende",
+        "pageOf": "Pagina {page} van {pages}"
+      },
+      "form": {
+        "title": "Deel een gebed",
+        "intro": "Schrijf een intentie voor vrede, genezing, dank of uw gezin. Ze verschijnt op de muur.",
+        "name": "Uw naam",
+        "country": "Waar komt u vandaan?",
+        "category": "Categorie",
+        "prayer": "Uw gebed",
+        "counter": "{count} / {max}",
+        "public": "Gebeden zijn openbaar. Vermeld geen telefoonnummers, adressen of weblinks.",
+        "submit": "Mijn gebed delen",
+        "sending": "Verzenden…",
+        "sent": "Dank u. Uw gebed is gedeeld.",
+        "sentText": "Het verschijnt op de muur. U kunt nog een gebed schrijven.",
+        "another": "Nog een gebed schrijven"
+      },
+      "errors": {
+        "required": "Vul dit veld in.",
+        "tooShort": "Schrijf ten minste {min} tekens.",
+        "tooLong": "Houd het onder de {max} tekens.",
+        "noLinks": "Verwijder weblinks, e-mailadressen en code.",
+        "rateLimited": "Er zijn te veel gebeden verzonden vanaf deze verbinding. Wacht enkele minuten en probeer het opnieuw.",
+        "invalid": "We konden dit gebed niet accepteren. Controleer wat u hebt geschreven.",
+        "network": "We konden de server niet bereiken. Controleer uw verbinding en probeer het opnieuw.",
+        "server": "Er is iets misgegaan aan onze kant. Probeer het later opnieuw."
+      },
+      "amen": "Amen",
+      "amenDone": "Amen gezegd",
+      "amenLabel": "Zeg Amen bij het gebed van {name}",
+      "amenFirst": "Wees de eerste die Amen zegt",
+      "amenCount": "{count, plural, one {# persoon zei Amen} other {# mensen zeiden Amen}}",
+      "amenFailed": "We konden uw Amen niet opslaan. Probeer het opnieuw."
+    },
+    "contact": {
+      "meta": {
+        "title": "Contact met Nazareth Holy Cross",
+        "description": "Schrijf naar Nazareth Holy Cross met een vraag over kaarsen, bestellingen of uw pelgrimstocht. Wij lezen elk bericht."
+      },
+      "hero": {
+        "eyebrow": "Kom in contact",
+        "title": "Neem contact op",
+        "lead": "Een vraag over uw bestelling, een kaars of uw pelgrimstocht? Schrijf ons en wij antwoorden per e-mail."
+      },
+      "form": {
+        "title": "Stuur ons een bericht",
+        "intro": "Alle velden zijn nodig zodat wij kunnen antwoorden.",
+        "fullName": "Volledige naam",
+        "email": "E-mailadres",
+        "phone": "Telefoonnummer",
+        "phoneHint": "Vermeld de landcode, bijvoorbeeld +1 555 123 4567.",
+        "msg": "Uw bericht",
+        "counter": "{count} / {max}",
+        "submit": "Bericht verzenden",
+        "sending": "Verzenden…",
+        "sent": "Bericht verzonden. Dank u.",
+        "sentText": "Wij antwoorden zo spoedig mogelijk op uw e-mailadres.",
+        "another": "Nog een bericht sturen"
+      },
+      "errors": {
+        "required": "Vul dit veld in.",
+        "tooShort": "Schrijf ten minste {min} tekens.",
+        "tooLong": "Houd het onder de {max} tekens.",
+        "invalidEmail": "Voer een geldig e-mailadres in.",
+        "invalidPhone": "Voer een geldig telefoonnummer in.",
+        "rateLimited": "Er zijn te veel berichten verzonden vanaf deze verbinding. Wacht enkele minuten en probeer het opnieuw.",
+        "invalid": "We konden dit bericht niet accepteren. Controleer de velden.",
+        "network": "We konden de server niet bereiken. Controleer uw verbinding en probeer het opnieuw.",
+        "server": "Er is iets misgegaan aan onze kant. Probeer het later opnieuw."
+      },
+      "direct": {
+        "title": "Liever rechtstreeks schrijven?",
+        "text": "U kunt ons mailen of ons vinden op onze socialemediapagina’s.",
+        "email": "Een e-mail sturen",
+        "whatsapp": "Stuur ons een bericht via WhatsApp",
+        "reply": "Wij lezen elk bericht en antwoorden per e-mail."
+      }
+    },
+    "gallery": {
+      "meta": {
+        "title": "Fotogalerij van Nazareth",
+        "description": "Bekijk foto’s van de Annunciatiebasiliek, de Grieks-orthodoxe kerk, de Mariabron, de Oude Stad en Nazareth, en open elke foto op volledig scherm."
+      },
+      "hero": {
+        "eyebrow": "Galerij",
+        "title": "Nazareth in foto’s",
+        "lead": "Kerken, steegjes en uitzichten vanaf de heilige plaatsen. Kies een plaats of bekijk ze allemaal."
+      },
+      "filterLabel": "Foto’s filteren op heilige plaats",
+      "all": "Alle plaatsen",
+      "viewer": "Fotogalerij van Nazareth"
+    },
+    "faq": {
+      "meta": {
+        "title": "Veelgestelde vragen",
+        "description": "Antwoorden over een bezoek aan Nazareth, het aansteken van een kaars, de gebedsmuur, bestellingen, verzending, betalingen en uw gegevens."
+      },
+      "eyebrow": "Hulp",
+      "title": "Veelgestelde vragen",
+      "lead": "Snelle antwoorden over uw bezoek, samen bidden en winkelen. Vindt u het antwoord niet? Schrijf ons.",
+      "groupsLabel": "Vraaggroepen",
+      "groups": {
+        "visiting": "Nazareth bezoeken",
+        "prayer": "Kaarsen en gebed",
+        "shop": "Winkel en betalingen",
+        "site": "Over de website"
+      },
+      "items": {
+        "candle": {
+          "q": "Hoe werkt het aansteken van een kaars?",
+          "a": "Kies een kerk in Nazareth, schrijf uw gebed en betaal {price}. Wij steken een kaars voor u aan, nemen een korte video op met uw naam en sturen die naar uw e-mailadres."
+        },
+        "wall": {
+          "q": "Is de gebedsmuur openbaar?",
+          "a": "Ja. Een gebed verschijnt op de muur met de naam en het land die u invult. Vermeld geen contactgegevens en gebruik desgewenst alleen uw voornaam."
+        },
+        "live": {
+          "q": "Kan ik live met u meebidden?",
+          "a": "Ja. Op onze livepagina worden gebeden en diensten vanaf de heilige plaatsen van Nazareth uitgezonden en ziet u wanneer de volgende uitzending begint."
+        },
+        "pay": {
+          "q": "Hoe betaal ik?",
+          "a": "Betalingen verlopen via PayPal. Uw kaart- of PayPal-gegevens gaan naar PayPal, nooit naar ons; wij zien of bewaren ze niet."
+        },
+        "account": {
+          "q": "Heb ik een account nodig?",
+          "a": "Nee. Er zijn geen accounts of wachtwoorden. Uw winkelwagen en verlanglijst worden in uw eigen browser bewaard."
+        },
+        "shipping": {
+          "q": "Hoeveel kost de verzending?",
+          "a": "De verzending kost een vast bedrag van {shipping} per bestelling, dat u in uw winkelwagen ziet voordat u betaalt."
+        },
+        "discount": {
+          "q": "Is er korting?",
+          "a": "Ja: {discount} korting op de artikelen in elke bestelling, automatisch toegepast in uw winkelwagen."
+        },
+        "damaged": {
+          "q": "Wat als mijn bestelling beschadigd aankomt?",
+          "a": "Schrijf ons met uw bestelgegevens en een foto. Wij antwoorden en maken het goed. Zie Verzending en retouren voor de details."
+        },
+        "donate": {
+          "q": "Kan ik een gift doen?",
+          "a": "Ja. Giften van {min} tot {max} worden via PayPal aanvaard op de pagina Doneren en ondersteunen het werk van Nazareth Holy Cross."
+        },
+        "languages": {
+          "q": "In welke talen is de site beschikbaar?",
+          "a": "Engels, Frans, Spaans, Duits, Italiaans, Portugees, Pools, Russisch, Grieks, Hebreeuws en Arabisch."
+        },
+        "data": {
+          "q": "Welke gegevens bewaart u?",
+          "a": "Alleen wat een dienst nodig heeft: bestellingen, kaarsverzoeken, gebeden, reviews en contactberichten. Lees het Privacybeleid voor de details."
+        },
+        "contact": {
+          "q": "Hoe kan ik contact met u opnemen?",
+          "a": "Gebruik de contactpagina of schrijf naar {email}."
+        }
+      }
+    },
+    "legal": {
+      "eyebrow": "Juridisch",
+      "updated": "Laatst bijgewerkt: {date}",
+      "contents": "Op deze pagina",
+      "related": "Zie ook",
+      "privacy": {
+        "meta": {
+          "title": "Privacybeleid",
+          "description": "Welke persoonsgegevens Nazareth Holy Cross bewaart wanneer u bestelt, een kaars aansteekt, een gebed deelt of ons schrijft, waarom wij ze bewaren en hoe u ons kunt vragen ze te wijzigen of te verwijderen."
+        },
+        "title": "Privacybeleid",
+        "lead": "Wij bewaren zo weinig mogelijk. Deze pagina legt uit wat wij bewaren, waarom, en welke keuzes u hebt.",
+        "sections": {
+          "who": {
+            "title": "Wie wij zijn",
+            "p1": "Deze website wordt beheerd door Nazareth Holy Cross, dat de heilige plaatsen, gebeden en ambachten van Nazareth deelt met pelgrims overal ter wereld. Voor vragen over privacy kunt u schrijven naar {email}."
+          },
+          "collect": {
+            "title": "Wat wij verzamelen",
+            "p1": "Wij verzamelen alleen wat u ons geeft wanneer u een dienst gebruikt:",
+            "items": {
+              "orders": "Bestellingen: uw naam, e-mailadres, telefoonnummer, bezorgadres, de gekochte artikelen, het totaalbedrag en de datum.",
+              "candles": "Kaarsverzoeken: uw naam, e-mailadres en uw gebed.",
+              "prayers": "De gebedsmuur: de naam, het land, de categorie en het gebed dat u schrijft. Deze worden openbaar getoond.",
+              "reviews": "Reviews: uw naam, de plaats waar u vandaan komt en uw bericht, na goedkeuring op de site getoond.",
+              "contact": "Contactberichten: uw naam, e-mailadres, telefoonnummer en bericht.",
+              "payments": "Betalingen: afgehandeld door PayPal. Wij ontvangen of bewaren uw kaartnummer niet."
+            }
+          },
+          "use": {
+            "title": "Waarom wij het gebruiken",
+            "items": {
+              "u1": "Om uw bestellingen uit te voeren en te bezorgen, en om uw kaars aan te steken en u de video te sturen.",
+              "u2": "Om uw berichten te beantwoorden.",
+              "u3": "Om gebeden en goedgekeurde reviews op de site te tonen, zoals u het bedoelde."
+            }
+          },
+          "share": {
+            "title": "Wie het nog meer ziet",
+            "p1": "Wij verkopen uw gegevens niet. Enkele diensten helpen ons de site te laten werken en verwerken gegevens namens ons:",
+            "items": {
+              "paypal": "PayPal verwerkt betalingen volgens zijn eigen privacybeleid.",
+              "hosting": "Onze website, servers, database en beeldopslag worden beheerd door hostingaanbieders, die gegevens buiten uw land kunnen opslaan.",
+              "maps": "Wanneer u een kaart of routebeschrijving opent, of een video van een andere site bekijkt, geldt het eigen privacybeleid van die site."
+            }
+          },
+          "browser": {
+            "title": "Wat in uw browser blijft",
+            "p1": "De site kent geen accounts en gebruikt geen advertentie- of analysecookies. Uw browser bewaart:",
+            "items": {
+              "cart": "Uw winkelwagen en verlanglijst.",
+              "liked": "De gebeden waarbij u Amen hebt gezegd, zodat u dat maar één keer kunt doen.",
+              "language": "Uw taalkeuze."
+            }
+          },
+          "keep": {
+            "title": "Hoe lang wij het bewaren",
+            "p1": "Wij bewaren bestellingen en kaarsverzoeken zolang wij ze nodig hebben om u van dienst te zijn en aan onze wettelijke en boekhoudkundige verplichtingen te voldoen. Gebeden en reviews blijven op de site staan totdat u ons vraagt ze te verwijderen."
+          },
+          "rights": {
+            "title": "Uw keuzes",
+            "p1": "U kunt ons vragen de gegevens die wij over u bewaren te tonen, te corrigeren of te verwijderen, of uw gebed of review te verwijderen. Schrijf naar {email} en wij reageren. Afhankelijk van waar u woont, kan de wet u verdere rechten geven."
+          },
+          "children": {
+            "title": "Kinderen",
+            "p1": "De site richt zich niet op kinderen jonger dan 13 jaar en wij verzamelen niet bewust hun gegevens. Als u denkt dat een kind ons gegevens heeft gestuurd, schrijf ons dan en wij verwijderen ze."
+          },
+          "changes": {
+            "title": "Wijzigingen",
+            "p1": "Als wij dit beleid wijzigen, werken wij de datum bovenaan deze pagina bij."
+          }
+        }
+      },
+      "terms": {
+        "meta": {
+          "title": "Gebruiksvoorwaarden",
+          "description": "De voorwaarden voor het gebruik van de website van Nazareth Holy Cross, het bestellen van souvenirs, het aansteken van kaarsen, het doen van giften en het delen van gebeden en reviews."
+        },
+        "title": "Gebruiksvoorwaarden",
+        "lead": "Eenvoudige regels voor het gebruik van de site, het bestellen en het delen. Door de site te gebruiken gaat u ermee akkoord.",
+        "sections": {
+          "use": {
+            "title": "De site gebruiken",
+            "p1": "U mag deze website gebruiken voor persoonlijke, niet-commerciële doeleinden. Misbruik de site niet, probeer de beveiliging niet te doorbreken en stuur geen schadelijke of onwettige inhoud."
+          },
+          "orders": {
+            "title": "Bestellingen en betaling",
+            "p1": "Bestellingen worden betaald via PayPal. De prijzen zijn in Amerikaanse dollars en worden door onze server berekend op het moment dat u betaalt, niet door uw browser.",
+            "items": {
+              "i1": "Elke bestelling krijgt {discount} korting op de artikelen en vaste verzendkosten van {shipping}.",
+              "i2": "Wij kunnen een bestelling, met volledige terugbetaling, annuleren als een artikel niet beschikbaar is of een prijs duidelijk onjuist is.",
+              "i3": "Levering, douane en retouren worden uitgelegd onder Verzending en retouren."
+            }
+          },
+          "candles": {
+            "title": "Kaarsen",
+            "p1": "Een gebedskaars kost {price}. Wij steken een kaars aan voor uw intentie in de kerk van uw keuze en sturen u een video. Het is een dienst van gebed en gedachtenis; wij kunnen geen bepaalde datum of tijd beloven."
+          },
+          "donations": {
+            "title": "Giften",
+            "p1": "Giften zijn vrijwillig en ondersteunen het werk van Nazareth Holy Cross. Als u per vergissing een gift hebt gedaan, schrijf ons dan zo snel mogelijk."
+          },
+          "content": {
+            "title": "Gebeden en reviews",
+            "p1": "Wanneer u een gebed of review deelt, geeft u aan dat het uw eigen tekst is en dat u akkoord gaat met de weergave ervan op de site.",
+            "items": {
+              "i1": "Plaats geen haatdragende, onwettige of misleidende inhoud, en geen persoonlijke gegevens van anderen.",
+              "i2": "Wij mogen alles verwijderen wat deze regels overtreedt of wat wij ongepast vinden."
+            }
+          },
+          "ip": {
+            "title": "Onze inhoud",
+            "p1": "De teksten, foto’s, video’s en het ontwerp van de site zijn eigendom van Nazareth Holy Cross of van de mensen die ons toestemming gaven ze te gebruiken. Vraag toestemming voordat u ze kopieert voor ander dan persoonlijk gebruik."
+          },
+          "info": {
+            "title": "Informatie op de site",
+            "p1": "Wij doen ons best de site correct te houden, maar openingstijden, prijzen en reisomstandigheden kunnen veranderen. Controleer altijd ter plaatse voordat u op reis gaat."
+          },
+          "liability": {
+            "title": "Aansprakelijkheid",
+            "p1": "De site en haar diensten worden geleverd zoals ze zijn. Voor zover de wet het toestaat, zijn wij niet verantwoordelijk voor verliezen die voortvloeien uit het gebruik van de site of uit gebeurtenissen buiten onze macht. Niets hierin beperkt rechten die de wet u als consument geeft."
+          },
+          "changes": {
+            "title": "Wijzigingen",
+            "p1": "Wij kunnen deze voorwaarden bijwerken. De datum bovenaan de pagina toont de meest recente versie."
+          }
+        }
+      },
+      "shipping": {
+        "meta": {
+          "title": "Verzending en retouren",
+          "description": "Verzendkosten, levering, douane en wat u moet doen als een artikel beschadigd aankomt: alles over de ontvangst van uw souvenirs uit Nazareth."
+        },
+        "title": "Verzending en retouren",
+        "lead": "Wat u betaalt, wanneer u uw bestelling kunt verwachten en wat u moet doen als er iets niet klopt.",
+        "sections": {
+          "cost": {
+            "title": "Kosten",
+            "p1": "De verzending kost een vast bedrag per bestelling, hoeveel artikelen die ook bevat.",
+            "items": {
+              "i1": "Verzending: {shipping} per bestelling.",
+              "i2": "Korting: {discount} op de artikelen, automatisch toegepast. Het totaalbedrag ziet u in uw winkelwagen voordat u betaalt."
+            }
+          },
+          "delivery": {
+            "title": "Levering",
+            "p1": "Wij sturen souvenirs uit Nazareth naar adressen over de hele wereld. De levertijd hangt af van uw land en de postdienst. Wij nemen per e-mail contact met u op als wij iets van u nodig hebben."
+          },
+          "customs": {
+            "title": "Douane en invoerrechten",
+            "p1": "Voor bestellingen naar het buitenland kunnen invoerrechten, belastingen of douanekosten gelden die uw land vaststelt. Deze zijn niet inbegrepen in onze prijzen en worden door de ontvanger betaald."
+          },
+          "returns": {
+            "title": "Beschadigde, verkeerde of ontbrekende artikelen",
+            "p1": "Als uw bestelling beschadigd aankomt, niet is wat u hebt besteld of onvolledig is, willen wij het goedmaken.",
+            "items": {
+              "i1": "Stuur ons een e-mail met uw naam, het e-mailadres dat voor de bestelling is gebruikt en een foto van het probleem.",
+              "i2": "Bewaar de verpakking tot wij hebben geantwoord.",
+              "i3": "Wij laten u weten of wij een vervangend artikel sturen of u via PayPal terugbetalen."
+            }
+          },
+          "digital": {
+            "title": "Kaarsen en giften",
+            "p1": "Kaarsverzoeken en giften zijn diensten, geen producten, dus ze worden niet verzonden. Als u er per vergissing een hebt gedaan, schrijf ons dan."
+          },
+          "contact": {
+            "title": "Vragen",
+            "p1": "Schrijf naar {email} of gebruik de contactpagina."
+          }
+        }
+      }
+    },
+    "search": {
+      "meta": {
+        "title": "Zoeken",
+        "description": "Zoek in Nazareth Holy Cross: pagina’s, heilige plaatsen, antwoorden en evangelieteksten."
+      },
+      "label": "De site doorzoeken",
+      "placeholder": "Zoek pagina’s, heilige plaatsen, antwoorden…",
+      "open": "Zoeken",
+      "close": "Sluiten",
+      "loading": "Laden…",
+      "error": "Zoeken is nu niet beschikbaar. Probeer het opnieuw.",
+      "suggested": "Suggesties",
+      "results": "Zoekresultaten",
+      "count": "{count, plural, one {# resultaat} other {# resultaten}}",
+      "none": "Geen resultaten voor ‘{query}’. Probeer een ander woord.",
+      "types": {
+        "page": "Pagina’s",
+        "site": "Heilige plaatsen",
+        "faq": "Vragen",
+        "gospel": "Evangelie"
+      },
+      "hintMove": "om te navigeren",
+      "hintOpen": "om te openen",
+      "hintClose": "om te sluiten",
+      "submit": "Zoeken",
+      "page": {
+        "eyebrow": "Zoeken",
+        "title": "De site doorzoeken",
+        "lead": "Vind pagina’s, heilige plaatsen, antwoorden op veelgestelde vragen en evangelieteksten."
+      }
+    }
+  },
+  "media": {
+    "meta": {
+      "creditsTitle": "Fotocredits",
+      "creditsDescription": "Wie de foto’s van Nazareth en zijn kerken op deze site heeft gemaakt, onder welke open licentie, en waar u de originelen vindt op Wikimedia Commons.",
+      "galleryTitle": "Nazareth in beeld",
+      "galleryDescription": "Foto’s van de Annunciatiebasiliek, de Jozefkerk, de Grieks-orthodoxe kerk, de Mariabron, de soek van de Oude Stad, de Synagogekerk, de Berg van de Sprong en de stad Nazareth."
+    },
+    "nav": {
+      "gallery": "Fotogalerij",
+      "credits": "Fotocredits"
+    },
+    "topic": {
+      "basilica": "Annunciatiebasiliek",
+      "stjoseph": "Jozefkerk",
+      "greek": "Grieks-orthodoxe Annunciatiekerk",
+      "well": "Mariabron",
+      "oldcity": "Oude Stad en soek",
+      "synagogue": "Synagogekerk",
+      "precipice": "Berg van de Sprong",
+      "city": "De stad Nazareth"
+    },
+    "subject": {
+      "facade": "gevel",
+      "exterior": "buitenkant",
+      "dome": "koepel",
+      "courtyard": "binnenplaats",
+      "interior": "interieur",
+      "grotto": "grot",
+      "altar": "altaar",
+      "iconostasis": "iconostase",
+      "ceiling": "plafond en gewelven",
+      "bellTower": "klokkentoren",
+      "well": "de bron",
+      "market": "markt",
+      "street": "straat",
+      "skyline": "stadsgezicht",
+      "panorama": "panorama",
+      "hills": "heuvels",
+      "night": "bij nacht"
+    },
+    "alt": "{topic}: {subject}",
+    "creditLine": "Foto: {author} · {license}",
+    "source": "Bron",
+    "gallery": {
+      "eyebrow": "Fotogalerij",
+      "title": "Nazareth in beeld",
+      "lead": "Acht plekken, één stad: de Annunciatiebasiliek, de Jozefkerk, de Grieks-orthodoxe kerk, de Mariabron, de soek van de Oude Stad, de Synagogekerk, de Berg van de Sprong en de stad zelf. Selecteer een foto om die te vergroten; de viewer vermeldt de fotograaf.",
+      "creditsLink": "Fotocredits",
+      "visitPage": "Lees meer over deze plek"
+    },
+    "credits": {
+      "eyebrow": "Fotocredits",
+      "title": "Fotocredits",
+      "lead": "De foto’s van Nazareth en zijn kerken op deze site worden door hun makers gedeeld onder open licenties. Dank aan elke fotograaf.",
+      "howTitle": "Zo zijn deze foto’s gelicentieerd",
+      "howText": "Elke foto komt van Wikimedia Commons en valt onder het publiek domein of onder een Creative Commons-licentie (CC0, CC BY of CC BY-SA) die hergebruik toestaat, ook op een commerciële site, mits de maker wordt vermeld. De maker, de licentie en een link naar het origineel staan hieronder en in de fotoviewer.",
+      "howNote": "Foto’s met CC BY-SA mogen onder dezelfde licentie worden hergebruikt. Bent u de maker van een foto en wilt u de vermelding laten wijzigen of de foto laten verwijderen, schrijf ons dan gerust.",
+      "jump": "Ga naar een groep foto’s",
+      "author": "Maker",
+      "license": "Licentie",
+      "viewOnCommons": "Bekijk op Wikimedia Commons"
+    }
+  }
+}

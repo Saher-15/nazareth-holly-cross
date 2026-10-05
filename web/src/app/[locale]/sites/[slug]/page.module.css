@@ -1,0 +1,40 @@
+/* Photo count badge in the "View the photos" button. */
+.count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 26px;
+  height: 26px;
+  padding: 0 7px;
+  border-radius: 999px;
+  background: var(--gold);
+  color: var(--night);
+  font-size: 0.78rem;
+  letter-spacing: 0;
+}
+
+.story {
+  padding-top: clamp(24px, 4vw, 48px);
+}
+.storyGrid {
+  display: grid;
+  gap: clamp(28px, 4vw, 56px);
+  align-items: start;
+}
+@media (min-width: 900px) {
+  .storyGrid {
+    grid-template-columns: minmax(0, 1fr) 340px;
+  }
+}
+
+.gallery {
+  /* The jump from "View the photos" stops below the sticky header: html scroll-padding-top (globals.css). */
+  position: relative;
+}
+
+.head {
+  margin-bottom: 28px;
+  text-align: center;
+}
+.head :global(.ui-muted) {
+  margin: 0;
+}

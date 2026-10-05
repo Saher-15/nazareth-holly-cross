@@ -1,0 +1,57 @@
+.distance {
+  margin: 0 0 4px !important;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--gold) !important;
+}
+.climate {
+  min-width: 640px;
+}
+.temp {
+  display: grid;
+  gap: 4px;
+  justify-items: center;
+}
+.bar {
+  display: block;
+  block-size: 6px;
+  max-inline-size: 120px;
+  min-inline-size: 20px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--gold-deep), var(--gold));
+}
+.f {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.season {
+  display: inline-block;
+  padding: 2px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-line);
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+.best {
+  border-color: var(--success);
+  color: var(--success);
+}
+.good {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+.hot {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+.cool {
+  color: var(--muted);
+}
+.note {
+  max-width: 760px;
+  margin: 14px auto 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.9rem;
+}

@@ -1,0 +1,1529 @@
+{
+  "site": {
+    "name": "Nazareth Holy Cross",
+    "tagline": "La ciudad de Jesús, desde cualquier lugar del mundo",
+    "skipToContent": "Saltar al contenido",
+    "menuOpen": "Abrir menú",
+    "menuClose": "Cerrar menú",
+    "language": "Idioma",
+    "nav": {
+      "home": "Inicio",
+      "sites": "Lugares santos",
+      "tour": "Tour",
+      "candle": "Encender una vela",
+      "shop": "Tienda",
+      "live": "En vivo",
+      "reviews": "Reseñas",
+      "about": "Sobre nosotros",
+      "cart": "Carrito",
+      "donate": "Donar"
+    },
+    "footer": {
+      "about": "Compartimos el espíritu de Nazaret con peregrinos de todo el mundo: sus lugares santos, sus oraciones y su artesanía.",
+      "explore": "Explorar",
+      "contact": "Contacto",
+      "follow": "Síguenos",
+      "rights": "© {year} Nazareth Holy Cross. Todos los derechos reservados."
+    },
+    "notFound": {
+      "title": "No encontramos esta página",
+      "text": "Es posible que la página que buscas se haya movido. Te llevamos de vuelta.",
+      "backHome": "Volver al inicio"
+    },
+    "meta": {
+      "title": "Nazareth Holy Cross — La ciudad de Jesús",
+      "description": "Enciende una vela en Nazaret, recorre los lugares santos y lleva a casa recuerdos bendecidos de la ciudad donde creció Jesús."
+    }
+  },
+  "about": {
+    "title": "Bienvenido al portal oficial de Nazaret",
+    "description1": "El corazón de la fe cristiana. Entendemos que no todos pueden visitar Nazaret en persona, una ciudad donde Jesús creció y donde las experiencias espirituales esperan a cada visitante. Por eso nos alegra ofrecerte la oportunidad de llevar Nazaret hasta ti.",
+    "description2": "A través de nuestro sitio web puedes hacer un recorrido virtual por las principales iglesias y lugares santos de Nazaret y conectar con la rica historia y la tradición religiosa que caracterizan este lugar. Además, te ofrecemos una oportunidad única de comprar recuerdos locales e incluso encender una vela en memoria u honor de tus seres queridos, como si estuvieras aquí con nosotros.",
+    "description3": "En nuestra tienda en línea encontrarás una amplia gama de productos: cruces de madera de olivo local, joyería inspirada en símbolos cristianos, pinturas y mosaicos que reflejan la riqueza del arte religioso, y mucho más. Ahora también puedes comprar agua de la legendaria fuente de Nazaret, arena de Nazaret y aceitunas locales, todo para sentir la grandeza de la ciudad de Nazaret y de Jesús. También puedes elegir encender una vela virtual, un gesto que lleva la oración y el recuerdo a través de las distancias.",
+    "description4": "Te invitamos a abrir tu corazón y a sentir el calor de nuestra comunidad a través de cada producto que elijas comprar. Cada compra apoya a la comunidad local y ayuda a preservar la rica herencia de Nazaret para las generaciones futuras. Visita nuestro sitio web y encuentra tu manera de conectar con Nazaret, en cualquier momento y desde cualquier lugar."
+  },
+  "whatIsNew": {
+    "title": "Referencias bíblicas a Nazaret",
+    "scriptureNotes": {
+      "matthew": "Mateo 2:23: «Y vino y habitó en una ciudad llamada Nazaret, para que se cumpliese lo dicho por los profetas: Será llamado nazareno».",
+      "luke1": "Lucas 1:26-27: «Al sexto mes, el ángel Gabriel fue enviado por Dios a una ciudad de Galilea llamada Nazaret, a una virgen desposada con un varón que se llamaba José, de la casa de David; y el nombre de la virgen era María».",
+      "john": "Juan 1:46: «Le dijo Natanael: ¿De Nazaret puede salir algo bueno? Le dijo Felipe: Ven y ve».",
+      "luke4": "Lucas 4:16: «Vino a Nazaret, donde se había criado; y, conforme a su costumbre, entró en la sinagoga un día de reposo, y se levantó a leer»."
+    },
+    "touchingTheSacred": "Tocar lo sagrado, sentir el latido del corazón",
+    "introParagraphs": {
+      "part1": "Nazaret, la ciudad donde se desarrolló lo milagroso, es el lugar donde Jesús dio sus primeros pasos, donde la Virgen María abrazó a su Hijo y oró por su seguridad. Aquí, dentro de las antiguas iglesias, en la fuente sagrada donde María alimentó a Jesús, y en el vibrante mercado de la ciudad antigua, encontrarás tu fe cobrando vida una vez más.",
+      "part2": "Imagínate caminando por las estrechas calles, siguiendo los pasos de Jesús hacia las iglesias, compartiendo momentos de reflexión en la fuente de María, donde los ojos de la madre santa encontraron las antiguas aguas. Cada piedra, cada callejón, cuenta una historia de fe inquebrantable, de un viaje espiritual que trasciende el tiempo.",
+      "part3": "Cuando enciendes una vela en la Basílica de la Anunciación, te reconectas con el lugar donde Jesús escuchó por primera vez su llamado divino. A medida que tu corazón anhela Nazaret, nuestros recuerdos llevan el espíritu sagrado de la ciudad, recordándote tu profunda conexión con el lugar donde todo comenzó.",
+      "part4": "Permítenos traerte Nazaret, directamente a tu hogar. Con cada recuerdo, preservas un vínculo profundo con Nazaret, la ciudad donde caminaron Jesús y María, la ciudad donde nació la fe. Recuerda los momentos que ocurrieron aquí, los corazones que se abrieron en oración y las lágrimas que calladamente cayeron sobre las piedras antiguas.",
+      "part5": "Nazaret te espera, te abraza desde lejos y te trae su santidad. Mantén la llama ardiendo en tu corazón hasta el día en que regreses a nosotros, a la ciudad donde late la fe."
+    }
+  },
+  "live": {
+    "event_ongoing": "Evento en vivo en curso",
+    "upcoming_event": "Próximo evento en vivo",
+    "nazareth_date_time": "Fecha y hora en Nazaret:",
+    "time_remaining": "Tiempo restante:",
+    "join_live": "Unirse en vivo",
+    "no_upcoming_events": "No hay eventos próximos.",
+    "past_live_events": "Eventos en vivo anteriores",
+    "refresh_note": "Nota: actualiza la página antes de pulsar el botón «Unirse en vivo».",
+    "live_note": "Nota: el botón «Unirse en vivo» solo está disponible cuando comienza el evento en vivo."
+  },
+  "common": {
+    "home": "Inicio",
+    "live": "En vivo",
+    "tour": "Tour",
+    "candle": "Vela",
+    "shop": "Tienda",
+    "reviews": "Reseñas"
+  },
+  "candle": {
+    "howToLightACandle": "¿Cómo encender una vela?",
+    "itsSimple": "Es simple:",
+    "step1": "Elige una iglesia donde te gustaría que se encendiera la vela.",
+    "step2": "Escribe una oración o una petición personal que quieras que acompañe el encendido de la vela.",
+    "step3": "Iremos a la iglesia, encenderemos la vela por ti, grabaremos un video con tu nombre y te enviaremos el video directamente.",
+    "note": "Nota: este vídeo es solo ilustrativo y muestra cómo se enciende una vela en la iglesia ortodoxa griega.",
+    "lightAPrayCandle": "ENCENDER UNA VELA DE ORACIÓN",
+    "selectChurch": "Selecciona la iglesia para encender la vela:",
+    "toLightACandlePay": "Para encender una vela, paga 3 $",
+    "light": "ENCENDER",
+    "emailMatchError": "Los correos electrónicos no coinciden",
+    "inputWarning": "Selecciona una iglesia.",
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "yourEmail": "Tu correo electrónico",
+    "confirmEmail": "Confirma tu correo electrónico",
+    "yourPrayer": "Tu oración"
+  },
+  "heroSection": {
+    "heading": "LA CIUDAD DE JESÚS TE ESPERA",
+    "subHeading": "GRACIA EN CADA CLIC",
+    "lightCandle": "ENCENDER UNA VELA",
+    "shopButton": "Tienda",
+    "tourButton": "TOUR POR NAZARET",
+    "shopIcon": "fa fa-shopping-cart",
+    "tourIcon": "far fa-play-circle",
+    "discount": "Disfruta de un 10 % de descuento en todos los artículos de nuestra tienda — ¡exclusivamente en nuestro sitio web!"
+  },
+  "cards": {
+    "title": "¡Descubre estos destinos EXTRAORDINARIOS!",
+    "latinChurch": "Explora la Basílica de la Anunciación",
+    "greekChurch": "Explora la iglesia ortodoxa griega",
+    "marysWell": "Explora el Pozo de María, en el corazón de Nazaret",
+    "oldCity": "Explora la Ciudad Vieja de",
+    "cityOfNazareth": "La ciudad de Nazaret, la ciudad de Jesús"
+  },
+  "videos": {
+    "interview_nazareth": {
+      "title": "Entrevista con la comunidad de Nazaret",
+      "description": "Mira la entrevista exclusiva transmitida en directo desde Nazaret."
+    },
+    "live_prayer_latin": {
+      "title": "Oración en directo desde la iglesia latina",
+      "description": "Vive una transmisión en directo de oraciones sentidas desde la iglesia latina."
+    }
+  },
+  "nazarethTour": {
+    "pageHeading": "Explora Nazaret",
+    "videoMessage": "Hagamos un recorrido por Nazaret, una ciudad llena de historia y cultura. Descubre mercados vibrantes, iglesias históricas y monumentos únicos para una experiencia inolvidable.",
+    "videoDescription": "Disfruta de las imágenes y los sonidos de Nazaret en este recorrido en vídeo inmersivo. Desde los bulliciosos mercados hasta los serenos sitios históricos, descubre la belleza y el encanto de esta antigua ciudad.",
+    "ctaButton": "Más información sobre Nazaret"
+  },
+  "pray": {
+    "formTitle": "Comparte tu reseña",
+    "formDescription": "Por favor, comparte tu experiencia con nuestro sitio web. Tu opinión nos ayuda a mejorar y ofrecer un mejor servicio. Completa el formulario a continuación y tu reseña se publicará una vez que sea aprobada por nuestro equipo.",
+    "placeholderFullName": "Nombre completo",
+    "placeholderCountry": "¿De dónde eres?",
+    "placeholderMessage": "Cuéntanos sobre tu experiencia con nuestro sitio web",
+    "submitButton": "Enviar",
+    "successMessage": "¡Mensaje enviado correctamente!",
+    "confirmationMessage": "Tu mensaje aparecerá en la pared una vez que sea confirmado por el equipo de Nazareth Holy Cross.",
+    "messagesTitle": "Opiniones de nuestros clientes",
+    "messagesDescription": "Aquí están las reseñas que han sido aprobadas por nuestro equipo. Gracias por compartir tu opinión con nosotros.",
+    "noMessages": "Aún no se han enviado mensajes."
+  },
+  "confirmationCandle": {
+    "thankYou": "¡Gracias!",
+    "paymentSuccess": "Tu pago ha sido procesado con éxito.",
+    "receipt": "Se ha enviado un recibo a tu dirección de correo electrónico.",
+    "gratitude": "¡Gracias por tu pedido!"
+  },
+  "thankYou": {
+    "thankYou": "¡Gracias!",
+    "paymentSuccess": "Tu pago ha sido procesado con éxito.",
+    "receipt": "Se ha enviado un recibo a tu dirección de correo electrónico.",
+    "gratitude": "¡Gracias por tu pedido!"
+  },
+  "footer": {
+    "aboutUs": "Sobre nosotros",
+    "aboutUsDescription": "Nos dedicamos a preservar el espíritu de Nazaret y a difundir un mensaje de esperanza. Visita nuestro sitio web para emprender el viaje.",
+    "learnMore": "Más información",
+    "contactUs": "Contáctanos",
+    "email": "nazarethholycross@gmail.com",
+    "followInstagram": "Síguenos en Instagram",
+    "followFacebook": "Síguenos en Facebook",
+    "subscribeYoutube": "Únete a nosotros en YouTube",
+    "credits": "Créditos",
+    "creditLink1": "Saher Saadi",
+    "creditLink2": "Haytham Taweel",
+    "copyright": "Derechos de autor © 2024 – Todos los derechos reservados, NazarethHolyCross"
+  },
+  "headerGreek": {
+    "title": "Explora la belleza de la iglesia griega",
+    "mapButton": "Ver en Google Maps"
+  },
+  "contentGreek": {
+    "paragraph1": "La iglesia ortodoxa griega de la Anunciación se alza sobre el manantial donde, según los cristianos ortodoxos, tuvo lugar la Anunciación. Cuando la Virgen María fue a sacar agua del manantial, se le apareció el arcángel Gabriel y le anunció que concebiría y daría a luz a un hijo al que llamaría Jesús. La iglesia actual data de 1750, cuando Daher al-Omar, el gobernante beduino de Galilea, concedió a la comunidad ortodoxa griega el permiso para construirla.",
+    "paragraph2": "La iglesia tiene una nave central con dos naves laterales y alberga un hermoso iconostasio de madera, donado por un comerciante griego en 1767. Entre 1977 y 1978 fue redecorada por artistas rumanos. Un pasadizo abovedado conduce a una pequeña capilla decorada con azulejos armenios, desde la que siete escalones bajan hasta el manantial, que se cree que construyeron los cruzados en el siglo XII.",
+    "paragraph3": "A unos 140 metros de la iglesia se encuentra el Pozo de María, que una vez fue alimentado por el manantial y sirvió como fuente local de agua durante varios siglos. La fuente fue reparada en 1967 y nuevamente en 2000, pero no funciona hoy."
+  },
+  "headerLatin": {
+    "title": "Descubre la belleza de la iglesia latina"
+  },
+  "contentLatin": {
+    "paragraph1": "La Iglesia Latina, también conocida como la Basílica de la Anunciación, es un importante sitio religioso ubicado en Nazaret, Israel. Es una de las iglesias más grandes de Oriente Medio y tiene una profunda significación religiosa para los cristianos de todo el mundo.",
+    "history": {
+      "title": "Contexto histórico",
+      "text": "Según la tradición, este es el lugar donde el ángel Gabriel anunció a la Virgen María que concebiría y daría a luz a Jesús, un acontecimiento conocido como la Anunciación. La basílica tiene una larga historia que se remonta a los primeros siglos del cristianismo, y a lo largo del tiempo se fueron levantando en el lugar sucesivas iglesias."
+    },
+    "architecture": {
+      "title": "Características arquitectónicas",
+      "text": "La actual basílica, construida entre 1955 y 1969, presenta una estructura distintiva de dos pisos. La iglesia superior se utiliza para servicios de adoración, mientras que la iglesia inferior alberga la Gruta de la Anunciación, que se cree que es el sitio real de la Anunciación. La arquitectura de la basílica combina estilos modernos con elementos tradicionales, y su interior está adornado con mosaicos, frescos y obras de arte que representan escenas de la vida de Cristo."
+    },
+    "visiting": {
+      "title": "Visita la basílica",
+      "text": "La Basílica de la Anunciación es un destino popular para peregrinos y turistas que visitan Nazaret. Los visitantes pueden explorar tanto las iglesias superior como inferior, admirar las características artísticas y arquitectónicas, y participar en ceremonias religiosas y eventos que se celebran en la basílica. El sitio ofrece una experiencia espiritual profunda y sirve como símbolo de fe y herencia."
+    }
+  },
+  "headerMary": {
+    "title": "Explora la belleza del Pozo de María"
+  },
+  "contentMary": {
+    "intro": "El Pozo de María, también conocido como el Pozo de la Virgen, es un sitio histórico y religioso significativo ubicado en Nazaret, Israel. Se cree tradicionalmente que es el lugar donde el Ángel Gabriel anunció a la Virgen María que daría a luz a Jesús, un evento conocido como la Anunciación.",
+    "significance": {
+      "title": "Significado histórico y religioso",
+      "biblical": "Conexión bíblica",
+      "biblicalText": "Según la tradición cristiana, el Pozo de María es donde María estaba sacando agua cuando el Ángel Gabriel se le apareció y le anunció que concebiría y daría a luz a Jesucristo. Este evento es una parte central de la historia cristiana de la Anunciación.",
+      "cultural": "Importancia cultural",
+      "culturalText": "El pozo ha sido una fuente vital de agua para la comunidad local durante siglos. Sirvió como un lugar de encuentro para el pueblo de Nazaret, convirtiéndose en una parte integral de la vida diaria en la ciudad.",
+      "architecture": "Características arquitectónicas",
+      "architectureText": "El pozo en sí es parte de un complejo más grande que incluye la Iglesia Ortodoxa Griega de la Anunciación. La estructura actual de la iglesia data del siglo XVIII, pero el pozo y el sitio tienen raíces mucho más antiguas."
+    },
+    "modern": {
+      "title": "El lugar hoy",
+      "restoration": "Trabajos de restauración",
+      "restorationText": "La fuente del Pozo de María ha pasado por varias restauraciones a lo largo de los años, notablemente en 1967 y 2000. A pesar de estos esfuerzos, el pozo no funciona hoy como lo hacía antes.",
+      "attraction": "Atractivo turístico",
+      "attractionText": "El Pozo de María es un destino popular para peregrinos y turistas. Los visitantes vienen a ver el sitio histórico y a experimentar el lugar donde, según la tradición, ocurrió la Anunciación.",
+      "surroundings": "Entorno",
+      "surroundingsText": "El pozo está ubicado en la Ciudad Vieja de Nazaret, un área rica en hitos históricos y religiosos. Las atracciones cercanas incluyen la Basílica de la Anunciación, la Iglesia Ortodoxa Griega de la Anunciación y varios otros sitios relacionados con la vida de Jesús y María."
+    },
+    "visiting": {
+      "title": "Visitar el Pozo de María",
+      "location": "Ubicación",
+      "locationText": "El Pozo de María está situado en el corazón de Nazaret, lo que lo hace fácilmente accesible para los visitantes que exploran la Ciudad Vieja.",
+      "accessibility": "Accesibilidad",
+      "accessibilityText": "El sitio está abierto al público y se puede visitar durante todo el año. Se aconseja consultar la información local de los visitantes para conocer las horas de visita específicas o las pautas.",
+      "culturalExperience": "Experiencia cultural",
+      "culturalExperienceText": "Visitar el Pozo de María ofrece una oportunidad única para conectarse con el rico patrimonio religioso y cultural de Nazaret. El sitio proporciona información sobre la vida cotidiana de las personas en tiempos antiguos y sus prácticas espirituales."
+    }
+  },
+  "headerTitleNaz": "Explora la belleza de la ciudad de Nazaret",
+  "mapButton": "Abrir Mapa",
+  "contentNaz": {
+    "introduction": "La Ciudad Vieja de Nazaret es famosa sobre todo por su shuk (mercado al aire libre), que atrae a israelíes de todo el país en busca de productos árabes tradicionales. Es toda una experiencia y un gran contraste con los centros comerciales con aire acondicionado repartidos por el país. Para quienes se interesan por el cristianismo, la Ciudad Vieja y sus alrededores están llenos de importantes lugares cristianos, entre ellos la Basílica de la Anunciación.",
+    "historicalSignificance": {
+      "title": "Importancia histórica y religiosa",
+      "text": "Nazaret se menciona de forma destacada en el Nuevo Testamento. Según la tradición cristiana, es el lugar donde el ángel Gabriel anunció a María que daría a luz a Jesús, un acontecimiento que conmemora la Basílica de la Anunciación. Las evidencias arqueológicas indican que Nazaret era una pequeña aldea judía en tiempos de Jesús. Está habitada de forma continua desde la antigüedad."
+    },
+    "modernNazareth": {
+      "title": "Nazaret hoy",
+      "text": "La ciudad tiene una población diversa, formada sobre todo por árabes musulmanes y cristianos. Según estimaciones recientes, Nazaret tiene unos 77 000 habitantes. Es un vibrante centro cultural con diversas instituciones religiosas, culturales y educativas. Acoge festivales y eventos que reflejan su rica herencia y su comunidad diversa. El turismo es una parte importante de la economía de Nazaret, impulsado por sus lugares religiosos y monumentos históricos. Además, la ciudad cuenta con una mezcla de pequeños negocios, tiendas y mercados que contribuyen a su economía local."
+    },
+    "accessibility": {
+      "title": "Accesibilidad y turismo",
+      "text": "Nazaret está bien conectado por carretera, con servicios de autobús frecuentes desde ciudades principales como Tel Aviv, Haifa y Jerusalén. La ciudad ofrece varias opciones de alojamiento, desde hoteles hasta casas de huéspedes, que satisfacen las necesidades de turistas y peregrinos."
+    }
+  },
+  "headerTitleOld": "Explora la belleza de la Ciudad Vieja de Nazaret",
+  "mapDescriptionOld": "La Ciudad Vieja de Nazaret es famosa sobre todo por su shuk (mercado al aire libre), que atrae a israelíes de todo el país en busca de productos árabes tradicionales. Es toda una experiencia y un gran contraste con los centros comerciales con aire acondicionado repartidos por el país. Para quienes se interesan por el cristianismo, la Ciudad Vieja y sus alrededores están llenos de importantes lugares cristianos, entre ellos la Basílica de la Anunciación.",
+  "churchDescriptionOld": "La iglesia ortodoxa griega de la Anunciación se alza sobre el manantial donde, según los cristianos ortodoxos, tuvo lugar la Anunciación. Cuando la Virgen María fue a sacar agua del manantial, se le apareció el arcángel Gabriel y le anunció que concebiría y daría a luz a un hijo al que llamaría Jesús. La iglesia actual data de 1750, cuando Daher al-Omar, el gobernante beduino de Galilea, concedió a la comunidad ortodoxa griega el permiso para construirla.",
+  "waterSourceOld": "A unos 140 metros de la iglesia se encuentra el Pozo de María, que una vez fue alimentado por el manantial y sirvió como fuente local de agua durante varios siglos. La fuente fue reparada en 1967 y nuevamente en 2000, pero hoy no funciona.",
+  "orderSummary": "Resumen del pedido",
+  "firstName": "Nombre:",
+  "lastName": "Apellido:",
+  "email": "Correo electrónico:",
+  "prayerAt": "Oración en:",
+  "cost": "Costo:",
+  "confirmDetails": "Confirmar datos y pagar",
+  "confirmed": "Confirmado",
+  "orderCancelled": "¡Pedido cancelado!",
+  "paypalComponent": {
+    "contactInfo": "Información de contacto y entrega",
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "email": "Correo electrónico",
+    "confirmEmail": "Confirmación de correo electrónico",
+    "emailsDontMatch": "Los correos electrónicos no coinciden",
+    "city": "Ciudad",
+    "street": "Dirección",
+    "postal": "Código postal",
+    "state": "Estado / Provincia",
+    "paymentMethod": "Método de pago",
+    "pleaseFillAllDetails": "Completa todos los datos para continuar.",
+    "orderCancelled": "¡Pedido cancelado!",
+    "thankYou": "¡Gracias por tu pedido!",
+    "summary": "Resumen del pedido",
+    "cost": "Costo: $",
+    "country": "Selecciona tu país"
+  },
+  "navbar": {
+    "home": "Inicio",
+    "live": "En vivo",
+    "tour": "Tour",
+    "candle": "Vela",
+    "shop": "Tienda",
+    "reviews": "Reseñas"
+  },
+  "product": {
+    "button": {
+      "addToCart": "Agregar al carrito"
+    },
+    "message": {
+      "productAdded": "¡Producto agregado al carrito!",
+      "error": {
+        "fetchProduct": "Error al obtener el producto.",
+        "selectColor": "Por favor, selecciona un color."
+      }
+    },
+    "note": {
+      "shippingFee": "Nota: el envío tiene un costo adicional de 5 $."
+    },
+    "error": {
+      "productNotFound": "Producto no encontrado."
+    }
+  },
+  "cart": {
+    "shipping": "Envío: 5 $",
+    "subtotal": "Subtotal: ${amount}",
+    "subtotalDiscount": "Después del 10% de descuento: ${amount}",
+    "emptyCart": "Tu carrito está vacío",
+    "continueShopping": "Continuar comprando",
+    "backToShopping": "Volver a comprar",
+    "remove": "Eliminar",
+    "price": "Precio: ${price}",
+    "quantity": "Cantidad",
+    "checkout": "Pagar"
+  },
+  "shop": {
+    "searchPlaceholder": "Buscar productos...",
+    "noProducts": "No se encontraron productos que coincidan con tus criterios.",
+    "sortNone": "Ninguno",
+    "sortLowToHigh": "Precio: de menor a mayor",
+    "sortHighToLow": "Precio: de mayor a menor",
+    "resetFilters": "Restablecer filtros",
+    "pagination": "Página {currentPage} de {totalPages}"
+  },
+  "pagination": {
+    "prev": "Anterior",
+    "next": "Siguiente"
+  },
+  "intl": {
+    "currencyNote": {
+      "usd": "Los precios están en dólares estadounidenses (USD). Tu tarjeta o PayPal los convierte a su propio tipo de cambio.",
+      "approx": "Unos {amount} según un tipo de cambio orientativo. El importe que cobre tu banco puede variar.",
+      "shipping": "El envío tiene una tarifa fija de {fee} por pedido."
+    }
+  },
+  "home": {
+    "eyebrow": "Nazaret · La ciudad de Jesús",
+    "title": "Camina donde caminó Jesús",
+    "subtitle": "Enciende una vela, recorre los lugares santos y lleva un pedazo de Nazaret a tu hogar, desde cualquier lugar del mundo.",
+    "scroll": "Desplazar",
+    "soundToggle": "Activar o silenciar el sonido",
+    "stickyCandle": "Encender una vela",
+    "candleTitle": "Una llama por cada oración",
+    "candleText": "Enciende una vela en la Ciudad Santa y rezaremos por tu intención en Nazaret.",
+    "flameBtn": "Encender una llama",
+    "flameCount": "Llamas encendidas en este dispositivo: {count}",
+    "flameNote": "Una llama simbólica. Para que se encienda una vela real en Nazaret, visita nuestra página de velas.",
+    "verseEyebrow": "Versículo del día",
+    "verseCaption": "La reflexión de hoy",
+    "v1": "No temas, María, porque has hallado gracia delante de Dios.",
+    "r1": "Lucas 1:30",
+    "v2": "¿De Nazaret puede salir algo bueno? Ven y verás.",
+    "r2": "Juan 1:46",
+    "v3": "Fue a vivir a una ciudad llamada Nazaret.",
+    "r3": "Mateo 2:23",
+    "v4": "El niño crecía y se fortalecía, lleno de sabiduría, y la gracia de Dios estaba sobre él.",
+    "r4": "Lucas 2:40",
+    "v5": "He aquí la sierva del Señor; hágase en mí según tu palabra.",
+    "r5": "Lucas 1:38",
+    "v6": "Yo soy la luz del mundo. El que me sigue no andará en tinieblas.",
+    "r6": "Juan 8:12",
+    "sitesEyebrow": "Lugares santos",
+    "sitesTitle": "Un viaje por Nazaret",
+    "sitesLabel": "Carrusel de lugares santos",
+    "prev": "Anterior",
+    "next": "Siguiente",
+    "explore": "Explorar",
+    "siteLatin": "Basílica de la Anunciación",
+    "siteGreek": "Iglesia ortodoxa griega",
+    "siteMary": "El Pozo de María",
+    "siteOld": "La Ciudad Vieja",
+    "siteCity": "La ciudad de Nazaret",
+    "siteTour": "Visita virtual",
+    "shopEyebrow": "Recuerdos",
+    "shopTitle": "Destacados de nuestra tienda",
+    "shopAll": "Visitar la tienda",
+    "shopError": "No pudimos cargar los recuerdos en este momento.",
+    "retry": "Reintentar",
+    "voicesEyebrow": "Voces de peregrinos",
+    "voicesTitle": "Palabras de nuestros visitantes",
+    "voicesAll": "Leer más y compartir la tuya",
+    "storyEyebrow": "La historia"
+  },
+  "homePage": {
+    "meta": {
+      "title": "Nazareth Holy Cross — Camina donde caminó Jesús",
+      "description": "Enciende una vela en Nazaret, recorre sus lugares santos, lee el versículo del día y lleva a casa recuerdos bendecidos de la ciudad donde creció Jesús."
+    },
+    "carouselHint": "Desliza, arrastra o usa las flechas del teclado para recorrer los lugares santos."
+  },
+  "placesPage": {
+    "meta": {
+      "sitesTitle": "Lugares santos de Nazaret",
+      "sitesDescription": "Recorre en fotos la Basílica de la Anunciación, la iglesia ortodoxa griega, el Pozo de María, la Ciudad Vieja y la ciudad de Nazaret, con mapas e indicaciones para tu peregrinación.",
+      "tourTitle": "Visita virtual de Nazaret",
+      "tourDescription": "Mira un recorrido en vídeo por Nazaret, desde sus animados mercados hasta sus iglesias históricas, y luego explora cada lugar santo en fotos.",
+      "aboutTitle": "Sobre nosotros",
+      "aboutDescription": "Nazareth Holy Cross te acerca la ciudad de Jesús: visitas virtuales a sus lugares santos, recuerdos de Nazaret y velas encendidas por tus intenciones."
+    },
+    "index": {
+      "title": "Los lugares santos de Nazaret",
+      "lead": "Cinco lugares donde la historia de la Anunciación y de la infancia de Jesús sigue viva. Recórrelos en fotos, encuéntralos en el mapa o enciende una vela desde lejos.",
+      "listEyebrow": "Cinco lugares santos",
+      "tourTitle": "Recorre las calles de Nazaret",
+      "tourText": "Mira nuestro recorrido en vídeo y descubre los mercados, las iglesias y los lugares emblemáticos de la ciudad donde creció Jesús."
+    },
+    "kind": {
+      "latin": "Basílica católica",
+      "greek": "Iglesia ortodoxa griega",
+      "maryswell": "Manantial antiguo",
+      "oldcity": "Barrio histórico y mercado",
+      "city": "La ciudad de Jesús"
+    },
+    "teaser": {
+      "latin": "Una de las iglesias más grandes de Oriente Medio, construida sobre la gruta donde, según la tradición, el ángel Gabriel anunció a María que daría a luz a Jesús.",
+      "greek": "Construida en 1750 sobre el manantial donde la tradición ortodoxa sitúa la Anunciación, con un iconostasio de madera tallada y una capilla a la que se baja por escalones de la época de los cruzados.",
+      "maryswell": "El antiguo manantial de Nazaret donde, según la tradición, María sacaba agua: durante siglos, el lugar de encuentro del pueblo.",
+      "oldcity": "Callejuelas estrechas, un mercado animado y algunos de los lugares cristianos más importantes de Nazaret, todo a poca distancia a pie.",
+      "city": "La ciudad de Galilea, en la ladera de una colina, donde creció Jesús, hoy un centro vivo de fe, cultura y hospitalidad."
+    },
+    "allSites": "Todos los lugares santos",
+    "newTab": "(se abre en una pestaña nueva)",
+    "viewGallery": "Ver las fotos",
+    "visitEyebrow": "Planifica tu visita",
+    "visitText": "Encuentra este lugar santo en el mapa o enciende una vela por tu intención desde donde estés.",
+    "directions": "Cómo llegar",
+    "galleryEyebrow": "Galería",
+    "galleryTitle": "Galería de fotos",
+    "galleryHint": "Selecciona una foto para ampliarla",
+    "photoCount": "{count, plural, one {# foto} other {# fotos}}",
+    "photoAlt": "{place}, foto {n} de {total}",
+    "viewer": "Fotos de {place}",
+    "close": "Cerrar",
+    "moreEyebrow": "Continúa el viaje",
+    "tourWatchEyebrow": "Mira el recorrido",
+    "tourVideoLabel": "Recorrido en vídeo por Nazaret",
+    "videoFallback": "Tu navegador no puede reproducir este vídeo.",
+    "aboutEyebrow": "Sobre nosotros",
+    "aboutPillar1": "Una peregrinación a distancia",
+    "aboutPillar2": "Tesoros de Tierra Santa",
+    "aboutPillar3": "Apoyar a nuestra comunidad"
+  },
+  "communityPage": {
+    "opensInNewTab": "(se abre en una pestaña nueva)",
+    "reviews": {
+      "metaTitle": "Opiniones de peregrinos y visitantes",
+      "metaDescription": "Lee lo que dicen de Nazareth Holy Cross peregrinos y visitantes de todo el mundo, y comparte unas palabras sobre tu propia experiencia.",
+      "emptyHint": "Sé el primero en compartir unas palabras sobre tu visita.",
+      "unavailableTitle": "No se han podido cargar las opiniones en este momento.",
+      "unavailableHint": "Vuelve a intentarlo en unos minutos. Aun así, puedes compartir tu opinión.",
+      "form": {
+        "counter": "{count} / {max}",
+        "sending": "Enviando…",
+        "another": "Escribir otra opinión",
+        "errors": {
+          "nameRequired": "Escribe tu nombre.",
+          "nameTooShort": "Escribe al menos {min} caracteres.",
+          "placeRequired": "Dinos de dónde eres.",
+          "messageRequired": "Escribe unas palabras sobre tu experiencia.",
+          "messageTooShort": "Escribe al menos {min} caracteres.",
+          "tooLong": "No superes los {max} caracteres.",
+          "rateLimited": "Has enviado varias opiniones en poco tiempo. Espera unos minutos y vuelve a intentarlo.",
+          "invalid": "No hemos podido aceptar tu opinión. Revísala y vuelve a intentarlo.",
+          "network": "No hemos podido conectar con nuestro servidor. Comprueba tu conexión y vuelve a intentarlo.",
+          "server": "Algo ha fallado por nuestra parte. Vuelve a intentarlo más tarde."
+        }
+      }
+    },
+    "live": {
+      "metaTitle": "Transmisiones en directo desde Nazaret",
+      "metaDescription": "Reza con nosotros en directo desde los lugares santos de Nazaret: consulta cuándo empieza la próxima transmisión y vuelve a ver nuestras oraciones y entrevistas.",
+      "eyebrow": "En directo desde Nazaret",
+      "title": "Reza con nosotros, en directo",
+      "lead": "Oraciones y celebraciones transmitidas desde los lugares santos de Nazaret, estés donde estés.",
+      "status": {
+        "live": "En directo",
+        "upcoming": "Próximamente",
+        "offline": "Sin emisión"
+      },
+      "offlineHint": "Ahora no estamos transmitiendo. Puedes ver nuestras transmisiones anteriores más abajo.",
+      "follow": "Síguenos en Instagram",
+      "eventStarted": "El evento ha comenzado",
+      "units": {
+        "days": "{count, plural, one {Día} other {Días}}",
+        "hours": "{count, plural, one {Hora} other {Horas}}",
+        "minutes": "{count, plural, one {Minuto} other {Minutos}}",
+        "seconds": "{count, plural, one {Segundo} other {Segundos}}"
+      },
+      "pastEyebrow": "Volver a ver",
+      "videoFallback": "Tu navegador no puede reproducir este vídeo.",
+      "events": {
+        "annunciationSunday": "Oración dominical desde la basílica de la Anunciación"
+      }
+    }
+  },
+  "shopPage": {
+    "meta": {
+      "shopTitle": "Recuerdos de Nazaret",
+      "shopDescription": "Rosarios, cruces de madera de olivo, vitrales y recuerdos de la ciudad de la Anunciación, enviados hasta tu puerta.",
+      "productDescription": "{name}, un recuerdo de Nazaret enviado hasta tu puerta desde la ciudad de la Anunciación.",
+      "cartTitle": "Tu carrito",
+      "cartDescription": "Revisa los recuerdos de tu carrito antes de pagar."
+    },
+    "heroTitle": "Recuerdos de Nazaret",
+    "heroLead": "Rosarios, cruces, vitrales y recuerdos de la ciudad de la Anunciación, enviados hasta tu puerta.",
+    "filtersLabel": "Buscar y ordenar productos",
+    "searchLabel": "Buscar productos",
+    "clearSearch": "Borrar búsqueda",
+    "sortLabel": "Ordenar por",
+    "sortRating": "Mejor valorados",
+    "sortName": "Nombre (A–Z)",
+    "productsHeading": "Productos",
+    "showing": "Mostrando {from}–{to} de {total}",
+    "pagesLabel": "Páginas de productos",
+    "pageLabel": "Página {page}",
+    "loading": "Cargando…",
+    "loadError": "No pudimos cargar la tienda en este momento.",
+    "loadErrorText": "Inténtalo de nuevo en unos instantes.",
+    "cartLink": "Carrito",
+    "cartAria": "Ver carrito: {count, plural, one {# artículo} other {# artículos}}",
+    "galleryLabel": "Fotos de {name}",
+    "enlarge": "Ampliar imagen: {name}",
+    "zoomHint": "Pasa el cursor sobre la imagen para ampliarla.",
+    "close": "Cerrar",
+    "showImage": "Mostrar imagen {n} de {total}",
+    "colour": "Color",
+    "colourName": "Color {n}: {name}",
+    "design": "Diseño",
+    "designName": "Diseño {name}",
+    "selectDesign": "Elige un diseño.",
+    "decrease": "Reducir cantidad",
+    "increase": "Aumentar cantidad",
+    "quantityOf": "Cantidad de {name}",
+    "added": "Añadido",
+    "viewCart": "Ver carrito",
+    "inStock": "Disponible",
+    "lowStock": "Solo quedan {count}",
+    "outOfStock": "Agotado",
+    "maxInCart": "Ya tienes el máximo de {max} en tu carrito.",
+    "productError": "No pudimos cargar este producto en este momento.",
+    "notFoundText": "Puede que este recuerdo se haya agotado o cambiado de lugar. El resto de la tienda te espera.",
+    "cartTitle": "Tu carrito",
+    "cartCount": "{count, plural, one {# artículo en tu carrito} other {# artículos en tu carrito}}",
+    "itemsHeading": "Artículos de tu carrito",
+    "unitPrice": "{price} cada uno",
+    "removeItem": "Quitar {name}",
+    "removed": "{name} se ha quitado de tu carrito.",
+    "summaryTitle": "Resumen del pedido",
+    "subtotal": "Subtotal",
+    "discount": "Descuento del 10 %",
+    "shipping": "Envío",
+    "total": "Total",
+    "secure": "Pago seguro con PayPal",
+    "emptyLead": "Descubre rosarios, cruces y recuerdos de Nazaret."
+  },
+  "checkoutPage": {
+    "meta": {
+      "checkoutTitle": "Pago",
+      "checkoutDescription": "Completa tu pedido de recuerdos de Nazaret y paga de forma segura con PayPal.",
+      "candleTitle": "Enciende una vela en Nazaret",
+      "candleDescription": "Elige una iglesia de Nazaret y escribe tu oración. Encenderemos una vela por ti y te enviaremos el vídeo.",
+      "donateTitle": "Donar",
+      "donateDescription": "Apoya a Nazareth Holy Cross con un donativo, pagado de forma segura con PayPal."
+    },
+    "hero": {
+      "eyebrow": "Pago seguro",
+      "orderTitle": "Completa tu pedido",
+      "lead": "Tu pago se procesa de forma segura a través de PayPal.",
+      "candleEyebrow": "Vela de oración",
+      "donateEyebrow": "Donativo",
+      "donateTitle": "Apoya a Nazareth Holy Cross",
+      "donateLead": "Tu donativo nos ayuda a compartir los lugares santos, las oraciones y la artesanía de Nazaret con peregrinos de todo el mundo."
+    },
+    "steps": {
+      "label": "Pasos del pago",
+      "details": "Tus datos",
+      "payment": "Pago",
+      "done": "Confirmación"
+    },
+    "loading": "Cargando tu carrito…",
+    "form": {
+      "phone": "Teléfono",
+      "country": "País",
+      "continue": "Continuar al pago",
+      "edit": "Editar datos",
+      "fixErrors": "Corrige los campos marcados.",
+      "errors": {
+        "required": "Este campo es obligatorio.",
+        "tooLong": "Usa como máximo {max} caracteres.",
+        "email": "Introduce un correo electrónico válido, por ejemplo nombre@ejemplo.com.",
+        "phone": "Introduce un número de teléfono válido, con el prefijo del país.",
+        "amount": "Introduce un importe entre {min} y {max}."
+      }
+    },
+    "summary": {
+      "quantity": "Cant.: {count}",
+      "subtotal": "Subtotal",
+      "discount": "Descuento web (10 %)",
+      "shipping": "Envío",
+      "total": "Total",
+      "address": "Dirección de entrega"
+    },
+    "payment": {
+      "loading": "Cargando PayPal…",
+      "unavailable": "No se pudo cargar PayPal. Comprueba tu conexión o desactiva los bloqueadores de contenido y vuelve a cargar la página.",
+      "secured": "Pago seguro con PayPal. Nunca vemos los datos de tu tarjeta.",
+      "cancelled": "Pago cancelado. No se te ha cobrado nada.",
+      "errors": {
+        "start": "No pudimos iniciar el pago. Inténtalo de nuevo.",
+        "notCompleted": "El pago no se completó. No se te ha cobrado nada.",
+        "paypal": "PayPal informó de un error. Inténtalo de nuevo."
+      },
+      "reference": "Referencia del pago: {id}",
+      "saving": "Guardando tus datos…",
+      "saveFailed": "Tu pago se realizó, pero no pudimos guardar tus datos. Inténtalo de nuevo o escribe a <mail>{email}</mail> indicando la referencia del pago."
+    },
+    "empty": {
+      "text": "Descubre rosarios, cruces y recuerdos de Nazaret."
+    },
+    "candle": {
+      "price": "Para encender una vela: {price}",
+      "secureNext": "A continuación revisarás tus datos y pagarás de forma segura con PayPal."
+    },
+    "donate": {
+      "formTitle": "Haz un donativo",
+      "name": "Tu nombre",
+      "amount": "Importe",
+      "other": "Otro importe",
+      "customAmount": "Importe en dólares estadounidenses",
+      "summaryTitle": "Tu donativo",
+      "nameLabel": "Nombre",
+      "donation": "Donativo",
+      "thanksTitle": "¡Gracias por tu donativo!",
+      "thanksText": "Tu generosidad ayuda a mantener encendida la luz de Nazaret para los peregrinos de todo el mundo."
+    }
+  },
+  "shopFeatures": {
+    "categories": {
+      "rosaries": "Rosarios",
+      "necklaces": "Collares",
+      "bracelets": "Pulseras",
+      "stained-glass": "Vitrales",
+      "crosses": "Cruces",
+      "bibles": "Biblias",
+      "holy-land": "De Tierra Santa",
+      "gifts": "Regalos"
+    },
+    "materials": {
+      "gold": "Oro",
+      "silver": "Plata",
+      "wood": "Madera",
+      "glass": "Vidrio"
+    },
+    "sort": {
+      "featured": "Destacados",
+      "bestselling": "Más vendidos",
+      "rating": "Mejor valorados",
+      "newest": "Novedades",
+      "priceAsc": "Precio: de menor a mayor",
+      "priceDesc": "Precio: de mayor a menor",
+      "name": "Nombre (A–Z)"
+    },
+    "allProducts": "Todos los recuerdos",
+    "filters": {
+      "title": "Filtros",
+      "openAria": "Filtros{count, plural, =0 {} one {, # activo} other {, # activos}}",
+      "close": "Cerrar filtros",
+      "apply": "Ver {count, plural, one {# producto} other {# productos}}",
+      "clearAll": "Borrar todo",
+      "active": "Filtros activos",
+      "remove": "Quitar filtro: {label}",
+      "noneText": "Pruebe a quitar un filtro o a buscar otra cosa.",
+      "category": "Categoría",
+      "allCategories": "Todas las categorías",
+      "material": "Material",
+      "price": "Precio (USD)",
+      "minPrice": "Mín.",
+      "maxPrice": "Máx.",
+      "rating": "Valoración",
+      "anyRating": "Cualquier valoración",
+      "ratingAtLeast": "{stars, plural, one {# estrella o más} other {# estrellas o más}}",
+      "availability": "Disponibilidad",
+      "inStock": "Solo disponibles",
+      "chipSearch": "Búsqueda: {query}",
+      "chipPriceRange": "{min} – {max}",
+      "chipPriceMin": "Desde {min}",
+      "chipPriceMax": "Hasta {max}"
+    },
+    "strip": {
+      "bestTitle": "Más vendidos",
+      "bestLead": "Los recuerdos que los peregrinos se llevan con más frecuencia.",
+      "favTitle": "Nuestros favoritos",
+      "favLead": "Elegidos con cariño por nuestra tienda de Nazaret.",
+      "back": "Desplazar hacia atrás",
+      "forward": "Desplazar hacia adelante"
+    },
+    "badges": {
+      "bestseller": "Más vendido",
+      "new": "Nuevo",
+      "lowStock": "Solo quedan {count}",
+      "soldOut": "Agotado"
+    },
+    "reviews": {
+      "title": "Opiniones de clientes",
+      "starsLabel": "{rating} de 5 estrellas",
+      "count": "{count, plural, one {# opinión} other {# opiniones}}",
+      "outOf": "de 5",
+      "basedOn": "Basado en {count, plural, one {# opinión} other {# opiniones}}",
+      "breakdown": "Desglose de valoraciones",
+      "breakdownRow": "{stars, plural, one {# estrella} other {# estrellas}}: {count, plural, one {# opinión} other {# opiniones}}",
+      "emptyTitle": "Todavía no hay opiniones",
+      "emptyText": "Sea el primero en contar a otros peregrinos qué le parece este recuerdo.",
+      "unavailable": "No se han podido cargar las opiniones en este momento.",
+      "listLabel": "Opiniones, las más recientes primero",
+      "reviewBy": "Opinión de {name}",
+      "showAll": "Ver todas las opiniones ({count})",
+      "showFewer": "Ver menos opiniones",
+      "form": {
+        "heading": "Escribir una opinión",
+        "intro": "Cuente a otros peregrinos qué le parece {name}. Su opinión aparecerá en esta página.",
+        "fields": {
+          "name": "Su nombre",
+          "country": "País (opcional)",
+          "rating": "Su valoración",
+          "title": "Título (opcional)",
+          "comment": "Su opinión"
+        },
+        "star": "{count, plural, one {# estrella} other {# estrellas}}",
+        "counter": "{count} / {max}",
+        "website": "Sitio web (déjelo vacío)",
+        "submit": "Publicar opinión",
+        "sending": "Publicando…",
+        "success": "¡Gracias! Su opinión se ha publicado.",
+        "another": "Escribir otra opinión",
+        "errors": {
+          "nameRequired": "Escriba su nombre.",
+          "nameTooShort": "Su nombre necesita al menos {min} caracteres.",
+          "ratingRequired": "Elija de 1 a 5 estrellas.",
+          "commentRequired": "Escriba su opinión.",
+          "commentTooShort": "Su opinión necesita al menos {min} caracteres.",
+          "tooLong": "No supere los {max} caracteres.",
+          "invalid": "Algunos datos no se aceptaron. Revise el formulario e inténtelo de nuevo.",
+          "rateLimited": "Ha enviado varias opiniones en poco tiempo. Inténtelo de nuevo más tarde.",
+          "network": "No pudimos conectar con el servidor. Revise su conexión e inténtelo de nuevo.",
+          "server": "Algo ha fallado por nuestra parte. Inténtelo de nuevo en un momento."
+        }
+      }
+    },
+    "wishlist": {
+      "toggle": "Guardar {name} en su lista de deseos",
+      "added": "{name} se ha añadido a su lista de deseos.",
+      "removed": "{name} se ha quitado de su lista de deseos.",
+      "save": "Guardar en la lista de deseos",
+      "link": "Deseos",
+      "linkAria": "Deseos: {count, plural, one {# artículo guardado} other {# artículos guardados}}",
+      "pageTitle": "Su lista de deseos",
+      "pageDescription": "Los recuerdos que ha guardado para más tarde.",
+      "savedHeading": "Recuerdos guardados",
+      "emptyTitle": "Su lista de deseos está vacía",
+      "emptyText": "Toque el corazón de cualquier recuerdo para guardarlo aquí.",
+      "browse": "Ver la tienda",
+      "count": "{count, plural, one {# recuerdo guardado} other {# recuerdos guardados}}",
+      "addToCart": "Agregar al carrito",
+      "chooseOptions": "Elegir opciones",
+      "remove": "Quitar",
+      "addedToCart": "{name} se ha agregado a su carrito."
+    },
+    "share": {
+      "button": "Compartir",
+      "text": "{name}, un recuerdo de Nazaret",
+      "copied": "Enlace copiado. Puede pegarlo donde quiera.",
+      "failed": "No se pudo copiar el enlace. Cópielo desde la barra de direcciones."
+    },
+    "product": {
+      "beFirst": "Aún no hay opiniones. Escriba la primera",
+      "similarTitle": "También le puede gustar",
+      "recentTitle": "Vistos recientemente"
+    }
+  },
+  "ux": {
+    "backToTop": "Volver arriba",
+    "loading": "Cargando…",
+    "toast": {
+      "region": "Notificaciones",
+      "dismiss": "Cerrar notificación"
+    },
+    "share": {
+      "share": "Compartir",
+      "copy": "Copiar enlace",
+      "copied": "Enlace copiado",
+      "failed": "No se pudo copiar el enlace",
+      "print": "Imprimir"
+    },
+    "language": {
+      "choose": "Elige un idioma"
+    },
+    "footer": {
+      "languages": "Idiomas",
+      "address": "Nazaret, Galilea",
+      "followOn": "Síguenos en {network} (se abre en una pestaña nueva)",
+      "rights": "Todos los derechos reservados."
+    },
+    "notFound": {
+      "suggestions": "¿A dónde quieres ir?",
+      "hint": {
+        "sites": "Iglesias, la fuente y la ciudad vieja",
+        "tour": "Recorre Nazaret paso a paso",
+        "candle": "Enciende una vela por tu intención"
+      }
+    },
+    "error": {
+      "title": "Algo salió mal",
+      "text": "Un error inesperado detuvo esta página. Inténtalo de nuevo.",
+      "retry": "Intentar de nuevo",
+      "home": "Volver al inicio",
+      "reference": "Referencia"
+    }
+  },
+  "pilgrim": {
+    "nav": {
+      "plan": "Planificador de peregrinación",
+      "visit": "Guía del visitante",
+      "gospel": "Nazaret en los Evangelios",
+      "gallery": "Galería de fotos",
+      "prayers": "Muro de oraciones",
+      "contact": "Contacto",
+      "faq": "Preguntas frecuentes",
+      "shipping": "Envíos y devoluciones",
+      "privacy": "Política de privacidad",
+      "terms": "Condiciones de uso",
+      "groupPlan": "Planifica y descubre",
+      "groupHelp": "Ayuda y aviso legal"
+    },
+    "common": {
+      "moreEyebrow": "Sigue el viaje",
+      "moreTitle": "¿Y después?",
+      "open": "Abrir"
+    },
+    "plan": {
+      "meta": {
+        "title": "Planifica tu peregrinación a Nazaret",
+        "description": "Crea en un minuto un itinerario día a día por los lugares santos de Nazaret. Elige de 1 a 4 días, tus intereses y tu ritmo, y luego imprímelo, compártelo o añádelo a tu calendario."
+      },
+      "hero": {
+        "eyebrow": "Planificador de peregrinación",
+        "title": "Planifica tu peregrinación",
+        "lead": "Dinos cuántos días tienes y qué te mueve. Preparamos un recorrido día a día por los lugares santos de Nazaret, con los tiempos de caminata entre cada parada."
+      },
+      "form": {
+        "title": "Tu peregrinación",
+        "days": "¿Cuántos días?",
+        "dayCount": "{count, plural, one {# día} other {# días}}",
+        "interests": "¿Qué buscas?",
+        "interestsHint": "Elige los que quieras, o ninguno para un recorrido equilibrado.",
+        "interest": {
+          "gospel": "Lugares del Evangelio",
+          "churches": "Iglesias",
+          "markets": "Mercados y artesanía",
+          "food": "Comida y café"
+        },
+        "pace": "Ritmo",
+        "paces": {
+          "relaxed": "Tranquilo",
+          "balanced": "Equilibrado",
+          "full": "Intenso"
+        },
+        "paceHint": "{count, plural, one {# parada al día} other {# paradas al día}}",
+        "start": "Primer día (para tu calendario)",
+        "startHint": "Opcional. Sin fecha, el archivo de calendario empieza mañana."
+      },
+      "result": {
+        "title": "Tu itinerario",
+        "summary": "{days, plural, one {# día} other {# días}} · {stops, plural, one {# parada} other {# paradas}} · unos {minutes} min caminando",
+        "day": "Día {n}",
+        "walk": "{minutes} min a pie",
+        "until": "hasta las {time}"
+      },
+      "lunch": "Pausa para comer",
+      "lunchHint": "Prueba los platos locales en las callejuelas de la Ciudad Vieja.",
+      "tips": {
+        "latin": "La visita puede interrumpirse durante la misa y los oficios, y los horarios cambian en días festivos. Consulta los horarios para tu fecha.",
+        "greek": "Los horarios siguen los oficios y pueden cambiar sin previo aviso. Pregunta en la entrada si la iglesia está abierta.",
+        "maryswell": "Está junto a la iglesia greco-ortodoxa, así que ambas visitas combinan bien. Los horarios varían; confirma qué está abierto ese día.",
+        "oldcity": "Cada tienda fija su horario y algunas cierran el viernes o el domingo. Por la mañana es el mejor momento para ver el mercado en acción.",
+        "city": "Las calles están más animadas por la mañana. Deja tiempo para tomar un café y pasear."
+      },
+      "caveat": {
+        "title": "Antes de ir",
+        "hours": "Los horarios de las iglesias cambian según los oficios, las fiestas y los festivos, a veces sin aviso. Confírmalos siempre antes de viajar.",
+        "dress": "Las iglesias piden vestimenta modesta: hombros y rodillas cubiertos.",
+        "walking": "Los tiempos de caminata son estimaciones entre los sitios; las calles de Nazaret son empinadas en algunos tramos, así que deja margen."
+      },
+      "actions": {
+        "calendar": "Añadir al calendario",
+        "share": "Compartir enlace",
+        "print": "Imprimir"
+      },
+      "shareTitle": "Mi peregrinación a Nazaret",
+      "copied": "Enlace copiado al portapapeles.",
+      "calendarName": "Peregrinación a Nazaret",
+      "calendarLocation": "Nazaret, Israel",
+      "calendarDone": "Archivo de calendario descargado. Ábrelo para añadir los eventos.",
+      "walking": {
+        "title": "Tiempos de caminata entre los lugares santos",
+        "lead": "Minutos aproximados a pie, las mismas cifras que usa el planificador.",
+        "caption": "Tiempo de caminata en minutos entre cada par de sitios",
+        "corner": "Desde (filas) hasta (columnas)",
+        "minutes": "{minutes} min"
+      }
+    },
+    "visit": {
+      "meta": {
+        "title": "Guía del visitante de Nazaret",
+        "description": "Todo para preparar tu visita a Nazaret: cómo llegar desde Haifa, Tel Aviv y el aeropuerto Ben Gurion, código de vestimenta, mejores épocas, seguridad, dinero y el clima mes a mes."
+      },
+      "hero": {
+        "eyebrow": "Guía del visitante",
+        "title": "Visita Nazaret",
+        "lead": "Respuestas prácticas para peregrinos y viajeros: cómo llegar, qué ponerse, cuándo venir y qué esperar."
+      },
+      "getting": {
+        "eyebrow": "Cómo llegar",
+        "title": "Cómo llegar a Nazaret",
+        "lead": "Nazaret está en las colinas de la Baja Galilea, en el norte de Israel, a poca distancia de la costa.",
+        "distance": "unos {km} km por carretera",
+        "routes": {
+          "haifa": {
+            "title": "Desde Haifa",
+            "text": "La ruta más sencilla: unos 40 minutos en coche o taxi, o cerca de una hora en autobús."
+          },
+          "telaviv": {
+            "title": "Desde Tel Aviv",
+            "text": "Unas dos horas en coche. Hay autobuses y trenes hacia el norte; en transporte público lo habitual es ir hasta Haifa o Afula y tomar allí un autobús a Nazaret."
+          },
+          "airport": {
+            "title": "Desde el aeropuerto Ben Gurion",
+            "text": "Unas dos horas en coche o taxi. En transporte público, toma el tren a Haifa o Tel Aviv y continúa en autobús; lo más cómodo es un traslado reservado con antelación o un coche de alquiler."
+          }
+        },
+        "local": {
+          "title": "Una vez en Nazaret",
+          "text": "Todos los lugares santos están a unos 15 minutos a pie unos de otros, así que puedes aparcar una vez y explorar caminando. El aparcamiento en el centro es limitado: llega temprano o usa un aparcamiento a las afueras del casco antiguo."
+        }
+      },
+      "essentials": {
+        "eyebrow": "Conviene saber",
+        "title": "Antes de venir",
+        "items": {
+          "dress": {
+            "title": "Vestimenta",
+            "text": "Las iglesias piden a los visitantes, mujeres y hombres, cubrir hombros y rodillas. Un pañuelo o chal ligero en la mochila lo resuelve. Lleva calzado cómodo: las callejuelas antiguas son empinadas y irregulares."
+          },
+          "etiquette": {
+            "title": "Buenos modales",
+            "text": "Habla en voz baja en las iglesias y pon el teléfono en silencio. Quítate el sombrero dentro. Normalmente se pueden hacer fotos, pero no durante los oficios; pregunta antes de fotografiar a personas."
+          },
+          "seasons": {
+            "title": "Mejores épocas",
+            "text": "La primavera (de marzo a mayo) y el otoño (de finales de septiembre a noviembre) son suaves y los más agradables para caminar. El verano es caluroso y seco; el invierno, fresco y lluvioso. La Pascua, la Navidad y la fiesta de la Anunciación, el 25 de marzo, son los momentos más concurridos y emotivos."
+          },
+          "safety": {
+            "title": "Seguridad",
+            "text": "Nazaret suele ser acogedora y tranquila, pero la situación en la región puede cambiar. Consulta las recomendaciones de viaje de tu gobierno antes de partir, sigue las noticias locales y lleva tus objetos de valor cerca entre la multitud."
+          },
+          "money": {
+            "title": "Dinero",
+            "text": "La moneda es el nuevo séquel israelí (ILS, ₪). Se aceptan tarjetas casi en todas partes y hay cajeros en el centro; lleva algo de efectivo para los puestos del mercado y los cafés pequeños. Regatear con cortesía forma parte de comprar en el mercado."
+          },
+          "language": {
+            "title": "Idioma",
+            "text": "Se habla árabe y hebreo, y en los lugares que visitan los peregrinos encontrarás inglés y a menudo otros idiomas. Unas palabras en árabe siempre se reciben con cariño."
+          }
+        }
+      },
+      "climate": {
+        "eyebrow": "Clima",
+        "title": "Clima mes a mes",
+        "lead": "Condiciones habituales en Nazaret: veranos cálidos y secos, inviernos frescos y lluviosos.",
+        "caption": "Temperaturas diarias medias y precipitación por mes",
+        "month": "Mes",
+        "high": "Máxima",
+        "low": "Mínima",
+        "rain": "Lluvia",
+        "season": "Visita",
+        "seasons": {
+          "best": "Ideal",
+          "good": "Buena",
+          "hot": "Calor",
+          "cool": "Fresco"
+        },
+        "mm": "{mm} mm",
+        "note": "Cifras redondeadas de promedios de largo plazo, solo orientativas. El tiempo varía de un año a otro; consulta el pronóstico antes de viajar."
+      },
+      "faq": {
+        "title": "Preguntas de los visitantes",
+        "free": {
+          "q": "¿Es gratis entrar en las iglesias?",
+          "a": "La entrada a las iglesias principales suele ser gratuita y se agradecen los donativos. Cada iglesia fija sus horarios y normas, así que consúltalos antes de tu visita."
+        },
+        "dress": {
+          "q": "¿Qué debo ponerme?",
+          "a": "Ropa discreta que cubra hombros y rodillas, y calzado cómodo para las callejuelas empinadas. Lleva una capa ligera en invierno y protección solar en verano."
+        },
+        "days": {
+          "q": "¿Cuántos días necesito?",
+          "a": "La mayoría de los peregrinos ve los principales lugares santos en un día completo. Dos o tres días permiten ir más despacio, rezar, visitar el mercado de la Ciudad Vieja y hacer excursiones por Galilea."
+        },
+        "safe": {
+          "q": "¿Es seguro visitar Nazaret?",
+          "a": "Nazaret suele ser tranquila y acogedora, pero la situación en la región puede cambiar. Consulta las recomendaciones de viaje de tu gobierno y las noticias locales antes y durante tu viaje."
+        },
+        "season": {
+          "q": "¿Cuál es la mejor época para visitar?",
+          "a": "La primavera y el otoño son los más cómodos. El verano es caluroso y el invierno, lluvioso. La Pascua, la Navidad y el 25 de marzo (la Anunciación) son los momentos más concurridos y emotivos."
+        }
+      }
+    },
+    "gospel": {
+      "meta": {
+        "title": "Nazaret en los Evangelios",
+        "description": "Lee los pasajes del Evangelio sobre Nazaret, desde la Anunciación hasta Jesús en la sinagoga, cada uno con una breve reflexión y el lugar santo que conserva su memoria."
+      },
+      "hero": {
+        "eyebrow": "Escritura y lugar",
+        "title": "Nazaret en los Evangelios",
+        "lead": "Ocho pasajes que nombran Nazaret, en el orden del relato, cada uno unido al lugar que aún puedes visitar."
+      },
+      "intro": {
+        "title": "De la Anunciación a «Ven y verás»",
+        "text": "En los Evangelios, Nazaret es la ciudad de la Anunciación y de los años ocultos de Jesús. Lee un pasaje, detente en la reflexión y sigue el enlace al lugar santo."
+      },
+      "visitSite": "Visitar el lugar santo",
+      "note": "Las citas se ofrecen para la reflexión y pueden diferir ligeramente de la traducción de la Biblia que uses. Pasajes: Lucas 1, 2 y 4; Mateo 2; Juan 1.",
+      "p": {
+        "luke126": {
+          "quote": "En el sexto mes, el ángel Gabriel fue enviado por Dios a una ciudad de Galilea llamada Nazaret, a una virgen desposada con un hombre llamado José, de la casa de David. El nombre de la virgen era María.",
+          "ref": "Lucas 1:26-27",
+          "text": "Toda la historia empieza en un pequeño pueblo de las colinas. Si hoy caminas por Nazaret, caminas por donde empieza el Evangelio."
+        },
+        "luke130": {
+          "text": "Bajo la Basílica de la Anunciación se encuentra la gruta que los cristianos veneran desde hace siglos como el lugar de la casa de María, donde se recuerda el saludo del ángel."
+        },
+        "luke138": {
+          "text": "La tradición ortodoxa recuerda que el ángel habló por primera vez a María cuando iba a sacar agua, en la fuente junto a la iglesia greco-ortodoxa de la Anunciación. Su respuesta es el corazón de la oración de todo peregrino."
+        },
+        "matthew223": {
+          "text": "Tras el regreso de Egipto, José instaló a su familia en Nazaret. Desde entonces Jesús fue conocido como «Jesús de Nazaret», y el nombre de la ciudad recorrió el mundo."
+        },
+        "luke240": {
+          "text": "De los años ocultos se nos dice muy poco: un niño que crece en una ciudad corriente. Las callejuelas y el mercado de la Ciudad Vieja ayudan a imaginar esa vida cotidiana."
+        },
+        "luke251": {
+          "quote": "Descendió con ellos y fue a Nazaret, y les estaba sujeto. Su madre guardaba todas estas cosas en su corazón.",
+          "ref": "Lucas 2:51",
+          "text": "Durante siglos, la fuente de Nazaret fue el lugar donde la ciudad se reunía cada día. En el Pozo de María puedes imaginar el trabajo cotidiano y la fe callada que María guardaba en su corazón."
+        },
+        "luke416": {
+          "quote": "Vino a Nazaret, donde se había criado. Y el día de reposo entró en la sinagoga, conforme a su costumbre, y se levantó a leer.",
+          "ref": "Lucas 4:16",
+          "text": "Jesús volvió a predicar en la ciudad donde había crecido. Lugares de la Ciudad Vieja, entre ellos una iglesia que la tradición sitúa donde estaba la sinagoga, recuerdan aquel día."
+        },
+        "john146": {
+          "text": "La respuesta de Felipe a Natanael es la invitación de toda peregrinación: Ven y verás. Nazaret se comprende mejor recorriendo sus calles."
+        }
+      }
+    },
+    "prayers": {
+      "meta": {
+        "title": "Muro de oraciones",
+        "description": "Lee oraciones de peregrinos de todo el mundo, di Amén a las que te conmuevan y comparte una oración propia."
+      },
+      "hero": {
+        "eyebrow": "Recemos juntos",
+        "title": "El muro de oraciones",
+        "lead": "Oraciones de peregrinos de todo el mundo. Léelas, di Amén y añade tu propia intención.",
+        "cta": "Compartir una oración"
+      },
+      "categories": {
+        "all": "Todas",
+        "peace": "Paz",
+        "health": "Salud",
+        "gratitude": "Gratitud",
+        "family": "Familia",
+        "personal": "Personal",
+        "worldPeace": "Paz mundial"
+      },
+      "wall": {
+        "title": "Oraciones",
+        "filter": "Filtrar oraciones por categoría",
+        "count": "{count, plural, one {# oración} other {# oraciones}}",
+        "anonymous": "Un peregrino",
+        "emptyTitle": "Aún no hay oraciones aquí",
+        "emptyText": "Sé el primero en compartir una oración en esta categoría.",
+        "errorTitle": "El muro de oraciones está descansando",
+        "errorText": "No pudimos cargar las oraciones en este momento. Inténtalo de nuevo en un instante.",
+        "retry": "Reintentar",
+        "pages": "Páginas de oraciones",
+        "prev": "Anterior",
+        "next": "Siguiente",
+        "pageOf": "Página {page} de {pages}"
+      },
+      "form": {
+        "title": "Comparte una oración",
+        "intro": "Escribe una intención por la paz, la sanación, el agradecimiento o tu familia. Aparecerá en el muro.",
+        "name": "Tu nombre",
+        "country": "¿De dónde eres?",
+        "category": "Categoría",
+        "prayer": "Tu oración",
+        "counter": "{count} / {max}",
+        "public": "Las oraciones son públicas. No incluyas teléfonos, direcciones ni enlaces web.",
+        "submit": "Compartir mi oración",
+        "sending": "Enviando…",
+        "sent": "Gracias. Tu oración fue compartida.",
+        "sentText": "Aparecerá en el muro. Puedes escribir otra.",
+        "another": "Escribir otra oración"
+      },
+      "errors": {
+        "required": "Rellena este campo.",
+        "tooShort": "Escribe al menos {min} caracteres.",
+        "tooLong": "Escribe menos de {max} caracteres.",
+        "noLinks": "Quita los enlaces web, las direcciones de correo y el código.",
+        "rateLimited": "Se enviaron demasiadas oraciones desde esta conexión. Espera unos minutos e inténtalo de nuevo.",
+        "invalid": "No pudimos aceptar esta oración. Revisa lo que escribiste.",
+        "network": "No pudimos conectar con el servidor. Revisa tu conexión e inténtalo de nuevo.",
+        "server": "Algo salió mal por nuestra parte. Inténtalo de nuevo más tarde."
+      },
+      "amen": "Amén",
+      "amenDone": "Amén dicho",
+      "amenLabel": "Decir Amén a la oración de {name}",
+      "amenFirst": "Sé el primero en decir Amén",
+      "amenCount": "{count, plural, one {# persona dijo Amén} other {# personas dijeron Amén}}",
+      "amenFailed": "No pudimos guardar tu Amén. Inténtalo de nuevo."
+    },
+    "contact": {
+      "meta": {
+        "title": "Contacta con Nazareth Holy Cross",
+        "description": "Escribe a Nazareth Holy Cross si tienes una pregunta sobre velas, pedidos o tu peregrinación. Leemos todos los mensajes."
+      },
+      "hero": {
+        "eyebrow": "Ponte en contacto",
+        "title": "Contáctanos",
+        "lead": "¿Una pregunta sobre tu pedido, una vela o tu peregrinación? Escríbenos y te responderemos por correo electrónico."
+      },
+      "form": {
+        "title": "Envíanos un mensaje",
+        "intro": "Todos los campos son necesarios para poder responderte.",
+        "fullName": "Nombre completo",
+        "email": "Correo electrónico",
+        "phone": "Número de teléfono",
+        "phoneHint": "Incluye el prefijo del país, por ejemplo +34 612 34 56 78.",
+        "msg": "Tu mensaje",
+        "counter": "{count} / {max}",
+        "submit": "Enviar mensaje",
+        "sending": "Enviando…",
+        "sent": "Mensaje enviado. Gracias.",
+        "sentText": "Responderemos a tu correo electrónico lo antes posible.",
+        "another": "Enviar otro mensaje"
+      },
+      "errors": {
+        "required": "Rellena este campo.",
+        "tooShort": "Escribe al menos {min} caracteres.",
+        "tooLong": "Escribe menos de {max} caracteres.",
+        "invalidEmail": "Introduce un correo electrónico válido.",
+        "invalidPhone": "Introduce un número de teléfono válido.",
+        "rateLimited": "Se enviaron demasiados mensajes desde esta conexión. Espera unos minutos e inténtalo de nuevo.",
+        "invalid": "No pudimos aceptar este mensaje. Revisa los campos.",
+        "network": "No pudimos conectar con el servidor. Revisa tu conexión e inténtalo de nuevo.",
+        "server": "Algo salió mal por nuestra parte. Inténtalo de nuevo más tarde."
+      },
+      "direct": {
+        "title": "¿Prefieres escribirnos directamente?",
+        "text": "Puedes escribirnos por correo o encontrarnos en nuestras redes sociales.",
+        "email": "Enviar un correo",
+        "whatsapp": "Escríbenos por WhatsApp",
+        "reply": "Leemos todos los mensajes y respondemos por correo electrónico."
+      }
+    },
+    "gallery": {
+      "meta": {
+        "title": "Galería de fotos de Nazaret",
+        "description": "Explora fotos de la Basílica de la Anunciación, la iglesia greco-ortodoxa, el Pozo de María, la Ciudad Vieja y Nazaret, y abre cualquier foto a pantalla completa."
+      },
+      "hero": {
+        "eyebrow": "Galería",
+        "title": "Nazaret en fotos",
+        "lead": "Iglesias, callejuelas y vistas de los lugares santos. Elige un sitio o recórrelos todos."
+      },
+      "filterLabel": "Filtrar fotos por lugar santo",
+      "all": "Todos los sitios",
+      "viewer": "Galería de fotos de Nazaret"
+    },
+    "faq": {
+      "meta": {
+        "title": "Preguntas frecuentes",
+        "description": "Respuestas sobre visitar Nazaret, encender una vela, el muro de oraciones, pedidos, envíos, pagos y tus datos."
+      },
+      "eyebrow": "Ayuda",
+      "title": "Preguntas frecuentes",
+      "lead": "Respuestas rápidas sobre la visita, la oración con nosotros y la tienda. ¿No encuentras la tuya? Escríbenos.",
+      "groupsLabel": "Grupos de preguntas",
+      "groups": {
+        "visiting": "Visitar Nazaret",
+        "prayer": "Velas y oración",
+        "shop": "Tienda y pagos",
+        "site": "Sobre el sitio web"
+      },
+      "items": {
+        "candle": {
+          "q": "¿Cómo funciona encender una vela?",
+          "a": "Elige una iglesia de Nazaret, escribe tu oración y paga {price}. Encendemos una vela por ti, grabamos un breve vídeo con tu nombre y te lo enviamos por correo electrónico."
+        },
+        "wall": {
+          "q": "¿Es público el muro de oraciones?",
+          "a": "Sí. Una oración aparece en el muro con el nombre y el país que indiques. No incluyas datos de contacto y, si prefieres, usa solo tu nombre de pila."
+        },
+        "live": {
+          "q": "¿Puedo rezar con vosotros en directo?",
+          "a": "Sí. Nuestra página en directo emite oraciones y oficios desde los lugares santos de Nazaret e indica cuándo empieza la próxima emisión."
+        },
+        "pay": {
+          "q": "¿Cómo pago?",
+          "a": "Los pagos se hacen con PayPal. Los datos de tu tarjeta o de PayPal van a PayPal, nunca a nosotros; no los vemos ni los guardamos."
+        },
+        "account": {
+          "q": "¿Necesito una cuenta?",
+          "a": "No. No hay cuentas ni contraseñas. Tu carrito y tu lista de deseos se guardan en tu propio navegador."
+        },
+        "shipping": {
+          "q": "¿Cuánto cuesta el envío?",
+          "a": "El envío es una tarifa fija de {shipping} por pedido, que verás en tu carrito antes de pagar."
+        },
+        "discount": {
+          "q": "¿Hay algún descuento?",
+          "a": "Sí: {discount} de descuento en los artículos de cada pedido, aplicado automáticamente en tu carrito."
+        },
+        "damaged": {
+          "q": "¿Qué pasa si mi pedido llega dañado?",
+          "a": "Escríbenos con los datos de tu pedido y una foto. Te responderemos y lo solucionaremos. Consulta Envíos y devoluciones para más detalles."
+        },
+        "donate": {
+          "q": "¿Puedo hacer un donativo?",
+          "a": "Sí. Se aceptan donativos de {min} a {max} mediante PayPal en la página Donar, y apoyan la labor de Nazareth Holy Cross."
+        },
+        "languages": {
+          "q": "¿En qué idiomas está el sitio?",
+          "a": "Inglés, francés, español, alemán, italiano, portugués, polaco, ruso, griego, hebreo y árabe."
+        },
+        "data": {
+          "q": "¿Qué datos conserváis?",
+          "a": "Solo lo que necesita cada servicio: pedidos, solicitudes de velas, oraciones, opiniones y mensajes de contacto. Lee la Política de privacidad para los detalles."
+        },
+        "contact": {
+          "q": "¿Cómo puedo contactaros?",
+          "a": "Usa la página de contacto o escribe a {email}."
+        }
+      }
+    },
+    "legal": {
+      "eyebrow": "Aviso legal",
+      "updated": "Última actualización: {date}",
+      "contents": "En esta página",
+      "related": "Véase también",
+      "privacy": {
+        "meta": {
+          "title": "Política de privacidad",
+          "description": "Qué datos personales conserva Nazareth Holy Cross cuando haces un pedido, enciendes una vela, compartes una oración o nos escribes, por qué, y cómo pedirnos que los cambiemos o eliminemos."
+        },
+        "title": "Política de privacidad",
+        "lead": "Guardamos lo mínimo posible. Esta página explica qué guardamos, por qué y qué puedes decidir.",
+        "sections": {
+          "who": {
+            "title": "Quiénes somos",
+            "p1": "Este sitio web está gestionado por Nazareth Holy Cross, que comparte los lugares santos, las oraciones y la artesanía de Nazaret con peregrinos de todo el mundo. Para cualquier duda sobre privacidad, escribe a {email}."
+          },
+          "collect": {
+            "title": "Qué recogemos",
+            "p1": "Solo recogemos lo que nos das cuando usas un servicio:",
+            "items": {
+              "orders": "Pedidos: tu nombre, correo electrónico, teléfono, dirección de entrega, los artículos comprados, el total y la fecha.",
+              "candles": "Solicitudes de velas: tu nombre, correo electrónico y tu oración.",
+              "prayers": "El muro de oraciones: el nombre, país, categoría y oración que escribes. Se muestran públicamente.",
+              "reviews": "Opiniones: tu nombre, tu lugar de origen y tu mensaje, que se muestran en el sitio una vez aprobados.",
+              "contact": "Mensajes de contacto: tu nombre, correo electrónico, teléfono y mensaje.",
+              "payments": "Pagos: los gestiona PayPal. No recibimos ni guardamos el número de tu tarjeta."
+            }
+          },
+          "use": {
+            "title": "Para qué los usamos",
+            "items": {
+              "u1": "Para tramitar y entregar tus pedidos, y para encender tu vela y enviarte el vídeo.",
+              "u2": "Para responder a tus mensajes.",
+              "u3": "Para mostrar en el sitio las oraciones y opiniones aprobadas, como tú querías."
+            }
+          },
+          "share": {
+            "title": "Quién más los ve",
+            "p1": "No vendemos tus datos. Algunos servicios nos ayudan a mantener el sitio y tratan datos en nuestro nombre:",
+            "items": {
+              "paypal": "PayPal procesa los pagos conforme a su propia política de privacidad.",
+              "hosting": "Nuestro sitio web, servidores, base de datos y almacenamiento de imágenes los gestionan proveedores de alojamiento, que pueden guardar datos fuera de tu país.",
+              "maps": "Cuando abres un mapa, una ruta o un vídeo de otro sitio, se aplica la política de privacidad de ese sitio."
+            }
+          },
+          "browser": {
+            "title": "Qué se queda en tu navegador",
+            "p1": "El sitio no tiene cuentas y no usa cookies publicitarias ni de analítica. Tu navegador guarda:",
+            "items": {
+              "cart": "Tu carrito de compra y tu lista de deseos.",
+              "liked": "Las oraciones a las que dijiste Amén, para que puedas decirlo una sola vez.",
+              "language": "Tu elección de idioma."
+            }
+          },
+          "keep": {
+            "title": "Cuánto tiempo los guardamos",
+            "p1": "Guardamos los pedidos y las solicitudes de velas el tiempo que necesitemos para atenderte y cumplir nuestras obligaciones legales y contables. Las oraciones y opiniones permanecen en el sitio hasta que nos pidas retirarlas."
+          },
+          "rights": {
+            "title": "Tus opciones",
+            "p1": "Puedes pedirnos que te mostremos, corrijamos o eliminemos los datos que tenemos sobre ti, o que retiremos tu oración u opinión. Escribe a {email} y te responderemos. Según dónde vivas, la ley puede darte derechos adicionales."
+          },
+          "children": {
+            "title": "Menores",
+            "p1": "El sitio no está dirigido a menores de 13 años y no recogemos sus datos a sabiendas. Si crees que un menor nos ha enviado datos, escríbenos y los eliminaremos."
+          },
+          "changes": {
+            "title": "Cambios",
+            "p1": "Si cambiamos esta política, actualizaremos la fecha que aparece al principio de esta página."
+          }
+        }
+      },
+      "terms": {
+        "meta": {
+          "title": "Condiciones de uso",
+          "description": "Las condiciones para usar el sitio web de Nazareth Holy Cross, pedir recuerdos, encender velas, donar y compartir oraciones y opiniones."
+        },
+        "title": "Condiciones de uso",
+        "lead": "Normas sencillas para usar el sitio, hacer pedidos y compartir. Al usar el sitio, las aceptas.",
+        "sections": {
+          "use": {
+            "title": "Uso del sitio",
+            "p1": "Puedes usar este sitio web para fines personales y no comerciales. Te pedimos que no lo uses de forma abusiva, que no intentes vulnerar su seguridad y que no envíes contenido dañino o ilegal."
+          },
+          "orders": {
+            "title": "Pedidos y pago",
+            "p1": "Los pedidos se pagan mediante PayPal. Los precios están en dólares estadounidenses y los calcula nuestro servidor en el momento del pago, no tu navegador.",
+            "items": {
+              "i1": "Cada pedido recibe un descuento del {discount} en los artículos y una tarifa fija de envío de {shipping}.",
+              "i2": "Podemos cancelar un pedido, con reembolso completo, si un artículo no está disponible o si un precio es claramente erróneo.",
+              "i3": "La entrega, las aduanas y las devoluciones se explican en Envíos y devoluciones."
+            }
+          },
+          "candles": {
+            "title": "Velas",
+            "p1": "Una vela de oración cuesta {price}. Encendemos una vela por tu intención en la iglesia que elijas y te enviamos un vídeo. Es un servicio de oración y recuerdo; no podemos prometer una fecha ni una hora concretas."
+          },
+          "donations": {
+            "title": "Donativos",
+            "p1": "Los donativos son voluntarios y apoyan la labor de Nazareth Holy Cross. Si donaste por error, escríbenos lo antes posible."
+          },
+          "content": {
+            "title": "Oraciones y opiniones",
+            "p1": "Cuando compartes una oración o una opinión, nos aseguras que es tuya y aceptas que se muestre en el sitio.",
+            "items": {
+              "i1": "No publiques contenido de odio, ilegal o engañoso, ni datos personales de otras personas.",
+              "i2": "Podemos retirar todo lo que incumpla estas normas o que consideremos inapropiado."
+            }
+          },
+          "ip": {
+            "title": "Nuestro contenido",
+            "p1": "Los textos, fotos, vídeos y el diseño del sitio pertenecen a Nazareth Holy Cross o a quienes nos permitieron usarlos. Pídenos permiso antes de copiarlos para algo que no sea uso personal."
+          },
+          "info": {
+            "title": "Información del sitio",
+            "p1": "Hacemos lo posible por mantener el sitio correcto, pero los horarios, los precios y las condiciones de viaje pueden cambiar. Comprueba siempre en el lugar antes de viajar."
+          },
+          "liability": {
+            "title": "Responsabilidad",
+            "p1": "El sitio y sus servicios se ofrecen tal como están. En la medida en que la ley lo permita, no somos responsables de las pérdidas causadas por el uso del sitio o por hechos fuera de nuestro control. Nada de lo aquí dicho limita los derechos que la ley te concede como consumidor."
+          },
+          "changes": {
+            "title": "Cambios",
+            "p1": "Podemos actualizar estas condiciones. La fecha al principio de la página indica la última versión."
+          }
+        }
+      },
+      "shipping": {
+        "meta": {
+          "title": "Envíos y devoluciones",
+          "description": "Costes de envío, entrega, aduanas y qué hacer si un artículo llega dañado: todo sobre la recepción de tus recuerdos de Nazaret."
+        },
+        "title": "Envíos y devoluciones",
+        "lead": "Lo que pagas, cuándo esperar tu pedido y qué hacer si algo va mal.",
+        "sections": {
+          "cost": {
+            "title": "Coste",
+            "p1": "El envío es una tarifa fija por pedido, sea cual sea el número de artículos.",
+            "items": {
+              "i1": "Envío: {shipping} por pedido.",
+              "i2": "Descuento: {discount} en los artículos, aplicado automáticamente. El total se muestra en tu carrito antes de pagar."
+            }
+          },
+          "delivery": {
+            "title": "Entrega",
+            "p1": "Enviamos recuerdos de Nazaret a direcciones de todo el mundo. El plazo de entrega depende de tu país y del servicio postal. Te contactaremos por correo electrónico si necesitamos algo de ti."
+          },
+          "customs": {
+            "title": "Aduanas y aranceles",
+            "p1": "Los pedidos enviados al extranjero pueden estar sujetos a aranceles, impuestos o tasas aduaneras fijados por tu país. No están incluidos en nuestros precios y los paga el destinatario."
+          },
+          "returns": {
+            "title": "Artículos dañados, equivocados o que faltan",
+            "p1": "Si tu pedido llega dañado, no es lo que pediste o está incompleto, queremos solucionarlo.",
+            "items": {
+              "i1": "Escríbenos con tu nombre, el correo electrónico usado en el pedido y una foto del problema.",
+              "i2": "Conserva el embalaje hasta que te hayamos respondido.",
+              "i3": "Te diremos si enviamos un reemplazo o te reembolsamos a través de PayPal."
+            }
+          },
+          "digital": {
+            "title": "Velas y donativos",
+            "p1": "Las solicitudes de velas y los donativos son servicios, no productos, por lo que no se envían. Si hiciste uno por error, escríbenos."
+          },
+          "contact": {
+            "title": "Preguntas",
+            "p1": "Escribe a {email} o usa la página de contacto."
+          }
+        }
+      }
+    },
+    "search": {
+      "meta": {
+        "title": "Buscar",
+        "description": "Busca en Nazareth Holy Cross: páginas, lugares santos, respuestas y pasajes del Evangelio."
+      },
+      "label": "Buscar en el sitio",
+      "placeholder": "Buscar páginas, lugares santos, respuestas…",
+      "open": "Buscar",
+      "close": "Cerrar",
+      "loading": "Cargando…",
+      "error": "La búsqueda no está disponible ahora. Inténtalo de nuevo.",
+      "suggested": "Sugerencias",
+      "results": "Resultados de la búsqueda",
+      "count": "{count, plural, one {# resultado} other {# resultados}}",
+      "none": "Sin resultados para «{query}». Prueba con otra palabra.",
+      "types": {
+        "page": "Páginas",
+        "site": "Lugares santos",
+        "faq": "Preguntas",
+        "gospel": "Evangelio"
+      },
+      "hintMove": "para moverte",
+      "hintOpen": "para abrir",
+      "hintClose": "para cerrar",
+      "submit": "Buscar",
+      "page": {
+        "eyebrow": "Buscar",
+        "title": "Buscar en el sitio",
+        "lead": "Encuentra páginas, lugares santos, respuestas a preguntas frecuentes y pasajes del Evangelio."
+      }
+    }
+  },
+  "media": {
+    "meta": {
+      "creditsTitle": "Créditos fotográficos",
+      "creditsDescription": "Quién tomó las fotografías de Nazaret y sus iglesias que se muestran en este sitio, bajo qué licencia abierta y dónde encontrar los originales en Wikimedia Commons.",
+      "galleryTitle": "Nazaret en imágenes",
+      "galleryDescription": "Fotografías de la Basílica de la Anunciación, la iglesia de San José, la iglesia greco-ortodoxa, el Pozo de María, el zoco de la Ciudad Vieja, la Iglesia de la Sinagoga, el Monte del Precipicio y la ciudad de Nazaret."
+    },
+    "nav": {
+      "gallery": "Galería de fotos",
+      "credits": "Créditos fotográficos"
+    },
+    "topic": {
+      "basilica": "Basílica de la Anunciación",
+      "stjoseph": "Iglesia de San José",
+      "greek": "Iglesia greco-ortodoxa de la Anunciación",
+      "well": "Pozo de María",
+      "oldcity": "Ciudad Vieja y zoco",
+      "synagogue": "Iglesia de la Sinagoga",
+      "precipice": "Monte del Precipicio",
+      "city": "La ciudad de Nazaret"
+    },
+    "subject": {
+      "facade": "fachada",
+      "exterior": "exterior",
+      "dome": "cúpula",
+      "courtyard": "patio",
+      "interior": "interior",
+      "grotto": "gruta",
+      "altar": "altar",
+      "iconostasis": "iconostasio",
+      "ceiling": "techo y bóvedas",
+      "bellTower": "campanario",
+      "well": "el pozo",
+      "market": "mercado",
+      "street": "calle",
+      "skyline": "vista de la ciudad",
+      "panorama": "vista panorámica",
+      "hills": "colinas",
+      "night": "de noche"
+    },
+    "alt": "{topic}: {subject}",
+    "creditLine": "Foto: {author} · {license}",
+    "source": "Fuente",
+    "gallery": {
+      "eyebrow": "Galería de fotos",
+      "title": "Nazaret en imágenes",
+      "lead": "Ocho lugares, una ciudad: la Basílica de la Anunciación, la iglesia de San José, la iglesia greco-ortodoxa, el Pozo de María, el zoco de la Ciudad Vieja, la Iglesia de la Sinagoga, el Monte del Precipicio y la propia ciudad. Toque una foto para ampliarla; el visor indica quién la tomó.",
+      "creditsLink": "Créditos fotográficos",
+      "visitPage": "Leer sobre este lugar"
+    },
+    "credits": {
+      "eyebrow": "Créditos fotográficos",
+      "title": "Créditos fotográficos",
+      "lead": "Las fotografías de Nazaret y sus iglesias de este sitio las comparten sus autores con licencias abiertas. Gracias a cada fotógrafo.",
+      "howTitle": "Cómo están licenciadas estas fotos",
+      "howText": "Cada foto procede de Wikimedia Commons y es de dominio público o tiene una licencia Creative Commons (CC0, CC BY o CC BY-SA) que permite reutilizarla, también en un sitio comercial, siempre que se mencione al autor. El autor, la licencia y un enlace al original figuran a continuación y en el visor de fotos.",
+      "howNote": "Las fotos CC BY-SA pueden reutilizarse con la misma licencia. Si eres el autor de una foto y quieres cambiar su crédito o que la retiremos, escríbenos.",
+      "jump": "Ir a un grupo de fotos",
+      "author": "Autor",
+      "license": "Licencia",
+      "viewOnCommons": "Ver en Wikimedia Commons"
+    }
+  }
+}

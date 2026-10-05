@@ -1,0 +1,43 @@
+/* Hidden (and out of the tab order, via visibility) until it is needed. */
+.sticky {
+  position: fixed;
+  inset-inline-end: 16px;
+  bottom: 16px;
+  z-index: 40; /* under the site header (50) and its mobile menu */
+  min-height: 48px;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(140%);
+  transition:
+    transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1),
+    opacity 0.3s ease,
+    visibility 0s linear 0.4s;
+}
+.shown {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition:
+    transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1),
+    opacity 0.3s ease,
+    visibility 0s;
+}
+.sticky.shown:focus-visible {
+  outline: 3px solid var(--cream);
+  outline-offset: 3px;
+}
+
+@media (max-width: 560px) {
+  .sticky {
+    inset-inline: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sticky,
+  .shown {
+    transform: none;
+    transition: none;
+  }
+}

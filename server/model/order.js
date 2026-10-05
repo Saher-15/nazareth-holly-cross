@@ -85,8 +85,21 @@ const orderSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  // The PayPal order that paid for this one, set only after PayPal confirmed it was captured in full
+  // for exactly totalPrice. Orders saved without it (older clients) have paymentVerified: false.
+  paypalOrderId: {
+    type: String,
+    trim: true,
+    maxlength: [40, 'PayPal order id too long'],
+  },
+  paymentVerified: {
+    type: Boolean,
+    default: false,
+  },
 }, { timestamps: true });
 
+// One payment pays for one order: saving a second order with the same PayPal order id fails (E11000 -> 409).
+orderSchema.index({ paypalOrderId: 1 }, { unique: true, partialFilterExpression: { paypalOrderId: { $type: 'string' } } });
 orderSchema.index({ email: 1 });
 orderSchema.index({ done: 1 });
 orderSchema.index({ createdAt: -1 });

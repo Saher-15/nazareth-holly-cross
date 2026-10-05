@@ -1,0 +1,137 @@
+.page {
+  padding-bottom: var(--space-8);
+}
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  min-height: clamp(380px, 62vh, 560px);
+  padding: var(--space-8) var(--space-4) var(--space-7);
+  text-align: center;
+  overflow: hidden;
+}
+.bg {
+  z-index: -2;
+  object-fit: cover;
+  object-position: 50% 30%;
+  filter: saturate(0.85);
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(60% 55% at 50% 45%, color-mix(in srgb, var(--night) 35%, transparent), color-mix(in srgb, var(--night) 85%, transparent)),
+    linear-gradient(180deg, color-mix(in srgb, var(--night) 50%, transparent), var(--night));
+}
+
+/* A large, softly glowing numeral: outlined in gold so it reads as decoration, not as a heading. */
+.code {
+  margin: 0 0 var(--space-2);
+  font: 400 clamp(5.5rem, 22vw, 11rem) / 0.95 var(--serif);
+  letter-spacing: 0.04em;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--gold);
+  text-shadow: 0 0 60px color-mix(in srgb, var(--gold) 35%, transparent);
+  user-select: none;
+}
+.title {
+  margin: 0 auto var(--space-3);
+  max-width: 18ch;
+  font: 400 var(--text-3xl) / var(--leading-tight) var(--serif);
+  color: var(--white);
+  text-wrap: balance;
+}
+.text {
+  margin: 0 auto;
+  max-width: 46ch;
+  color: var(--cream);
+  font-size: var(--text-lg);
+  text-wrap: pretty;
+  text-shadow: 0 2px 16px color-mix(in srgb, var(--night) 80%, transparent);
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+.suggest {
+  margin-top: var(--space-6);
+}
+.suggest h2 {
+  text-align: center;
+  margin-bottom: var(--space-4);
+}
+.cards {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  height: 100%;
+  min-height: 84px;
+  padding: var(--space-4) var(--space-5);
+  color: var(--cream);
+  text-decoration: none;
+}
+.card:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+.cardIcon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--gold-soft);
+  color: var(--gold);
+}
+.cardText {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+.cardTitle {
+  font: 400 var(--text-xl) / 1.2 var(--serif);
+  color: var(--white);
+}
+.cardHint {
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+.cardArrow {
+  flex: none;
+  color: var(--gold);
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.card:hover .cardArrow {
+  transform: translateX(4px);
+}
+:global([dir='rtl']) .card:hover .cardArrow {
+  transform: scaleX(-1) translateX(4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cardArrow {
+    transition: none;
+  }
+  .card:hover .cardArrow,
+  :global([dir='rtl']) .card:hover .cardArrow {
+    transform: none;
+  }
+}

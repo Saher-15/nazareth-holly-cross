@@ -1,0 +1,211 @@
+/* Full-screen photo viewer (a modal <dialog> in the browser's top layer). */
+
+.dialog {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--night) 95%, transparent);
+  color: var(--cream);
+  font-family: var(--sans);
+  line-height: 1.5;
+  touch-action: pan-y pinch-zoom;
+}
+.dialog[open] {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  animation: fade-in 0.25s ease both;
+}
+.dialog::backdrop {
+  background: color-mix(in srgb, var(--night) 60%, transparent);
+}
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .dialog {
+    background: color-mix(in srgb, var(--night) 86%, transparent);
+    backdrop-filter: blur(14px);
+  }
+}
+.dialog *,
+.dialog *::before,
+.dialog *::after {
+  box-sizing: border-box;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: max(12px, env(safe-area-inset-top)) 16px 12px;
+}
+.title {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  min-width: 0;
+  margin: 0;
+  font: 400 1.05rem/1.3 var(--serif);
+  color: var(--cream);
+}
+.name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.count {
+  flex: none;
+  font: 700 0.8rem/1 var(--sans);
+  letter-spacing: 0.14em;
+  color: var(--gold);
+}
+
+.stage {
+  position: relative;
+  min-height: 0;
+  margin-inline: 12px;
+}
+.img {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow);
+  opacity: 0;
+  transform: scale(0.985);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.loaded {
+  opacity: 1;
+  transform: none;
+}
+.spinner {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 3px solid var(--glass-line);
+  border-top-color: var(--gold);
+  animation: spin 0.9s linear infinite;
+}
+
+/* Photographer, licence and source of a licensed photo. */
+.credit {
+  margin: 0;
+  padding: 10px 16px 0;
+  text-align: center;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--muted);
+}
+.credit a {
+  color: var(--gold);
+  text-underline-offset: 3px;
+}
+.dialog a:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.nav {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  padding: 14px 16px max(18px, env(safe-area-inset-bottom));
+}
+.btn {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 48px;
+  height: 48px;
+  margin: 0;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--glass-line);
+  background: var(--glass-strong);
+  color: var(--cream);
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.navBtn {
+  width: 54px;
+  height: 54px;
+}
+.btn:hover {
+  background: var(--gold);
+  color: var(--night);
+}
+.dialog .btn:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 50%;
+}
+
+/* The chevrons point to the reading start (previous) and end (next): mirrored in RTL. */
+.prevIcon {
+  transform: scaleX(-1);
+}
+:global([dir='rtl']) .prevIcon {
+  transform: none;
+}
+:global([dir='rtl']) .nextIcon {
+  transform: scaleX(-1);
+}
+
+@media (min-width: 760px) {
+  .dialog[open] {
+    padding-bottom: 24px;
+  }
+  .stage {
+    margin-inline: 96px;
+  }
+  .nav {
+    position: absolute;
+    inset-inline: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    justify-content: space-between;
+    padding: 0 24px;
+    pointer-events: none;
+  }
+  .nav .btn {
+    pointer-events: auto;
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dialog[open] {
+    animation: none;
+  }
+  .img,
+  .btn {
+    transition: none;
+  }
+  .spinner {
+    animation-duration: 2.4s;
+  }
+}

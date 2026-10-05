@@ -1,0 +1,134 @@
+.root {
+  position: relative;
+}
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: var(--tap);
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-line);
+  background: var(--glass);
+  color: var(--cream);
+  cursor: pointer;
+  transition: background var(--dur-fast) ease, border-color var(--dur-fast) ease;
+}
+.trigger:hover {
+  background: var(--glass-strong);
+}
+.trigger[aria-expanded='true'] {
+  border-color: color-mix(in srgb, var(--gold) 60%, transparent);
+  background: var(--gold-soft);
+}
+.trigger[aria-busy='true'] {
+  cursor: progress;
+  opacity: 0.7;
+}
+.trigger:focus-visible {
+  border-radius: 999px;
+}
+@media (max-width: 400px) {
+  .trigger {
+    padding: 0 10px;
+    gap: 4px;
+  }
+}
+.code {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+.caret {
+  transition: transform var(--dur-base) ease;
+  opacity: 0.8;
+}
+.caretOpen {
+  transform: rotate(180deg);
+}
+
+.menu {
+  position: absolute;
+  inset-inline-end: 0;
+  top: calc(100% + 8px);
+  z-index: var(--z-menu);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px;
+  width: min(320px, calc(100vw - 32px));
+  max-height: min(70vh, 460px);
+  overflow-y: auto;
+  margin: 0;
+  padding: 8px;
+  list-style: none;
+  background: color-mix(in srgb, var(--night-2) 98%, transparent);
+  border: 1px solid var(--glass-line);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--elev-4);
+  animation: menu-in var(--dur-base) var(--ease-out) both;
+}
+.menu li {
+  display: contents;
+}
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  min-height: var(--tap);
+  padding: 8px 12px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--cream);
+  text-decoration: none; /* every language is a link */
+  text-align: start;
+  text-decoration: none;
+  cursor: pointer;
+}
+.name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  /* The names are in fourteen scripts: the system font, so no web font for them is downloaded (see SiteFooter). */
+  font-family: var(--symbols);
+}
+.tag {
+  flex: none;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.check {
+  flex: none;
+  color: var(--gold);
+}
+.option:hover,
+.option:focus-visible {
+  background: var(--glass-strong);
+}
+.option:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: -2px;
+}
+.option[aria-current='true'] {
+  color: var(--gold);
+  background: var(--gold-soft);
+  border-color: color-mix(in srgb, var(--gold) 35%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu {
+    animation: none;
+  }
+  .caret {
+    transition: none;
+  }
+}

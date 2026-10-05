@@ -1,0 +1,32 @@
+.card {
+  display: grid;
+  gap: 4px;
+}
+.text {
+  margin: 0 0 18px;
+  color: var(--cream);
+}
+.actions {
+  display: grid;
+  gap: 10px;
+}
+.actions :global(.ui-btn) {
+  width: 100%;
+  line-height: 1.2;
+  text-align: center;
+}
+.actions :global(.ui-btn) svg {
+  flex: none;
+}
+
+@media (min-width: 900px) {
+  .card {
+    position: sticky;
+    top: 96px;
+  }
+}
+
+/* Pill buttons keep their shape when focused. */
+.actions :global(.ui-btn):focus-visible {
+  border-radius: 999px;
+}

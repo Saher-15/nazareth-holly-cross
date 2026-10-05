@@ -1,0 +1,187 @@
+.footer {
+  position: relative;
+  margin-top: auto;
+  padding-top: var(--space-8);
+  background: linear-gradient(180deg, var(--night) 0%, var(--night-deep) 100%);
+  color: var(--muted);
+}
+/* A fine gold line instead of a hard border. */
+.footer::before {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--gold) 55%, transparent), transparent);
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-6) var(--space-5);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+  padding-bottom: var(--space-7);
+}
+@media (min-width: 1000px) {
+  .grid {
+    grid-template-columns: 1.5fr 1fr 1fr 1fr 1.25fr;
+  }
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 12px;
+  font: 600 1.3rem/1.2 var(--serif);
+  color: var(--white);
+}
+.mark {
+  flex: none;
+  color: var(--gold);
+}
+.tagline {
+  margin: 0 0 var(--space-4);
+  max-width: 36ch;
+  text-wrap: pretty;
+}
+
+.heading {
+  margin: 0 0 var(--space-3);
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.heading:lang(he),
+.heading:lang(ar) {
+  letter-spacing: 0;
+  font-size: 0.95rem;
+}
+
+.links,
+.contact,
+.languages,
+.social {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.links {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+.contact {
+  display: grid;
+  margin-bottom: var(--space-3);
+}
+.contact li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: var(--tap);
+}
+.contact svg {
+  color: var(--gold);
+}
+.donate {
+  margin-top: var(--space-1);
+}
+
+/* Links are padded to a 44px touch target without looking spaced out. */
+.link,
+.language {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  min-width: var(--tap);
+  color: var(--cream);
+  text-decoration: none;
+  transition: color var(--dur-fast) ease;
+}
+.contact .link {
+  overflow-wrap: anywhere;
+}
+/* Each language is named in its own script (Русский, Ελληνικά, עברית, العربية). Set in the system font so that the
+   fourteen names do not make every page download the Cyrillic, Greek and Latin-extended web fonts (about 120 kB). */
+.language {
+  font-family: var(--symbols);
+}
+.link:hover,
+.language:hover {
+  color: var(--gold);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+/* All the languages in one row under the columns. */
+.languagesNav {
+  grid-column: 1 / -1;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--glass-line);
+}
+.languages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--space-5);
+}
+.language[aria-current='true'] {
+  color: var(--gold);
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.socialLink {
+  display: grid;
+  place-items: center;
+  width: var(--tap);
+  height: var(--tap);
+  border-radius: 50%;
+  border: 1px solid var(--glass-line);
+  background: var(--glass);
+  color: var(--cream);
+  transition: background var(--dur-fast) ease, color var(--dur-fast) ease, transform var(--dur-base) var(--ease-out);
+}
+.socialLink:hover {
+  background: var(--gold);
+  color: var(--night);
+  transform: translateY(-2px);
+}
+.socialLink:focus-visible {
+  border-radius: 50%;
+}
+
+.rights {
+  margin: 0;
+  padding: var(--space-4) var(--space-4) var(--space-5);
+  border-top: 1px solid var(--glass-line);
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .socialLink {
+    transition: none;
+  }
+  .socialLink:hover {
+    transform: none;
+  }
+}
+
+/* A button that looks like the links around it (the footer's Search entry). */
+.linkButton {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--cream);
+  font: inherit;
+  cursor: pointer;
+}
+.linkButton:hover {
+  color: var(--gold);
+  text-decoration: underline;
+}

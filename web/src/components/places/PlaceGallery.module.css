@@ -1,0 +1,147 @@
+/* Photo grid of a place: a big feature tile, a few tall tiles, the rest square-ish. */
+
+.grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: clamp(128px, 38vw, 200px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.feature {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+.tall {
+  grid-row: span 2;
+}
+.normal {
+  min-width: 0;
+}
+/* The last tile fills what is left of the last row (spans computed per layout in galleryLogic). */
+.last {
+  grid-column: span var(--span-2, 1);
+}
+
+.thumb {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  appearance: none;
+  font: inherit;
+  color: inherit;
+  cursor: zoom-in;
+  border: 1px solid var(--glass-line);
+  border-radius: 16px;
+  background: linear-gradient(100deg, var(--glass) 30%, var(--glass-strong) 50%, var(--glass) 70%) 0 0 / 200% 100%;
+  box-shadow: var(--shadow);
+  animation: shimmer 1.4s linear infinite;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.thumb[data-loaded] {
+  animation: none;
+  background: var(--night-3);
+}
+.thumb img {
+  object-fit: cover;
+  transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.thumb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 50%, color-mix(in srgb, var(--night) 60%, transparent));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.zoom {
+  position: absolute;
+  z-index: 1;
+  inset-inline-end: 10px;
+  bottom: 10px;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--gold) 50%, transparent);
+  background: color-mix(in srgb, var(--night) 65%, transparent);
+  color: var(--gold);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.thumb:hover,
+.thumb:focus-visible {
+  border-color: color-mix(in srgb, var(--gold) 65%, transparent);
+}
+.thumb:hover img,
+.thumb:focus-visible img {
+  transform: scale(1.06);
+}
+.thumb:hover::after,
+.thumb:focus-visible::after,
+.thumb:hover .zoom,
+.thumb:focus-visible .zoom {
+  opacity: 1;
+  transform: none;
+}
+.grid .thumb:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 16px;
+}
+/* Touch screens have no hover: keep the zoom hint visible. */
+@media (hover: none) {
+  .zoom {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes shimmer {
+  to { background-position: -200% 0; }
+}
+
+@media (min-width: 640px) {
+  .grid {
+    gap: 14px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-rows: clamp(150px, 24vw, 220px);
+  }
+  .last {
+    grid-column: span var(--span-3, 1);
+  }
+}
+@media (min-width: 1000px) {
+  .grid {
+    gap: 16px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: 210px;
+  }
+  .last {
+    grid-column: span var(--span-4, 1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thumb {
+    animation: none;
+  }
+  .thumb,
+  .thumb img,
+  .thumb::after,
+  .zoom {
+    transition: none;
+  }
+  .thumb:hover img,
+  .thumb:focus-visible img {
+    transform: none;
+  }
+}

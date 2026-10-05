@@ -1,0 +1,20 @@
+.page {
+  display: grid;
+  align-content: center;
+  padding-block: var(--space-8);
+}
+.wrap {
+  max-width: 640px;
+}
+.digest {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}

@@ -9,3 +9,6 @@ dist/
 
 # Local Netlify folder
 .netlify
+
+# Originals of the licensed images (scripts/media/build.mjs, MEDIA_CACHE)
+.media-cache/

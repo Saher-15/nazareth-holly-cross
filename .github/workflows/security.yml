@@ -1,0 +1,51 @@
+# Security checks: secrets in the code and its history, and known vulnerabilities in what ships.
+# No third-party action is used for the scan itself: gitleaks runs from its official, version-pinned
+# container image, so there is nothing new to install and no token to hand over.
+name: Security
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '17 4 * * 1' # Mondays 04:17 UTC: new advisories appear even when nobody pushes
+  workflow_dispatch:
+
+concurrency:
+  group: security-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  secrets:
+    name: Secret scan (gitleaks)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # the whole history: a secret that was committed and later deleted is still leaked
+      # Findings are printed redacted. Config and allow-list: .gitleaks.toml
+      - name: Scan the working tree and the history
+        run: |
+          docker run --rm -v "$PWD:/repo" zricethezav/gitleaks:v8.18.4 detect \
+            --source /repo --config /repo/.gitleaks.toml \
+            --redact --verbose --no-banner --exit-code 1
+
+  audit:
+    name: Dependencies (npm audit)
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        project: [server, web]
+    defaults:
+      run:
+        working-directory: ${{ matrix.project }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      # What ships to production only (dev tools such as nodemon/eslint are not deployed).
+      - run: npm audit --omit=dev --audit-level=high

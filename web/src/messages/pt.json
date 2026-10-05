@@ -1,0 +1,1529 @@
+{
+  "site": {
+    "name": "Nazareth Holy Cross",
+    "tagline": "A cidade de Jesus, de qualquer lugar do mundo",
+    "skipToContent": "Pular para o conteúdo",
+    "menuOpen": "Abrir menu",
+    "menuClose": "Fechar menu",
+    "language": "Idioma",
+    "nav": {
+      "home": "Início",
+      "sites": "Lugares santos",
+      "tour": "Tour",
+      "candle": "Acender uma vela",
+      "shop": "Loja",
+      "live": "Ao vivo",
+      "reviews": "Avaliações",
+      "about": "Sobre nós",
+      "cart": "Carrinho",
+      "donate": "Doar"
+    },
+    "footer": {
+      "about": "Compartilhamos o espírito de Nazaré com peregrinos do mundo todo: seus lugares santos, suas orações e seu artesanato.",
+      "explore": "Explorar",
+      "contact": "Contato",
+      "follow": "Siga-nos",
+      "rights": "© {year} Nazareth Holy Cross. Todos os direitos reservados."
+    },
+    "notFound": {
+      "title": "Não encontramos esta página",
+      "text": "A página que você procura pode ter sido movida. Vamos levar você de volta.",
+      "backHome": "Voltar ao início"
+    },
+    "meta": {
+      "title": "Nazareth Holy Cross — A cidade de Jesus",
+      "description": "Acenda uma vela em Nazaré, conheça os lugares santos e leve para casa lembranças abençoadas da cidade onde Jesus cresceu."
+    }
+  },
+  "about": {
+    "title": "Bem-vindo ao portal oficial de Nazaré",
+    "description1": "O coração da fé cristã. Entendemos que nem todos podem visitar fisicamente Nazaré, uma cidade onde Jesus cresceu e onde experiências espirituais aguardam cada visitante. Portanto, temos o prazer de oferecer a você a oportunidade de trazer Nazaré até você.",
+    "description2": "Por meio do nosso site, você pode fazer um tour virtual pelas principais igrejas e lugares sagrados de Nazaré e se conectar com a rica história e a tradição religiosa que caracterizam o lugar. Além disso, oferecemos a você uma oportunidade única de comprar lembranças locais e até acender uma vela em memória ou em homenagem aos seus entes queridos, como se estivesse aqui conosco.",
+    "description3": "Em nossa loja online, você encontra uma ampla variedade de produtos: cruzes feitas de madeira de oliveira local, joias inspiradas em símbolos cristãos, pinturas e mosaicos que refletem a riqueza da arte religiosa e muito mais. Agora você também pode comprar água da lendária fonte de Nazaré, areia de Nazaré e azeitonas locais – tudo para sentir a grandeza da cidade de Nazaré e de Jesus. Você também pode escolher acender uma vela virtual, um gesto que leva oração e lembrança através das distâncias.",
+    "description4": "Nós convidamos você a abrir seu coração e sentir o calor da nossa comunidade através de cada produto que você escolher comprar. Cada compra apoia a comunidade local e ajuda a preservar a rica herança de Nazaré para as gerações futuras. Visite nosso site e encontre sua maneira de se conectar com Nazaré, a qualquer hora e em qualquer lugar."
+  },
+  "whatIsNew": {
+    "title": "Referências bíblicas a Nazaré",
+    "scriptureNotes": {
+      "matthew": "Mateus 2:23: «E foi habitar numa cidade chamada Nazaré, para que se cumprisse o que fora dito pelos profetas: Será chamado Nazareno».",
+      "luke1": "Lucas 1:26-27: «No sexto mês, o anjo Gabriel foi enviado por Deus a uma cidade da Galileia chamada Nazaré, a uma virgem desposada com um homem chamado José, da casa de Davi. O nome da virgem era Maria».",
+      "john": "João 1:46: «Disse-lhe Natanael: De Nazaré pode sair alguma coisa boa? Disse-lhe Filipe: Vem e vê».",
+      "luke4": "Lucas 4:16: «Foi a Nazaré, onde se tinha criado; e, segundo o seu costume, entrou no sábado na sinagoga e levantou-se para ler»."
+    },
+    "touchingTheSacred": "Tocar o sagrado, sentir o coração bater",
+    "introParagraphs": {
+      "part1": "Nazaré, a cidade onde o milagre aconteceu, é o lugar onde Jesus deu seus primeiros passos, onde a Virgem Maria abraçou seu Filho e orou por sua segurança. Aqui, dentro das igrejas antigas, na fonte sagrada onde Maria alimentou Jesus e no vibrante mercado da cidade velha, você verá sua fé ganhando vida mais uma vez.",
+      "part2": "Imagine-se caminhando pelas ruas estreitas, seguindo os passos de Jesus até as igrejas, partilhando momentos de reflexão no Poço de Maria, onde os olhos da santa mãe encontraram as águas antigas. Cada pedra, cada beco conta uma história de fé inabalável, de uma jornada espiritual que transcende o tempo.",
+      "part3": "Quando você acende uma vela na Basílica da Anunciação, reencontra o lugar onde Jesus ouviu pela primeira vez o seu chamado divino. Enquanto seu coração anseia por Nazaré, nossas lembranças carregam o espírito santo da cidade e recordam a você a sua profunda ligação com o lugar onde tudo começou.",
+      "part4": "Permita-nos trazer Nazaré até você, direto para sua casa. Com cada lembrança, você preserva um vínculo profundo com Nazaré, a cidade onde Jesus e Maria caminharam, a cidade onde a fé nasceu. Lembre-se dos momentos que aconteceram aqui, dos corações que se abriram em oração e das lágrimas que caíram silenciosamente sobre as pedras antigas.",
+      "part5": "Nazaré espera por você, abraça você de longe e leva até você a sua santidade. Mantenha a chama acesa em seu coração, até o dia em que você voltar para nós – para a cidade onde a fé pulsa."
+    }
+  },
+  "live": {
+    "event_ongoing": "Evento ao vivo em andamento",
+    "upcoming_event": "Próximo evento ao vivo",
+    "nazareth_date_time": "Data e hora de Nazaré:",
+    "time_remaining": "Tempo restante:",
+    "join_live": "Participe ao vivo",
+    "no_upcoming_events": "Nenhum evento futuro disponível.",
+    "past_live_events": "Eventos ao vivo anteriores",
+    "refresh_note": "Observação: atualize a página antes de clicar no botão «Participe ao vivo».",
+    "live_note": "Observação: o botão «Participe ao vivo» estará disponível somente após o início do evento ao vivo."
+  },
+  "common": {
+    "home": "Início",
+    "live": "Ao vivo",
+    "tour": "Tour",
+    "candle": "Vela",
+    "shop": "Loja",
+    "reviews": "Avaliações"
+  },
+  "candle": {
+    "howToLightACandle": "Como acender uma vela?",
+    "itsSimple": "É simples:",
+    "step1": "Escolha uma igreja onde você gostaria que a vela fosse acesa.",
+    "step2": "Escreva uma oração ou um pedido pessoal que você gostaria que acompanhasse o acendimento da vela.",
+    "step3": "Iremos até a igreja, acenderemos a vela por você, gravaremos um vídeo com o seu nome e o enviaremos diretamente para você.",
+    "note": "Observação: este vídeo é apenas para fins ilustrativos, mostrando o processo de acender uma vela na igreja ortodoxa grega.",
+    "lightAPrayCandle": "ACENDA UMA VELA DE ORAÇÃO",
+    "selectChurch": "Selecione a igreja para acender a vela:",
+    "toLightACandlePay": "Para acender uma vela, pague US$ 3",
+    "light": "ACENDA",
+    "emailMatchError": "Os e-mails não correspondem",
+    "inputWarning": "Selecione uma igreja.",
+    "firstName": "Primeiro nome",
+    "lastName": "Sobrenome",
+    "yourEmail": "Seu e-mail",
+    "confirmEmail": "Confirmar e-mail",
+    "yourPrayer": "Sua oração"
+  },
+  "heroSection": {
+    "heading": "A CIDADE DE JESUS ESPERA POR VOCÊ",
+    "subHeading": "GRAÇA EM CADA CLIQUE",
+    "lightCandle": "ACENDA UMA VELA",
+    "shopButton": "Loja",
+    "tourButton": "PASSEIO POR NAZARÉ",
+    "shopIcon": "fa fa-shopping-cart",
+    "tourIcon": "far fa-play-circle",
+    "discount": "Aproveite 10% de desconto em todos os itens da nossa loja — exclusivamente no nosso site!"
+  },
+  "cards": {
+    "title": "Confira estes destinos EXTRAORDINÁRIOS!",
+    "latinChurch": "Explore a Basílica da Anunciação",
+    "greekChurch": "Explore a Igreja Ortodoxa Grega",
+    "marysWell": "Explore o Poço de Maria, no coração de Nazaré",
+    "oldCity": "Explore a Cidade Velha de",
+    "cityOfNazareth": "A Cidade de Nazaré, Cidade de Jesus"
+  },
+  "videos": {
+    "interview_nazareth": {
+      "title": "Entrevista com a Comunidade de Nazaré",
+      "description": "Assista à entrevista exclusiva transmitida ao vivo de Nazaré."
+    },
+    "live_prayer_latin": {
+      "title": "Oração ao vivo da Igreja Latina",
+      "description": "Experimente uma transmissão ao vivo de orações sinceras da Igreja Latina."
+    }
+  },
+  "nazarethTour": {
+    "pageHeading": "Explore Nazaré",
+    "videoMessage": "Vamos fazer um tour em Nazaré, uma cidade repleta de história e cultura. Descubra mercados vibrantes, igrejas históricas e marcos únicos para uma experiência inesquecível.",
+    "videoDescription": "Aproveite as vistas e os sons de Nazaré neste tour de vídeo envolvente. De mercados movimentados a locais históricos serenos, tenha um vislumbre da beleza e do charme desta cidade antiga.",
+    "ctaButton": "Saiba mais sobre Nazaré"
+  },
+  "pray": {
+    "formTitle": "Compartilhe sua avaliação",
+    "formDescription": "Compartilhe sua experiência com nosso site. Seu feedback nos ajuda a melhorar e fornecer um serviço melhor. Preencha o formulário abaixo e sua avaliação será publicada assim que for aprovada por nossa equipe.",
+    "placeholderFullName": "Nome completo",
+    "placeholderCountry": "De onde você é?",
+    "placeholderMessage": "Conte-nos sobre sua experiência com nosso site",
+    "submitButton": "Enviar",
+    "successMessage": "Mensagem enviada com sucesso!",
+    "confirmationMessage": "Sua mensagem aparecerá no mural assim que for confirmada pela equipe da Nazareth Holy Cross.",
+    "messagesTitle": "Avaliações de clientes",
+    "messagesDescription": "Aqui estão as avaliações que foram aprovadas por nossa equipe. Obrigado por compartilhar seu feedback conosco.",
+    "noMessages": "Nenhuma mensagem enviada ainda."
+  },
+  "confirmationCandle": {
+    "thankYou": "Obrigado!",
+    "paymentSuccess": "Seu pagamento foi processado com sucesso.",
+    "receipt": "Um recibo foi enviado para seu endereço de e-mail.",
+    "gratitude": "Obrigado pelo seu pedido!"
+  },
+  "thankYou": {
+    "thankYou": "Obrigado!",
+    "paymentSuccess": "Seu pagamento foi processado com sucesso.",
+    "receipt": "Um recibo foi enviado para seu endereço de e-mail.",
+    "gratitude": "Obrigado pelo seu pedido!"
+  },
+  "footer": {
+    "aboutUs": "Sobre nós",
+    "aboutUsDescription": "Estamos dedicados a preservar o espírito de Nazaré e espalhar a mensagem de esperança. Visite nosso site para explorar a jornada.",
+    "learnMore": "Saiba mais",
+    "contactUs": "Entre em contato conosco",
+    "email": "nazarethholycross@gmail.com",
+    "followInstagram": "Siga-nos no Instagram",
+    "followFacebook": "Siga-nos no Facebook",
+    "subscribeYoutube": "Junte-se a nós no YouTube",
+    "credits": "Créditos",
+    "creditLink1": "Saher Saadi",
+    "creditLink2": "Haytham Taweel",
+    "copyright": "Copyright © 2024 – Todos os direitos reservados, NazarethHolyCross"
+  },
+  "headerGreek": {
+    "title": "Explore a beleza da Igreja Grega",
+    "mapButton": "Ver no Google Maps"
+  },
+  "contentGreek": {
+    "paragraph1": "A Igreja Ortodoxa Grega da Anunciação fica acima da fonte onde os cristãos ortodoxos acreditam que a Anunciação ocorreu. Quando a Virgem Maria foi tirar água da fonte, o Arcanjo Gabriel apareceu e informou que ela conceberia e daria à luz um filho que ela chamaria de Jesus. A igreja atual remonta a 1750, quando Daher al-Omar, o governante beduíno da Galileia, deu permissão à comunidade ortodoxa grega para construí-la.",
+    "paragraph2": "A igreja tem uma nave central com duas naves laterais e uma bela iconóstase de madeira, doada por um comerciante grego em 1767. Entre 1977 e 1978, foi redecorada por artistas romenos. Uma passagem em arco leva a uma pequena capela, decorada com azulejos armênios, de onde sete degraus descem até a fonte, que se acredita ter sido construída pelos cruzados no século XII.",
+    "paragraph3": "A cerca de 140 metros da igreja fica o Poço de Maria, que já foi alimentado pela fonte e serviu como fonte local de água por vários séculos. A fonte foi reparada em 1967 e novamente em 2000, mas não funciona hoje."
+  },
+  "headerLatin": {
+    "title": "Explore a beleza da Igreja Latina"
+  },
+  "contentLatin": {
+    "paragraph1": "A Igreja Latina, também conhecida como Basílica da Anunciação, é um importante local religioso localizado em Nazaré, Israel. Ela se destaca como uma das maiores igrejas do Oriente Médio e tem um profundo significado religioso para os cristãos em todo o mundo.",
+    "history": {
+      "title": "Contexto histórico",
+      "text": "Tradicionalmente, acredita-se que o local seja o lugar onde o anjo Gabriel anunciou à Virgem Maria que ela conceberia e daria à luz Jesus, um evento conhecido como a Anunciação. A basílica tem uma longa história que remonta aos primeiros séculos do cristianismo, com igrejas sucessivas construídas no local ao longo do tempo."
+    },
+    "architecture": {
+      "title": "Características arquitetônicas",
+      "text": "A basílica atual, construída entre 1955 e 1969, apresenta uma estrutura distinta de dois andares. A igreja superior é usada para cultos, enquanto a igreja inferior encerra a Gruta da Anunciação, que se acredita ser o local real da Anunciação. A arquitetura da basílica mistura estilos modernos com elementos tradicionais, e seu interior é adornado com mosaicos, afrescos e obras de arte retratando cenas da vida de Cristo."
+    },
+    "visiting": {
+      "title": "Visitando a Basílica",
+      "text": "A Basílica da Anunciação é um destino popular para peregrinos e turistas que visitam Nazaré. Os visitantes podem explorar as igrejas superiores e inferiores, admirar as características artísticas e arquitetônicas e participar de cerimônias religiosas e eventos realizados na basílica. O local oferece uma profunda experiência espiritual e serve como um símbolo de fé e herança."
+    }
+  },
+  "headerMary": {
+    "title": "Explore a beleza do Poço de Maria"
+  },
+  "contentMary": {
+    "intro": "O Poço de Maria, também conhecido como Poço da Virgem, é um importante local histórico e religioso localizado em Nazaré, Israel. Acredita-se tradicionalmente que seja o lugar onde o anjo Gabriel anunciou à Virgem Maria que ela daria à luz Jesus, um evento conhecido como a Anunciação.",
+    "significance": {
+      "title": "Significado histórico e religioso",
+      "biblical": "Conexão bíblica",
+      "biblicalText": "De acordo com a tradição cristã, o Poço de Maria é onde Maria estava tirando água quando o anjo Gabriel apareceu a ela e anunciou que ela conceberia e daria à luz Jesus Cristo. Este evento é uma parte central da história cristã da Anunciação.",
+      "cultural": "Importância cultural",
+      "culturalText": "O poço tem sido uma fonte vital de água para a comunidade local por séculos. Serviu como um local de encontro para o povo de Nazaré, tornando-se parte integrante da vida diária na cidade.",
+      "architecture": "Características arquitetônicas",
+      "architectureText": "O poço em si faz parte de um complexo maior que inclui a Igreja Ortodoxa Grega da Anunciação. A estrutura atual da igreja remonta ao século XVIII, mas o poço e o local têm raízes muito mais antigas."
+    },
+    "modern": {
+      "title": "Local moderno",
+      "restoration": "Esforços de restauração",
+      "restorationText": "A fonte do Poço de Maria passou por várias restaurações ao longo dos anos, principalmente em 1967 e 2000. Apesar desses esforços, o poço não funciona hoje como antes.",
+      "attraction": "Atração turística",
+      "attractionText": "O Poço de Maria é um destino popular para peregrinos e turistas. Os visitantes vêm para ver o local histórico e vivenciar o lugar onde, de acordo com a tradição, a Anunciação ocorreu.",
+      "surroundings": "Área ao redor",
+      "surroundingsText": "O poço está localizado na Cidade Velha de Nazaré, uma área rica em marcos históricos e religiosos. As atrações próximas incluem a Basílica da Anunciação, a Igreja Ortodoxa Grega da Anunciação e vários outros locais relacionados à vida de Jesus e Maria."
+    },
+    "visiting": {
+      "title": "Visitando o Poço de Maria",
+      "location": "Localização",
+      "locationText": "O Poço de Maria está situado no coração de Nazaré, tornando-o facilmente acessível para visitantes que exploram a Cidade Velha.",
+      "accessibility": "Acessibilidade",
+      "accessibilityText": "O local é aberto ao público e pode ser visitado durante todo o ano. É aconselhável verificar as informações locais para visitantes sobre quaisquer horários ou diretrizes específicas de visita.",
+      "culturalExperience": "Experiência cultural",
+      "culturalExperienceText": "Visitar o Poço de Maria oferece uma oportunidade única de se conectar com a rica herança religiosa e cultural de Nazaré. O local permite conhecer a vida diária das pessoas nos tempos antigos e suas práticas espirituais."
+    }
+  },
+  "headerTitleNaz": "Explore a beleza da cidade de Nazaré",
+  "mapButton": "Abrir mapa",
+  "contentNaz": {
+    "introduction": "A Cidade Velha de Nazaré é mais famosa por seu shuk (mercado ao ar livre), que atrai israelenses de todo o país em busca de produtos árabes tradicionais. Isso por si só é uma experiência e um grande contraste com os shoppings com ar-condicionado espalhados pelo país. Para os interessados no cristianismo, a Cidade Velha e arredores estão repletas de importantes locais cristãos, incluindo a Basílica da Anunciação.",
+    "historicalSignificance": {
+      "title": "Significado histórico e religioso",
+      "text": "Nazaré é mencionada com destaque no Novo Testamento. De acordo com a tradição cristã, é o local onde o anjo Gabriel anunciou a Maria que ela daria à luz Jesus, um evento comemorado pela Basílica da Anunciação. Evidências arqueológicas indicam que Nazaré era uma pequena vila judaica na época de Jesus. Ela tem sido continuamente habitada desde a antiguidade."
+    },
+    "modernNazareth": {
+      "title": "Nazaré moderna",
+      "text": "A cidade tem uma população diversificada, predominantemente muçulmanos árabes e cristãos. De acordo com estimativas recentes, Nazaré tem cerca de 77.000 residentes. Nazaré é um centro cultural vibrante com várias instituições religiosas, culturais e educacionais. Ela sedia festivais e eventos que refletem sua rica herança e comunidade diversificada. O turismo é uma parte significativa da economia de Nazaré, impulsionado por seus locais religiosos e marcos históricos. Além disso, a cidade tem uma mistura de pequenas empresas, lojas e mercados que contribuem para sua economia local."
+    },
+    "accessibility": {
+      "title": "Acessibilidade e turismo",
+      "text": "Nazaré é bem conectada por estrada, com serviços frequentes de ônibus de grandes cidades como Tel Aviv, Haifa e Jerusalém. A cidade oferece várias opções de acomodação, de hotéis a pensões, atendendo às necessidades de turistas e peregrinos."
+    }
+  },
+  "headerTitleOld": "Explore a beleza da Cidade Velha de Nazaré",
+  "mapDescriptionOld": "A Cidade Velha de Nazaré é mais famosa por seu shuk (mercado ao ar livre), que atrai israelenses de todo o país em busca de produtos árabes tradicionais. Isso por si só é uma experiência e um grande contraste com os shoppings com ar-condicionado espalhados pelo país. Para os interessados no cristianismo, a Cidade Velha e arredores estão repletas de importantes locais cristãos, incluindo a Basílica da Anunciação.",
+  "churchDescriptionOld": "A Igreja Ortodoxa Grega da Anunciação fica acima da fonte onde os cristãos ortodoxos acreditam que a Anunciação ocorreu. Quando a Virgem Maria foi tirar água da fonte, o Arcanjo Gabriel apareceu e a informou que ela conceberia e daria à luz um filho que ela chamaria de Jesus. A igreja atual remonta a 1750, quando Daher al-Omar, o governante beduíno da Galileia, deu à comunidade ortodoxa grega permissão para construí-la.",
+  "waterSourceOld": "A cerca de 140 metros da igreja fica o Poço de Maria, que já foi alimentado pela fonte e serviu como fonte local de água por vários séculos. A fonte foi consertada em 1967 e novamente em 2000, mas não funciona mais hoje.",
+  "orderSummary": "Resumo do pedido",
+  "firstName": "Primeiro nome:",
+  "lastName": "Sobrenome:",
+  "email": "E-mail:",
+  "prayerAt": "Oração em:",
+  "cost": "Custo:",
+  "confirmDetails": "Confirmar detalhes e pagamento",
+  "confirmed": "Confirmado",
+  "orderCancelled": "Pedido cancelado!",
+  "paypalComponent": {
+    "contactInfo": "Informações de contato e entrega",
+    "firstName": "Primeiro nome",
+    "lastName": "Sobrenome",
+    "email": "E-mail",
+    "confirmEmail": "E-mail de confirmação",
+    "emailsDontMatch": "Os e-mails não correspondem",
+    "city": "Cidade",
+    "street": "Endereço da rua",
+    "postal": "CEP / código postal",
+    "state": "Estado / província",
+    "paymentMethod": "Método de pagamento",
+    "pleaseFillAllDetails": "Preencha todos os detalhes para continuar.",
+    "orderCancelled": "Pedido cancelado!",
+    "thankYou": "Obrigado pelo seu pedido!",
+    "summary": "Resumo do pedido",
+    "cost": "Custo: $",
+    "country": "Selecione seu país"
+  },
+  "navbar": {
+    "home": "Página inicial",
+    "live": "Ao vivo",
+    "tour": "Tour",
+    "candle": "Vela",
+    "shop": "Loja",
+    "reviews": "Avaliações"
+  },
+  "product": {
+    "button": {
+      "addToCart": "Adicionar ao carrinho"
+    },
+    "message": {
+      "productAdded": "Produto adicionado ao carrinho!",
+      "error": {
+        "fetchProduct": "Falha ao buscar o produto.",
+        "selectColor": "Selecione uma cor."
+      }
+    },
+    "note": {
+      "shippingFee": "Observação: há um adicional de US$ 5 para o frete."
+    },
+    "error": {
+      "productNotFound": "Produto não encontrado."
+    }
+  },
+  "cart": {
+    "shipping": "Frete: US$ 5",
+    "subtotal": "Subtotal: ${amount}",
+    "subtotalDiscount": "Após 10% de desconto: ${amount}",
+    "emptyCart": "Seu carrinho está vazio",
+    "continueShopping": "Continuar comprando",
+    "backToShopping": "Voltar para as compras",
+    "remove": "Remover",
+    "price": "Preço: ${price}",
+    "quantity": "Quantidade",
+    "checkout": "Finalizar compra"
+  },
+  "shop": {
+    "searchPlaceholder": "Pesquisar produtos...",
+    "noProducts": "Nenhum produto encontrado que corresponda aos seus critérios.",
+    "sortNone": "Nenhum",
+    "sortLowToHigh": "Preço: menor para maior",
+    "sortHighToLow": "Preço: maior para menor",
+    "resetFilters": "Redefinir filtros",
+    "pagination": "Página {currentPage} de {totalPages}"
+  },
+  "pagination": {
+    "prev": "Anterior",
+    "next": "Próximo"
+  },
+  "intl": {
+    "currencyNote": {
+      "usd": "Os preços são em dólares americanos (USD). Seu cartão ou o PayPal converte os valores pela própria taxa de câmbio.",
+      "approx": "Cerca de {amount} a uma taxa indicativa. O valor cobrado pelo seu banco pode variar.",
+      "shipping": "O frete tem valor fixo de {fee} por pedido."
+    }
+  },
+  "home": {
+    "eyebrow": "Nazaré · A cidade de Jesus",
+    "title": "Caminhe por onde Jesus caminhou",
+    "subtitle": "Acenda uma vela, conheça os lugares santos e leve um pedaço de Nazaré para casa, de qualquer lugar do mundo.",
+    "scroll": "Rolar",
+    "soundToggle": "Ativar ou desativar o som",
+    "stickyCandle": "Acender uma vela",
+    "candleTitle": "Uma chama para cada oração",
+    "candleText": "Acenda uma vela na Cidade Santa e rezaremos pela sua intenção em Nazaré.",
+    "flameBtn": "Acender uma chama",
+    "flameCount": "Chamas acesas neste dispositivo: {count}",
+    "flameNote": "Uma chama simbólica. Para acender uma vela de verdade em Nazaré, visite a nossa página de velas.",
+    "verseEyebrow": "Versículo do dia",
+    "verseCaption": "A reflexão de hoje",
+    "v1": "Não tenhas medo, Maria, pois achaste graça diante de Deus.",
+    "r1": "Lucas 1:30",
+    "v2": "De Nazaré pode sair alguma coisa boa? Vem e vê.",
+    "r2": "João 1:46",
+    "v3": "Foi morar numa cidade chamada Nazaré.",
+    "r3": "Mateus 2:23",
+    "v4": "O menino crescia e se fortalecia, cheio de sabedoria, e a graça de Deus estava sobre ele.",
+    "r4": "Lucas 2:40",
+    "v5": "Eis aqui a serva do Senhor; faça-se em mim segundo a tua palavra.",
+    "r5": "Lucas 1:38",
+    "v6": "Eu sou a luz do mundo. Quem me segue não andará nas trevas.",
+    "r6": "João 8:12",
+    "sitesEyebrow": "Lugares santos",
+    "sitesTitle": "Uma viagem por Nazaré",
+    "sitesLabel": "Carrossel dos lugares santos",
+    "prev": "Anterior",
+    "next": "Seguinte",
+    "explore": "Explorar",
+    "siteLatin": "Basílica da Anunciação",
+    "siteGreek": "Igreja Ortodoxa Grega",
+    "siteMary": "Poço de Maria",
+    "siteOld": "A Cidade Velha",
+    "siteCity": "A cidade de Nazaré",
+    "siteTour": "Visita virtual",
+    "shopEyebrow": "Lembranças",
+    "shopTitle": "Destaques da nossa loja",
+    "shopAll": "Visitar a loja",
+    "shopError": "Não foi possível carregar as lembranças neste momento.",
+    "retry": "Tentar novamente",
+    "voicesEyebrow": "Vozes de peregrinos",
+    "voicesTitle": "Palavras dos nossos visitantes",
+    "voicesAll": "Leia mais e compartilhe a sua",
+    "storyEyebrow": "A história"
+  },
+  "homePage": {
+    "meta": {
+      "title": "Nazareth Holy Cross — Caminhe por onde Jesus caminhou",
+      "description": "Acenda uma vela em Nazaré, percorra os seus lugares santos, leia o versículo do dia e leve para casa lembranças abençoadas da cidade onde Jesus cresceu."
+    },
+    "carouselHint": "Deslize, arraste ou use as setas do teclado para percorrer os lugares santos."
+  },
+  "placesPage": {
+    "meta": {
+      "sitesTitle": "Lugares santos de Nazaré",
+      "sitesDescription": "Visite em fotos a Basílica da Anunciação, a igreja ortodoxa grega, o Poço de Maria, a Cidade Velha e a cidade de Nazaré, com mapas e rotas para a sua peregrinação.",
+      "tourTitle": "Visita virtual a Nazaré",
+      "tourDescription": "Assista a um passeio em vídeo por Nazaré, dos mercados animados às igrejas históricas, e depois explore cada lugar santo em fotos.",
+      "aboutTitle": "Sobre nós",
+      "aboutDescription": "A Nazareth Holy Cross leva a cidade de Jesus até você: visitas virtuais aos seus lugares santos, lembranças de Nazaré e velas acesas pelas suas intenções."
+    },
+    "index": {
+      "title": "Os lugares santos de Nazaré",
+      "lead": "Cinco lugares onde a história da Anunciação e da infância de Jesus continua viva. Percorra-os em fotos, encontre-os no mapa ou acenda uma vela à distância.",
+      "listEyebrow": "Cinco lugares santos",
+      "tourTitle": "Caminhe pelas ruas de Nazaré",
+      "tourText": "Assista ao nosso passeio em vídeo e descubra os mercados, as igrejas e os marcos da cidade onde Jesus cresceu."
+    },
+    "kind": {
+      "latin": "Basílica católica",
+      "greek": "Igreja ortodoxa grega",
+      "maryswell": "Fonte antiga",
+      "oldcity": "Bairro histórico e mercado",
+      "city": "A cidade de Jesus"
+    },
+    "teaser": {
+      "latin": "Uma das maiores igrejas do Oriente Médio, construída sobre a gruta onde, segundo a tradição, o anjo Gabriel anunciou a Maria que ela daria à luz Jesus.",
+      "greek": "Construída em 1750 sobre a fonte onde a tradição ortodoxa situa a Anunciação, com uma iconóstase de madeira entalhada e uma capela à qual se desce por degraus da época das cruzadas.",
+      "maryswell": "A antiga fonte de Nazaré onde, segundo a tradição, Maria buscava água: durante séculos, o ponto de encontro da cidade.",
+      "oldcity": "Ruelas estreitas, um mercado animado e alguns dos lugares cristãos mais importantes de Nazaré, tudo a poucos passos.",
+      "city": "A cidade nas colinas da Galileia onde Jesus cresceu, hoje um centro vibrante de fé, cultura e hospitalidade."
+    },
+    "allSites": "Todos os lugares santos",
+    "newTab": "(abre em uma nova aba)",
+    "viewGallery": "Ver as fotos",
+    "visitEyebrow": "Planeje sua visita",
+    "visitText": "Encontre este lugar santo no mapa ou acenda uma vela pela sua intenção, de onde você estiver.",
+    "directions": "Como chegar",
+    "galleryEyebrow": "Galeria",
+    "galleryTitle": "Galeria de fotos",
+    "galleryHint": "Selecione uma foto para ampliá-la",
+    "photoCount": "{count, plural, one {# foto} other {# fotos}}",
+    "photoAlt": "{place}, foto {n} de {total}",
+    "viewer": "Fotos de {place}",
+    "close": "Fechar",
+    "moreEyebrow": "Continue a jornada",
+    "tourWatchEyebrow": "Assista ao passeio",
+    "tourVideoLabel": "Passeio em vídeo por Nazaré",
+    "videoFallback": "Seu navegador não consegue reproduzir este vídeo.",
+    "aboutEyebrow": "Sobre nós",
+    "aboutPillar1": "Uma peregrinação à distância",
+    "aboutPillar2": "Tesouros da Terra Santa",
+    "aboutPillar3": "Apoiando nossa comunidade"
+  },
+  "communityPage": {
+    "opensInNewTab": "(abre em uma nova aba)",
+    "reviews": {
+      "metaTitle": "Avaliações de peregrinos e visitantes",
+      "metaDescription": "Leia o que peregrinos e visitantes do mundo todo dizem sobre a Nazareth Holy Cross e compartilhe algumas palavras sobre a sua experiência.",
+      "emptyHint": "Seja o primeiro a compartilhar algumas palavras sobre a sua visita.",
+      "unavailableTitle": "Não foi possível carregar as avaliações neste momento.",
+      "unavailableHint": "Tente novamente em alguns minutos. Você ainda pode compartilhar a sua avaliação.",
+      "form": {
+        "counter": "{count} / {max}",
+        "sending": "Enviando…",
+        "another": "Escrever outra avaliação",
+        "errors": {
+          "nameRequired": "Informe o seu nome.",
+          "nameTooShort": "Escreva pelo menos {min} caracteres.",
+          "placeRequired": "Diga de onde você é.",
+          "messageRequired": "Escreva algumas palavras sobre a sua experiência.",
+          "messageTooShort": "Escreva pelo menos {min} caracteres.",
+          "tooLong": "Não ultrapasse {max} caracteres.",
+          "rateLimited": "Você enviou várias avaliações em pouco tempo. Aguarde alguns minutos e tente novamente.",
+          "invalid": "Não foi possível aceitar a sua avaliação. Verifique-a e tente novamente.",
+          "network": "Não foi possível conectar ao nosso servidor. Verifique a sua conexão e tente novamente.",
+          "server": "Ocorreu um problema do nosso lado. Tente novamente mais tarde."
+        }
+      }
+    },
+    "live": {
+      "metaTitle": "Transmissões ao vivo de Nazaré",
+      "metaDescription": "Reze conosco ao vivo dos lugares santos de Nazaré: veja quando começa a próxima transmissão e reveja as nossas orações e entrevistas.",
+      "eyebrow": "Ao vivo de Nazaré",
+      "title": "Reze conosco, ao vivo",
+      "lead": "Orações e celebrações transmitidas dos lugares santos de Nazaré, onde quer que você esteja.",
+      "status": {
+        "live": "Ao vivo",
+        "upcoming": "Em breve",
+        "offline": "Fora do ar"
+      },
+      "offlineHint": "Não estamos transmitindo no momento. Você pode assistir às nossas transmissões anteriores abaixo.",
+      "follow": "Siga-nos no Instagram",
+      "eventStarted": "O evento começou",
+      "units": {
+        "days": "{count, plural, one {Dia} other {Dias}}",
+        "hours": "{count, plural, one {Hora} other {Horas}}",
+        "minutes": "{count, plural, one {Minuto} other {Minutos}}",
+        "seconds": "{count, plural, one {Segundo} other {Segundos}}"
+      },
+      "pastEyebrow": "Assista de novo",
+      "videoFallback": "Seu navegador não consegue reproduzir este vídeo.",
+      "events": {
+        "annunciationSunday": "Oração de domingo na Basílica da Anunciação"
+      }
+    }
+  },
+  "shopPage": {
+    "meta": {
+      "shopTitle": "Lembranças de Nazaré",
+      "shopDescription": "Terços, cruzes de madeira de oliveira, vitrais e lembranças da cidade da Anunciação, entregues na sua porta.",
+      "productDescription": "{name}, uma lembrança de Nazaré entregue na sua porta, vinda da cidade da Anunciação.",
+      "cartTitle": "Seu carrinho",
+      "cartDescription": "Revise as lembranças do seu carrinho antes de finalizar a compra."
+    },
+    "heroTitle": "Lembranças de Nazaré",
+    "heroLead": "Terços, cruzes, vitrais e lembranças da cidade da Anunciação, entregues na sua porta.",
+    "filtersLabel": "Pesquisar e ordenar produtos",
+    "searchLabel": "Pesquisar produtos",
+    "clearSearch": "Limpar pesquisa",
+    "sortLabel": "Ordenar por",
+    "sortRating": "Mais bem avaliados",
+    "sortName": "Nome (A–Z)",
+    "productsHeading": "Produtos",
+    "showing": "Mostrando {from}–{to} de {total}",
+    "pagesLabel": "Páginas de produtos",
+    "pageLabel": "Página {page}",
+    "loading": "Carregando…",
+    "loadError": "Não foi possível carregar a loja agora.",
+    "loadErrorText": "Tente novamente em alguns instantes.",
+    "cartLink": "Carrinho",
+    "cartAria": "Ver carrinho: {count, plural, one {# item} other {# itens}}",
+    "galleryLabel": "Fotos de {name}",
+    "enlarge": "Ampliar imagem: {name}",
+    "zoomHint": "Passe o cursor sobre a imagem para ampliar.",
+    "close": "Fechar",
+    "showImage": "Mostrar imagem {n} de {total}",
+    "colour": "Cor",
+    "colourName": "Cor {n}: {name}",
+    "design": "Modelo",
+    "designName": "Modelo {name}",
+    "selectDesign": "Escolha um modelo.",
+    "decrease": "Diminuir quantidade",
+    "increase": "Aumentar quantidade",
+    "quantityOf": "Quantidade de {name}",
+    "added": "Adicionado",
+    "viewCart": "Ver carrinho",
+    "inStock": "Em estoque",
+    "lowStock": "Restam apenas {count}",
+    "outOfStock": "Esgotado",
+    "maxInCart": "Você já tem o máximo de {max} no carrinho.",
+    "productError": "Não foi possível carregar este produto agora.",
+    "notFoundText": "Esta lembrança pode ter esgotado ou mudado de lugar. O restante da loja espera por você.",
+    "cartTitle": "Seu carrinho",
+    "cartCount": "{count, plural, one {# item no seu carrinho} other {# itens no seu carrinho}}",
+    "itemsHeading": "Itens do seu carrinho",
+    "unitPrice": "{price} cada",
+    "removeItem": "Remover {name}",
+    "removed": "{name} foi removido do seu carrinho.",
+    "summaryTitle": "Resumo do pedido",
+    "subtotal": "Subtotal",
+    "discount": "Desconto de 10%",
+    "shipping": "Frete",
+    "total": "Total",
+    "secure": "Pagamento seguro com PayPal",
+    "emptyLead": "Conheça terços, cruzes e lembranças de Nazaré."
+  },
+  "checkoutPage": {
+    "meta": {
+      "checkoutTitle": "Finalizar compra",
+      "checkoutDescription": "Conclua seu pedido de lembranças de Nazaré e pague com segurança pelo PayPal.",
+      "candleTitle": "Acenda uma vela em Nazaré",
+      "candleDescription": "Escolha uma igreja em Nazaré e escreva sua oração. Acenderemos uma vela por você e enviaremos o vídeo.",
+      "donateTitle": "Doar",
+      "donateDescription": "Apoie o Nazareth Holy Cross com uma doação, paga com segurança pelo PayPal."
+    },
+    "hero": {
+      "eyebrow": "Pagamento seguro",
+      "orderTitle": "Conclua seu pedido",
+      "lead": "Seu pagamento é processado com segurança pelo PayPal.",
+      "candleEyebrow": "Vela de oração",
+      "donateEyebrow": "Doação",
+      "donateTitle": "Apoie o Nazareth Holy Cross",
+      "donateLead": "Sua doação nos ajuda a compartilhar os lugares santos, as orações e o artesanato de Nazaré com peregrinos do mundo inteiro."
+    },
+    "steps": {
+      "label": "Etapas do pagamento",
+      "details": "Seus dados",
+      "payment": "Pagamento",
+      "done": "Confirmação"
+    },
+    "loading": "Carregando seu carrinho…",
+    "form": {
+      "phone": "Telefone",
+      "country": "País",
+      "continue": "Continuar para o pagamento",
+      "edit": "Editar dados",
+      "fixErrors": "Corrija os campos destacados.",
+      "errors": {
+        "required": "Este campo é obrigatório.",
+        "tooLong": "Use no máximo {max} caracteres.",
+        "email": "Informe um e-mail válido, por exemplo nome@exemplo.com.",
+        "phone": "Informe um número de telefone válido, com o código do país.",
+        "amount": "Informe um valor entre {min} e {max}."
+      }
+    },
+    "summary": {
+      "quantity": "Qtd.: {count}",
+      "subtotal": "Subtotal",
+      "discount": "Desconto do site (10%)",
+      "shipping": "Frete",
+      "total": "Total",
+      "address": "Endereço de entrega"
+    },
+    "payment": {
+      "loading": "Carregando o PayPal…",
+      "unavailable": "Não foi possível carregar o PayPal. Verifique sua conexão ou desative bloqueadores de conteúdo e recarregue a página.",
+      "secured": "Pagamento seguro com PayPal. Nunca vemos os dados do seu cartão.",
+      "cancelled": "Pagamento cancelado. Nada foi cobrado.",
+      "errors": {
+        "start": "Não foi possível iniciar o pagamento. Tente novamente.",
+        "notCompleted": "O pagamento não foi concluído. Nada foi cobrado.",
+        "paypal": "O PayPal informou um erro. Tente novamente."
+      },
+      "reference": "Referência do pagamento: {id}",
+      "saving": "Salvando seus dados…",
+      "saveFailed": "Seu pagamento foi realizado, mas não conseguimos salvar seus dados. Tente novamente ou escreva para <mail>{email}</mail> informando a referência do pagamento."
+    },
+    "empty": {
+      "text": "Conheça terços, cruzes e lembranças de Nazaré."
+    },
+    "candle": {
+      "price": "Para acender uma vela: {price}",
+      "secureNext": "Em seguida, você vai revisar seus dados e pagar com segurança pelo PayPal."
+    },
+    "donate": {
+      "formTitle": "Faça uma doação",
+      "name": "Seu nome",
+      "amount": "Valor",
+      "other": "Outro valor",
+      "customAmount": "Valor em dólares americanos",
+      "summaryTitle": "Sua doação",
+      "nameLabel": "Nome",
+      "donation": "Doação",
+      "thanksTitle": "Obrigado pela sua doação!",
+      "thanksText": "Sua generosidade ajuda a manter acesa a luz de Nazaré para peregrinos do mundo inteiro."
+    }
+  },
+  "shopFeatures": {
+    "categories": {
+      "rosaries": "Terços",
+      "necklaces": "Colares",
+      "bracelets": "Pulseiras",
+      "stained-glass": "Vitrais",
+      "crosses": "Cruzes",
+      "bibles": "Bíblias",
+      "holy-land": "Da Terra Santa",
+      "gifts": "Presentes"
+    },
+    "materials": {
+      "gold": "Ouro",
+      "silver": "Prata",
+      "wood": "Madeira",
+      "glass": "Vidro"
+    },
+    "sort": {
+      "featured": "Em destaque",
+      "bestselling": "Mais vendidos",
+      "rating": "Mais bem avaliados",
+      "newest": "Novidades",
+      "priceAsc": "Preço: menor para maior",
+      "priceDesc": "Preço: maior para menor",
+      "name": "Nome (A–Z)"
+    },
+    "allProducts": "Todas as lembranças",
+    "filters": {
+      "title": "Filtros",
+      "openAria": "Filtros{count, plural, =0 {} one {, # ativo} other {, # ativos}}",
+      "close": "Fechar filtros",
+      "apply": "Ver {count, plural, one {# produto} other {# produtos}}",
+      "clearAll": "Limpar tudo",
+      "active": "Filtros ativos",
+      "remove": "Remover filtro: {label}",
+      "noneText": "Tente remover um filtro ou pesquisar outra coisa.",
+      "category": "Categoria",
+      "allCategories": "Todas as categorias",
+      "material": "Material",
+      "price": "Preço (USD)",
+      "minPrice": "Mín.",
+      "maxPrice": "Máx.",
+      "rating": "Avaliação",
+      "anyRating": "Qualquer avaliação",
+      "ratingAtLeast": "{stars, plural, one {# estrela ou mais} other {# estrelas ou mais}}",
+      "availability": "Disponibilidade",
+      "inStock": "Somente em estoque",
+      "chipSearch": "Pesquisa: {query}",
+      "chipPriceRange": "{min} – {max}",
+      "chipPriceMin": "A partir de {min}",
+      "chipPriceMax": "Até {max}"
+    },
+    "strip": {
+      "bestTitle": "Mais vendidos",
+      "bestLead": "As lembranças que os peregrinos mais levam para casa.",
+      "favTitle": "Nossos favoritos",
+      "favLead": "Escolhidos com carinho pela nossa loja em Nazaré.",
+      "back": "Rolar para trás",
+      "forward": "Rolar para a frente"
+    },
+    "badges": {
+      "bestseller": "Mais vendido",
+      "new": "Novo",
+      "lowStock": "Restam só {count}",
+      "soldOut": "Esgotado"
+    },
+    "reviews": {
+      "title": "Avaliações dos clientes",
+      "starsLabel": "{rating} de 5 estrelas",
+      "count": "{count, plural, one {# avaliação} other {# avaliações}}",
+      "outOf": "de 5",
+      "basedOn": "Com base em {count, plural, one {# avaliação} other {# avaliações}}",
+      "breakdown": "Distribuição das avaliações",
+      "breakdownRow": "{stars, plural, one {# estrela} other {# estrelas}}: {count, plural, one {# avaliação} other {# avaliações}}",
+      "emptyTitle": "Ainda não há avaliações",
+      "emptyText": "Seja o primeiro a contar a outros peregrinos o que você acha desta lembrança.",
+      "unavailable": "Não foi possível carregar as avaliações agora.",
+      "listLabel": "Avaliações, das mais recentes",
+      "reviewBy": "Avaliação de {name}",
+      "showAll": "Ver todas as avaliações ({count})",
+      "showFewer": "Ver menos avaliações",
+      "form": {
+        "heading": "Escrever uma avaliação",
+        "intro": "Conte a outros peregrinos o que você acha de {name}. Sua avaliação aparece nesta página.",
+        "fields": {
+          "name": "Seu nome",
+          "country": "País (opcional)",
+          "rating": "Sua nota",
+          "title": "Título (opcional)",
+          "comment": "Sua avaliação"
+        },
+        "star": "{count, plural, one {# estrela} other {# estrelas}}",
+        "counter": "{count} / {max}",
+        "website": "Site (deixe em branco)",
+        "submit": "Publicar avaliação",
+        "sending": "Publicando…",
+        "success": "Obrigado! Sua avaliação foi publicada.",
+        "another": "Escrever outra avaliação",
+        "errors": {
+          "nameRequired": "Digite seu nome.",
+          "nameTooShort": "Seu nome precisa ter pelo menos {min} caracteres.",
+          "ratingRequired": "Escolha de 1 a 5 estrelas.",
+          "commentRequired": "Escreva sua avaliação.",
+          "commentTooShort": "Sua avaliação precisa ter pelo menos {min} caracteres.",
+          "tooLong": "Não ultrapasse {max} caracteres.",
+          "invalid": "Alguns dados não foram aceitos. Confira o formulário e tente novamente.",
+          "rateLimited": "Você enviou várias avaliações em pouco tempo. Tente novamente mais tarde.",
+          "network": "Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.",
+          "server": "Algo deu errado do nosso lado. Tente novamente em instantes."
+        }
+      }
+    },
+    "wishlist": {
+      "toggle": "Salvar {name} na lista de desejos",
+      "added": "{name} foi adicionado à lista de desejos.",
+      "removed": "{name} foi removido da lista de desejos.",
+      "save": "Salvar na lista de desejos",
+      "link": "Desejos",
+      "linkAria": "Desejos: {count, plural, one {# item salvo} other {# itens salvos}}",
+      "pageTitle": "Sua lista de desejos",
+      "pageDescription": "As lembranças que você salvou para depois.",
+      "savedHeading": "Lembranças salvas",
+      "emptyTitle": "Sua lista de desejos está vazia",
+      "emptyText": "Toque no coração de uma lembrança para guardá-la aqui.",
+      "browse": "Ver a loja",
+      "count": "{count, plural, one {# lembrança salva} other {# lembranças salvas}}",
+      "addToCart": "Adicionar ao carrinho",
+      "chooseOptions": "Escolher opções",
+      "remove": "Remover",
+      "addedToCart": "{name} foi adicionado ao carrinho."
+    },
+    "share": {
+      "button": "Compartilhar",
+      "text": "{name}, uma lembrança de Nazaré",
+      "copied": "Link copiado. Você pode colá-lo onde quiser.",
+      "failed": "Não foi possível copiar o link. Copie-o da barra de endereços."
+    },
+    "product": {
+      "beFirst": "Ainda não há avaliações. Escreva a primeira",
+      "similarTitle": "Você também pode gostar",
+      "recentTitle": "Vistos recentemente"
+    }
+  },
+  "ux": {
+    "backToTop": "Voltar ao topo",
+    "loading": "Carregando…",
+    "toast": {
+      "region": "Notificações",
+      "dismiss": "Fechar notificação"
+    },
+    "share": {
+      "share": "Compartilhar",
+      "copy": "Copiar link",
+      "copied": "Link copiado",
+      "failed": "Não foi possível copiar o link",
+      "print": "Imprimir"
+    },
+    "language": {
+      "choose": "Escolha um idioma"
+    },
+    "footer": {
+      "languages": "Idiomas",
+      "address": "Nazaré, Galileia",
+      "followOn": "Siga-nos no {network} (abre em uma nova aba)",
+      "rights": "Todos os direitos reservados."
+    },
+    "notFound": {
+      "suggestions": "Para onde você quer ir?",
+      "hint": {
+        "sites": "Igrejas, a fonte e a cidade velha",
+        "tour": "Percorra Nazaré passo a passo",
+        "candle": "Acenda uma vela pela sua intenção"
+      }
+    },
+    "error": {
+      "title": "Algo deu errado",
+      "text": "Um erro inesperado interrompeu esta página. Tente novamente.",
+      "retry": "Tentar novamente",
+      "home": "Voltar ao início",
+      "reference": "Referência"
+    }
+  },
+  "pilgrim": {
+    "nav": {
+      "plan": "Planeador de peregrinação",
+      "visit": "Guia do visitante",
+      "gospel": "Nazaré nos Evangelhos",
+      "gallery": "Galeria de fotos",
+      "prayers": "Mural de orações",
+      "contact": "Contacto",
+      "faq": "Perguntas frequentes",
+      "shipping": "Envios e devoluções",
+      "privacy": "Política de privacidade",
+      "terms": "Termos de utilização",
+      "groupPlan": "Planear e descobrir",
+      "groupHelp": "Ajuda e informação legal"
+    },
+    "common": {
+      "moreEyebrow": "Continue a viagem",
+      "moreTitle": "Para onde agora?",
+      "open": "Abrir"
+    },
+    "plan": {
+      "meta": {
+        "title": "Planeie a sua peregrinação a Nazaré",
+        "description": "Crie em um minuto um roteiro dia a dia pelos lugares santos de Nazaré. Escolha de 1 a 4 dias, os seus interesses e o seu ritmo, e depois imprima, partilhe ou adicione ao seu calendário."
+      },
+      "hero": {
+        "eyebrow": "Planeador de peregrinação",
+        "title": "Planeie a sua peregrinação",
+        "lead": "Diga-nos quantos dias tem e o que o move. Preparamos um percurso dia a dia pelos lugares santos de Nazaré, com os tempos a pé entre cada paragem."
+      },
+      "form": {
+        "title": "A sua peregrinação",
+        "days": "Quantos dias?",
+        "dayCount": "{count, plural, one {# dia} other {# dias}}",
+        "interests": "O que procura?",
+        "interestsHint": "Escolha os que quiser, ou nenhum para um percurso equilibrado.",
+        "interest": {
+          "gospel": "Lugares do Evangelho",
+          "churches": "Igrejas",
+          "markets": "Mercados e artesanato",
+          "food": "Gastronomia e café"
+        },
+        "pace": "Ritmo",
+        "paces": {
+          "relaxed": "Calmo",
+          "balanced": "Equilibrado",
+          "full": "Intenso"
+        },
+        "paceHint": "{count, plural, one {# paragem por dia} other {# paragens por dia}}",
+        "start": "Primeiro dia (para o calendário)",
+        "startHint": "Opcional. Sem data, o ficheiro de calendário começa amanhã."
+      },
+      "result": {
+        "title": "O seu roteiro",
+        "summary": "{days, plural, one {# dia} other {# dias}} · {stops, plural, one {# paragem} other {# paragens}} · cerca de {minutes} min a pé",
+        "day": "Dia {n}",
+        "walk": "{minutes} min a pé",
+        "until": "até às {time}"
+      },
+      "lunch": "Pausa para almoço",
+      "lunchHint": "Prove os pratos locais nas ruelas da Cidade Velha.",
+      "tips": {
+        "latin": "A visita pode ser interrompida durante a missa e as celebrações, e os horários mudam em dias de festa. Confirme os horários para a sua data.",
+        "greek": "Os horários seguem as celebrações e podem mudar sem aviso. Pergunte à entrada se a igreja está aberta.",
+        "maryswell": "Fica perto da igreja greco-ortodoxa, por isso as duas visitas combinam bem. Os horários variam; confirme o que está aberto no dia.",
+        "oldcity": "As lojas têm os seus próprios horários e algumas fecham à sexta-feira ou ao domingo. De manhã é a melhor altura para ver o mercado em movimento.",
+        "city": "As ruas estão mais animadas de manhã. Reserve tempo para um café e para passear."
+      },
+      "caveat": {
+        "title": "Antes de ir",
+        "hours": "Os horários das igrejas mudam com as celebrações, festas e feriados, por vezes sem aviso. Confirme sempre antes de viajar.",
+        "dress": "As igrejas pedem vestuário recatado: ombros e joelhos cobertos.",
+        "walking": "Os tempos a pé são estimativas entre os locais; as ruas de Nazaré são íngremes em alguns troços, por isso deixe uma margem."
+      },
+      "actions": {
+        "calendar": "Adicionar ao calendário",
+        "share": "Partilhar ligação",
+        "print": "Imprimir"
+      },
+      "shareTitle": "A minha peregrinação a Nazaré",
+      "copied": "Ligação copiada para a área de transferência.",
+      "calendarName": "Peregrinação a Nazaré",
+      "calendarLocation": "Nazaré, Israel",
+      "calendarDone": "Ficheiro de calendário transferido. Abra-o para adicionar os eventos.",
+      "walking": {
+        "title": "Tempos a pé entre os lugares santos",
+        "lead": "Minutos aproximados a pé, os mesmos valores que o planeador usa.",
+        "caption": "Tempo a pé, em minutos, entre cada par de locais",
+        "corner": "De (linhas) para (colunas)",
+        "minutes": "{minutes} min"
+      }
+    },
+    "visit": {
+      "meta": {
+        "title": "Guia do visitante de Nazaré",
+        "description": "Tudo para preparar a sua visita a Nazaré: como chegar a partir de Haifa, Tel Aviv e do aeroporto Ben Gurion, código de vestuário, melhores épocas, segurança, dinheiro e o tempo mês a mês."
+      },
+      "hero": {
+        "eyebrow": "Guia do visitante",
+        "title": "Visitar Nazaré",
+        "lead": "Respostas práticas para peregrinos e viajantes: como chegar, o que vestir, quando vir e o que esperar."
+      },
+      "getting": {
+        "eyebrow": "Como chegar",
+        "title": "Como chegar a Nazaré",
+        "lead": "Nazaré fica nas colinas da Baixa Galileia, no norte de Israel, a pouca distância da costa.",
+        "distance": "cerca de {km} km por estrada",
+        "routes": {
+          "haifa": {
+            "title": "A partir de Haifa",
+            "text": "O percurso mais simples: cerca de 40 minutos de carro ou táxi, ou cerca de uma hora de autocarro."
+          },
+          "telaviv": {
+            "title": "A partir de Tel Aviv",
+            "text": "Cerca de duas horas de carro. Há autocarros e comboios para o norte; de transportes públicos, o habitual é ir até Haifa ou Afula e mudar para um autocarro para Nazaré."
+          },
+          "airport": {
+            "title": "A partir do aeroporto Ben Gurion",
+            "text": "Cerca de duas horas de carro ou táxi. De transportes públicos, apanhe o comboio para Haifa ou Tel Aviv e siga de autocarro; o mais fácil é um transfer reservado com antecedência ou um carro de aluguer."
+          }
+        },
+        "local": {
+          "title": "Já em Nazaré",
+          "text": "Os lugares santos ficam todos a cerca de 15 minutos a pé uns dos outros, por isso estaciona-se uma vez e explora-se a pé. O estacionamento no centro é limitado: chegue cedo ou use um parque à entrada da cidade velha."
+        }
+      },
+      "essentials": {
+        "eyebrow": "Bom saber",
+        "title": "Antes de vir",
+        "items": {
+          "dress": {
+            "title": "Vestuário",
+            "text": "As igrejas pedem aos visitantes, mulheres e homens, que cubram ombros e joelhos. Um lenço ou xaile leve na mala resolve. Leve sapatos confortáveis: as ruelas antigas são íngremes e irregulares."
+          },
+          "etiquette": {
+            "title": "Comportamento",
+            "text": "Fale baixo nas igrejas e ponha o telemóvel em silêncio. Tire o chapéu no interior. Fotografar costuma ser permitido, mas não durante as celebrações; pergunte antes de fotografar pessoas."
+          },
+          "seasons": {
+            "title": "Melhores épocas",
+            "text": "A primavera (de março a maio) e o outono (do fim de setembro a novembro) são amenos e os mais agradáveis para caminhar. O verão é quente e seco; o inverno é fresco e chuvoso. A Páscoa, o Natal e a festa da Anunciação, a 25 de março, são os momentos mais concorridos e mais comoventes."
+          },
+          "safety": {
+            "title": "Segurança",
+            "text": "Nazaré é, em geral, acolhedora e calma, mas as condições na região podem mudar. Consulte os conselhos de viagem do seu governo antes de partir, acompanhe as notícias locais e mantenha os objetos de valor perto de si no meio da multidão."
+          },
+          "money": {
+            "title": "Dinheiro",
+            "text": "A moeda é o novo shekel israelita (ILS, ₪). Os cartões são amplamente aceites e há multibancos no centro; leve algum dinheiro para as bancas do mercado e os cafés pequenos. Regatear com cortesia faz parte das compras no mercado."
+          },
+          "language": {
+            "title": "Língua",
+            "text": "Fala-se árabe e hebraico, e nos lugares que os peregrinos visitam encontra-se inglês e muitas vezes outras línguas. Algumas palavras em árabe são sempre recebidas com carinho."
+          }
+        }
+      },
+      "climate": {
+        "eyebrow": "Clima",
+        "title": "O tempo mês a mês",
+        "lead": "Condições típicas em Nazaré: verões quentes e secos, invernos frescos e chuvosos.",
+        "caption": "Temperaturas médias diárias e precipitação por mês",
+        "month": "Mês",
+        "high": "Máxima",
+        "low": "Mínima",
+        "rain": "Chuva",
+        "season": "Visita",
+        "seasons": {
+          "best": "Ideal",
+          "good": "Boa",
+          "hot": "Quente",
+          "cool": "Fresco"
+        },
+        "mm": "{mm} mm",
+        "note": "Valores arredondados, médias de longo prazo, apenas indicativos. O tempo varia de ano para ano; consulte a previsão antes de viajar."
+      },
+      "faq": {
+        "title": "Perguntas dos visitantes",
+        "free": {
+          "q": "A entrada nas igrejas é gratuita?",
+          "a": "A entrada nas principais igrejas é, em geral, gratuita e os donativos são bem-vindos. Cada igreja define os seus horários e regras, por isso confirme antes da visita."
+        },
+        "dress": {
+          "q": "O que devo vestir?",
+          "a": "Roupa recatada que cubra ombros e joelhos e sapatos confortáveis para as ruelas íngremes. Leve uma camada leve no inverno e proteção solar no verão."
+        },
+        "days": {
+          "q": "De quantos dias preciso?",
+          "a": "A maioria dos peregrinos vê os principais lugares santos num dia inteiro. Dois ou três dias permitem abrandar para rezar, visitar o mercado da Cidade Velha e fazer excursões pela Galileia."
+        },
+        "safe": {
+          "q": "É seguro visitar Nazaré?",
+          "a": "Nazaré é, em geral, calma e acolhedora, mas as condições na região podem mudar. Consulte os conselhos de viagem do seu governo e as notícias locais antes e durante a viagem."
+        },
+        "season": {
+          "q": "Qual é a melhor altura para visitar?",
+          "a": "A primavera e o outono são os mais confortáveis. O verão é quente e o inverno chuvoso. A Páscoa, o Natal e o dia 25 de março (a Anunciação) são os momentos mais concorridos e mais comoventes."
+        }
+      }
+    },
+    "gospel": {
+      "meta": {
+        "title": "Nazaré nos Evangelhos",
+        "description": "Leia as passagens do Evangelho sobre Nazaré, da Anunciação a Jesus na sinagoga, cada uma com uma breve reflexão e o lugar santo que guarda a sua memória."
+      },
+      "hero": {
+        "eyebrow": "Escritura e lugar",
+        "title": "Nazaré nos Evangelhos",
+        "lead": "Oito passagens que nomeiam Nazaré, pela ordem da história, cada uma associada ao lugar que ainda pode visitar."
+      },
+      "intro": {
+        "title": "Da Anunciação a «Vem e vê»",
+        "text": "Nos Evangelhos, Nazaré é a cidade da Anunciação e dos anos escondidos de Jesus. Leia uma passagem, detenha-se na reflexão e siga a ligação para o lugar santo."
+      },
+      "visitSite": "Visitar o lugar santo",
+      "note": "As citações são apresentadas para reflexão e podem diferir ligeiramente da tradução da Bíblia que utiliza. Passagens: Lucas 1, 2 e 4; Mateus 2; João 1.",
+      "p": {
+        "luke126": {
+          "quote": "No sexto mês, o anjo Gabriel foi enviado por Deus a uma cidade da Galileia chamada Nazaré, a uma virgem prometida em casamento a um homem chamado José, da casa de David. O nome da virgem era Maria.",
+          "ref": "Lucas 1:26-27",
+          "text": "Toda a história começa numa pequena cidade das colinas. Caminhar hoje por Nazaré é caminhar onde o Evangelho começa."
+        },
+        "luke130": {
+          "text": "Debaixo da Basílica da Anunciação encontra-se a gruta que os cristãos veneram há séculos como o lugar da casa de Maria, onde se recorda a saudação do anjo."
+        },
+        "luke138": {
+          "text": "A tradição ortodoxa recorda que o anjo falou pela primeira vez a Maria quando ela ia buscar água, na fonte junto à igreja greco-ortodoxa da Anunciação. A sua resposta é o coração da oração de cada peregrino."
+        },
+        "matthew223": {
+          "text": "Depois do regresso do Egito, José instalou a família em Nazaré. A partir de então Jesus ficou conhecido como «Jesus de Nazaré», e o nome da cidade percorreu o mundo."
+        },
+        "luke240": {
+          "text": "Dos anos escondidos sabemos muito pouco: uma criança a crescer numa cidade comum. As ruelas e o mercado da Cidade Velha ajudam a imaginar essa vida quotidiana."
+        },
+        "luke251": {
+          "quote": "Desceu com eles e foi para Nazaré, e era-lhes submisso. Sua mãe guardava todas estas coisas no seu coração.",
+          "ref": "Lucas 2:51",
+          "text": "Durante séculos, a fonte de Nazaré foi o lugar onde a cidade se reunia todos os dias. No Poço de Maria, pode imaginar-se o trabalho de cada dia e a fé silenciosa que Maria guardava no coração."
+        },
+        "luke416": {
+          "quote": "Veio a Nazaré, onde fora criado, e, segundo o seu costume, entrou no sábado na sinagoga e levantou-se para ler.",
+          "ref": "Lucas 4:16",
+          "text": "Jesus voltou para pregar na cidade onde crescera. Locais da Cidade Velha, entre eles uma igreja que a tradição situa onde ficava a sinagoga, recordam esse dia."
+        },
+        "john146": {
+          "text": "A resposta de Filipe a Natanael é o convite de toda a peregrinação: Vem e vê. Nazaré continua a compreender-se melhor percorrendo as suas ruas."
+        }
+      }
+    },
+    "prayers": {
+      "meta": {
+        "title": "Mural de orações",
+        "description": "Leia orações de peregrinos de todo o mundo, diga Ámen às que o tocam e partilhe uma oração sua."
+      },
+      "hero": {
+        "eyebrow": "Rezemos juntos",
+        "title": "O mural de orações",
+        "lead": "Orações de peregrinos de todo o mundo. Leia-as, diga Ámen e acrescente a sua própria intenção.",
+        "cta": "Partilhar uma oração"
+      },
+      "categories": {
+        "all": "Todas",
+        "peace": "Paz",
+        "health": "Saúde",
+        "gratitude": "Gratidão",
+        "family": "Família",
+        "personal": "Pessoal",
+        "worldPeace": "Paz no mundo"
+      },
+      "wall": {
+        "title": "Orações",
+        "filter": "Filtrar orações por categoria",
+        "count": "{count, plural, one {# oração} other {# orações}}",
+        "anonymous": "Um peregrino",
+        "emptyTitle": "Ainda não há orações aqui",
+        "emptyText": "Seja o primeiro a partilhar uma oração nesta categoria.",
+        "errorTitle": "O mural de orações está a descansar",
+        "errorText": "Não foi possível carregar as orações neste momento. Tente novamente daqui a pouco.",
+        "retry": "Tentar novamente",
+        "pages": "Páginas de orações",
+        "prev": "Anterior",
+        "next": "Seguinte",
+        "pageOf": "Página {page} de {pages}"
+      },
+      "form": {
+        "title": "Partilhe uma oração",
+        "intro": "Escreva uma intenção pela paz, pela cura, em ação de graças ou pela sua família. Aparecerá no mural.",
+        "name": "O seu nome",
+        "country": "De onde é?",
+        "category": "Categoria",
+        "prayer": "A sua oração",
+        "counter": "{count} / {max}",
+        "public": "As orações são públicas. Não inclua números de telefone, moradas nem ligações web.",
+        "submit": "Partilhar a minha oração",
+        "sending": "A enviar…",
+        "sent": "Obrigado. A sua oração foi partilhada.",
+        "sentText": "Aparecerá no mural. Pode escrever outra.",
+        "another": "Escrever outra oração"
+      },
+      "errors": {
+        "required": "Preencha este campo.",
+        "tooShort": "Escreva pelo menos {min} caracteres.",
+        "tooLong": "Mantenha-se abaixo de {max} caracteres.",
+        "noLinks": "Remova ligações web, endereços de e-mail e código.",
+        "rateLimited": "Foram enviadas demasiadas orações a partir desta ligação. Aguarde alguns minutos e tente novamente.",
+        "invalid": "Não foi possível aceitar esta oração. Verifique o que escreveu.",
+        "network": "Não foi possível contactar o servidor. Verifique a ligação e tente novamente.",
+        "server": "Algo correu mal do nosso lado. Tente novamente mais tarde."
+      },
+      "amen": "Ámen",
+      "amenDone": "Ámen dito",
+      "amenLabel": "Dizer Ámen à oração de {name}",
+      "amenFirst": "Seja o primeiro a dizer Ámen",
+      "amenCount": "{count, plural, one {# pessoa disse Ámen} other {# pessoas disseram Ámen}}",
+      "amenFailed": "Não foi possível guardar o seu Ámen. Tente novamente."
+    },
+    "contact": {
+      "meta": {
+        "title": "Contacte a Nazareth Holy Cross",
+        "description": "Escreva à Nazareth Holy Cross com uma pergunta sobre velas, encomendas ou a sua peregrinação. Lemos todas as mensagens."
+      },
+      "hero": {
+        "eyebrow": "Entre em contacto",
+        "title": "Contacte-nos",
+        "lead": "Uma pergunta sobre a sua encomenda, uma vela ou a sua peregrinação? Escreva-nos e responderemos por e-mail."
+      },
+      "form": {
+        "title": "Envie-nos uma mensagem",
+        "intro": "Todos os campos são necessários para podermos responder.",
+        "fullName": "Nome completo",
+        "email": "Endereço de e-mail",
+        "phone": "Número de telefone",
+        "phoneHint": "Inclua o indicativo do país, por exemplo +351 912 345 678.",
+        "msg": "A sua mensagem",
+        "counter": "{count} / {max}",
+        "submit": "Enviar mensagem",
+        "sending": "A enviar…",
+        "sent": "Mensagem enviada. Obrigado.",
+        "sentText": "Responderemos ao seu endereço de e-mail assim que possível.",
+        "another": "Enviar outra mensagem"
+      },
+      "errors": {
+        "required": "Preencha este campo.",
+        "tooShort": "Escreva pelo menos {min} caracteres.",
+        "tooLong": "Mantenha-se abaixo de {max} caracteres.",
+        "invalidEmail": "Introduza um endereço de e-mail válido.",
+        "invalidPhone": "Introduza um número de telefone válido.",
+        "rateLimited": "Foram enviadas demasiadas mensagens a partir desta ligação. Aguarde alguns minutos e tente novamente.",
+        "invalid": "Não foi possível aceitar esta mensagem. Verifique os campos.",
+        "network": "Não foi possível contactar o servidor. Verifique a ligação e tente novamente.",
+        "server": "Algo correu mal do nosso lado. Tente novamente mais tarde."
+      },
+      "direct": {
+        "title": "Prefere escrever diretamente?",
+        "text": "Pode enviar-nos um e-mail ou encontrar-nos nas nossas redes sociais.",
+        "email": "Enviar um e-mail",
+        "whatsapp": "Escreva-nos no WhatsApp",
+        "reply": "Lemos todas as mensagens e respondemos por e-mail."
+      }
+    },
+    "gallery": {
+      "meta": {
+        "title": "Galeria de fotos de Nazaré",
+        "description": "Explore fotos da Basílica da Anunciação, da igreja greco-ortodoxa, do Poço de Maria, da Cidade Velha e de Nazaré, e abra qualquer foto em ecrã inteiro."
+      },
+      "hero": {
+        "eyebrow": "Galeria",
+        "title": "Nazaré em fotos",
+        "lead": "Igrejas, ruelas e vistas dos lugares santos. Escolha um local ou veja-os todos."
+      },
+      "filterLabel": "Filtrar fotos por lugar santo",
+      "all": "Todos os locais",
+      "viewer": "Galeria de fotos de Nazaré"
+    },
+    "faq": {
+      "meta": {
+        "title": "Perguntas frequentes",
+        "description": "Respostas sobre visitar Nazaré, acender uma vela, o mural de orações, encomendas, envios, pagamentos e os seus dados."
+      },
+      "eyebrow": "Ajuda",
+      "title": "Perguntas frequentes",
+      "lead": "Respostas rápidas sobre a visita, a oração connosco e as compras. Não encontra a sua? Escreva-nos.",
+      "groupsLabel": "Grupos de perguntas",
+      "groups": {
+        "visiting": "Visitar Nazaré",
+        "prayer": "Velas e oração",
+        "shop": "Loja e pagamentos",
+        "site": "Sobre o site"
+      },
+      "items": {
+        "candle": {
+          "q": "Como funciona acender uma vela?",
+          "a": "Escolha uma igreja de Nazaré, escreva a sua oração e pague {price}. Acendemos uma vela por si, gravamos um breve vídeo com o seu nome e enviamo-lo para o seu e-mail."
+        },
+        "wall": {
+          "q": "O mural de orações é público?",
+          "a": "Sim. Uma oração aparece no mural com o nome e o país que indicar. Não inclua dados de contacto e, se preferir, use apenas o seu primeiro nome."
+        },
+        "live": {
+          "q": "Posso rezar convosco em direto?",
+          "a": "Sim. A nossa página em direto transmite orações e celebrações dos lugares santos de Nazaré e mostra quando começa a próxima transmissão."
+        },
+        "pay": {
+          "q": "Como pago?",
+          "a": "Os pagamentos são feitos com o PayPal. Os dados do seu cartão ou do PayPal vão para o PayPal, nunca para nós; não os vemos nem os guardamos."
+        },
+        "account": {
+          "q": "Preciso de uma conta?",
+          "a": "Não. Não há contas nem palavras-passe. O seu carrinho e a lista de desejos ficam guardados no seu próprio navegador."
+        },
+        "shipping": {
+          "q": "Quanto custa o envio?",
+          "a": "O envio tem um custo fixo de {shipping} por encomenda, apresentado no carrinho antes de pagar."
+        },
+        "discount": {
+          "q": "Há algum desconto?",
+          "a": "Sim: {discount} de desconto nos artigos de cada encomenda, aplicado automaticamente no carrinho."
+        },
+        "damaged": {
+          "q": "E se a minha encomenda chegar danificada?",
+          "a": "Escreva-nos com os dados da encomenda e uma foto. Responderemos e resolveremos. Veja Envios e devoluções para mais detalhes."
+        },
+        "donate": {
+          "q": "Posso fazer um donativo?",
+          "a": "Sim. Donativos de {min} a {max} são aceites através do PayPal na página Doar e apoiam o trabalho da Nazareth Holy Cross."
+        },
+        "languages": {
+          "q": "Em que línguas está o site?",
+          "a": "Inglês, francês, espanhol, alemão, italiano, português, polaco, russo, grego, hebraico e árabe."
+        },
+        "data": {
+          "q": "Que dados guardam?",
+          "a": "Apenas o que um serviço necessita: encomendas, pedidos de velas, orações, avaliações e mensagens de contacto. Leia a Política de privacidade para os pormenores."
+        },
+        "contact": {
+          "q": "Como posso contactar-vos?",
+          "a": "Use a página de contacto ou escreva para {email}."
+        }
+      }
+    },
+    "legal": {
+      "eyebrow": "Informação legal",
+      "updated": "Última atualização: {date}",
+      "contents": "Nesta página",
+      "related": "Ver também",
+      "privacy": {
+        "meta": {
+          "title": "Política de privacidade",
+          "description": "Que dados pessoais a Nazareth Holy Cross guarda quando faz uma encomenda, acende uma vela, partilha uma oração ou nos escreve, porquê, e como pedir a sua alteração ou eliminação."
+        },
+        "title": "Política de privacidade",
+        "lead": "Guardamos o mínimo possível. Esta página explica o que guardamos, porquê e as suas opções.",
+        "sections": {
+          "who": {
+            "title": "Quem somos",
+            "p1": "Este site é gerido pela Nazareth Holy Cross, que partilha os lugares santos, as orações e o artesanato de Nazaré com peregrinos de todo o mundo. Para qualquer questão de privacidade, escreva para {email}."
+          },
+          "collect": {
+            "title": "O que recolhemos",
+            "p1": "Recolhemos apenas o que nos dá quando utiliza um serviço:",
+            "items": {
+              "orders": "Encomendas: o seu nome, e-mail, telefone, morada de entrega, os artigos comprados, o total e a data.",
+              "candles": "Pedidos de velas: o seu nome, e-mail e a sua oração.",
+              "prayers": "O mural de orações: o nome, o país, a categoria e a oração que escrever. São mostrados publicamente.",
+              "reviews": "Avaliações: o seu nome, o seu local de origem e a sua mensagem, mostrados no site depois de aprovados.",
+              "contact": "Mensagens de contacto: o seu nome, e-mail, telefone e mensagem.",
+              "payments": "Pagamentos: tratados pelo PayPal. Não recebemos nem guardamos o número do seu cartão."
+            }
+          },
+          "use": {
+            "title": "Para que os usamos",
+            "items": {
+              "u1": "Para processar e entregar as suas encomendas, acender a sua vela e enviar-lhe o vídeo.",
+              "u2": "Para responder às suas mensagens.",
+              "u3": "Para mostrar no site as orações e avaliações aprovadas, como pretendia."
+            }
+          },
+          "share": {
+            "title": "Quem mais os vê",
+            "p1": "Não vendemos os seus dados. Alguns serviços ajudam-nos a gerir o site e tratam dados em nosso nome:",
+            "items": {
+              "paypal": "O PayPal processa os pagamentos segundo a sua própria política de privacidade.",
+              "hosting": "O nosso site, servidores, base de dados e armazenamento de imagens são geridos por fornecedores de alojamento, que podem guardar dados fora do seu país.",
+              "maps": "Quando abre um mapa, um trajeto ou um vídeo de outro site, aplica-se a política de privacidade desse site."
+            }
+          },
+          "browser": {
+            "title": "O que fica no seu navegador",
+            "p1": "O site não tem contas e não usa cookies de publicidade nem de análise. O seu navegador guarda:",
+            "items": {
+              "cart": "O seu carrinho de compras e a lista de desejos.",
+              "liked": "As orações a que disse Ámen, para que o possa dizer uma só vez.",
+              "language": "A língua que escolheu."
+            }
+          },
+          "keep": {
+            "title": "Durante quanto tempo os guardamos",
+            "p1": "Guardamos as encomendas e os pedidos de velas durante o tempo necessário para o servir e cumprir as nossas obrigações legais e contabilísticas. As orações e avaliações ficam no site até nos pedir para as remover."
+          },
+          "rights": {
+            "title": "As suas opções",
+            "p1": "Pode pedir-nos que mostremos, corrijamos ou eliminemos os dados que temos sobre si, ou que removamos a sua oração ou avaliação. Escreva para {email} e responderemos. Consoante o local onde vive, a lei pode dar-lhe direitos adicionais."
+          },
+          "children": {
+            "title": "Crianças",
+            "p1": "O site não se destina a menores de 13 anos e não recolhemos conscientemente os seus dados. Se achar que uma criança nos enviou dados, escreva-nos e eliminá-los-emos."
+          },
+          "changes": {
+            "title": "Alterações",
+            "p1": "Se alterarmos esta política, atualizaremos a data no topo desta página."
+          }
+        }
+      },
+      "terms": {
+        "meta": {
+          "title": "Termos de utilização",
+          "description": "Os termos para utilizar o site da Nazareth Holy Cross, encomendar lembranças, acender velas, doar e partilhar orações e avaliações."
+        },
+        "title": "Termos de utilização",
+        "lead": "Regras simples para utilizar o site, encomendar e partilhar. Ao utilizar o site, aceita-as.",
+        "sections": {
+          "use": {
+            "title": "Utilização do site",
+            "p1": "Pode utilizar este site para fins pessoais e não comerciais. Pedimos que não o utilize de forma abusiva, que não tente violar a sua segurança e que não envie conteúdo prejudicial ou ilegal."
+          },
+          "orders": {
+            "title": "Encomendas e pagamento",
+            "p1": "As encomendas são pagas através do PayPal. Os preços são em dólares americanos e são calculados pelo nosso servidor no momento do pagamento, não pelo seu navegador.",
+            "items": {
+              "i1": "Cada encomenda tem um desconto de {discount} nos artigos e uma taxa de envio fixa de {shipping}.",
+              "i2": "Podemos cancelar uma encomenda, com reembolso total, se um artigo não estiver disponível ou um preço estiver claramente errado.",
+              "i3": "A entrega, a alfândega e as devoluções estão explicadas em Envios e devoluções."
+            }
+          },
+          "candles": {
+            "title": "Velas",
+            "p1": "Uma vela de oração custa {price}. Acendemos uma vela pela sua intenção na igreja que escolher e enviamos-lhe um vídeo. É um serviço de oração e memória; não podemos prometer uma data ou hora concretas."
+          },
+          "donations": {
+            "title": "Donativos",
+            "p1": "Os donativos são voluntários e apoiam o trabalho da Nazareth Holy Cross. Se doou por engano, escreva-nos o mais depressa possível."
+          },
+          "content": {
+            "title": "Orações e avaliações",
+            "p1": "Quando partilha uma oração ou avaliação, garante-nos que é sua e que aceita que seja mostrada no site.",
+            "items": {
+              "i1": "Não publique conteúdo de ódio, ilegal ou enganoso, nem dados pessoais de outras pessoas.",
+              "i2": "Podemos remover tudo o que viole estas regras ou que consideremos inadequado."
+            }
+          },
+          "ip": {
+            "title": "O nosso conteúdo",
+            "p1": "Os textos, fotos, vídeos e o design do site pertencem à Nazareth Holy Cross ou a quem nos permitiu usá-los. Peça autorização antes de os copiar para outro fim que não o uso pessoal."
+          },
+          "info": {
+            "title": "Informação no site",
+            "p1": "Fazemos o possível por manter o site correto, mas horários, preços e condições de viagem podem mudar. Confirme sempre no local antes de viajar."
+          },
+          "liability": {
+            "title": "Responsabilidade",
+            "p1": "O site e os seus serviços são fornecidos tal como estão. Na medida em que a lei o permita, não somos responsáveis por perdas causadas pela utilização do site ou por acontecimentos fora do nosso controlo. Nada aqui limita os direitos que a lei lhe confere como consumidor."
+          },
+          "changes": {
+            "title": "Alterações",
+            "p1": "Podemos atualizar estes termos. A data no topo da página indica a versão mais recente."
+          }
+        }
+      },
+      "shipping": {
+        "meta": {
+          "title": "Envios e devoluções",
+          "description": "Custos de envio, entrega, alfândega e o que fazer se um artigo chegar danificado: tudo sobre a receção das suas lembranças de Nazaré."
+        },
+        "title": "Envios e devoluções",
+        "lead": "O que paga, quando esperar a encomenda e o que fazer se algo correr mal.",
+        "sections": {
+          "cost": {
+            "title": "Custo",
+            "p1": "O envio tem uma taxa fixa por encomenda, qualquer que seja o número de artigos.",
+            "items": {
+              "i1": "Envio: {shipping} por encomenda.",
+              "i2": "Desconto: {discount} nos artigos, aplicado automaticamente. O total é mostrado no carrinho antes de pagar."
+            }
+          },
+          "delivery": {
+            "title": "Entrega",
+            "p1": "Enviamos lembranças de Nazaré para moradas em todo o mundo. O prazo de entrega depende do seu país e do serviço postal. Contactá-lo-emos por e-mail se precisarmos de algo da sua parte."
+          },
+          "customs": {
+            "title": "Alfândega e direitos de importação",
+            "p1": "As encomendas enviadas para o estrangeiro podem estar sujeitas a direitos de importação, impostos ou taxas alfandegárias definidos pelo seu país. Não estão incluídos nos nossos preços e são pagos pelo destinatário."
+          },
+          "returns": {
+            "title": "Artigos danificados, errados ou em falta",
+            "p1": "Se a sua encomenda chegar danificada, não for o que encomendou ou estiver incompleta, queremos resolver.",
+            "items": {
+              "i1": "Escreva-nos com o seu nome, o e-mail usado na encomenda e uma foto do problema.",
+              "i2": "Guarde a embalagem até lhe respondermos.",
+              "i3": "Diremos se enviamos um artigo de substituição ou se o reembolsamos através do PayPal."
+            }
+          },
+          "digital": {
+            "title": "Velas e donativos",
+            "p1": "Os pedidos de velas e os donativos são serviços, não produtos, pelo que não são enviados. Se fez um por engano, escreva-nos."
+          },
+          "contact": {
+            "title": "Perguntas",
+            "p1": "Escreva para {email} ou use a página de contacto."
+          }
+        }
+      }
+    },
+    "search": {
+      "meta": {
+        "title": "Pesquisar",
+        "description": "Pesquise na Nazareth Holy Cross: páginas, lugares santos, respostas e passagens do Evangelho."
+      },
+      "label": "Pesquisar no site",
+      "placeholder": "Pesquisar páginas, lugares santos, respostas…",
+      "open": "Pesquisar",
+      "close": "Fechar",
+      "loading": "A carregar…",
+      "error": "A pesquisa não está disponível neste momento. Tente novamente.",
+      "suggested": "Sugestões",
+      "results": "Resultados da pesquisa",
+      "count": "{count, plural, one {# resultado} other {# resultados}}",
+      "none": "Sem resultados para «{query}». Experimente outra palavra.",
+      "types": {
+        "page": "Páginas",
+        "site": "Lugares santos",
+        "faq": "Perguntas",
+        "gospel": "Evangelho"
+      },
+      "hintMove": "para mover",
+      "hintOpen": "para abrir",
+      "hintClose": "para fechar",
+      "submit": "Pesquisar",
+      "page": {
+        "eyebrow": "Pesquisar",
+        "title": "Pesquisar no site",
+        "lead": "Encontre páginas, lugares santos, respostas a perguntas frequentes e passagens do Evangelho."
+      }
+    }
+  },
+  "media": {
+    "meta": {
+      "creditsTitle": "Créditos das fotos",
+      "creditsDescription": "Quem tirou as fotografias de Nazaré e de suas igrejas mostradas neste site, sob qual licença aberta e onde encontrar os originais no Wikimedia Commons.",
+      "galleryTitle": "Nazaré em imagens",
+      "galleryDescription": "Fotografias da Basílica da Anunciação, da Igreja de São José, da igreja greco-ortodoxa, do Poço de Maria, do souk da Cidade Velha, da Igreja da Sinagoga, do Monte do Precipício e da cidade de Nazaré."
+    },
+    "nav": {
+      "gallery": "Galeria de fotos",
+      "credits": "Créditos das fotos"
+    },
+    "topic": {
+      "basilica": "Basílica da Anunciação",
+      "stjoseph": "Igreja de São José",
+      "greek": "Igreja Greco-Ortodoxa da Anunciação",
+      "well": "Poço de Maria",
+      "oldcity": "Cidade Velha e souk",
+      "synagogue": "Igreja da Sinagoga",
+      "precipice": "Monte do Precipício",
+      "city": "A cidade de Nazaré"
+    },
+    "subject": {
+      "facade": "fachada",
+      "exterior": "exterior",
+      "dome": "cúpula",
+      "courtyard": "pátio",
+      "interior": "interior",
+      "grotto": "gruta",
+      "altar": "altar",
+      "iconostasis": "iconóstase",
+      "ceiling": "teto e abóbadas",
+      "bellTower": "campanário",
+      "well": "o poço",
+      "market": "mercado",
+      "street": "rua",
+      "skyline": "vista da cidade",
+      "panorama": "panorama",
+      "hills": "colinas",
+      "night": "à noite"
+    },
+    "alt": "{topic}: {subject}",
+    "creditLine": "Foto: {author} · {license}",
+    "source": "Fonte",
+    "gallery": {
+      "eyebrow": "Galeria de fotos",
+      "title": "Nazaré em imagens",
+      "lead": "Oito lugares, uma cidade: a Basílica da Anunciação, a Igreja de São José, a igreja greco-ortodoxa, o Poço de Maria, o souk da Cidade Velha, a Igreja da Sinagoga, o Monte do Precipício e a própria cidade. Toque em uma foto para ampliá-la; o visualizador indica quem a tirou.",
+      "creditsLink": "Créditos das fotos",
+      "visitPage": "Saiba mais sobre este lugar"
+    },
+    "credits": {
+      "eyebrow": "Créditos das fotos",
+      "title": "Créditos das fotos",
+      "lead": "As fotografias de Nazaré e de suas igrejas deste site são compartilhadas por seus autores sob licenças abertas. Obrigado a cada fotógrafo.",
+      "howTitle": "Como estas fotos são licenciadas",
+      "howText": "Cada foto vem do Wikimedia Commons e é de domínio público ou tem uma licença Creative Commons (CC0, CC BY ou CC BY-SA) que permite a reutilização, inclusive em um site comercial, desde que o autor seja citado. O autor, a licença e um link para o original estão listados abaixo e no visualizador de fotos.",
+      "howNote": "Fotos CC BY-SA podem ser reutilizadas sob a mesma licença. Se você é o autor de uma foto e quer alterar o crédito ou pedir a remoção, escreva para nós.",
+      "jump": "Ir para um grupo de fotos",
+      "author": "Autor",
+      "license": "Licença",
+      "viewOnCommons": "Ver no Wikimedia Commons"
+    }
+  }
+}

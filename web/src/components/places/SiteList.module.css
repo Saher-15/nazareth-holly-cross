@@ -1,0 +1,195 @@
+.list {
+  display: grid;
+  gap: clamp(20px, 4vw, 40px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  position: relative;
+  display: grid;
+  overflow: hidden;
+  border-radius: var(--radius);
+  border: 1px solid var(--glass-line);
+  background: var(--glass);
+  box-shadow: var(--shadow);
+  transition: border-color 0.4s ease, transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.card:hover {
+  border-color: color-mix(in srgb, var(--gold) 55%, transparent);
+  transform: translateY(-4px);
+}
+
+.media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--night-3);
+}
+.media img {
+  object-fit: cover;
+  transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.card:hover .media img {
+  transform: scale(1.05);
+}
+.badge {
+  position: absolute;
+  inset-block-end: 12px;
+  inset-inline-start: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-line);
+  background: color-mix(in srgb, var(--night) 70%, transparent);
+  color: var(--cream);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+/* Text side: eyebrow and name next to the big number, then the teaser and the links. */
+.body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-content: start;
+  column-gap: 16px;
+  padding: clamp(20px, 4vw, 40px);
+}
+.body > * {
+  grid-column: 1 / -1;
+}
+.body > :global(.ui-eyebrow) {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: end;
+}
+.number {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: start;
+  margin-top: -6px;
+  font: 400 clamp(2.6rem, 7vw, 4.4rem)/1 var(--serif);
+  color: color-mix(in srgb, var(--gold) 28%, transparent);
+  pointer-events: none;
+}
+.name {
+  grid-column: 1;
+  grid-row: 2;
+  margin: 0 0 10px;
+  font: 400 clamp(1.6rem, 4vw, 2.3rem)/1.15 var(--serif);
+  color: var(--cream);
+}
+.link {
+  color: inherit;
+  text-decoration: none;
+}
+/* Stretch the place link over the whole card. */
+.link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: var(--radius);
+}
+.card .link:focus-visible {
+  outline: none;
+}
+.card .link:focus-visible::after {
+  outline: 3px solid var(--gold);
+  outline-offset: -3px;
+}
+.teaser {
+  margin: 0 0 22px;
+  max-width: 52ch;
+  color: var(--muted);
+  font-size: 1.04rem;
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+}
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 700 0.85rem/1 var(--sans);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.arrow {
+  flex: none;
+  transition: transform 0.3s ease;
+}
+:global([dir='rtl']) .arrow {
+  transform: scaleX(-1);
+}
+.card:hover .arrow {
+  transform: translateX(4px);
+}
+:global([dir='rtl']) .card:hover .arrow {
+  transform: scaleX(-1) translateX(4px);
+}
+/* Second target above the stretched link. */
+.map {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding-inline: 14px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-line);
+  color: var(--cream);
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+.map:hover {
+  background: var(--glass-strong);
+}
+.card .map:focus-visible {
+  border-radius: 999px;
+}
+
+@media (min-width: 900px) {
+  .card {
+    grid-template-columns: minmax(0, 11fr) minmax(0, 9fr);
+    min-height: 380px;
+  }
+  .media {
+    aspect-ratio: auto;
+    min-height: 100%;
+  }
+  .body {
+    align-content: center;
+    padding: 48px clamp(32px, 4vw, 56px);
+  }
+  /* Every second card puts its photo on the other side. */
+  .item:nth-child(even) .media {
+    order: 2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .media img,
+  .arrow {
+    transition: none;
+  }
+  .card:hover,
+  .card:hover .media img,
+  .card:hover .arrow {
+    transform: none;
+  }
+  :global([dir='rtl']) .card:hover .arrow {
+    transform: scaleX(-1);
+  }
+}

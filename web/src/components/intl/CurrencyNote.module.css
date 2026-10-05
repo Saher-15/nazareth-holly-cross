@@ -1,0 +1,15 @@
+/* The small print under a total: currency, an approximate local price and the shipping fee. */
+.note {
+  display: grid;
+  gap: 6px;
+  margin-block: 12px 20px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+.note p {
+  margin: 0;
+}
+.approx {
+  color: var(--cream);
+}

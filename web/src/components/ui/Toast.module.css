@@ -1,0 +1,76 @@
+/* Notifications sit at the bottom centre, above the sticky actions, and never block the page. */
+.region {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: var(--z-toast);
+  display: flex;
+  justify-content: center;
+  padding: 0 var(--space-4) calc(var(--space-4) + env(safe-area-inset-bottom, 0px));
+  pointer-events: none;
+}
+.list {
+  display: grid;
+  gap: var(--space-2);
+  width: min(440px, 100%);
+}
+
+.toast {
+  --accent: var(--gold);
+  pointer-events: auto;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2);
+  padding-inline: var(--space-4) var(--space-2);
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--glass-line));
+  border-inline-start: 4px solid var(--accent);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--night-2) 97%, transparent);
+  color: var(--cream);
+  box-shadow: var(--elev-4);
+  animation: toast-in 0.3s var(--ease-out) both;
+}
+.success {
+  --accent: var(--success);
+}
+.error {
+  --accent: var(--danger);
+}
+.icon {
+  color: var(--accent);
+}
+.message {
+  margin: 0;
+  padding-block: var(--space-2);
+  font-size: var(--text-sm);
+  line-height: 1.45;
+}
+.close {
+  display: grid;
+  place-items: center;
+  width: var(--tap);
+  height: var(--tap);
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+.close:hover {
+  background: var(--glass-strong);
+  color: var(--white);
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .toast {
+    animation: none;
+  }
+}

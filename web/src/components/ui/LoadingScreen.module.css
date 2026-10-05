@@ -1,0 +1,64 @@
+.page {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: var(--space-5);
+  min-height: 60vh;
+  opacity: 0;
+  animation: loader-in var(--dur-slow) ease 0.25s forwards;
+}
+.mark {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 120px;
+  height: 120px;
+}
+.cross {
+  position: relative;
+  color: var(--gold);
+  filter: drop-shadow(0 0 14px color-mix(in srgb, var(--gold) 55%, transparent));
+}
+.halo {
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--gold) 55%, transparent);
+  animation: halo 2.2s var(--ease-out) infinite;
+}
+.label {
+  margin: 0;
+  font-size: var(--text-sm);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.label:lang(he),
+.label:lang(ar) {
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: var(--text-base);
+}
+
+@keyframes loader-in {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes halo {
+  from {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .halo {
+    animation: none;
+    transform: scale(1.05);
+    opacity: 0.5;
+  }
+}

@@ -1,0 +1,33 @@
+.notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0 0 14px;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  line-height: 1.45;
+  text-align: start;
+  color: var(--cream);
+}
+.notice svg {
+  flex: none;
+  margin-block-start: 2px;
+}
+.body {
+  min-width: 0;
+}
+.danger {
+  background: color-mix(in srgb, var(--danger) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--danger) 50%, transparent);
+}
+.danger svg {
+  color: var(--danger);
+}
+.info {
+  background: var(--gold-soft);
+  border: 1px solid color-mix(in srgb, var(--gold) 35%, transparent);
+}
+.info svg {
+  color: var(--gold);
+}

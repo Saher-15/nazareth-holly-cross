@@ -1,0 +1,54 @@
+/* Reviews page layout (design: client/src/styles/Prayer.css + FaithShared.css). */
+
+/* The hero photo and its shade fade out to transparent, so no band shows where the hero meets the page. */
+.page :global(.ui-hero)::after {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--night) 55%, transparent) 0%,
+    color-mix(in srgb, var(--night) 72%, transparent) 55%,
+    transparent 100%
+  );
+}
+.page :global(.ui-hero__bg) {
+  object-position: 20% 40%;
+  -webkit-mask-image: linear-gradient(180deg, var(--night) 50%, transparent 100%);
+  mask-image: linear-gradient(180deg, var(--night) 50%, transparent 100%);
+}
+
+/* Spaced capitals break Arabic letter joining and read poorly in Hebrew. */
+.page :global(.ui-eyebrow):lang(he) {
+  letter-spacing: 0.04em;
+}
+.page :global(.ui-eyebrow):lang(ar) {
+  letter-spacing: 0;
+}
+
+.layout {
+  position: relative;
+  display: grid;
+  gap: 32px;
+  margin-top: -24px;
+}
+.aside {
+  min-width: 0;
+}
+
+@media (min-width: 1000px) {
+  .layout {
+    grid-template-columns: 380px minmax(0, 1fr);
+    gap: 40px;
+    align-items: start;
+    margin-top: -48px;
+  }
+  .layout > :last-child {
+    padding-top: 48px;
+  }
+}
+
+/* keep the form in view while reading, only when the whole card fits on screen */
+@media (min-width: 1000px) and (min-height: 860px) {
+  .aside {
+    position: sticky;
+    top: 96px;
+  }
+}

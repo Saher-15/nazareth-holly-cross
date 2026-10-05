@@ -1,0 +1,242 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--dur-base) ease, box-shadow var(--dur-base) ease;
+}
+/* The frosted glass lives on a pseudo-element, not on the header itself: a backdrop-filter on the header
+   would make it the containing block of the fixed mobile drawer and its backdrop. */
+.header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: color-mix(in srgb, var(--night) 55%, transparent);
+  backdrop-filter: blur(14px);
+  transition: background var(--dur-base) ease;
+}
+.scrolled {
+  border-bottom-color: var(--glass-line);
+  box-shadow: 0 8px 30px color-mix(in srgb, black 28%, transparent);
+}
+.scrolled::before {
+  background: color-mix(in srgb, var(--night) 90%, transparent);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: var(--header-h);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: var(--tap);
+  font: 600 1.2rem/1 var(--serif);
+  letter-spacing: 0.04em;
+  color: var(--white);
+  text-decoration: none;
+  white-space: nowrap;
+  border-radius: 999px;
+}
+.brand:hover .cross {
+  transform: rotate(-8deg) scale(1.08);
+}
+.cross {
+  flex: none;
+  color: var(--gold);
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+.nav {
+  margin-inline-start: auto;
+}
+.nav ul {
+  display: flex;
+  gap: 2px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  padding: 8px 12px;
+  border-radius: 999px;
+  color: var(--cream);
+  text-decoration: none;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  transition: background var(--dur-fast) ease, color var(--dur-fast) ease;
+}
+.link:hover {
+  background: var(--glass);
+}
+.link:active {
+  background: var(--glass-strong);
+}
+.link[aria-current='page'] {
+  color: var(--gold);
+  background: var(--gold-soft);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.donate {
+  white-space: nowrap;
+}
+.drawerCta {
+  display: none;
+}
+
+.menuButton {
+  display: none;
+  place-items: center;
+  width: var(--tap);
+  height: var(--tap);
+  border-radius: 999px;
+  border: 1px solid var(--glass-line);
+  background: var(--glass);
+  color: var(--cream);
+  cursor: pointer;
+  transition: background var(--dur-fast) ease;
+}
+.menuButton:hover {
+  background: var(--glass-strong);
+}
+.menuButton[aria-expanded='true'] {
+  background: var(--gold-soft);
+  border-color: color-mix(in srgb, var(--gold) 55%, transparent);
+  color: var(--gold);
+}
+.menuButton:focus-visible {
+  border-radius: 999px;
+}
+
+.backdrop {
+  display: none;
+}
+
+/* Wide screens: the donate button joins the bar. */
+@media (max-width: 1239px) {
+  .actions .donate {
+    display: none;
+  }
+}
+
+/* Russian is the longest set of labels: its Donate button waits for a wider window. */
+@media (max-width: 1319px) {
+  .actions .donate:lang(ru) {
+    display: none;
+  }
+}
+
+/* Drawer layout: below 1100px even the long Russian, Greek and Polish labels would not fit in one row.
+   (SiteHeader.tsx asks the menu button whether it is shown, so there is no second number to keep in sync.) */
+@media (max-width: 1100px) {
+  .menuButton {
+    display: grid;
+  }
+  .actions {
+    margin-inline-start: auto;
+  }
+  .nav {
+    position: fixed;
+    inset: var(--header-h) 0 auto 0;
+    max-height: calc(100dvh - var(--header-h));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    margin: 0;
+    background: color-mix(in srgb, var(--night) 98%, transparent);
+    border-bottom: 1px solid var(--glass-line);
+    box-shadow: var(--elev-4);
+    padding: 8px 16px 20px;
+    transform: translateY(-8px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--dur-base) ease, transform var(--dur-base) ease, visibility var(--dur-base);
+  }
+  .open {
+    opacity: 1;
+    transform: none;
+    visibility: visible;
+    /* Visible at once (so it can take the focus); only the fade is animated. */
+    transition: opacity var(--dur-base) ease, transform var(--dur-base) ease, visibility 0s;
+  }
+  .nav ul {
+    flex-direction: column;
+    gap: 0;
+    max-width: 560px;
+    margin-inline: auto;
+  }
+  .nav li:not(.drawerCta) + li:not(.drawerCta) {
+    border-top: 1px solid color-mix(in srgb, var(--white) 7%, transparent);
+  }
+  .link {
+    display: flex;
+    width: 100%;
+    min-height: 52px;
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 1.1rem;
+  }
+  .drawerCta {
+    display: block;
+    padding-top: 14px;
+  }
+  .drawerCta :global(.ui-btn) {
+    width: 100%;
+    min-height: 52px;
+  }
+  /* Dimmed page behind the open drawer; a tap on it closes the menu. */
+  .backdrop {
+    display: block;
+    position: fixed;
+    inset: var(--header-h) 0 0 0;
+    z-index: -1;
+    background: color-mix(in srgb, black 60%, transparent);
+    animation: fade-in var(--dur-base) ease both;
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Small phones (360px): keep the brand, language and menu buttons on one line. */
+@media (max-width: 400px) {
+  .bar {
+    gap: 8px;
+  }
+  .brand {
+    font-size: 1rem;
+    gap: 6px;
+    min-width: 0;
+  }
+  .brandName {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav,
+  .cross,
+  .backdrop {
+    transition: none;
+    animation: none;
+  }
+  .brand:hover .cross {
+    transform: none;
+  }
+}

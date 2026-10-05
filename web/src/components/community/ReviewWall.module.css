@@ -1,0 +1,195 @@
+/* Approved reviews: a masonry wall of quote cards via CSS columns (design: client/src/styles/Prayer.css). */
+
+.wall {
+  min-width: 0;
+}
+.head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.heading {
+  margin: 0;
+}
+.count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 30px;
+  height: 26px;
+  padding: 0 8px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--gold) 40%, transparent);
+  background: var(--gold-soft);
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+/* columns flow with the writing direction, so the wall mirrors itself in Hebrew and Arabic */
+.grid {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  columns: 1;
+  column-gap: 18px;
+}
+
+.quote {
+  position: relative;
+  display: block;
+  break-inside: avoid;
+  margin: 0 0 18px;
+  padding: 24px 22px 18px;
+  border-radius: var(--radius);
+  border: 1px solid var(--glass-strong);
+  background: color-mix(in srgb, var(--cream) 5%, transparent);
+  box-shadow: 0 14px 36px color-mix(in srgb, var(--night) 60%, transparent);
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+.quote:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--gold) 45%, transparent);
+}
+.quote:nth-child(3n + 1) {
+  border-color: color-mix(in srgb, var(--gold) 30%, transparent);
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--gold) 13%, transparent),
+    color-mix(in srgb, var(--cream) 4%, transparent) 60%
+  );
+}
+.quote::before {
+  content: '\201C';
+  position: absolute;
+  top: -2px;
+  inset-inline-start: 16px;
+  font: 400 3.6rem/1 var(--serif);
+  color: color-mix(in srgb, var(--gold) 55%, transparent);
+  pointer-events: none;
+}
+
+.figure {
+  margin: 0;
+}
+.text {
+  margin: 14px 0 16px;
+  font: italic 400 1.05rem/1.6 var(--serif);
+  color: var(--cream);
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+/* Reviews written in Hebrew or Arabic, on any page language: their own typefaces, upright (no fake italic). */
+.text[data-script='hebrew'],
+.avatar[data-script='hebrew'] {
+  font-family: var(--font-he-serif), var(--serif);
+  font-style: normal;
+}
+.text[data-script='arabic'],
+.avatar[data-script='arabic'] {
+  font-family: var(--font-ar-serif), var(--serif);
+  font-style: normal;
+}
+.name[data-script='hebrew'],
+.place[data-script='hebrew'] {
+  font-family: var(--font-he-sans), var(--sans);
+}
+.name[data-script='arabic'],
+.place[data-script='arabic'] {
+  font-family: var(--font-ar-sans), var(--sans);
+}
+
+.by {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--glass-strong);
+}
+.avatar {
+  flex: 0 0 40px;
+  display: grid;
+  place-items: center;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--gold) 45%, transparent);
+  background: var(--gold-soft);
+  color: var(--gold);
+  font: 400 1.1rem/1 var(--serif);
+}
+.who {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.name {
+  color: var(--gold);
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+.place {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 0.88rem;
+  overflow-wrap: anywhere;
+}
+.pin {
+  flex: none;
+}
+.date {
+  color: var(--muted);
+  font-size: 0.8rem;
+  opacity: 0.85;
+}
+
+/* ---- empty and unavailable states ---- */
+.empty {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: clamp(36px, 7vw, 72px) 24px;
+  border-radius: var(--radius);
+  border: 1px dashed color-mix(in srgb, var(--gold) 35%, transparent);
+  background:
+    radial-gradient(420px 220px at 50% 0%, color-mix(in srgb, var(--gold) 10%, transparent), transparent 70%),
+    color-mix(in srgb, var(--cream) 3%, transparent);
+  text-align: center;
+}
+.emptyMark {
+  height: 56px;
+  font: 400 6rem/1 var(--serif);
+  color: color-mix(in srgb, var(--gold) 50%, transparent);
+}
+.empty p {
+  margin: 0;
+}
+.emptyTitle {
+  font: italic 400 clamp(1.25rem, 3vw, 1.6rem)/1.3 var(--serif);
+  color: var(--cream);
+}
+.emptyTitle:lang(he),
+.emptyTitle:lang(ar) {
+  font-style: normal;
+}
+.emptyHint {
+  max-width: 420px;
+  color: var(--muted);
+}
+
+@media (min-width: 640px) {
+  .grid {
+    columns: 2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quote {
+    transition: none;
+  }
+  .quote:hover {
+    transform: none;
+  }
+}

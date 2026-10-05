@@ -1,0 +1,135 @@
+/* Filter groups (sidebar and phone drawer). */
+.panel {
+  display: grid;
+  gap: 6px;
+}
+
+.group {
+  min-width: 0;
+  margin: 0;
+  padding: 14px 0 16px;
+  border: 0;
+  border-block-end: 1px solid var(--glass-line);
+}
+.group:last-child {
+  border-block-end: 0;
+}
+.legend {
+  float: inline-start; /* lets the legend sit inside the padding like a heading */
+  width: 100%;
+  margin: 0 0 8px;
+  padding: 0;
+  color: var(--gold);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+:global(:lang(he)) .legend,
+:global(:lang(ar)) .legend {
+  letter-spacing: 0;
+  font-size: 0.85rem;
+}
+
+.options {
+  clear: both;
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  color: var(--cream);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.option:hover {
+  background: var(--glass);
+}
+.option:has(.control:checked) {
+  background: var(--gold-soft);
+}
+.option:has(.control:focus-visible) {
+  outline: 3px solid var(--gold);
+  outline-offset: 1px;
+}
+
+.control {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--gold);
+  cursor: pointer;
+}
+.control:focus-visible {
+  outline: none; /* the whole row shows the focus ring */
+}
+
+.text {
+  display: inline-flex;
+  flex: 1;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 8px;
+  min-width: 0;
+}
+.count {
+  flex: none;
+  min-width: 2ch;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+}
+
+.stars {
+  color: color-mix(in srgb, var(--cream) 28%, transparent);
+  font-family: var(--symbols); /* the star glyph, not the page font */
+  letter-spacing: 1px;
+}
+.stars .on {
+  color: var(--gold);
+}
+
+/* ---- price range ---- */
+.price {
+  clear: both;
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+.priceField {
+  display: grid;
+  flex: 1;
+  gap: 4px;
+  min-width: 0;
+}
+.priceLabel {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+.priceInput {
+  min-height: 42px;
+  padding-inline: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.dash {
+  padding-block-end: 10px;
+  color: var(--muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .option {
+    transition: none;
+  }
+}

@@ -12,6 +12,28 @@ export const REQUIRED_ENV = [
 
 export const missingEnv = () => REQUIRED_ENV.filter((k) => !env[k]);
 
+// Values copied from .env.example must never be used for real.
+const PLACEHOLDERS = new Set([
+  'your-very-long-random-secret-key-here',
+  'your-secure-admin-password',
+  'changeme',
+  'secret',
+  'password',
+]);
+
+// Problems with the secrets themselves. `fatal` ones stop the server in production; the others are logged.
+export function secretProblems() {
+  const problems = [];
+  const jwt = env.JWT_SECRET || '';
+  const pass = env.ADMIN_PASSWORD || '';
+  if (PLACEHOLDERS.has(jwt.toLowerCase())) problems.push({ fatal: true, message: 'JWT_SECRET is a placeholder value' });
+  else if (jwt && jwt.length < 32) problems.push({ fatal: false, message: 'JWT_SECRET is shorter than 32 characters' });
+  if (PLACEHOLDERS.has(pass.toLowerCase())) problems.push({ fatal: true, message: 'ADMIN_PASSWORD is a placeholder value' });
+  else if (pass && pass.length < 12) problems.push({ fatal: false, message: 'ADMIN_PASSWORD is shorter than 12 characters' });
+  if (jwt && pass && jwt === pass) problems.push({ fatal: true, message: 'JWT_SECRET and ADMIN_PASSWORD must not be the same value' });
+  return problems;
+}
+
 const paypalEnvironment = env.ENVIRONMENT || 'sandbox';
 
 export const config = {
@@ -22,6 +44,9 @@ export const config = {
   jwtSecret: env.JWT_SECRET,
   adminPassword: env.ADMIN_PASSWORD,
   clientUrl: env.CLIENT_URL,
+  // When "true", /order/newOrder refuses an order that does not carry a paypalOrderId PayPal confirmed.
+  // Off until every client sends it (the current CRA site does not); then switch it on.
+  requirePaymentProof: env.REQUIRE_PAYMENT_PROOF === 'true',
   // Comma-separated extra origins allowed by CORS (e.g. a new admin domain)
   extraOrigins: (env.EXTRA_ORIGINS || '').split(',').map((o) => o.trim()).filter(Boolean),
   mail: {

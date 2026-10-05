@@ -1,0 +1,429 @@
+/* Shop browser: sticky glass search bar, filter sidebar (desktop) or drawer (phones),
+   best-seller strip, active filter chips, product grid, pager. */
+
+/* ---- sticky search / sort bar ---- */
+.sentinel {
+  height: 1px;
+  margin-top: -34px;
+}
+.barWrap {
+  position: sticky;
+  top: var(--shop-sticky-top, 68px);
+  z-index: 40;
+  margin-top: -1px;
+  padding-block: 10px;
+}
+/* once stuck, cover the strip between header and bar so products do not show through */
+.barWrap[data-stuck='true'] {
+  background: linear-gradient(180deg, var(--night) 0, var(--night) 62%, transparent 100%);
+}
+.barWrap[data-stuck='true'] .bar {
+  background: color-mix(in srgb, var(--night-2) 94%, transparent);
+}
+
+/* phones and tablets: search + wishlist + cart, then filters + sort */
+.bar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    'search saved'
+    'tools tools';
+  gap: 8px;
+  padding: 8px;
+  border-radius: var(--radius);
+  border: 1px solid var(--glass-line);
+  background: color-mix(in srgb, var(--night-2) 84%, transparent);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  box-shadow: var(--shadow);
+}
+
+.search {
+  position: relative;
+  grid-area: search;
+  min-width: 0;
+}
+.searchIcon {
+  position: absolute;
+  inset-inline-start: 16px;
+  top: 50%;
+  translate: 0 -50%;
+  color: var(--gold);
+  font-size: 1.1rem;
+  pointer-events: none;
+}
+.search .input {
+  min-height: 46px;
+  padding-inline: 44px 44px;
+  border-radius: 999px;
+}
+.search .input::-webkit-search-cancel-button {
+  appearance: none;
+}
+.clear {
+  position: absolute;
+  inset-inline-end: 4px;
+  top: 50%;
+  translate: 0 -50%;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+.clear:hover {
+  background: var(--glass-strong);
+  color: var(--cream);
+}
+
+.saved {
+  display: flex;
+  grid-area: saved;
+  gap: 8px;
+}
+
+.tools {
+  display: flex;
+  grid-area: tools;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.filtersButton {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: 0;
+  min-height: 46px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-line);
+  background: var(--glass);
+  color: var(--cream);
+  font: 700 0.85rem / 1 var(--sans);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.filtersButton:hover {
+  background: var(--glass-strong);
+  border-color: color-mix(in srgb, var(--gold) 60%, transparent);
+}
+.filtersIcon {
+  flex: none;
+  color: var(--gold);
+  font-size: 1.1rem;
+}
+.filtersCount {
+  display: inline-grid;
+  place-items: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--gold);
+  color: var(--night);
+  font-size: 0.78rem;
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+}
+.sortLabel {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+.tools .select {
+  flex: 1 1 0;
+  width: auto;
+  min-width: 0;
+  min-height: 46px;
+  padding-inline: 16px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.select option {
+  background: var(--night-2);
+  color: var(--cream);
+}
+
+/* desktop: one row (the filters sit in the sidebar, so no filters button) */
+@media (min-width: 1040px) {
+  .bar {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    grid-template-areas: 'search tools saved';
+    align-items: center;
+    border-radius: 999px;
+  }
+  .filtersButton {
+    display: none;
+  }
+  .sortLabel {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    flex: none;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+  .tools .select {
+    flex: 0 0 220px;
+  }
+}
+
+:global(:lang(he)) .filtersButton,
+:global(:lang(ar)) .filtersButton {
+  letter-spacing: 0;
+}
+
+/* ---- sidebar + results ---- */
+.layout {
+  display: grid;
+  gap: clamp(18px, 3vw, 32px);
+  padding-top: clamp(18px, 3vw, 28px);
+}
+.sidebar {
+  display: none;
+}
+@media (min-width: 1040px) {
+  .layout {
+    grid-template-columns: 250px minmax(0, 1fr);
+    align-items: start;
+  }
+  .sidebar {
+    position: sticky;
+    top: calc(var(--shop-sticky-top, 68px) + 92px);
+    display: block;
+    max-height: calc(100vh - var(--shop-sticky-top, 68px) - 112px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 6px 16px 10px;
+    border-radius: var(--radius);
+    border: 1px solid var(--glass-line);
+    background: var(--glass);
+    scrollbar-width: thin;
+    scrollbar-color: var(--glass-line) transparent;
+  }
+}
+.sidebarHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-block: 8px 2px;
+}
+.sidebarTitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font: 400 1.25rem / 1.2 var(--serif);
+  color: var(--cream);
+}
+
+.textButton {
+  flex: none;
+  min-height: 36px;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--gold);
+  font: 700 0.85rem / 1 var(--sans);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.textButton:hover {
+  background: var(--glass);
+}
+
+.results {
+  min-width: 0;
+}
+.resultsTitle {
+  margin: 0 0 6px;
+  font: 400 clamp(1.35rem, 3vw, 1.8rem) / 1.2 var(--serif);
+  color: var(--cream);
+}
+
+.resultsHead {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.count {
+  min-height: 1.6em;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  /* clear the sticky header and search bar when the pager scrolls back up */
+  scroll-margin-top: calc(var(--shop-sticky-top, 68px) + 150px);
+}
+.count:focus {
+  outline: none;
+}
+
+/* ---- active filter chips ---- */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.chipList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.chipList li {
+  display: flex;
+  min-width: 0;
+  max-width: 100%;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+  min-height: 36px;
+  padding: 6px 12px 6px 14px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--gold) 45%, transparent);
+  background: var(--gold-soft);
+  color: var(--cream);
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.chip bdi {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.chip:hover {
+  background: color-mix(in srgb, var(--gold) 26%, transparent);
+}
+.chipIcon {
+  flex: none;
+  color: var(--gold);
+}
+
+/* 2 / 3 columns */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(12px, 2.2vw, 24px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 700px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.cell {
+  min-width: 0;
+}
+
+/* ---- pager ---- */
+.pager {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px 14px;
+  margin-top: clamp(32px, 5vw, 48px);
+}
+.step {
+  min-width: 120px;
+}
+.step[aria-disabled='true'] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+.pages {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.page {
+  display: grid;
+  place-items: center;
+  min-width: 44px;
+  height: 44px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-line);
+  background: var(--glass);
+  color: var(--cream);
+  font: 700 0.95rem / 1 var(--sans);
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.page:hover {
+  border-color: color-mix(in srgb, var(--gold) 60%, transparent);
+}
+.page[aria-current='page'] {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--night);
+}
+.pageStatus {
+  display: none;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* narrow phones: "Page 2 of 6" between the two buttons instead of every number */
+@media (max-width: 559px) {
+  .pages {
+    display: none;
+  }
+  .pageStatus {
+    display: block;
+    order: -1;
+    flex-basis: 100%;
+    text-align: center;
+  }
+  .pager .step {
+    flex: 1 1 0;
+    min-width: 0;
+    padding-inline: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .filtersButton,
+  .chip,
+  .page {
+    transition: none;
+  }
+}

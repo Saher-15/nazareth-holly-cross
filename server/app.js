@@ -1,4 +1,5 @@
 import express from 'express';
+import mongoose from 'mongoose';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
@@ -13,7 +14,7 @@ import routerAuth from './route/authRoute.js';
 import routerAdmin from './route/adminRoute.js';
 import routerPrayer from './route/prayerRoute.js';
 import routerReview from './route/reviewRoute.js';
-import { globalLimiter } from './utils/security.js';
+import { apiLimiter, publicReadCache } from './utils/security.js';
 import { config } from './config/env.js';
 import { HttpError } from './utils/httpError.js';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
@@ -29,10 +30,10 @@ export function createApp() {
   }
 
   // Only our own sites may call the API from a browser (any *.netlify.app used to be allowed).
+  // Local development origins are not trusted in production (a page on a visitor's own machine could
+  // otherwise call the live API with their credentials); use EXTRA_ORIGINS to allow one deliberately.
   const allowedOrigins = [
-    'http://localhost:3000',
-    'http://localhost:5173',
-    'http://localhost:5174',
+    ...(config.isProd ? [] : ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:5174']),
     'https://nazarethholycross.com',
     'https://www.nazarethholycross.com',
     // the public site and the admin site on Netlify, including deploy previews
@@ -41,8 +42,19 @@ export function createApp() {
     ...config.extraOrigins,
   ].filter(Boolean);
 
-  app.use(helmet());
+  // This is a JSON API: it never serves pages, so the browser is told to load nothing from it and to
+  // never frame it. (Helmet's other defaults - nosniff, hidden X-Powered-By, CORP - stay on.)
+  app.use(helmet({
+    contentSecurityPolicy: {
+      useDefaults: false,
+      directives: { defaultSrc: ["'none'"], frameAncestors: ["'none'"], baseUri: ["'none'"], formAction: ["'none'"] },
+    },
+    frameguard: { action: 'deny' },
+    referrerPolicy: { policy: 'no-referrer' },
+    strictTransportSecurity: { maxAge: 63072000, includeSubDomains: true, preload: true },
+  }));
   app.use(cors({
+    maxAge: 600, // browsers may cache the preflight answer for ten minutes
     origin: (origin, cb) => {
       if (!origin) return cb(null, true);
       const allowed = allowedOrigins.some(o =>
@@ -55,9 +67,12 @@ export function createApp() {
   }));
   app.use(express.json({ limit: '10kb' }));
   app.use(express.urlencoded({ limit: '10kb', extended: true }));
-  app.use(xss());
-  app.use(mongoSanitize()); // strip MongoDB operators ($where, $gt, etc.) from req.body/params/query
-  app.use(globalLimiter);
+  // Strip MongoDB operators ($where, $gt, ...) and dotted keys from req.body/params/query/headers. Must run
+  // BEFORE xss(): express-xss-sanitizer 2.x makes req.query read-only, and this one assigns to it.
+  app.use(mongoSanitize());
+  app.use(xss()); // strips HTML tags from every string (and escapes & < >; see web/src/lib/plainText.ts)
+  app.use(publicReadCache);
+  app.use(apiLimiter);
 
   app.use('/auth', routerAuth);
   app.use('/product', routerProduct);
@@ -69,7 +84,13 @@ export function createApp() {
   app.use('/prayer', routerPrayer);
   app.use('/review', routerReview);
 
-  app.get('/health', (req, res) => res.json({ status: 'ok', timestamp: new Date().toISOString() }));
+  app.get('/health', (req, res) =>
+    res.json({
+      status: 'ok',
+      database: mongoose.connection.readyState === 1 ? 'up' : 'down',
+      timestamp: new Date().toISOString(),
+    }),
+  );
 
   app.use(notFoundHandler);
   app.use(errorHandler);
