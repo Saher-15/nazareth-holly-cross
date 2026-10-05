@@ -1,0 +1,25 @@
+# dependencies
+/node_modules
+
+# next.js
+/.next/
+/out/
+/build
+
+# testing
+/coverage
+/test-results/
+/playwright-report/
+/playwright/.cache/
+
+/tests/e2e/.auth/
+
+# env files: only the example is committed. Never commit keys.
+.env*
+!.env.example
+
+*.log
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
+.netlify
