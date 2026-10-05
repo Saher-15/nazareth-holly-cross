@@ -33,8 +33,8 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  min-height: 32px;
-  padding-inline: 12px;
+  min-height: var(--tap);
+  padding-inline: 14px;
   border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--gold) 45%, transparent);
   background: color-mix(in srgb, var(--night) 45%, transparent);

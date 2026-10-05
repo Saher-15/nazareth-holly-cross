@@ -630,5 +630,43 @@
       "thanksTitle": "Vielen Dank für Ihre Spende!",
       "thanksText": "Ihre Großzügigkeit hilft, das Licht Nazareths für Pilger in aller Welt leuchten zu lassen."
     }
+  },
+  "ux": {
+    "backToTop": "Nach oben",
+    "loading": "Wird geladen …",
+    "toast": {
+      "region": "Benachrichtigungen",
+      "dismiss": "Benachrichtigung schließen"
+    },
+    "share": {
+      "share": "Teilen",
+      "copy": "Link kopieren",
+      "copied": "Link kopiert",
+      "failed": "Der Link konnte nicht kopiert werden",
+      "print": "Drucken"
+    },
+    "language": {
+      "choose": "Sprache wählen"
+    },
+    "footer": {
+      "languages": "Sprachen",
+      "address": "Nazareth, Galiläa",
+      "followOn": "Folgen Sie uns auf {network} (öffnet in einem neuen Tab)"
+    },
+    "notFound": {
+      "suggestions": "Wohin möchten Sie?",
+      "hint": {
+        "sites": "Kirchen, Quelle und Altstadt",
+        "tour": "Nazareth Schritt für Schritt erkunden",
+        "candle": "Zünden Sie eine Kerze für Ihr Anliegen an"
+      }
+    },
+    "error": {
+      "title": "Etwas ist schiefgelaufen",
+      "text": "Ein unerwarteter Fehler hat diese Seite gestoppt. Bitte versuchen Sie es erneut.",
+      "retry": "Erneut versuchen",
+      "home": "Zurück zur Startseite",
+      "reference": "Referenz"
+    }
   }
 }

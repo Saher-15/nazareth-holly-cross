@@ -1,63 +1,166 @@
 .footer {
+  position: relative;
   margin-top: auto;
-  padding-top: 56px;
+  padding-top: var(--space-8);
   background: linear-gradient(180deg, var(--night) 0%, #070a13 100%);
-  border-top: 1px solid var(--glass-line);
   color: var(--muted);
 }
+/* A fine gold line instead of a hard border. */
+.footer::before {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--gold) 55%, transparent), transparent);
+}
+
 .grid {
   display: grid;
-  gap: 32px;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
-  padding-bottom: 40px;
+  gap: var(--space-6) var(--space-5);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+  padding-bottom: var(--space-7);
 }
+@media (min-width: 1000px) {
+  .grid {
+    grid-template-columns: 1.3fr 1.2fr 1.2fr 1.1fr;
+  }
+}
+
 .brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   margin: 0 0 12px;
-  font: 600 1.2rem/1.2 var(--serif);
+  font: 600 1.3rem/1.2 var(--serif);
   color: #fff;
 }
-.brand span {
+.mark {
+  flex: none;
   color: var(--gold);
 }
-.about {
-  margin: 0;
-  max-width: 34ch;
+.tagline {
+  margin: 0 0 var(--space-4);
+  max-width: 36ch;
+  text-wrap: pretty;
 }
+
 .heading {
-  margin: 0 0 10px;
+  margin: 0 0 var(--space-3);
   font-size: 0.78rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--gold);
 }
-.heading:not(:first-child) {
-  margin-top: 20px;
+.heading:lang(he),
+.heading:lang(ar) {
+  letter-spacing: 0;
+  font-size: 0.95rem;
 }
+
 .links,
+.contact,
+.languages,
 .social {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: grid;
-  gap: 6px;
 }
+.links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 var(--space-3);
+}
+.contact {
+  display: grid;
+  margin-bottom: var(--space-3);
+}
+.contact li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: var(--tap);
+}
+.contact svg {
+  color: var(--gold);
+}
+.donate {
+  margin-top: var(--space-1);
+}
+
+/* Links are padded to a 44px touch target without looking spaced out. */
+.link,
+.language {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  min-width: var(--tap);
+  color: var(--cream);
+  text-decoration: none;
+  transition: color var(--dur-fast) ease;
+}
+.contact .link {
+  overflow-wrap: anywhere;
+}
+.link:hover,
+.language:hover {
+  color: var(--gold);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+.languages {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 var(--space-3);
+}
+.language {
+  width: 100%;
+}
+.language[aria-current='true'] {
+  color: var(--gold);
+  font-weight: 700;
+  pointer-events: none;
+}
+
 .social {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px;
+  gap: var(--space-2);
 }
-.footer a {
+.socialLink {
+  display: grid;
+  place-items: center;
+  width: var(--tap);
+  height: var(--tap);
+  border-radius: 50%;
+  border: 1px solid var(--glass-line);
+  background: var(--glass);
   color: var(--cream);
-  text-decoration: none;
+  transition: background var(--dur-fast) ease, color var(--dur-fast) ease, transform var(--dur-base) var(--ease-out);
 }
-.footer a:hover {
-  color: var(--gold);
-  text-decoration: underline;
+.socialLink:hover {
+  background: var(--gold);
+  color: var(--night);
+  transform: translateY(-2px);
 }
+.socialLink:focus-visible {
+  border-radius: 50%;
+}
+
 .rights {
   margin: 0;
-  padding: 18px 16px 28px;
+  padding: var(--space-4) var(--space-4) var(--space-5);
   border-top: 1px solid var(--glass-line);
   text-align: center;
   font-size: 0.85rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .socialLink {
+    transition: none;
+  }
+  .socialLink:hover {
+    transform: none;
+  }
 }

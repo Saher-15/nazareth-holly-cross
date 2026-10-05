@@ -630,5 +630,43 @@
       "thanksTitle": "Obrigado pela sua doação!",
       "thanksText": "Sua generosidade ajuda a manter acesa a luz de Nazaré para peregrinos do mundo inteiro."
     }
+  },
+  "ux": {
+    "backToTop": "Voltar ao topo",
+    "loading": "Carregando…",
+    "toast": {
+      "region": "Notificações",
+      "dismiss": "Fechar notificação"
+    },
+    "share": {
+      "share": "Compartilhar",
+      "copy": "Copiar link",
+      "copied": "Link copiado",
+      "failed": "Não foi possível copiar o link",
+      "print": "Imprimir"
+    },
+    "language": {
+      "choose": "Escolha um idioma"
+    },
+    "footer": {
+      "languages": "Idiomas",
+      "address": "Nazaré, Galileia",
+      "followOn": "Siga-nos no {network} (abre em uma nova aba)"
+    },
+    "notFound": {
+      "suggestions": "Para onde você quer ir?",
+      "hint": {
+        "sites": "Igrejas, a fonte e a cidade velha",
+        "tour": "Percorra Nazaré passo a passo",
+        "candle": "Acenda uma vela pela sua intenção"
+      }
+    },
+    "error": {
+      "title": "Algo deu errado",
+      "text": "Um erro inesperado interrompeu esta página. Tente novamente.",
+      "retry": "Tentar novamente",
+      "home": "Voltar ao início",
+      "reference": "Referência"
+    }
   }
 }

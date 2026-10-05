@@ -630,5 +630,43 @@
       "thanksTitle": "Merci pour votre don !",
       "thanksText": "Votre générosité aide à garder la lumière de Nazareth allumée pour les pèlerins du monde entier."
     }
+  },
+  "ux": {
+    "backToTop": "Retour en haut",
+    "loading": "Chargement…",
+    "toast": {
+      "region": "Notifications",
+      "dismiss": "Fermer la notification"
+    },
+    "share": {
+      "share": "Partager",
+      "copy": "Copier le lien",
+      "copied": "Lien copié",
+      "failed": "Impossible de copier le lien",
+      "print": "Imprimer"
+    },
+    "language": {
+      "choose": "Choisir une langue"
+    },
+    "footer": {
+      "languages": "Langues",
+      "address": "Nazareth, Galilée",
+      "followOn": "Suivez-nous sur {network} (s’ouvre dans un nouvel onglet)"
+    },
+    "notFound": {
+      "suggestions": "Où souhaitez-vous aller ?",
+      "hint": {
+        "sites": "Églises, source et vieille ville",
+        "tour": "Parcourez Nazareth pas à pas",
+        "candle": "Allumez une bougie pour votre intention"
+      }
+    },
+    "error": {
+      "title": "Une erreur est survenue",
+      "text": "Une erreur inattendue a interrompu cette page. Veuillez réessayer.",
+      "retry": "Réessayer",
+      "home": "Retour à l’accueil",
+      "reference": "Référence"
+    }
   }
 }

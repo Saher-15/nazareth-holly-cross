@@ -2,8 +2,12 @@ import type { Metadata, Viewport } from 'next';
 import { notFound } from 'next/navigation';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import BackToTop from '@/components/layout/BackToTop';
+import ReadingProgress from '@/components/layout/ReadingProgress';
+import RouteFocus from '@/components/layout/RouteFocus';
 import SiteFooter from '@/components/layout/SiteFooter';
 import SiteHeader from '@/components/layout/SiteHeader';
+import { ToastProvider } from '@/components/ui/Toast';
 import { CartProvider } from '@/lib/cart';
 import { isRtl, locales, routing } from '@/i18n/routing';
 import { SITE_URL } from '@/lib/config';
@@ -46,11 +50,16 @@ export default async function LocaleLayout({ children, params }: LayoutProps<'/[
       <body>
         <NextIntlClientProvider>
           <CartProvider>
-            <SiteHeader />
-            <main id="main" tabIndex={-1}>
-              {children}
-            </main>
-            <SiteFooter />
+            <ToastProvider>
+              <ReadingProgress />
+              <SiteHeader />
+              <main id="main" tabIndex={-1}>
+                {children}
+              </main>
+              <SiteFooter />
+              <BackToTop />
+              <RouteFocus />
+            </ToastProvider>
           </CartProvider>
         </NextIntlClientProvider>
       </body>

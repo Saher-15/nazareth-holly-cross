@@ -630,5 +630,43 @@
       "thanksTitle": "Grazie per la tua donazione!",
       "thanksText": "La tua generosità aiuta a mantenere accesa la luce di Nazaret per i pellegrini di tutto il mondo."
     }
+  },
+  "ux": {
+    "backToTop": "Torna su",
+    "loading": "Caricamento…",
+    "toast": {
+      "region": "Notifiche",
+      "dismiss": "Chiudi la notifica"
+    },
+    "share": {
+      "share": "Condividi",
+      "copy": "Copia il link",
+      "copied": "Link copiato",
+      "failed": "Impossibile copiare il link",
+      "print": "Stampa"
+    },
+    "language": {
+      "choose": "Scegli una lingua"
+    },
+    "footer": {
+      "languages": "Lingue",
+      "address": "Nazaret, Galilea",
+      "followOn": "Seguici su {network} (si apre in una nuova scheda)"
+    },
+    "notFound": {
+      "suggestions": "Dove vorresti andare?",
+      "hint": {
+        "sites": "Chiese, la fonte e la città vecchia",
+        "tour": "Percorri Nazaret passo dopo passo",
+        "candle": "Accendi una candela per la tua intenzione"
+      }
+    },
+    "error": {
+      "title": "Qualcosa è andato storto",
+      "text": "Un errore imprevisto ha interrotto questa pagina. Riprova.",
+      "retry": "Riprova",
+      "home": "Torna alla home",
+      "reference": "Riferimento"
+    }
   }
 }

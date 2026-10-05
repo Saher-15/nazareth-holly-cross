@@ -1,0 +1,31 @@
+/* Sits on top of the sticky header (z 50) at the very top edge of the window. */
+.track {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline: 0;
+  z-index: calc(var(--z-header) + 1);
+  height: 3px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--dur-base) ease;
+}
+.track[data-visible='true'] {
+  opacity: 1;
+}
+.bar {
+  height: 100%;
+  background: var(--grad-gold);
+  box-shadow: 0 0 10px rgba(240, 192, 74, 0.6);
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
+}
+:global([dir='rtl']) .bar {
+  transform-origin: right center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    transition: none;
+  }
+}

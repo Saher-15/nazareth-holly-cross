@@ -11,6 +11,7 @@ import PlaceHero from '@/components/places/PlaceHero';
 import PlaceStory from '@/components/places/PlaceStory';
 import VisitCard from '@/components/places/VisitCard';
 import { PhotosIcon, PinIcon } from '@/components/places/icons';
+import PageTools from '@/components/ui/PageTools';
 import Reveal from '@/components/ui/Reveal';
 import styles from './page.module.css';
 
@@ -82,6 +83,7 @@ export default async function PlacePage({ params }: PageProps<'/[locale]/sites/[
               {t(place.titleKey)}
             </h2>
             <PlaceStory story={place.story} />
+            <PageTools title={name} />
           </Reveal>
           <VisitCard place={place} />
         </div>
