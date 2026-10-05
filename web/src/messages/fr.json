@@ -330,6 +330,13 @@
     "prev": "Précédent",
     "next": "Suivant"
   },
+  "intl": {
+    "currencyNote": {
+      "usd": "Les prix sont en dollars américains (USD). Votre carte ou PayPal les convertit à son propre taux de change.",
+      "approx": "Environ {amount} à un taux indicatif. Le montant débité par votre banque peut différer.",
+      "shipping": "La livraison est à tarif unique : {fee} par commande."
+    }
+  },
   "home": {
     "eyebrow": "Nazareth · La ville de Jésus",
     "title": "Marchez là où Jésus a marché",

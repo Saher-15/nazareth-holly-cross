@@ -330,6 +330,13 @@
     "prev": "Anterior",
     "next": "Siguiente"
   },
+  "intl": {
+    "currencyNote": {
+      "usd": "Los precios están en dólares estadounidenses (USD). Tu tarjeta o PayPal los convierte a su propio tipo de cambio.",
+      "approx": "Unos {amount} según un tipo de cambio orientativo. El importe que cobre tu banco puede variar.",
+      "shipping": "El envío tiene una tarifa fija de {fee} por pedido."
+    }
+  },
   "home": {
     "eyebrow": "Nazaret · La ciudad de Jesús",
     "title": "Camina donde caminó Jesús",

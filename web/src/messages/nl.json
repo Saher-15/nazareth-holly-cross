@@ -330,6 +330,13 @@
     "prev": "Vorige",
     "next": "Volgende"
   },
+  "intl": {
+    "currencyNote": {
+      "usd": "Prijzen zijn in Amerikaanse dollars (USD). Uw kaart of PayPal rekent ze om tegen de eigen wisselkoers.",
+      "approx": "Ongeveer {amount} tegen een indicatieve koers. Het bedrag dat uw bank in rekening brengt, kan afwijken.",
+      "shipping": "De verzendkosten zijn een vast bedrag van {fee} per bestelling."
+    }
+  },
   "home": {
     "eyebrow": "Nazareth · De stad van Jezus",
     "title": "Wandel waar Jezus wandelde",

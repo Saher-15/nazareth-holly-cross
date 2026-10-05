@@ -11,6 +11,7 @@ import DonePanel from '@/components/checkout/DonePanel';
 import Field, { invalidProps } from '@/components/checkout/Field';
 import PayPalPanel from '@/components/checkout/PayPalPanel';
 import StepIndicator, { type FlowStep } from '@/components/checkout/StepIndicator';
+import CurrencyNote from '@/components/intl/CurrencyNote';
 import { countryName, countryOptions } from '@/components/checkout/countries';
 import { useErrorText, useSaveAfterPayment, useStepFocus, useValidatedForm } from '@/components/checkout/hooks';
 import { AlertIcon, BasketIcon } from '@/components/checkout/icons';
@@ -308,6 +309,7 @@ export default function CheckoutFlow() {
             <dt>{t('summary.total')}</dt>
             <dd data-testid="order-total">{formatUsd(summary.total, locale)}</dd>
           </dl>
+          <CurrencyNote amountUsd={summary.total} shipping />
 
           {step === 'payment' ? (
             <>

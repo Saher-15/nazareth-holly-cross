@@ -1,5 +1,7 @@
 // Display-only copy of the shop's price rules. The API (server/services/pricing.js)
 // computes the amount that is actually charged; keep the two in step.
+import { isRtl } from '@/i18n/routing';
+
 export const SHIPPING_FEE = 5;
 export const ORDER_DISCOUNT = 0.9; // 10% off the items
 export const CANDLE_PRICE = 3;
@@ -15,5 +17,13 @@ export function orderSummary(lines: PricedLine[]) {
   return { subtotal, discount, shipping: lines.length ? SHIPPING_FEE : 0, total };
 }
 
-export const formatUsd = (amount: number, locale = 'en') =>
-  new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD', numberingSystem: 'latn' }).format(amount);
+// Western digits in every language. In Hebrew and Arabic the price is written the English way ("$3.00") and
+// isolated as one left-to-right unit, because the locale's own pattern ("3.00 US$") comes out as "$US 3.00"
+// when it sits in the middle of right-to-left text.
+export const formatUsd = (amount: number, locale = 'en') => {
+  if (isRtl(locale)) {
+    const price = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+    return `⁦${price}⁩`;
+  }
+  return new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD', numberingSystem: 'latn' }).format(amount);
+};

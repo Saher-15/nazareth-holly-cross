@@ -330,6 +330,13 @@
     "prev": "Anterior",
     "next": "Próximo"
   },
+  "intl": {
+    "currencyNote": {
+      "usd": "Os preços são em dólares americanos (USD). Seu cartão ou o PayPal converte os valores pela própria taxa de câmbio.",
+      "approx": "Cerca de {amount} a uma taxa indicativa. O valor cobrado pelo seu banco pode variar.",
+      "shipping": "O frete tem valor fixo de {fee} por pedido."
+    }
+  },
   "home": {
     "eyebrow": "Nazaré · A cidade de Jesus",
     "title": "Caminhe por onde Jesus caminhou",

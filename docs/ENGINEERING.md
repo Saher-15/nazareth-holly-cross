@@ -62,10 +62,24 @@ Then revert the commit on `main` with a pull request.
 
 ## 6. Languages
 
-- 11 languages: en (default), fr, es, de, it, pt, pl, ru, el, he, ar. Every URL carries its language: `/he/shop`.
+- 14 languages: en (default), fr, es, de, it, pt (Brazilian), pl, ru, uk, ro, nl, el, he, ar. Every URL carries
+  its language: `/he/shop`. The list, the names in the language menu and the Open Graph codes are in
+  `web/src/i18n/routing.ts`; adding a language means a message file, a line there, and `npm test`.
 - Texts live in `web/src/messages/<locale>.json` (ICU format, e.g. `{count}`). English is the fallback.
-- A unit test fails if any language misses a key, changes a placeholder or has an invalid message.
-- Machine-made translations are marked for **native-speaker review** before launch.
+  Use ICU plurals (`{count, plural, one {…} other {…}}`) for anything with a number; never glue strings together.
+- Approved wording per language is in `docs/GLOSSARY.md`; open questions for native speakers are in
+  `docs/TRANSLATION-REVIEW.md`. Nothing has been proofread by a native speaker yet.
+- A unit test fails if any language misses a key, changes a placeholder (also inside plural branches), has an
+  invalid message, leaves a plural form out (ru/uk/pl/ar/ro), mixes Latin letters into Cyrillic/Greek/Hebrew/Arabic
+  words, leaves English text behind, or uses Arabic-Indic digits or invisible characters.
+- Numbers, prices and dates are formatted with `Intl` (`numberingSystem: 'latn'`: Western digits in every
+  language), prices in USD, dates in Nazareth time (`Asia/Jerusalem`).
+- `src/proxy.ts` sends a visitor of a bare address (`/`, `/shop`) to their language: the NEXT_LOCALE cookie
+  (the language they chose), then Accept-Language, then English. A URL that names a language is never
+  redirected. Robots get English for a bare address. `tests/unit/proxy.test.ts` documents the rules.
+- SEO per page: canonical, hreflang for every language plus x-default, `og:locale` (+ alternates) and
+  `inLanguage` in the JSON-LD (`src/lib/seo.ts`, `src/data/places/seo.ts`); the sitemap lists every language
+  version of every page with reciprocal alternates.
 
 ## 7. Working on Windows (local quirk)
 

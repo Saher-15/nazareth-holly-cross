@@ -330,6 +330,13 @@
     "prev": "Anterioara",
     "next": "Următoarea"
   },
+  "intl": {
+    "currencyNote": {
+      "usd": "Prețurile sunt în dolari americani (USD). Cardul dumneavoastră sau PayPal le convertește la cursul propriu.",
+      "approx": "Aproximativ {amount} la un curs orientativ. Suma percepută de banca dumneavoastră poate diferi.",
+      "shipping": "Livrarea costă o taxă fixă de {fee} pe comandă."
+    }
+  },
   "home": {
     "eyebrow": "Nazaret · Orașul lui Iisus",
     "title": "Mergeți pe urmele lui Iisus",

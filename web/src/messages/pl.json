@@ -330,6 +330,13 @@
     "prev": "Poprzedni",
     "next": "Następny"
   },
+  "intl": {
+    "currencyNote": {
+      "usd": "Ceny podane są w dolarach amerykańskich (USD). Twoja karta lub PayPal przelicza je według własnego kursu.",
+      "approx": "Około {amount} według kursu orientacyjnego. Kwota pobrana przez Twój bank może się różnić.",
+      "shipping": "Wysyłka kosztuje {fee} za zamówienie (stała opłata)."
+    }
+  },
   "home": {
     "eyebrow": "Nazaret · Miasto Jezusa",
     "title": "Idź tam, gdzie chodził Jezus",

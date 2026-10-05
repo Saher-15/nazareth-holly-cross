@@ -330,6 +330,13 @@
     "prev": "Prev",
     "next": "Next"
   },
+  "intl": {
+    "currencyNote": {
+      "usd": "Prices are in US dollars (USD). Your card or PayPal converts them at its own exchange rate.",
+      "approx": "About {amount} at an indicative rate. The amount your bank charges may differ.",
+      "shipping": "Shipping is a flat {fee} per order."
+    }
+  },
   "home": {
     "eyebrow": "Nazareth · The City of Jesus",
     "title": "Walk where Jesus walked",

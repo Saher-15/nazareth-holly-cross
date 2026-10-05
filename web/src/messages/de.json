@@ -330,6 +330,13 @@
     "prev": "Vorherige",
     "next": "Nächste"
   },
+  "intl": {
+    "currencyNote": {
+      "usd": "Alle Preise sind in US-Dollar (USD). Ihre Karte oder PayPal rechnet sie zum eigenen Wechselkurs um.",
+      "approx": "Etwa {amount} nach einem Richtkurs. Der von Ihrer Bank berechnete Betrag kann abweichen.",
+      "shipping": "Der Versand kostet pauschal {fee} pro Bestellung."
+    }
+  },
   "home": {
     "eyebrow": "Nazareth · Die Stadt Jesu",
     "title": "Gehen Sie, wo Jesus ging",
