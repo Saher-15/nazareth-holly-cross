@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import "../App.css";
+import "../styles/FaithShared.css";
 import "../styles/Prayer.css";
 import { useTranslation } from 'react-i18next'; // Import the translation hook
 import { API_URL } from '../config/env';
+import PageHero from './ui/PageHero';
+import Reveal from './ui/Reveal';
+
+const initialOf = (name) => (typeof name === 'string' && name.trim() ? name.trim()[0].toUpperCase() : '·');
 
 function Pray() {
     const { t } = useTranslation(); // Initialize the translation hook
@@ -18,6 +23,9 @@ function Pray() {
 
     // State to store fetched messages
     const [messages, setMessages] = useState([]);
+
+    // True until the first list request has finished (only drives the skeleton cards)
+    const [loading, setLoading] = useState(true);
 
     // State to manage the visibility of the success message
     const [showMessage, setShowMessage] = useState(false);
@@ -42,6 +50,8 @@ function Pray() {
             setMessages(response.data);
         } catch (error) {
             console.error('Error fetching reviews:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -93,85 +103,134 @@ function Pray() {
         fetchMessages();
     }, []);
 
+    const reviews = Array.isArray(messages) ? messages : [];
+
     return (
-        <div className="pray-container">
-            <div className="blur-overlay"></div>
-            <div className="form-section">
-                <form onSubmit={handleSubmit} className="message-form">
-                    <label htmlFor="first-name" className="form-title">
-                        <h2 className='form-title-text'>{t('pray.formTitle')}</h2>
-                    </label>
-                    <p className='form-description'>{t('pray.formDescription')}</p>
-                    <div className="form-group-pray">
-                        <div className="form-input-group">
+        <main className="ui-page fx fx-reviews">
+            <PageHero
+                eyebrow={t('home.voicesEyebrow')}
+                title={t('home.voicesTitle')}
+                lead={t('pray.messagesDescription')}
+                image="/images/vitrage-bg.jpg"
+            />
+
+            <div className="ui-container fx-reviews__layout">
+                <Reveal as="section" className="fx-reviews__aside" aria-labelledby="fx-review-form-title">
+                    <form onSubmit={handleSubmit} className="fx-reviews__card ui-glass">
+                        <span className="fx-reviews__mark" aria-hidden="true">&ldquo;</span>
+                        <h2 id="fx-review-form-title" className="fx-reviews__title">{t('pray.formTitle')}</h2>
+                        <p className="fx-reviews__intro">{t('pray.formDescription')}</p>
+
+                        <div className="ui-field">
+                            <label className="ui-label" htmlFor="fullName">{t('pray.placeholderFullName')}</label>
                             <input
                                 type="text"
                                 name="fullName"
                                 id="fullName"
-                                placeholder={t('pray.placeholderFullName')}
                                 value={formData.fullName}
                                 onChange={handleChange}
                                 required
-                                autoComplete="given-name"
-                                className="form-input"
+                                autoComplete="name"
+                                className="ui-input"
                             />
                         </div>
 
-                        <div className="form-input-group">
+                        <div className="ui-field">
+                            <label className="ui-label" htmlFor="country">{t('pray.placeholderCountry')}</label>
                             <input
                                 type="text" // Use text for country
                                 name="email"
                                 id="country"
-                                placeholder={t('pray.placeholderCountry')}
                                 value={formData.email} // Still using 'email' as field name
                                 onChange={handleChange}
                                 required
-                                autoComplete="country"
-                                className="form-input"
+                                autoComplete="country-name"
+                                className="ui-input"
                             />
                         </div>
 
-                        <textarea
-                            placeholder={t('pray.placeholderMessage')}
-                            id="msg"
-                            name="msg"
-                            value={formData.msg}
-                            onChange={handleChange}
-                            required
-                            className="form-textarea"
-                        />
-                    </div>
+                        <div className="ui-field">
+                            <label className="ui-label" htmlFor="msg">{t('pray.placeholderMessage')}</label>
+                            <textarea
+                                id="msg"
+                                name="msg"
+                                rows={5}
+                                value={formData.msg}
+                                onChange={handleChange}
+                                required
+                                className="ui-textarea"
+                            />
+                        </div>
 
-                    <div className="form-submit-container">
-                        <button type="submit" className="form-submit-button">{t('pray.submitButton')}</button>
-                    </div>
-                    <div className="success-message-container">
-                        {showMessage && <p className="success-message">{t('pray.successMessage')}</p>}
-                        {showConfirmationMessage && <p className="confirmation-message">{t('pray.confirmationMessage')}</p>}
-                    </div>
-                </form>
-            </div>
+                        <button type="submit" className="ui-btn ui-btn--gold fx-btn-block">
+                            <i className="fas fa-feather-alt" aria-hidden="true" />
+                            {t('pray.submitButton')}
+                        </button>
 
-            {/* Display messages */}
-            <div className="messages-section">
-                <h3 className="messages-title">{t('pray.messagesTitle')}</h3>
-                <p className='messages-description'>{t('pray.messagesDescription')}</p>
-                {messages.length > 0 ? (
-                    <div className="messages-grid">
-                        {messages.map((message, index) => (
-                            <div key={index} className="message-item">
-                                <p><strong>Name:</strong> {message.fullName}</p>
-                                <p><strong>Country:</strong> {message.email}</p> {/* Displaying country as email */}
-                                <p><strong>Review:</strong> {message.msg}</p>
-                                <hr className="message-divider" />
-                            </div>
-                        ))}
-                    </div>
-                ) : (
-                    <p className="no-messages">{t('pray.noMessages')}</p>
-                )}
+                        <div className="fx-reviews__status" role="status" aria-live="polite">
+                            {(showMessage || showConfirmationMessage) && (
+                                <div className="fx-alert fx-alert--success">
+                                    <i className="fas fa-check-circle" aria-hidden="true" />
+                                    <div>
+                                        {showMessage && <p className="fx-reviews__ok">{t('pray.successMessage')}</p>}
+                                        {showConfirmationMessage && <p>{t('pray.confirmationMessage')}</p>}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </form>
+                </Reveal>
+
+                {/* Approved reviews: a masonry wall of quote cards */}
+                <section className="fx-wall" aria-labelledby="fx-wall-title" aria-busy={loading}>
+                    <header className="fx-wall__head">
+                        <h2 id="fx-wall-title" className="ui-eyebrow fx-wall__title">{t('pray.messagesTitle')}</h2>
+                        {!loading && reviews.length > 0 && (
+                            <span className="fx-wall__count" aria-hidden="true">{reviews.length}</span>
+                        )}
+                    </header>
+
+                    {loading ? (
+                        <ul className="fx-wall__grid" aria-label={t('faithUi.reviewsLoading')}>
+                            {[150, 220, 120, 190].map((h, i) => (
+                                <li key={i} className="fx-quote fx-quote--skeleton">
+                                    <span className="ui-skeleton" style={{ height: h }} />
+                                    <span className="ui-skeleton fx-quote__skline" />
+                                </li>
+                            ))}
+                        </ul>
+                    ) : reviews.length > 0 ? (
+                        <ul className="fx-wall__grid">
+                            {reviews.map((message, index) => (
+                                <li key={message._id || index} className="fx-quote">
+                                    <figure>
+                                        <blockquote className="fx-quote__text">{message.msg}</blockquote>
+                                        <figcaption className="fx-quote__by">
+                                            <span className="fx-quote__avatar" aria-hidden="true">{initialOf(message.fullName)}</span>
+                                            <span>
+                                                <span className="fx-quote__name">{message.fullName}</span>
+                                                {message.email && (
+                                                    <span className="fx-quote__place">
+                                                        <i className="fas fa-map-marker-alt" aria-hidden="true" />
+                                                        {message.email}
+                                                    </span>
+                                                )}
+                                            </span>
+                                        </figcaption>
+                                    </figure>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <div className="fx-wall__empty">
+                            <span className="fx-wall__emptymark" aria-hidden="true">&ldquo;</span>
+                            <p className="fx-wall__emptytitle">{t('pray.noMessages')}</p>
+                            <p className="fx-wall__emptyhint">{t('faithUi.reviewsEmptyHint')}</p>
+                        </div>
+                    )}
+                </section>
             </div>
-        </div>
+        </main>
     );
 }
 

@@ -1,293 +1,138 @@
-/* Container for the live client */
-.live-client-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #c31432, #240b36);
-    padding: 20px;
-    overflow: hidden;
-    transition: background-color 0.3s ease;
-}
+/* ===== Live page (components/LiveVideo.js), "Immersive pilgrimage" ===== */
 
-/* Main content styling */
-.live-client-content {
-    width: 100%;
-    max-width: 1200px;
-    margin: auto;
+.fx-live .ui-hero { min-height: clamp(240px, 34vh, 340px); padding-bottom: 72px; }
+
+/* ---- cinematic player frame ---- */
+.fx-stage { position: relative; margin-top: -48px; }
+.fx-player {
     position: relative;
-}
-
-/* Styling for the live video element */
-.live-client-video {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-    background: #000;
-}
-
-/* Placeholder for when the live stream is not active */
-.live-client-placeholder {
+    isolation: isolate;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    aspect-ratio: 16 / 9;
+    min-height: 400px;
+    overflow: hidden;
+    border-radius: 28px;
+    border: 1px solid var(--glass-line);
+    background: #05070d;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6), 0 0 80px rgba(240, 192, 74, 0.08);
+}
+.fx-player::after {
+    /* thin inner frame, like a viewfinder */
+    content: '';
+    position: absolute;
+    inset: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+    pointer-events: none;
+}
+.fx-player__bg {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, #ff7e5f, #feb47b);
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-    padding: 20px;
-    transition: background 0.3s ease;
+    object-fit: cover;
+    transform: scale(1.06);
+    filter: blur(3px) brightness(0.42) saturate(0.7);
+    transition: filter 0.6s ease;
 }
-
-/* Event information box */
-.live-client-event-info {
-    width: 100%;
-    background: rgba(255, 255, 255, 0.9);
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+.fx-player__shade {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+        linear-gradient(180deg, rgba(5, 7, 13, 0.75) 0%, rgba(5, 7, 13, 0) 22%, rgba(5, 7, 13, 0) 70%, rgba(5, 7, 13, 0.85) 100%),
+        radial-gradient(ellipse at 50% 50%, rgba(10, 14, 26, 0.15), rgba(10, 14, 26, 0.75) 85%);
 }
+.fx-player--live .fx-player__bg { filter: blur(1px) brightness(0.6) saturate(1); }
+.fx-player--live { border-color: rgba(255, 90, 106, 0.55); box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6), 0 0 90px rgba(214, 40, 57, 0.25); }
+.fx-player--upcoming { border-color: rgba(240, 192, 74, 0.4); }
 
-/* Heading styling */
-.live-client-event-info h2 {
-    font-size: 36px;
-    margin-bottom: 10px;
-    color: #333;
-    font-family: 'Arial', sans-serif;
-}
+.fx-player__top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 22px 24px 0; }
+.fx-player__brand { color: rgba(255, 255, 255, 0.55); font-size: 1rem; }
 
-/* Description styling */
-.live-client-event-info p {
-    font-size: 18px;
-    color: #555;
-    font-family: 'Arial', sans-serif;
-}
-
-/* Event name styling */
-.event-name {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #222;
-}
-
-/* Time remaining styling */
-.time-remaining-frame {
-    display: inline-block;
-    padding: 15px;
-    background: #fff;
-    border: 2px solid #333;
-    border-radius: 8px;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
-    margin-top: 10px;
-    font-size: 24px;
-    color: #333;
-    font-weight: bold;
-    transition: background 0.3s ease, color 0.3s ease;
-}
-
-/* Coming soon message */
-.event-coming-soon {
-    margin-top: 10px;
-    font-size: 18px;
-    font-weight: bold;
-    color: #e53935;
-}
-
-/* Live mode styles */
-.live-mode {
-    background-color: #000;
-}
-
-/* Live mode placeholder styles */
-.live-mode .live-client-placeholder {
-    background: rgba(0, 0, 0, 0.2);
-}
-
-/* Live mode event info styles */
-.live-mode .live-client-event-info {
-    background: rgba(255, 255, 255, 0.8);
+.fx-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--glass-line);
+    background: rgba(10, 14, 26, 0.65);
     color: #fff;
+    font: 700 0.78rem/1 var(--sans);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+.fx-badge__dot { width: 9px; height: 9px; border-radius: 50%; background: #8a90a6; }
+.fx-badge--live { background: #c81e32; border-color: #ff6b7a; }
+.fx-badge--live .fx-badge__dot { background: #fff; animation: fx-pulse 1.4s ease-out infinite; }
+.fx-badge--upcoming { border-color: rgba(240, 192, 74, 0.55); color: #ffe9a8; }
+.fx-badge--upcoming .fx-badge__dot { background: var(--gold); }
+@keyframes fx-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.8); }
+    100% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
 }
 
-/* Join live button */
-.join-live-button {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 15px 30px;
-    font-size: 20px;
-    font-weight: bold;
-    color: #fff;
-    background-color: #c31432;
-    border: none;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-/* Join live button hover effect */
-.join-live-button:hover {
-    background-color: #240b36;
-    transform: scale(1.05);
-}
-
-/* Past lives section */
-.past-lives-container {
-    margin-top: 40px;
-    width: 100%;
-    text-align: center;
-}
-
-.past-videos-gallery {
+.fx-player__body {
+    flex: 1;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    gap: 30px;
-    padding: 20px;
-}
-
-.past-live-item {
-    width: 300px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    gap: 10px;
+    padding: 20px 24px 40px;
     text-align: center;
 }
-
-.past-live-video {
-    width: 100%;
-    height: 360px;
-    object-fit: contain;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-    background: #000;
+.fx-player__title { margin: 0; font: 400 clamp(1.5rem, 4vw, 2.6rem)/1.15 var(--serif); color: #fff; text-shadow: 0 4px 30px rgba(0, 0, 0, 0.6); }
+.fx-player__event { margin: 0; color: var(--gold); font-weight: 700; font-size: clamp(1rem, 2.2vw, 1.2rem); }
+.fx-player__meta { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 32px; margin: 8px 0; }
+.fx-player__meta dt { margin-bottom: 4px; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.fx-player__meta dd { margin: 0; color: #fff; font-weight: 700; }
+.fx-countdown { font: 700 clamp(1.25rem, 3.2vw, 1.8rem)/1.2 var(--sans); letter-spacing: 0.03em; color: var(--gold); font-variant-numeric: tabular-nums; }
+.fx-player__note { display: flex; align-items: flex-start; gap: 8px; max-width: 560px; margin: 0; color: var(--muted); font-size: 0.9rem; text-align: start; }
+.fx-player__note i { margin-top: 4px; color: var(--gold); }
+.fx-player__join { margin-top: 10px; }
+.fx-player__icon {
+    display: grid;
+    place-items: center;
+    width: 76px;
+    height: 76px;
+    margin-bottom: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--glass-line);
+    color: var(--muted);
+    font-size: 1.6rem;
 }
+.fx-player__hint { max-width: 520px; margin: 0; color: var(--muted); }
 
-.past-live-item h3 {
-    margin-top: 10px;
-    font-size: 18px;
+/* ---- past broadcasts ---- */
+.fx-past__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 22px;
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
 }
+.fx-past__item { display: flex; flex-direction: column; overflow: hidden; }
+.fx-past__frame { aspect-ratio: 4 / 5; background: #000; }
+.fx-past__video { display: block; width: 100%; height: 100%; object-fit: contain; background: #000; }
+.fx-past__body { padding: 18px 20px 22px; }
+.fx-past__body p { margin: 0; }
 
-.past-live-item p {
-    color: #555;
+@media (min-width: 700px) {
+    .fx-past__grid { grid-template-columns: 1fr 1fr; }
 }
-
-.live-note, .refresh-note {
-    margin-top: 10px;
-    font-size: 0.9em; /* Slightly smaller font size */
-  }
-  
-/* For tablets and smaller devices */
-@media (max-width: 768px) {
-    .live-client-event-info h2 {
-        font-size: 30px;
-    }
-
-    .live-client-event-info p {
-        font-size: 16px;
-    }
-
-    .live-client-placeholder {
-        padding: 15px;
-    }
-
-    .time-remaining-frame {
-        font-size: 20px;
-        padding: 12px;
-    }
-
-    .event-coming-soon {
-        font-size: 16px;
-    }
-
-    .join-live-button {
-        font-size: 18px;
-        padding: 12px 25px;
-    }
-
-    .past-live-item {
-        width: 100%;
-    }
-
-    .past-live-video {
-        width: 100%;
-        height: 360px;
-        object-fit: contain;
-        border-radius: 10px;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-        background: #000;
-    }
-}
-
-/* For phones and very small devices */
-@media (max-width: 480px) {
-    .live-client-event-info h2 {
-        font-size: 24px;
-    }
-
-    .live-client-event-info p {
-        font-size: 14px;
-    }
-
-    .live-client-placeholder {
-        padding: 10px;
-    }
-
-    .time-remaining-frame {
-        font-size: 18px;
-        padding: 10px;
-    }
-
-    .event-coming-soon {
-        font-size: 14px;
-    }
-
-    .join-live-button {
-        font-size: 16px;
-        padding: 10px 20px;
-    }
-
-    .past-live-item {
-        width: 100%;
-    }
-
-    .past-live-video {
-        width: 100%;
-        height: 360px;
-        object-fit: contain;
-        border-radius: 10px;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-        background: #000;
-    }
-}
-
-/* Add hover effects */
-.live-client-placeholder:hover {
-    background: linear-gradient(135deg, #feb47b, #ff7e5f);
-    cursor: pointer;
-}
-
-.live-client-event-info:hover {
-    background: rgba(255, 255, 255, 1);
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-}
-
-.time-remaining-frame:hover {
-    background: #f5f5f5;
-    color: #111;
-    border-color: #111;
-}
-
-.thumbnail-cover {
-    width: 100%; /* Make sure the image takes the full width of its container */
-    height: 200px; /* Set a fixed height or adjust as needed */
-    object-fit: cover; /* Ensure the image covers the container while maintaining its aspect ratio */
-    border-radius: 10px; /* Optional: for rounded corners */
-    background: #000; /* Optional: fallback background if image fails to load */
+@media (max-width: 699px) {
+    .fx-player { aspect-ratio: auto; min-height: 380px; border-radius: 20px; }
+    .fx-player::after { inset: 8px; border-radius: 14px; }
+    .fx-player__top { padding: 16px 16px 0; }
+    .fx-player__body { padding: 16px 18px 32px; }
+    .fx-stage { margin-top: -36px; }
 }

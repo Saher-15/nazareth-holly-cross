@@ -1,10 +1,12 @@
 import React, { useState, useCallback } from 'react';
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { useTranslation } from 'react-i18next';
+import "../styles/FaithShared.css";
 import "../styles/PaypalCandle.css";
 import ConfirmationCandle from '../components/ConfirmationCandle';
 import { PAYPAL_CLIENT_ID } from '../config/env';
 import usePayPalOrder from '../payments/usePayPalOrder';
+import PageHero from './ui/PageHero';
 
 const PayPalComponent = ({ form }) => {
     const { t } = useTranslation(); // Hook to use translations
@@ -36,51 +38,90 @@ const PayPalComponent = ({ form }) => {
     };
 
     return (
-        <div className="App-paypal-candle">
-            <div className="form-summary">
-                <h2>{t("orderSummary")}</h2>
-                <p><strong>{t("firstName")}</strong> {form.firstname}</p>
-                <p><strong>{t("lastName")}</strong> {form.lastname}</p>
-                <p><strong>{t("email")}</strong> {form.email}</p>
-                <p><strong>{t("prayerAt")}</strong> {form.pray}</p>
-                <p><strong>{t("cost")}</strong> 3$</p>
+        <main className={`ui-page fx fx-hero-plain fx-co ${showConfirmation ? 'is-paid' : ''}`}>
+            <PageHero
+                eyebrow={t('faithUi.checkoutEyebrow')}
+                title={t('faithUi.candleCheckoutTitle')}
+                lead={t('faithUi.checkoutLead')}
+            />
 
-                <button onClick={handleConfirmPayment}>
-                    {paymentConfirmed ? t("confirmed") : t("confirmDetails")}
-                </button>
-            </div>
+            <div className="ui-container fx-co__grid">
+                <section className="fx-co__main ui-glass" aria-labelledby="fx-co-summary">
+                    <p className="fx-co__step"><span className="fx-co__stepn" aria-hidden="true">1</span>{t('faithUi.stepDetails')}</p>
+                    <h2 id="fx-co-summary" className="fx-co__title">{t("orderSummary")}</h2>
+                    <dl className="fx-co__details">
+                        <div><dt>{t("firstName")}</dt><dd>{form.firstname}</dd></div>
+                        <div><dt>{t("lastName")}</dt><dd>{form.lastname}</dd></div>
+                        <div><dt>{t("email")}</dt><dd>{form.email}</dd></div>
+                        <div><dt>{t("prayerAt")}</dt><dd className="fx-co__prayer">{form.pray}</dd></div>
+                    </dl>
 
-            <div className="paypal-card1">
-                <PayPalScriptProvider options={initialOptions}>
-                    {!showConfirmation && paymentConfirmed && (
-                        <div className="paypal-buttons-container">
-                            <PayPalButtons
-                                createOrder={createOrder}
-                                onApprove={onApprove}
-                                onCancel={onCancel}
-                                onError={onError}
+                    <button
+                        type="button"
+                        className={`ui-btn ${paymentConfirmed ? 'ui-btn--ghost' : 'ui-btn--gold'} fx-btn-lg fx-co__confirm`}
+                        onClick={handleConfirmPayment}
+                    >
+                        {paymentConfirmed && <i className="fas fa-check" aria-hidden="true" />}
+                        {paymentConfirmed ? t("confirmed") : t("confirmDetails")}
+                    </button>
+                </section>
+
+                <aside className="fx-co__side ui-glass" aria-labelledby="fx-co-pay">
+                    <p className="fx-co__step"><span className="fx-co__stepn" aria-hidden="true">2</span>{t('faithUi.stepPayment')}</p>
+                    <h2 id="fx-co-pay" className="fx-co__title">{t('paypalComponent.paymentMethod')}</h2>
+
+                    <div className="fx-co__total">
+                        <span className="fx-co__candle">
+                            <span className="fx-flame fx-flame--sm" aria-hidden="true" />
+                            {t("cost")}
+                        </span>
+                        <strong>$3</strong>
+                    </div>
+
+                    <div className="paypal-card1">
+                        <PayPalScriptProvider options={initialOptions}>
+                            {!showConfirmation && paymentConfirmed && (
+                                <div className="paypal-buttons-container fx-co__paypal">
+                                    <PayPalButtons
+                                        createOrder={createOrder}
+                                        onApprove={onApprove}
+                                        onCancel={onCancel}
+                                        onError={onError}
+                                    />
+                                    {payError && <p className="payment-error" role="alert">{payError}</p>}
+                                </div>
+                            )}
+                        </PayPalScriptProvider>
+                        {!paymentConfirmed && (
+                            <p className="fx-alert fx-alert--info">
+                                <i className="fas fa-info-circle" aria-hidden="true" />
+                                {t('faithUi.confirmFirst')}
+                            </p>
+                        )}
+                        {showConfirmation && (
+                            <ConfirmationCandle
+                                firstName={form.firstname}
+                                lastName={form.lastname}
+                                email={form.email}
+                                prayer={form.pray}
                             />
-                            {payError && <p className="payment-error" role="alert">{payError}</p>}
+                        )}
+                    </div>
+
+                    {showAlert && (
+                        <div className="fx-alert fx-alert--danger fx-co__cancel" role="alert">
+                            <i className="fas fa-times-circle" aria-hidden="true" />
+                            <p>{t("orderCancelled")}</p>
                         </div>
                     )}
-                </PayPalScriptProvider>
-                {showConfirmation && (
-                    <ConfirmationCandle
-                        firstName={form.firstname}
-                        lastName={form.lastname}
-                        email={form.email}
-                        prayer={form.pray}
-                    />
-                )}
-            </div>
 
-            {showAlert && (
-                <div className="ms-alert ms-action2 ms-small">
-                    <span className="ms-close"></span>
-                    <p>{t("orderCancelled")}</p>
-                </div>
-            )}
-        </div>
+                    <p className="fx-co__secure">
+                        <i className="fas fa-lock" aria-hidden="true" />
+                        {t('faithUi.securedBy')}
+                    </p>
+                </aside>
+            </div>
+        </main>
     );
 };
 

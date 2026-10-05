@@ -1,13 +1,7 @@
 import React from 'react';
 import LiveVideo from '../components/LiveVideo';
 
-const App = () => {
-
-  return (
-    <div>
-      <LiveVideo />
-    </div>
-  );
-}
+// The live page: LiveVideo renders the whole page (<main className="ui-page">).
+const App = () => <LiveVideo />;
 
 export default App;
