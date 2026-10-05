@@ -383,5 +383,57 @@
       "description": "Zapal świecę w Nazarecie, odwiedź jego święte miejsca, przeczytaj werset dnia i zabierz do domu pobłogosławione pamiątki z miasta, w którym dorastał Jezus."
     },
     "carouselHint": "Przesuń palcem, przeciągnij lub użyj klawiszy strzałek, aby przeglądać święte miejsca."
+  },
+  "placesPage": {
+    "meta": {
+      "sitesTitle": "Święte miejsca Nazaretu",
+      "sitesDescription": "Zobacz na zdjęciach Bazylikę Zwiastowania, cerkiew grecko-prawosławną, Studnię Maryi, Stare Miasto i miasto Nazaret, z mapami i wskazówkami dojazdu na Twoją pielgrzymkę.",
+      "tourTitle": "Wirtualna wycieczka po Nazarecie",
+      "tourDescription": "Obejrzyj wideowycieczkę po Nazarecie, od tętniących życiem targów po zabytkowe kościoły, a potem poznaj każde święte miejsce na zdjęciach.",
+      "aboutTitle": "O nas",
+      "aboutDescription": "Nazareth Holy Cross przybliża Ci miasto Jezusa: wirtualne wizyty w świętych miejscach, pamiątki z Nazaretu i świece zapalane w Twoich intencjach."
+    },
+    "index": {
+      "title": "Święte miejsca Nazaretu",
+      "lead": "Pięć miejsc, w których historia Zwiastowania i dzieciństwa Jezusa wciąż żyje. Przejdź przez nie na zdjęciach, znajdź je na mapie albo zapal świecę z daleka.",
+      "listEyebrow": "Pięć świętych miejsc",
+      "tourTitle": "Spaceruj ulicami Nazaretu",
+      "tourText": "Obejrzyj naszą wideowycieczkę i odkryj targi, kościoły i zabytki miasta, w którym dorastał Jezus."
+    },
+    "kind": {
+      "latin": "Bazylika katolicka",
+      "greek": "Cerkiew grecko-prawosławna",
+      "maryswell": "Dawne źródło",
+      "oldcity": "Zabytkowa dzielnica i targ",
+      "city": "Miasto Jezusa"
+    },
+    "teaser": {
+      "latin": "Jeden z największych kościołów Bliskiego Wschodu, wzniesiony nad grotą, w której według tradycji anioł Gabriel zwiastował Maryi narodzenie Jezusa.",
+      "greek": "Zbudowana w 1750 roku nad źródłem, przy którym tradycja prawosławna umieszcza Zwiastowanie, z rzeźbionym drewnianym ikonostasem i kaplicą, do której prowadzą schody z czasów krzyżowców.",
+      "maryswell": "Dawne źródło Nazaretu, z którego według tradycji Maryja czerpała wodę: przez wieki miejsce spotkań mieszkańców.",
+      "oldcity": "Wąskie uliczki, gwarny targ i jedne z najważniejszych miejsc chrześcijańskich Nazaretu, wszystko w zasięgu krótkiego spaceru.",
+      "city": "Położone na wzgórzach Galilei miasto, w którym dorastał Jezus, dziś tętniące życiem centrum wiary, kultury i gościnności."
+    },
+    "allSites": "Wszystkie święte miejsca",
+    "newTab": "(otwiera się w nowej karcie)",
+    "viewGallery": "Zobacz zdjęcia",
+    "visitEyebrow": "Zaplanuj wizytę",
+    "visitText": "Znajdź to święte miejsce na mapie lub zapal świecę w swojej intencji, gdziekolwiek jesteś.",
+    "directions": "Wyznacz trasę",
+    "galleryEyebrow": "Galeria",
+    "galleryTitle": "Galeria zdjęć",
+    "galleryHint": "Wybierz zdjęcie, aby je powiększyć",
+    "photoCount": "{count, plural, one {# zdjęcie} few {# zdjęcia} many {# zdjęć} other {# zdjęcia}}",
+    "photoAlt": "{place}, zdjęcie {n} z {total}",
+    "viewer": "Zdjęcia: {place}",
+    "close": "Zamknij",
+    "moreEyebrow": "Kontynuuj podróż",
+    "tourWatchEyebrow": "Obejrzyj wycieczkę",
+    "tourVideoLabel": "Wideowycieczka po Nazarecie",
+    "videoFallback": "Twoja przeglądarka nie może odtworzyć tego filmu.",
+    "aboutEyebrow": "O nas",
+    "aboutPillar1": "Pielgrzymka na odległość",
+    "aboutPillar2": "Skarby z Ziemi Świętej",
+    "aboutPillar3": "Wspieranie naszej społeczności"
   }
 }

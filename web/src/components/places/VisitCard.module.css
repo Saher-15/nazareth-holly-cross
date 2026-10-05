@@ -1,0 +1,55 @@
+.card {
+  display: grid;
+  gap: 4px;
+}
+.text {
+  margin: 0 0 18px;
+  color: var(--cream);
+}
+.actions {
+  display: grid;
+  gap: 10px;
+}
+.actions :global(.ui-btn) {
+  width: 100%;
+  line-height: 1.2;
+  text-align: center;
+}
+.actions :global(.ui-btn) svg {
+  flex: none;
+}
+
+/* A small candle flame that flickers (still for reduced motion). */
+.flame {
+  display: inline-block;
+  flex: none;
+  width: 9px;
+  height: 15px;
+  border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%;
+  background: radial-gradient(ellipse at 50% 75%, var(--cream) 0%, var(--gold-deep) 70%, transparent 100%);
+  transform-origin: 50% 90%;
+  animation: flicker 1.6s ease-in-out infinite;
+}
+@keyframes flicker {
+  0%, 100% { transform: scale(1, 1) rotate(-1.5deg); }
+  30% { transform: scale(0.94, 1.08) rotate(2deg); }
+  60% { transform: scale(1.04, 0.96) rotate(-2deg); }
+}
+
+@media (min-width: 900px) {
+  .card {
+    position: sticky;
+    top: 96px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flame {
+    animation: none;
+  }
+}
+
+/* Pill buttons keep their shape when focused. */
+.actions :global(.ui-btn):focus-visible {
+  border-radius: 999px;
+}

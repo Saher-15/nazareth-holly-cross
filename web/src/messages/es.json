@@ -383,5 +383,57 @@
       "description": "Enciende una vela en Nazaret, recorre sus lugares santos, lee el versículo del día y lleva a casa recuerdos bendecidos de la ciudad donde creció Jesús."
     },
     "carouselHint": "Desliza, arrastra o usa las flechas del teclado para recorrer los lugares santos."
+  },
+  "placesPage": {
+    "meta": {
+      "sitesTitle": "Lugares santos de Nazaret",
+      "sitesDescription": "Recorre en fotos la Iglesia de la Anunciación, la iglesia greco-ortodoxa, el Pozo de María, la Ciudad Vieja y la ciudad de Nazaret, con mapas e indicaciones para tu peregrinación.",
+      "tourTitle": "Visita virtual de Nazaret",
+      "tourDescription": "Mira un recorrido en vídeo por Nazaret, desde sus animados mercados hasta sus iglesias históricas, y luego explora cada lugar santo en fotos.",
+      "aboutTitle": "Sobre nosotros",
+      "aboutDescription": "Nazareth Holy Cross te acerca la ciudad de Jesús: visitas virtuales a sus lugares santos, recuerdos de Nazaret y velas encendidas por tus intenciones."
+    },
+    "index": {
+      "title": "Los lugares santos de Nazaret",
+      "lead": "Cinco lugares donde la historia de la Anunciación y de la infancia de Jesús sigue viva. Recórrelos en fotos, encuéntralos en el mapa o enciende una vela desde lejos.",
+      "listEyebrow": "Cinco lugares santos",
+      "tourTitle": "Recorre las calles de Nazaret",
+      "tourText": "Mira nuestro recorrido en vídeo y descubre los mercados, las iglesias y los lugares emblemáticos de la ciudad donde creció Jesús."
+    },
+    "kind": {
+      "latin": "Basílica católica",
+      "greek": "Iglesia greco-ortodoxa",
+      "maryswell": "Manantial antiguo",
+      "oldcity": "Barrio histórico y mercado",
+      "city": "La ciudad de Jesús"
+    },
+    "teaser": {
+      "latin": "Una de las iglesias más grandes de Oriente Medio, construida sobre la gruta donde, según la tradición, el ángel Gabriel anunció a María que daría a luz a Jesús.",
+      "greek": "Construida en 1750 sobre el manantial donde la tradición ortodoxa sitúa la Anunciación, con un iconostasio de madera tallada y una capilla a la que se baja por escalones de la época de los cruzados.",
+      "maryswell": "El antiguo manantial de Nazaret donde, según la tradición, María sacaba agua: durante siglos, el lugar de encuentro del pueblo.",
+      "oldcity": "Callejuelas estrechas, un mercado animado y algunos de los lugares cristianos más importantes de Nazaret, todo a poca distancia a pie.",
+      "city": "La ciudad de Galilea, en la ladera de una colina, donde creció Jesús, hoy un centro vivo de fe, cultura y hospitalidad."
+    },
+    "allSites": "Todos los lugares santos",
+    "newTab": "(se abre en una pestaña nueva)",
+    "viewGallery": "Ver las fotos",
+    "visitEyebrow": "Planifica tu visita",
+    "visitText": "Encuentra este lugar santo en el mapa o enciende una vela por tu intención desde donde estés.",
+    "directions": "Cómo llegar",
+    "galleryEyebrow": "Galería",
+    "galleryTitle": "Galería de fotos",
+    "galleryHint": "Selecciona una foto para ampliarla",
+    "photoCount": "{count, plural, one {# foto} other {# fotos}}",
+    "photoAlt": "{place}, foto {n} de {total}",
+    "viewer": "Fotos de {place}",
+    "close": "Cerrar",
+    "moreEyebrow": "Continúa el viaje",
+    "tourWatchEyebrow": "Mira el recorrido",
+    "tourVideoLabel": "Recorrido en vídeo por Nazaret",
+    "videoFallback": "Tu navegador no puede reproducir este vídeo.",
+    "aboutEyebrow": "Sobre nosotros",
+    "aboutPillar1": "Una peregrinación a distancia",
+    "aboutPillar2": "Tesoros de Tierra Santa",
+    "aboutPillar3": "Apoyar a nuestra comunidad"
   }
 }

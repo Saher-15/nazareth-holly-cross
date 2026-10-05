@@ -383,5 +383,57 @@
       "description": "Zünden Sie in Nazareth eine Kerze an, besuchen Sie die heiligen Stätten, lesen Sie den Vers des Tages und bringen Sie gesegnete Andenken aus der Stadt mit nach Hause, in der Jesus aufwuchs."
     },
     "carouselHint": "Wischen, ziehen oder die Pfeiltasten verwenden, um durch die heiligen Stätten zu blättern."
+  },
+  "placesPage": {
+    "meta": {
+      "sitesTitle": "Heilige Stätten in Nazareth",
+      "sitesDescription": "Entdecken Sie die Verkündigungskirche, die griechisch-orthodoxe Kirche, den Marienbrunnen, die Altstadt und die Stadt Nazareth in Bildern, mit Karten und Wegbeschreibungen für Ihre Pilgerreise.",
+      "tourTitle": "Virtuelle Tour durch Nazareth",
+      "tourDescription": "Sehen Sie eine Videotour durch Nazareth, von den lebhaften Märkten bis zu den historischen Kirchen, und entdecken Sie dann jede heilige Stätte in Bildern.",
+      "aboutTitle": "Über uns",
+      "aboutDescription": "Nazareth Holy Cross bringt Ihnen die Stadt Jesu nach Hause: virtuelle Besuche der heiligen Stätten, Andenken aus Nazareth und Kerzen, die für Ihre Anliegen entzündet werden."
+    },
+    "index": {
+      "title": "Die heiligen Stätten von Nazareth",
+      "lead": "Fünf Orte, an denen die Geschichte der Verkündigung und der Kindheit Jesu lebendig ist. Gehen Sie in Bildern durch sie hindurch, finden Sie sie auf der Karte oder zünden Sie aus der Ferne eine Kerze an.",
+      "listEyebrow": "Fünf heilige Orte",
+      "tourTitle": "Durch die Gassen von Nazareth",
+      "tourText": "Sehen Sie unsere Videotour und entdecken Sie die Märkte, Kirchen und Wahrzeichen der Stadt, in der Jesus aufwuchs."
+    },
+    "kind": {
+      "latin": "Katholische Basilika",
+      "greek": "Griechisch-orthodoxe Kirche",
+      "maryswell": "Alte Quelle",
+      "oldcity": "Historisches Viertel und Markt",
+      "city": "Die Stadt Jesu"
+    },
+    "teaser": {
+      "latin": "Eine der größten Kirchen im Nahen Osten, erbaut über der Grotte, in der der Erzengel Gabriel nach der Überlieferung Maria die Geburt Jesu verkündete.",
+      "greek": "Erbaut 1750 über der Quelle, an der die orthodoxe Tradition die Verkündigung verortet, mit einer geschnitzten Ikonostase aus Holz und einer Kapelle, zu der Stufen aus der Kreuzfahrerzeit führen.",
+      "maryswell": "Die alte Quelle von Nazareth, an der Maria nach der Überlieferung Wasser schöpfte: über Jahrhunderte der Treffpunkt des Ortes.",
+      "oldcity": "Enge Gassen, ein lebhafter Markt und einige der wichtigsten christlichen Stätten Nazareths, alles nur wenige Schritte voneinander entfernt.",
+      "city": "Die Stadt in den Hügeln Galiläas, in der Jesus aufwuchs, heute ein lebendiges Zentrum des Glaubens, der Kultur und der Gastfreundschaft."
+    },
+    "allSites": "Alle heiligen Stätten",
+    "newTab": "(öffnet in einem neuen Tab)",
+    "viewGallery": "Fotos ansehen",
+    "visitEyebrow": "Ihren Besuch planen",
+    "visitText": "Finden Sie diesen heiligen Ort auf der Karte oder zünden Sie von überall aus eine Kerze für Ihr Anliegen an.",
+    "directions": "Route planen",
+    "galleryEyebrow": "Galerie",
+    "galleryTitle": "Fotogalerie",
+    "galleryHint": "Wählen Sie ein Foto, um es zu vergrößern",
+    "photoCount": "{count, plural, one {# Foto} other {# Fotos}}",
+    "photoAlt": "{place}, Foto {n} von {total}",
+    "viewer": "Fotos: {place}",
+    "close": "Schließen",
+    "moreEyebrow": "Die Reise fortsetzen",
+    "tourWatchEyebrow": "Die Tour ansehen",
+    "tourVideoLabel": "Videotour durch Nazareth",
+    "videoFallback": "Ihr Browser kann dieses Video nicht abspielen.",
+    "aboutEyebrow": "Über uns",
+    "aboutPillar1": "Eine Pilgerreise aus der Ferne",
+    "aboutPillar2": "Schätze aus dem Heiligen Land",
+    "aboutPillar3": "Unsere Gemeinschaft unterstützen"
   }
 }

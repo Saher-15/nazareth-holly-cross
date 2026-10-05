@@ -383,5 +383,57 @@
       "description": "Acenda uma vela em Nazaré, percorra os seus lugares santos, leia o versículo do dia e leve para casa lembranças abençoadas da cidade onde Jesus cresceu."
     },
     "carouselHint": "Deslize, arraste ou use as setas do teclado para percorrer os lugares santos."
+  },
+  "placesPage": {
+    "meta": {
+      "sitesTitle": "Lugares santos de Nazaré",
+      "sitesDescription": "Visite em fotos a Igreja da Anunciação, a igreja greco-ortodoxa, o Poço de Maria, a Cidade Velha e a cidade de Nazaré, com mapas e rotas para a sua peregrinação.",
+      "tourTitle": "Visita virtual a Nazaré",
+      "tourDescription": "Assista a um passeio em vídeo por Nazaré, dos mercados animados às igrejas históricas, e depois explore cada lugar santo em fotos.",
+      "aboutTitle": "Sobre nós",
+      "aboutDescription": "A Nazareth Holy Cross leva a cidade de Jesus até você: visitas virtuais aos seus lugares santos, lembranças de Nazaré e velas acesas pelas suas intenções."
+    },
+    "index": {
+      "title": "Os lugares santos de Nazaré",
+      "lead": "Cinco lugares onde a história da Anunciação e da infância de Jesus continua viva. Percorra-os em fotos, encontre-os no mapa ou acenda uma vela à distância.",
+      "listEyebrow": "Cinco lugares santos",
+      "tourTitle": "Caminhe pelas ruas de Nazaré",
+      "tourText": "Assista ao nosso passeio em vídeo e descubra os mercados, as igrejas e os marcos da cidade onde Jesus cresceu."
+    },
+    "kind": {
+      "latin": "Basílica católica",
+      "greek": "Igreja greco-ortodoxa",
+      "maryswell": "Fonte antiga",
+      "oldcity": "Bairro histórico e mercado",
+      "city": "A cidade de Jesus"
+    },
+    "teaser": {
+      "latin": "Uma das maiores igrejas do Oriente Médio, construída sobre a gruta onde, segundo a tradição, o anjo Gabriel anunciou a Maria que ela daria à luz Jesus.",
+      "greek": "Construída em 1750 sobre a fonte onde a tradição ortodoxa situa a Anunciação, com uma iconóstase de madeira entalhada e uma capela à qual se desce por degraus da época das cruzadas.",
+      "maryswell": "A antiga fonte de Nazaré onde, segundo a tradição, Maria buscava água: durante séculos, o ponto de encontro da cidade.",
+      "oldcity": "Ruelas estreitas, um mercado animado e alguns dos lugares cristãos mais importantes de Nazaré, tudo a poucos passos.",
+      "city": "A cidade nas colinas da Galileia onde Jesus cresceu, hoje um centro vibrante de fé, cultura e hospitalidade."
+    },
+    "allSites": "Todos os lugares santos",
+    "newTab": "(abre em uma nova aba)",
+    "viewGallery": "Ver as fotos",
+    "visitEyebrow": "Planeje sua visita",
+    "visitText": "Encontre este lugar santo no mapa ou acenda uma vela pela sua intenção, de onde você estiver.",
+    "directions": "Como chegar",
+    "galleryEyebrow": "Galeria",
+    "galleryTitle": "Galeria de fotos",
+    "galleryHint": "Selecione uma foto para ampliá-la",
+    "photoCount": "{count, plural, one {# foto} other {# fotos}}",
+    "photoAlt": "{place}, foto {n} de {total}",
+    "viewer": "Fotos de {place}",
+    "close": "Fechar",
+    "moreEyebrow": "Continue a jornada",
+    "tourWatchEyebrow": "Assista ao passeio",
+    "tourVideoLabel": "Passeio em vídeo por Nazaré",
+    "videoFallback": "Seu navegador não consegue reproduzir este vídeo.",
+    "aboutEyebrow": "Sobre nós",
+    "aboutPillar1": "Uma peregrinação à distância",
+    "aboutPillar2": "Tesouros da Terra Santa",
+    "aboutPillar3": "Apoiando nossa comunidade"
   }
 }

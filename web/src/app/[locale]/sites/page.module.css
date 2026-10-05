@@ -1,0 +1,70 @@
+.list {
+  padding-top: clamp(24px, 4vw, 48px);
+  scroll-margin-top: 72px;
+}
+.head {
+  margin-bottom: clamp(24px, 4vw, 40px);
+  text-align: center;
+}
+
+/* Virtual tour band: photo behind, text and two calls to action. */
+.band {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: var(--radius);
+  border: 1px solid color-mix(in srgb, var(--gold) 35%, transparent);
+  box-shadow: var(--shadow);
+}
+.bandBg {
+  z-index: -2;
+  object-fit: cover;
+}
+.band::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--night) 92%, transparent) 0%,
+    color-mix(in srgb, var(--night) 70%, transparent) 60%,
+    color-mix(in srgb, var(--night) 35%, transparent) 100%
+  );
+}
+:global([dir='rtl']) .band::after {
+  background: linear-gradient(
+    270deg,
+    color-mix(in srgb, var(--night) 92%, transparent) 0%,
+    color-mix(in srgb, var(--night) 70%, transparent) 60%,
+    color-mix(in srgb, var(--night) 35%, transparent) 100%
+  );
+}
+.bandBody {
+  max-width: 560px;
+  padding: clamp(28px, 6vw, 64px);
+}
+.bandText {
+  margin: 0 0 24px;
+  color: var(--cream);
+  font-size: 1.06rem;
+}
+.bandActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.bandActions :global(.ui-btn) {
+  line-height: 1.2;
+  text-align: center;
+}
+@media (max-width: 480px) {
+  .bandActions :global(.ui-btn) {
+    width: 100%;
+  }
+}
+
+/* Pill buttons keep their shape when focused. */
+.bandActions :global(.ui-btn):focus-visible {
+  border-radius: 999px;
+}

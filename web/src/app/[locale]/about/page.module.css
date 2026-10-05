@@ -1,0 +1,110 @@
+.intro {
+  padding-bottom: 0;
+}
+.quote {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: clamp(28px, 6vw, 56px);
+  border-color: color-mix(in srgb, var(--gold) 30%, transparent);
+  background: linear-gradient(135deg, var(--gold-soft), var(--glass));
+}
+.mark {
+  position: absolute;
+  top: -4px;
+  inset-inline-start: 22px;
+  font-family: var(--serif);
+  font-size: 6.5rem;
+  line-height: 1;
+  color: color-mix(in srgb, var(--gold) 35%, transparent);
+  pointer-events: none;
+}
+.mark::before {
+  content: '\201C';
+}
+:global([dir='rtl']) .mark::before {
+  content: '\201D';
+}
+.lead {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(1.15rem, 2.6vw, 1.45rem);
+  line-height: 1.6;
+  color: var(--cream);
+}
+
+.pillars {
+  display: grid;
+  gap: clamp(16px, 2.4vw, 24px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 900px) {
+  .pillars {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.pillar {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.icon {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  margin-bottom: 10px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--gold) 45%, transparent);
+  background: var(--gold-soft);
+  color: var(--gold);
+}
+.text {
+  flex: 1;
+  margin: 0 0 18px;
+  color: var(--cream);
+}
+.link {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-decoration: none;
+}
+.arrow {
+  flex: none;
+  transition: transform 0.3s ease;
+}
+:global([dir='rtl']) .arrow {
+  transform: scaleX(-1);
+}
+.link:hover .arrow {
+  transform: translateX(4px);
+}
+:global([dir='rtl']) .link:hover .arrow {
+  transform: scaleX(-1) translateX(4px);
+}
+.link:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arrow {
+    transition: none;
+  }
+  .link:hover .arrow {
+    transform: none;
+  }
+  :global([dir='rtl']) .link:hover .arrow {
+    transform: scaleX(-1);
+  }
+}
