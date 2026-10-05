@@ -1,16 +1,18 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { getFormatter, getTranslations, setRequestLocale } from 'next-intl/server';
-import JsonLd from '@/components/community/JsonLd';
 import LivePlayer, { type PlayerBroadcast } from '@/components/community/LivePlayer';
 import PastBroadcasts from '@/components/community/PastBroadcasts';
-import { broadcasts, LIVE_WINDOW_MS, NAZARETH_TIME_ZONE } from '@/components/community/liveSchedule';
-import { communityMetadata } from '@/components/community/metadata';
+import { broadcasts, LIVE_WINDOW_MS } from '@/components/community/liveSchedule';
 import { pastBroadcasts } from '@/components/community/recordings';
+import JsonLd from '@/components/ui/JsonLd';
 import PageHero from '@/components/ui/PageHero';
 import Reveal from '@/components/ui/Reveal';
 import { SITE_URL } from '@/lib/config';
+import { organizationJsonLd } from '@/lib/jsonLd';
+import { pageMetadata } from '@/lib/seo';
 import { socialLinks } from '@/lib/site';
+import { NAZARETH_TIME_ZONE } from '@/lib/time';
 import styles from './page.module.css';
 
 // Re-rendered every hour so the HTML (and the structured data) follow the schedule; in the browser
@@ -22,13 +24,11 @@ const INSTAGRAM_URL = socialLinks.find((s) => s.name === 'Instagram')?.href ?? s
 export async function generateMetadata({ params }: PageProps<'/[locale]/live'>): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'communityPage.live' });
-  const site = await getTranslations({ locale, namespace: 'site' });
-  return communityMetadata({
+  return pageMetadata({
     locale,
     path: '/live',
     title: t('metaTitle'),
     description: t('metaDescription'),
-    siteName: site('name'),
     image: '/images/latin/latin8.jpg',
   });
 }
@@ -39,12 +39,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/live'>):
  * the visitor's own clock.
  */
 async function loadLiveData() {
-  const [t, all, site, format] = await Promise.all([
-    getTranslations('communityPage.live'),
-    getTranslations(),
-    getTranslations('site'),
-    getFormatter(),
-  ]);
+  const [t, all, format] = await Promise.all([getTranslations('communityPage.live'), getTranslations(), getFormatter()]);
   const renderedAt = Date.now();
 
   const schedule: PlayerBroadcast[] = broadcasts.map((b) => {
@@ -57,7 +52,7 @@ async function loadLiveData() {
     };
   });
 
-  const organizer = { '@type': 'Organization', name: site('name'), url: SITE_URL };
+  const organizer = organizationJsonLd({ name: all('site.name') });
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
-import Flame from './Flame';
+import Flame from '@/components/ui/Flame';
 import styles from './StickyCta.module.css';
 
 // A small "light a candle" button that slides in once the hero has scrolled away,

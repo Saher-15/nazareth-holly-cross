@@ -56,28 +56,44 @@ export function cartReducer(lines: CartLine[], action: CartAction): CartLine[] {
   }
 }
 
-function readStored(): CartLine[] {
+const isLine = (l: unknown): l is CartLine =>
+  typeof l === 'object' &&
+  l !== null &&
+  'quantity' in l &&
+  '_id' in l &&
+  typeof l._id === 'string' &&
+  /^[a-f0-9]{24}$/i.test(l._id) && // a Mongo ObjectId: nothing odd may reach a link or image
+  'name' in l &&
+  typeof l.name === 'string' &&
+  'price' in l &&
+  typeof l.price === 'number' &&
+  Number.isFinite(l.price) &&
+  l.price >= 0 &&
+  'img' in l &&
+  typeof l.img === 'string' &&
+  'color' in l &&
+  typeof l.color === 'string' &&
+  typeof l.quantity === 'number' &&
+  Number.isInteger(l.quantity) &&
+  l.quantity >= 1 &&
+  l.quantity <= MAX_LINE_QUANTITY;
+
+/** The cart a stored string holds: only well-formed lines, one per product + colour. Never throws. */
+export function parseStoredCart(raw: string | null): CartLine[] {
   try {
-    const parsed: unknown = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '[]');
+    const parsed: unknown = JSON.parse(raw ?? '[]');
     if (!Array.isArray(parsed)) return [];
-    // localStorage can be edited by anything running on this origin: keep only well-formed lines
-    // (a Mongo ObjectId, text fields, a sane price and quantity) so nothing odd reaches a link or image.
-    return parsed.filter(
-      (l): l is CartLine =>
-        l &&
-        typeof l._id === 'string' &&
-        /^[a-f0-9]{24}$/i.test(l._id) &&
-        typeof l.name === 'string' &&
-        typeof l.img === 'string' &&
-        typeof l.color === 'string' &&
-        typeof l.price === 'number' &&
-        Number.isFinite(l.price) &&
-        Number.isInteger(l.quantity) &&
-        l.quantity >= 1 &&
-        l.quantity <= MAX_LINE_QUANTITY,
-    );
+    return parsed.filter(isLine).reduce<CartLine[]>((lines, line) => (lines.some((l) => sameLine(l, line)) ? lines : [...lines, line]), []);
   } catch {
     return [];
+  }
+}
+
+function readStored(): CartLine[] {
+  try {
+    return parseStoredCart(localStorage.getItem(STORAGE_KEY));
+  } catch {
+    return []; // storage blocked
   }
 }
 

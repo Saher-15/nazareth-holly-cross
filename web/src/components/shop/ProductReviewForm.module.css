@@ -55,7 +55,7 @@
   height: 44px;
   border-radius: 50%;
   color: color-mix(in srgb, var(--cream) 30%, transparent);
-  font-family: system-ui, sans-serif; /* the star glyph, not the page font */
+  font-family: var(--symbols); /* the star glyph, not the page font */
   font-size: 1.9rem;
   line-height: 1;
   cursor: pointer;

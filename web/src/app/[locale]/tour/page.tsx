@@ -3,11 +3,12 @@ import { getImageProps } from 'next/image';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { PLACES, TOUR_CARD, photo, placeCards, placeHref } from '@/data/places/places';
-import { absoluteUrl, breadcrumbJsonLd, localePath, pageMetadata } from '@/data/places/seo';
-import JsonLd from '@/components/places/JsonLd';
 import PlaceCards from '@/components/places/PlaceCards';
 import PlaceHero from '@/components/places/PlaceHero';
+import JsonLd from '@/components/ui/JsonLd';
 import Reveal from '@/components/ui/Reveal';
+import { breadcrumbJsonLd } from '@/lib/jsonLd';
+import { absoluteUrl, localePath, pageMetadata } from '@/lib/seo';
 import styles from './page.module.css';
 
 const TOUR_VIDEO =

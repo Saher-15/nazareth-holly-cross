@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import Reveal from '@/components/ui/Reveal';
+import { isOptimizable } from '@/lib/images';
 import { formatUsd } from '@/lib/pricing';
 import { loadFeatured, type Featured } from './data';
 import styles from './Souvenirs.module.css';
@@ -36,6 +37,7 @@ export function SouvenirsView({ id, locale, featured }: ViewProps) {
                       src={p.img}
                       alt="" /* the name is the link text right below */
                       fill
+                      unoptimized={!isOptimizable(p.img)}
                       sizes="(min-width: 1180px) 280px, (min-width: 1000px) 24vw, (min-width: 700px) 32vw, 48vw"
                     />
                   </span>

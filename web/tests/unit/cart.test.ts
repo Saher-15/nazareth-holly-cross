@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { cartReducer, MAX_LINE_QUANTITY, type CartLine } from '@/lib/cart';
+import { cartReducer, MAX_LINE_QUANTITY, parseStoredCart, type CartLine } from '@/lib/cart';
 import { orderSummary } from '@/lib/pricing';
 
 const oil = { _id: 'a', name: 'Olive oil', price: 10, img: 'x', color: '' };
@@ -48,5 +48,39 @@ describe('orderSummary (must match server/services/pricing.js)', () => {
 
   it('is zero for an empty cart', () => {
     expect(orderSummary([]).total).toBe(0);
+  });
+});
+
+describe('parseStoredCart (the stored cart is untrusted input)', () => {
+  const line = { ...oil, _id: '64b000000000000000000001', quantity: 2 }; // stored ids are Mongo ObjectIds
+
+  it('reads a well-formed cart', () => {
+    expect(parseStoredCart(JSON.stringify([line]))).toEqual([line]);
+    expect(parseStoredCart(null)).toEqual([]);
+  });
+
+  it('never throws on garbage', () => {
+    expect(parseStoredCart('{not json')).toEqual([]);
+    expect(parseStoredCart('{"a":1}')).toEqual([]);
+    expect(parseStoredCart('null')).toEqual([]);
+  });
+
+  it('drops lines that could not have been written by the cart', () => {
+    const bad = [
+      { ...line, quantity: 0 },
+      { ...line, quantity: MAX_LINE_QUANTITY + 1 },
+      { ...line, quantity: 1.5 },
+      { ...line, price: -3 },
+      { ...line, price: null },
+      { ...line, name: 5 },
+      { ...line, color: undefined },
+      'text',
+      null,
+    ];
+    expect(parseStoredCart(JSON.stringify([...bad, line]))).toEqual([line]);
+  });
+
+  it('keeps one line per product and colour', () => {
+    expect(parseStoredCart(JSON.stringify([line, { ...line, quantity: 9 }]))).toEqual([line]);
   });
 });

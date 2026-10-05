@@ -4,7 +4,7 @@ import { useSyncExternalStore, type CSSProperties } from 'react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import Reveal from '@/components/ui/Reveal';
-import Flame from './Flame';
+import Flame from '@/components/ui/Flame';
 import { FLAMES_KEY, localDay, MAX_CANDLES_SHOWN, parseFlames, serializeFlames } from './flames';
 import styles from './CandleStrip.module.css';
 

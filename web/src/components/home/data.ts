@@ -66,12 +66,3 @@ export function clip(text: string, max = 220): string {
   const lastSpace = cut.lastIndexOf(' ');
   return `${(lastSpace > max * 0.6 ? cut.slice(0, lastSpace) : cut).trimEnd()}…`;
 }
-
-/**
- * Where a reviewer comes from. The review form stores the country in the `email`
- * field; older reviews may hold a real address there, which is never shown.
- */
-export function reviewerPlace(review: Pick<Review, 'email'>): string {
-  const value = review.email.trim();
-  return value && !value.includes('@') ? value : '';
-}

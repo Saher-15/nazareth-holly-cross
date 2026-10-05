@@ -171,7 +171,13 @@ async function getJson<T>(
   }
   if (res.status === 404) throw new ApiError(`GET ${path} not found`, 404);
   if (!res.ok) throw new ApiError(`GET ${path} failed with ${res.status}`, res.status);
-  const parsed = schema.safeParse(await res.json());
+  let json: unknown;
+  try {
+    json = await res.json();
+  } catch {
+    throw new ApiError(`GET ${path} did not return JSON`, 502);
+  }
+  const parsed = schema.safeParse(json);
   if (!parsed.success) {
     throw new ApiError(`GET ${path} returned unexpected data: ${parsed.error.message}`, 502);
   }

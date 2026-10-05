@@ -348,38 +348,6 @@
   color: var(--gold);
 }
 
-/* ---- messages ---- */
-.alert {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  margin: 0 0 14px;
-  padding: 12px 14px;
-  border-radius: var(--radius-sm);
-  font-size: 0.95rem;
-  line-height: 1.45;
-  text-align: start;
-  color: var(--cream);
-}
-.alert svg {
-  flex: none;
-  margin-block-start: 2px;
-}
-.alertDanger {
-  background: color-mix(in srgb, var(--danger) 12%, transparent);
-  border: 1px solid color-mix(in srgb, var(--danger) 50%, transparent);
-}
-.alertDanger svg {
-  color: var(--danger);
-}
-.alertInfo {
-  background: var(--gold-soft);
-  border: 1px solid color-mix(in srgb, var(--gold) 35%, transparent);
-}
-.alertInfo svg {
-  color: var(--gold);
-}
-
 /* ---- confirmation ---- */
 .done {
   padding: 30px 20px;
@@ -431,7 +399,7 @@
   font-size: 0.85rem;
   overflow-wrap: anywhere;
 }
-.done .alert {
+.done .doneNotice {
   margin: 16px 0 0;
 }
 .doneActions {
@@ -442,37 +410,6 @@
   margin-block-start: 22px;
 }
 
-/* ---- flame (same flicker as the home page candle strip) ---- */
-.flame {
-  display: inline-block;
-  flex: none;
-  width: 14px;
-  height: 22px;
-  border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%;
-  background: radial-gradient(
-    ellipse at 50% 75%,
-    var(--cream) 0%,
-    var(--gold) 38%,
-    var(--gold-deep) 70%,
-    transparent 100%
-  );
-  transform-origin: 50% 90%;
-  animation: flicker 1.6s ease-in-out infinite;
-}
-.flameSm {
-  width: 9px;
-  height: 15px;
-}
-.flameLg {
-  width: 28px;
-  height: 46px;
-  filter: drop-shadow(0 0 14px color-mix(in srgb, var(--gold) 90%, transparent));
-}
-/* on a gold button the flame is drawn in ink */
-.flameInk {
-  background: radial-gradient(ellipse at 50% 75%, var(--night-3) 0%, var(--night) 70%, transparent 100%);
-}
-
 /* Arabic letters join; letter-spacing would pull them apart. */
 .eyebrow:lang(ar),
 .stepName:lang(ar),
@@ -480,18 +417,6 @@
   letter-spacing: 0;
 }
 
-@keyframes flicker {
-  0%,
-  100% {
-    transform: scale(1, 1) rotate(-1.5deg);
-  }
-  30% {
-    transform: scale(0.94, 1.08) rotate(2deg);
-  }
-  60% {
-    transform: scale(1.04, 0.96) rotate(-2deg);
-  }
-}
 @keyframes pop {
   from {
     opacity: 0;
@@ -503,7 +428,6 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .flame,
   .done {
     animation: none;
   }

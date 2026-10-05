@@ -11,9 +11,8 @@
   height: 460px;
 }
 
-/* E-mail, phone and postal code are written left to right in every language; on a
-   right-to-left page they still line up with the other fields. */
-:global(html[dir='rtl']) .ltr,
+/* The summary shows e-mail and phone left to right; on a right-to-left page they still line up with
+   the other values. (Left-to-right inputs are handled by .ui-input[dir='ltr'] in ui.css.) */
 :global(html[dir='rtl']) .ltrValue {
   text-align: end;
 }

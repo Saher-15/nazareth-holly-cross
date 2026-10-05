@@ -79,7 +79,7 @@ export default function ProductReviewForm({ productId, productName, onPosted }: 
     setStatus('sending');
     setSubmitError(null);
     const payload = toReviewPayload(values, website);
-    const result = await postJson<unknown>(`/product/${encodeURIComponent(productId)}/reviews`, payload);
+    const result = await postJson(`/product/${encodeURIComponent(productId)}/reviews`, payload);
     if (!result.ok) {
       setStatus('idle');
       setSubmitError(submitErrorKey(result.status));

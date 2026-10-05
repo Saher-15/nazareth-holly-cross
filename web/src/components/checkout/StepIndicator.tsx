@@ -1,5 +1,5 @@
 import { useTranslations } from 'next-intl';
-import { CheckIcon } from './icons';
+import { CheckIcon } from '@/components/ui/icons';
 import styles from './checkout.module.css';
 
 export type FlowStep = 'details' | 'payment' | 'done';

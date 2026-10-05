@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import JsonLd from '@/components/community/JsonLd';
 import ReviewForm from '@/components/community/ReviewForm';
 import ReviewWall from '@/components/community/ReviewWall';
-import { communityMetadata } from '@/components/community/metadata';
+import JsonLd from '@/components/ui/JsonLd';
 import PageHero from '@/components/ui/PageHero';
 import Reveal from '@/components/ui/Reveal';
 import { api, type Review } from '@/lib/api';
-import { SITE_URL } from '@/lib/config';
+import { organizationJsonLd } from '@/lib/jsonLd';
+import { pageMetadata } from '@/lib/seo';
 import styles from './page.module.css';
 
 // The wall is rebuilt at most every two minutes (the same as api.reviews), and at once after a visitor's
@@ -19,13 +19,11 @@ const HERO_IMAGE = '/images/vitrage-bg.jpg';
 export async function generateMetadata({ params }: PageProps<'/[locale]/reviews'>): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'communityPage.reviews' });
-  const site = await getTranslations({ locale, namespace: 'site' });
-  return communityMetadata({
+  return pageMetadata({
     locale,
     path: '/reviews',
     title: t('metaTitle'),
     description: t('metaDescription'),
-    siteName: site('name'),
     image: HERO_IMAGE,
   });
 }
@@ -53,9 +51,7 @@ export default async function ReviewsPage({ params }: PageProps<'/[locale]/revie
   const jsonLd = reviews?.length
     ? {
         '@context': 'https://schema.org',
-        '@type': 'Organization',
-        name: site('name'),
-        url: SITE_URL,
+        ...organizationJsonLd({ name: site('name') }),
         review: reviews.slice(0, 20).map((review) => ({
           '@type': 'Review',
           author: { '@type': 'Person', name: review.fullName },

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, useTransition } from 'react';
+import { useEffect, useId, useRef, useState, useTransition } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { usePathname, useRouter } from '@/i18n/navigation';
 import { locales, localeNames, type Locale } from '@/i18n/routing';
@@ -17,6 +17,7 @@ export default function LanguageSwitcher() {
   const [pending, startTransition] = useTransition();
   const ref = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const menuId = useId();
 
   useEffect(() => {
     if (!open) return undefined;
@@ -72,8 +73,8 @@ export default function LanguageSwitcher() {
       <button
         type="button"
         className={styles.trigger}
-        aria-haspopup="true"
         aria-expanded={open}
+        aria-controls={menuId}
         aria-label={`${t('language')}: ${localeNames[current]}`}
         ref={triggerRef}
         aria-busy={pending || undefined}
@@ -83,7 +84,7 @@ export default function LanguageSwitcher() {
         <span className={styles.code}>{current.toUpperCase()}</span>
       </button>
       {open && (
-        <ul className={styles.menu} aria-label={t('language')}>
+        <ul id={menuId} className={styles.menu} aria-label={t('language')}>
           {locales.map((locale) => (
             <li key={locale}>
               <button

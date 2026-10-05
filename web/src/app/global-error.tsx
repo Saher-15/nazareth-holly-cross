@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax -- global-error replaces the whole document, outside the intl provider, so it cannot use translations */
 'use client';
 
 // Only shown when the page shell itself (the language layout) fails, so it brings its own <html> and

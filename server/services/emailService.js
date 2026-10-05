@@ -10,6 +10,10 @@ const transporter = nodemailer.createTransport({
     user: config.mail.from,
     pass: config.mail.appPassword,
   },
+  // nodemailer waits two minutes by default; the candle route answers only after the mail is sent
+  connectionTimeout: 10_000,
+  greetingTimeout: 10_000,
+  socketTimeout: 20_000,
 });
 
 export const SENDER = { name: 'Nazareth Holy Cross', address: config.mail.from };

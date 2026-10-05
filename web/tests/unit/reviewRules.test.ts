@@ -7,8 +7,9 @@ import {
   validateField,
   validateReview,
 } from '@/components/community/reviewRules';
-import { placeOf, scriptOf } from '@/components/community/ReviewWall';
-import { serializeJsonLd } from '@/components/community/JsonLd';
+import { scriptOf } from '@/components/community/ReviewWall';
+import { serializeJsonLd } from '@/lib/jsonLd';
+import { reviewerPlace } from '@/lib/reviews';
 
 const good = { fullName: 'Maria Rossi', place: 'Rome, Italy', msg: 'A blessed visit, thank you.' };
 
@@ -61,10 +62,10 @@ describe('submitErrorKey', () => {
   });
 });
 
-describe('placeOf', () => {
+describe('reviewerPlace', () => {
   it('shows the place but never an e-mail address stored by older forms', () => {
-    expect(placeOf({ email: ' Nazareth ' })).toBe('Nazareth');
-    expect(placeOf({ email: 'someone@example.com' })).toBe('');
+    expect(reviewerPlace({ email: ' Nazareth ' })).toBe('Nazareth');
+    expect(reviewerPlace({ email: 'someone@example.com' })).toBe('');
   });
 });
 

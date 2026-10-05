@@ -10,3 +10,7 @@ export const PAYPAL_CLIENT_ID =
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://nazarethholycross.com';
 
 export const CONTACT_EMAIL = 'nazarethholycross@gmail.com';
+
+// The brand name as printed in metadata, structured data and the title template. (Messages hold the
+// same text as `site.name` for visible copy.)
+export const SITE_NAME = 'Nazareth Holy Cross';

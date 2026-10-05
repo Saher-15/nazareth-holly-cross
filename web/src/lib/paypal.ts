@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useState } from 'react';
+import { z } from 'zod';
 import { postJson } from './apiClient';
 
 // What is being paid for. The API decides the amount; the browser only says what.
@@ -11,7 +12,9 @@ export type PaymentPayload =
 
 export type PaymentErrorCode = 'start' | 'notCompleted' | 'paypal';
 
-type Capture = { id: string; status: string };
+const createdSchema = z.object({ id: z.string().min(1) });
+const captureSchema = z.object({ id: z.string(), status: z.string() });
+type Capture = z.output<typeof captureSchema>;
 
 // Shared PayPal flow for the shop, candle and donation checkouts:
 //   createOrder -> the API creates a PayPal order for the server-side price
@@ -27,18 +30,18 @@ export function usePayPalOrder({
 
   const createOrder = useCallback(async () => {
     setError(null);
-    const res = await postJson<{ id: string }>('/order/create_order', getPayload());
-    if (!res.ok || !res.data?.id) {
+    const res = await postJson('/order/create_order', getPayload(), { schema: createdSchema });
+    if (!res.ok) {
       setError('start');
-      throw new Error(res.ok ? 'create_order returned no id' : res.error);
+      throw new Error(res.error);
     }
     return res.data.id;
   }, [getPayload]);
 
   const onApprove = useCallback(
     async ({ orderID }: { orderID: string }) => {
-      const res = await postJson<Capture>('/order/complete_order', { order_id: orderID });
-      if (!res.ok || res.data?.status !== 'COMPLETED') {
+      const res = await postJson('/order/complete_order', { order_id: orderID }, { schema: captureSchema });
+      if (!res.ok || res.data.status !== 'COMPLETED') {
         setError('notCompleted');
         return;
       }

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { postJson } from '@/lib/apiClient';
+import { scrollBehavior } from '@/lib/motion';
 import { formatUsd } from '@/lib/pricing';
 import { DONATION_MAX, DONATION_MIN, hasErrors, type FieldError, type FormErrors } from './validation';
 
@@ -32,6 +33,12 @@ export function useErrorText() {
     },
     [t, locale],
   );
+}
+
+// The fields of a form with their element ids, in screen order (the order `submit` focuses the first
+// invalid one in). `ids` lists the fields in that order: `{ firstName: 'co-first-name', ... }`.
+export function fieldOrder<K extends string>(ids: Record<K, string>): [K, string][] {
+  return (Object.keys(ids) as K[]).map((key) => [key, ids[key]]);
 }
 
 // Controlled form state with inline validation: a field shows its error once it has been
@@ -77,8 +84,7 @@ export function useStepFocus<T extends HTMLElement>(step: string) {
     previous.current = step;
     const el = ref.current;
     if (!el) return;
-    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-    (el.closest('[data-flow]') ?? el).scrollIntoView({ block: 'start', behavior: reduce ? 'auto' : 'smooth' });
+    (el.closest('[data-flow]') ?? el).scrollIntoView({ block: 'start', behavior: scrollBehavior() });
     el.focus({ preventScroll: true });
   }, [step]);
   return ref;

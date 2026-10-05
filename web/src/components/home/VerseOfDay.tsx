@@ -1,6 +1,7 @@
 import { useTranslations } from 'next-intl';
 import Reveal from '@/components/ui/Reveal';
-import { NAZARETH_TIME_ZONE, nazarethDate, verseNumberFor } from './verse';
+import { NAZARETH_TIME_ZONE } from '@/lib/time';
+import { nazarethDate, verseNumberFor } from './verse';
 import styles from './VerseOfDay.module.css';
 
 type Props = { id: string; locale: string; now?: Date };

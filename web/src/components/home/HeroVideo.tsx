@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import { prefersReducedMotion, REDUCE_MOTION_QUERY } from '@/lib/motion';
 import styles from './HomeHero.module.css';
 
 export const HERO_VIDEO_URL =
@@ -8,17 +9,14 @@ export const HERO_VIDEO_URL =
 
 type NetworkInformationLike = { saveData?: boolean };
 
-const REDUCE_MOTION = '(prefers-reduced-motion: reduce)';
-
 // The background video is skipped for visitors who asked for less motion or less data.
 function videoAllowed() {
-  const reduce = window.matchMedia?.(REDUCE_MOTION).matches ?? false;
   const saveData = (navigator as Navigator & { connection?: NetworkInformationLike }).connection?.saveData ?? false;
-  return !reduce && !saveData;
+  return !prefersReducedMotion() && !saveData;
 }
 
 function subscribe(onChange: () => void) {
-  const query = window.matchMedia?.(REDUCE_MOTION);
+  const query = window.matchMedia?.(REDUCE_MOTION_QUERY);
   query?.addEventListener('change', onChange);
   return () => query?.removeEventListener('change', onChange);
 }

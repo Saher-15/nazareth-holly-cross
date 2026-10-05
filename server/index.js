@@ -30,4 +30,18 @@ function connectDB() {
 connectDB();
 
 const app = createApp();
-app.listen(config.port, () => console.log(`Server running on port ${config.port} (PayPal: ${config.paypal.environment})`));
+const server = app.listen(config.port, () => console.log(`Server running on port ${config.port} (PayPal: ${config.paypal.environment})`));
+
+process.on('unhandledRejection', (reason) => {
+  console.error(`[${new Date().toISOString()}] Unhandled rejection:`, reason);
+});
+
+// Render sends SIGTERM when it replaces the service: finish the requests in flight, then close the database.
+process.on('SIGTERM', () => {
+  console.log('SIGTERM received, shutting down');
+  server.close(async () => {
+    await mongoose.connection.close().catch(() => {});
+    process.exit(0);
+  });
+  setTimeout(() => process.exit(1), 10_000).unref();
+});

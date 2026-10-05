@@ -3,7 +3,7 @@
 import { useMemo, useState, useTransition } from 'react';
 import { useFormatter, useTranslations } from 'next-intl';
 import { useRouter } from '@/i18n/navigation';
-import { NAZARETH_TIME_ZONE } from '@/components/community/liveSchedule';
+import { NAZARETH_TIME_ZONE } from '@/lib/time';
 import Stars from '@/components/ui/Stars';
 import type { ProductReview, ProductReviews as ReviewsData } from '@/lib/api';
 import { mergeReviews } from '@/lib/shop/reviews';

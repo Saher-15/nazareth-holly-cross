@@ -14,14 +14,9 @@ import {
   placeCards,
   type StoryBlock,
 } from '@/data/places/places';
-import {
-  breadcrumbJsonLd,
-  itemListJsonLd,
-  localePath,
-  pageMetadata,
-  placeJsonLd,
-  serializeJsonLd,
-} from '@/data/places/seo';
+import { placeJsonLd } from '@/data/places/seo';
+import { breadcrumbJsonLd, itemListJsonLd, serializeJsonLd } from '@/lib/jsonLd';
+import { localePath, pageMetadata } from '@/lib/seo';
 
 type Messages = { [key: string]: string | Messages };
 const english = JSON.parse(readFileSync(join(__dirname, '../../src/messages/en.json'), 'utf8')) as Messages;
@@ -141,7 +136,7 @@ describe('places data', () => {
   it('maps the old site routes to the new ones', () => {
     expect(LEGACY_REDIRECTS).toContainEqual({ from: '/maryswell', to: '/sites/maryswell' });
     expect(LEGACY_REDIRECTS).toContainEqual({ from: '/city', to: '/sites/city' });
-    expect(LEGACY_REDIRECTS).toHaveLength(7);
+    expect(LEGACY_REDIRECTS).toHaveLength(PLACES.length);
   });
 
   it('links directions to the coordinates of the place', () => {

@@ -63,6 +63,13 @@ Then revert the commit on `main` with a pull request.
   (Hebrew), Amiri + IBM Plex Sans Arabic (Arabic).
 - Layout uses **logical CSS properties** (`margin-inline-start`, `inset-inline-end`, `text-align: start`) so
   every page mirrors correctly in Hebrew and Arabic.
+- These rules are **checked by tools**, not by memory: `npm run lint` rejects visible text in JSX, anonymous default
+  exports and mis-ordered imports; `npm test` rejects raw colours, typeface names and `left`/`right` in CSS
+  (`tests/unit/conventions.test.ts`), message keys that do not exist, and new unused messages
+  (`tests/unit/i18n-usage.test.ts`).
+- Shared building blocks, use them instead of writing another copy: `lib/seo.ts` (`pageMetadata`), `lib/jsonld.ts`
+  + `components/ui/JsonLd`, `components/ui/{Notice,Flame,SvgIcon,icons}`, `lib/images.isOptimizable`, `lib/motion.ts`,
+  `lib/time.ts`. The code review that introduced them is in `docs/REVIEW.md`.
 
 ## 6. Languages
 

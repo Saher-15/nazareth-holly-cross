@@ -2,16 +2,18 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { PLACE_SLUGS, getPlace, placeCards, placeHref } from '@/data/places/places';
-import { breadcrumbJsonLd, pageMetadata, placeJsonLd } from '@/data/places/seo';
+import { placeJsonLd } from '@/data/places/seo';
 import ExternalLink from '@/components/places/ExternalLink';
-import JsonLd from '@/components/places/JsonLd';
 import PlaceCards from '@/components/places/PlaceCards';
 import PlaceGallery from '@/components/places/PlaceGallery';
 import PlaceHero from '@/components/places/PlaceHero';
 import PlaceStory from '@/components/places/PlaceStory';
 import VisitCard from '@/components/places/VisitCard';
 import { PhotosIcon, PinIcon } from '@/components/places/icons';
+import JsonLd from '@/components/ui/JsonLd';
 import Reveal from '@/components/ui/Reveal';
+import { breadcrumbJsonLd } from '@/lib/jsonLd';
+import { pageMetadata } from '@/lib/seo';
 import styles from './page.module.css';
 
 // Only the five places exist; any other slug is a 404.

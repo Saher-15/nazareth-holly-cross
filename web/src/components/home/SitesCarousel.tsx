@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState, type KeyboardEvent, type Mous
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
+import { scrollBehavior } from '@/lib/motion';
 import Reveal from '@/components/ui/Reveal';
 import { ArrowEnd, ChevronEnd, ChevronStart } from './icons';
 import { homeSites } from './sites';
@@ -11,7 +12,6 @@ import styles from './SitesCarousel.module.css';
 
 const GAP = 16;
 
-const prefersReducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
 const isRtl = (el: HTMLElement) => getComputedStyle(el).direction === 'rtl';
 
 // Horizontal scroll-snap carousel of the holy sites. Touch swipe is native scrolling;
@@ -58,13 +58,13 @@ export default function SitesCarousel({ id }: { id: string }) {
     const el = trackRef.current;
     if (!el) return;
     const physical = isRtl(el) ? -dir : dir;
-    el.scrollBy({ left: physical * cardStep(), behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
+    el.scrollBy({ left: physical * cardStep(), behavior: scrollBehavior() });
   };
 
   const onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     const el = trackRef.current;
     if (!el || e.target !== el) return; // focused cards keep their own keys
-    const behavior: ScrollBehavior = prefersReducedMotion() ? 'auto' : 'smooth';
+    const behavior = scrollBehavior();
     const rtl = isRtl(el);
     if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
       e.preventDefault();
@@ -96,6 +96,11 @@ export default function SitesCarousel({ id }: { id: string }) {
   const endDrag = () => {
     drag.current.active = false;
     trackRef.current?.classList.remove(styles.dragging);
+    // The click that ends a drag comes right after pointerup; a drag that ended elsewhere gets none,
+    // and must not swallow the next real click (a keyboard Enter on a card, for instance).
+    setTimeout(() => {
+      drag.current.moved = false;
+    }, 0);
   };
   // A drag must not count as a click on the card underneath.
   const onClickCapture = (e: MouseEvent<HTMLDivElement>) => {

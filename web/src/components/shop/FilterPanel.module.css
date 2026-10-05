@@ -94,7 +94,7 @@
 
 .stars {
   color: color-mix(in srgb, var(--cream) 28%, transparent);
-  font-family: system-ui, sans-serif; /* the star glyph, not the page font */
+  font-family: var(--symbols); /* the star glyph, not the page font */
   letter-spacing: 1px;
 }
 .stars .on {
