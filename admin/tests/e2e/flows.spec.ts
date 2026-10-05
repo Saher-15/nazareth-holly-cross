@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { sentEmails, stateFile } from './helpers';
+import { APP, sentEmails, setMailFailure, stateFile } from './helpers';
 
 // Working flows. They change the shared mock, so they run on the desktop project only (see playwright.config.ts).
 test.use({ storageState: stateFile('owner') });
@@ -31,6 +31,29 @@ test.describe('orders', () => {
 
     const emails = (await sentEmails()).filter((e) => /shipped/i.test(e.subject));
     expect(emails).toHaveLength(1); // once: marking it again would send nothing
+  });
+
+  test('when the mail cannot be sent the order is still shipped and the toast says to write to the customer', async ({ page }) => {
+    await setMailFailure(true);
+    try {
+      await page.goto('/orders?status=pending');
+      const rows = page.locator('tbody tr');
+      const before = await rows.count();
+      await rows.first().getByRole('button', { name: /Mark the order of .* as shipped/ }).click();
+      await page.getByRole('dialog', { name: 'Mark as shipped?' }).getByRole('button', { name: 'Mark shipped' }).click();
+      await expect(page.getByRole('alert').filter({ hasText: 'could not be sent' })).toBeVisible();
+      await expect(rows).toHaveCount(before - 1);
+    } finally {
+      await setMailFailure(false);
+    }
+  });
+
+  test('text stored with entities shows as typed, and the payment filter finds unverified orders', async ({ page }) => {
+    await page.goto('/orders?q=Jerry');
+    await expect(page.locator('tbody')).toContainText('Tom & Jerry');
+    await expect(page.locator('tbody')).not.toContainText('&amp;');
+    await page.goto('/orders?status=unverified');
+    await expect(page.locator('tbody tr')).toHaveCount(3);
   });
 
   test('detail drawer is a deep link, closes with Escape and keeps the list filters', async ({ page }) => {
@@ -247,9 +270,22 @@ test.describe('users', () => {
     await expect(row.getByRole('button')).toHaveCount(0);
   });
 
+  test('the API guards hold when called directly: not yourself, never the last owner', async ({ page }) => {
+    const origin = { Origin: APP };
+    const me = (await (await page.request.get('/api/proxy/auth/me')).json()) as { id: string };
+    expect((await page.request.delete(`/api/proxy/users/${me.id}`, { headers: origin })).status()).toBe(400);
+    expect((await page.request.patch(`/api/proxy/users/${me.id}`, { data: { role: 'viewer' }, headers: origin })).status()).toBe(400);
+    expect((await page.request.patch(`/api/proxy/users/${me.id}`, { data: { disabled: true }, headers: origin })).status()).toBe(400);
+    // an unknown field is refused (no mass assignment)
+    expect((await page.request.patch(`/api/proxy/users/${me.id}`, { data: { role: 'owner', totpEnabled: true }, headers: origin })).status()).toBe(400);
+  });
+
   test('the audit log records what was done, without passwords', async ({ page }) => {
     await page.goto('/audit?action=auth.login');
     await expect(page.locator('tbody tr').first()).toContainText('auth.login');
+    await expect(page.locator('tbody')).toContainText(/Edge|Chrome/); // from which device (the browser sign-ins of the other tests)
+    await page.goto('/audit?actor=owner&action=auth.login');
+    await expect(page.locator('tbody tr').first()).toContainText('owner'); // who
     await page.goto('/audit');
     const text = (await page.locator('tbody').textContent()) ?? '';
     expect(text).toContain('auth.login');

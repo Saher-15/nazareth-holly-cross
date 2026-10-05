@@ -55,7 +55,7 @@ whatever the token says.
 | Route | viewer | editor | owner |
 |---|:-:|:-:|:-:|
 | `GET /admin/dashboard` | yes | yes | yes |
-| `GET /admin/{orders,candles,contacts,site-reviews,product-reviews,prayers,products}` and `GET /admin/{orders,products}/:id` | yes | yes | yes |
+| `GET /admin/{orders,candles,contacts,site-reviews,product-reviews,prayers,products}` and `GET /admin/<same>/:id` | yes | yes | yes |
 | `PATCH /admin/{orders,candles,contacts,site-reviews,product-reviews}/:id` | - | yes | yes |
 | `DELETE /admin/{candles,contacts,site-reviews,product-reviews,prayers,products}/:id` | - | yes | yes |
 | `POST /admin/products`, `PUT`/`PATCH /admin/products/:id` | - | yes | yes |
@@ -91,6 +91,14 @@ count. An owner can lift a lock early by re-enabling the account (`PATCH /admin/
 
 **Rate limit.** 5 failed sign-ins per 15 minutes per address *and* username, 30 per address across usernames.
 Successful sign-ins and the `428` prompt do not count.
+
+*Which address?* The dashboard's server calls this API, so the API sees the dashboard host's address plus an
+`X-Forwarded-For` the dashboard adds (Netlify's `x-nf-client-connection-ip`, never a header the visitor can write). The
+API runs with `trust proxy` 1, i.e. it takes the LAST entry of `X-Forwarded-For`; behind Render's load balancer that is
+the dashboard host, not the visitor. So in production the per-address limits are shared by every visitor of the
+dashboard and the per-account lockout (5 failures, 15 minutes) is the control that tells people apart. That also means
+anyone can lock an account for 15 minutes by guessing wrongly (an owner lifts it by re-enabling the account); see
+ADMIN-RUNBOOK.md section 9 (open items).
 
 ### 3.2 Sessions: `POST /admin/auth/logout`, `GET /admin/auth/me`
 
@@ -162,15 +170,15 @@ different key for the audit address hash. The encrypted secret is never returned
 | `site-reviews` | `approved`, `hidden` | `createdAt`, `fullName` | name, e-mail, message |
 | `product-reviews` | `approved`, `hidden` | `createdAt`, `rating` | name, country, title, comment (the product is populated with its `name`) |
 | `prayers` | a category (`Peace`, `Health`, ...) | `createdAt`, `likes` | name, country, prayer |
-| `products` | `low` (stock 0-5), `out` (stock 0) | `createdAt`, `name`, `price`, `stock`, `rate` | name, description, uuid |
-| `users` | `owner`, `editor`, `viewer`, `disabled` | `createdAt`, `username`, `lastLoginAt` | username, e-mail |
+| `products` | `ok` (not tracked, or more than 5), `low` (stock 0-5), `out` (stock 0) | `createdAt`, `name`, `price`, `stock`, `rate` | name, description, uuid |
+| `users` | `active` (not disabled), `owner`, `editor`, `viewer`, `disabled` | `createdAt`, `username`, `lastLoginAt` | username, e-mail |
 | `audit` | - (see 5) | `at` | actor, action, target id |
 
 ### 4.2 Changes
 
 | Request | Body | Answer |
 |---|---|---|
-| `GET /admin/orders/:id`, `GET /admin/products/:id` | - | the document, `404` if missing |
+| `GET /admin/<resource>/:id` (orders, candles, contacts, site-reviews, product-reviews, prayers, products) | - | the document (a product review has its product populated with `name`), `404` if missing |
 | `PATCH /admin/orders/:id` | `{ "done": true \| false }` | `{ item, emailSent }` |
 | `PATCH /admin/candles/:id`, `.../contacts/:id` | `{ "done": boolean }` | `{ item }` |
 | `PATCH /admin/site-reviews/:id`, `.../product-reviews/:id` | `{ "approved": boolean }` | `{ item }` |
@@ -190,8 +198,8 @@ different key for the audit address hash. The encrypted secret is never returned
   tracked), `category` (one of `stained-glass`, `rosaries`, `necklaces`, `bracelets`, `bibles`, `crosses`,
   `holy-land`, `gifts`, or `null` = infer from the name; an override wins over the name). `name`, `price` and `img`
   are required on create.
-* **Text is stored HTML-escaped.** The API's sanitizer turns `&`, `<`, `>` in body text into `&amp;`, `&lt;`, `&gt;` (see
-  SECURITY.md 4.3); responses return what is stored. **Decode those three entities when putting a value into an
+* **Text is stored HTML-escaped.** The API's sanitizer turns a stray `&`, `<`, `>` in body text into `&amp;`, `&lt;`, `&gt;` (see
+  SECURITY.md 4.3), removes scripts and event handlers, and keeps a small set of harmless tags (`<b>`, `<i>`, `<a href="https://...">`) as they were typed (checked against the running sanitizer: the dashboard shows them as text, never as HTML); responses return what is stored. **Decode those three entities when putting a value into an
   edit field, send the raw text back, and the API escapes it once.** (Web addresses are the exception: `&amp;` in an
   address is decoded before it is saved, so Firebase links keep working.)
 
@@ -207,7 +215,7 @@ One request, computed by the database (aggregations and counts, nothing is loade
   "last30Days": [ { "date": "2026-09-07", "orders": 0, "revenue": 0, "candles": 0 }, "... 30 entries, zero-filled" ],
   "topProducts": [ { "productId": "...", "name": "...", "sold": 0, "revenue": 0 } ],
   "lowStock": [ { "productId": "...", "name": "...", "stock": 0 } ],
-  "recent": { "orders": [ "5 newest" ], "candles": [ "5" ], "contacts": [ "5" ] }
+  "recent": { "orders": [ "5 newest, with name, e-mail, total, done, paymentVerified" ], "candles": [ "5, with name, e-mail, prayer, done" ], "contacts": [ "5, with name, e-mail, msg, done" ] }
 }
 ```
 
@@ -329,14 +337,22 @@ per process (single Render instance; a shared store is needed to scale out - SEC
 * Show `emailSent: false` after shipping an order: the customer was not notified.
 * The token cannot be refreshed: plan for a re-sign-in every hour (the `expiresIn` field is in seconds).
 
-## 10. Tests
+## 10. Running the dashboard against this code without a database
+
+`server/test-harness` runs this exact Express app over in-memory models (no MongoDB, no mail, no PayPal; see its
+README for the throw-away accounts): `cd server && npm run harness` serves it on 127.0.0.1:3912. The dashboard's
+end-to-end suite runs against it (`cd admin && npm run test:e2e:harness`), and a parity test makes the dashboard's
+mock API answer exactly like it. Running them together found the mismatches listed in
+[ADMIN-RUNBOOK.md](ADMIN-RUNBOOK.md) section 8 (all fixed, each with a regression test).
+
+## 10b. Tests
 
 `server/__tests__/admin-*.test.js` and `totp.test.js`: sign-in, lockout, rate limits, TOTP (RFC 6238 and RFC 4226
 vectors, replay), sessions and revocation, password change, the role matrix over every route (every role, no token,
 old tokens), lists and pagination bounds, search escaping, order shipping and mail, products validation, CSV
 injection, dashboard, users and guards, audit, CORS, headers, error answers, secrets out of logs, the create-admin
 script, the models' indexes, and the old admin routes. The database is replaced by an in-memory stand-in
-(`__tests__/helpers/fakes.js`); **nothing was run against a real MongoDB** (section 11).
+(`test-harness/fake-models.js`, re-exported by `__tests__/helpers/fakes.js`); **nothing was run against a real MongoDB** (section 11).
 
 ## 11. What is not verified
 

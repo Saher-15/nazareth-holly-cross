@@ -37,18 +37,37 @@ npm run dev               # terminal 2: the dashboard on http://localhost:3901
 Worktrees that share a `node_modules` junction need `TURBOPACK_ROOT=<common parent folder>` and, on this PC,
 `SWC_NATIVE_BINDING_CACHE=C:\Users\saher\nhc\.swc-cache` (see `next.config.ts`).
 
-Mock accounts (public, mock only - they exist nowhere else): `owner`, `editor`, `viewer` with passwords
+Mock and harness accounts (public, they exist nowhere else): `owner`, `editor`, `viewer` with passwords
 `Owner-Mock-Pass-1`, `Editor-Mock-Pass-1`, `Viewer-Mock-Pass-1`; `secure` (owner, two-factor on, secret
 `JBSWY3DPEHPK3PXP`, password `Secure-Mock-Pass-1`). More spare accounts for tests are in `mock-api/seed.mjs`.
 
 The mock implements every route of the contract with deterministic seed data: JWT HS256 (60 min), session
 revocation, lockout after 5 failures (15 min), a login rate limit (429), TOTP (RFC 6238), role checks per route, audit
 log, CSV export with formula-injection protection, request size limits and the product validation. Test hooks:
-`POST /__mock/reset`, `GET /__mock/emails` (the "shipped" e-mails it would have sent). Disable with `MOCK_CONTROL=0`.
-Knobs: `MOCK_PORT`, `MOCK_LOGIN_LIMIT` (default 8; the contract says 5, but the lockout is also 5 so the lockout
-stays visible before the limiter), `MOCK_TOKEN_TTL`, `MOCK_LOCK_MS`.
+`POST /__mock/reset`, `GET /__mock/emails` (the "shipped" e-mails it would have sent), `POST /__mock/mail {fail}`. Disable with `MOCK_CONTROL=0`.
+Knobs: `MOCK_PORT`, `MOCK_LOGIN_LIMIT` (default 5, like the real API: sign-in tests that need the account lock use a fresh
+`X-Forwarded-For` per attempt), `MOCK_TOKEN_TTL`, `MOCK_LOCK_MS`.
 
-To point at the real API later set `ADMIN_API_URL` (server-side only, never `NEXT_PUBLIC_`).
+The mock answers like the real API: `tests/unit/parity.test.ts` starts both and compares every status code and the
+shape of every answer.
+
+### Run it against the real API code (no database needed)
+
+`server/test-harness` runs the real Express app over in-memory models (accounts, seed data and safety rules in its
+README). Same accounts and passwords as the mock.
+
+```powershell
+cd server;  npm run harness                         # terminal 1: the real API on http://127.0.0.1:3912
+cd admin
+$env:ADMIN_API_URL = "http://127.0.0.1:3912"
+npm run build; npx next start -p 3911               # terminal 2: the dashboard (or npm run dev)
+```
+
+`npm run test:e2e:harness` runs the Playwright suite against it (`npm run test:e2e` runs it against the mock).
+`node scripts/probe-api.mjs` and `node scripts/probe-bff.mjs` are the security probes (they print PASS/FAIL lines); `node scripts/check-dashboard-numbers.mjs` recomputes the dashboard figures from the lists.
+Running locally: `docs/ADMIN-RUNBOOK.md`.
+
+To point at the real API set `ADMIN_API_URL` (server-side only, never `NEXT_PUBLIC_`).
 
 ## Environment
 
@@ -56,6 +75,7 @@ To point at the real API later set `ADMIN_API_URL` (server-side only, never `NEX
 | --- | --- | --- |
 | `ADMIN_API_URL` | server | Origin of the API, e.g. `https://api.example.com` (default `http://localhost:3902`) |
 | `ADMIN_ALLOWED_ORIGINS` | server | Extra origins allowed to send state-changing requests (default: only itself) |
+| `ADMIN_TRUST_XFF` | server | `1` = pass the visitor's `X-Forwarded-For` to the API (only behind a proxy you control; Netlify's own header is always used; the e2e tests set it) |
 | `ADMIN_TIMEZONE` | server | IANA zone for printed dates (default `Asia/Jerusalem`) |
 | `ADMIN_IMG_SRC` | server | Extra https image hosts for the CSP `img-src` |
 | `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET` (+ the other `NEXT_PUBLIC_FIREBASE_*`) | build | Turns on product-photo upload; empty = the form asks for pasted image URLs |

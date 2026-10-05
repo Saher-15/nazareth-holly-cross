@@ -81,6 +81,12 @@ export async function sentEmails(): Promise<{ to: string | string[]; subject: st
   return res.json();
 }
 
+/** Makes the backend's mailer fail (an SMTP outage) or work again. */
+export async function setMailFailure(fail: boolean) {
+  const res = await fetch(`${API}${HARNESS ? '/__harness/mail' : '/__mock/mail'}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ fail }) });
+  expect(res.ok).toBeTruthy();
+}
+
 let ipCounter = 0;
 /** A fresh client address for the API's per-address sign-in limit (sent as X-Forwarded-For through the app). */
 export const freshIp = () => `10.77.${Math.floor(++ipCounter / 250)}.${(ipCounter % 250) + 1}`;

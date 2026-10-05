@@ -83,7 +83,6 @@ function client(backend: Backend, token?: string) {
     return { status: res.status, json: parsed, text, headers: res.headers };
   };
 }
-type Call = ReturnType<typeof client>;
 
 async function signIn(backend: Backend, username: string, password: string, extra: Record<string, unknown> = {}) {
   const res = await client(backend)('POST', '/admin/auth/login', { username, password, ...extra });
@@ -293,7 +292,7 @@ describe.skipIf(!haveServer)('the mock and the real API agree (status codes and 
 
   it('runs the same script and every step answers the same status', () => {
     expect(b.steps.map((s) => s.label)).toEqual(a.steps.map((s) => s.label));
-    const differing = a.steps.filter((s, i) => s.status !== b.steps[i].status).map((s, i) => `${s.label}: mock ${s.status}, real ${b.steps.find((x) => x.label === s.label)?.status}`);
+    const differing = a.steps.filter((s, i) => s.status !== b.steps[i].status).map((s) => `${s.label}: mock ${s.status}, real ${b.steps.find((x) => x.label === s.label)?.status}`);
     expect(differing).toEqual([]);
   });
 

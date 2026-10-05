@@ -122,17 +122,23 @@ describe('format helpers', () => {
 });
 
 describe('CSV cells (export is formula-injection safe)', () => {
-  it('prefixes cells that start with = + - @ tab or CR, quotes everything, doubles quotes', () => {
-    for (const evil of ['=SUM(A1)', '+1+1', '-2+3', '@cmd', '\tx', '\rx']) expect(csvCell(evil)).toBe(`"'${evil}"`);
+  // The mock's CSV follows the real API's rules (server/route/admin/export.js): quote only where needed (RFC 4180).
+  it('prefixes cells that start with = + - @ tab or CR, quotes where needed, doubles quotes', () => {
+    for (const evil of ['=SUM(A1)', '+1+1', '-2+3', '@cmd']) expect(csvCell(evil)).toBe(`'${evil}`);
+    expect(csvCell('\tx')).toBe("'\tx");
+    expect(csvCell('\rx')).toBe("\"'\rx\""); // a carriage return also forces quoting
     expect(csvCell('say "hi"')).toBe('"say ""hi"""');
-    expect(csvCell(null)).toBe('""');
-    expect(csvCell(12.5)).toBe('"12.5"');
-    expect(csvCell('safe = text')).toBe('"safe = text"');
+    expect(csvCell('a,b')).toBe('"a,b"');
+    expect(csvCell(null)).toBe('');
+    expect(csvCell(12.5)).toBe('12.5');
+    expect(csvCell(true)).toBe('true');
+    expect(csvCell('safe = text')).toBe('safe = text');
+    expect(csvCell('Tom &amp; Jerry', (t) => t.replace('&amp;', '&'))).toBe('Tom & Jerry');
   });
   it('writes a header, CRLF rows and a BOM for Excel', () => {
     const csv = toCsv([{ header: 'Name', value: (r: { n: string }) => r.n }], [{ n: '=1+1' }, { n: 'ok' }]);
     expect(csv.charCodeAt(0)).toBe(0xfeff);
-    expect(csv.slice(1)).toBe('"Name"\r\n"\'=1+1"\r\n"ok"\r\n');
+    expect(csv.slice(1)).toBe("Name\r\n'=1+1\r\nok\r\n");
   });
 });
 
