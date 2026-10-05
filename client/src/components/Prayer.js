@@ -37,14 +37,11 @@ function Pray() {
     // Function to fetch all reviewed messages
     const fetchMessages = async () => {
         try {
-            const response = await axios.get(`${API_URL}/contact/get_all_contact_us`);
-            // Filter messages that are marked as done and reverse order
-            const reviewedMessages = response.data.filter(message => message.done);
-            const reversedMessages = reviewedMessages.reverse();
-            setMessages(reversedMessages); // Store reversed messages in state
+            const response = await axios.get(`${API_URL}/review/getReviews`);
+            // The server returns approved reviews, newest first
+            setMessages(response.data);
         } catch (error) {
-            console.error('Error fetching messages:', error);
-            // The public list endpoint is admin-only now; show no messages instead of an alert.
+            console.error('Error fetching reviews:', error);
         }
     };
 
@@ -64,7 +61,7 @@ function Pray() {
             const modifiedFormData = { ...formData, email: formData.email };
 
             // Send form data to server
-            await axios.post(`${API_URL}/contact/contact_us_request`, modifiedFormData);
+            await axios.post(`${API_URL}/review/addReview`, modifiedFormData);
 
             // Reset form fields
             setFormData({
