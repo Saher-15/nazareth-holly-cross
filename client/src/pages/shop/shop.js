@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import Product from "./product";
+import "./shopUi.css";
 import "./shop.css";
-import LoadingLogo from "./loading"; // Assuming you have a LoadingLogo component
+import { ProductGridSkeleton } from "./loading";
+import CartPill from "./CartPill";
+import PageHero from "../../components/ui/PageHero";
+import Reveal from "../../components/ui/Reveal";
 import { useShopContext } from "../../context/shop-context";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
-import { useTranslation } from 'react-i18next'; // Import useTranslation from i18next
+import { useTranslation } from 'react-i18next';
 import { API_URL } from '../../config/env';
 
 const Shop = () => {
-  const { t } = useTranslation(); // Initialize the translation function
+  const { t } = useTranslation();
   const { getTotalCartQuantity } = useShopContext(); // Get the total cart quantity from context
   const [allProducts, setAllProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(
@@ -19,10 +22,27 @@ const Shop = () => {
     localStorage.getItem('sortOrder') || "rateDesc"
   );
   const [loading, setLoading] = useState(true);
+  const [loadFailed, setLoadFailed] = useState(false);
+  const [attempt, setAttempt] = useState(0); // bumped by the "Try again" button
   const [searchQuery, setSearchQuery] = useState(
     localStorage.getItem('searchQuery') || ""
   );
   const itemsPerPage = 15;
+  const barSentinel = useRef(null);
+  const [barStuck, setBarStuck] = useState(false);
+
+  // Marks the filter bar as "stuck" once it sits under the navbar (purely visual).
+  useEffect(() => {
+    const el = barSentinel.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return undefined;
+    const top = parseFloat(getComputedStyle(el).getPropertyValue('--shop-sticky-top')) || 80;
+    const io = new IntersectionObserver(
+      ([entry]) => setBarStuck(!entry.isIntersecting && entry.boundingClientRect.top < top),
+      { rootMargin: `-${top}px 0px 0px 0px` }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   useEffect(() => {
     async function fetchData() {
@@ -33,15 +53,17 @@ const Shop = () => {
         );
         window.scrollTo(0, 0); // Scroll to the top when going to the previous page
         setAllProducts(allProductsResponse.data);
+        setLoadFailed(false);
       } catch (error) {
         console.error("Error fetching products:");
+        setLoadFailed(true);
       } finally {
         setLoading(false);
       }
     }
 
     fetchData();
-  }, [currentPage]);
+  }, [currentPage, attempt]);
 
   useEffect(() => {
     // Save the current page, sort order, and search query to localStorage
@@ -105,24 +127,101 @@ const Shop = () => {
   };
 
   const totalCartQuantity = getTotalCartQuantity(); // Get the total quantity of items in the cart
+  const totalPages = Math.ceil(sortedProducts.length / itemsPerPage);
+  const pageLabel = t("shop.pagination", { currentPage, totalPages });
+  const firstShown = (currentPage - 1) * itemsPerPage + 1;
+  const lastShown = firstShown + paginatedProducts.length - 1;
+
+  let content;
+  if (loading) {
+    content = <ProductGridSkeleton count={8} />;
+  } else if (loadFailed) {
+    content = (
+      <div className="shp-state ui-glass" role="alert">
+        <span className="shp-state__icon shp-state__icon--error" aria-hidden="true">
+          <i className="fas fa-exclamation-triangle"></i>
+        </span>
+        <p className="shp-state__title">{t("shopUi.loadError")}</p>
+        <div className="shp-state__actions">
+          <button type="button" className="ui-btn ui-btn--gold" onClick={() => setAttempt((a) => a + 1)}>
+            <i className="fas fa-redo" aria-hidden="true"></i> {t("home.retry")}
+          </button>
+        </div>
+      </div>
+    );
+  } else if (paginatedProducts.length === 0) {
+    content = (
+      <div className="shp-state ui-glass" role="status">
+        <span className="shp-state__icon" aria-hidden="true">
+          <i className="fas fa-search"></i>
+        </span>
+        <p className="shp-state__title">{t("shop.noProducts")}</p>
+        <div className="shp-state__actions">
+          <button type="button" className="ui-btn ui-btn--ghost" onClick={handleResetFilters}>
+            <i className="fas fa-redo" aria-hidden="true"></i> {t("shop.resetFilters")}
+          </button>
+        </div>
+      </div>
+    );
+  } else {
+    content = (
+      <>
+        <p className="shp-count" aria-live="polite">
+          {t("shopUi.showing", { from: firstShown, to: lastShown, total: sortedProducts.length })}
+        </p>
+        <ul className="shp-grid">
+          {paginatedProducts.map((item, i) => (
+            <Reveal as="li" key={item._id} className="shp-grid__item" delay={(i % 4) * 70}>
+              <Product item={item} />
+            </Reveal>
+          ))}
+        </ul>
+        <nav className="shp-pager" aria-label={pageLabel}>
+          <button type="button" className="ui-btn ui-btn--glass shp-pager__btn" onClick={prevPage} disabled={currentPage === 1}>
+            <i className="fas fa-arrow-left" aria-hidden="true"></i>
+            <span>{t("pagination.prev")}</span>
+          </button>
+          <span className="shp-pager__label">{pageLabel}</span>
+          <button type="button" className="ui-btn ui-btn--glass shp-pager__btn" onClick={nextPage} disabled={currentPage * itemsPerPage >= sortedProducts.length}>
+            <span>{t("pagination.next")}</span>
+            <i className="fas fa-arrow-right" aria-hidden="true"></i>
+          </button>
+        </nav>
+      </>
+    );
+  }
 
   return (
-    <div className="shop-page">
-      {loading ? (
-        <LoadingLogo />
-      ) : (
-        <>
-          <div className="header-filter">
-            <input
-              type="text"
-              placeholder={t("shop.searchPlaceholder")} // Use translation for the placeholder
-              value={searchQuery}
-              onChange={handleSearchChange}
-              className="search-input"
-            />
-            <div className="sort">
+    <main className="ui-page shp-page">
+      <PageHero
+        eyebrow={t("home.shopEyebrow")}
+        title={t("shopUi.heroTitle")}
+        lead={t("shopUi.heroLead")}
+        image="/images/vitrage-bg.jpg"
+      />
+
+      <div ref={barSentinel} className="shp-bar-sentinel" aria-hidden="true" />
+      <div className={`shp-bar-wrap ${barStuck ? "is-stuck" : ""}`}>
+        <div className="ui-container">
+          <div className="shp-bar" role="search">
+            <div className="shp-bar__search">
+              <label htmlFor="shop-search" className="shp-sr">{t("shopUi.searchLabel")}</label>
+              <i className="fas fa-search shp-bar__search-icon" aria-hidden="true"></i>
+              <input
+                id="shop-search"
+                type="text"
+                placeholder={t("shop.searchPlaceholder")}
+                value={searchQuery}
+                onChange={handleSearchChange}
+                className="ui-input shp-bar__input"
+                autoComplete="off"
+              />
+            </div>
+            <div className="shp-bar__tools">
+              <label htmlFor="sortOrder" className="shp-bar__label">{t("shopUi.sortLabel")}</label>
               <select
                 id="sortOrder"
+                className="ui-select shp-bar__select"
                 value={sortOrder}
                 onChange={handleSortOrderChange}
               >
@@ -130,47 +229,20 @@ const Shop = () => {
                 <option value="lowToHigh">{t("shop.sortLowToHigh")}</option>
                 <option value="highToLow">{t("shop.sortHighToLow")}</option>
               </select>
-              <button onClick={handleResetFilters} className="reset-filters">
-                <i className="fas fa-redo"></i> {t("shop.resetFilters")}
+              <button type="button" onClick={handleResetFilters} className="shp-bar__reset" title={t("shop.resetFilters")}>
+                <i className="fas fa-redo" aria-hidden="true"></i>
+                <span className="shp-bar__reset-text">{t("shop.resetFilters")}</span>
               </button>
+              <CartPill count={totalCartQuantity} className="shp-bar__cart" />
             </div>
           </div>
+        </div>
+      </div>
 
-          <div className="button-container">
-            <Link to="/cart" className="cart-link-logo">
-              <i className="fas fa-shopping-cart"></i>
-              {totalCartQuantity > 0 && <div className="cart-item-count">{totalCartQuantity}</div>}
-            </Link>
-          </div>
-
-          {paginatedProducts.length === 0 ? (
-            <div className="no-products-message">
-              <p>{t("shop.noProducts")}</p> {/* Use translation for the message */}
-            </div>
-          ) : (
-            <>
-              <div className="products">
-                {paginatedProducts.map((item) => (
-                  <Product key={item._id} item={item} />
-                ))}
-              </div>
-              <div className="pagination">
-                <button onClick={prevPage} disabled={currentPage === 1}>
-                  {t("pagination.prev")} {/* Use translation for the Prev button */}
-                </button>
-                <span>
-                  {t("shop.pagination", { currentPage, totalPages: Math.ceil(sortedProducts.length / itemsPerPage)})}
-                </span>
-                <button onClick={nextPage} disabled={currentPage * itemsPerPage >= sortedProducts.length}>
-                  {t("pagination.next")} {/* Use translation for the Next button */}
-                </button>
-              </div>
-
-            </>
-          )}
-        </>
-      )}
-    </div>
+      <section className="ui-container shp-results" aria-busy={loading}>
+        {content}
+      </section>
+    </main>
   );
 };
 
