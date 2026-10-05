@@ -376,5 +376,12 @@
     "voicesTitle": "Słowa naszych gości",
     "voicesAll": "Czytaj więcej i podziel się swoim",
     "storyEyebrow": "Historia"
+  },
+  "homePage": {
+    "meta": {
+      "title": "Nazareth Holy Cross — Idź tam, gdzie chodził Jezus",
+      "description": "Zapal świecę w Nazarecie, odwiedź jego święte miejsca, przeczytaj werset dnia i zabierz do domu pobłogosławione pamiątki z miasta, w którym dorastał Jezus."
+    },
+    "carouselHint": "Przesuń palcem, przeciągnij lub użyj klawiszy strzałek, aby przeglądać święte miejsca."
   }
 }

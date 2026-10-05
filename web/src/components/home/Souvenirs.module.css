@@ -1,0 +1,112 @@
+.section {
+  padding-block: 64px;
+}
+
+.head {
+  margin-block-end: 32px;
+  text-align: center;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.product {
+  overflow: hidden;
+  border-radius: calc(var(--radius) - 2px);
+  border: 1px solid var(--glass-line);
+  background: var(--glass);
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+.product:hover {
+  transform: translateY(-5px);
+  border-color: color-mix(in srgb, var(--gold) 55%, transparent);
+}
+
+.link {
+  display: block;
+  padding-block-end: 14px;
+  color: var(--cream);
+  text-decoration: none;
+}
+/* the focus ring is drawn inside the rounded card, which clips overflow */
+.link:focus-visible {
+  outline-offset: -3px;
+  border-radius: calc(var(--radius) - 2px);
+}
+
+.imgWrap {
+  position: relative;
+  display: block;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--cream);
+}
+.img {
+  object-fit: cover;
+  transition: transform 0.7s ease;
+}
+.product:hover .img {
+  transform: scale(1.07);
+}
+
+.name {
+  display: block;
+  overflow: hidden;
+  padding: 12px 14px 2px;
+  font-weight: 700;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: match-parent;
+}
+.price {
+  display: block;
+  padding-inline: 14px;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.fallback {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 28px;
+  text-align: center;
+}
+.fallback p {
+  margin: 0;
+  color: var(--cream);
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  margin: 32px 0 0;
+}
+
+@media (min-width: 700px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+}
+@media (min-width: 1000px) {
+  .grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product,
+  .img {
+    transition: none;
+  }
+  .product:hover,
+  .product:hover .img {
+    transform: none;
+  }
+}

@@ -376,5 +376,12 @@
     "voicesTitle": "Les mots de nos visiteurs",
     "voicesAll": "Lire la suite et partager le vôtre",
     "storyEyebrow": "L'histoire"
+  },
+  "homePage": {
+    "meta": {
+      "title": "Nazareth Holy Cross — Marchez là où Jésus a marché",
+      "description": "Allumez une bougie à Nazareth, parcourez ses lieux saints, lisez le verset du jour et rapportez chez vous des souvenirs bénis de la ville où Jésus a grandi."
+    },
+    "carouselHint": "Balayez, faites glisser ou utilisez les flèches du clavier pour parcourir les lieux saints."
   }
 }

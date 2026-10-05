@@ -376,5 +376,12 @@
     "voicesTitle": "Worte unserer Besucher",
     "voicesAll": "Mehr lesen und eigene Worte teilen",
     "storyEyebrow": "Die Geschichte"
+  },
+  "homePage": {
+    "meta": {
+      "title": "Nazareth Holy Cross — Gehen Sie, wo Jesus ging",
+      "description": "Zünden Sie in Nazareth eine Kerze an, besuchen Sie die heiligen Stätten, lesen Sie den Vers des Tages und bringen Sie gesegnete Andenken aus der Stadt mit nach Hause, in der Jesus aufwuchs."
+    },
+    "carouselHint": "Wischen, ziehen oder die Pfeiltasten verwenden, um durch die heiligen Stätten zu blättern."
   }
 }

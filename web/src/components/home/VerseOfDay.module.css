@@ -1,0 +1,61 @@
+.section {
+  padding-block: 56px;
+}
+
+.card {
+  position: relative;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: clamp(28px, 6vw, 60px);
+  padding-block-start: clamp(56px, 8vw, 60px);
+  text-align: center;
+}
+.card::before {
+  content: '\201C';
+  position: absolute;
+  top: -6px;
+  inset-inline-start: 24px;
+  font: 400 clamp(4.5rem, 14vw, 7rem) / 1 var(--serif);
+  color: color-mix(in srgb, var(--gold) 35%, transparent);
+  pointer-events: none;
+}
+/* The opening quote mark mirrors in right-to-left languages. */
+:global([dir='rtl']) .card::before {
+  content: '\201D';
+}
+
+.eyebrow {
+  font-size: 0.78rem;
+}
+.date {
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: none;
+  color: var(--muted);
+}
+
+.text {
+  margin: 14px 0 18px;
+}
+.text p {
+  margin: 0;
+  font: italic 400 clamp(1.4rem, 3.6vw, 2.2rem) / 1.4 var(--serif);
+  color: var(--cream);
+  text-wrap: balance;
+}
+
+.ref {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* Letter-spacing pulls Hebrew apart and breaks the joins of Arabic script. */
+.ref:lang(he),
+.ref:lang(ar),
+.date:lang(he),
+.date:lang(ar) {
+  letter-spacing: 0;
+}
