@@ -1114,6 +1114,7 @@
         "intro": "Scrivi un’intenzione per la pace, la guarigione, il ringraziamento o la tua famiglia. Comparirà sul muro.",
         "name": "Il tuo nome",
         "country": "Di dove sei?",
+        "countryChoose": "Scegli il tuo paese",
         "category": "Categoria",
         "prayer": "La tua preghiera",
         "counter": "{count} / {max}",

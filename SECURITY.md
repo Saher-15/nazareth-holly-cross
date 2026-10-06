@@ -43,7 +43,7 @@ We will not take legal action against anyone who follows this policy in good fai
 |---|---|
 | The website `nazarethholycross.com` and its Netlify previews | cross-site scripting, broken access control, open redirects |
 | The API `nazareth-holy-cross-api.onrender.com` | injection, authentication bypass, paying less than the price, reading admin data |
-| The admin site (`nazaretholycrossadmin.netlify.app` and its future own domain) | anything that lets a visitor act as an administrator |
+| The admin site (`admin.nazarethholycross.com`; formerly `nazaretholycrossadmin.netlify.app`) | anything that lets a visitor act as an administrator |
 
 Out of scope: problems in PayPal, Firebase, Netlify, Render, MongoDB Atlas or Google themselves (report those to
 the vendor); missing "best practice" headers with no demonstrated impact; reports from automated scanners without a

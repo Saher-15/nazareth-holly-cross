@@ -44,7 +44,7 @@ describe('POST /admin/auth/forgot-password', () => {
     expect(sendMail).toHaveBeenCalledTimes(1);
     const mail = sendMail.mock.calls[0][0];
     expect(mail.to).toEqual(['saher@example.com']);
-    expect(mail.text).toContain('https://nhc-admin-dashboard.netlify.app/reset-password?token=');
+    expect(mail.text).toContain('https://admin.nazarethholycross.com/reset-password?token=');
     expect(mail.text).toContain('Your username: saher');
     const stored = fakes.Admin.byId(admin._id);
     expect(stored.resetTokenHash).toMatch(/^[0-9a-f]{64}$/);

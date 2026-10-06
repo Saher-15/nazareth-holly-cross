@@ -35,3 +35,16 @@ export function countryOptions(locale: string): CountryOption[] {
     collator.compare(a.name, b.name),
   );
 }
+
+// English country name -> ISO code, built once. Orders, prayers and reviews store the English name.
+let englishToCode: Map<string, string> | null = null;
+export function codeOfEnglishName(name: string): string | undefined {
+  englishToCode ??= new Map(COUNTRY_CODES.map((code) => [countryName(code, 'en').toLowerCase(), code]));
+  return englishToCode.get(name.trim().toLowerCase());
+}
+
+/** A stored country in the reader's language when it is a known English country name; any other text unchanged. */
+export function localCountryName(stored: string, locale: string): string {
+  const code = codeOfEnglishName(stored);
+  return code ? countryName(code, locale) : stored;
+}

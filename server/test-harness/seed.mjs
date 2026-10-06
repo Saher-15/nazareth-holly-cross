@@ -185,12 +185,15 @@ export function buildData(now = Date.now(), assetBase = 'http://localhost:3911')
   }
 
   const siteReviews = [];
+  const PLACES = ['Italy', 'Brazil', 'Trinidad &amp; Tobago', 'Philippines', 'Poland']; // stored as the API stores "&"
   for (let i = 0; i < 12; i += 1) {
     const first = pick(FIRST);
+    // Reviews since 2026-10-06 keep where the reviewer is from in `place`; older ones kept it in `email` (every 4th).
     siteReviews.push({
       _id: id('f'),
       fullName: `${first} ${pick(LAST)}`,
-      email: i % 2 ? `${first}@example.com`.toLowerCase() : '',
+      email: i % 2 ? `${first}@example.com`.toLowerCase() : i % 4 === 0 ? 'Germany' : '',
+      ...(i % 4 === 0 ? {} : { place: PLACES[i % PLACES.length] }),
       phone: '000',
       msg: pick(COMMENTS),
       approved: i % 5 !== 3,

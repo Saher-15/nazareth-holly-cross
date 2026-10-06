@@ -1,4 +1,4 @@
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import Reveal from '@/components/ui/Reveal';
 import type { Review } from '@/lib/api';
@@ -12,6 +12,7 @@ type ViewProps = { id: string; reviews: Review[] };
 // no reviews or the reviews cannot be loaded.
 export function VoicesView({ id, reviews }: ViewProps) {
   const t = useTranslations('home');
+  const locale = useLocale();
   if (reviews.length === 0) return null;
 
   return (
@@ -27,7 +28,7 @@ export function VoicesView({ id, reviews }: ViewProps) {
         <div className={styles.scroller} role="group" aria-labelledby={`${id}-title`} tabIndex={0}>
           <ul className={styles.strip}>
             {reviews.map((review) => {
-              const place = reviewerPlace(review);
+              const place = reviewerPlace(review, locale);
               return (
                 <li key={review._id} className={`ui-glass ${styles.voice}`}>
                   <blockquote className={styles.quote}>

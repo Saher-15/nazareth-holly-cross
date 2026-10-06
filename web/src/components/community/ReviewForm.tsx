@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useId, useRef, useState, useTransition, type ChangeEvent, type FormEvent } from 'react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
+import { useCountryOptions } from '@/components/checkout/useCountryOptions';
 import { postJson } from '@/lib/apiClient';
 import Notice from '@/components/ui/Notice';
 import { revalidateReviews } from './actions';
@@ -28,6 +29,10 @@ type Status = 'idle' | 'sending' | 'sent';
 export default function ReviewForm({ titleId }: { titleId: string }) {
   const t = useTranslations('pray');
   const tf = useTranslations('communityPage.reviews.form');
+  const tc = useTranslations('pilgrim.prayers');
+  const locale = useLocale();
+  // Every country, named in the visitor's language and in that language's order (filled in after hydration).
+  const countries = useCountryOptions(locale);
   const id = useId();
   const [values, setValues] = useState<ReviewValues>(emptyReview);
   const [errors, setErrors] = useState<ReviewErrors>({});
@@ -36,7 +41,7 @@ export default function ReviewForm({ titleId }: { titleId: string }) {
   const [, startTransition] = useTransition();
 
   const nameRef = useRef<HTMLInputElement>(null);
-  const placeRef = useRef<HTMLInputElement>(null);
+  const placeRef = useRef<HTMLSelectElement>(null);
   const msgRef = useRef<HTMLTextAreaElement>(null);
   const doneRef = useRef<HTMLHeadingElement>(null);
   const firstFieldAfterReset = useRef(false);
@@ -59,7 +64,7 @@ export default function ReviewForm({ titleId }: { titleId: string }) {
     refs[field].current?.focus();
   };
 
-  const onChange = (field: ReviewField) => (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const onChange = (field: ReviewField) => (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { value } = e.target;
     setValues((prev) => ({ ...prev, [field]: value }));
     // Once a field was flagged, re-check it while the visitor fixes it.
@@ -172,21 +177,27 @@ export default function ReviewForm({ titleId }: { titleId: string }) {
             <label className="ui-label" htmlFor={fieldId('place')}>
               {t('placeholderCountry')}
             </label>
-            <input
+            <select
               ref={placeRef}
               id={fieldId('place')}
               name="place"
-              type="text"
-              dir="auto"
-              className="ui-input"
-              autoComplete="country-name"
-              maxLength={REVIEW_RULES.place.max}
+              className="ui-select"
+              autoComplete="country"
               required
               value={values.place}
               onChange={onChange('place')}
               aria-invalid={errors.place ? true : undefined}
               aria-describedby={describedBy('place')}
-            />
+            >
+              <option value="" disabled>
+                {tc('form.countryChoose')}
+              </option>
+              {countries.map((c) => (
+                <option key={c.code} value={c.code}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
             {fieldError('place')}
           </div>
 

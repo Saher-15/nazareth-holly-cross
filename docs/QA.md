@@ -138,3 +138,24 @@ What was run, on this PC, with the in-memory stand-ins (no MongoDB, no PayPal, n
 Not verified: anything against a real MongoDB, Atlas, Render or PayPal (docs/DATABASE.md section 11); the scheduled task registration (`ops/backup-windows.ps1 -Register` changes the PC's tasks, so it was not run) and `-Setup`
 (it asks for the secret at a prompt); the screenshots in docs/admin-ui were not retaken for the two new screens.
 The admin end-to-end suites share one owner session and the API allows 300 requests per admin per 15 minutes: the new specs use the editor session and an owner account of their own so the budget of the others is not used up.
+
+## 7. Form-contracts pass (2026-10-06, branch `fix/form-contracts`)
+
+Every form of the site and the dashboard checked field by field against the API route and the model:
+`docs/FORM-CONTRACTS.md` has the tables. Found and fixed: the checkout, candle and contact forms used a looser
+e-mail pattern than the API (on the checkout and the candle the API refused the address only after PayPal had taken
+the money); every form ignored that the API's sanitiser stores "&" as "&amp;" before checking lengths; product names,
+descriptions, colours and product reviews showed `&amp;` on the site; the dashboard dropped colours after the 12th,
+let through usernames and image addresses the API refuses, and showed the API's English text for half the password
+rules; site reviews were not searchable by place.
+
+| Suite | Result |
+|---|---|
+| `server` `npm test` | 1003 passed (new: `form-contracts`) |
+| `web` `npm run check` | lint, typecheck, 636 unit tests (new: `form-contracts`, which imports the server's own `isEmail`), build: pass |
+| `web` end-to-end (Edge): payments, pilgrim, community, shop-features | 188 passed, 4 skipped (new: an address the API refuses never reaches the payment step) |
+| `admin` `npm run check` | lint, typecheck, 149 unit tests (new: `form-contracts`, against the server's own policy, `isEmail` and schema rules; parity), build: pass |
+| `admin` end-to-end, mock and harness | 133 passed, 49 skipped on each (new: reviews found and shown by place; a username the API refuses) |
+
+Not verified: real MongoDB data (how many stored reviews, orders or products hold values these rules now refuse:
+the rules only apply to new input), real PayPal, Firefox and Safari.

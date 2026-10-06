@@ -173,6 +173,16 @@ async function siteChecks() {
     } catch (err) {
       warn('netlify.app address', String(err.message));
     }
+    // The dashboard lives on its own origin; /admin on the site only forwards there.
+    try {
+      const { res } = await get('https://nazarethholycross.com/admin');
+      const location = res.headers.get('location') ?? '';
+      check(res.status >= 300 && res.status < 400 && location.startsWith('https://admin.nazarethholycross.com/'), '/admin forwards to https://admin.nazarethholycross.com', `status ${res.status} -> ${location}`);
+      const login = await get('https://admin.nazarethholycross.com/login');
+      check(login.res.status === 200, 'the dashboard answers on https://admin.nazarethholycross.com/login', `status ${login.res.status}`);
+    } catch (err) {
+      fail('dashboard address', String(err.message));
+    }
   }
 
   // Legacy addresses of the previous site keep working (netlify.toml / next.config.ts redirects).

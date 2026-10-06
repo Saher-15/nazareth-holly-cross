@@ -45,7 +45,7 @@ cost 12.
 | `ADMIN_ORIGINS` | **new**, for the dashboard | Comma-separated exact browser origins of the dashboard, e.g. `https://admin.nazarethholycross.com`. Added to the CORS allow-list. No wildcards; a trailing slash is ignored. Without it the dashboard cannot call the API from a browser (the old admin site's `*.netlify.app` addresses are allowed as before). |
 | `DATABASEURL` | yes (already) | MongoDB. New collections: `adminSession`, `auditLog`. |
 | `ADMIN_PASSWORD` | yes (already) | Only for the deprecated shared-password sign-in (section 7). |
-| `ADMIN_APP_URL` | no | Where the dashboard lives; the password-reset e-mail links to `<ADMIN_APP_URL>/reset-password?token=...`. Default `https://nhc-admin-dashboard.netlify.app`; set it when the dashboard moves to its own domain. A trailing slash is ignored. |
+| `ADMIN_APP_URL` | no | Where the dashboard lives; the password-reset e-mail links to `<ADMIN_APP_URL>/reset-password?token=...`. Default `https://admin.nazarethholycross.com`; set it when the dashboard moves to its own domain. A trailing slash is ignored. |
 | `ADMIN_BOOTSTRAP_EMAILS` | no | Comma-separated addresses that may create the **first** owner by a password-reset request while no account exists (1.1). Default `nazarethholycross@gmail.com`; `ADMIN_BOOTSTRAP_EMAILS=` (empty) turns it off. |
 | `MAIL_FROM`, `MAIL_APP_PASSWORD` | yes (already) | The reset e-mails go out through the same mailer as the order mails. |
 
@@ -213,7 +213,7 @@ the password.
 | `orders` | `pending`, `shipped`, `unverified` (no PayPal-confirmed payment) | `createdAt`, `totalPrice`, `lastName` | name, e-mail, phone, city, country, PayPal id |
 | `candles` | `pending`, `done` | `createdAt`, `lastName` | name, e-mail, prayer |
 | `contacts` | `open`, `done` | `createdAt`, `fullName` | name, e-mail, phone, message |
-| `site-reviews` | `approved`, `hidden` | `createdAt`, `fullName` | name, e-mail, message |
+| `site-reviews` | `approved`, `hidden` | `createdAt`, `fullName` | name, place, e-mail (older reviews keep the place there), message |
 | `product-reviews` | `approved`, `hidden` | `createdAt`, `rating` | name, country, title, comment (the product is populated with its `name`) |
 | `prayers` | a category (`Peace`, `Health`, ...) | `createdAt`, `likes` | name, country, prayer |
 | `products` | `ok` (not tracked, or more than 5), `low` (stock 0-5), `out` (stock 0) | `createdAt`, `name`, `price`, `stock`, `rate` | name, description, uuid |
@@ -249,7 +249,9 @@ the password.
 * **Text is stored HTML-escaped.** The API's sanitizer turns a stray `&`, `<`, `>` in body text into `&amp;`, `&lt;`, `&gt;` (see
   SECURITY.md 4.3), removes scripts and event handlers, and keeps a small set of harmless tags (`<b>`, `<i>`, `<a href="https://...">`) as they were typed (checked against the running sanitizer: the dashboard shows them as text, never as HTML); responses return what is stored. **Decode those three entities when putting a value into an
   edit field, send the raw text back, and the API escapes it once.** (Web addresses are the exception: `&amp;` in an
-  address is decoded before it is saved, so Firebase links keep working.)
+  address is decoded before it is saved, so Firebase links keep working.) **Lengths are checked after that escaping**:
+  a 2,000-character description with one `&` is 2,004 characters for the API. The dashboard's forms count the same
+  way (`admin/src/lib/entities.ts`, `storedLength`); every form's limits are in `docs/FORM-CONTRACTS.md`.
 
 ### 4.3 Dashboard: `GET /admin/dashboard`
 
