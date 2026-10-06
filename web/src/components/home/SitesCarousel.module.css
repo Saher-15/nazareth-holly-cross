@@ -1,6 +1,7 @@
 .section {
   --gutter: max(16px, calc((100% - var(--container)) / 2));
-  padding-block: 40px 72px;
+  /* fluid like .ui-section: the full spacing from about 900px, less on a phone so two sections do not leave a 130px hole */
+  padding-block: 40px clamp(48px, 8vw, 72px);
 }
 
 .head {

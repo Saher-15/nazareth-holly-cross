@@ -68,7 +68,6 @@
   color: var(--gold);
   font-size: 1.2rem;
   backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
 }
 
 .thumbs {
@@ -291,6 +290,14 @@
   to {
     opacity: 1;
     transform: none;
+  }
+}
+
+/* Tablet portrait (one column, 560-859px): a square photo would fill the whole screen and push the price and the
+   cart button below the fold; a 4:3 frame (the photo is contained, never cropped) keeps them in view. */
+@media (min-width: 560px) and (max-width: 859px) {
+  .main {
+    aspect-ratio: 4 / 3;
   }
 }
 

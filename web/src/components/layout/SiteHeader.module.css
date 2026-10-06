@@ -251,6 +251,9 @@
   .brandName {
     overflow: hidden;
     text-overflow: ellipsis;
+    /* the name is Latin in every language: in Hebrew and Arabic it still reads left to right, so the ellipsis cuts its
+       end ("Nazareth Hol...") and not its first letters ("...h Holy Cross") */
+    unicode-bidi: plaintext;
   }
 }
 

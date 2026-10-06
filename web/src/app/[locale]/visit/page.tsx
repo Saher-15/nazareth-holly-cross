@@ -114,7 +114,9 @@ export default async function VisitPage({ params }: PageProps<'/[locale]/visit'>
           </Reveal>
           <div className={shared.tableWrap} tabIndex={0} role="region" aria-label={t('pilgrim.visit.climate.title')}>
             <table className={`${shared.table} ${styles.climate}`}>
-              <caption>{t('pilgrim.visit.climate.caption')}</caption>
+              <caption>
+                <span className={shared.captionText}>{t('pilgrim.visit.climate.caption')}</span>
+              </caption>
               <thead>
                 <tr>
                   <th scope="col">{t('pilgrim.visit.climate.month')}</th>

@@ -69,7 +69,8 @@ export function TimeSeriesChart({ title, days, bars, line }: Props) {
 
   function onPointer(event: PointerEvent<SVGSVGElement>) {
     const rect = event.currentTarget.getBoundingClientRect();
-    const x = event.clientX - rect.left - padL;
+    // the drawing may be scaled down to fit its box (styles/admin.css): map the pointer back to drawing units
+    const x = ((event.clientX - rect.left) * width) / (rect.width || width) - padL;
     setActive(Math.min(n - 1, Math.max(0, Math.floor(x / band))));
   }
 
