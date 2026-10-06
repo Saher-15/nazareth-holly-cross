@@ -38,3 +38,7 @@ services:
         sync: false
       - key: CLIENT_URL
         sync: false
+      # Browser origin(s) of the new admin dashboard, comma-separated (docs/ADMIN.md). Without it the dashboard
+      # cannot call the API from a browser.
+      - key: ADMIN_ORIGINS
+        sync: false

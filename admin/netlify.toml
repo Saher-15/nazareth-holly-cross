@@ -1,0 +1,24 @@
+# Netlify configuration of the ADMIN site (a separate Netlify site from the public one; never the same site).
+#
+# Create the site with Base directory = admin (or keep `base` below) and set the environment variables listed in
+# admin/README.md in the site settings: ADMIN_API_URL at least. No secret belongs in this file.
+#
+# THE RULE: a deploy preview of this branch must answer 200 on /login (and /robots.txt) BEFORE anything is merged.
+# Next.js on Netlify only works through the Next runtime plugin named below. A site without it builds "successfully"
+# and then answers 404 on every page - exactly how the public site broke once. Check the preview, then merge.
+
+[build]
+  base = "admin"
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
+  NEXT_TELEMETRY_DISABLED = "1"
+
+# The Next.js runtime: routes, route handlers, the proxy (src/proxy.ts) and server rendering run through it.
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# Netlify's own headers file is not used: every header (CSP with a per-request nonce, no-store, noindex, HSTS ...)
+# is set by src/proxy.ts and next.config.ts so they are identical locally and in production.

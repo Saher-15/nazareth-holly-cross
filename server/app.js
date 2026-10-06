@@ -12,6 +12,7 @@ import routerContact from './route/contactRoute.js';
 import routerLive from './route/liveRoute.js';
 import routerAuth from './route/authRoute.js';
 import routerAdmin from './route/adminRoute.js';
+import routerAdminApi from './route/admin/index.js';
 import routerPrayer from './route/prayerRoute.js';
 import routerReview from './route/reviewRoute.js';
 import { apiLimiter, publicReadCache } from './utils/security.js';
@@ -40,6 +41,7 @@ export function createApp() {
     /^https:\/\/([a-z0-9-]+--)?(nazarethholycross|nazaretholycrossadmin)\.netlify\.app$/,
     config.clientUrl,
     ...config.extraOrigins,
+    ...config.adminOrigins, // the new admin dashboard (ADMIN_ORIGINS, docs/ADMIN.md)
   ].filter(Boolean);
 
   // This is a JSON API: it never serves pages, so the browser is told to load nothing from it and to
@@ -70,7 +72,13 @@ export function createApp() {
   // Strip MongoDB operators ($where, $gt, ...) and dotted keys from req.body/params/query/headers. Must run
   // BEFORE xss(): express-xss-sanitizer 2.x makes req.query read-only, and this one assigns to it.
   app.use(mongoSanitize());
-  app.use(xss()); // strips HTML tags from every string (and escapes & < >; see web/src/lib/plainText.ts)
+  // xss() strips HTML tags from every string (and escapes & < >; see web/src/lib/plainText.ts). It is skipped for the
+  // admin sign-in, password and user-creation bodies: a password containing & < > would otherwise reach the code as
+  // HTML entities, and the hash made from it would never match what the person types. Those fields are never
+  // rendered as HTML, and usernames are restricted to letters, digits and . _ - by the route.
+  const sanitize = xss();
+  const RAW_BODY = /^\/admin\/(auth\/|users\/?$)/;
+  app.use((req, res, next) => (RAW_BODY.test(req.path) ? next() : sanitize(req, res, next)));
   app.use(publicReadCache);
   app.use(apiLimiter);
 
@@ -80,6 +88,8 @@ export function createApp() {
   app.use('/candle', routerCandle);
   app.use('/contact', routerContact);
   app.use('/live', routerLive);
+  // The dashboard API first; a legacy admin token is handed on to the legacy router (middleware/adminGuard.js).
+  app.use('/admin', routerAdminApi);
   app.use('/admin', routerAdmin);
   app.use('/prayer', routerPrayer);
   app.use('/review', routerReview);

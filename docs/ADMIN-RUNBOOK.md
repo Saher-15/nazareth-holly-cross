@@ -1,0 +1,228 @@
+# Admin dashboard: runbook
+
+How to run the new admin dashboard locally, create the first owner, configure Render and Netlify, deploy it, roll it
+back, and what to check before the owner starts using it. The pieces: the dashboard (`admin/`, Next.js), the API
+(`server/route/admin/*`, [ADMIN.md](ADMIN.md)), the screens ([ADMIN-UI.md](ADMIN-UI.md)).
+
+```
+browser --httpOnly cookie--> dashboard (admin/, Netlify) --Bearer token, server to server--> API (server/, Render) --> MongoDB
+```
+
+## 1. Run it on your PC
+
+Two ways, both with no database and no secrets. Ports used below: dashboard 3911, API 3912 (any free ports work).
+
+**A. Against the real API code, in memory (the harness).** This is the one to use to see what production will do.
+
+```powershell
+# terminal 1: the REAL Express API over in-memory data, mail recorded instead of sent, throw-away secrets
+cd server
+node test-harness/serve.mjs                    # http://127.0.0.1:3912   (same as: npm run harness)
+
+# terminal 2: the dashboard
+cd admin
+npm ci                                         # once
+$env:SWC_NATIVE_BINDING_CACHE = "C:\Users\saher\nhc\.swc-cache"   # this PC only, for Next builds
+$env:TURBOPACK_ROOT = "C:\Users\saher\nhc"                        # only when node_modules is a junction
+$env:ADMIN_API_URL = "http://127.0.0.1:3912"
+npm run build; npx next start -p 3911          # or: npm run dev -- -p 3911
+```
+
+Open <http://localhost:3911/login>. Accounts (public, in-memory only, listed in `server/test-harness/README.md`):
+`owner` / `Owner-Mock-Pass-1`, `editor` / `Editor-Mock-Pass-1`, `viewer` / `Viewer-Mock-Pass-1`, and `secure` /
+`Secure-Mock-Pass-1` with two-factor (secret `JBSWY3DPEHPK3PXP`). `POST http://127.0.0.1:3912/__harness/reset` puts
+everything back; `GET .../__harness/emails` shows the mails it "sent". It reads no `.env`, opens no connection to any
+real service and stops everything when you close it.
+
+**B. Against the mock of the contract.** `cd admin; npm run dev:mock` (port 3902), then the dashboard with
+`ADMIN_API_URL=http://127.0.0.1:3902`. Same accounts. The mock answers exactly like the real API (a parity test
+compares them), it is just quicker to start.
+
+Tests: `cd admin; npm run check` (lint, types, unit, build), `npm run test:e2e` (mock) and `npm run test:e2e:harness`
+(real API code); `cd server; npm test`. Security probes: `node scripts/probe-api.mjs`, `node scripts/probe-bff.mjs`
+(harness and dashboard running). Set `PW_CHANNEL=msedge` to reuse the installed Edge.
+
+## 2. Create the first real owner (production)
+
+Nobody can sign in to production until an owner exists, and an owner can only be created from a terminal, never from
+the web. **Do it on the owner's own computer, typing the password himself, so no one else ever sees it.**
+
+1. `git clone` the repository (or use the existing folder), `cd server`, `npm ci`.
+2. Create `server/.env` containing ONLY the production connection string (never commit it, delete it afterwards):
+   `DATABASEURL=mongodb+srv://...` (Render dashboard -> the API service -> Environment, or Atlas -> Connect).
+3. `node scripts/create-admin.js`. It prints the database host and name (check it is the production cluster), asks
+   for a username and a password (typed twice, hidden; 12+ characters, not a common one) and creates an **owner**. It
+   refuses arguments and refuses to run without an interactive terminal; the password never touches a file.
+4. Delete `server/.env`. Sign in at the dashboard, open **Security settings** and turn on two-factor sign-in with an
+   authenticator app. Then create the other accounts under **Users** (one per person, `editor` or `viewer`).
+
+If the only owner loses the authenticator: ADMIN.md section 6 (`db.admins.updateOne(...)` in Atlas).
+
+## 3. Environment variables
+
+**Render (the API, service `nazareth-holy-cross-api`)** - nothing new is required for the dashboard:
+
+| Variable | Value |
+|---|---|
+| `JWT_SECRET` | already set (32+ random characters). Signs the dashboard tokens and encrypts the TOTP secrets: rotating it signs everyone out and makes stored second-factor secrets unreadable (ADMIN.md 6). |
+| `DATABASEURL` | already set. New collections `adminSession`, `auditLog` appear on first use; check in Atlas that both have their TTL index. |
+| `ADMIN_ORIGINS` | optional here: the exact origin of the dashboard, e.g. `https://nazaretholycrossadmin.netlify.app` or its own domain, no trailing slash. The dashboard calls the API from its server, so CORS is not involved; this only matters if a browser ever calls the API directly. (`https://nazaretholycrossadmin.netlify.app` and its deploy previews are allowed already.) Set it to the final domain anyway, so it is right the day it is needed. |
+| `ADMIN_PASSWORD` | still required by the server's start-up check until the old admin is retired (ADMIN.md 7). |
+
+**Netlify (the admin site)**:
+
+| Variable | Value |
+|---|---|
+| `ADMIN_API_URL` | `https://nazareth-holy-cross-api.onrender.com` (the API origin, no trailing slash). Server-side only; never prefixed `NEXT_PUBLIC_`. |
+| `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET` (+ the other `NEXT_PUBLIC_FIREBASE_*` in `admin/.env.example`) | optional: turns on product-photo upload. Public values, not secrets. Empty = the form asks for pasted https image addresses. |
+| `ADMIN_IMG_SRC` | optional: extra https image hosts for the Content-Security-Policy. |
+| `ADMIN_TIMEZONE` | optional, default `Asia/Jerusalem`. |
+| `ADMIN_TRUST_XFF` | leave unset on Netlify (its own client-address header is used). |
+| `ADMIN_ALLOWED_ORIGINS` | leave unset unless the dashboard is reached through a second domain. |
+
+No secret belongs in `admin/netlify.toml` or in the repository.
+
+## 4. Deploy the dashboard (Netlify)
+
+The dashboard is its **own Netlify site**, `nazaretholycrossadmin`, never the public site. That site is currently
+connected to the OLD admin repository; point it at this repository instead.
+
+1. **Before touching the site**, check the code: `cd admin; npm run check` and both e2e runs are green, and the
+   branch is merged to `main` (or use the branch for a preview first, below).
+2. Netlify -> site `nazaretholycrossadmin` -> **Site configuration -> Build & deploy -> Continuous deployment ->
+   Repository -> Link to a different repository** -> GitHub -> `Saher-15/nazareth-holly-cross`. (Netlify asks to
+   authorise the GitHub app for that repository if it never did.) The old repository is left as it is.
+3. **Build settings** on the same page (they must match `admin/netlify.toml`, which Netlify reads from the base
+   directory):
+   * Base directory: `admin`
+   * Build command: `npm run build`
+   * Publish directory: `.next`
+   * Production branch: `main`; Deploy previews: any pull request.
+4. **Runtime**: nothing to install by hand. `admin/netlify.toml` names `@netlify/plugin-nextjs` (the official Next.js
+   runtime) and `NODE_VERSION = "22"`. Without that plugin Netlify builds "successfully" and then answers 404 on every
+   page, which is exactly how the public site broke once. Under **Plugins** (or the first deploy log) confirm
+   "Next.js Runtime" ran.
+5. **Environment variables**: section 3 (Netlify). Save them before the first build.
+6. Trigger a deploy from a branch or a pull request first: the **deploy preview** of that change is the test bed.
+
+### THE RULE: the deploy preview must answer HTTP 200 on `/login` before merging
+
+```bash
+curl -s -o /dev/null -w "%{http_code}\n" https://<preview-url>/login          # must print 200
+curl -s -o /dev/null -w "%{http_code}\n" https://<preview-url>/robots.txt     # must print 200
+curl -sI https://<preview-url>/login | grep -i -E "content-security-policy|strict-transport|x-frame|cache-control"
+```
+
+Then in a browser on the preview: sign in with the real owner (section 2), check the cookie in the developer tools is
+`__Host-nhc_admin`, `Secure`, `HttpOnly`, `SameSite=Strict`, open every page, mark nothing important. A `404` on
+`/login`, or no CSP header, means the runtime plugin did not run: do not merge.
+
+7. Merge (with the owner's approval) -> production deploys. Add the custom domain (HTTPS) under **Domain
+   management**, then put that exact origin into Render's `ADMIN_ORIGINS`.
+8. When the old admin site is no longer used: retire the shared-password routes of the API (ADMIN.md 7).
+
+## 5. Roll back
+
+* **Dashboard**: Netlify -> Deploys -> pick the last good deploy -> **Publish deploy**. Then revert the bad commit on
+  `main` with a pull request. To go back to the old admin repository entirely: Continuous deployment -> Link to a
+  different repository -> the old one, and restore its old base directory and build command (write them down before
+  step 2 of section 4: Netlify shows them on that page).
+* **API**: Render -> the service -> Rollback to the previous deploy. The new routes are additive; the old admin site keeps
+  working on the legacy routes either way (ADMIN.md 7).
+* **A suspected stolen session**: change the password or disable and re-enable the account (all its sessions end at
+  once); for everyone, rotate `JWT_SECRET` (ADMIN.md 6).
+
+## 6. Pre-launch checklist
+
+- [ ] `server`: `npm test` green. `admin`: `npm run check`, `npm run test:e2e`, `npm run test:e2e:harness` green.
+- [ ] Staging (or one careful production pass) with a real MongoDB: sign in, one change of each kind, a CSV export,
+      shipping an order e-mails the customer exactly once. **No test has run against a real MongoDB or on Render yet.**
+- [ ] The first owner created on his own machine (section 2); two-factor on for every account; no shared accounts.
+- [ ] Atlas: `adminSession` and `auditLog` have their TTL indexes; the `admins` collection holds only real people.
+- [ ] Render: `JWT_SECRET` is 32+ random characters and is not `ADMIN_PASSWORD`; `ADMIN_ORIGINS` set to the final domain.
+- [ ] Netlify: `ADMIN_API_URL` set; the deploy preview answered 200 on `/login` and `/robots.txt`; CSP and cookie flags
+      checked (section 4).
+- [ ] Firebase Storage rules: the old admin wrote to the bucket without signing in. Restrict writes (signed-in only, image
+      types, a size limit) before enabling upload, or leave the upload variables empty and paste image addresses.
+- [ ] A phone and a desktop look at every page (and Hebrew, Arabic once).
+- [ ] The old admin site stays up only until the owner has used the new one for a few days; then retire its routes.
+
+## 7. Day to day
+
+Unlock an account: an owner re-enables it. Lost authenticator: an owner resets two-factor on the Users page. Someone
+leaves: disable (not delete) the account; the audit log keeps who did what for 180 days. Rotating `JWT_SECRET` and the
+retention of sessions: ADMIN.md 6.
+
+## 8. What running the two halves together found (all fixed, each with a regression test)
+
+The dashboard (built against a mock from the written contract) and the API (built from the same contract, 732 tests)
+had never run together. Run through `server/test-harness`, they disagreed on:
+
+| Mismatch | Fixed on | How |
+|---|---|---|
+| Dashboard's recent candles and messages failed its own schema (the API sent only a few fields): the whole dashboard showed an error | API | `services/dashboard.js` selects `email, prayer` / `msg`; test in `admin-resources.test.js` |
+| The detail drawers of candles, messages, reviews and prayers called `GET /:id`, which only orders and products had (404) | API | `GET /:id` on every collection (viewer); tests |
+| Filters the UI offered and the API refused (400): messages `pending`, products `ok`, users `active` | both | UI uses `open`; API accepts `ok` and `active`; the orders list also got its `unverified` filter; tests |
+| Audit log: the API names the fields `at`, `actorName`, `ua`, `target:{type,id}`; the UI read `actor`, `userAgent`: every row showed no user and no device | UI | schema reads the real names; unit test |
+| Stored text is HTML-escaped (`&amp;`): shown raw, and re-escaped on every edit | UI | decoded once on receipt (`lib/entities.ts`); unit and e2e tests |
+| Product category was free text; the API accepts eight keys or null (create always failed) | UI | a select with the eight categories; unit tests |
+| Viewers saw an Export CSV button; the API (rightly: bulk personal data) answers 403 | UI | button only for editor and owner; e2e tests (UI hides, API refuses) |
+| `emailSent: false` after shipping was never shown | UI | its own toast; e2e test with the mailer failing |
+| A bad product id (400) showed an error instead of "not found" | UI | 400 and 404 both give not found |
+| The two-factor and password errors were the API's English text | UI | translated for the cases a person can fix |
+| Tests assumed the mock's quirks: `localhost:3901`, CSV file name `orders.csv` and quoted header, the lockout visible behind the rate limit, a code usable twice | tests | the suite now runs unchanged on both backends |
+| The mock differed from the API in almost every response shape (bare documents, 204 deletes, status codes, filters, audit fields, guards) | mock | rewritten to the real contract; `tests/unit/parity.test.ts` runs one script on both and fails on any difference in status or shape |
+
+## 9. Security review (both halves)
+
+Checked by running attacks against the harness and the dashboard (`scripts/probe-api.mjs`: 98 checks,
+`scripts/probe-bff.mjs`: 33 checks), reading the code, and the dependency and bundle scans.
+
+**Held up** (verified, nothing to fix): session fixation (every sign-in mints a new session; a client-supplied cookie
+is ignored); cookie flags (`HttpOnly`, `SameSite=Strict`, `__Host-` + `Secure` on https, no `Domain`); CSRF on login,
+logout and every proxied verb (cross-site, missing, `null`, look-alike and userinfo origins; `Sec-Fetch-Site`); the
+proxy allow-list (path traversal, encoded slashes, absolute URLs, other auth routes, bodies over 64 KB, non-JSON); no
+SSRF (the proxy only builds `ADMIN_API_URL + a fixed allow-listed path`, redirects are errors); open redirects after
+sign-in (`?next=` is same-site relative only); header injection (Node refuses CR/LF in forwarded headers); user
+enumeration (one generic 401, same work and the same timing for unknown users); lockout bypass by case, full-width
+or zero-width characters (the name must match exactly, so a variant is just an unknown user); TOTP replay (a code
+works once, older steps are refused); role escalation (`PATCH` own role is refused, a role is read from the database on
+every request, role changes end the user's sessions); mass assignment (unknown fields are refused on products, users,
+orders); audit tampering (no write routes, entries expire only by TTL); CSV injection (cells starting with `= + - @`
+get an apostrophe, checked on orders, candles and messages); log injection (line breaks in a typed username are
+flattened in the audit log); ReDoS (every user-facing regular expression is linear or bounded; search text is
+escaped); secrets in the client bundle (`.next/static` holds no API address, key or password; the shared fetch helper
+mentions `Bearer` but is never given a token in the browser); `npm audit --omit=dev`: 0 vulnerabilities in `admin`
+and in `server`.
+
+**Fixed**:
+
+| Finding | Fix |
+|---|---|
+| The dashboard passed on a visitor-written `X-Forwarded-For` to the API: anyone could pick the address the API rate-limits and logs | only Netlify's header is trusted; `X-Forwarded-For` needs `ADMIN_TRUST_XFF=1`; the value is validated; unit tests |
+| `mailto:` links built from visitor-typed addresses: the public forms allow `?` and `&` in the local part, so `a?cc=x&bcc=y@host` would pre-fill Cc/Bcc in the admin's mail client | address is URL-encoded and checked; unit tests |
+| Product photo upload trusted the browser's file type (taken from the file name) | the first bytes must be a JPEG, PNG, GIF, WebP or AVIF image and match the claimed type; the upload is sent with the detected type; unit tests |
+| The API's text sanitizer is described as "escapes & < >" but keeps `<b>`, `<i>` and `<a href>` | documented (ADMIN.md 4.2); the dashboard never renders stored text as HTML (React escapes it, no `dangerouslySetInnerHTML` anywhere) |
+
+**Open (not fixed; decide before or soon after launch)**:
+
+1. **Per-address rate limits see the dashboard host, not the visitor.** The API runs with `trust proxy` 1 and takes the
+   last `X-Forwarded-For` entry, which behind Render is the Netlify function's address. So the 5-per-name and
+   30-per-address sign-in limits are shared by everyone, and the audit trail's address hash is the same for every
+   entry. The per-account lockout (5 failures, 15 minutes) is what really protects accounts. A fix needs a secret
+   shared between the dashboard and the API, or `trust proxy` 2 plus accepting that a direct caller of the API could
+   then choose its own address; both change the API's trust model, so not done here.
+2. **Anyone can lock an account for 15 minutes** by failing the password five times (the price of lockout). An owner
+   re-enables the account. Two-factor does not prevent it. With open item 1 it can also trip the shared address limit
+   (30 failed sign-ins in 15 minutes from anyone) and block everybody's sign-in for that time.
+3. **Password policy failures count toward the 5-per-15-minutes limit** of the password route (a person who tries
+   five weak passwords is blocked for 15 minutes). Harmless; noted.
+4. **Dev-only dependency warnings**: `npm audit` (full) reports 5 high findings in `admin` (via `eslint-config-next`) and
+   3 in `server` (via `nodemon`), all the `braces` stack-exhaustion advisory in tooling that never ships. The only
+   offered fix is a breaking downgrade. Production dependencies: 0.
+5. **Firebase Storage rules** (outside this repository): the upload checks above are client-side; only the bucket's
+   rules can stop a direct write. Restrict them (section 6).
+6. **No test ran against a real MongoDB or on Render/Netlify** (ADMIN.md 11): index creation, TTL purge timing and the
+   Next.js runtime on Netlify are checked only by the rule in section 4.
+7. A stolen **valid session cookie** works until sign-out, expiry (60 minutes) or revocation: the cookie is not bound
+   to a device. The idle sign-out (30 minutes) and `HttpOnly`/`SameSite=Strict` limit the exposure.

@@ -97,6 +97,10 @@ shop checkout then sends the PayPal order id (`paypalOrderId`) with the order so
 
 ### 4.1 Authentication and authorization
 
+**The result of running the dashboard against this API and attacking both (what held, what was fixed, what is open) is in [ADMIN-RUNBOOK.md](ADMIN-RUNBOOK.md) sections 8 and 9.**
+
+**The admin dashboard (new) has its own accounts, roles, optional TOTP, revocable sessions and an audit log: see [ADMIN.md](ADMIN.md).** The two sign-ins below are **deprecated** and kept only until the old admin site is retired.
+
 Two ways to sign in exist side by side; both end in the **same kind of token** and `requireAdmin` accepts either:
 
 | | `POST /auth/login` | `POST /admin/login` |
@@ -130,6 +134,10 @@ At start-up the server refuses (production) the example secrets, or one value fo
 | `/order/create_order`, `/order/complete_order` | 30 | one shared counter (each is a PayPal call for us) |
 | `/order/newOrder` | 10 | |
 | `/prayer/like/:id` | 30 | |
+| `/admin/*` (any address) | 1000 | per-address ceiling in front of the admin routes ([ADMIN.md](ADMIN.md) 3.1) |
+| `/admin/auth/login` | 5 failures per address + username, 30 per address | successful sign-ins and the TOTP prompt do not count |
+| `/admin/*` signed in | 300 | per admin account, not per address |
+| `/admin/auth/password`, `totp/enable`, `totp/disable` | 5 failures | per admin account |
 
 The counters live in the server's memory: correct for the single Render instance, **not shared** if the service is
 ever scaled to several instances (then use a shared store such as Redis). Behind NAT (a tour group on one Wi-Fi)
@@ -220,6 +228,9 @@ browser                         API                                PayPal
 | Rate-limit counters are per process | not shared between instances | shared store when scaling out |
 | CSP has no report endpoint | violations in visitors' browsers are invisible | add `report-to` with an error tracker (Sentry) |
 | `style-src-attr 'unsafe-inline'` | inline style attributes cannot be nonce-protected | remove when no component writes `style=""` |
+| The old shared-password / account sign-ins (`/auth/login`, `/admin/login`) | one shared secret, no roles, no lockout, no audit, 8-hour tokens that cannot be revoked | retire them when the old admin site is off (ADMIN.md section 7) |
+| Behind the dashboard the API sees the dashboard host's address, not the visitor's (`trust proxy` 1, last `X-Forwarded-For` entry) | the per-address sign-in limits are shared by all visitors and audit address hashes are identical; anyone can lock an account for 15 minutes | the per-account lockout is the real control; a shared secret between dashboard and API would allow a safe visitor address (ADMIN-RUNBOOK.md 9) |
+| Dashboard tokens cannot be refreshed (60 minutes) | an admin signs in again every hour | add a refresh route if that proves annoying |
 | Admin site (separate repository) keeps its token in the browser | XSS on the admin site would expose it | review there; tokens already expire after 8 hours |
 | Pages are rendered per request (nonce) | slower first byte than static pages | measure; consider hash-based CSP if needed |
 | Stored visitor text is HTML-escaped by the API | consumers that print it raw would show `&amp;` | decode on display (done in `web/`); consider storing raw text and escaping on output only |

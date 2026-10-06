@@ -49,6 +49,8 @@ export const config = {
   requirePaymentProof: env.REQUIRE_PAYMENT_PROOF === 'true',
   // Comma-separated extra origins allowed by CORS (e.g. a new admin domain)
   extraOrigins: (env.EXTRA_ORIGINS || '').split(',').map((o) => o.trim()).filter(Boolean),
+  // Comma-separated browser origins of the NEW admin dashboard (docs/ADMIN.md). Exact origins, no wildcards.
+  adminOrigins: (env.ADMIN_ORIGINS || '').split(',').map((o) => o.trim().replace(/\/+$/, '')).filter(Boolean),
   mail: {
     from: env.MAIL_FROM,
     appPassword: env.MAIL_APP_PASSWORD,

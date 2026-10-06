@@ -42,6 +42,13 @@ const productSchema = new Schema({
     default: null,
     min: [0, 'Stock cannot be negative'],
   },
+  // Optional override of the category the storefront infers from the name (services/catalog.js, CATEGORIES).
+  category: {
+    type: String,
+    trim: true,
+    maxlength: [40, 'Category too long'],
+    default: undefined,
+  },
 }, { timestamps: true });
 
 productSchema.index({ name: 'text', description: 'text' });
