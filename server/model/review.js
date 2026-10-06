@@ -16,6 +16,14 @@ const reviewSchema = new Schema({
     match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Invalid email format'], // an empty address is allowed (the field is optional)
     default: '',
   },
+  // Where the reviewer is from (a country). Reviews written before this field existed keep it in `email` (the old
+  // site sent it there); route/reviewRoute.js reads both. Never an e-mail address.
+  place: {
+    type: String,
+    trim: true,
+    maxlength: [200, 'Place too long'],
+    default: '',
+  },
   phone: {
     type: String,
     trim: true,

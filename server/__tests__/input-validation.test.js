@@ -161,7 +161,7 @@ describe('prayers', () => {
 describe('reviews', () => {
   it('can never publish itself differently from what the model decides (no "approved" from the body)', async () => {
     await as(request(app).post('/review/addReview')).send({ fullName: 'Maria', msg: 'Lovely place', approved: false, createdAt: '2001-01-01' });
-    expect(Object.keys(mocks.reviewSaved[0]).sort()).toEqual(['email', 'fullName', 'msg', 'phone']);
+    expect(Object.keys(mocks.reviewSaved[0]).sort()).toEqual(['email', 'fullName', 'msg', 'phone', 'place']);
   });
 
   it('strips markup from what visitors write', async () => {
