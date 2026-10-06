@@ -63,7 +63,7 @@ describe('ReviewForm', () => {
 
   const fill = () => {
     fireEvent.change(screen.getByLabelText(en.pray.placeholderFullName), { target: { value: ' Maria ' } });
-    fireEvent.change(screen.getByLabelText(en.pray.placeholderCountry), { target: { value: 'Rome' } });
+    fireEvent.change(screen.getByLabelText(en.pray.placeholderCountry), { target: { value: 'IT' } });
     fireEvent.change(screen.getByLabelText(en.pray.placeholderMessage), { target: { value: 'Thank you!' } });
   };
   const submit = () => fireEvent.click(screen.getByRole('button', { name: en.pray.submitButton }));
@@ -84,7 +84,7 @@ describe('ReviewForm', () => {
     fill();
     submit();
     expect(await screen.findByRole('heading', { name: en.pray.successMessage })).toHaveFocus();
-    expect(postJson).toHaveBeenCalledWith('/review/addReview', { fullName: 'Maria', email: 'Rome', msg: 'Thank you!' });
+    expect(postJson).toHaveBeenCalledWith('/review/addReview', { fullName: 'Maria', place: 'Italy', msg: 'Thank you!' });
     await waitFor(() => expect(revalidateReviews).toHaveBeenCalledTimes(1));
 
     fireEvent.click(screen.getByRole('button', { name: en.communityPage.reviews.form.another }));
@@ -105,7 +105,7 @@ describe('ReviewForm', () => {
     postJson.mockResolvedValue({ ok: false, status: 0, error: 'network' });
     render(withIntl(<ReviewForm titleId="f" />, 'he'));
     fireEvent.change(screen.getByLabelText(he.pray.placeholderFullName), { target: { value: 'מרים' } });
-    fireEvent.change(screen.getByLabelText(he.pray.placeholderCountry), { target: { value: 'נצרת' } });
+    fireEvent.change(screen.getByLabelText(he.pray.placeholderCountry), { target: { value: 'IL' } });
     fireEvent.change(screen.getByLabelText(he.pray.placeholderMessage), { target: { value: 'תודה רבה' } });
     fireEvent.click(screen.getByRole('button', { name: he.pray.submitButton }));
     expect(await screen.findByRole('alert')).toHaveTextContent(he.communityPage.reviews.form.errors.network);

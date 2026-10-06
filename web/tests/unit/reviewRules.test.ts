@@ -11,7 +11,7 @@ import { scriptOf } from '@/components/community/ReviewWall';
 import { serializeJsonLd } from '@/lib/jsonLd';
 import { reviewerPlace } from '@/lib/reviews';
 
-const good = { fullName: 'Maria Rossi', place: 'Rome, Italy', msg: 'A blessed visit, thank you.' };
+const good = { fullName: 'Maria Rossi', place: 'IT', msg: 'A blessed visit, thank you.' };
 
 describe('validateReview', () => {
   it('accepts a complete review', () => {
@@ -26,10 +26,11 @@ describe('validateReview', () => {
     });
   });
 
-  it('applies the API limits (name 2-200, place up to 200, message 3-1000)', () => {
+  it('applies the API limits (name 2-200, message 3-1000) and takes the place from the country list only', () => {
     expect(validateField('fullName', 'A')).toEqual({ key: 'nameTooShort', values: { min: 2 } });
     expect(validateField('msg', 'ok')).toEqual({ key: 'messageTooShort', values: { min: 3 } });
-    expect(validateField('place', 'x'.repeat(201))).toEqual({ key: 'tooLong', values: { max: 200 } });
+    expect(validateField('place', 'Rome')).toEqual({ key: 'placeRequired' });
+    expect(validateField('place', 'IT')).toBeUndefined();
     expect(validateField('msg', 'x'.repeat(1001))).toEqual({ key: 'tooLong', values: { max: 1000 } });
     expect(validateField('msg', 'x'.repeat(1000))).toBeUndefined();
   });
@@ -42,10 +43,10 @@ describe('validateReview', () => {
 });
 
 describe('toReviewPayload', () => {
-  it('sends trimmed values and keeps the place in the API field "email"', () => {
-    expect(toReviewPayload({ fullName: ' Maria ', place: ' Rome ', msg: ' Thank you \n' })).toEqual({
+  it('sends trimmed values and the English country name in the API field "place"', () => {
+    expect(toReviewPayload({ fullName: ' Maria ', place: ' IT ', msg: ' Thank you \n' })).toEqual({
       fullName: 'Maria',
-      email: 'Rome',
+      place: 'Italy',
       msg: 'Thank you',
     });
   });

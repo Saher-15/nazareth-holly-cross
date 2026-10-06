@@ -1,6 +1,6 @@
 // Rules of the prayer wall (/prayers), free of React so they can be unit tested.
 
-import { COUNTRY_CODES, countryName } from '@/components/checkout/countries';
+import { codeOfEnglishName, COUNTRY_CODES, countryName, localCountryName } from '@/components/checkout/countries';
 
 /** The categories the API accepts (server/model/prayer.js). The value is what is sent; labels are messages. */
 export const PRAYER_CATEGORIES = ['Peace', 'Health', 'Gratitude', 'Family', 'Personal', 'World Peace'] as const;
@@ -97,18 +97,10 @@ export function displayText(raw: string, maxLength: number = PRAYER_RULES.prayer
   return cleaned.length > maxLength ? `${cleaned.slice(0, maxLength).trimEnd()}…` : cleaned;
 }
 
-// English country name -> ISO code, built once (the English names are what the form sends and the API stores).
-let englishToCode: Map<string, string> | null = null;
-function codeOfEnglishName(name: string): string | undefined {
-  englishToCode ??= new Map(COUNTRY_CODES.map((code) => [countryName(code, 'en').toLowerCase(), code]));
-  return englishToCode.get(name.trim().toLowerCase());
-}
-
 /**
  * The country of a prayer as the wall shows it: a known country in the visitor's language; any other text (prayers
  * saved before the list existed) cleaned like the rest of the wall.
  */
 export function wallCountry(stored: string, locale: string): string {
-  const code = codeOfEnglishName(stored);
-  return code ? countryName(code, locale) : displayText(stored, 100);
+  return codeOfEnglishName(stored) ? localCountryName(stored, locale) : displayText(stored, 100);
 }
