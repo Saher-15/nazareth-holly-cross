@@ -8,6 +8,7 @@ import ProductReview from '../model/productReview.js';
 import { config } from '../config/env.js';
 import { strictLimiter } from '../utils/security.js';
 import { HttpError } from '../utils/httpError.js';
+import { LEGACY_LIST_CAP, sendCapped } from '../utils/pagination.js';
 import { categoryCounts, getCatalog, invalidateCatalog, rankBestSellers, rankSimilar } from '../services/catalog.js';
 
 const routerProduct = express.Router();
@@ -19,8 +20,9 @@ routerProduct.use((req, res, next) => {
 });
 
 routerProduct.get('/getAllProducts', asyncHandler(async (req, res) => {
-    const products = await Product.find();
-    res.status(200).send(products);
+    // Newest first and capped (docs/DATABASE.md). The storefront reads /product/catalog; this is the old list.
+    const products = await Product.find().sort({ createdAt: -1 }).limit(LEGACY_LIST_CAP).lean();
+    sendCapped(res, products);
 }))
 
 routerProduct.get('/getNProducts', asyncHandler(async (req, res) => {
@@ -34,7 +36,7 @@ routerProduct.get('/getNProducts', asyncHandler(async (req, res) => {
 
     const skip = (page - 1) * size;
 
-    const po = await Product.find().sort({ rate: -1 }).limit(size).skip(skip);
+    const po = await Product.find().sort({ rate: -1, _id: 1 }).limit(size).skip(skip).lean();
     const total_documents = await Product.countDocuments();
 
     const previous_pages = page - 1;

@@ -8,7 +8,7 @@ const auditLogSchema = new Schema({
   at: { type: Date, default: Date.now },
   actorId: { type: Schema.Types.ObjectId, default: null }, // null for a failed sign-in (no account was proven)
   actorName: { type: String, default: '', maxlength: 100 }, // for a failed sign-in: the name that was typed
-  role: { type: String, default: '' },
+  role: { type: String, default: '', maxlength: 20 },
   action: { type: String, required: true, maxlength: 60 }, // 'auth.login', 'order.update', 'export.orders', ...
   target: {
     type: { type: String, default: '', maxlength: 40 },

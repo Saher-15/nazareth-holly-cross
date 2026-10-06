@@ -2,8 +2,8 @@ import bcrypt from 'bcryptjs';
 
 // A small in-memory stand-in for Mongoose models, so the admin API can be driven through HTTP without a database.
 // It understands what the admin routes use: find / findOne / findById (+ sort skip limit select populate lean),
-// countDocuments, create / new + save, findByIdAndUpdate, findOneAndUpdate, updateOne, updateMany,
-// findByIdAndDelete, aggregate (answers come from Model.aggregateImpl), and the filter operators
+// countDocuments, exists, create / new + save, insertMany, findByIdAndUpdate, findOneAndUpdate (also with
+// { upsert: true } and $setOnInsert), updateOne, updateMany, findByIdAndDelete, deleteOne, deleteMany, aggregate (answers come from Model.aggregateImpl), and the filter operators
 // $and $or $ne $lt $lte $gt $gte $in $exists $regex/$options. Every query is recorded in Model.calls.
 //
 // Use in a test file:
@@ -62,6 +62,7 @@ function applyUpdate(doc, update) {
       if (op === '$set') doc[key] = value;
       else if (op === '$inc') doc[key] = (doc[key] ?? 0) + value;
       else if (op === '$unset') delete doc[key];
+      else if (op === '$setOnInsert') { /* only applies when an upsert inserts (see upsertDocument) */ }
       else throw new Error(`fake model: unsupported update operator ${op}`);
     }
   }
@@ -80,8 +81,21 @@ const compare = (a, b) => {
 // populateRefs ({ path: 'ModelName' }: what .populate(path) resolves, used by the local harness), timestamps
 // (set createdAt/updatedAt like { timestamps: true }), autoCreatedAt (default true: save() stamps createdAt; the
 // audit log and session models have their own date fields and no createdAt).
-export function fakeModule(name, { hidden = [], onSave, defaults = {}, methods = {}, statics = {}, collection, populateRefs = {}, timestamps = false, autoCreatedAt = true } = {}) {
+export function fakeModule(name, { hidden = [], onSave, defaults = {}, methods = {}, statics = {}, collection, populateRefs = {}, timestamps = false, autoCreatedAt = true, unique = [] } = {}) {
   const store = { docs: [] };
+
+  // A unique index: a second document with the same non-empty value fails like MongoDB does (error code 11000).
+  function checkUnique(doc) {
+    for (const field of unique) {
+      const value = getPath(doc, field);
+      if (value === undefined || value === null) continue;
+      if (store.docs.some((d) => d !== doc && getPath(d, field) === value)) {
+        const error = new Error(`E11000 duplicate key error collection: ${name} index: ${field}_1`);
+        error.code = 11000;
+        throw error;
+      }
+    }
+  }
 
   class Model {
     constructor(data = {}) {
@@ -94,13 +108,17 @@ export function fakeModule(name, { hidden = [], onSave, defaults = {}, methods =
       if (autoCreatedAt) this.createdAt ??= new Date();
       if (timestamps) this.updatedAt = new Date();
       if (onSave) await onSave(this);
-      if (!store.docs.includes(this)) store.docs.push(this);
+      if (!store.docs.includes(this)) {
+        checkUnique(this);
+        store.docs.push(this);
+      }
       return this;
     }
 
     static create(data) { return new Model(data).save(); }
 
     static find(filter) { return new Query('find', filter); }
+    static exists(filter) { return new Query('exists', filter); }
     static findOne(filter) { return new Query('findOne', filter); }
     static findById(id) { return new Query('findOne', { _id: id }, { byId: true }); }
     static countDocuments(filter = {}) {
@@ -109,9 +127,16 @@ export function fakeModule(name, { hidden = [], onSave, defaults = {}, methods =
     }
     static findByIdAndUpdate(id, update, options = {}) { return new Query('update', { _id: id }, { update, options }); }
     static findOneAndUpdate(filter, update, options = {}) { return new Query('update', filter, { update, options }); }
-    static updateOne(filter, update) { return new Query('updateOne', filter, { update }); }
+    static updateOne(filter, update, options = {}) { return new Query('updateOne', filter, { update, options }); }
     static updateMany(filter, update) { return new Query('updateMany', filter, { update }); }
     static findByIdAndDelete(id) { return new Query('delete', { _id: id }); }
+    static deleteOne(filter) { return new Query('deleteOne', filter); }
+    static deleteMany(filter) { return new Query('deleteMany', filter); }
+    static async insertMany(docs) {
+      const saved = [];
+      for (const d of docs) saved.push(await new Model(d).save());
+      return saved;
+    }
     static aggregate(pipeline) {
       Model.calls.push({ op: 'aggregate', pipeline });
       return Promise.resolve(Model.aggregateImpl(pipeline));
@@ -140,6 +165,23 @@ export function fakeModule(name, { hidden = [], onSave, defaults = {}, methods =
   Object.defineProperty(Model, 'name', { value: name });
 
   const plain = (doc) => JSON.parse(JSON.stringify(doc), (k, v) => (typeof v === 'string' && /^\d{4}-\d\d-\d\dT[\d:.]+Z$/.test(v) ? new Date(v) : v));
+
+  // What MongoDB does when an upsert finds nothing: a new document made of the filter's equality fields, the
+  // update's $setOnInsert and $set fields on top, saved like any other (timestamps, unique indexes).
+  async function upsertDocument(filter, update) {
+    const base = {};
+    for (const [key, cond] of Object.entries(filter)) {
+      if (key.startsWith('$') || isOperatorObject(cond)) continue;
+      const parts = key.split('.');
+      let target = base;
+      for (const part of parts.slice(0, -1)) target = (target[part] ??= {});
+      target[parts.at(-1)] = cond;
+    }
+    const doc = new Model({ ...defaults, ...base });
+    Object.assign(doc, update.$setOnInsert ?? {});
+    applyUpdate(doc, Object.fromEntries(Object.entries(update).filter(([op]) => op !== '$setOnInsert')));
+    return doc.save();
+  }
 
   class Query {
     constructor(kind, filter = {}, extra = {}) {
@@ -200,8 +242,16 @@ export function fakeModule(name, { hidden = [], onSave, defaults = {}, methods =
         return docs.map((d) => this.populated(this.present(d)));
       }
       if (kind === 'findOne') return this.populated(this.present(found()[0] ?? null));
+      if (kind === 'exists') {
+        const doc = found()[0];
+        return doc ? { _id: doc._id } : null;
+      }
       if (kind === 'update') {
         const doc = found()[0];
+        if (!doc && extra.options?.upsert) {
+          const inserted = await upsertDocument(filter, extra.update);
+          return extra.options.new ? this.present(inserted) : null;
+        }
         if (!doc) return null;
         const before = plain(doc);
         applyUpdate(doc, extra.update);
@@ -210,7 +260,21 @@ export function fakeModule(name, { hidden = [], onSave, defaults = {}, methods =
       if (kind === 'updateOne') {
         const doc = found()[0];
         if (doc) applyUpdate(doc, extra.update);
+        else if (extra.options?.upsert) {
+          await upsertDocument(filter, extra.update);
+          return { matchedCount: 0, modifiedCount: 0, upsertedCount: 1 };
+        }
         return { matchedCount: doc ? 1 : 0, modifiedCount: doc ? 1 : 0 };
+      }
+      if (kind === 'deleteOne') {
+        const doc = found()[0];
+        if (doc) store.docs.splice(store.docs.indexOf(doc), 1);
+        return { deletedCount: doc ? 1 : 0 };
+      }
+      if (kind === 'deleteMany') {
+        const docs = found();
+        for (const d of docs) store.docs.splice(store.docs.indexOf(d), 1);
+        return { deletedCount: docs.length };
       }
       if (kind === 'updateMany') {
         const docs = found();

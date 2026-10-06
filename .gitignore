@@ -12,3 +12,6 @@ dist/
 
 # Originals of the licensed images (scripts/media/build.mjs, MEDIA_CACHE)
 .media-cache/
+
+# Database backups (they hold password hashes and personal data): never in git
+nhc-backup-*/

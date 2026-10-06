@@ -2,9 +2,11 @@ import { describe, it, expect, vi } from 'vitest';
 import request from 'supertest';
 
 const findById = vi.fn();
+// What a Product query ends up resolving to; the chain is what the routes call (sort, limit, skip, lean).
 const find = vi.fn();
+const query = () => { const chain = { sort: () => chain, limit: () => chain, skip: () => chain, select: () => chain, lean: () => find() }; return chain; };
 vi.mock('../model/product.js', () => ({
-  default: { findById: (...a) => findById(...a), find: (...a) => find(...a), countDocuments: vi.fn() },
+  default: { findById: (...a) => findById(...a), find: () => query(), countDocuments: vi.fn() },
 }));
 
 const { createApp } = await import('../app.js');

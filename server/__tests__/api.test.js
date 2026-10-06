@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 
 // Product queries are mocked so no database is needed.
 vi.mock('../model/product.js', () => {
-  const chain = { sort: () => chain, limit: () => chain, skip: () => Promise.resolve([{ name: 'Olive oil' }]) };
+  const chain = { sort: () => chain, limit: () => chain, skip: () => chain, lean: () => Promise.resolve([{ name: 'Olive oil' }]) };
   return {
     default: {
       find: vi.fn(() => chain),

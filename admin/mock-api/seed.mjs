@@ -206,5 +206,28 @@ export function buildSeed(now = Date.now(), assetBase = 'http://localhost:3901')
     });
   }
 
-  return { products, orders, candles, contacts, siteReviews, productReviews, prayers };
+  // The payment ledger (server/model/payment.js): every verified order has its captured, linked payment, plus the
+  // cases the Payments screen is for.
+  const payments = orders.filter((o) => o.paypalOrderId).map((o) => ({
+    _id: newId('a'), paypalOrderId: o.paypalOrderId, type: 'order', amount: o.totalPrice, currency: 'USD', status: 'captured', capturedAt: o.createdAt,
+    payerEmail: o.email, payerName: `${o.firstName} ${o.lastName}`, linkedTo: { kind: 'order', id: o._id }, resolvedAt: null, createdAt: o.createdAt,
+  }));
+  const extra = (paypalOrderId, over) => ({
+    _id: newId('a'), paypalOrderId, currency: 'USD', status: 'captured', resolvedAt: null, createdAt: iso(now - 2 * day), capturedAt: iso(now - 2 * day), ...over,
+  });
+  payments.push(
+    // Paid, but the browser never saved the order / the candle: the "Paid, not fulfilled" alert
+    extra('MOCKLOST0001', { type: 'order', amount: 41.5, payerEmail: 'lost.order@example.com', payerName: 'Lena Lost', createdAt: iso(now - 3 * 3_600_000), capturedAt: iso(now - 3 * 3_600_000) }),
+    extra('MOCKLOST0002', { type: 'candle', amount: 3, payerEmail: 'lost.candle@example.com', payerName: 'Carl Candle' }),
+    // Dealt with by hand
+    extra('MOCKDONE0001', { type: 'order', amount: 18, payerEmail: 'refunded@example.com', payerName: 'Rita Refund', resolvedAt: iso(now - day), resolvedBy: 'owner', notes: 'Refunded in PayPal and the customer was told by e-mail.' }),
+    // Donations have no second step
+    extra('MOCKGIFT0001', { type: 'donation', amount: 50, donorName: 'Anna K.', payerEmail: 'anna.k@example.com', payerName: 'Anna Kowalski' }),
+    extra('MOCKGIFT0002', { type: 'donation', amount: 10, createdAt: iso(now - 9 * day), capturedAt: iso(now - 9 * day) }),
+    // Started and abandoned, and a declined card
+    extra('MOCKOPEN0001', { type: 'order', amount: 27, status: 'created', capturedAt: null, createdAt: iso(now - 5 * day) }),
+    extra('MOCKFAIL0001', { type: 'candle', amount: 3, status: 'failed', capturedAt: null, notes: 'capture ended as DECLINED' }),
+  );
+
+  return { products, orders, candles, contacts, siteReviews, productReviews, prayers, payments };
 }

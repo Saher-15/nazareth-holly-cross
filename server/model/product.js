@@ -1,6 +1,10 @@
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
+// The storefront categories an admin can force on a product (services/catalog.js infers one from the name when none
+// is set). catalog.js's CATEGORIES must equal this list: a test compares them.
+export const PRODUCT_CATEGORIES = ['stained-glass', 'rosaries', 'necklaces', 'bracelets', 'bibles', 'crosses', 'holy-land', 'gifts'];
+
 const productSchema = new Schema({
   name: {
     type: String,
@@ -19,8 +23,12 @@ const productSchema = new Schema({
     type: String,
     required: [true, 'Main image URL is required'],
     trim: true,
+    maxlength: [2048, 'Image address too long'],
   },
-  additionalImageUrls: [{ type: String, trim: true }],
+  additionalImageUrls: {
+    type: [{ type: String, trim: true, maxlength: [2048, 'Image address too long'] }],
+    validate: { validator: (list) => list.length <= 20, message: 'At most 20 extra images' },
+  },
   description: {
     type: String,
     trim: true,
@@ -29,6 +37,7 @@ const productSchema = new Schema({
   uuidv4_: {
     type: String,
     trim: true,
+    maxlength: [64, 'Id too long'],
   },
   rate: {
     type: Number,
@@ -36,23 +45,36 @@ const productSchema = new Schema({
     min: [0, 'Rate cannot be negative'],
     max: [5, 'Rate cannot exceed 5'],
   },
-  color: [{ type: String, trim: true }],
+  color: {
+    type: [{ type: String, trim: true, maxlength: [50, 'Colour too long'] }],
+    validate: { validator: (list) => list.length <= 20, message: 'At most 20 colours' },
+  },
+  // Units in stock; null = not tracked. Whole units, never negative.
   stock: {
     type: Number,
     default: null,
     min: [0, 'Stock cannot be negative'],
+    max: [1_000_000, 'Stock too large'],
+    validate: {
+      validator: (value) => value === null || value === undefined || Number.isInteger(value),
+      message: 'Stock must be a whole number',
+    },
   },
   // Optional override of the category the storefront infers from the name (services/catalog.js, CATEGORIES).
+  // null = infer from the name.
   category: {
     type: String,
     trim: true,
-    maxlength: [40, 'Category too long'],
+    enum: [...PRODUCT_CATEGORIES, null],
     default: undefined,
   },
 }, { timestamps: true });
 
-productSchema.index({ name: 'text', description: 'text' });
-productSchema.index({ price: 1 });
-productSchema.index({ rate: -1 });
+productSchema.index({ name: 'text', description: 'text' }); // site search (one text index per collection)
+productSchema.index({ price: 1 }); // sort / filter by price
+productSchema.index({ category: 1, price: 1 }); // the shop's category pages, cheapest first
+productSchema.index({ rate: -1, _id: 1 }); // GET /product/getNProducts: featured first, with a stable order for paging
+productSchema.index({ createdAt: -1 }); // the admin list and the legacy list: newest first
+productSchema.index({ stock: 1 }); // low / out of stock filters and the dashboard's low-stock list
 
 export default mongoose.model('Product', productSchema, 'product');

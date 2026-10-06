@@ -517,6 +517,8 @@ test.describe('shop with filters', () => {
 test('the sitemap lists the products and holy places', async ({ page, request }) => {
   const xml = await (await request.get('/sitemap.xml')).text();
   await page.goto('/en/shop');
+  // The cards arrive after the catalogue request: wait for them instead of reading an empty grid on a slow runner.
+  await expect(cards(page).first()).toBeVisible();
   const hrefs = await cards(page).evaluateAll((els) => els.map((el) => el.getAttribute('href')!));
   expect(hrefs.length).toBeGreaterThan(0);
   for (const href of hrefs) expect(xml).toContain(`${href}</loc>`);

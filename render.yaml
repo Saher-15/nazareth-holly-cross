@@ -18,10 +18,12 @@ services:
       # The server falls back to 'sandbox' when it is unset.
       - key: ENVIRONMENT
         sync: false
-      # 'true' = /order/newOrder refuses orders without a PayPal-verified payment (docs/SECURITY.md).
+      # 'true' = /order/newOrder and /candle/lightACandle refuse requests without a PayPal-verified payment (docs/SECURITY.md).
       # Switch on once every client sends paypalOrderId (the new site does; the old CRA site does not).
       - key: REQUIRE_PAYMENT_PROOF
         value: 'false'
+      # The server builds the indexes its models declare when it starts (docs/DATABASE.md section 5): the payment ledger depends on them.
+      # AUTO_INDEX=false turns that off (large database only: then run server/scripts/ensure-indexes.js --apply).
       - key: DATABASEURL
         sync: false
       - key: JWT_SECRET

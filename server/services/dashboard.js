@@ -6,6 +6,7 @@ import Product from '../model/product.js';
 import Review from '../model/review.js';
 import ProductReview from '../model/productReview.js';
 import Prayer from '../model/prayer.js';
+import { unfulfilledSummary } from './payments.js';
 
 // The numbers behind GET /admin/dashboard, computed by the database (aggregations and counts), never by loading
 // collections into memory, and cached for 30 seconds (one computation at a time, however many admins refresh).
@@ -86,7 +87,7 @@ export async function buildDashboard(now = new Date()) {
   const [
     totalsRows, orderDays, candleDays, top, low,
     candles, candlesPending, contacts, contactsOpen, products, productReviews, prayers, reviews,
-    recentOrders, recentCandles, recentContacts,
+    recentOrders, recentCandles, recentContacts, unfulfilled,
   ] = await Promise.all([
     Order.aggregate(orderTotals()),
     Order.aggregate(ordersPerDay(from)),
@@ -104,6 +105,7 @@ export async function buildDashboard(now = new Date()) {
     recent(Order, 'firstName lastName email totalPrice done paymentVerified createdAt'),
     recent(Candle, 'firstName lastName email prayer done createdAt'),
     recent(Contact, 'fullName email msg done createdAt'),
+    unfulfilledSummary(now.getTime()),
   ]);
 
   const t = totalsRows[0] ?? {};
@@ -126,6 +128,8 @@ export async function buildDashboard(now = new Date()) {
     topProducts: top.map((p) => ({ productId: String(p.productId), name: p.name ?? '', sold: p.sold ?? 0, revenue: round2(p.revenue) })),
     lowStock: low.map((p) => ({ productId: String(p._id), name: p.name, stock: p.stock })),
     recent: { orders: recentOrders, candles: recentCandles, contacts: recentContacts },
+    // Customers who paid but whose order or candle request was never saved (docs/ADMIN.md, Payments). Shown as an alert.
+    alerts: { unfulfilledPayments: { count: unfulfilled.count, amount: unfulfilled.amount } },
   };
 }
 

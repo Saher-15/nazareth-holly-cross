@@ -612,11 +612,13 @@
       "errors": {
         "start": "Die Zahlung konnte nicht gestartet werden. Bitte versuchen Sie es erneut.",
         "notCompleted": "Die Zahlung wurde nicht abgeschlossen. Ihnen wurde nichts berechnet.",
-        "paypal": "PayPal hat einen Fehler gemeldet. Bitte versuchen Sie es erneut."
+        "paypal": "PayPal hat einen Fehler gemeldet. Bitte versuchen Sie es erneut.",
+        "unconfirmed": "Wir konnten Ihre Zahlung nicht bestätigen, weil die Verbindung ausgefallen ist. Bitte zahlen Sie vorerst nicht erneut: Prüfen Sie Ihr PayPal-Konto oder schreiben Sie uns."
       },
       "reference": "Zahlungsreferenz: {id}",
       "saving": "Ihre Angaben werden gespeichert…",
-      "saveFailed": "Ihre Zahlung ist eingegangen, aber wir konnten Ihre Angaben nicht speichern. Bitte versuchen Sie es erneut oder schreiben Sie mit Ihrer Zahlungsreferenz an <mail>{email}</mail>."
+      "saveFailed": "Ihre Zahlung ist eingegangen, aber wir konnten Ihre Angaben nicht speichern. Bitte versuchen Sie es erneut oder schreiben Sie mit Ihrer Zahlungsreferenz an <mail>{email}</mail>.",
+      "savePending": "Ihre Zahlung ist eingegangen. Wir konnten Ihre Angaben noch nicht speichern und versuchen es deshalb selbstständig weiter, auch beim nächsten Besuch dieser Website auf diesem Gerät. Bitte bewahren Sie Ihre Zahlungsreferenz ({id}) auf. Fragen? Schreiben Sie an <mail>{email}</mail>."
     },
     "empty": {
       "text": "Entdecken Sie Rosenkränze, Kreuze und Andenken aus Nazareth."
@@ -636,6 +638,10 @@
       "donation": "Spende",
       "thanksTitle": "Vielen Dank für Ihre Spende!",
       "thanksText": "Ihre Großzügigkeit hilft, das Licht Nazareths für Pilger in aller Welt leuchten zu lassen."
+    },
+    "pending": {
+      "recovered": "Gute Nachricht: Ihre frühere Zahlung ({id}) wurde jetzt bei uns gespeichert. Vielen Dank!",
+      "waiting": "Ihre frühere Zahlung ({id}) wartet noch darauf, bei uns gespeichert zu werden. Wir versuchen es weiter. Falls das so bleibt, schreiben Sie bitte mit dieser Referenz an {email}."
     }
   },
   "shopFeatures": {

@@ -153,6 +153,17 @@ Unlock an account: an owner re-enables it. Lost authenticator: an owner resets t
 leaves: disable (not delete) the account; the audit log keeps who did what for 180 days. Rotating `JWT_SECRET` and the
 retention of sessions: ADMIN.md 6.
 
+### 7.1 Payments, backups and the database tools
+
+* **Every week**: dashboard -> Payments -> filter *Paid, not fulfilled* (also the warning on the dashboard). A row there is a customer who paid and has nothing saved: write to them (the payer's
+  e-mail is in the drawer), put it right (enter the order by hand, or refund in PayPal), then **Mark resolved** with a note saying what you did. `node scripts/reconcile-payments.js` (in `server/`) is the same
+  report for a terminal, plus payments that were started and never captured (check PayPal for those).
+* **Every day, automatically**: the backup (docs/BACKUP.md). Look at `LAST_OK.txt` in the backup folder once a week. Test a restore once now and every few months.
+* **Every month**: `node scripts/check-data.js` (structural check, read-only) and `node scripts/ensure-indexes.js` (dry run: must say every index exists).
+* **A person asks for their data to be erased**: dashboard -> Privacy requests (owner), docs/DATABASE.md section 8.
+* **Deploying the release that added the ledger**, in this order: backup; `check-data.js`; `ensure-indexes.js --apply` (creates the unique `payment.paypalOrderId` index, because the production server no longer builds indexes by itself);
+  merge (the API first, then the website, then the dashboard: old clients keep working at every step); look at Payments the next day. Details: docs/DATABASE.md section 10.
+
 ## 8. What running the two halves together found (all fixed, each with a regression test)
 
 The dashboard (built against a mock from the written contract) and the API (built from the same contract, 732 tests)

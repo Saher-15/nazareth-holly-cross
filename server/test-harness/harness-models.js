@@ -13,7 +13,8 @@ const hashCost12 = (password) => bcrypt.hashSync(password, 12);
 export const models = {};
 const take = (name, options) => { models[name] = fakeModule(name, options).default; return models[name]; };
 
-take('Order', { collection: 'order', timestamps: true, defaults: { done: false, paymentVerified: false } });
+take('Order', { collection: 'order', timestamps: true, unique: ['paypalOrderId'], defaults: { done: false, paymentVerified: false } });
+take('Payment', { collection: 'payment', timestamps: true, unique: ['paypalOrderId'], defaults: { currency: 'USD', status: 'created', capturedAt: null, resolvedAt: null } });
 take('Candle', { collection: 'candle', timestamps: true, defaults: { done: false } });
 take('Contact', { collection: 'contact', timestamps: true, defaults: { done: false, phone: '' } });
 take('Review', { collection: 'review', timestamps: true, defaults: { approved: true, email: '', phone: '000' } });

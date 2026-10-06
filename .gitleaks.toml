@@ -15,12 +15,16 @@ paths = [
   # Fake credentials that exist only inside automated tests.
   '''server/__tests__/''',
   '''web/tests/''',
+  # Mock-API users of the admin end-to-end tests (documented as public test data).
+  '''admin/tests/''',
   # Lock files hold package integrity hashes, which look like keys.
   '''package-lock\.json$''',
 ]
 # Values that are public on purpose. Each one is listed exactly, so a NEW value of the same shape is
 # still reported and has to be reviewed before it is added here.
 regexes = [
+  # The name of a localStorage key (not a secret): web/src/lib/pendingFulfilment.ts.
+  '''nhc.pending-fulfilment.v1''',
   # The PayPal *client id* of the sandbox app: it is sent to every browser that shows the PayPal
   # buttons. The client SECRET is never public and is not listed.
   '''AfhOc9ToAj72gf5KEowYfhpWShGRSpzSL-Ps2HYX4ky95KmVX8vNRb0o5FZ3AGw3muq8DIvDP0Ua2_ad''',

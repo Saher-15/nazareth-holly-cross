@@ -229,7 +229,42 @@ export function buildData(now = Date.now(), assetBase = 'http://localhost:3911')
     });
   }
 
-  return { products, orders, candles, contacts, siteReviews, productReviews, prayers };
+  // The payment ledger: every verified order has its captured, linked payment; plus what the Payments screen is for.
+  const payments = orders.filter((o) => o.paypalOrderId).map((o) => ({
+    _id: id('a'),
+    paypalOrderId: o.paypalOrderId,
+    type: 'order',
+    amount: o.totalPrice,
+    currency: 'USD',
+    status: 'captured',
+    capturedAt: o.createdAt,
+    payerEmail: o.email,
+    payerName: `${o.firstName} ${o.lastName}`,
+    linkedTo: { kind: 'order', id: o._id },
+    resolvedAt: null,
+    createdAt: o.createdAt,
+    updatedAt: o.createdAt,
+  }));
+  const extra = (paypalOrderId, over) => ({
+    _id: id('a'), paypalOrderId, currency: 'USD', status: 'captured', resolvedAt: null,
+    createdAt: at(now - 2 * day), updatedAt: at(now - 2 * day), capturedAt: at(now - 2 * day), ...over,
+  });
+  payments.push(
+    // Paid, but the browser never saved the order / the candle: these are the "Paid, not fulfilled" alert
+    extra('HARNESSLOST0001', { type: 'order', amount: 41.5, payerEmail: 'lost.order@example.com', payerName: 'Lena Lost', createdAt: at(now - 3 * 3_600_000), capturedAt: at(now - 3 * 3_600_000) }),
+    extra('HARNESSLOST0002', { type: 'candle', amount: 3, payerEmail: 'lost.candle@example.com', payerName: 'Carl Candle' }),
+    // Dealt with by hand
+    extra('HARNESSDONE0001', { type: 'order', amount: 18, payerEmail: 'refunded@example.com', payerName: 'Rita Refund', resolvedAt: at(now - day), resolvedBy: 'owner', notes: 'Refunded in PayPal and the customer was told by e-mail.' }),
+    // Donations have no second step: the ledger row is the whole record
+    extra('HARNESSGIFT0001', { type: 'donation', amount: 50, donorName: 'Anna K.', payerEmail: 'anna.k@example.com', payerName: 'Anna Kowalski' }),
+    extra('HARNESSGIFT0002', { type: 'donation', amount: 10, createdAt: at(now - 9 * day), capturedAt: at(now - 9 * day) }),
+    extra('HARNESSGIFT0003', { type: 'donation', amount: 100, donorName: 'In memory of Joseph', createdAt: at(now - 20 * day), capturedAt: at(now - 20 * day) }),
+    // Started and abandoned, and a declined card
+    extra('HARNESSOPEN0001', { type: 'order', amount: 27, status: 'created', capturedAt: null, createdAt: at(now - 5 * day) }),
+    extra('HARNESSFAIL0001', { type: 'candle', amount: 3, status: 'failed', capturedAt: null, notes: 'capture ended as DECLINED' }),
+  );
+
+  return { products, orders, candles, contacts, siteReviews, productReviews, prayers, payments };
 }
 
 // ---- accounts ----
@@ -273,6 +308,7 @@ export async function seed({ assetBase } = {}) {
   models.Review.seed(data.siteReviews);
   models.ProductReview.seed(data.productReviews);
   models.Prayer.seed(data.prayers);
+  models.Payment.seed(data.payments);
 
   if (accountSnapshot) {
     for (const doc of accountSnapshot) models.Admin.seed([{ ...doc, failedLogins: 0, lockedUntil: null, lastLoginAt: null, ...(doc.totpEnabled ? { totpLastStep: -1 } : { totpEnabled: false, totpSecretEnc: null, totpLastStep: -1 }) }]);

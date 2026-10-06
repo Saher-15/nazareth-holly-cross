@@ -13,7 +13,9 @@ test.describe('viewer', () => {
     await expect(nav.getByRole('link', { name: 'Orders' })).toBeVisible();
     await expect(nav.getByRole('link', { name: 'Users' })).toHaveCount(0);
     await expect(nav.getByRole('link', { name: 'Audit log' })).toHaveCount(0);
-    for (const path of ['/users', '/audit']) {
+    await expect(nav.getByRole('link', { name: 'Payments' })).toBeVisible(); // a viewer may read the ledger
+    await expect(nav.getByRole('link', { name: 'Privacy requests' })).toHaveCount(0);
+    for (const path of ['/users', '/audit', '/privacy']) {
       await page.goto(path);
       await expect(page.getByRole('heading', { name: 'You do not have access to this' }).first()).toBeVisible();
     }
@@ -51,11 +53,14 @@ test.describe('viewer', () => {
     const order = await first('orders');
     const candle = await first('candles');
     const product = await first('products');
+    const payment = await first('payments');
     const attempts: [string, string, unknown?][] = [
       ['PATCH', `orders/${id(order)}`, { done: true }], ['DELETE', `orders/${id(order)}`], ['PATCH', `candles/${id(candle)}`, { done: true }], ['DELETE', `candles/${id(candle)}`],
       ['POST', 'products', { name: 'Nope', price: 5, img: 'https://example.com/a.jpg' }], ['PUT', `products/${id(product)}`, { price: 1 }], ['PATCH', `products/${id(product)}`, { price: 1 }],
       ['DELETE', `products/${id(product)}`], ['POST', 'users', { username: 'viewer-made', password: 'Viewer-Made-Pass-9', role: 'owner' }],
-      ['GET', 'users'], ['GET', 'audit'], ['GET', 'export/orders.csv'],
+      ['GET', 'users'], ['GET', 'audit'], ['GET', 'export/orders.csv'], ['GET', 'export/payments.csv'],
+      ['PATCH', `payments/${id(payment)}`, { resolved: true, note: 'a viewer cannot' }],
+      ['POST', 'privacy/lookup', { email: 'someone@example.com' }], ['POST', 'privacy/erase', { email: 'someone@example.com', confirm: 'someone@example.com' }],
     ];
     for (const [method, path, data] of attempts) {
       const res = await page.request.fetch(`/api/proxy/${path}`, { method, data, headers: origin });
@@ -72,7 +77,7 @@ test.describe('viewer', () => {
       await expect(page.locator('tbody tr').first()).toBeVisible();
       await expect(page.getByRole('link', { name: 'Export CSV' })).toHaveCount(0);
     }
-    for (const file of ['orders', 'candles', 'contacts']) {
+    for (const file of ['orders', 'candles', 'contacts', 'payments']) {
       expect((await page.request.get(`/api/proxy/export/${file}.csv`)).status()).toBe(403);
     }
   });
@@ -87,8 +92,15 @@ test.describe('editor', () => {
     if (isMobile) await page.getByRole('button', { name: 'Menu' }).click();
     const nav = page.getByRole('navigation', { name: 'Main navigation' });
     await expect(nav.getByRole('link', { name: 'Users' })).toHaveCount(0);
-    await page.goto('/users');
-    await expect(page.getByRole('heading', { name: 'You do not have access to this' }).first()).toBeVisible();
+    await expect(nav.getByRole('link', { name: 'Payments' })).toBeVisible();
+    await expect(nav.getByRole('link', { name: 'Privacy requests' })).toHaveCount(0);
+    for (const path of ['/users', '/privacy']) {
+      await page.goto(path);
+      await expect(page.getByRole('heading', { name: 'You do not have access to this' }).first()).toBeVisible();
+    }
+    // erasing a customer's data is the owner's alone: the API refuses an editor too
+    const refused = await page.request.fetch('/api/proxy/privacy/lookup', { method: 'POST', data: { email: 'someone@example.com' }, headers: { Origin: APP } });
+    expect(refused.status()).toBe(403);
   });
 
   test('can export the lists as CSV', async ({ page }) => {
@@ -116,7 +128,7 @@ test.describe('owner', () => {
     await page.goto('/orders');
     if (isMobile) await page.getByRole('button', { name: 'Menu' }).click();
     const nav = page.getByRole('navigation', { name: 'Main navigation' });
-    for (const name of ['Dashboard', 'Orders', 'Candle requests', 'Messages', 'Prayers', 'Reviews', 'Products', 'Users', 'Audit log', 'Security settings', 'Profile']) {
+    for (const name of ['Dashboard', 'Orders', 'Payments', 'Candle requests', 'Messages', 'Prayers', 'Reviews', 'Products', 'Users', 'Audit log', 'Privacy requests', 'Security settings', 'Profile']) {
       await expect(nav.getByRole('link', { name, exact: true })).toBeVisible();
     }
     if (isMobile) await page.keyboard.press('Escape');

@@ -9,6 +9,7 @@ import { comparePasswordTimingSafe, forLog, signAdminToken } from '../services/a
 import { asyncHandler } from '../middleware/asyncHandler.js';
 import { invalidateCatalog } from '../services/catalog.js';
 import ProductReview from '../model/productReview.js';
+import { LEGACY_LIST_CAP, sendCapped } from '../utils/pagination.js';
 
 const router = express.Router();
 
@@ -53,8 +54,8 @@ router.get('/stats', requireAdmin, asyncHandler(async (req, res) => {
 
 // --- PRAYERS ---
 router.get('/prayers', requireAdmin, asyncHandler(async (req, res) => {
-  const prayers = await Prayer.find().sort({ createdAt: -1 });
-  res.json(prayers);
+  const prayers = await Prayer.find().sort({ createdAt: -1 }).limit(LEGACY_LIST_CAP); // documents, not lean: the toJSON adds `id`
+  sendCapped(res, prayers);
 }));
 
 router.delete('/prayers/:id', requireAdmin, asyncHandler(async (req, res) => {
@@ -64,8 +65,8 @@ router.delete('/prayers/:id', requireAdmin, asyncHandler(async (req, res) => {
 
 // --- CANDLES ---
 router.get('/candles', requireAdmin, asyncHandler(async (req, res) => {
-  const candles = await Candle.find().sort({ createdAt: -1 });
-  res.json(candles);
+  const candles = await Candle.find().sort({ createdAt: -1 }).limit(LEGACY_LIST_CAP).lean();
+  sendCapped(res, candles);
 }));
 
 router.delete('/candles/:id', requireAdmin, asyncHandler(async (req, res) => {
@@ -75,8 +76,8 @@ router.delete('/candles/:id', requireAdmin, asyncHandler(async (req, res) => {
 
 // --- PRODUCTS ---
 router.get('/products', requireAdmin, asyncHandler(async (req, res) => {
-  const products = await Product.find().sort({ createdAt: -1 });
-  res.json(products);
+  const products = await Product.find().sort({ createdAt: -1 }).limit(LEGACY_LIST_CAP).lean();
+  sendCapped(res, products);
 }));
 
 // Whitelist fields to prevent mass assignment

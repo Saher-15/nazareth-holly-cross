@@ -6,7 +6,7 @@ const { Schema } = mongoose;
 // therefore immediate, which a stateless token alone cannot do. Revoked sessions stay (flagged) until they expire,
 // which is the revocation list; the TTL index then removes them.
 const adminSessionSchema = new Schema({
-  sid: { type: String, required: true, unique: true },
+  sid: { type: String, required: true, unique: true, maxlength: 64 },
   admin: { type: Schema.Types.ObjectId, ref: 'Admin', required: true, index: true },
   createdAt: { type: Date, default: Date.now },
   expiresAt: { type: Date, required: true },

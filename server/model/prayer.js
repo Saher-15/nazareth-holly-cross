@@ -15,4 +15,9 @@ const prayerSchema = new mongoose.Schema({
   likes: { type: Number, default: 0, min: 0 },
 }, { timestamps: true, toJSON: { virtuals: true } });
 
+prayerSchema.index({ createdAt: -1 }); // the prayer wall (newest first) and the admin list
+prayerSchema.index({ category: 1, createdAt: -1 }); // the wall filtered by category
+
+// No collection name is given on purpose: Mongoose names it "prayers" (plural), unlike the other collections, which
+// are singular. Renaming it would orphan every stored prayer, so it stays (docs/DATABASE.md, "naming").
 export default mongoose.model('Prayer', prayerSchema);

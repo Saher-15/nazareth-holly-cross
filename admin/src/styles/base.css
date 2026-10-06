@@ -142,7 +142,11 @@ html:lang(he) .btn, html:lang(ar) .btn { letter-spacing: 0; }
 
 .alert { display: flex; gap: var(--space-3); align-items: flex-start; padding: var(--space-3) var(--space-4); border-radius: var(--radius-sm); border: 1px solid var(--glass-line); background: var(--glass); }
 .alert--info { border-color: color-mix(in srgb, var(--info) 50%, transparent); background: var(--info-soft); }
+.alert--warn { border-color: color-mix(in srgb, var(--warn) 55%, transparent); background: var(--warn-soft); }
 .alert > .icon { margin-top: 2px; color: var(--info); }
+.alert--warn > .icon { color: var(--warn); }
+.alert__body { display: grid; gap: var(--space-1); }
+.alert__body strong { color: var(--white); }
 
 /* ---- loading skeletons ---- */
 .loading { display: grid; gap: var(--space-5); }

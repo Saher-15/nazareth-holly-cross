@@ -612,11 +612,13 @@
       "errors": {
         "start": "Impossible de lancer le paiement. Veuillez réessayer.",
         "notCompleted": "Le paiement n’a pas abouti. Vous n’avez pas été débité.",
-        "paypal": "PayPal a signalé une erreur. Veuillez réessayer."
+        "paypal": "PayPal a signalé une erreur. Veuillez réessayer.",
+        "unconfirmed": "Nous n’avons pas pu confirmer votre paiement car la connexion a échoué. Ne payez pas à nouveau pour l’instant : vérifiez votre compte PayPal ou écrivez-nous."
       },
       "reference": "Référence du paiement : {id}",
       "saving": "Enregistrement de vos informations…",
-      "saveFailed": "Votre paiement a bien été effectué, mais nous n’avons pas pu enregistrer vos informations. Veuillez réessayer, ou écrivez à <mail>{email}</mail> en indiquant la référence du paiement."
+      "saveFailed": "Votre paiement a bien été effectué, mais nous n’avons pas pu enregistrer vos informations. Veuillez réessayer, ou écrivez à <mail>{email}</mail> en indiquant la référence du paiement.",
+      "savePending": "Votre paiement a bien été effectué. Nous n’avons pas encore pu enregistrer vos informations ; nous continuerons d’essayer automatiquement, y compris la prochaine fois que vous ouvrirez ce site sur cet appareil. Conservez votre référence de paiement ({id}). Une question ? Écrivez à <mail>{email}</mail>."
     },
     "empty": {
       "text": "Découvrez chapelets, croix et souvenirs de Nazareth."
@@ -636,6 +638,10 @@
       "donation": "Don",
       "thanksTitle": "Merci pour votre don !",
       "thanksText": "Votre générosité aide à garder la lumière de Nazareth allumée pour les pèlerins du monde entier."
+    },
+    "pending": {
+      "recovered": "Bonne nouvelle : votre paiement précédent ({id}) est maintenant enregistré chez nous. Merci !",
+      "waiting": "Votre paiement précédent ({id}) attend toujours d’être enregistré chez nous. Nous continuons d’essayer. Si cela dure, écrivez à {email} en indiquant cette référence."
     }
   },
   "shopFeatures": {
