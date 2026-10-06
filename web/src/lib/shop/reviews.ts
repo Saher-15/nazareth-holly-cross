@@ -1,4 +1,5 @@
 import type { ProductReview, ProductReviews } from '@/lib/api';
+import { storedLength } from '@/lib/formRules';
 
 // Product reviews: the write-a-review form rules (the same limits as the API's
 // POST /product/:id/reviews, so the API never refuses what passes here) and the
@@ -45,7 +46,8 @@ export function validateReviewField(field: ReviewField, values: ReviewValues): R
   const rule = REQUIRED[field];
   if (rule && !value) return { key: rule.required };
   if (rule && value.length < min) return { key: rule.tooShort, values: { min } };
-  if (value.length > max) return { key: 'tooLong', values: { max } };
+  // The API checks the length of the text as it arrives, after its sanitiser wrote "&" as "&amp;" (lib/formRules.ts).
+  if (storedLength(value) > max) return { key: 'tooLong', values: { max } };
   return undefined;
 }
 

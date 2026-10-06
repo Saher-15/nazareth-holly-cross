@@ -1,6 +1,7 @@
 // Logic of the share-a-review form (ReviewForm.tsx), kept free of React so it can be unit tested.
 
 import { COUNTRY_CODES, countryName } from '@/components/checkout/countries';
+import { storedLength } from '@/lib/formRules';
 
 export type ReviewField = 'fullName' | 'place' | 'msg';
 export type ReviewValues = Record<ReviewField, string>;
@@ -37,7 +38,8 @@ export function validateField(field: ReviewField, raw: string): FieldError | und
   if (field === 'place') return COUNTRY_CODES.includes(value) ? undefined : { key: rule.required };
   if (!value) return { key: rule.required };
   if (rule.tooShort && value.length < rule.min) return { key: rule.tooShort, values: { min: rule.min } };
-  if (value.length > rule.max) return { key: 'tooLong', values: { max: rule.max } };
+  // The model checks the length of the text as stored ("&" is saved as "&amp;"), lib/formRules.ts.
+  if (storedLength(value) > rule.max) return { key: 'tooLong', values: { max: rule.max } };
   return undefined;
 }
 
