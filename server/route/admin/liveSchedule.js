@@ -25,8 +25,8 @@ const router = express.Router();
 const LIST_LIMIT = 100;
 const LIST_FROM_MS = 7 * 24 * 3600_000;
 const OBJECT_ID = /^[a-f0-9]{24}$/i;
-/** A broadcast may be scheduled from one minute in the past (the time it takes to fill in the form) on. */
-const PAST_TOLERANCE_MS = 60_000;
+/** A broadcast may be scheduled from five minutes in the past (minutes-only times, the time it takes to fill in the form) on. */
+const PAST_TOLERANCE_MS = 5 * 60_000;
 
 const idOf = (req) => {
   const id = String(req.params.id ?? '');
