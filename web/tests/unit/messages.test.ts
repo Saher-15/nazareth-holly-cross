@@ -55,6 +55,9 @@ const SAME_AS_ENGLISH = new Set([
   'pilgrim.contact.form.counter',
   'email',
   'paypalComponent.email',
+  // Only placeholders and punctuation (the Christian calendar of /live).
+  'pilgrim.calendar.day.events',
+  'pilgrim.calendar.day.feast',
 ]);
 
 // The plural categories a message must spell out. Anything left out would silently fall back to
@@ -110,6 +113,13 @@ describe.each(locales)('messages/%s.json', (locale) => {
         .map(() => key),
     );
     expect(incomplete).toEqual([]);
+  });
+
+  it('has no control characters (a broken script once wrote U+0001 where a colon belonged)', () => {
+    const offenders = Object.entries(messages)
+      .filter(([, text]) => /[\u0000-\u0008\u000b-\u001f\u007f]/.test(text))
+      .map(([key]) => key);
+    expect(offenders).toEqual([]);
   });
 
   it('uses Western digits only (the site shows 0-9 in every language)', () => {
