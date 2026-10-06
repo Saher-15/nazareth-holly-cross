@@ -7,6 +7,7 @@ import { Icon } from '@/components/ui/Icon';
 import { useI18n } from '@/i18n/client';
 import { isApiError } from '@/lib/api';
 import { proxyCall } from '@/lib/client-api';
+import { storedLength } from '@/lib/entities';
 
 const MAX_NOTE = 1000;
 
@@ -33,6 +34,8 @@ export function ResolvePayment({ id }: { id: string }) {
     if (busy) return;
     const text = note.trim();
     if (!text) return setError(t('payments.errNote'));
+    // The API checks the length after its sanitiser wrote "&" as "&amp;" (lib/entities.ts).
+    if (storedLength(text) > MAX_NOTE) return setError(t('payments.errNoteLong'));
     setBusy(true);
     setError(null);
     try {
