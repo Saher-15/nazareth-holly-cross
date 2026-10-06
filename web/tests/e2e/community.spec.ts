@@ -48,7 +48,7 @@ test.describe('reviews page', () => {
 
   const fill = async (page: Page) => {
     await page.getByLabel(form.placeholderFullName).fill('  Maria Rossi ');
-    await page.getByLabel(form.placeholderCountry).fill('Rome, Italy');
+    await page.getByLabel(form.placeholderCountry).selectOption('IT');
     await page.getByLabel(form.placeholderMessage).fill('A blessed visit, thank you.');
   };
 
@@ -105,7 +105,7 @@ test.describe('reviews page', () => {
     await page.keyboard.type('  Maria Rossi ');
     await page.keyboard.press('Tab');
     await expect(page.getByLabel(form.placeholderCountry)).toBeFocused();
-    await page.keyboard.type('Rome, Italy');
+    await page.getByLabel(form.placeholderCountry).selectOption('IT'); // a native list: type-ahead timing is not worth testing
     await page.keyboard.press('Tab');
     await expect(page.getByLabel(form.placeholderMessage)).toBeFocused();
     await page.keyboard.type('A blessed visit, thank you.');
@@ -115,7 +115,7 @@ test.describe('reviews page', () => {
 
     await expect(page.getByRole('heading', { name: form.successMessage })).toBeFocused();
     await expect(page.getByText(form.confirmationMessage)).toBeVisible();
-    expect(posted).toEqual([{ fullName: 'Maria Rossi', email: 'Rome, Italy', msg: 'A blessed visit, thank you.' }]);
+    expect(posted).toEqual([{ fullName: 'Maria Rossi', place: 'Italy', msg: 'A blessed visit, thank you.' }]);
 
     await page.getByRole('button', { name: en.communityPage.reviews.form.another }).click();
     await expect(page.getByLabel(form.placeholderFullName)).toHaveValue('');

@@ -109,7 +109,8 @@ const visitorTextOrEmpty = text.transform(decodeEntities);
 export const reviewSchema = z.object({
   _id: z.string(),
   fullName: visitorText,
-  email: visitorTextOrEmpty, // holds the reviewer's country
+  place: visitorTextOrEmpty.optional(), // where the reviewer is from (since 2026-10-06; absent from older API answers)
+  email: visitorTextOrEmpty, // older reviews (and older API versions) keep the place here
   msg: visitorText,
   createdAt: z.string().optional(),
 });

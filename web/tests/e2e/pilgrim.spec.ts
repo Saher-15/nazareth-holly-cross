@@ -194,7 +194,7 @@ test.describe('prayer wall', () => {
     expect(posted).toHaveLength(0);
 
     await form.getByLabel(t.prayers.form.name).fill('Maria');
-    await form.getByLabel(t.prayers.form.country).fill('Italy');
+    await form.getByLabel(t.prayers.form.country).selectOption('IT');
     await form.getByLabel(t.prayers.form.category).selectOption('World Peace');
     await form.getByLabel(t.prayers.form.prayer).fill('Visit www.spam.example');
     await form.getByRole('button', { name: t.prayers.form.submit }).click();
@@ -211,7 +211,7 @@ test.describe('prayer wall', () => {
     await page.goto('/en/prayers');
     const form = page.getByRole('form', { name: t.prayers.form.title });
     await form.getByLabel(t.prayers.form.name).fill('Maria');
-    await form.getByLabel(t.prayers.form.country).fill('Italy');
+    await form.getByLabel(t.prayers.form.country).selectOption('IT');
     await form.getByLabel(t.prayers.form.prayer).fill('Peace for every family.');
     await form.getByRole('button', { name: t.prayers.form.submit }).click();
     await expect(form.getByRole('alert')).toHaveText(t.prayers.errors.rateLimited);
