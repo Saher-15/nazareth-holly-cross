@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { CloseIcon, CrossMark, MenuIcon } from '@/components/ui/icons';
 import { Link, usePathname } from '@/i18n/navigation';
 import { mainNav } from '@/lib/site';
+import A11yPanel from './A11yPanel';
 import LanguageSwitcher from './LanguageSwitcher';
 import styles from './SiteHeader.module.css';
 
@@ -81,7 +82,10 @@ export default function SiteHeader({ liveNow = false }: { liveNow?: boolean }) {
       <div className={`ui-container ${styles.bar}`}>
         <Link href="/" className={styles.brand}>
           <CrossMark size={26} className={styles.cross} />
-          <span className={styles.brandName}>{t('name')}</span>
+          {/* The brand is Latin in every language: left to right, so a cut-off name ends in "..." on its own end. */}
+          <span className={styles.brandName} dir="ltr">
+            {t('name')}
+          </span>
         </Link>
 
         <nav
@@ -122,6 +126,8 @@ export default function SiteHeader({ liveNow = false }: { liveNow?: boolean }) {
           <Link href="/donate" className={`ui-btn ui-btn--gold ui-btn--sm ${styles.donate}`}>
             {t('nav.donate')}
           </Link>
+          {/* Opening the accessibility settings closes the mobile menu, so the two never overlap. */}
+          <A11yPanel onOpen={() => setOpen(false)} />
           <LanguageSwitcher />
           <button
             ref={buttonRef}

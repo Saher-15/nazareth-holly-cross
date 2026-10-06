@@ -89,6 +89,26 @@
   }
 }
 
+/* Pause button of the Ken Burns zoom (<MotionToggle>, WCAG 2.2.2), in the bottom corner at the reading end. */
+.motion {
+  position: absolute;
+  inset-inline-end: 16px;
+  bottom: 16px;
+  display: grid;
+  place-items: center;
+  width: var(--tap);
+  height: var(--tap);
+  border-radius: 50%;
+  border: 1px solid var(--field-line);
+  background: color-mix(in srgb, var(--night) 65%, transparent);
+  color: var(--cream);
+  cursor: pointer;
+  transition: background var(--dur-fast) ease;
+}
+.motion:hover {
+  background: color-mix(in srgb, var(--gold) 25%, var(--night));
+}
+
 @media (prefers-reduced-motion: reduce) {
   .bg {
     animation: none;

@@ -50,6 +50,18 @@ export const CloseIcon = make(<path d="M6 6l12 12M18 6 6 18" />);
 export const MenuIcon = make(<path d="M4 7h16M4 12h16M4 17h16" />);
 export const ExternalIcon = make(<path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" />);
 
+// ---- media and accessibility (media controls never mirror) ----
+export const PauseIcon = make(<path d="M9 6v12M15 6v12" />);
+export const PlayIcon = make(<path d="M8 5.5v13l10.5-6.5z" />);
+/** A person with open arms in a circle: the usual sign of the accessibility settings. */
+export const AccessibilityIcon = make(
+  <>
+    <circle cx="12" cy="12" r="10" />
+    <circle cx="12" cy="7.2" r="1.2" />
+    <path d="M7 10l5 1 5-1M12 11v3.2M12 14.2 9.6 18.5M12 14.2l2.4 4.3" />
+  </>,
+);
+
 // ---- status ----
 export const CheckIcon = make(<path d="m5 12.5 4.5 4.5L19 7.5" />);
 export const InfoIcon = make(

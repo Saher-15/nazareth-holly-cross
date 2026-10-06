@@ -833,6 +833,33 @@
       "retry": "Try again",
       "home": "Back to home",
       "reference": "Reference"
+    },
+    "a11y": {
+      "open": "Accessibility settings",
+      "title": "Accessibility",
+      "intro": "Change how the site looks for you. Your choices are kept in this browser only.",
+      "close": "Close the accessibility settings",
+      "textSize": "Text size",
+      "contrast": "High contrast",
+      "contrastHint": "Black background, white text and brighter gold.",
+      "links": "Underline links",
+      "motion": "Stop animations",
+      "motionHint": "Stops moving photos, the film and page effects.",
+      "motionSystem": "Your device already asks for less motion, so nothing moves by itself.",
+      "font": "Readable font",
+      "fontHint": "One plain typeface for headings and text.",
+      "spacing": "More text spacing",
+      "spacingHint": "More room between lines, letters and words.",
+      "focus": "Strong focus ring",
+      "focusHint": "A thicker outline shows where the keyboard is.",
+      "cursor": "Large pointer",
+      "reset": "Reset",
+      "resetDone": "The site is back to its original look.",
+      "statement": "Accessibility statement"
+    },
+    "motion": {
+      "pause": "Pause the moving background",
+      "play": "Play the moving background"
     }
   },
   "pilgrim": {
@@ -847,6 +874,7 @@
       "shipping": "Shipping & returns",
       "privacy": "Privacy policy",
       "terms": "Terms of use",
+      "accessibility": "Accessibility",
       "groupPlan": "Plan & discover",
       "groupHelp": "Help & legal"
     },
@@ -1443,6 +1471,72 @@
           "contact": {
             "title": "Questions",
             "p1": "Write to {email} or use the contact page."
+          }
+        }
+      },
+      "accessibility": {
+        "meta": {
+          "title": "Accessibility statement",
+          "description": "How accessible Nazareth Holy Cross is: the WCAG 2.2 level we meet, the accessibility settings, known limitations and how to reach our accessibility coordinator."
+        },
+        "title": "Accessibility statement",
+        "lead": "We want everyone to be able to use this site, whatever their abilities, device or language.",
+        "sections": {
+          "commitment": {
+            "title": "Our commitment",
+            "p1": "Nazareth Holy Cross is made for pilgrims around the world, many of them older or reading on a phone. We want every visitor to be able to light a candle, read about the holy sites, shop and give, with a keyboard, a screen reader, a magnifier or a touch screen."
+          },
+          "status": {
+            "title": "Conformance status",
+            "p1": "This website partially conforms to the Web Content Accessibility Guidelines (WCAG) 2.2 at level AA, the level that the Israeli Standard IS 5568 also requires. Partial conformance means that the pages we build meet level AA in the checks described below, while some content, listed under known limitations, does not yet.",
+            "p2": "This statement covers the public website nazarethholycross.com in all 14 languages. It was last reviewed on {date}."
+          },
+          "settings": {
+            "title": "Accessibility settings",
+            "p1": "The button with the accessibility sign at the top of every page opens settings that apply to the whole site and are remembered in this browser. The reset button returns everything to the original look.",
+            "items": {
+              "text": "Text size from 100 to 200 percent.",
+              "contrast": "High contrast: black background, white text and brighter gold.",
+              "links": "Underlined links.",
+              "motion": "Stopped animations, moving photos and film. If your device asks for less motion, the site already follows it.",
+              "font": "A readable font: one plain typeface instead of the decorative headings.",
+              "spacing": "More space between lines, letters and words.",
+              "focus": "A strong focus ring that shows where the keyboard is.",
+              "cursor": "A large mouse pointer."
+            }
+          },
+          "done": {
+            "title": "What we have done",
+            "items": {
+              "keyboard": "Every page can be used with a keyboard alone, with a visible focus ring and a link that skips to the main content.",
+              "structure": "Every page has one main heading, headings in order, named regions and its language declared, so screen readers can read it correctly.",
+              "contrast": "Text and controls meet the WCAG contrast ratios, and every image has a text alternative or is marked as decorative.",
+              "zoom": "Text can be enlarged to 200 percent, and pages fit a screen 320 pixels wide without scrolling sideways.",
+              "forms": "Forms have visible labels, explain each error in words next to the field and keep what you typed.",
+              "motion": "Moving backgrounds have a pause button, and nothing moves by itself for visitors who ask for less motion.",
+              "languages": "Hebrew and Arabic pages are mirrored from right to left, and buttons and links are large enough to tap."
+            }
+          },
+          "limits": {
+            "title": "Known limitations",
+            "p1": "These parts do not yet fully meet level AA. Until they do, write to us and we will help you another way.",
+            "items": {
+              "paypal": "Payment: the PayPal buttons and payment window are made by PayPal, and we cannot change them. If you cannot use them, write to us and we will find another way to complete your order or gift.",
+              "videos": "Videos: the recordings of past broadcasts and the films on the tour page do not have captions or transcripts yet.",
+              "translations": "Translations: most texts were translated with the help of software and are waiting for review by native speakers, so some wording may be unclear.",
+              "external": "Other services: live broadcasts, maps and social networks open on their own websites, whose accessibility we do not control.",
+              "photos": "Photographs: their descriptions name the place and the subject, but do not describe every detail."
+            }
+          },
+          "testing": {
+            "title": "How we checked",
+            "p1": "We tested every page in English, Hebrew and Arabic, on a computer screen and a phone screen: automatically with axe-core against the WCAG 2.2 A and AA rules, and by hand with the keyboard, with 200 percent text, at 320 pixels wide and with each accessibility setting switched on.",
+            "p2": "We have not yet tested with every screen reader, browser and device. If something does not work for you, please tell us."
+          },
+          "contact": {
+            "title": "Contact the accessibility coordinator",
+            "p1": "If you meet a barrier on the site, need information in another format or have a suggestion, write to our accessibility coordinator at <mail>{email}</mail>. Please tell us which page you were on and what you were trying to do.",
+            "p2": "We read every message and will reply as soon as we can."
           }
         }
       }

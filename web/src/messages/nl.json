@@ -833,6 +833,33 @@
       "retry": "Opnieuw proberen",
       "home": "Terug naar de startpagina",
       "reference": "Referentie"
+    },
+    "a11y": {
+      "open": "Toegankelijkheidsinstellingen",
+      "title": "Toegankelijkheid",
+      "intro": "Pas aan hoe de site er voor u uitziet. Uw keuzes blijven alleen in deze browser bewaard.",
+      "close": "Toegankelijkheidsinstellingen sluiten",
+      "textSize": "Tekstgrootte",
+      "contrast": "Hoog contrast",
+      "contrastHint": "Zwarte achtergrond, witte tekst en helderder goud.",
+      "links": "Links onderstrepen",
+      "motion": "Animaties stoppen",
+      "motionHint": "Stopt bewegende foto’s, de film en pagina-effecten.",
+      "motionSystem": "Uw apparaat vraagt al om minder beweging, dus niets beweegt vanzelf.",
+      "font": "Goed leesbaar lettertype",
+      "fontHint": "Eén eenvoudig lettertype voor koppen en tekst.",
+      "spacing": "Meer tekstruimte",
+      "spacingHint": "Meer ruimte tussen regels, letters en woorden.",
+      "focus": "Duidelijke focusrand",
+      "focusHint": "Een dikkere rand laat zien waar het toetsenbord is.",
+      "cursor": "Grote aanwijzer",
+      "reset": "Herstellen",
+      "resetDone": "De site ziet er weer uit zoals eerst.",
+      "statement": "Toegankelijkheidsverklaring"
+    },
+    "motion": {
+      "pause": "Bewegende achtergrond pauzeren",
+      "play": "Bewegende achtergrond afspelen"
     }
   },
   "pilgrim": {
@@ -847,6 +874,7 @@
       "shipping": "Verzending en retouren",
       "privacy": "Privacybeleid",
       "terms": "Gebruiksvoorwaarden",
+      "accessibility": "Toegankelijkheid",
       "groupPlan": "Plannen en ontdekken",
       "groupHelp": "Hulp en juridisch"
     },
@@ -1443,6 +1471,72 @@
           "contact": {
             "title": "Vragen",
             "p1": "Schrijf naar {email} of gebruik de contactpagina."
+          }
+        }
+      },
+      "accessibility": {
+        "meta": {
+          "title": "Toegankelijkheidsverklaring",
+          "description": "Hoe toegankelijk Nazareth Holy Cross is: het WCAG 2.2-niveau dat we halen, de toegankelijkheidsinstellingen, bekende beperkingen en hoe u onze coördinator bereikt."
+        },
+        "title": "Toegankelijkheidsverklaring",
+        "lead": "We willen dat iedereen deze site kan gebruiken, ongeacht mogelijkheden, apparaat of taal.",
+        "sections": {
+          "commitment": {
+            "title": "Onze inzet",
+            "p1": "Nazareth Holy Cross is gemaakt voor pelgrims over de hele wereld, van wie velen ouder zijn of op een telefoon lezen. We willen dat iedere bezoeker een kaars kan aansteken, over de heilige plaatsen kan lezen, kan winkelen en kan geven, met een toetsenbord, een schermlezer, een vergrootglas of een touchscreen."
+          },
+          "status": {
+            "title": "Nalevingsstatus",
+            "p1": "Deze website voldoet gedeeltelijk aan de Richtlijnen voor toegankelijkheid van webcontent (WCAG) 2.2 op niveau AA, het niveau dat ook de Israëlische norm IS 5568 vraagt. Gedeeltelijk betekent dat de pagina’s die wij bouwen bij de hieronder beschreven controles niveau AA halen, terwijl sommige inhoud, genoemd bij de bekende beperkingen, dat nog niet doet.",
+            "p2": "Deze verklaring geldt voor de openbare website nazarethholycross.com in alle 14 talen. Ze is voor het laatst nagekeken op {date}."
+          },
+          "settings": {
+            "title": "Toegankelijkheidsinstellingen",
+            "p1": "De knop met het toegankelijkheidsteken bovenaan elke pagina opent instellingen die voor de hele site gelden en in deze browser bewaard blijven. Met de herstelknop krijgt alles weer het oorspronkelijke uiterlijk.",
+            "items": {
+              "text": "Tekstgrootte van 100 tot 200 procent.",
+              "contrast": "Hoog contrast: zwarte achtergrond, witte tekst en helderder goud.",
+              "links": "Onderstreepte links.",
+              "motion": "Gestopte animaties, bewegende foto’s en film. Als uw apparaat om minder beweging vraagt, volgt de site dat al.",
+              "font": "Een goed leesbaar lettertype: één eenvoudig lettertype in plaats van de sierlijke koppen.",
+              "spacing": "Meer ruimte tussen regels, letters en woorden.",
+              "focus": "Een duidelijke focusrand die laat zien waar het toetsenbord is.",
+              "cursor": "Een grote muisaanwijzer."
+            }
+          },
+          "done": {
+            "title": "Wat we hebben gedaan",
+            "items": {
+              "keyboard": "Elke pagina is met alleen een toetsenbord te gebruiken, met een zichtbare focusrand en een link die direct naar de hoofdinhoud springt.",
+              "structure": "Elke pagina heeft één hoofdkop, koppen in de juiste volgorde, benoemde gebieden en een opgegeven taal, zodat schermlezers haar goed voorlezen.",
+              "contrast": "Tekst en bedieningselementen halen de contrastverhoudingen van de WCAG, en elke afbeelding heeft een tekstalternatief of is als decoratief gemarkeerd.",
+              "zoom": "Tekst kan tot 200 procent worden vergroot, en de pagina’s passen zonder zijwaarts scrollen op een scherm van 320 pixels breed.",
+              "forms": "Formulieren hebben zichtbare labels, leggen elke fout in woorden naast het veld uit en bewaren wat u hebt getypt.",
+              "motion": "Bewegende achtergronden hebben een pauzeknop, en voor bezoekers die om minder beweging vragen beweegt niets vanzelf.",
+              "languages": "Pagina’s in het Hebreeuws en Arabisch worden van rechts naar links gespiegeld, en knoppen en links zijn groot genoeg om aan te tikken."
+            }
+          },
+          "limits": {
+            "title": "Bekende beperkingen",
+            "p1": "Deze onderdelen halen niveau AA nog niet helemaal. Schrijf ons tot die tijd, dan helpen we u op een andere manier.",
+            "items": {
+              "paypal": "Betalen: de PayPal-knoppen en het betaalvenster worden door PayPal gemaakt en wij kunnen ze niet aanpassen. Kunt u ze niet gebruiken, schrijf ons dan en we vinden een andere manier om uw bestelling of gift af te ronden.",
+              "videos": "Video’s: de opnamen van eerdere uitzendingen en de films op de rondleidingspagina hebben nog geen ondertitels of uitgeschreven tekst.",
+              "translations": "Vertalingen: de meeste teksten zijn met hulp van software vertaald en wachten op controle door moedertaalsprekers, dus sommige zinnen kunnen onduidelijk zijn.",
+              "external": "Andere diensten: live-uitzendingen, kaarten en sociale netwerken openen op hun eigen websites, waarvan wij de toegankelijkheid niet in de hand hebben.",
+              "photos": "Foto’s: de beschrijvingen noemen de plaats en het onderwerp, maar niet elk detail."
+            }
+          },
+          "testing": {
+            "title": "Hoe we het hebben gecontroleerd",
+            "p1": "We hebben elke pagina in het Engels, Hebreeuws en Arabisch getest, op een computerscherm en een telefoonscherm: automatisch met axe-core volgens de regels van WCAG 2.2 niveau A en AA, en met de hand met het toetsenbord, met tekst op 200 procent, op 320 pixels breed en met elke toegankelijkheidsinstelling aan.",
+            "p2": "We hebben nog niet met elke schermlezer, browser en elk apparaat getest. Als iets voor u niet werkt, laat het ons dan weten."
+          },
+          "contact": {
+            "title": "Contact met de toegankelijkheidscoördinator",
+            "p1": "Loopt u op de site tegen een drempel aan, hebt u informatie in een andere vorm nodig of hebt u een suggestie, schrijf dan naar onze toegankelijkheidscoördinator via <mail>{email}</mail>. Vertel ons op welke pagina u was en wat u probeerde te doen.",
+            "p2": "We lezen elk bericht en antwoorden zo snel mogelijk."
           }
         }
       }

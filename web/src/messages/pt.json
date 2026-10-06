@@ -833,6 +833,33 @@
       "retry": "Tentar novamente",
       "home": "Voltar ao início",
       "reference": "Referência"
+    },
+    "a11y": {
+      "open": "Configurações de acessibilidade",
+      "title": "Acessibilidade",
+      "intro": "Mude a aparência do site para você. Suas escolhas ficam salvas apenas neste navegador.",
+      "close": "Fechar as configurações de acessibilidade",
+      "textSize": "Tamanho do texto",
+      "contrast": "Alto contraste",
+      "contrastHint": "Fundo preto, texto branco e dourado mais claro.",
+      "links": "Sublinhar os links",
+      "motion": "Parar as animações",
+      "motionHint": "Para as fotos em movimento, o vídeo e os efeitos de página.",
+      "motionSystem": "Seu dispositivo já pede menos movimento, então nada se move sozinho.",
+      "font": "Fonte legível",
+      "fontHint": "Uma única fonte simples para títulos e textos.",
+      "spacing": "Texto mais espaçado",
+      "spacingHint": "Mais espaço entre linhas, letras e palavras.",
+      "focus": "Contorno de foco reforçado",
+      "focusHint": "Um contorno mais grosso mostra onde está o teclado.",
+      "cursor": "Ponteiro grande",
+      "reset": "Redefinir",
+      "resetDone": "O site voltou à aparência original.",
+      "statement": "Declaração de acessibilidade"
+    },
+    "motion": {
+      "pause": "Pausar o fundo em movimento",
+      "play": "Reproduzir o fundo em movimento"
     }
   },
   "pilgrim": {
@@ -847,6 +874,7 @@
       "shipping": "Envios e devoluções",
       "privacy": "Política de privacidade",
       "terms": "Termos de utilização",
+      "accessibility": "Acessibilidade",
       "groupPlan": "Planear e descobrir",
       "groupHelp": "Ajuda e informação legal"
     },
@@ -1443,6 +1471,72 @@
           "contact": {
             "title": "Perguntas",
             "p1": "Escreva para {email} ou use a página de contacto."
+          }
+        }
+      },
+      "accessibility": {
+        "meta": {
+          "title": "Declaração de acessibilidade",
+          "description": "A acessibilidade do Nazareth Holy Cross: o nível WCAG 2.2 que atendemos, as configurações de acessibilidade, as limitações conhecidas e como falar com nosso coordenador."
+        },
+        "title": "Declaração de acessibilidade",
+        "lead": "Queremos que todas as pessoas possam usar este site, quaisquer que sejam suas capacidades, seu dispositivo ou seu idioma.",
+        "sections": {
+          "commitment": {
+            "title": "Nosso compromisso",
+            "p1": "O Nazareth Holy Cross foi feito para peregrinos do mundo inteiro, muitos deles idosos ou lendo pelo celular. Queremos que cada visitante possa acender uma vela, conhecer os lugares santos, comprar e doar com um teclado, um leitor de tela, uma lupa ou uma tela sensível ao toque."
+          },
+          "status": {
+            "title": "Situação de conformidade",
+            "p1": "Este site está parcialmente em conformidade com as Diretrizes de Acessibilidade para Conteúdo Web (WCAG) 2.2 no nível AA, o mesmo nível exigido pela norma israelense IS 5568. Conformidade parcial significa que as páginas que criamos atingem o nível AA nas verificações descritas abaixo, enquanto alguns conteúdos, listados nas limitações conhecidas, ainda não atingem.",
+            "p2": "Esta declaração abrange o site público nazarethholycross.com em todos os 14 idiomas. Foi revisada pela última vez em {date}."
+          },
+          "settings": {
+            "title": "Configurações de acessibilidade",
+            "p1": "O botão com o símbolo de acessibilidade, no alto de cada página, abre configurações que valem para todo o site e ficam salvas neste navegador. O botão de redefinir devolve a aparência original.",
+            "items": {
+              "text": "Tamanho do texto de 100 a 200 por cento.",
+              "contrast": "Alto contraste: fundo preto, texto branco e dourado mais claro.",
+              "links": "Links sublinhados.",
+              "motion": "Animações, fotos em movimento e vídeo parados. Se o seu dispositivo pede menos movimento, o site já respeita isso.",
+              "font": "Uma fonte legível: uma única fonte simples no lugar dos títulos decorativos.",
+              "spacing": "Mais espaço entre linhas, letras e palavras.",
+              "focus": "Um contorno de foco reforçado que mostra onde está o teclado.",
+              "cursor": "Um ponteiro do mouse grande."
+            }
+          },
+          "done": {
+            "title": "O que fizemos",
+            "items": {
+              "keyboard": "Todas as páginas podem ser usadas só com o teclado, com um contorno de foco visível e um link que pula direto para o conteúdo principal.",
+              "structure": "Cada página tem um título principal, títulos em ordem, regiões com nome e o idioma declarado, para que os leitores de tela a leiam corretamente.",
+              "contrast": "Textos e controles atendem às taxas de contraste das WCAG, e cada imagem tem um texto alternativo ou está marcada como decorativa.",
+              "zoom": "O texto pode ser ampliado para 200 por cento, e as páginas cabem em uma tela de 320 pixels de largura sem rolagem lateral.",
+              "forms": "Os formulários têm rótulos visíveis, explicam cada erro em palavras ao lado do campo e mantêm o que você digitou.",
+              "motion": "Os fundos em movimento têm um botão de pausa, e nada se move sozinho para quem pede menos movimento.",
+              "languages": "As páginas em hebraico e árabe são espelhadas da direita para a esquerda, e botões e links são grandes o bastante para tocar."
+            }
+          },
+          "limits": {
+            "title": "Limitações conhecidas",
+            "p1": "Estas partes ainda não atendem totalmente ao nível AA. Enquanto isso, escreva para nós e ajudaremos você de outra forma.",
+            "items": {
+              "paypal": "Pagamento: os botões e a janela de pagamento do PayPal são feitos pelo PayPal, e não podemos alterá-los. Se você não conseguir usá-los, escreva para nós e encontraremos outra forma de concluir seu pedido ou sua doação.",
+              "videos": "Vídeos: as gravações das transmissões anteriores e os vídeos da página do passeio ainda não têm legendas nem transcrições.",
+              "translations": "Traduções: a maior parte dos textos foi traduzida com a ajuda de software e aguarda a revisão de falantes nativos, por isso algumas frases podem ficar pouco claras.",
+              "external": "Outros serviços: transmissões ao vivo, mapas e redes sociais abrem em seus próprios sites, cuja acessibilidade não controlamos.",
+              "photos": "Fotografias: as descrições indicam o lugar e o assunto, mas não descrevem cada detalhe."
+            }
+          },
+          "testing": {
+            "title": "Como verificamos",
+            "p1": "Testamos cada página em inglês, hebraico e árabe, em uma tela de computador e em uma de celular: automaticamente com o axe-core segundo as regras A e AA das WCAG 2.2, e manualmente com o teclado, com o texto em 200 por cento, com 320 pixels de largura e com cada configuração de acessibilidade ativada.",
+            "p2": "Ainda não testamos com todos os leitores de tela, navegadores e dispositivos. Se algo não funcionar para você, conte para nós."
+          },
+          "contact": {
+            "title": "Fale com o coordenador de acessibilidade",
+            "p1": "Se você encontrar uma barreira no site, precisar de informações em outro formato ou tiver uma sugestão, escreva para o nosso coordenador de acessibilidade em <mail>{email}</mail>. Diga em qual página você estava e o que estava tentando fazer.",
+            "p2": "Lemos todas as mensagens e responderemos assim que possível."
           }
         }
       }

@@ -833,6 +833,33 @@
       "retry": "Spróbuj ponownie",
       "home": "Wróć na stronę główną",
       "reference": "Numer referencyjny"
+    },
+    "a11y": {
+      "open": "Ustawienia dostępności",
+      "title": "Dostępność",
+      "intro": "Dostosuj wygląd strony do swoich potrzeb. Twoje wybory są zapisywane tylko w tej przeglądarce.",
+      "close": "Zamknij ustawienia dostępności",
+      "textSize": "Rozmiar tekstu",
+      "contrast": "Wysoki kontrast",
+      "contrastHint": "Czarne tło, biały tekst i jaśniejsze złoto.",
+      "links": "Podkreśl linki",
+      "motion": "Zatrzymaj animacje",
+      "motionHint": "Zatrzymuje ruchome zdjęcia, film i efekty strony.",
+      "motionSystem": "Twoje urządzenie już prosi o mniej ruchu, więc nic nie porusza się samo.",
+      "font": "Czytelna czcionka",
+      "fontHint": "Jedna prosta czcionka dla nagłówków i tekstu.",
+      "spacing": "Większe odstępy w tekście",
+      "spacingHint": "Więcej miejsca między wierszami, literami i słowami.",
+      "focus": "Wyraźna ramka fokusu",
+      "focusHint": "Grubsza ramka pokazuje, gdzie jest klawiatura.",
+      "cursor": "Duży kursor",
+      "reset": "Przywróć",
+      "resetDone": "Strona wróciła do pierwotnego wyglądu.",
+      "statement": "Deklaracja dostępności"
+    },
+    "motion": {
+      "pause": "Wstrzymaj ruchome tło",
+      "play": "Odtwórz ruchome tło"
     }
   },
   "pilgrim": {
@@ -847,6 +874,7 @@
       "shipping": "Wysyłka i zwroty",
       "privacy": "Polityka prywatności",
       "terms": "Regulamin",
+      "accessibility": "Dostępność",
       "groupPlan": "Planuj i odkrywaj",
       "groupHelp": "Pomoc i informacje prawne"
     },
@@ -1443,6 +1471,72 @@
           "contact": {
             "title": "Pytania",
             "p1": "Napisz na {email} lub skorzystaj ze strony kontaktowej."
+          }
+        }
+      },
+      "accessibility": {
+        "meta": {
+          "title": "Deklaracja dostępności",
+          "description": "Dostępność Nazareth Holy Cross: spełniany poziom WCAG 2.2, ustawienia dostępności, znane ograniczenia i kontakt z naszym koordynatorem do spraw dostępności."
+        },
+        "title": "Deklaracja dostępności",
+        "lead": "Chcemy, aby każdy mógł korzystać z tej strony, bez względu na swoje możliwości, urządzenie czy język.",
+        "sections": {
+          "commitment": {
+            "title": "Nasze zobowiązanie",
+            "p1": "Nazareth Holy Cross powstało dla pielgrzymów z całego świata, wśród których wielu jest starszych lub czyta na telefonie. Chcemy, aby każdy odwiedzający mógł zapalić świecę, poczytać o miejscach świętych, zrobić zakupy i wesprzeć nas za pomocą klawiatury, czytnika ekranu, lupy lub ekranu dotykowego."
+          },
+          "status": {
+            "title": "Stan zgodności",
+            "p1": "Ta strona jest częściowo zgodna z Wytycznymi dotyczącymi dostępności treści internetowych (WCAG) 2.2 na poziomie AA, czyli na poziomie, którego wymaga również izraelska norma IS 5568. Częściowa zgodność oznacza, że tworzone przez nas strony spełniają poziom AA w opisanych niżej kontrolach, a niektóre treści, wymienione w znanych ograniczeniach, jeszcze go nie spełniają.",
+            "p2": "Deklaracja obejmuje publiczną stronę nazarethholycross.com we wszystkich 14 językach. Ostatni przegląd odbył się {date}."
+          },
+          "settings": {
+            "title": "Ustawienia dostępności",
+            "p1": "Przycisk z symbolem dostępności u góry każdej strony otwiera ustawienia, które działają na całej stronie i są zapamiętywane w tej przeglądarce. Przycisk przywracania przywraca pierwotny wygląd.",
+            "items": {
+              "text": "Rozmiar tekstu od 100 do 200 procent.",
+              "contrast": "Wysoki kontrast: czarne tło, biały tekst i jaśniejsze złoto.",
+              "links": "Podkreślone linki.",
+              "motion": "Zatrzymane animacje, ruchome zdjęcia i film. Jeśli Twoje urządzenie prosi o mniej ruchu, strona już to uwzględnia.",
+              "font": "Czytelna czcionka: jedna prosta czcionka zamiast ozdobnych nagłówków.",
+              "spacing": "Większe odstępy między wierszami, literami i słowami.",
+              "focus": "Wyraźna ramka fokusu, która pokazuje, gdzie jest klawiatura.",
+              "cursor": "Duży kursor myszy."
+            }
+          },
+          "done": {
+            "title": "Co zrobiliśmy",
+            "items": {
+              "keyboard": "Z każdej strony można korzystać tylko za pomocą klawiatury, z widoczną ramką fokusu i linkiem prowadzącym prosto do głównej treści.",
+              "structure": "Każda strona ma jeden główny nagłówek, nagłówki we właściwej kolejności, nazwane obszary i określony język, dzięki czemu czytniki ekranu odczytują ją poprawnie.",
+              "contrast": "Teksty i elementy sterujące spełniają wymagania kontrastu WCAG, a każdy obraz ma tekst alternatywny lub jest oznaczony jako dekoracyjny.",
+              "zoom": "Tekst można powiększyć do 200 procent, a strony mieszczą się na ekranie o szerokości 320 pikseli bez przewijania w bok.",
+              "forms": "Formularze mają widoczne etykiety, opisują każdy błąd słowami obok pola i zachowują to, co wpisano.",
+              "motion": "Ruchome tła mają przycisk pauzy, a dla osób, które proszą o mniej ruchu, nic nie porusza się samo.",
+              "languages": "Strony po hebrajsku i arabsku są wyświetlane od prawej do lewej, a przyciski i linki są wystarczająco duże, by w nie stuknąć."
+            }
+          },
+          "limits": {
+            "title": "Znane ograniczenia",
+            "p1": "Te elementy nie spełniają jeszcze w pełni poziomu AA. Do tego czasu napisz do nas, a pomożemy w inny sposób.",
+            "items": {
+              "paypal": "Płatność: przyciski i okno płatności PayPal tworzy PayPal i nie możemy ich zmienić. Jeśli nie możesz z nich skorzystać, napisz do nas, a znajdziemy inny sposób na dokończenie zamówienia lub darowizny.",
+              "videos": "Filmy: nagrania wcześniejszych transmisji i filmy na stronie wycieczki nie mają jeszcze napisów ani transkrypcji.",
+              "translations": "Tłumaczenia: większość tekstów przetłumaczono za pomocą oprogramowania i czekają one na sprawdzenie przez rodzimych użytkowników języka, więc niektóre sformułowania mogą być niejasne.",
+              "external": "Inne usługi: transmisje na żywo, mapy i serwisy społecznościowe otwierają się na własnych stronach, na których dostępność nie mamy wpływu.",
+              "photos": "Zdjęcia: ich opisy podają miejsce i temat, ale nie opisują każdego szczegółu."
+            }
+          },
+          "testing": {
+            "title": "Jak sprawdzaliśmy",
+            "p1": "Sprawdziliśmy każdą stronę po angielsku, hebrajsku i arabsku, na ekranie komputera i telefonu: automatycznie za pomocą axe-core według reguł A i AA WCAG 2.2 oraz ręcznie przy użyciu klawiatury, z tekstem powiększonym do 200 procent, przy szerokości 320 pikseli i z każdym włączonym ustawieniem dostępności.",
+            "p2": "Nie sprawdziliśmy jeszcze wszystkich czytników ekranu, przeglądarek i urządzeń. Jeśli coś nie działa, daj nam znać."
+          },
+          "contact": {
+            "title": "Kontakt z koordynatorem do spraw dostępności",
+            "p1": "Jeśli napotkasz na stronie przeszkodę, potrzebujesz informacji w innej formie lub masz sugestię, napisz do naszego koordynatora do spraw dostępności na adres <mail>{email}</mail>. Podaj adres strony, na której wystąpił problem, i opisz, co chcesz zrobić.",
+            "p2": "Czytamy każdą wiadomość i odpowiemy najszybciej, jak to możliwe."
           }
         }
       }

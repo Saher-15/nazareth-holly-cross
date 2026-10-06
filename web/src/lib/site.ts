@@ -29,12 +29,14 @@ export const pilgrimNav = [
   { key: 'contact', href: '/contact' },
 ] as const;
 
-// Help and legal pages. `shipping` is /shipping-returns.
+// Help and legal pages. `shipping` is /shipping-returns; `accessibility` is the accessibility statement (also linked
+// from the accessibility settings in the header).
 export const legalNav = [
   { key: 'faq', href: '/faq' },
   { key: 'shipping', href: '/shipping-returns' },
   { key: 'privacy', href: '/privacy' },
   { key: 'terms', href: '/terms' },
+  { key: 'accessibility', href: '/accessibility' },
 ] as const;
 
 export const socialLinks = [

@@ -1,7 +1,8 @@
 'use client';
 
-import type { ReactNode } from 'react';
+import { useSyncExternalStore, type ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
+import { prefersReducedMotion, subscribeMotion } from '@/lib/motion';
 import Icon from './Icon';
 import { countdownParts, liveState, type CountdownParts } from './liveSchedule';
 import { useHydrated, useNow } from './useNow';
@@ -36,6 +37,10 @@ export default function LivePlayer({ broadcasts, renderedAt, joinUrl, titleId, b
   const now = useNow(renderedAt);
   const hydrated = useHydrated();
   const { status, event } = liveState(broadcasts, now);
+  // A countdown that changes every second is content that moves by itself (WCAG 2.2.2). For visitors who asked for
+  // less motion (system setting or the accessibility panel) it shows no seconds, so it changes once a minute.
+  const calm = useSyncExternalStore(subscribeMotion, prefersReducedMotion, () => false);
+  const units = calm ? UNITS.filter((unit) => unit !== 'seconds') : UNITS;
   const newTab = <span className="visually-hidden"> {t('opensInNewTab')}</span>;
 
   return (
@@ -74,7 +79,7 @@ export default function LivePlayer({ broadcasts, renderedAt, joinUrl, titleId, b
                     <span className={styles.started}>{t('live.eventStarted')}</span>
                   ) : (
                     <span className={styles.countdown} role="timer">
-                      {UNITS.map((unit) => {
+                      {units.map((unit) => {
                         const value = countdownParts(event.start - now)[unit];
                         return (
                           <span key={unit} className={styles.unit}>

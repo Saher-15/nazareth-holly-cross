@@ -114,7 +114,7 @@
 }
 .steps li {
   display: grid;
-  grid-template-columns: 40px 1fr;
+  grid-template-columns: auto minmax(0, 1fr); /* the number's circle grows with large text */
   gap: 14px;
   align-items: start;
   padding: 14px 16px;
@@ -125,8 +125,9 @@
 .stepN {
   display: grid;
   place-items: center;
-  width: 40px;
-  height: 40px;
+  /* Grows with the digit when the text is enlarged (accessibility panel), so it never spills out of the circle. */
+  width: max(40px, 2.4em);
+  height: max(40px, 2.4em);
   border-radius: 50%;
   background: linear-gradient(
     135deg,
@@ -185,8 +186,12 @@
 }
 .churchGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
+}
+/* Large text (accessibility panel): one church per row, so the names have room. */
+:global(:root:is([data-a11y-text='150'], [data-a11y-text='175'], [data-a11y-text='200'])) .churchGrid {
+  grid-template-columns: minmax(0, 1fr);
 }
 .church {
   position: relative;

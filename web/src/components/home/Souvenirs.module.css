@@ -56,13 +56,13 @@
   transform: scale(1.07);
 }
 
+/* The whole name is shown (it wraps instead of ending in "..."): a cut name loses content, and more so with larger
+   text or wider spacing (WCAG 1.4.4, 1.4.12). */
 .name {
   display: block;
-  overflow: hidden;
   padding: 12px 14px 2px;
   font-weight: 700;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  overflow-wrap: anywhere;
   text-align: match-parent;
 }
 .price {

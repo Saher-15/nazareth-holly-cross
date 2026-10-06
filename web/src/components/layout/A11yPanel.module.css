@@ -1,0 +1,262 @@
+/* The accessibility settings in the site header (A11yPanel.tsx). The panel hangs below the header at the reading
+   end, like the language menu, and scrolls inside itself when the text is large or the screen is short. */
+.root {
+  display: contents;
+}
+
+.trigger {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: var(--tap);
+  height: var(--tap);
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--glass-line);
+  background: var(--glass);
+  color: var(--cream);
+  cursor: pointer;
+  transition: background var(--dur-fast) ease, border-color var(--dur-fast) ease;
+}
+.trigger:hover {
+  background: var(--glass-strong);
+}
+/* A setting is on: a gold edge says the page is not in its original look. */
+.trigger[data-a11y-active='true'] {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+.trigger[aria-expanded='true'] {
+  border-color: color-mix(in srgb, var(--gold) 60%, transparent);
+  background: var(--gold-soft);
+  color: var(--gold);
+}
+.trigger:focus-visible {
+  border-radius: 50%;
+}
+
+.panel {
+  position: absolute;
+  inset-block-start: calc(100% + 4px);
+  inset-inline-end: max(16px, (100% - var(--container)) / 2);
+  z-index: var(--z-menu);
+  inline-size: min(380px, 100% - 32px);
+  max-block-size: calc(100dvh - var(--header-h) - 24px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--space-4) var(--space-5) var(--space-5);
+  background: var(--night-2);
+  border: 1px solid var(--field-line);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--elev-4);
+  color: var(--cream);
+  text-align: start;
+  animation: panel-in var(--dur-base) var(--ease-out) both;
+}
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+.title {
+  margin: 0;
+  font: 400 var(--text-xl) / var(--leading-tight) var(--serif);
+  color: var(--white);
+}
+.close {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: var(--tap);
+  height: var(--tap);
+  border-radius: 50%;
+  border: 1px solid var(--glass-line);
+  background: transparent;
+  color: var(--cream);
+  cursor: pointer;
+}
+.close:hover {
+  background: var(--glass-strong);
+}
+.close:focus-visible {
+  border-radius: 50%;
+}
+.intro {
+  margin: var(--space-2) 0 var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.sizes {
+  margin: 0 0 var(--space-4);
+  padding: 0;
+  border: 0;
+  min-inline-size: 0;
+}
+.legend {
+  margin-block-end: var(--space-2);
+  padding: 0;
+  font-weight: 600;
+}
+.sizeRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.size {
+  position: relative;
+  display: inline-flex;
+}
+/* The real radio button stays in place (keyboard, screen readers); the pill around it is what is seen. */
+.size input {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.size span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: var(--tap);
+  min-inline-size: var(--tap);
+  padding: 0 var(--space-3);
+  border-radius: 999px;
+  border: 1px solid var(--field-line);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+.size input:checked + span {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--on-gold);
+}
+.size input:focus-visible + span {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+.size:hover input:not(:checked) + span {
+  background: var(--glass-strong);
+}
+
+.switches {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.switch {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-block-size: var(--tap);
+  cursor: pointer;
+}
+.switch input {
+  position: absolute;
+  inset-inline-start: 0;
+  inline-size: 44px;
+  block-size: var(--tap);
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+/* The drawn switch: a pill with a knob that moves to the end edge when on. Clicks go through it to the real
+   check box underneath (the label would toggle it anyway). */
+.track {
+  position: relative;
+  pointer-events: none;
+  flex: none;
+  inline-size: 44px;
+  block-size: 26px;
+  border-radius: 999px;
+  border: 2px solid var(--field-line);
+  background: var(--night-3);
+  transition: background var(--dur-fast) ease, border-color var(--dur-fast) ease;
+}
+.track::after {
+  content: '';
+  position: absolute;
+  inset-block-start: 3px;
+  inset-inline-start: 3px;
+  inline-size: 16px;
+  block-size: 16px;
+  border-radius: 50%;
+  background: var(--cream);
+  transition: transform var(--dur-fast) ease;
+}
+.switch input:checked + .track {
+  background: var(--gold);
+  border-color: var(--gold);
+}
+.switch input:checked + .track::after {
+  background: var(--on-gold);
+  transform: translateX(18px);
+}
+:global([dir='rtl']) .switch input:checked + .track::after {
+  transform: translateX(-18px);
+}
+.switch input:focus-visible + .track {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+.label {
+  font-weight: 600;
+}
+.hint {
+  margin: 0 0 var(--space-2);
+  padding-inline-start: calc(44px + var(--space-3));
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-block-start: var(--space-4);
+  padding-block-start: var(--space-4);
+  border-block-start: 1px solid var(--glass-line);
+}
+.statement {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--tap);
+}
+
+/* Windows high contrast: the drawn controls need system colours to show their state. */
+@media (forced-colors: active) {
+  .size input:checked + span,
+  .switch input:checked + .track {
+    background: Highlight;
+    border-color: Highlight;
+  }
+  .track::after {
+    background: CanvasText;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel {
+    animation: none;
+  }
+  .track,
+  .track::after {
+    transition: none;
+  }
+}

@@ -833,6 +833,33 @@
       "retry": "Încercați din nou",
       "home": "Înapoi la pagina principală",
       "reference": "Referință"
+    },
+    "a11y": {
+      "open": "Setări de accesibilitate",
+      "title": "Accesibilitate",
+      "intro": "Schimbați felul în care arată site-ul pentru dumneavoastră. Alegerile rămân doar în acest browser.",
+      "close": "Închideți setările de accesibilitate",
+      "textSize": "Mărimea textului",
+      "contrast": "Contrast ridicat",
+      "contrastHint": "Fundal negru, text alb și auriu mai luminos.",
+      "links": "Subliniați linkurile",
+      "motion": "Opriți animațiile",
+      "motionHint": "Oprește fotografiile în mișcare, filmul și efectele paginilor.",
+      "motionSystem": "Dispozitivul dumneavoastră cere deja mai puțină mișcare, așa că nimic nu se mișcă singur.",
+      "font": "Font ușor de citit",
+      "fontHint": "Un singur font simplu pentru titluri și text.",
+      "spacing": "Spațiere mai mare a textului",
+      "spacingHint": "Mai mult spațiu între rânduri, litere și cuvinte.",
+      "focus": "Contur de focalizare accentuat",
+      "focusHint": "Un contur mai gros arată unde se află tastatura.",
+      "cursor": "Cursor mare",
+      "reset": "Resetați",
+      "resetDone": "Site-ul a revenit la aspectul original.",
+      "statement": "Declarație de accesibilitate"
+    },
+    "motion": {
+      "pause": "Opriți fundalul în mișcare",
+      "play": "Porniți fundalul în mișcare"
     }
   },
   "pilgrim": {
@@ -847,6 +874,7 @@
       "shipping": "Livrare și returnări",
       "privacy": "Politica de confidențialitate",
       "terms": "Termeni de utilizare",
+      "accessibility": "Accesibilitate",
       "groupPlan": "Planificați și descoperiți",
       "groupHelp": "Ajutor și informații legale"
     },
@@ -1443,6 +1471,72 @@
           "contact": {
             "title": "Întrebări",
             "p1": "Scrieți la {email} sau folosiți pagina de contact."
+          }
+        }
+      },
+      "accessibility": {
+        "meta": {
+          "title": "Declarație de accesibilitate",
+          "description": "Cât de accesibil este Nazareth Holy Cross: nivelul WCAG 2.2 atins, setările de accesibilitate, limitările cunoscute și cum ne contactați coordonatorul de accesibilitate."
+        },
+        "title": "Declarație de accesibilitate",
+        "lead": "Ne dorim ca oricine să poată folosi acest site, indiferent de abilități, de dispozitiv sau de limbă.",
+        "sections": {
+          "commitment": {
+            "title": "Angajamentul nostru",
+            "p1": "Nazareth Holy Cross este făcut pentru pelerini din toată lumea, mulți dintre ei în vârstă sau care citesc pe telefon. Dorim ca fiecare vizitator să poată aprinde o lumânare, să citească despre locurile sfinte, să cumpere și să doneze cu tastatura, cu un cititor de ecran, cu o lupă sau pe un ecran tactil."
+          },
+          "status": {
+            "title": "Stadiul conformității",
+            "p1": "Acest site este parțial conform cu Ghidurile de accesibilitate pentru conținutul web (WCAG) 2.2 la nivelul AA, nivelul cerut și de standardul israelian IS 5568. Conformitate parțială înseamnă că paginile pe care le realizăm ating nivelul AA în verificările descrise mai jos, în timp ce unele conținuturi, enumerate la limitările cunoscute, încă nu îl ating.",
+            "p2": "Această declarație acoperă site-ul public nazarethholycross.com în toate cele 14 limbi. A fost revizuită ultima dată la {date}."
+          },
+          "settings": {
+            "title": "Setări de accesibilitate",
+            "p1": "Butonul cu simbolul accesibilității din partea de sus a fiecărei pagini deschide setări care se aplică întregului site și sunt păstrate în acest browser. Butonul de resetare readuce aspectul original.",
+            "items": {
+              "text": "Mărimea textului de la 100 la 200 la sută.",
+              "contrast": "Contrast ridicat: fundal negru, text alb și auriu mai luminos.",
+              "links": "Linkuri subliniate.",
+              "motion": "Animații, fotografii în mișcare și film oprite. Dacă dispozitivul dumneavoastră cere mai puțină mișcare, site-ul ține deja cont de aceasta.",
+              "font": "Un font ușor de citit: un singur font simplu în locul titlurilor decorative.",
+              "spacing": "Mai mult spațiu între rânduri, litere și cuvinte.",
+              "focus": "Un contur de focalizare accentuat care arată unde se află tastatura.",
+              "cursor": "Un cursor de mouse mare."
+            }
+          },
+          "done": {
+            "title": "Ce am făcut",
+            "items": {
+              "keyboard": "Fiecare pagină poate fi folosită doar cu tastatura, cu un contur de focalizare vizibil și un link care duce direct la conținutul principal.",
+              "structure": "Fiecare pagină are un titlu principal, titluri în ordine, zone denumite și limba declarată, astfel încât cititoarele de ecran să o citească corect.",
+              "contrast": "Textele și comenzile respectă rapoartele de contrast WCAG, iar fiecare imagine are un text alternativ sau este marcată ca decorativă.",
+              "zoom": "Textul poate fi mărit la 200 la sută, iar paginile încap pe un ecran lat de 320 de pixeli fără derulare laterală.",
+              "forms": "Formularele au etichete vizibile, explică fiecare eroare în cuvinte lângă câmp și păstrează ce ați scris.",
+              "motion": "Fundalurile în mișcare au un buton de pauză, iar pentru vizitatorii care cer mai puțină mișcare nimic nu se mișcă singur.",
+              "languages": "Paginile în ebraică și arabă sunt afișate de la dreapta la stânga, iar butoanele și linkurile sunt suficient de mari pentru a fi atinse."
+            }
+          },
+          "limits": {
+            "title": "Limitări cunoscute",
+            "p1": "Aceste părți nu ating încă pe deplin nivelul AA. Până atunci, scrieți-ne și vă vom ajuta în alt mod.",
+            "items": {
+              "paypal": "Plata: butoanele și fereastra de plată PayPal sunt realizate de PayPal și nu le putem modifica. Dacă nu le puteți folosi, scrieți-ne și vom găsi o altă cale de a finaliza comanda sau donația.",
+              "videos": "Videoclipuri: înregistrările transmisiunilor anterioare și filmele de pe pagina turului nu au încă subtitrări sau transcrieri.",
+              "translations": "Traduceri: majoritatea textelor au fost traduse cu ajutorul unui program și așteaptă revizuirea unor vorbitori nativi, așa că unele formulări pot fi neclare.",
+              "external": "Alte servicii: transmisiunile în direct, hărțile și rețelele sociale se deschid pe propriile site-uri, a căror accesibilitate nu o controlăm.",
+              "photos": "Fotografii: descrierile lor numesc locul și subiectul, dar nu descriu fiecare detaliu."
+            }
+          },
+          "testing": {
+            "title": "Cum am verificat",
+            "p1": "Am testat fiecare pagină în engleză, ebraică și arabă, pe un ecran de computer și pe unul de telefon: automat cu axe-core după regulile A și AA din WCAG 2.2 și manual cu tastatura, cu textul la 200 la sută, la o lățime de 320 de pixeli și cu fiecare setare de accesibilitate activată.",
+            "p2": "Nu am testat încă cu toate cititoarele de ecran, browserele și dispozitivele. Dacă ceva nu funcționează pentru dumneavoastră, vă rugăm să ne spuneți."
+          },
+          "contact": {
+            "title": "Contactați coordonatorul de accesibilitate",
+            "p1": "Dacă întâlniți o barieră pe site, aveți nevoie de informații în alt format sau aveți o sugestie, scrieți coordonatorului nostru de accesibilitate la <mail>{email}</mail>. Vă rugăm să ne spuneți pe ce pagină erați și ce încercați să faceți.",
+            "p2": "Citim fiecare mesaj și vom răspunde cât mai curând posibil."
           }
         }
       }

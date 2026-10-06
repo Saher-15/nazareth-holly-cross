@@ -1,9 +1,10 @@
 /* Photo count badge in the "View the photos" button. */
 .count {
   display: inline-grid;
+  flex: none; /* never squeezed by a long label next to it */
   place-items: center;
   min-width: 26px;
-  height: 26px;
+  min-height: 26px; /* grows with the text (200% text from the accessibility panel) instead of letting it spill out */
   padding: 0 7px;
   border-radius: 999px;
   background: var(--gold);

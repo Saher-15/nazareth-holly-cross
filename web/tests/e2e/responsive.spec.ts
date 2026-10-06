@@ -274,7 +274,7 @@ for (const vp of SMALL) {
 
         await page.goto(`/${locale}/sites/latin`);
         await settle(page);
-        await page.locator('button[aria-haspopup="dialog"]').first().click();
+        await page.locator('main button[aria-haspopup="dialog"]').first().click(); // main: the header's accessibility button opens a dialog too
         const viewer = page.getByRole('dialog').first();
         await expect(viewer).toBeVisible();
         const img = viewer.locator('img').first();

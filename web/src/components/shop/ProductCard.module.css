@@ -135,12 +135,10 @@
   min-height: 1.2em;
 }
 
+/* The whole name, on as many lines as it needs: a clamped name loses words, more so with larger text or wider
+   spacing (WCAG 1.4.4, 1.4.12). Cards in a row still line up (the grid stretches them). */
 .name {
-  display: -webkit-box;
   margin: 0;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
   font: 400 clamp(0.98rem, 1.6vw, 1.12rem) / 1.3 var(--serif);
   color: var(--cream);
   overflow-wrap: anywhere;

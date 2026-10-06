@@ -833,6 +833,33 @@
       "retry": "Riprova",
       "home": "Torna alla home",
       "reference": "Riferimento"
+    },
+    "a11y": {
+      "open": "Impostazioni di accessibilità",
+      "title": "Accessibilità",
+      "intro": "Cambia l’aspetto del sito per te. Le tue scelte restano solo in questo browser.",
+      "close": "Chiudi le impostazioni di accessibilità",
+      "textSize": "Dimensione del testo",
+      "contrast": "Contrasto elevato",
+      "contrastHint": "Sfondo nero, testo bianco e oro più luminoso.",
+      "links": "Sottolinea i link",
+      "motion": "Ferma le animazioni",
+      "motionHint": "Ferma le foto in movimento, il video e gli effetti di pagina.",
+      "motionSystem": "Il tuo dispositivo chiede già meno movimento, quindi nulla si muove da solo.",
+      "font": "Carattere leggibile",
+      "fontHint": "Un unico carattere semplice per titoli e testo.",
+      "spacing": "Testo più spaziato",
+      "spacingHint": "Più spazio tra righe, lettere e parole.",
+      "focus": "Contorno di focus marcato",
+      "focusHint": "Un contorno più spesso mostra dove si trova la tastiera.",
+      "cursor": "Puntatore grande",
+      "reset": "Ripristina",
+      "resetDone": "Il sito è tornato al suo aspetto originale.",
+      "statement": "Dichiarazione di accessibilità"
+    },
+    "motion": {
+      "pause": "Metti in pausa lo sfondo in movimento",
+      "play": "Riproduci lo sfondo in movimento"
     }
   },
   "pilgrim": {
@@ -847,6 +874,7 @@
       "shipping": "Spedizioni e resi",
       "privacy": "Informativa sulla privacy",
       "terms": "Condizioni d’uso",
+      "accessibility": "Accessibilità",
       "groupPlan": "Pianifica e scopri",
       "groupHelp": "Aiuto e note legali"
     },
@@ -1443,6 +1471,72 @@
           "contact": {
             "title": "Domande",
             "p1": "Scrivi a {email} o usa la pagina dei contatti."
+          }
+        }
+      },
+      "accessibility": {
+        "meta": {
+          "title": "Dichiarazione di accessibilità",
+          "description": "L’accessibilità di Nazareth Holy Cross: il livello WCAG 2.2 raggiunto, le impostazioni di accessibilità, i limiti noti e come contattare il nostro referente."
+        },
+        "title": "Dichiarazione di accessibilità",
+        "lead": "Vogliamo che tutti possano usare questo sito, qualunque siano le loro capacità, il loro dispositivo o la loro lingua.",
+        "sections": {
+          "commitment": {
+            "title": "Il nostro impegno",
+            "p1": "Nazareth Holy Cross è pensato per i pellegrini di tutto il mondo, molti dei quali anziani o che leggono dal telefono. Vogliamo che ogni visitatore possa accendere una candela, conoscere i luoghi santi, fare acquisti e donare con una tastiera, un lettore di schermo, una lente di ingrandimento o uno schermo tattile."
+          },
+          "status": {
+            "title": "Stato di conformità",
+            "p1": "Questo sito è parzialmente conforme alle Linee guida per l’accessibilità dei contenuti Web (WCAG) 2.2 al livello AA, lo stesso livello richiesto dallo standard israeliano IS 5568. Parzialmente conforme significa che le pagine che realizziamo raggiungono il livello AA nelle verifiche descritte sotto, mentre alcuni contenuti, elencati tra i limiti noti, non lo raggiungono ancora.",
+            "p2": "Questa dichiarazione riguarda il sito pubblico nazarethholycross.com in tutte le 14 lingue. È stata rivista l’ultima volta il {date}."
+          },
+          "settings": {
+            "title": "Impostazioni di accessibilità",
+            "p1": "Il pulsante con il simbolo dell’accessibilità, in alto in ogni pagina, apre impostazioni che valgono per tutto il sito e restano memorizzate in questo browser. Il pulsante di ripristino riporta tutto all’aspetto originale.",
+            "items": {
+              "text": "Dimensione del testo dal 100 al 200 per cento.",
+              "contrast": "Contrasto elevato: sfondo nero, testo bianco e oro più luminoso.",
+              "links": "Link sottolineati.",
+              "motion": "Animazioni, foto in movimento e video fermi. Se il tuo dispositivo chiede meno movimento, il sito lo rispetta già.",
+              "font": "Un carattere leggibile: un unico carattere semplice al posto dei titoli decorativi.",
+              "spacing": "Più spazio tra righe, lettere e parole.",
+              "focus": "Un contorno di focus marcato che mostra dove si trova la tastiera.",
+              "cursor": "Un puntatore del mouse grande."
+            }
+          },
+          "done": {
+            "title": "Che cosa abbiamo fatto",
+            "items": {
+              "keyboard": "Ogni pagina si può usare solo con la tastiera, con un contorno di focus visibile e un link che porta direttamente al contenuto principale.",
+              "structure": "Ogni pagina ha un titolo principale, titoli in ordine, aree con un nome e la lingua dichiarata, così i lettori di schermo la leggono correttamente.",
+              "contrast": "Testi e comandi rispettano i rapporti di contrasto delle WCAG, e ogni immagine ha un testo alternativo o è segnata come decorativa.",
+              "zoom": "Il testo si può ingrandire al 200 per cento e le pagine stanno in uno schermo largo 320 pixel senza scorrere di lato.",
+              "forms": "I moduli hanno etichette visibili, spiegano ogni errore a parole accanto al campo e conservano ciò che hai scritto.",
+              "motion": "Gli sfondi in movimento hanno un pulsante di pausa, e nulla si muove da solo per chi chiede meno movimento.",
+              "languages": "Le pagine in ebraico e in arabo sono rispecchiate da destra a sinistra, e pulsanti e link sono abbastanza grandi da toccare."
+            }
+          },
+          "limits": {
+            "title": "Limiti noti",
+            "p1": "Queste parti non raggiungono ancora del tutto il livello AA. Nel frattempo scrivici e ti aiuteremo in un altro modo.",
+            "items": {
+              "paypal": "Pagamento: i pulsanti e la finestra di pagamento di PayPal sono realizzati da PayPal e non possiamo modificarli. Se non riesci a usarli, scrivici e troveremo un altro modo per completare il tuo ordine o la tua offerta.",
+              "videos": "Video: le registrazioni delle trasmissioni passate e i video della pagina del tour non hanno ancora sottotitoli né trascrizioni.",
+              "translations": "Traduzioni: la maggior parte dei testi è stata tradotta con l’aiuto di un software ed è in attesa di revisione da parte di madrelingua, quindi alcune frasi possono risultare poco chiare.",
+              "external": "Altri servizi: le dirette, le mappe e i social network si aprono sui loro siti, di cui non controlliamo l’accessibilità.",
+              "photos": "Fotografie: le descrizioni indicano il luogo e il soggetto, ma non descrivono ogni dettaglio."
+            }
+          },
+          "testing": {
+            "title": "Come abbiamo verificato",
+            "p1": "Abbiamo provato ogni pagina in inglese, ebraico e arabo, su uno schermo di computer e su uno di telefono: in modo automatico con axe-core secondo le regole A e AA delle WCAG 2.2, e a mano con la tastiera, con il testo al 200 per cento, a 320 pixel di larghezza e con ciascuna impostazione di accessibilità attivata.",
+            "p2": "Non abbiamo ancora provato tutti i lettori di schermo, i browser e i dispositivi. Se qualcosa non funziona per te, faccelo sapere."
+          },
+          "contact": {
+            "title": "Contatta il referente per l’accessibilità",
+            "p1": "Se incontri un ostacolo nel sito, hai bisogno di informazioni in un altro formato o hai un suggerimento, scrivi al nostro referente per l’accessibilità all’indirizzo <mail>{email}</mail>. Indicaci la pagina in cui ti trovavi e che cosa stavi cercando di fare.",
+            "p2": "Leggiamo ogni messaggio e risponderemo il prima possibile."
           }
         }
       }

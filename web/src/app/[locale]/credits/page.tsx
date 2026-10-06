@@ -119,7 +119,10 @@ export default async function CreditsPage({ params }: PageProps<'/[locale]/credi
                       <dl className={styles.facts}>
                         <div>
                           <dt>{tm('credits.author')}</dt>
-                          <dd>{item.author}</dd>
+                          <dd>
+                            {/* Authors write their names in their own script: isolated, so Latin and Hebrew never reorder. */}
+                            <bdi>{item.author}</bdi>
+                          </dd>
                         </div>
                         <div>
                           <dt>{tm('credits.license')}</dt>

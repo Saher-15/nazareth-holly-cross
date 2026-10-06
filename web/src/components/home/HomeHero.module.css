@@ -79,8 +79,14 @@
 }
 
 .eyebrow {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--night) 72%, transparent);
   font-size: 0.85rem;
   color: var(--light-gold);
+  /* Small text on the photograph: a dark halo keeps it readable over the bright roofs (WCAG 1.4.3). */
+  text-shadow: 0 0 1px var(--night), 0 0 3px var(--night), 0 0 6px var(--night), 0 0 14px var(--night);
 }
 .title {
   margin: 0;
@@ -151,6 +157,10 @@
 .sound[aria-pressed='true'] {
   color: var(--gold);
   border-color: color-mix(in srgb, var(--gold) 55%, transparent);
+}
+/* The pause button of the moving background (<MotionToggle>) sits beside the sound button. */
+.motion {
+  inset-inline-end: 72px;
 }
 
 .scroll {

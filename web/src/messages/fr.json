@@ -833,6 +833,33 @@
       "retry": "Réessayer",
       "home": "Retour à l’accueil",
       "reference": "Référence"
+    },
+    "a11y": {
+      "open": "Paramètres d’accessibilité",
+      "title": "Accessibilité",
+      "intro": "Adaptez l’affichage du site à vos besoins. Vos choix restent uniquement dans ce navigateur.",
+      "close": "Fermer les paramètres d’accessibilité",
+      "textSize": "Taille du texte",
+      "contrast": "Contraste élevé",
+      "contrastHint": "Fond noir, texte blanc et doré plus lumineux.",
+      "links": "Souligner les liens",
+      "motion": "Arrêter les animations",
+      "motionHint": "Arrête les photos animées, le film et les effets de page.",
+      "motionSystem": "Votre appareil demande déjà moins d’animations \u0001 rien ne bouge tout seul.",
+      "font": "Police lisible",
+      "fontHint": "Une seule police simple pour les titres et le texte.",
+      "spacing": "Texte plus espacé",
+      "spacingHint": "Plus d’espace entre les lignes, les lettres et les mots.",
+      "focus": "Contour de focus renforcé",
+      "focusHint": "Un contour plus épais montre où se trouve le clavier.",
+      "cursor": "Grand pointeur",
+      "reset": "Réinitialiser",
+      "resetDone": "Le site a retrouvé son apparence d’origine.",
+      "statement": "Déclaration d’accessibilité"
+    },
+    "motion": {
+      "pause": "Mettre en pause l’arrière-plan animé",
+      "play": "Relancer l’arrière-plan animé"
     }
   },
   "pilgrim": {
@@ -847,6 +874,7 @@
       "shipping": "Livraison et retours",
       "privacy": "Politique de confidentialité",
       "terms": "Conditions d’utilisation",
+      "accessibility": "Accessibilité",
       "groupPlan": "Préparer et découvrir",
       "groupHelp": "Aide et mentions légales"
     },
@@ -1443,6 +1471,72 @@
           "contact": {
             "title": "Questions",
             "p1": "Écrivez à {email} ou utilisez la page de contact."
+          }
+        }
+      },
+      "accessibility": {
+        "meta": {
+          "title": "Déclaration d’accessibilité",
+          "description": "L’accessibilité de Nazareth Holy Cross \u0001 le niveau WCAG 2.2 atteint, les paramètres d’accessibilité, les limites connues et comment joindre notre référent accessibilité."
+        },
+        "title": "Déclaration d’accessibilité",
+        "lead": "Nous voulons que chacun puisse utiliser ce site, quels que soient ses capacités, son appareil ou sa langue.",
+        "sections": {
+          "commitment": {
+            "title": "Notre engagement",
+            "p1": "Nazareth Holy Cross s’adresse aux pèlerins du monde entier, dont beaucoup sont âgés ou lisent sur un téléphone. Nous voulons que chaque visiteur puisse allumer une bougie, découvrir les lieux saints, faire des achats et faire un don, avec un clavier, un lecteur d’écran, une loupe ou un écran tactile."
+          },
+          "status": {
+            "title": "État de conformité",
+            "p1": "Ce site est partiellement conforme aux Règles pour l’accessibilité des contenus Web (WCAG) 2.2, niveau AA, le niveau qu’exige aussi la norme israélienne IS 5568. Partiellement conforme signifie que les pages que nous réalisons atteignent le niveau AA lors des vérifications décrites ci-dessous, tandis qu’une partie du contenu, indiquée dans les limites connues, ne l’atteint pas encore.",
+            "p2": "Cette déclaration couvre le site public nazarethholycross.com dans ses 14 langues. Elle a été revue pour la dernière fois le {date}."
+          },
+          "settings": {
+            "title": "Paramètres d’accessibilité",
+            "p1": "Le bouton portant le symbole de l’accessibilité, en haut de chaque page, ouvre des paramètres qui s’appliquent à tout le site et sont mémorisés dans ce navigateur. Le bouton de réinitialisation rend au site son apparence d’origine.",
+            "items": {
+              "text": "Taille du texte de 100 à 200 pour cent.",
+              "contrast": "Contraste élevé \u0001 fond noir, texte blanc et doré plus lumineux.",
+              "links": "Liens soulignés.",
+              "motion": "Arrêt des animations, des photos animées et du film. Si votre appareil demande moins d’animations, le site le respecte déjà.",
+              "font": "Une police lisible \u0001 une seule police simple au lieu des titres décoratifs.",
+              "spacing": "Plus d’espace entre les lignes, les lettres et les mots.",
+              "focus": "Un contour de focus renforcé qui montre où se trouve le clavier.",
+              "cursor": "Un grand pointeur de souris."
+            }
+          },
+          "done": {
+            "title": "Ce que nous avons fait",
+            "items": {
+              "keyboard": "Chaque page s’utilise entièrement au clavier, avec un contour de focus visible et un lien d’accès direct au contenu principal.",
+              "structure": "Chaque page a un titre principal, des titres dans l’ordre, des zones nommées et sa langue déclarée, pour que les lecteurs d’écran la lisent correctement.",
+              "contrast": "Les textes et les commandes respectent les rapports de contraste des WCAG, et chaque image a une alternative textuelle ou est signalée comme décorative.",
+              "zoom": "Le texte peut être agrandi à 200 pour cent et les pages tiennent sur un écran de 320 pixels de large sans défilement horizontal.",
+              "forms": "Les formulaires ont des libellés visibles, expliquent chaque erreur en toutes lettres à côté du champ et conservent ce que vous avez saisi.",
+              "motion": "Les arrière-plans animés ont un bouton pause, et rien ne bouge tout seul pour les visiteurs qui demandent moins d’animations.",
+              "languages": "Les pages en hébreu et en arabe s’affichent de droite à gauche, et les boutons et les liens sont assez grands pour être touchés du doigt."
+            }
+          },
+          "limits": {
+            "title": "Limites connues",
+            "p1": "Ces éléments n’atteignent pas encore entièrement le niveau AA. En attendant, écrivez-nous et nous vous aiderons autrement.",
+            "items": {
+              "paypal": "Paiement \u0001 les boutons et la fenêtre de paiement PayPal sont conçus par PayPal et nous ne pouvons pas les modifier. Si vous ne pouvez pas les utiliser, écrivez-nous et nous trouverons un autre moyen de finaliser votre commande ou votre don.",
+              "videos": "Vidéos \u0001 les enregistrements des diffusions passées et les films de la page de visite n’ont pas encore de sous-titres ni de transcription.",
+              "translations": "Traductions \u0001 la plupart des textes ont été traduits à l’aide d’un logiciel et attendent la relecture de locuteurs natifs \u0001 certaines formulations peuvent donc manquer de clarté.",
+              "external": "Autres services \u0001 les diffusions en direct, les cartes et les réseaux sociaux s’ouvrent sur leurs propres sites, dont nous ne maîtrisons pas l’accessibilité.",
+              "photos": "Photographies \u0001 leurs descriptions indiquent le lieu et le sujet, sans décrire chaque détail."
+            }
+          },
+          "testing": {
+            "title": "Comment nous avons vérifié",
+            "p1": "Nous avons testé chaque page en anglais, en hébreu et en arabe, sur un écran d’ordinateur et un écran de téléphone \u0001 automatiquement avec axe-core selon les règles WCAG 2.2 A et AA, et manuellement au clavier, avec un texte à 200 pour cent, à 320 pixels de large et avec chaque paramètre d’accessibilité activé.",
+            "p2": "Nous n’avons pas encore testé tous les lecteurs d’écran, navigateurs et appareils. Si quelque chose ne fonctionne pas pour vous, dites-le-nous."
+          },
+          "contact": {
+            "title": "Contacter le référent accessibilité",
+            "p1": "Si vous rencontrez un obstacle sur le site, avez besoin d’une information sous une autre forme ou avez une suggestion, écrivez à notre référent accessibilité à l’adresse <mail>{email}</mail>. Indiquez-nous la page concernée et ce que vous cherchiez à faire.",
+            "p2": "Nous lisons chaque message et vous répondrons dès que possible."
           }
         }
       }

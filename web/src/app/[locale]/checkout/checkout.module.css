@@ -77,14 +77,9 @@
   flex: 1;
   min-width: 0;
 }
-/* Names wrap (at most two lines) instead of being cut: a cut Latin name on a
-   right-to-left page would lose its first letters. */
+/* Names wrap instead of being cut: a cut Latin name on a right-to-left page would lose its first letters, and a
+   clamped one loses words with larger text or wider spacing (WCAG 1.4.12). */
 .itemName {
-  display: -webkit-box;
-  overflow: hidden;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
   color: var(--cream);
   font-weight: 700;
   line-height: 1.35;

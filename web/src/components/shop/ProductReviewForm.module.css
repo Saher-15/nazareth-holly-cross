@@ -54,7 +54,8 @@
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  color: color-mix(in srgb, var(--cream) 30%, transparent);
+  /* An unchosen star is still a control: at least 3:1 against the card (WCAG 1.4.11; it was 2.3:1). */
+  color: color-mix(in srgb, var(--cream) 62%, transparent);
   font-family: var(--symbols); /* the star glyph, not the page font */
   font-size: 1.9rem;
   line-height: 1;

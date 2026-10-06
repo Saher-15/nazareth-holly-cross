@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import MediaPicture from '@/components/media/MediaPicture';
 import Flame from '@/components/ui/Flame';
+import MotionToggle from '@/components/ui/MotionToggle';
 import { getMedia, mediaDefaultFile, mediaShareFile } from '@/data/media';
 import HeroVideo from './HeroVideo';
 import SoundToggle from './SoundToggle';
@@ -21,7 +22,7 @@ export default function HomeHero({ nextSectionId }: { nextSectionId: string }) {
   const t = useTranslations();
 
   return (
-    <section id={HERO_ID} className={styles.hero} aria-labelledby="home-title">
+    <section id={HERO_ID} className={styles.hero} aria-labelledby="home-title" data-motion-scope="">
       <div className={styles.media}>
         <MediaPicture className={styles.poster} item={HERO_MEDIA} alt="" sizes="(max-width: 767px) 700px, 100vw" lean fill priority />
         <HeroVideo poster={mediaDefaultFile(HERO_MEDIA)} />
@@ -53,6 +54,7 @@ export default function HomeHero({ nextSectionId }: { nextSectionId: string }) {
         </Link>
       </div>
 
+      <MotionToggle className={`${styles.sound} ${styles.motion}`} />
       <SoundToggle />
 
       <a className={styles.scroll} href={`#${nextSectionId}`}>
