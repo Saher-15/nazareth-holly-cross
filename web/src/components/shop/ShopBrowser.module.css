@@ -34,7 +34,6 @@
   border: 1px solid var(--glass-line);
   background: color-mix(in srgb, var(--night-2) 84%, transparent);
   backdrop-filter: blur(16px) saturate(1.2);
-  -webkit-backdrop-filter: blur(16px) saturate(1.2);
   box-shadow: var(--shadow);
 }
 
@@ -56,6 +55,12 @@
   min-height: 46px;
   padding-inline: 44px 44px;
   border-radius: 999px;
+  text-overflow: ellipsis;
+}
+/* The end padding makes room for the clear button, which only exists once something is typed: on a phone the
+   placeholder needs that room ("Search products..." was cut after "Search pro" at 375px). */
+.search .input:placeholder-shown {
+  padding-inline-end: 14px;
 }
 .search .input::-webkit-search-cancel-button {
   appearance: none;

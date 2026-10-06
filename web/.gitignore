@@ -43,3 +43,6 @@ next-env.d.ts
 /test-results/
 /playwright-report/
 /playwright/.cache/
+
+# screenshots of the responsive review (tests/e2e/responsive.spec.ts, RESPONSIVE_SHOTS)
+/responsive-shots/
