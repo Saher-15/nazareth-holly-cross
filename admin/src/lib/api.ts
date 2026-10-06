@@ -139,6 +139,8 @@ export type Contact = z.infer<typeof contactSchema>;
 
 export const siteReviewSchema = doc({
   fullName: z.string(),
+  // Where the reviewer is from (reviews written before 2026-10-06 keep it in email).
+  place: z.string().nullish(),
   email: z.string().nullish(),
   phone: z.string().nullish(),
   msg: z.string(),
