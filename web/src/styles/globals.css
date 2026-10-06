@@ -9,6 +9,9 @@ html {
   scroll-behavior: smooth;
   /* In-page links and focus jumps land below the sticky header, never under it. */
   scroll-padding-top: var(--scroll-offset);
+  /* ... and above the floating back-to-top button (48px at the bottom corner, BackToTop.module.css): an element the
+     keyboard reaches at the bottom edge is never hidden under it (WCAG 2.4.11; found on /ar/faq with CI's fonts). */
+  scroll-padding-bottom: calc(48px + 2 * var(--space-4) + env(safe-area-inset-bottom, 0px));
   scrollbar-color: color-mix(in srgb, var(--gold) 45%, var(--night-3)) var(--night);
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
