@@ -193,3 +193,18 @@ describe('signing in with the e-mail address', () => {
     for (const { filter } of allFilters().filter((f) => f.name === 'Admin')) expect(sanitizeChanges(filter)).toBeNull();
   });
 });
+
+describe('a slow or failing mail server', () => {
+  it('does not delay the answer, and a failed mail is audited', async () => {
+    seedAdmin({ username: 'slow', email: 'slow@example.com' });
+    let finish;
+    sendMail.mockImplementationOnce(() => new Promise((resolve) => { finish = resolve; }));
+    const started = Date.now();
+    const res = await forgot('slow@example.com');
+    expect(res.status).toBe(202);
+    expect(Date.now() - started).toBeLessThan(2000);
+    finish(false);
+    await new Promise((r) => setTimeout(r, 50));
+    expect(audits('auth.password_reset_mail_failed')).toHaveLength(1);
+  });
+});
