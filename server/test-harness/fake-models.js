@@ -300,8 +300,8 @@ export const quickHash = (password) => bcrypt.hashSync(password, 4);
 // The Admin model as the routes see it: schema defaults, comparePassword, the hidden TOTP secret, and the save hook
 // (a plain password is hashed unless the caller marked it as already hashed).
 export const fakeAdminModule = () => fakeModule('Admin', {
-  hidden: ['totpSecretEnc'],
-  defaults: { role: 'owner', disabled: false, failedLogins: 0, lockedUntil: null, totpEnabled: false, totpLastStep: -1, lastLoginAt: null },
+  hidden: ['totpSecretEnc', 'resetTokenHash'],
+  defaults: { role: 'owner', disabled: false, failedLogins: 0, lockedUntil: null, totpEnabled: false, totpLastStep: -1, lastLoginAt: null, resetTokenHash: null, resetTokenExpires: null },
   methods: { comparePassword(password) { return bcrypt.compare(password, this.password); } },
   onSave: async (doc) => { if (!doc.$locals.passwordHashed && !String(doc.password).startsWith('$2')) doc.password = quickHash(doc.password); },
 });
