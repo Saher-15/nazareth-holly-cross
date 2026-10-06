@@ -233,10 +233,13 @@ test.describe('form errors are identified in words and linked to their field (WC
         await page.goto(`/${locale}${path}`);
         await page.waitForLoadState('load');
         const submit = page.locator('main form button[type="submit"]').first();
-        await submit.click();
         // Nothing reaches the API: the browser checks the fields first (and every request off localhost is aborted).
         const invalid = page.locator('main [aria-invalid="true"]');
-        await expect(invalid.first(), path).toBeVisible();
+        // A click before React has hydrated the form does nothing yet (seen under load): click again until it answers.
+        await expect(async () => {
+          await submit.click();
+          await expect(invalid.first(), path).toBeVisible({ timeout: 1500 });
+        }).toPass({ timeout: 15_000 });
         const problems = await invalid.evaluateAll((fields) =>
           fields.flatMap((field) => {
             const ids = (field.getAttribute('aria-describedby') ?? '').split(/\s+/).filter(Boolean);
@@ -298,8 +301,15 @@ test('focus is never hidden under the sticky header or a floating button (WCAG 2
         return { name: (el.getAttribute('aria-label') || el.textContent || el.tagName).trim().slice(0, 40), covered: !seen };
       });
       if (state?.covered) {
-        // Something that slides in on focus (the skip link) gets the time of its transition.
+        // Something that slides in on focus (the skip link) gets the time of its transition, and a long Tab jump the time
+        // of the page's smooth scroll (html { scroll-behavior: smooth }): judge once the page has stopped moving.
         await page.waitForTimeout(400);
+        for (let settle = 0, last = -1; settle < 20; settle += 1) {
+          const y = await page.evaluate(() => scrollY);
+          if (y === last) break;
+          last = y;
+          await page.waitForTimeout(100);
+        }
         const again = await page.evaluate(() => {
           const el = document.activeElement as HTMLElement;
           const r = el.getBoundingClientRect();

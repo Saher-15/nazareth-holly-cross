@@ -189,6 +189,9 @@
 /* ---- scroll reveal (components/ui/Reveal.tsx) ---- */
 .ui-reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.8s ease, transform 0.8s var(--ease-out); }
 .ui-reveal.is-in { opacity: 1; transform: none; }
+/* Keyboard focus inside a section that has not faded in yet (a Tab jump to its link) shows it at once and in place:
+   a focused link must never be invisible or pushed under the next section (WCAG 2.4.7, 2.4.11; found on /ar/faq). */
+.ui-reveal:focus-within { opacity: 1; transform: none; transition: none; }
 /* Without scripting nothing would ever reveal the sections, so show them. */
 @media (scripting: none) {
   .ui-reveal { opacity: 1; transform: none; transition: none; }
