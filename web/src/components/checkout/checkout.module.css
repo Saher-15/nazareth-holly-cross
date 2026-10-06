@@ -68,8 +68,9 @@
 .stepDot {
   display: grid;
   place-items: center;
-  width: 32px;
-  height: 32px;
+  /* Grows with the digit when the text is enlarged (accessibility panel), so it never spills out of the circle. */
+  width: max(32px, 2.2em);
+  height: max(32px, 2.2em);
   border-radius: 50%;
   border: 1px solid var(--glass-line);
   background: var(--glass);

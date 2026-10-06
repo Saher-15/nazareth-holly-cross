@@ -264,6 +264,17 @@ describe('<A11yPanel>', () => {
     outside.remove();
   });
 
+  it('puts the settings back when something else drops them from <html> (React re-rendering the root)', async () => {
+    saveSettings({ ...DEFAULT_SETTINGS, contrast: true });
+    render(withIntl(<A11yPanel />));
+    expect(root().getAttribute('data-a11y-contrast')).toBe('high');
+    root().removeAttribute('data-a11y-contrast');
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 0));
+    });
+    expect(root().getAttribute('data-a11y-contrast')).toBe('high');
+  });
+
   it('shows the stored settings and marks the button when something is on', () => {
     saveSettings({ ...DEFAULT_SETTINGS, spacing: true, text: 125 });
     open();

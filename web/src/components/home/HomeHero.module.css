@@ -79,10 +79,14 @@
 }
 
 .eyebrow {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--night) 72%, transparent);
   font-size: 0.85rem;
   color: var(--light-gold);
   /* Small text on the photograph: a dark halo keeps it readable over the bright roofs (WCAG 1.4.3). */
-  text-shadow: 0 0 2px var(--night), 0 1px 3px color-mix(in srgb, black 75%, transparent), 0 0 14px var(--night);
+  text-shadow: 0 0 1px var(--night), 0 0 3px var(--night), 0 0 6px var(--night), 0 0 14px var(--night);
 }
 .title {
   margin: 0;

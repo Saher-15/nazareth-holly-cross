@@ -6,7 +6,7 @@
 //      element shows an outline or shadow and is not entirely covered by the sticky header or a floating button;
 //   3. text spacing (1.4.12): the WCAG test values are forced on every element and clipped text is reported.
 //   QA_BASE=http://localhost:3871 PW_CHANNEL=msedge node tests/qa/a11y-probe.mjs
-//   [QA_LOCALES=en,he] [QA_CHECKS=contrast,focus,spacing] [QA_ROUTES=/,/candle] [QA_SETTINGS=all] [QA_OUT=dir]
+//   [QA_LOCALES=en,he] [QA_CHECKS=contrast,focus,spacing] [QA_ROUTES=/,/candle] [QA_SETTINGS=all] [QA_VIEWPORTS=phone] [QA_OUT=dir]
 // Every request that leaves the local server is aborted.
 import AxeBuilder from '@axe-core/playwright';
 import { chromium } from '@playwright/test';
@@ -16,7 +16,8 @@ const BASE = process.env.QA_BASE ?? 'http://localhost:3871';
 const OUT = process.env.QA_OUT ?? './qa-report';
 const LOCALES = (process.env.QA_LOCALES ?? 'en,he,ar').split(',');
 const CHECKS = (process.env.QA_CHECKS ?? 'contrast,focus,spacing').split(',');
-const VPS = { desktop: { width: 1366, height: 768 }, phone: { width: 390, height: 844 } };
+const ALL_VPS = { desktop: { width: 1366, height: 768 }, phone: { width: 390, height: 844 } };
+const VPS = Object.fromEntries(Object.entries(ALL_VPS).filter(([name]) => (process.env.QA_VIEWPORTS ?? 'desktop,phone').split(',').includes(name)));
 const ROUTES = (process.env.QA_ROUTES ?? [
   '/', '/sites', '/sites/latin', '/sites/greek', '/sites/maryswell', '/sites/oldcity', '/sites/city', '/tour', '/about',
   '/candle', '/donate', '/checkout', '/cart', '/wishlist', '/shop', '/reviews', '/live', '/plan', '/visit', '/gospel',

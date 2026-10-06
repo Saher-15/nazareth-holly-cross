@@ -30,9 +30,10 @@
 
 .count {
   display: inline-grid;
+  flex: none; /* never squeezed by a long label next to it */
   place-items: center;
   min-width: 24px;
-  height: 24px;
+  min-height: 24px; /* grows with the text (200% text from the accessibility panel) instead of letting it spill out */
   padding: 0 6px;
   border-radius: 999px;
   background: linear-gradient(135deg, color-mix(in srgb, var(--gold) 55%, var(--cream)), var(--gold) 55%, var(--gold-deep));

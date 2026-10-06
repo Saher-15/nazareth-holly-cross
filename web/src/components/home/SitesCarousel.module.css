@@ -122,6 +122,8 @@
 .name {
   font: 400 1.5rem / 1.15 var(--serif);
   color: var(--cream);
+  /* Text on a photograph: a dark halo keeps it readable where the photo is bright (WCAG 1.4.3). */
+  text-shadow: 0 0 2px var(--night), 0 0 6px var(--night), 0 0 14px var(--night);
 }
 .go {
   display: inline-flex;
@@ -167,4 +169,22 @@
   .card:hover .img {
     transform: none;
   }
+}
+
+/* Larger text, wider spacing or high contrast (accessibility panel): the name may grow up into the bright part of the
+   photo, so the text sits on a dark panel of its own. */
+:global(:root:is([data-a11y-text], [data-a11y-spacing], [data-a11y-contrast])) .body {
+  background: color-mix(in srgb, var(--night) 82%, transparent);
+}
+
+/* Larger text or wider spacing: the card grows with its name instead of cutting it (the photo still fills it). */
+:global(:root:is([data-a11y-text], [data-a11y-spacing])) .card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  aspect-ratio: auto;
+  min-height: 260px;
+}
+:global(:root:is([data-a11y-text], [data-a11y-spacing])) .body {
+  position: relative;
 }

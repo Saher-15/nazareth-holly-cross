@@ -14,9 +14,10 @@
 }
 .count {
   display: inline-grid;
+  flex: none; /* never squeezed by a long label next to it */
   place-items: center;
   min-width: 30px;
-  height: 26px;
+  min-height: 26px; /* grows with the text (200% text from the accessibility panel) instead of letting it spill out */
   padding: 0 8px;
   border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--gold) 40%, transparent);
@@ -108,10 +109,10 @@
   border-top: 1px solid var(--glass-strong);
 }
 .avatar {
-  flex: 0 0 40px;
+  flex: 0 0 max(40px, 2.2em);
   display: grid;
   place-items: center;
-  height: 40px;
+  height: max(40px, 2.2em); /* grows with the text (200% text from the accessibility panel) instead of letting it spill out */
   border-radius: 50%;
   border: 1px solid color-mix(in srgb, var(--gold) 45%, transparent);
   background: var(--gold-soft);

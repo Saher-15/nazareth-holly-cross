@@ -761,7 +761,7 @@ every pressable thing is at least `--tap` (44px) tall and wide. Reuse before you
 | `.ui-hero__title` | The page's `<h1>` | One per page |
 | `.ui-hero__lead` | Intro under the title, `max-width: 640px`, cream with a dark halo (it sits on a photograph; the hero's eyebrow gets the same halo) | Muted text on a photo fell under 4.5:1 (`docs/ACCESSIBILITY.md`) |
 | `.ui-hero__action` | Spacing for a button under the lead | |
-| `.ui-eyebrow` | Small gold uppercase label above a title | In Hebrew and Arabic: no letter-spacing |
+| `.ui-eyebrow` | Small gold uppercase label above a title | In Hebrew and Arabic: no letter-spacing. In a `.ui-hero` (on a photograph) it sits on a dark pill with a halo, so it stays at 4.5:1 over any photo |
 | `.ui-h2`, `.ui-h3` | Section and sub-section headings | Use the heading element that fits the outline; the class only styles |
 | `.ui-muted` | Secondary text colour | |
 | `.ui-prose` | Reading text block, 68ch, children spaced `--space-4` | |
@@ -942,6 +942,12 @@ Rules:
   size works by itself), no fixed heights on text, no `text-overflow: ellipsis` or line clamp on content that has
   no other place to be read (product, cart and photo names wrap instead: `<ProductCard>`, the checkout summary,
   `<Lightbox>`), and a `prefers-reduced-motion` branch for any animation (the stop-animations mode covers the rest).
+- **Large text changes some layouts** (150% and more; the selectors are `:root:is([data-a11y-text='150'], ...)` in
+  the component's own stylesheet): the header uses its drawer and, on phones, shows only the cross; the shop's search
+  bar stacks and stops sticking; the floating "Light a candle" pill is left out; the candle form shows one church per
+  row and the donation form two amounts per row; photo cards grow with their text on a dark panel; and under any text
+  size or spacing mode words may break anywhere (`overflow-wrap: anywhere` on `body`). Circles and pills that hold
+  digits use `min-height` or `max(…px, …em)`, never a fixed height, so the digits never spill out.
 - **Moving backgrounds** get a `<MotionToggle>` inside an element marked `data-motion-scope` (the home hero and
   `<PlaceHero>` have one): it pauses the CSS animations in the scope (`[data-motion-paused]` in
   `web/src/styles/globals.css`) and the hero film.

@@ -68,7 +68,6 @@
   color: var(--gold);
   font-size: 1.2rem;
   backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
 }
 
 .thumbs {
@@ -174,7 +173,8 @@
 .design {
   min-width: 44px;
   width: auto;
-  height: 44px;
+  height: auto;
+  min-height: 44px; /* grows with the text (200% text from the accessibility panel) instead of letting it spill out */
   padding: 0 12px;
   border-radius: 999px;
   background: var(--glass);

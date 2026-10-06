@@ -94,7 +94,7 @@
 
 /* Empty stars at 3:1 or more against the panel, so the shape of the rating can be seen (WCAG 1.4.11). */
 .stars {
-  color: color-mix(in srgb, var(--cream) 50%, transparent);
+  color: color-mix(in srgb, var(--cream) 62%, transparent);
   font-family: var(--symbols); /* the star glyph, not the page font */
   letter-spacing: 1px;
 }

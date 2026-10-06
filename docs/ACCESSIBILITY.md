@@ -88,7 +88,9 @@ cannot make and from reading the code.
 | 2.2.2 | The live countdown changes every second | `/live` | without seconds (changes once a minute) for visitors who asked for less motion |
 | 1.4.3 Contrast | Small gold eyebrows on hero photographs measured 1.9 to 4.4:1 over their brightest parts | 12 pages (home, sites, tour, plan, visit, gospel, prayers, contact, candle, privacy, terms, shipping and returns), 18 page/language findings in en and he | dark text halo on hero eyebrows |
 | 1.4.3 | Muted hero leads on photographs measured 4.28 and 4.32:1 | gallery, prayers | hero leads cream with the same halo |
-| 1.4.11 Non-text contrast | Empty stars of the shop's rating filter at 2.3:1 | shop filters (4 options x 2 languages) | 50% cream, above 3:1 (the text "4 stars and up" carries the meaning anyway) |
+| 1.4.3 | Holy-site names on the photo cards ("More holy sites") measured 4.1:1 on a phone | 6 pages with `<PlaceCards>` | dark halo on card names (also on the home carousel) |
+| 1.4.11 Non-text contrast | Empty stars of the shop's rating filter at 2.3:1; unchosen stars of the product review form (a control) at 2.3:1 | shop filters (4 options x 2 languages), product review form | 62% cream, above 3:1 (the filter's text "4 stars and up" carries the meaning anyway) |
+| 1.4.4 Resize text | With the text alone enlarged to 200% (the panel, or a browser's minimum font size), digits spilled out of fixed-size circles and pills and sat dark on dark (candle steps, checkout/donate step dots, cart count, filter count, review count, reviewer initials, photo count, product design chips); names on photo cards grew over the bright part of the photo; the brand name filled a quarter of a phone screen | candle, checkout, donate, shop, product, reviews, holy sites, home | circles and pills grow with their text (`max(…px, …em)`, `min-height`); card text on its own dark panel when a panel mode is on; brand name visually hidden on phones at large text (the link keeps its name) |
 | 1.4.10 Reflow / 1.4.4 | The header bar was wider than its container in Russian (64 px from 1320 px, 15 px at 1101 to 1116 px) and Ukrainian (49 px from 1240 px): the language button sat outside the page column | header, ru and uk | drawer at 1180 px and below; no bar Donate for pl, ru, el, uk, nl; phone header fits down to 320 px; a test for all 14 languages |
 | 1.4.12 Text spacing | Product names clamped to two lines (shop cards, checkout summary), souvenir names and the photo viewer's title cut with an ellipsis, the brand name cut with an ellipsis on phones (from the wrong end in Hebrew and Arabic) | shop, cart/checkout, home, viewer, header | names wrap; the brand name wraps onto two lines |
 | 2.4.7 / 2.4.11 Focus | none: 7518 focus stops on every route in en, he, ar at both widths, each with a visible ring and never entirely hidden | | |
@@ -96,10 +98,30 @@ cannot make and from reading the code.
 | 3.1.2 Language of parts | none required: the language names in the menus carry `lang`; photographers' names in Hebrew script on the English credits page are proper names (exempt) and are now isolated with `<bdi>` | `/credits` | `<bdi>` |
 | Exempt (decorative) | The large outlined "404" and the faint "01"-"05" numbers on the holy-sites index measure under 3:1; both are `aria-hidden` decoration | | none |
 | Not WCAG (site rule) | Dates on the legal pages in Arabic used Arabic-Indic digits (the site uses 0-9 everywhere) | privacy, terms, shipping in ar | `numberingSystem: 'latn'` |
+| Not WCAG (build pitfall) | Four shop stylesheets still had a hand-written `-webkit-backdrop-filter` twin, which the production minifier keeps instead of the standard property (`docs/DESIGN-GUIDE.md` section 13) | shop bar, product, zoom, wishlist button | twins removed |
 
 ### 4.2 After the changes
 
-RESULTS_AFTER
+Measured on the final build of the branch (`next build` + `next start`, Microsoft Edge 1366 x 768 and 390 x 844 /
+Pixel 7), with every request leaving the local server aborted:
+
+| Check | Scope | Result |
+|---|---|---|
+| axe-core, WCAG 2.0/2.1/2.2 A and AA | 34 pages x en, he, ar x desktop and phone, plain and with every panel mode on: 408 page scans (`a11y-audit.mjs`), and the same in `a11y.spec.ts` | 0 violations |
+| Reflow at 320 px | 32 routes x en, he, ar, plain and with every mode: 192 page loads | 0 pages scroll sideways (the two data tables scroll inside their own box) |
+| Text on photographs, gradients and glass (1.4.3, 1.4.11) | 12,670 text nodes, en and he, both widths, plain | 0 below 4.5:1 (3:1 for large text), except the two `aria-hidden` decorative numerals (exempt) |
+| The same with every panel mode on (200% text, high contrast, spacing ...) | 9,247 text nodes, en and ar, both widths; then the 12 routes that had findings again on a phone (1,720 nodes) | the findings of the first run (text spilling out of circles and pills, card names over the bright photo, a floating button covering text) fixed; 0 in the re-run |
+| Focus visible and not obscured (2.4.7, 2.4.11) | 7,518 focus stops, every route x en, he, ar x both widths | 0 problems |
+| Text spacing (1.4.12) | 124 page loads (en, he, both widths) with the WCAG values forced; 24 more on a phone with 200% text and every mode on top | 0 pieces of text cut off |
+| Forms (3.3.1, 3.3.3) | 6 forms x en, ar x both widths | every error in words, linked, focus moved; axe clean |
+| Unit tests | `web/tests/unit/a11y.test.tsx` | 33 passed (all 646 unit tests pass) |
+| End-to-end | `web/tests/e2e/a11y.spec.ts` | 32 passed, 2 skipped by design (the header-width and focus tests run on the desktop project only); the whole suite: 679 passed, 27 skipped, 0 failed |
+
+Large text needed layout changes beyond the colours (all only while the panel's text size is 150% or more): the
+header uses its drawer and hides the brand name on phones, the shop's search bar stacks and stops sticking to the
+top, the floating "Light a candle" pill is left out (the same link is in the hero and the menu), the candle form
+shows one church per row and the donation form two amounts per row, photo cards grow with their text on a dark
+panel, and words may break anywhere so nothing is pushed wider than the screen.
 
 ## 5. Known gaps and limits (also in the public statement)
 

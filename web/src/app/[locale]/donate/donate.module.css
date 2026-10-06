@@ -85,6 +85,10 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+/* Large text (accessibility panel): two amounts per row, so "$100" is never cut. */
+:global(:root:is([data-a11y-text='150'], [data-a11y-text='175'], [data-a11y-text='200'])) .chips {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
 @media (prefers-reduced-motion: reduce) {
   .chip {
     transition: none;

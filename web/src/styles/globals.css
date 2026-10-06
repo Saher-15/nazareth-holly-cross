@@ -100,6 +100,9 @@ h1, h2, h3, .ui-hero__title, .ui-h2, .ui-h3 { hyphens: auto; overflow-wrap: brea
 :root[data-a11y-text='175'] { font-size: 175%; }
 :root[data-a11y-text='200'] { font-size: 200%; }
 :root[data-a11y-text] { --header-h: calc(56px + 0.75rem); }
+/* Large text or wide spacing on a narrow screen: an e-mail address or a long word may break anywhere, so no box is
+   pushed wider than the screen by a word it cannot wrap (WCAG 1.4.10 together with 1.4.4 and 1.4.12). */
+:root:is([data-a11y-text], [data-a11y-spacing]) body { overflow-wrap: anywhere; }
 
 /* Underline every link, not only the ones inside text. */
 :root[data-a11y-links='underline'] a[href] {

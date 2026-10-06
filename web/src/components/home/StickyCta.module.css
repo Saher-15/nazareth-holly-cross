@@ -34,6 +34,12 @@
   }
 }
 
+/* Large text (accessibility panel): a floating pill that size would cover the text being read. The same "light a
+   candle" link is in the hero and the menu, so it is left out. */
+:global(:root:is([data-a11y-text='150'], [data-a11y-text='175'], [data-a11y-text='200'])) .sticky {
+  display: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .sticky,
   .shown {

@@ -23,7 +23,6 @@
 .dialog::backdrop {
   background: color-mix(in srgb, var(--night) 92%, transparent);
   backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
 }
 
 /* keep the page behind from scrolling while the photo is open */
