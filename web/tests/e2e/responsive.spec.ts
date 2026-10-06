@@ -225,8 +225,8 @@ for (const vp of SMALL) {
         await page.locator('button[aria-controls="main-nav"]').click();
         const nav = page.locator('#main-nav');
         await expectFits(page, nav, 'main menu');
-        // the last entry of the menu can be reached
-        const last = nav.locator('a, button').last();
+        // the last entry of the menu can be reached (the search row is only in the menu of narrow phones)
+        const last = nav.locator('a, button').filter({ visible: true }).last();
         await last.scrollIntoViewIfNeeded();
         await expect(last).toBeInViewport();
         await page.keyboard.press('Escape');
@@ -274,7 +274,7 @@ for (const vp of SMALL) {
 
         await page.goto(`/${locale}/sites/latin`);
         await settle(page);
-        await page.locator('main button[aria-haspopup="dialog"]').first().click(); // main: the header's accessibility button opens a dialog too
+        await page.locator('main button[aria-haspopup="dialog"]').first().click(); // main: the header's search and the accessibility button open dialogs too
         const viewer = page.getByRole('dialog').first();
         await expect(viewer).toBeVisible();
         const img = viewer.locator('img').first();

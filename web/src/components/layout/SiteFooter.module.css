@@ -178,9 +178,11 @@
   border-radius: 50%;
 }
 
+/* The last line keeps clear of the two floating corner buttons (48px, 16px from the bottom), so at the end of the
+   page nothing of the footer sits under them. */
 .rights {
   margin: 0;
-  padding: var(--space-4) var(--space-4) var(--space-5);
+  padding: var(--space-4) var(--space-4) calc(48px + 2 * var(--space-4) + env(safe-area-inset-bottom, 0px));
   border-top: 1px solid var(--glass-line);
   text-align: center;
   font-size: 0.85rem;

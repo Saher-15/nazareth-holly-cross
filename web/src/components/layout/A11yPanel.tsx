@@ -23,18 +23,21 @@ import { subscribeMotion, systemReducesMotion } from '@/lib/motion';
 import styles from './A11yPanel.module.css';
 
 
-// The accessibility settings: a button in the site header that opens a small non-modal dialog with the text size,
-// high contrast, underlined links, stopped animations, a readable font, text spacing, a strong focus ring and a
-// large pointer (lib/a11y.ts applies and stores them; the CSS lives in tokens.css and globals.css).
+// The accessibility settings: a round button with the international accessibility sign, floating in the bottom
+// corner of every page at the start of the line (left in English, right in Hebrew and Arabic; the back-to-top button
+// has the other corner), that opens a small non-modal dialog above itself with the text size, high contrast,
+// underlined links, stopped animations, a readable font, text spacing, a strong focus ring and a large pointer
+// (lib/a11y.ts applies and stores them; the CSS lives in tokens.css and globals.css). It is rendered right after the
+// site header (app/[locale]/layout.tsx), so the keyboard reaches it early, inside its own labelled landmark.
 // Keyboard: the button opens it and the focus moves to the text size; Tab walks through the controls; Escape or
 // the close button closes it and gives the focus back to the button; moving the focus or clicking elsewhere closes
 // it too. Every control is a real radio button or check box (a switch), so screen readers announce their state.
-export default function A11yPanel({ onOpen }: { onOpen?: () => void }) {
+export default function A11yPanel() {
   const t = useTranslations('ux.a11y');
   const format = useFormatter();
   const [open, setOpen] = useState(false);
   const [announcement, setAnnouncement] = useState('');
-  const rootRef = useRef<HTMLDivElement>(null);
+  const rootRef = useRef<HTMLElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const panelId = useId();
@@ -87,7 +90,7 @@ export default function A11yPanel({ onOpen }: { onOpen?: () => void }) {
     setAnnouncement(t('resetDone'));
   };
 
-  const onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+  const onKeyDown = (e: KeyboardEvent<HTMLElement>) => {
     if (e.key === 'Escape' && open) {
       e.preventDefault();
       e.stopPropagation();
@@ -116,7 +119,8 @@ export default function A11yPanel({ onOpen }: { onOpen?: () => void }) {
   const percent = (size: TextSize) => format.number(size / 100, { style: 'percent', numberingSystem: 'latn' });
 
   return (
-    <div className={styles.root} ref={rootRef} onKeyDown={onKeyDown}>
+    // data-floating: the phone menu makes it inert while it covers the page (SiteHeader.tsx).
+    <aside className={styles.root} ref={rootRef} onKeyDown={onKeyDown} aria-label={t('title')} data-floating="" data-print="hide">
       <button
         ref={triggerRef}
         type="button"
@@ -126,12 +130,9 @@ export default function A11yPanel({ onOpen }: { onOpen?: () => void }) {
         aria-haspopup="dialog"
         aria-label={t('open')}
         data-a11y-active={isDefault(settings) ? undefined : 'true'}
-        onClick={() => {
-          if (!open) onOpen?.();
-          setOpen((v) => !v);
-        }}
+        onClick={() => setOpen((v) => !v)}
       >
-        <AccessibilityIcon size={22} />
+        <AccessibilityIcon size={26} />
       </button>
 
       {open && (
@@ -204,6 +205,6 @@ export default function A11yPanel({ onOpen }: { onOpen?: () => void }) {
           </p>
         </div>
       )}
-    </div>
+    </aside>
   );
 }

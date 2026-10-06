@@ -2,6 +2,7 @@ import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
 import { locales } from '../../src/i18n/routing';
 import en from '../../src/messages/en.json';
+import ar from '../../src/messages/ar.json';
 import he from '../../src/messages/he.json';
 
 // WCAG 2.2 AA on every public page (docs/ACCESSIBILITY.md): axe-core with the WCAG A/AA tags on every route in
@@ -80,9 +81,12 @@ test.describe('the accessibility panel', () => {
     await offline(page);
   });
 
-  test('opens from the header with the keyboard, works, and closes with Escape', async ({ page }) => {
+  test('opens from its floating button with the keyboard, works, and closes with Escape', async ({ page }) => {
     await page.goto('/en/about');
     const trigger = page.getByRole('button', { name: en.ux.a11y.open, exact: true });
+    // Not in the header any more: a floating button in its own labelled landmark.
+    await expect(page.locator('header').getByRole('button', { name: en.ux.a11y.open })).toHaveCount(0);
+    await expect(page.getByRole('complementary', { name: en.ux.a11y.title }).getByRole('button', { name: en.ux.a11y.open })).toBeVisible();
     await trigger.focus();
     await page.keyboard.press('Enter');
     await expect(trigger).toHaveAttribute('aria-expanded', 'true');
@@ -181,15 +185,85 @@ test.describe('the accessibility panel', () => {
       expect(sideways, path).toBeLessThanOrEqual(0);
     }
     await page.goto('/ar');
-    const trigger = page.locator('header').getByRole('button', { name: 'إعدادات إمكانية الوصول', exact: true });
+    const trigger = page.getByRole('button', { name: ar.ux.a11y.open, exact: true });
     await trigger.click();
     const dialog = page.getByRole('dialog');
     await expect(dialog).toBeVisible();
     const box = await dialog.boundingBox();
     expect(box && box.x >= 0 && box.x + box.width <= 390).toBe(true);
+    // Under the header, above the button: the whole panel is on the screen.
+    const header = await page.locator('body > header').boundingBox();
+    expect(box && header && box.y >= header.y + header.height - 1 && box.y + box.height <= 844).toBe(true);
     // The panel scrolls inside itself, so its last control can be reached at 200% text.
     await dialog.getByRole('link').scrollIntoViewIfNeeded();
     await expect(dialog.getByRole('link')).toBeInViewport();
+  });
+});
+
+test.describe('the floating accessibility button', () => {
+  type Box = { x: number; y: number; width: number; height: number };
+  const overlap = (a: Box, b: Box) => a.x < b.x + b.width && b.x < a.x + a.width && a.y < b.y + b.height && b.y < a.y + a.height;
+
+  for (const [locale, messages] of [['en', en], ['he', he]] as const) {
+    test(`${locale}: sits in the bottom corner at the start of the line and opens its panel above itself`, async ({ page }) => {
+      await offline(page);
+      await page.goto(`/${locale}/about`);
+      const trigger = page.getByRole('button', { name: messages.ux.a11y.open, exact: true });
+      const vp = page.viewportSize()!;
+      const box = (await trigger.boundingBox())!;
+      // 16px from the bottom and from the start edge: left in English, right in Hebrew (back to top has the other corner).
+      expect(Math.round(vp.height - (box.y + box.height))).toBe(16);
+      if (locale === 'en') expect(Math.round(box.x)).toBe(16);
+      else expect(Math.round(vp.width - (box.x + box.width))).toBe(16);
+      expect(Math.round(box.width)).toBe(48);
+      // It stays there while the page scrolls, and never meets the back-to-top button.
+      await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+      const back = page.getByRole('button', { name: messages.ux.backToTop });
+      await expect(back).toBeVisible();
+      const after = (await trigger.boundingBox())!;
+      expect(Math.abs(after.y - box.y)).toBeLessThan(1);
+      expect(overlap(after, (await back.boundingBox())!)).toBe(false);
+      // The panel opens above the button, inside the window, and Escape gives the focus back.
+      await trigger.click();
+      const dialog = page.getByRole('dialog', { name: messages.ux.a11y.title });
+      await expect(dialog).toBeVisible();
+      const panel = (await dialog.boundingBox())!;
+      expect(panel.y + panel.height).toBeLessThanOrEqual(after.y);
+      expect(panel.x).toBeGreaterThanOrEqual(0);
+      expect(panel.x + panel.width).toBeLessThanOrEqual(vp.width);
+      await page.keyboard.press('Escape');
+      await expect(dialog).toBeHidden();
+      await expect(trigger).toBeFocused();
+    });
+  }
+
+  test("on a phone it steps up above the home page's candle pill and stays clear of it", async ({ page }) => {
+    await offline(page);
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/en');
+    const trigger = page.getByRole('button', { name: en.ux.a11y.open, exact: true });
+    // Scroll the hero away: the "light a candle" pill slides in along the bottom edge.
+    await page.evaluate(() => window.scrollTo(0, window.innerHeight * 2));
+    const pill = page.locator('main a.ui-btn[data-shown="true"][href$="/candle"]');
+    await expect(pill).toBeVisible();
+    await expect(async () => {
+      const [a, b] = [(await trigger.boundingBox())!, (await pill.boundingBox())!];
+      expect(overlap(a, b)).toBe(false);
+      expect(a.y + a.height).toBeLessThanOrEqual(b.y);
+    }).toPass({ timeout: 5000 });
+  });
+
+  test('the phone menu covers it and takes it out of reach while open', async ({ page }) => {
+    await offline(page);
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/en/about');
+    await page.locator('button[aria-controls="main-nav"]').click();
+    const landmark = page.locator('aside[data-floating]');
+    await expect(landmark).toHaveJSProperty('inert', true);
+    await expect(page.locator('main#main')).toHaveJSProperty('inert', true);
+    await page.keyboard.press('Escape');
+    await expect(landmark).toHaveJSProperty('inert', false);
+    await expect(page.locator('main#main')).toHaveJSProperty('inert', false);
   });
 });
 
@@ -260,7 +334,7 @@ test.describe('form errors are identified in words and linked to their field (WC
   }
 });
 
-test('the header never overflows, in any language, with the accessibility button', async ({ page, isMobile }) => {
+test('the header never overflows, in any language, with the logo and the search button', async ({ page, isMobile }) => {
   test.skip(isMobile, 'widths are set by the test');
   test.setTimeout(120_000);
   await offline(page);

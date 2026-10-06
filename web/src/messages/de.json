@@ -1493,7 +1493,7 @@
           },
           "settings": {
             "title": "Einstellungen zur Barrierefreiheit",
-            "p1": "Die Schaltfläche mit dem Symbol für Barrierefreiheit oben auf jeder Seite öffnet Einstellungen, die für die ganze Website gelten und in diesem Browser gespeichert werden. Mit der Schaltfläche zum Zurücksetzen kehrt alles zum ursprünglichen Aussehen zurück.",
+            "p1": "Die Schaltfläche mit dem Symbol für Barrierefreiheit unten in der Ecke jeder Seite öffnet Einstellungen, die für die ganze Website gelten und in diesem Browser gespeichert werden. Mit der Schaltfläche zum Zurücksetzen kehrt alles zum ursprünglichen Aussehen zurück.",
             "items": {
               "text": "Textgröße von 100 bis 200 Prozent.",
               "contrast": "Hoher Kontrast: schwarzer Hintergrund, weiße Schrift und helleres Gold.",

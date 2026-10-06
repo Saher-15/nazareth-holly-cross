@@ -9,6 +9,13 @@
   padding: 0 var(--space-4) calc(var(--space-4) + env(safe-area-inset-bottom, 0px));
   pointer-events: none;
 }
+/* Narrow screens: a toast is as wide as the screen and would cover the floating corner buttons (the accessibility
+   settings and back to top, 48px at 16px from the bottom), so toasts sit just above them. */
+@media (max-width: 600px) {
+  .region {
+    padding-bottom: calc(48px + var(--space-3) + var(--space-4) + env(safe-area-inset-bottom, 0px));
+  }
+}
 .list {
   display: grid;
   gap: var(--space-2);

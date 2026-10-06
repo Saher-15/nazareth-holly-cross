@@ -133,6 +133,60 @@ test('print styles keep the article and drop the chrome', async ({ page }) => {
   expect(color).toBe('rgb(0, 0, 0)');
 });
 
+test('the header shows the logo, lies open over the home photo and turns solid on scroll', async ({ page }) => {
+  await page.goto('/en');
+  const header = page.locator('body > header');
+  const logo = header.locator('a[href="/en"] picture img');
+  await expect(logo).toBeVisible();
+  // The pre-sized medallion files (scripts/media/logo.mjs), loaded and drawn round, decorative beside the name.
+  const drawn = await logo.evaluate((img: HTMLImageElement) => ({
+    src: img.currentSrc,
+    loaded: img.complete && img.naturalWidth > 0,
+    alt: img.getAttribute('alt'),
+    round: getComputedStyle(img).borderRadius,
+  }));
+  expect(drawn.src).toMatch(/\/images\/brand\/logo-(48|96|144)\.(avif|webp)$/);
+  expect(drawn.loaded).toBe(true);
+  expect(drawn.alt).toBe('');
+  expect(drawn.round).toBe('50%');
+  await expect(header.getByRole('link', { name: 'Nazareth Holy Cross', exact: true })).toBeVisible();
+  // Over the hero the bar has no glass of its own; after scrolling it is solid. Other pages start as glass.
+  await expect(header).toHaveAttribute('data-look', 'hero');
+  expect(await header.evaluate((el) => getComputedStyle(el, '::before').opacity)).toBe('0');
+  await scrollDown(page, 400);
+  await expect(header).toHaveAttribute('data-look', 'solid');
+  await page.goto('/en/about');
+  await expect(page.locator('body > header')).toHaveAttribute('data-look', 'glass');
+});
+
+test('the search button in the header opens the search palette and gets the focus back', async ({ page, isMobile }) => {
+  test.skip(isMobile, 'phones carry search inside the menu (next test)');
+  await page.goto('/en/about');
+  const button = page.locator('body > header').getByRole('button', { name: 'Search the site' });
+  await expect(button).toHaveAttribute('aria-keyshortcuts', 'Control+K Meta+K');
+  await button.click();
+  const palette = page.getByRole('dialog');
+  await expect(palette).toBeVisible();
+  await expect(palette.locator('input').first()).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(palette).toBeHidden();
+  await expect(button).toBeFocused();
+});
+
+test('on a phone the menu carries the search, and the focus comes back to the menu button', async ({ page, isMobile }) => {
+  test.skip(!isMobile, 'mobile only');
+  await page.goto('/en/about');
+  await expect(page.locator('body > header').getByRole('button', { name: 'Search the site' })).toBeHidden();
+  const toggle = page.getByRole('button', { name: /open menu/i });
+  await toggle.click();
+  await page.locator('#main-nav').getByRole('button', { name: 'Search the site' }).click();
+  const palette = page.getByRole('dialog');
+  await expect(palette).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(palette).toBeHidden();
+  await expect(page.getByRole('button', { name: /open menu/i })).toBeFocused();
+});
+
 test('the mobile menu hands over the focus and returns it, and locks the page behind', async ({ page, isMobile }) => {
   test.skip(!isMobile, 'mobile only');
   await page.goto('/en');
@@ -141,9 +195,17 @@ test('the mobile menu hands over the focus and returns it, and locks the page be
   const nav = page.locator('#main-nav');
   await expect(nav.getByRole('link').first()).toBeFocused();
   await expect(page.locator('html')).toHaveAttribute('data-menu-open', 'true');
+  // A full-height sheet: the page behind does not scroll and is out of reach, the bar above it turns solid.
+  expect(await page.evaluate(() => getComputedStyle(document.documentElement).overflowY)).toBe('hidden');
+  await expect(page.locator('main#main')).toHaveJSProperty('inert', true);
+  await expect(page.locator('body > header')).toHaveAttribute('data-look', 'solid');
+  const sheet = await nav.boundingBox();
+  const viewport = page.viewportSize()!;
+  expect(sheet && Math.round(sheet.y + sheet.height)).toBe(viewport.height);
   await page.keyboard.press('Escape');
   await expect(page.getByRole('button', { name: /open menu/i })).toBeFocused();
   await expect(page.locator('html')).not.toHaveAttribute('data-menu-open', 'true');
+  await expect(page.locator('main#main')).toHaveJSProperty('inert', false);
 
   // The dimmed page behind the open menu closes it, and a choice in it goes to that page.
   await page.getByRole('button', { name: /open menu/i }).click();

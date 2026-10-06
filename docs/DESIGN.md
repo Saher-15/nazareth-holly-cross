@@ -114,7 +114,8 @@ screen is `LoadingScreen` (see 4.7).
 
 `components/ui/icons.tsx`: one inline-SVG set (24px grid, 2px round stroke, `currentColor`, decorative
 `aria-hidden`). Size with `size` or `--icon-size`. Arrows and chevrons take `flip` and mirror in RTL. `CrossMark`
-is the brand mark. Older icon files (`home/icons`, `places/icons`, `community/Icon`) still work and share the look.
+is the drawn brand mark (footer, loading screen); the header shows the logo itself (`BrandLogo`).
+`AccessibilityIcon` is the international accessibility sign, `SearchIcon` the magnifier. Older icon files (`home/icons`, `places/icons`, `community/Icon`) still work and share the look.
 No emoji and no text glyphs (`✝`, `★`, `→`) as icons.
 
 ### Other shared pieces
@@ -134,11 +135,17 @@ No emoji and no text glyphs (`✝`, `★`, `→`) as icons.
 ![Header, English](design/shell-header-en.png)
 ![Header, Hebrew](design/shell-header-he.png)
 
-Sticky; frosted glass (a blurred pseudo-element, so the fixed drawer is not trapped inside it) that turns
-more opaque after 12px of scrolling. Gold "Donate" button from 1240px (not in Polish, Russian, Greek, Ukrainian and
-Dutch, whose longer labels leave no room for it); at 1180px and below the links become a drawer (at every width when
-the accessibility panel enlarges the text). The round button with the accessibility sign opens the accessibility
-settings (`docs/DESIGN-GUIDE.md` section 5.5). On phones (480px and below) the brand name may wrap onto two lines.
+Sticky. The real logo, round as a medallion with a fine gold ring (`BrandLogo`, pre-sized AVIF/WebP files from
+`web/scripts/media/logo.mjs`), beside the name in the serif; the links centred, the current page in gold with a short
+gold line under it; then a round search button (the search palette, also `Ctrl/Cmd + K`), the language menu and the
+gold "Donate" button. Three looks (`data-look`): over the home page's photo the bar is open (no glass, only a soft
+shade from the top edge and a halo on the text); on other pages it is frosted glass; after 12px of scrolling it turns
+solid night with a gold hairline and a shadow. The glass, the shade and the hairline are pseudo-elements, so the
+fixed phone sheet is not trapped inside the header. Gold "Donate" button from 1240px (not in Polish, Russian, Greek,
+Ukrainian and Dutch, whose longer labels leave no room for it); at 1180px and below the links open as a full-height
+sheet (at every width when the accessibility panel enlarges the text). On phones (480px and below) the logo is 40px,
+the brand name may wrap onto two lines and search moves into the sheet. The accessibility settings are no longer in
+the header: a floating button in the bottom corner (4.4).
 
 ![Language menu, English](design/shell-language-menu-en.png)
 ![Language menu, Hebrew](design/shell-language-menu-he.png)
@@ -151,8 +158,12 @@ full-width panel under the header (hung from the button it ran off the edge of s
 ![Mobile menu, English](design/shell-mobile-menu-en.png)
 ![Mobile menu, Hebrew](design/shell-mobile-menu-he.png)
 
-**Drawer:** opens under the header with the page dimmed behind it and scroll locked; focus moves to the first
-link, Escape returns it to the menu button, a tap on the dimmed page closes it.
+**Phone sheet:** opens under the bar and fills the screen to the bottom; the bar turns solid, so the logo heads the
+sheet. Large serif entries (60px tall) with a chevron at the reading end (mirrored in Hebrew and Arabic), the current
+page on a gold tint, the gold Donate button, and on phones a search row that looks like a field. The entries rise
+into place one after the other (not under reduced motion). The page behind is scroll-locked and inert (main, footer
+and the floating buttons); focus moves to the first link, Escape returns it to the menu button; leaving the sheet
+layout (rotating a tablet) unlocks the page.
 
 ### 4.2 Footer
 
@@ -178,7 +189,13 @@ focus to the control that opened them (language menu, drawer, the photo viewer a
 ![Reading progress and back to top](design/shell-progress-back-to-top.jpg)
 
 `BackToTop` appears after 1.4 screens of scrolling, is out of the tab order while hidden, and hands the focus to
-`<main>`. On the home page it stacks above the "light a candle" button. `ReadingProgress` is a 3px gold line at
+`<main>`. On the home page it stacks above the "light a candle" button.
+
+The **accessibility button** (`A11yPanel`) has the other bottom corner, at the start of the line (left in English,
+right in Hebrew and Arabic): a 48px round button with the international accessibility sign, always visible, its panel
+opening above it (`docs/DESIGN-GUIDE.md` section 5.5). On phones it steps up above the home page's candle pill like
+back to top. Toasts on narrow screens sit above the two corner buttons, `html { scroll-padding-bottom }` keeps
+keyboard focus out of their band, and the footer's last line ends above it. `ReadingProgress` is a 3px gold line at
 the top of the window on long pages (every `/sites/<slug>`, `/tour`, `/about`); it grows from the start of the line
 (right edge in Hebrew and Arabic). Both are hidden in print.
 
@@ -269,6 +286,19 @@ Write `backdrop-filter` alone: the build adds the Safari prefix itself. Check wi
 `getComputedStyle(el).backdropFilter` in a production build.
 
 ## 8. Changelog
+
+### 2026-10-07: the header with the logo, the accessibility button in the corner (branch `feat/navbar-logo`)
+
+- **Logo.** The drawn cross in the header is replaced by the real Nazareth Holy Cross logo, round with a gold ring,
+  from 48/96/144 px AVIF and WebP files (`web/public/images/brand/`, made by `web/scripts/media/logo.mjs`; 1 to 6 kB).
+- **Header.** Open over the home photo, frosted glass elsewhere, solid with a gold hairline after scrolling; links
+  centred with a gold line under the current page; a round search button joins the language menu and Donate; on
+  phones a full-height sheet with large serif entries, the logo at the top, Donate and search.
+- **Accessibility button.** Out of the header into the bottom corner at the start of the line, with the international
+  accessibility sign; the panel opens above it. The statement's sentence about where the button is was updated in the
+  14 languages.
+- The header specimens `shell-header-en.png`, `shell-header-he.png`, `shell-mobile-menu-en.png` and
+  `shell-mobile-menu-he.png` were taken again from this version.
 
 ### 2026-10-06: visual polish (branch `feat/visual-polish`)
 

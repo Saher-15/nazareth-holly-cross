@@ -67,7 +67,7 @@ for (const [vpName, viewport] of Object.entries(VPS)) {
     }
     // gallery lightbox
     await page.goto(`${BASE}/${locale}/sites/latin`, { waitUntil: 'load' });
-    await page.locator('button[aria-haspopup="dialog"]').first().click();
+    await page.locator('main button[aria-haspopup="dialog"]').first().click(); // main: not the header's search or the accessibility button
     await page.waitForTimeout(500);
     await scan(page, `${locale}/sites/latin lightbox @${vpName}`);
     await page.close();

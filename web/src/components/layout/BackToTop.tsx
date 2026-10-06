@@ -9,7 +9,8 @@ import styles from './BackToTop.module.css';
 /** How far the page must be scrolled (in viewport heights) before the button appears. */
 const SHOW_AFTER = 1.4;
 
-// A round "back to top" button, bottom corner at the end of the line. It appears after a long scroll,
+// A round "back to top" button, bottom corner at the end of the line (the accessibility button, A11yPanel, has the
+// corner at the start). It appears after a long scroll,
 // is out of the tab order while hidden, and hands the focus to <main> after jumping up so keyboard
 // users continue from the top of the content, not from a button that just disappeared.
 export default function BackToTop() {
@@ -48,6 +49,7 @@ export default function BackToTop() {
       aria-label={t('backToTop')}
       data-print="hide"
       data-shown={shown}
+      data-floating=""
     >
       <ArrowUpIcon size={22} />
     </button>

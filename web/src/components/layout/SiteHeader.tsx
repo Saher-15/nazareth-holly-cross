@@ -2,16 +2,33 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { CloseIcon, CrossMark, MenuIcon } from '@/components/ui/icons';
+import { openSiteSearch } from '@/components/search/events';
+import { CloseIcon, MenuIcon, SearchIcon } from '@/components/ui/icons';
 import { Link, usePathname } from '@/i18n/navigation';
 import { mainNav } from '@/lib/site';
-import A11yPanel from './A11yPanel';
+import BrandLogo from './BrandLogo';
 import LanguageSwitcher from './LanguageSwitcher';
 import styles from './SiteHeader.module.css';
 
-/** `liveNow`: a live broadcast is on (the server's last look, lib/liveStatusPeek.ts): a dot on the Live link. */
+/** What the open phone menu covers: it leaves the tab order and the accessibility tree until the menu closes.
+ *  The floating corner buttons (accessibility settings, back to top) carry `data-floating`. */
+const BEHIND_MENU = 'body > main, body > footer, [data-floating]';
+const INERT_MARK = 'data-menu-inert';
+
+/** How far the page scrolls before the bar turns solid. */
+const SCROLLED_AFTER = 12;
+
+/**
+ * The site header: the logo medallion and the name, the main links, search, language and Donate. On phones and
+ * tablets (1180px and below) the links open as a full-height sheet under the bar.
+ * `liveNow`: a live broadcast is on (the server's last look, lib/liveStatusPeek.ts): a dot on the Live link.
+ *
+ * The bar has three looks (`data-look`, SiteHeader.module.css): `hero` over the home page's photo before scrolling
+ * (no bar, only a soft shade), `glass` on the other pages at rest, `solid` after scrolling or while the menu is open.
+ */
 export default function SiteHeader({ liveNow = false }: { liveNow?: boolean }) {
   const t = useTranslations('site');
+  const ts = useTranslations('pilgrim.search');
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -34,7 +51,7 @@ export default function SiteHeader({ liveNow = false }: { liveNow?: boolean }) {
         return false;
       });
     };
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    const onScroll = () => setScrolled(window.scrollY > SCROLLED_AFTER);
     onScroll();
     window.addEventListener('keydown', onKey);
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -44,23 +61,35 @@ export default function SiteHeader({ liveNow = false }: { liveNow?: boolean }) {
     };
   }, []);
 
-  // While the drawer is open the page behind it does not scroll, and the drawer gets the focus.
+  // While the sheet is open the page behind it does not scroll and cannot be reached, and the sheet gets the focus.
   useEffect(() => {
     const root = document.documentElement;
-    // The drawer layout is on while the menu button is shown (see the media query in SiteHeader.module.css).
+    // The sheet layout is on while the menu button is shown (see the media query in SiteHeader.module.css).
     const isDrawer = () => !!buttonRef.current && getComputedStyle(buttonRef.current).display !== 'none';
+    const release = () => {
+      delete root.dataset.menuOpen;
+      for (const el of document.querySelectorAll<HTMLElement>(`[${INERT_MARK}]`)) {
+        el.inert = false;
+        el.removeAttribute(INERT_MARK);
+      }
+    };
     let frame = 0;
     if (open && isDrawer()) {
       root.dataset.menuOpen = 'true';
-      // One frame later: the drawer turns visible (and so focusable) when its open class has been painted.
+      for (const el of document.querySelectorAll<HTMLElement>(BEHIND_MENU)) {
+        if (el.inert) continue; // made inert by someone else: theirs to undo
+        el.inert = true;
+        el.setAttribute(INERT_MARK, '');
+      }
+      // One frame later: the sheet turns visible (and so focusable) when its open class has been painted.
       frame = requestAnimationFrame(() => navRef.current?.querySelector<HTMLElement>('a')?.focus());
     } else {
-      delete root.dataset.menuOpen;
+      release();
     }
-    // Leaving the drawer layout (rotating a tablet, resizing) must not leave the page locked.
+    // Leaving the sheet layout (rotating a tablet, resizing) must not leave the page locked.
     const onResize = () => {
       if (!isDrawer()) {
-        delete root.dataset.menuOpen;
+        release();
         setOpen(false);
       }
     };
@@ -68,20 +97,29 @@ export default function SiteHeader({ liveNow = false }: { liveNow?: boolean }) {
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener('resize', onResize);
-      delete root.dataset.menuOpen;
+      release();
     };
   }, [open]);
 
   const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href));
+  const look = open ? 'solid' : scrolled ? 'solid' : pathname === '/' ? 'hero' : 'glass';
+
+  // The search row of the phone sheet: the sheet closes first and the menu button takes the focus, so the search
+  // palette (a modal dialog) gives the focus back to a button that is still on the screen when it closes.
+  const searchFromSheet = () => {
+    setOpen(false);
+    buttonRef.current?.focus();
+    openSiteSearch();
+  };
 
   return (
-    <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
+    <header className={styles.header} data-look={look}>
       <a className="skip-link" href="#main">
         {t('skipToContent')}
       </a>
       <div className={`ui-container ${styles.bar}`}>
         <Link href="/" className={styles.brand}>
-          <CrossMark size={26} className={styles.cross} />
+          <BrandLogo className={styles.logo} sizes="(max-width: 480px) 40px, 46px" size={46} />
           {/* The brand is Latin in every language: left to right, so a cut-off name ends in "..." on its own end. */}
           <span className={styles.brandName} dir="ltr">
             {t('name')}
@@ -113,26 +151,41 @@ export default function SiteHeader({ liveNow = false }: { liveNow?: boolean }) {
                 </Link>
               </li>
             ))}
-            {/* The same call to action as in the bar, shown last inside the drawer. */}
+            {/* The same call to action as in the bar, shown last inside the sheet. */}
             <li className={styles.drawerCta}>
               <Link href="/donate" className="ui-btn ui-btn--gold" onClick={() => setOpen(false)}>
                 {t('nav.donate')}
               </Link>
             </li>
+            {/* Phones have no room for the search button in the bar: the sheet carries it. */}
+            <li className={styles.sheetSearch}>
+              <button type="button" className={styles.sheetSearchButton} aria-haspopup="dialog" onClick={searchFromSheet}>
+                <SearchIcon size={20} />
+                {ts('label')}
+              </button>
+            </li>
           </ul>
         </nav>
 
         <div className={styles.actions}>
+          <button
+            type="button"
+            className={`${styles.iconButton} ${styles.search}`}
+            aria-label={ts('label')}
+            aria-haspopup="dialog"
+            aria-keyshortcuts="Control+K Meta+K"
+            onClick={openSiteSearch}
+          >
+            <SearchIcon size={20} />
+          </button>
+          <LanguageSwitcher />
           <Link href="/donate" className={`ui-btn ui-btn--gold ui-btn--sm ${styles.donate}`}>
             {t('nav.donate')}
           </Link>
-          {/* Opening the accessibility settings closes the mobile menu, so the two never overlap. */}
-          <A11yPanel onOpen={() => setOpen(false)} />
-          <LanguageSwitcher />
           <button
             ref={buttonRef}
             type="button"
-            className={styles.menuButton}
+            className={`${styles.iconButton} ${styles.menuButton}`}
             aria-expanded={open}
             aria-controls="main-nav"
             aria-label={open ? t('menuClose') : t('menuOpen')}
@@ -142,7 +195,6 @@ export default function SiteHeader({ liveNow = false }: { liveNow?: boolean }) {
           </button>
         </div>
       </div>
-      {open && <div className={styles.backdrop} onClick={() => setOpen(false)} aria-hidden="true" />}
     </header>
   );
 }
