@@ -140,11 +140,13 @@ Religious words follow the glossary (`docs/GLOSSARY.md`): one approved word per 
 | `aria-label` | Names an icon-only control by its action ("Close", "Open menu"). Comes from messages like all text. | `ux.toast.dismiss` |
 | Page `<title>` and description | Built by `pageMetadata` (`web/src/lib/seo.ts`): title + " · Nazareth Holy Cross", a description under about 160 characters. | |
 
-Known legacy copy that breaks these rules and should be fixed when its page is next touched (found on the live
-site on 2026-10-06; they come from the previous site's strings and were not changed by this guide): the candle
-form heading reads "LIGHT A PRAY CANDLE" (`candle.lightAPrayCandle`; it should read "Light a prayer candle" in
-normal case), the empty cart title is Title Case ("Your Cart is Empty", `cart.emptyCart`), and several form
-labels are Title Case ("First Name"). New text is always sentence case.
+Legacy copy from the previous site's strings: the candle form heading ("LIGHT A PRAY CANDLE",
+`candle.lightAPrayCandle`), the empty cart title ("Your Cart is Empty", `cart.emptyCart`) and the Title Case form
+labels and headings of the candle, checkout, cart, review and live pages ("First Name", "Order Summary") were put in
+sentence case by the visual polish of 2026-10-06 ("Light a prayer candle" in English, sentence case in the eleven
+languages that had it in capitals; CSS still capitalises the eyebrow in Latin, Cyrillic and Greek scripts). Still
+Title Case and left alone as editorial copy: some content headings (`whatIsNew.touchingTheSacred`, the "Historical
+Background" style headings of the holy-site stories). New text is always sentence case.
 
 ### 2.3 Translation rules
 
@@ -346,32 +348,44 @@ Roles:
 |---|---|
 | Page title | `.ui-hero__title`: serif, weight 400, `--leading-tight`, white, `text-wrap: balance`, hyphenated by language |
 | Section heading | `.ui-h2`: serif 400, white. Sub-heading `.ui-h3`: serif 400, gold |
-| Eyebrow | `.ui-eyebrow`: sans 700, 0.78rem, `letter-spacing: 0.22em`, uppercase, gold |
+| Eyebrow | `.ui-eyebrow`: sans 700, 0.78rem, `letter-spacing: 0.22em`, uppercase, gold. Hebrew and Arabic: 0.9rem, no tracking, no capitals (the same 0.78rem without capitals reads as a tiny label) |
 | Body | sans, `--text-base`, `line-height: var(--leading-body)` (1.65; 1.8 in Hebrew and Arabic) |
 | Reading text | `.ui-prose`: measure `--measure` (68ch), `text-wrap: pretty` |
 | Button | sans 700, 0.95rem, `letter-spacing: 0.04em`, uppercase (Latin only) |
-| Label, hint | 0.85rem, `--muted` |
+| Label | `.ui-label`: 0.875rem, weight 500, `--cream` (one style on every form; no per-form colour) |
+| Hint | `.ui-hint`: 0.85rem, `--muted` (so a label and a hint never look alike) |
+| Price, amount, total | sans 700, gold, `font-variant-numeric: tabular-nums`; the order total `clamp(1.4rem, 3vw, 1.6rem)` in the cart and the checkout alike. Never the serif for figures (its old-style 1 reads as an I) |
+| Quotation (verse, scripture note, review) | serif 400, upright, a step larger than the text around it, marked by a gold rule or a quote mark |
 | Brand name in the header | serif 600, 1.2rem, `letter-spacing: 0.04em`, white |
 
 Line height tokens: `--leading-tight` 1.15 (1.3 in he and ar), `--leading-body` 1.65 (1.8 in he and ar).
 
-Per-script rules: Hebrew and Arabic never get letter-spacing or uppercase (`:lang(he)`, `:lang(ar)` rules in
-`web/src/styles/ui.css`), are never hyphenated, and get the taller line. Long Russian, German, Greek and Polish
+Per-script rules: Hebrew and Arabic never get letter-spacing or uppercase. One rule in `web/src/styles/globals.css`
+(`:root:is(:lang(he), :lang(ar)) body *`) takes the letter-spacing off every element of a Hebrew or Arabic page, so a
+new component cannot forget it (ten component labels still tracked their Hebrew and Arabic before it); the
+`:lang(he)`, `:lang(ar)` rules in `web/src/styles/ui.css` drop the uppercase of buttons. They are never hyphenated
+and get the taller line. Long Russian, German, Greek and Polish
 hero titles shrink on phones instead of breaking mid-word. Weights: serif headings 400 (never bold serif), sans 400
-for text, 600-700 for emphasis and controls. No italics for emphasis in UI text; quotations (Bible verses) may be
-italic only where the component already is.
+for text, 600-700 for emphasis and controls. **No italics.** The site loads no italic face of its serifs (EB
+Garamond, Frank Ruhl Libre, Amiri), so `font-style: italic` only makes the browser slant the upright letters (a faux
+italic that looks cheap at display sizes); quotations are set upright (see the roles above).
 
 ### 3.4 Spacing, radius, elevation, layers, motion
 
 **Spacing** (4 px base): `--space-1` 4, `--space-2` 8, `--space-3` 12, `--space-4` 16, `--space-5` 24, `--space-6` 32,
 `--space-7` 48, `--space-8` 64, `--space-9` 96. `--page-gutter` is 16 (the side margin of `.ui-container`).
-Section rhythm: `.ui-section` has `clamp(40px, 7vw, 80px)` block padding. Grid gaps are `clamp(16px, 2.4vw, 24px)`
-(`.ui-grid`). Use the scale; a one-off pixel value needs a reason in a comment.
+Section rhythm: `--section-space` (`clamp(36px, 5.5vw, 64px)`) is the block padding of `.ui-section` and of every
+home section, so two sections in a row are 72 px apart on a phone and 128 px on a laptop, on every page (the home
+sections had five different paddings, from 40 to 96 px). A page ends with `--space-6` under its last section before
+the footer. Grid gaps are `clamp(16px, 2.4vw, 24px)` (`.ui-grid`). Use the scale; a one-off pixel value needs a reason
+in a comment.
 
 ![Spacing and elevation](design/ds-space.png)
 
 **Radius:** `--radius` 20px (cards, glass panels), `--radius-sm` 12px (fields, small panels, alerts), `999px`
-(pills: buttons, badges, chips), `50%` (round icon buttons). No other radii.
+(pills: buttons, badges, chips), `50%` (round icon buttons). No other radii: the 8, 10, 14, 16, 18 and 28 px and
+`calc(var(--radius) ± n)` one-offs (live player, language menu, gallery tiles, candle churches, home cards) were put
+back on these values. Drawn objects (the candle's wax, a progress bar) are not surfaces and may have their own.
 
 **Elevation:** `--elev-0` none, `--elev-1` (resting hairline), `--elev-2` (raised), `--elev-3` (cards;
 `--shadow` is the same value), `--elev-4` (menus, toasts, hover, with a 1px glass ring). Helpers `.ui-elev-1`
@@ -478,7 +492,7 @@ holding `<div className="ui-container">`.
 - **Container:** `.ui-container` is `width: min(var(--container), 100% - 32px)`, centred. `--container` is 1180px
   and the gutter is 16px on each side (`--page-gutter`). Reading text inside it is capped with `.ui-prose`
   (`--measure` 68ch).
-- **Section rhythm:** `.ui-section` (`clamp(40px, 7vw, 80px)` block padding). Section heading block is centred,
+- **Section rhythm:** `.ui-section` (`--section-space` block padding, 36 to 64 px). Section heading block is centred,
   `max-width: 760px`.
 - **Card grid:** `.ui-grid` is `repeat(auto-fill, minmax(min(100%, 260px), 1fr))` with a fluid gap. Page-specific
   grids use `grid-template-columns: minmax(0, 1fr) ...` (the `minmax(0, ...)` stops long words from stretching a
@@ -491,8 +505,9 @@ holding `<div className="ui-container">`.
 | Width | What changes |
 |---|---|
 | 400 px | Very small phones: the cart and wishlist pills show icon and count only, the header gap shrinks, the checkout step labels lose most of their letter-spacing |
-| 476 px | Footer: the auto-fit grid gets its second column, so the contact column spans two (the e-mail address is one long word and must not break) |
-| 480 / 560 px | Header on phones (480): the brand name may wrap onto two lines and the language button drops its caret, so the brand and the three round buttons fit down to 320 px. Phone adjustments inside single components: the hero title shrinks for long Russian, German, Greek and Polish words (480), the language list becomes a full-width panel under the header (480), the shop toolbar reflows (559), candle church cards grow taller (560) |
+| 476 px | Footer: the auto-fit grid gets its second column, so the contact column spans two (the e-mail address is one long word and must not break). Narrower, the footer is one column and each group's links sit two to a row (one per row again with the panel's text at 150% or more) |
+| 480 / 560 px | Header on phones (480): the brand name may wrap onto two lines and the language button drops its caret, so the brand and the three round buttons fit down to 320 px. Phone adjustments inside single components: the hero title shrinks for long Russian, German, Greek and Polish words (480), the language list becomes a full-width panel under the header (480), the shop toolbar reflows (559), candle church cards grow taller (560), the verse of the day puts its date on its own line and the home candle strip's two buttons stack full width (560) |
+| 600 / 1100 px | Sets of exactly four cards (`.cardsFour` in `web/src/components/pilgrim/shared.module.css`, the "getting there" cards of `/visit`): two by two from 600, one row of four from 1100, never three and one alone |
 | 560-859 px | Product page in one column on a tablet: the photo frame is 4:3, not square, so the price and the cart button stay in view |
 | 640 / 700 px | Holy-site gallery 3 columns (640); shop product grid 3 columns (700) |
 | 768 px | The home hero film may mount (JavaScript check in `HeroVideo`); the hero photo size hint changes |
@@ -535,15 +550,17 @@ How to keep it that way:
   `grid-template-columns: minmax(0, 1fr)` (and `min-width: 0` on flex children). Three of the problems found on
   2026-10-06 were this (admin product cards, admin top-products list).
 - **Spacing is fluid, like `.ui-section`.** A fixed 64-96 px block padding that looks right on a laptop leaves a
-  130 px hole between two sections on a phone: use `clamp(40px, 8vw, 64px)` and similar, which reach the full value
-  around 800-900 px.
+  130 px hole between two sections on a phone: a section uses `--section-space` (36 to 64 px, the full value from
+  about 1160 px); other fluid spacing uses `clamp()` the same way.
 - **Popovers on phones are panels.** A list hung from a button's end edge with a fixed width runs off the other edge
   of a small screen; below 480 px make it `position: fixed` between the gutters (the language list does).
 - **Long words.** Labels that must not break mid-word use `overflow-wrap: break-word` and `hyphens: auto`, not
   `overflow-wrap: anywhere` ("CONFIRMATIO / N").
-- **Latin text that is clamped or ellipsed inside RTL** (product names typed in English, the brand name in the
-  header of a 320 px phone) gets
-  `unicode-bidi: plaintext`, so the clamp cuts its end, not its first letters.
+- **Latin text that is clamped or ellipsed inside RTL** (the brand name in the header of a 320 px phone) gets
+  `unicode-bidi: plaintext`, so the clamp cuts its end, not its first letters. Text that wraps instead (product names
+  typed in English, which are never clamped any more) does **not**: its box keeps the page direction and a `<bdi>`
+  inside keeps the name in order, so on a Hebrew or Arabic card it starts at the right edge with the category and
+  the price (with `plaintext` it sat alone on the left).
 - **RTL overrides must not outrank state rules.** `html[dir='rtl'] .x` is more specific than `.x[data-open='true']`;
   repeat the RTL selector on the state rule (the admin's phone menu never opened in Hebrew and Arabic because of this).
 
@@ -795,15 +812,15 @@ every pressable thing is at least `--tap` (44px) tall and wide. Reuse before you
 
 | Class | Purpose and anatomy | Notes |
 |---|---|---|
-| `.ui-page` | Page root: night gradient plus glow background, cream text, `overflow-x: clip`, `padding-bottom: 72px` | One per page. Add the page module class beside it |
+| `.ui-page` | Page root: night gradient plus glow background, cream text, `overflow-x: clip`, `padding-bottom: var(--space-6)` (32px: the last section brings its own padding; 72px left a 136px hole above the footer) | One per page. Add the page module class beside it |
 | `.ui-container` | Width-limited, centred content column | See 4.2 |
-| `.ui-section` | Vertical rhythm of a section | Wrap each section in it, with `aria-labelledby` |
+| `.ui-section` | Vertical rhythm of a section: `--section-space` above and below | Wrap each section in it, with `aria-labelledby` |
 | `.ui-hero` | Page header band with a photo behind a scrim (`.ui-hero__bg`, `::after` scrim) | Prefer `<PageHero>` |
 | `.ui-hero__bg` | The photo of the hero, `object-fit: cover`, behind (`z-index: -2`) | |
-| `.ui-hero__title` | The page's `<h1>` | One per page |
+| `.ui-hero__title` | The page's `<h1>`, centred with auto inline margins (a hero that caps its width, `<PlaceHero>` at 920px, keeps it in the middle; without them the title sat 130px towards the start on every `<PlaceHero>` page) | One per page |
 | `.ui-hero__lead` | Intro under the title, `max-width: 640px`, cream with a dark halo (it sits on a photograph; the hero's eyebrow gets the same halo) | Muted text on a photo fell under 4.5:1 (`docs/ACCESSIBILITY.md`) |
 | `.ui-hero__action` | Spacing for a button under the lead | |
-| `.ui-eyebrow` | Small gold uppercase label above a title | In Hebrew and Arabic: no letter-spacing. In a `.ui-hero` (on a photograph) it sits on a dark pill with a halo, so it stays at 4.5:1 over any photo |
+| `.ui-eyebrow` | Small gold uppercase label above a title | In Hebrew and Arabic: no letter-spacing, 0.9rem. In a `.ui-hero` (on a photograph) it sits on a dark pill with a halo, so it stays at 4.5:1 over any photo |
 | `.ui-h2`, `.ui-h3` | Section and sub-section headings | Use the heading element that fits the outline; the class only styles |
 | `.ui-muted` | Secondary text colour | |
 | `.ui-prose` | Reading text block, 68ch, children spaced `--space-4` | |
@@ -819,8 +836,8 @@ every pressable thing is at least `--tap` (44px) tall and wide. Reuse before you
 | `.ui-divider` | A horizontal rule with fading ends; put an icon between if wanted | |
 | `.ui-icon` | Sizing of an inline icon (`--icon-size`, default 1.25em) | |
 | `.ui-flip-rtl` | Mirrors an element in right-to-left | |
-| `.ui-field`, `.ui-label`, `.ui-hint` | Form field wrapper, label, hint | See 5.3 |
-| `.ui-input`, `.ui-select`, `.ui-textarea` | Text controls: 46px min height, 16px type, `--field-line` border | |
+| `.ui-field`, `.ui-label`, `.ui-hint` | Form field wrapper, label (cream, 500), hint (muted) | See 5.3. Do not recolour the label per form |
+| `.ui-input`, `.ui-select`, `.ui-textarea` | Text controls: 46px min height, 16px type, `--field-line` border. `.ui-select` draws its own gold chevron at the end edge (two gradient strokes, no image, mirrored in RTL, the native arrow in forced colours) and styles its options on `--night-2` | A select with its own padding keeps 40px free at the end for the chevron |
 | `.ui-error`, `.ui-success` | Message colours | Always with an icon or words |
 | `.ui-state`, `.ui-state__title`, `.ui-state__text`, `.ui-state--error` | Panel for empty, error and info states | `role="status"` or `role="alert"` |
 | `.ui-alert`, `.ui-alert--error`, `.ui-alert--success` | Inline message strip | |
@@ -880,8 +897,9 @@ expensive on phones) and don't give glass cards a different radius.
 </div>
 ```
 
-Anatomy: `.ui-field` (grid, 6px gap) > `.ui-label` + control + `.ui-hint` / `.ui-error`. Controls are 46px tall with
-16px type. Focus: gold border and a soft gold halo, plus a 2px gold outline for keyboard focus; in forced-colors a
+Anatomy: `.ui-field` (grid, 6px gap) > `.ui-label` + control + `.ui-hint` / `.ui-error`. The label is cream and 500
+on every form, the hint muted, so the two never look alike; labels are sentence case ("First name", not "First
+Name"). Controls are 46px tall with 16px type; every select shows the same gold chevron. Focus: gold border and a soft gold halo, plus a 2px gold outline for keyboard focus; in forced-colors a
 3px `Highlight` outline. Invalid: `aria-invalid="true"` turns the border `--danger`; the message is linked with
 `aria-describedby`. Disabled: 55% opacity, `not-allowed` cursor. E-mail, phone and postal fields are `dir="ltr"`
 and align to the end in right-to-left pages (`:root[dir='rtl'] .ui-input[dir='ltr']`). Use the checkout helpers
@@ -933,9 +951,9 @@ shop has full skeleton sets (`web/src/components/shop/Skeletons.tsx`). Shop page
 
 | Area | Components (all under `web/src/components/`) | Notes |
 |---|---|---|
-| Home | `<HomeHero>`, `<HeroVideo>`, `<SoundToggle>`, `<CandleStrip>`, `<SitesCarousel>`, `<VerseOfDay>`, `<Souvenirs>`, `<Voices>`, `<Story>`, `<StickyCta>` in `web/src/components/home/` | Sections render on the server; each is left out or replaced by a friendly note when its data cannot be loaded. The carousel works with touch, mouse drag, arrow buttons and keyboard (arrows, Home, End) in both directions |
+| Home | `<HomeHero>`, `<HeroVideo>`, `<SoundToggle>`, `<CandleStrip>`, `<SitesCarousel>`, `<VerseOfDay>`, `<Souvenirs>`, `<Voices>`, `<Story>`, `<StickyCta>` in `web/src/components/home/` | Sections render on the server; each is left out or replaced by a friendly note when its data cannot be loaded. Every section uses `--section-space`. The carousel works with touch, mouse drag, arrow buttons and keyboard (arrows, Home, End) in both directions. The candle strip draws a rack of candles (wicks, a few heights, a gold ledge; lit ones glow) above a quiet cream count; the souvenir cards share the look of `<ProductCard>` (serif name, gold price at the foot) |
 | Holy sites | `<SiteList>`, `<PlaceCards>`, `<PlaceStory>`, `<VisitCard>`, `<PlaceGallery>`, `<Lightbox>`, `<PhotoImage>`, `<ExternalLink>` in `web/src/components/places/` | The `<Lightbox>` is a native modal `<dialog>` (focus trapped, Escape closes, arrows and swipes change photo, mirrored in RTL, focus returns to the tile). Its code loads on the first click |
-| Shop | `<ShopBrowser>`, `<FilterPanel>`, `<FilterDrawer>`, `<ProductCard>`, `<ProductStrip>`, `<ProductRow>`, `<ProductDetail>`, `<ImageZoom>`, `<QuantityStepper>`, `<CartView>`, `<CartPill>`, `<WishlistButton>`, `<WishlistLink>`, `<WishlistView>`, `<ShareButton>`, `<ProductReviews>`, `<ProductReviewForm>`, `<RecentlyViewed>`, `<RetryButton>`, `<StateCard>`, `<GridSkeleton>`, `<ProductSkeleton>`, `<CartSkeleton>`, `<ShopBarSkeleton>` in `web/src/components/shop/` | State in the URL; the heart is a toggle with `aria-pressed` and a polite status line; a stepper button at its limit is `aria-disabled` (focus stays); cart and wishlist live in `localStorage` and are validated on read |
+| Shop | `<ShopBrowser>`, `<FilterPanel>`, `<FilterDrawer>`, `<ProductCard>`, `<ProductStrip>`, `<ProductRow>`, `<ProductDetail>`, `<ImageZoom>`, `<QuantityStepper>`, `<CartView>`, `<CartPill>`, `<WishlistButton>`, `<WishlistLink>`, `<WishlistView>`, `<ShareButton>`, `<ProductReviews>`, `<ProductReviewForm>`, `<RecentlyViewed>`, `<RetryButton>`, `<StateCard>`, `<GridSkeleton>`, `<ProductSkeleton>`, `<CartSkeleton>`, `<ShopBarSkeleton>` in `web/src/components/shop/` | State in the URL; the product photo is contained on a soft night backdrop (`--night-3` to `--night-2`, like the photo viewer), never a cream mat; `<ProductStrip>` fades out at an edge where more cards wait (a mask, off while the keyboard is inside the row); the heart is a toggle with `aria-pressed` and a polite status line; a stepper button at its limit is `aria-disabled` (focus stays); cart and wishlist live in `localStorage` and are validated on read |
 | Checkout and payments | `<StepIndicator>`, `<Field>`, `<TextField>`, `<DonePanel>`, `<PayPalPanel>`, `<LazyPayPalPanel>` in `web/src/components/checkout/` | PayPal loads lazily at the payment step; the server decides every amount; the PayPal SDK gets the CSP nonce (`useCspNonce`) |
 | Community | `<LiveNow>`, `<LivePlayer>`, `<PastBroadcasts>`, `<ReviewForm>`, `<ReviewWall>` in `web/src/components/community/` | The player's Live, Upcoming and Offline state follows the visitor's clock each second; recordings use `preload="none"`. `<LiveNow>` shows a broadcast started from the dashboard above the schedule (docs/LIVE.md): it polls `/live/status` about every 15 seconds while the page is visible, frames only Cloudflare Stream's player, announces start and end in a polite live region |
 | Pilgrim guides | `<ContactForm>`, `<PrayerForm>`, `<LikeButton>`, `<FaqList>`, `<GalleryBrowser>`, `<LegalDocument>`, `<NextSteps>`, `<Planner>`, `<WalkingTable>` in `web/src/components/pilgrim/` | The planner keeps its answers in the URL, can print and export an iCalendar file made in the browser; the "Amen" counter is optimistic and corrects itself; one Amen per prayer per browser |
@@ -1155,7 +1173,9 @@ Carousel scroll maths use `Math.abs(scrollLeft)` (browsers report negative value
 ### 8.4 Fonts, line-breaking, numbers
 
 - Fonts per script: 3.3. Hebrew and Arabic use the taller `--leading-body: 1.8`.
-- No letter-spacing and no uppercase in Hebrew and Arabic (it breaks Arabic joining); buttons and eyebrows reset them.
+- No letter-spacing and no uppercase in Hebrew and Arabic (it breaks Arabic joining): one rule in
+  `web/src/styles/globals.css` removes the letter-spacing on the whole page, the `:lang()` rules in `ui.css` the
+  uppercase of buttons. Small labels that lose their capitals and tracking get a step larger (eyebrows 0.9rem).
 - Hyphenation: automatic by `<html lang>` for Latin, Cyrillic and Greek text; `hyphens: manual` for Hebrew and
   Arabic. Headings use `text-wrap: balance`, paragraphs `text-wrap: pretty`. Long words may always break
   (`overflow-wrap: break-word`) rather than push the page sideways.
@@ -1503,8 +1523,12 @@ Each one happened (or nearly did) here. The right-hand column says what catches 
 | **Arabic-Indic or other non-Western digits, or an invisible bidi character, in a message** | Prices and numbers read wrongly; copy-paste traps | `messages.test.ts` |
 | **Translating the brand name** | The logo is the name | Glossary: never translate or transliterate "Nazareth Holy Cross" |
 | **Adding a banner, pop-up, newsletter box or cookie notice** | Violates "nothing asks the visitor for anything they did not come for"; implies tracking we do not do | Do not; owner and legal decision if tracking is ever introduced |
-| **Title Case sentences and ALL-CAPS in the message text itself** ("LIGHT A PRAY CANDLE", "Your Cart is Empty") | Looks shouty, breaks translation, cannot be restyled | Sentence case in the message; capitals by CSS in Latin scripts only. These exist today as legacy strings (2.2) |
+| **Title Case sentences and ALL-CAPS in the message text itself** ("LIGHT A PRAY CANDLE", "Your Cart is Empty") | Looks shouty, breaks translation, cannot be restyled | Sentence case in the message; capitals by CSS in Latin scripts only. The legacy strings named here were fixed on 2026-10-06 (2.2) |
 | **Two gold buttons in one view; a button with only an icon and no `aria-label`; a custom pill** | Dilutes the primary action; inaccessible | One `.ui-btn--gold`; `.ui-btn--icon` with an `aria-label` |
+| **`font-style: italic` on the serif** (verse, scripture notes, reviews, the candle intention) | No italic face is loaded, so the browser slants the upright letters: a faux italic that looks cheap at display sizes | Upright serif, a step larger, with a gold rule or a quote mark (3.3) |
+| **`:dir(ltr)` or `:dir(rtl)` in a stylesheet** | The production CSS build rewrites `:dir()` into a list of `:lang()`, so it matches by language, not by direction: an English product name on an Arabic page is never `:dir(ltr)` after the build | Keep the box in the page direction and put a `<bdi>` (or `dir`) on the text itself; style with `[dir='rtl']` on an ancestor |
+| **A centred block capped with `max-width` but no `margin-inline: auto`** (the hero title of `<PlaceHero>`) | Which margin wins depends on the order the build puts the stylesheets in: the title sat 130 px towards the start | Centre with auto inline margins in the shared class (`.ui-hero__title` does) |
+| **Per-component spacing, radii and label colours** (five section paddings on one page, 14/16/18/28 px radii, a muted label on one form and a cream one on the next) | The pages look assembled from different kits | `--section-space`, `--radius` / `--radius-sm` and `.ui-label` as they are; change the token, not the component |
 | **Working in the main checkout or on `main`, merging or deploying without approval** | Collisions and surprise deploys (every merge to `main` deploys) | `docs/WORKING-AGREEMENT.md` |
 
 ## 14. How to add things
