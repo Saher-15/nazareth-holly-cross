@@ -261,17 +261,17 @@ describe('collection names', () => {
 describe('the production server does not build indexes by itself', () => {
   afterEach(() => mongoose.set('autoIndex', true));
 
-  it('autoIndex is on for development and tests, off in production, and AUTO_INDEX=true is the emergency switch', () => {
+  it('autoIndex is on everywhere unless AUTO_INDEX=false (a deploy must not depend on a manual script)', () => {
     expect(autoIndexEnabled({ NODE_ENV: 'development' })).toBe(true);
     expect(autoIndexEnabled({ NODE_ENV: 'test' })).toBe(true);
     expect(autoIndexEnabled({})).toBe(true);
-    expect(autoIndexEnabled({ NODE_ENV: 'production' })).toBe(false);
+    expect(autoIndexEnabled({ NODE_ENV: 'production' })).toBe(true);
     expect(autoIndexEnabled({ NODE_ENV: 'production', AUTO_INDEX: 'false' })).toBe(false);
     expect(autoIndexEnabled({ NODE_ENV: 'production', AUTO_INDEX: 'true' })).toBe(true);
   });
 
   it('applies the policy to Mongoose', () => {
-    expect(applyIndexPolicy({ NODE_ENV: 'production' })).toBe(false);
+    expect(applyIndexPolicy({ NODE_ENV: 'production', AUTO_INDEX: 'false' })).toBe(false);
     expect(mongoose.get('autoIndex')).toBe(false);
     expect(applyIndexPolicy({ NODE_ENV: 'development' })).toBe(true);
     expect(mongoose.get('autoIndex')).toBe(true);

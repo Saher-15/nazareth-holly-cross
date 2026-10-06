@@ -22,8 +22,8 @@ services:
       # Switch on once every client sends paypalOrderId (the new site does; the old CRA site does not).
       - key: REQUIRE_PAYMENT_PROOF
         value: 'false'
-      # Indexes are NOT built by the server in production (docs/DATABASE.md section 5): run server/scripts/ensure-indexes.js --apply.
-      # AUTO_INDEX=true brings the old build-at-start-up behaviour back (emergency only); leave it unset.
+      # The server builds the indexes its models declare when it starts (docs/DATABASE.md section 5): the payment ledger depends on them.
+      # AUTO_INDEX=false turns that off (large database only: then run server/scripts/ensure-indexes.js --apply).
       - key: DATABASEURL
         sync: false
       - key: JWT_SECRET

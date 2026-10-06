@@ -124,10 +124,8 @@ MongoDB has no foreign keys. The relationships are kept by the application and *
 ## 5. Indexes: present vs needed, per query
 
 Indexes are **declared in the models** (`schema.index(...)`), so the code and the database cannot drift unnoticed.
-The production server **does not build indexes by itself** (`autoIndex` off when `NODE_ENV=production`, `config/indexPolicy.js`):
-building an index on a live database is a deliberate act, and a changed definition must not stop the server from starting.
-`node scripts/ensure-indexes.js` shows what is missing (dry run) and creates it only with `--apply`; at start-up the server logs
-a warning naming any missing index. `AUTO_INDEX=true` restores the old behaviour in an emergency.
+The server **builds the declared indexes when it starts**, in production too (decision of the owner, 06/10; `config/indexPolicy.js`): the database is small, and the unique index on `payment.paypalOrderId` is what makes a duplicate payment registration impossible, so a deploy must not depend on a manual step.
+`AUTO_INDEX=false` turns it off (for a large database, where an index build on a live collection is a deliberate act). `node scripts/ensure-indexes.js` shows what is missing (dry run) and creates it only with `--apply`; at start-up the server logs a warning naming any missing index.
 
 | Query (where) | Index it needs | Status |
 |---|---|---|

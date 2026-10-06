@@ -395,6 +395,5 @@ script, the models' indexes, and the old admin routes. The database is replaced 
 * No test ran against a real MongoDB or on Render. The fakes understand the operators the routes use; the sanitizeFilter
   test guards the main difference, but compound behaviour (index creation, TTL purge timing, real casting) was not
   observed. Run the first sign-in and one of each change on a staging database before pointing production at it.
-* **Indexes are no longer built by the production server** (`autoIndex` is off when `NODE_ENV=production`, docs/DATABASE.md section 5): run `node scripts/ensure-indexes.js` (dry run) and `--apply` once, before
-  deploying a release that adds one (this one adds the unique `payment.paypalOrderId` index). The server logs a warning at start-up for any missing index; on Atlas check that `auditLog` and `adminSession` show the expiry indexes.
+* **Indexes are built by the server at start-up, in production too** (docs/DATABASE.md section 5; `AUTO_INDEX=false` turns it off). This release adds the unique `payment.paypalOrderId` index. After the deploy, check on Atlas that it exists and that `auditLog` and `adminSession` show the expiry indexes; `node scripts/ensure-indexes.js` (dry run) lists anything missing.
 * No e-mail was sent (the mailer is mocked); the shipped-order mail uses the same `sendMail` as before.
