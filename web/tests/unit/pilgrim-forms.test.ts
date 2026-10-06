@@ -16,11 +16,28 @@ import {
   prayerSubmitError,
   toPrayerPayload,
   validatePrayer,
+  wallCountry,
 } from '@/data/pilgrim/prayers';
 import { normalize, searchEntries, snippet, tokens, type SearchEntry } from '@/lib/search';
 
 describe('prayer form', () => {
-  const good = { ...emptyPrayer, name: 'Maria', country: 'Italy', prayer: 'Peace for all families.' };
+  it('takes the country from the list only and sends its English name, which the server model stores as text', () => {
+    expect(validatePrayer({ ...emptyPrayer, name: 'Maria', country: 'Italy', prayer: 'Peace for all families.' }).country?.key).toBe('required');
+    expect(validatePrayer({ ...emptyPrayer, name: 'Maria', country: 'XX', prayer: 'Peace for all families.' }).country?.key).toBe('required');
+    expect(toPrayerPayload({ ...emptyPrayer, name: 'Anna', country: 'DE', prayer: 'Peace.' }).country).toBe('Germany');
+    // The payload has exactly the fields of server/model/prayer.js.
+    expect(Object.keys(toPrayerPayload({ ...emptyPrayer, country: 'IL' })).sort()).toEqual(['category', 'country', 'name', 'prayer']);
+  });
+
+  it('shows a known country in the language of the reader and keeps older free-text countries', () => {
+    expect(wallCountry('Germany', 'de')).toBe('Deutschland');
+    expect(wallCountry('germany ', 'fr')).toBe('Allemagne');
+    expect(wallCountry('Nazareth', 'he')).toBe('Nazareth');
+    expect(wallCountry('see www.spam.example', 'en')).not.toContain('www.');
+  });
+
+
+  const good = { ...emptyPrayer, name: 'Maria', country: 'IT', prayer: 'Peace for all families.' };
 
   it('accepts a normal prayer and trims it for the API', () => {
     expect(validatePrayer(good)).toEqual({});

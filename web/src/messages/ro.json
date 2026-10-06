@@ -1114,6 +1114,7 @@
         "intro": "Scrieți o intenție pentru pace, vindecare, mulțumire sau pentru familia dumneavoastră. Ea va apărea pe zid.",
         "name": "Numele dumneavoastră",
         "country": "De unde sunteți?",
+        "countryChoose": "Alegeți țara",
         "category": "Categorie",
         "prayer": "Rugăciunea dumneavoastră",
         "counter": "{count} / {max}",

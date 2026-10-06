@@ -1,4 +1,4 @@
-import { useFormatter, useTranslations } from 'next-intl';
+import { useFormatter, useLocale, useTranslations } from 'next-intl';
 import type { Review } from '@/lib/api';
 import { reviewerPlace } from '@/lib/reviews';
 import { NAZARETH_TIME_ZONE } from '@/lib/time';
@@ -23,7 +23,8 @@ export function scriptOf(text: string): 'hebrew' | 'arabic' | undefined {
 
 function ReviewCard({ review }: { review: Review }) {
   const format = useFormatter();
-  const place = reviewerPlace(review);
+  const locale = useLocale();
+  const place = reviewerPlace(review, locale);
   const created = review.createdAt ? new Date(review.createdAt) : null;
   const hasDate = created !== null && !Number.isNaN(created.getTime());
 
