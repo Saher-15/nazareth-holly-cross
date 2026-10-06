@@ -217,3 +217,17 @@ describe('parseAcceptLanguage / withLanguageFallbacks', () => {
     for (const target of Object.values(languageFallbacks)) expect(locales).toContain(target);
   });
 });
+
+describe('Strict-Transport-Security on the proxy\'s own redirects', () => {
+  it('is the full two-year, includeSubDomains, preload value (Netlify would otherwise fill in a weaker one)', async () => {
+    const { HSTS_VALUE } = await import('@/lib/hsts');
+    const redirect = ask({ path: '/shop', acceptLanguage: 'it' });
+    expect(redirect.status).toBeGreaterThanOrEqual(300);
+    expect(redirect.headers.get('strict-transport-security')).toBe(HSTS_VALUE);
+    expect(HSTS_VALUE).toMatch(/max-age=63072000; includeSubDomains; preload/);
+  });
+
+  it('is left to next.config.ts on pages that are served (not redirected)', () => {
+    expect(ask({ path: '/en/shop', acceptLanguage: 'en' }).headers.get('strict-transport-security')).toBeNull();
+  });
+});

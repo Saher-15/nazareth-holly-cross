@@ -1,0 +1,26 @@
+# Line endings. The repository stores text with LF and every checkout uses LF, on Windows too, so a file is never
+# "modified" only because of CRLF, the "LF will be replaced by CRLF" warning on every commit goes away, and the CI
+# (Linux) and the developers' PCs (Windows) agree. Nothing in the existing history is rewritten: the stored files
+# already use LF (checked with `git ls-files --eol`).
+* text=auto eol=lf
+
+# Binary files: never converted, never diffed as text.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.avif binary
+*.ico binary
+*.mp3 binary
+*.mp4 binary
+*.webm binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.pdf binary
+*.zip binary
+
+# Generated files: collapsed in pull request diffs.
+package-lock.json -diff linguist-generated

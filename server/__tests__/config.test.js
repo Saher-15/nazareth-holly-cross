@@ -22,6 +22,15 @@ describe('config/env', () => {
     expect(config.paypal.baseUrl).toBe('https://api-m.paypal.com');
   });
 
+  it('trusts one proxy hop unless TRUST_PROXY_HOPS says a whole number from 1 to 5', async () => {
+    for (const [value, expected] of [[undefined, 1], ['', 1], ['2', 2], ['5', 5], ['0', 1], ['6', 1], ['-1', 1], ['1.5', 1], ['two', 1]]) {
+      if (value === undefined) delete process.env.TRUST_PROXY_HOPS;
+      else process.env.TRUST_PROXY_HOPS = value;
+      expect((await importConfig()).config.trustProxyHops, String(value)).toBe(expected);
+    }
+    delete process.env.TRUST_PROXY_HOPS;
+  });
+
   it('reports missing required variables', async () => {
     const saved = process.env.JWT_SECRET;
     delete process.env.JWT_SECRET;

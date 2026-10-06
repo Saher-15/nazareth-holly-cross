@@ -16,6 +16,11 @@ production, and what keeps it safe. Anyone (person or AI agent) changing the cod
 
 `client-next/` is an abandoned earlier attempt and is not deployed.
 
+Domain, DNS (at Netlify, not GoDaddy), regions, the PayPal Live checklist and the owner's action list:
+[INFRASTRUCTURE.md](INFRASTRUCTURE.md). Repositories, branch protection and the plan to make the monorepo private:
+[REPOSITORIES.md](REPOSITORIES.md). What is watched and what to do when it breaks: [MONITORING.md](MONITORING.md).
+The API answers `GET /health` (the process is up) and `GET /health/deep` (also: MongoDB answers; 503 when it does not).
+
 ## 2. Environments
 
 | Environment | URL | Data | PayPal |
@@ -34,10 +39,21 @@ Secrets live only in Render/Netlify environment settings, never in the repositor
    build + end-to-end + accessibility, and the current site still builds.
 4. **Review** the deploy preview on a phone width and in an RTL language (Hebrew or Arabic).
 5. **Merge** only with the owner's explicit approval. Netlify and Render deploy `main` automatically.
-6. **Watch** the live site after the deploy (home, shop, a checkout up to the PayPal button).
+6. **Smoke-test the live site after every deploy. This step is mandatory, not optional:**
+
+   ```bash
+   node ops/smoke-live.mjs        # read-only, about 2 minutes: ~35 pages in a browser, redirects, headers, certificate, API + database
+   ```
+
+   Any `FAIL` (exit code 1) means **roll back first, investigate second**. A `WARN` is read, understood and noted in the
+   pull request. The same script takes `--site <deploy preview url>` to check a preview *before* merging, and
+   `--no-browser` where no browser is installed. What it checks and the runbooks for what it finds:
+   [MONITORING.md](MONITORING.md). Then look at the shop and a checkout up to the PayPal button by hand (the script never
+   fills a form or presses a payment button).
 
 **Rollback:** Netlify → Deploys → "Publish deploy" on the previous one. Render → the service → Rollback.
-Then revert the commit on `main` with a pull request.
+Then revert the commit on `main` with a pull request. A Netlify site that answers 404 on every page after a deploy is a
+known failure with its own runbook: [MONITORING.md](MONITORING.md) section 5.1.
 
 ## 4. Rules that keep it reliable and safe
 
