@@ -32,7 +32,9 @@
   border: 1px solid var(--glass-line);
   background: var(--glass);
   color: var(--cream);
-  font: 400 1.2rem/1.1 var(--serif);
+  /* an amount is set like every price of the site: sans, bold, tabular figures */
+  font: 700 1.1rem/1.1 var(--sans);
+  font-variant-numeric: tabular-nums;
   text-align: center;
   cursor: pointer;
   transition:

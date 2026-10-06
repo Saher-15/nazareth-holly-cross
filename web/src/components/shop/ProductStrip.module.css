@@ -67,6 +67,24 @@
   outline: 3px solid var(--gold);
   outline-offset: -3px;
 }
+/* A soft fade at an edge where more cards wait (the row used to end in a hard cut through a card). It goes away while
+   the keyboard is inside the row, so a focused card is never dimmed. Gradients do not mirror: RTL has its own. */
+.track[data-more-end]:not(:focus-within) {
+  mask-image: linear-gradient(90deg, black calc(100% - 56px), transparent);
+}
+.track[data-more-start]:not(:focus-within) {
+  mask-image: linear-gradient(270deg, black calc(100% - 56px), transparent);
+}
+:global([dir='rtl']) .track[data-more-end]:not(:focus-within) {
+  mask-image: linear-gradient(270deg, black calc(100% - 56px), transparent);
+}
+:global([dir='rtl']) .track[data-more-start]:not(:focus-within) {
+  mask-image: linear-gradient(90deg, black calc(100% - 56px), transparent);
+}
+.track[data-more-start][data-more-end]:not(:focus-within),
+:global([dir='rtl']) .track[data-more-start][data-more-end]:not(:focus-within) {
+  mask-image: linear-gradient(90deg, transparent, black 56px, black calc(100% - 56px), transparent);
+}
 
 .list {
   display: flex;

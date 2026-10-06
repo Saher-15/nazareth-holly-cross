@@ -108,8 +108,8 @@ async function fillContact(page: Page) {
   await page.getByLabel('Country').selectOption('IL');
   await page.getByLabel('Street Address').fill('1 Paulus VI St');
   await page.getByLabel('City').fill('Nazareth');
-  await page.getByLabel('State/ Province').fill('North');
-  await page.getByLabel('Postal/ Zip Code').fill('16000');
+  await page.getByLabel('State / Province').fill('North');
+  await page.getByLabel('Postal / Zip Code').fill('16000');
 }
 
 async function fillCandle(page: Page) {
