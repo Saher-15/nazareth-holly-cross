@@ -61,12 +61,15 @@ html:lang(he) .nav__label, html:lang(ar) .nav__label { letter-spacing: 0; text-t
     box-shadow: var(--elev-3);
   }
   html[dir='rtl'] .sidebar { transform: translateX(102%); }
-  .sidebar[data-open='true'] { transform: none; visibility: visible; transition: transform var(--dur-base) var(--ease-out), visibility 0s; }
+  /* the RTL selector is repeated: html[dir='rtl'] .sidebar outranks .sidebar[data-open], and kept the open panel
+     off the screen in Hebrew and Arabic */
+  .sidebar[data-open='true'], html[dir='rtl'] .sidebar[data-open='true'] { transform: none; visibility: visible; transition: transform var(--dur-base) var(--ease-out), visibility 0s; }
   .scrim { display: block; position: fixed; inset: 0; z-index: calc(var(--z-menu) - 1); background: rgba(3, 5, 12, 0.6); opacity: 0; pointer-events: none; transition: opacity var(--dur-base) ease; }
   .scrim[data-open='true'] { opacity: 1; pointer-events: auto; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .sidebar, .scrim { transition: none; }
+  /* the open state sets its own transition, so it is named here too: the panel appears at once, it does not slide */
+  .sidebar, .sidebar[data-open='true'], html[dir='rtl'] .sidebar[data-open='true'], .scrim { transition: none; }
 }
 
 /* ---- page header ---- */
@@ -96,6 +99,8 @@ html:lang(he) .eyebrow, html:lang(ar) .eyebrow { letter-spacing: 0; text-transfo
 }
 
 /* ---- KPI cards ---- */
+/* the payments alert above the figures needs the same air as the panels below them (it touched the first card) */
+.alert + .kpis { margin-top: var(--space-4); }
 .kpis { display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr)); }
 .kpi {
   position: relative; display: grid; gap: 2px; padding: var(--space-4) var(--space-4) var(--space-4);
@@ -128,10 +133,12 @@ html:lang(he) .eyebrow, html:lang(ar) .eyebrow { letter-spacing: 0; text-transfo
 .list__sub { font-size: var(--text-xs); color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .list__end { display: grid; justify-items: end; gap: 2px; flex: none; font-variant-numeric: tabular-nums; }
 
-.ranking { display: grid; gap: var(--space-4); }
+/* minmax(0, 1fr): a long product name or sales figure must not widen the column past the panel (Hebrew and Arabic
+   at 320px pushed the list 25px off the screen). */
+.ranking { display: grid; gap: var(--space-4); grid-template-columns: minmax(0, 1fr); }
 .ranking__item { display: flex; gap: var(--space-3); align-items: flex-start; }
 .ranking__rank { display: grid; place-items: center; width: 28px; height: 28px; flex: none; border-radius: 50%; background: var(--gold-soft); color: var(--gold); font-weight: 800; font-size: var(--text-sm); }
-.ranking__main { flex: 1; min-width: 0; display: grid; gap: 4px; }
+.ranking__main { flex: 1; min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px; }
 .ranking__row { display: flex; justify-content: space-between; gap: var(--space-3); }
 .ranking__name { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ranking__value { color: var(--muted); font-size: var(--text-sm); flex: none; }
@@ -147,7 +154,9 @@ html:lang(he) .eyebrow, html:lang(ar) .eyebrow { letter-spacing: 0; text-transfo
 .legend__swatch { width: 14px; height: 10px; border-radius: 3px; background: var(--gold); opacity: 0.8; }
 .legend__swatch--line { height: 3px; background: var(--info); opacity: 1; }
 .chart__plot { max-width: 100%; border-radius: var(--radius-sm); }
-.chart__plot svg { display: block; max-width: none; }
+/* The chart draws itself at its box's width; until then (the server's 640px first paint) and below its 280px minimum
+   it scales down instead of pushing the page sideways (a 640px chart made a 320px phone scroll 350px in Hebrew). */
+.chart__plot svg { display: block; max-width: 100%; height: auto; }
 .chart__grid { stroke: var(--glass-line); stroke-width: 1; }
 .chart__tick { fill: var(--muted); font-size: 11px; font-family: var(--sans); }
 .chart__tick--line { fill: var(--info); }
