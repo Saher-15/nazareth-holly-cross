@@ -6,8 +6,11 @@ If you think you have found a security problem in the Nazareth Holy Cross websit
 its API or its admin site, **please tell us privately first** and give us a chance to fix it before it is
 made public.
 
-- **Preferred:** use GitHub's private reporting: the repository's **Security** tab, **Report a vulnerability**.
-- **Or e-mail:** nazarethholycross@gmail.com with the subject line "Security report".
+- **E-mail:** nazarethholycross@gmail.com with the subject line "Security report". This always works, also when
+  this repository is private. The same address is published at
+  <https://nazarethholycross.com/.well-known/security.txt> (the standard place security researchers look).
+- **Or GitHub's private reporting** (the repository's **Security** tab, **Report a vulnerability**), while the
+  repository is public and the owner has switched that feature on.
 
 Please include what you found, where (a URL or an API route), the steps to reproduce it, and what an attacker
 could do with it. A screenshot or a short video helps. Please do **not** include other people's personal data
@@ -40,7 +43,7 @@ We will not take legal action against anyone who follows this policy in good fai
 |---|---|
 | The website `nazarethholycross.com` and its Netlify previews | cross-site scripting, broken access control, open redirects |
 | The API `nazareth-holy-cross-api.onrender.com` | injection, authentication bypass, paying less than the price, reading admin data |
-| The admin site | anything that lets a visitor act as an administrator |
+| The admin site (`nazaretholycrossadmin.netlify.app` and its future own domain) | anything that lets a visitor act as an administrator |
 
 Out of scope: problems in PayPal, Firebase, Netlify, Render, MongoDB Atlas or Google themselves (report those to
 the vendor); missing "best practice" headers with no demonstrated impact; reports from automated scanners without a

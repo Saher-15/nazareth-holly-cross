@@ -8,6 +8,7 @@
 
 [build.environment]
   NODE_VERSION = "22"
+  NEXT_TELEMETRY_DISABLED = "1"
 
 # Responses get their security headers (CSP with a nonce, HSTS ...) from the application itself
 # (web/next.config.ts and web/src/proxy.ts); only static files are tuned here.
@@ -21,6 +22,50 @@
   for = "/sw.js"
     [headers.values]
     Cache-Control = "no-cache, no-store, must-revalidate"
+
+# Files in web/public are served by Netlify's CDN, which ignores the headers() of next.config.ts for them (measured on
+# the live site 2026-10-06: `public,max-age=0,must-revalidate`, so every visit re-asked the server for every photo).
+# The same values as next.config.ts, written where Netlify reads them. Two rules can match one file (/images/* and
+# /images/nazareth-media/*): both values are safe for every file they cover, so it does not matter which one wins.
+# docs/INFRASTRUCTURE.md says how to check the result on a deploy preview. tests/unit/netlify-config.test.ts fails
+# when a top-level folder of public/ is left without a rule.
+[[headers]]
+  for = "/images/*"
+    [headers.values]
+    Cache-Control = "public, max-age=86400, stale-while-revalidate=604800"
+
+# The pre-built AVIF/WebP files of the licensed photos: a new crop gets a new id (docs/MEDIA.md), so a month is safe.
+[[headers]]
+  for = "/images/nazareth-media/*"
+    [headers.values]
+    Cache-Control = "public, max-age=2592000, stale-while-revalidate=604800"
+
+[[headers]]
+  for = "/videos/*"
+    [headers.values]
+    Cache-Control = "public, max-age=2592000, stale-while-revalidate=604800"
+
+[[headers]]
+  for = "/sounds/*"
+    [headers.values]
+    Cache-Control = "public, max-age=86400, stale-while-revalidate=604800"
+
+# EXPERIMENT (check on a deploy preview, docs/INFRASTRUCTURE.md section 3.4): the optimised photos of /_next/image come
+# back with `private,max-age=0`, so the browser asks again for each of them on every page view (about 1.1 s each,
+# measured). If Netlify applies this rule to them the answer becomes cacheable for a day. If it does not, nothing changes.
+[[headers]]
+  for = "/_next/image*"
+    [headers.values]
+    Cache-Control = "public, max-age=86400, stale-while-revalidate=604800"
+
+# One address for the site: the free *.netlify.app name answers the same pages as the real domain (measured: HTTP 200),
+# which splits search engines and links between two hosts. Only this exact host is redirected; deploy previews
+# (deploy-preview-N--nazarethholycross.netlify.app) and branch deploys keep working.
+[[redirects]]
+  from = "https://nazarethholycross.netlify.app/*"
+  to = "https://nazarethholycross.com/:splat"
+  status = 301
+  force = true
 
 # Next.js on Netlify is served by the official runtime (server handler + routing); named
 # explicitly so the build does not depend on auto-detection.

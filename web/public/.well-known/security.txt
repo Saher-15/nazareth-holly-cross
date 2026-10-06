@@ -1,0 +1,6 @@
+# How to report a security problem on nazarethholycross.com (RFC 9116).
+# Please tell us privately first. Do not include other people's personal data in the report.
+Contact: mailto:nazarethholycross@gmail.com
+Expires: 2027-10-06T00:00:00.000Z
+Preferred-Languages: en, he, ar
+Canonical: https://nazarethholycross.com/.well-known/security.txt

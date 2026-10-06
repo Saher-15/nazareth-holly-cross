@@ -1,0 +1,23 @@
+name: A change or an idea
+description: A new page, a different text, a feature for the admin dashboard, an improvement.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What should change, and for whom?
+      description: Visitors, shoppers, pilgrims, or the people who run the site.
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why does it matter?
+  - type: dropdown
+    id: urgency
+    attributes:
+      label: How soon?
+      options:
+        - Whenever there is time
+        - Before the next pilgrimage season
+        - Urgent

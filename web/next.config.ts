@@ -1,6 +1,7 @@
 import type { NextConfig } from 'next';
 import path from 'node:path';
 import createNextIntlPlugin from 'next-intl/plugin';
+import { HSTS_VALUE } from './src/lib/hsts';
 import { locales } from './src/i18n/routing';
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
@@ -38,7 +39,7 @@ const securityHeaders = [
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
   { key: 'X-Frame-Options', value: 'DENY' },
   { key: 'Permissions-Policy', value: permissionsPolicy },
-  { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
+  { key: 'Strict-Transport-Security', value: HSTS_VALUE },
   // Other sites cannot hold a reference to our windows, except the PayPal popup we open ourselves.
   { key: 'Cross-Origin-Opener-Policy', value: 'same-origin-allow-popups' },
   // Our files are not for embedding by other origins. (No COEP: it would block PayPal and Firebase media.)

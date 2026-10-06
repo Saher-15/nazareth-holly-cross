@@ -1,0 +1,40 @@
+# Keeps the API awake. Render's free plan puts the service to sleep after 15 minutes without a request, and the next
+# visitor then waits 30-60 seconds for it to start. A request every 10 minutes prevents that.
+#
+# READ THIS before relying on it (details: docs/MONITORING.md, docs/INFRASTRUCTURE.md):
+#  * GitHub runs scheduled workflows late, sometimes skipping a run, and PAUSES them after 60 days without any
+#    activity in the repository (a push, a pull request). It is a convenience, not a guarantee.
+#  * It is free only while the repository is PUBLIC. In a private repository each run is billed as at least one
+#    minute: about 4,300 minutes a month at this rate, more than the 2,000 free minutes of the GitHub Free plan.
+#    If the repository is made private, delete this file and use an external uptime monitor instead
+#    (UptimeRobot or Better Stack check every 5 minutes for free, and they send the alert e-mail too).
+#  * A failed run e-mails the repository owner, which makes it a rough alarm as well.
+name: Keep API awake
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: keepalive
+  cancel-in-progress: true
+
+jobs:
+  ping:
+    name: Ping the API
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      # --retry covers a cold start (30-60 s): the first attempt may time out while the service wakes up.
+      - name: GET /health
+        env:
+          API_URL: ${{ vars.API_URL || 'https://nazareth-holy-cross-api.onrender.com' }}
+        run: |
+          curl --fail --silent --show-error --location \
+            --max-time 90 --retry 3 --retry-delay 15 --retry-all-errors \
+            --output response.json --write-out 'HTTP %{http_code} in %{time_total}s\n' \
+            "$API_URL/health"
+          cat response.json; echo

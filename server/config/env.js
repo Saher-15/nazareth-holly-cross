@@ -36,10 +36,19 @@ export function secretProblems() {
 
 const paypalEnvironment = env.ENVIRONMENT || 'sandbox';
 
+// How many reverse proxies stand between a visitor and this process (Express "trust proxy"). It decides which
+// address every per-IP rate limit counts. 1 = the proxy that connects to us (Render's load balancer). On Render the
+// traffic also passes through Cloudflare, which can make one hop too few: every visitor is then counted as the
+// Cloudflare edge address. Raise it to 2 only after checking it (docs/INFRASTRUCTURE.md, "Rate limits behind
+// Cloudflare"). Anything that is not a whole number from 1 to 5 falls back to 1.
+const hops = Number(env.TRUST_PROXY_HOPS);
+const trustProxyHops = Number.isInteger(hops) && hops >= 1 && hops <= 5 ? hops : 1;
+
 export const config = {
   nodeEnv: env.NODE_ENV || 'development',
   isProd: env.NODE_ENV === 'production',
   port: env.PORT || 5000,
+  trustProxyHops,
   databaseUrl: env.DATABASEURL,
   jwtSecret: env.JWT_SECRET,
   adminPassword: env.ADMIN_PASSWORD,

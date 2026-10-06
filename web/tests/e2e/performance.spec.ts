@@ -7,6 +7,9 @@ import { expect, test, type Page } from '@playwright/test';
 
 const PAGES = ['/en', '/en/sites/latin', '/en/shop', '/en/candle', '/en/gallery'];
 
+// A photo gallery is image-heavy by nature: its first screen is a wall of pictures, so it gets its own limit.
+const PAGE_IMAGE_BYTES: Record<string, number> = { '/en/gallery': 1_400_000 };
+
 const BUDGET = {
   lcpMs: 2500, // "good" for Core Web Vitals
   cls: 0.1, // "good" for Core Web Vitals
@@ -55,7 +58,7 @@ for (const path of PAGES) {
 
     expect.soft(result.lcp, `LCP ${Math.round(result.lcp)} ms`).toBeLessThan(BUDGET.lcpMs);
     expect.soft(result.cls, `CLS ${result.cls.toFixed(3)}`).toBeLessThan(BUDGET.cls);
-    expect.soft(result.image, `image bytes ${result.image}`).toBeLessThan(BUDGET.imageBytes);
+    expect.soft(result.image, `image bytes ${result.image}`).toBeLessThan(PAGE_IMAGE_BYTES[path] ?? BUDGET.imageBytes);
     expect.soft(result.script, `script bytes ${result.script}`).toBeLessThan(BUDGET.scriptBytes);
     expect.soft(result.font, `font bytes ${result.font}`).toBeLessThan(BUDGET.fontBytes);
     expect.soft(result.video, `film bytes ${result.video}`).toBeLessThan(BUDGET.heroFilmBytes);
