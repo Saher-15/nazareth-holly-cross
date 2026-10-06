@@ -31,6 +31,11 @@ Not part of this project: `ai-travel-planner`, `Topaz_World_Cup`, `Topaz-Site-Su
 
 ## 2. Findings in the monorepo today
 
+**Done on 2026-10-06 (owner's go-ahead):** `main` is protected (pull request required, the API, Web, Admin and gitleaks checks
+required, no force-push, no deletion; admins can still bypass in an emergency), Dependabot alerts and Dependabot security
+updates are on, private vulnerability reporting is on, and merged branches are deleted automatically. Findings 1, 3, 4
+and the setting of 6 below are therefore closed; the rest of the table is the state before that.
+
 | # | Finding | Risk | Fix |
 |---|---|---|---|
 | 1 | **`main` has no branch protection and no ruleset.** Anything can be pushed or force-pushed to production | high | section 4, step 5 |
