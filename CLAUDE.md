@@ -12,6 +12,8 @@ Read `docs/ENGINEERING.md` first. The short version:
 - All visible text goes through next-intl (`web/src/messages/*.json`, all 14 languages, ICU placeholders).
 - Never send real data to the production API while testing, and never click a live PayPal pay button.
 - Never kill processes you did not start (no `taskkill /IM node.exe`).
+- After a deploy the owner approved, the mandatory last step is `node ops/smoke-live.mjs` (read-only; see
+  `docs/ENGINEERING.md` section 3 and `docs/MONITORING.md`). DNS lives at Netlify, not GoDaddy (`docs/INFRASTRUCTURE.md`).
 - Done means: `npm run check` and `npm run test:e2e` pass in `web/`, `npm test` passes in `server/`, and the
   change was looked at on desktop and phone width, in an LTR and an RTL language.
 - Write `backdrop-filter` alone in CSS, never with a hand-written `-webkit-backdrop-filter` twin: the production CSS

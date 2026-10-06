@@ -15,7 +15,8 @@ import routerAdmin from './route/adminRoute.js';
 import routerAdminApi from './route/admin/index.js';
 import routerPrayer from './route/prayerRoute.js';
 import routerReview from './route/reviewRoute.js';
-import { apiLimiter, publicReadCache } from './utils/security.js';
+import { apiLimiter, healthLimiter, publicReadCache } from './utils/security.js';
+import { deepHealth } from './services/health.js';
 import { config } from './config/env.js';
 import { HttpError } from './utils/httpError.js';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
@@ -24,7 +25,9 @@ import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 // so tests can import it and drive it with supertest.
 export function createApp() {
   const app = express();
-  app.set('trust proxy', 1);
+  // How many proxies sit in front of this process (TRUST_PROXY_HOPS, default 1); it decides which address the
+  // per-IP rate limits count. See config/env.js and docs/INFRASTRUCTURE.md.
+  app.set('trust proxy', config.trustProxyHops);
 
   if (!config.isProd) {
     app.use(morgan('dev'));
@@ -79,6 +82,25 @@ export function createApp() {
   const sanitize = xss();
   const RAW_BODY = /^\/admin\/(auth\/|users\/?$)/;
   app.use((req, res, next) => (RAW_BODY.test(req.path) ? next() : sanitize(req, res, next)));
+  // Health checks come before the general limiter: a monitor must never be refused because other visitors used up
+  // the shared allowance. /health only says the process answers; /health/deep also pings the database (503 when it
+  // cannot be reached) and reports uptime, version and PayPal mode, never a secret (services/health.js).
+  app.get('/health', healthLimiter, (req, res) =>
+    res.json({
+      status: 'ok',
+      database: mongoose.connection.readyState === 1 ? 'up' : 'down',
+      timestamp: new Date().toISOString(),
+    }),
+  );
+  app.get('/health/deep', healthLimiter, async (req, res, next) => {
+    try {
+      const { healthy, body } = await deepHealth();
+      res.set('Cache-Control', 'no-store').status(healthy ? 200 : 503).json(body);
+    } catch (err) {
+      next(err);
+    }
+  });
+
   app.use(publicReadCache);
   app.use(apiLimiter);
 
@@ -93,14 +115,6 @@ export function createApp() {
   app.use('/admin', routerAdmin);
   app.use('/prayer', routerPrayer);
   app.use('/review', routerReview);
-
-  app.get('/health', (req, res) =>
-    res.json({
-      status: 'ok',
-      database: mongoose.connection.readyState === 1 ? 'up' : 'down',
-      timestamp: new Date().toISOString(),
-    }),
-  );
 
   app.use(notFoundHandler);
   app.use(errorHandler);

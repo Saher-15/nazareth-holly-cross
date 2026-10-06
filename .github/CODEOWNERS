@@ -1,0 +1,14 @@
+# Who is asked to review a change. GitHub reads the LAST matching line, so general rules come first.
+# While the owner is the only maintainer this changes nothing visible; it starts to matter when someone else gets
+# write access: turn on "Require review from Code Owners" in the branch rule of `main` then (docs/REPOSITORIES.md).
+
+*                          @Saher-15
+
+# Money, secrets and access: always the owner.
+/server/                   @Saher-15
+/render.yaml               @Saher-15
+/netlify.toml              @Saher-15
+/admin/netlify.toml        @Saher-15
+/.github/                  @Saher-15
+/SECURITY.md               @Saher-15
+/docs/SECURITY.md          @Saher-15

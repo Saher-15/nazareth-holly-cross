@@ -3,6 +3,7 @@ import createMiddleware from 'next-intl/middleware';
 import { defaultLocale, languageFallbacks, locales, routing } from './i18n/routing';
 import { API_URL } from './lib/config';
 import { buildCsp, generateNonce, isLocalHost, originOf } from './lib/csp';
+import { HSTS_VALUE } from './lib/hsts';
 import { isCrawler, withLanguageFallbacks } from './lib/negotiate';
 
 // 1. Sends visitors without a language in the URL to the one they prefer, in this order:
@@ -67,6 +68,9 @@ export default function proxy(request: NextRequest): NextResponse {
     response.headers.append('Vary', 'Accept-Language');
     response.headers.append('Vary', 'Cookie');
     response.headers.set('Cache-Control', 'private, no-cache, no-store');
+    // The security headers of next.config.ts are not applied to an answer this proxy produces itself, and a
+    // redirect is the very first thing a visitor of "/" gets: without this, Netlify fills in a weaker HSTS.
+    response.headers.set('Strict-Transport-Security', HSTS_VALUE);
   }
   return response;
 }

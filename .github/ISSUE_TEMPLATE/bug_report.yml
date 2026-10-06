@@ -1,0 +1,38 @@
+name: Something is broken
+description: A page, the shop, a payment, the admin dashboard or the API does not work as it should.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you. Please do **not** paste passwords, tokens, card numbers or other people's personal data here.
+        A security problem goes to the private form instead (see the link on the "new issue" page).
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where
+      options:
+        - Public website (nazarethholycross.com)
+        - Shop / checkout / PayPal
+        - Admin dashboard
+        - API (the server)
+        - Deploy / hosting (Netlify, Render, MongoDB Atlas, GoDaddy)
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what did you expect?
+      description: The address of the page, what you pressed, what you saw. A screenshot helps.
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Device, browser and language
+      placeholder: "iPhone 15, Safari, Hebrew"
+  - type: textarea
+    id: since
+    attributes:
+      label: Since when, and does it happen every time?

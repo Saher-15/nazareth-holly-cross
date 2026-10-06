@@ -15,6 +15,11 @@ const limiter = (limit, message = 'Too many requests, please try again later.', 
 // Every request, per IP.
 export const globalLimiter = limiter(200);
 
+// GET /health and /health/deep: uptime monitors and the keep-alive job call them all day. They get a counter of
+// their own (answered before the general one) so a busy or abusive neighbour on the same address can never make
+// the monitor see "429 Too Many Requests" and raise a false alarm. Both are cheap; /health/deep caches its answer.
+export const healthLimiter = limiter(300);
+
 // Public forms that send mail or store text (contact, candle, prayer, review): shared counter per IP.
 export const strictLimiter = limiter(10);
 
