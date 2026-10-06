@@ -21,10 +21,28 @@ Accessibility coordinator (named in the statement): the site's e-mail address, `
 
 ## 2. The accessibility panel
 
-A round button with the accessibility sign in the header of every page opens a small non-modal dialog
-(`web/src/components/layout/A11yPanel.tsx`): text size 100 / 125 / 150 / 175 / 200%, high contrast, underlined
+A round button with the international accessibility sign (the United Nations figure with open arms in a circle)
+floats in the bottom corner of every page at the start of the line: bottom left in left-to-right languages, bottom
+right in Hebrew and Arabic (the back-to-top button has the other corner). It opens a small non-modal dialog above
+itself (`web/src/components/layout/A11yPanel.tsx`): text size 100 / 125 / 150 / 175 / 200%, high contrast, underlined
 links, stop animations, readable font, more text spacing (the WCAG 1.4.12 values), strong focus ring, large pointer,
-reset, and a link to the statement. Details and rules for new components: `docs/DESIGN-GUIDE.md` section 5.5.
+reset, and a link to the statement (which is also linked from the footer). Details and rules for new components:
+`docs/DESIGN-GUIDE.md` section 5.5.
+
+Where it sits and why (moved out of the header on 2026-10-07, branch `feat/navbar-logo`):
+
+- It is rendered right after the header, in its own landmark (`<aside>` named "Accessibility"), so the keyboard
+  reaches it early and a screen reader finds it in the landmarks list; visually it floats, 48px, 16px from the edges
+  plus the screen's safe areas, and does not move while the page scrolls.
+- It never covers what the keyboard reaches (2.4.11): `html { scroll-padding-bottom }` keeps focused elements above the
+  band of the two corner buttons (twice as high on a phone while the home page's candle pill lifts them), and the
+  footer's last line ends above that band, so at the end of a page nothing sits under them.
+- It never covers the home page's "light a candle" pill (on phones it steps up above it, as back to top does) nor a
+  toast (on narrow screens toasts sit above the corner buttons).
+- The open phone menu covers it and makes it inert, with the rest of the page.
+- The panel keeps its behaviour: non-modal dialog, focus to the text size, Escape and the close button return the
+  focus to the button, clicking or tabbing elsewhere closes it; it opens above the button, never under the header,
+  and scrolls inside itself.
 
 How it is built, in short:
 
@@ -58,6 +76,7 @@ How it is built, in short:
 | Pause, stop, hide, 2.2.2 | `web/tests/e2e/a11y.spec.ts` | the home and holy-site pause buttons stop the film and the zoom; "Stop animations" leaves no infinite animation and no film |
 | The panel | `web/tests/unit/a11y.test.tsx`, `web/tests/e2e/a11y.spec.ts` | storage validation, the pre-paint script against the TypeScript (same attributes for good, broken and hostile values), keyboard (open, radio arrows, switches, Escape returns focus), persistence before the first paint with no CSP violation, 200% text on a phone in Arabic, high-contrast colour ratios (AAA) |
 | Header fit | `web/tests/e2e/a11y.spec.ts` | the bar never overflows in any of the 14 languages at 320 to 1366 px |
+| The floating button | `web/tests/e2e/a11y.spec.ts` | not in the header, in its landmark; 16px from the bottom and the start edge in en and he; never meets back to top; the panel opens above it inside the window; on a phone it clears the home page's candle pill; the open phone menu makes it inert |
 | By eye | screenshots | home, statement, candle and a holy site at 1366 and 390 px in en, he and ar, panel open, 200% text, high contrast, all modes |
 
 How to run:

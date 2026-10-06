@@ -53,12 +53,20 @@ export const ExternalIcon = make(<path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-
 // ---- media and accessibility (media controls never mirror) ----
 export const PauseIcon = make(<path d="M9 6v12M15 6v12" />);
 export const PlayIcon = make(<path d="M8 5.5v13l10.5-6.5z" />);
-/** A person with open arms in a circle: the usual sign of the accessibility settings. */
+/** The international accessibility sign (the United Nations figure): a person with open arms and open stance in a
+ *  circle, the head drawn solid so it reads at 20px. Opens the accessibility settings (<A11yPanel>). */
 export const AccessibilityIcon = make(
   <>
     <circle cx="12" cy="12" r="10" />
-    <circle cx="12" cy="7.2" r="1.2" />
-    <path d="M7 10l5 1 5-1M12 11v3.2M12 14.2 9.6 18.5M12 14.2l2.4 4.3" />
+    <circle cx="12" cy="6.6" r="1.7" fill="currentColor" stroke="none" />
+    <path d="M6.2 9.4c1.9.6 3.8.9 5.8.9s3.9-.3 5.8-.9M12 10.3v3.8M12 14.1l-2.9 4.5M12 14.1l2.9 4.5" />
+  </>,
+);
+/** A magnifying glass: opens the site search (it never mirrors). */
+export const SearchIcon = make(
+  <>
+    <circle cx="10.8" cy="10.8" r="6.3" />
+    <path d="m15.5 15.5 4.6 4.6" />
   </>,
 );
 

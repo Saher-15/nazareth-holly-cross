@@ -1493,7 +1493,7 @@
           },
           "settings": {
             "title": "Toegankelijkheidsinstellingen",
-            "p1": "De knop met het toegankelijkheidsteken bovenaan elke pagina opent instellingen die voor de hele site gelden en in deze browser bewaard blijven. Met de herstelknop krijgt alles weer het oorspronkelijke uiterlijk.",
+            "p1": "De knop met het toegankelijkheidsteken in de onderhoek van elke pagina opent instellingen die voor de hele site gelden en in deze browser bewaard blijven. Met de herstelknop krijgt alles weer het oorspronkelijke uiterlijk.",
             "items": {
               "text": "Tekstgrootte van 100 tot 200 procent.",
               "contrast": "Hoog contrast: zwarte achtergrond, witte tekst en helderder goud.",

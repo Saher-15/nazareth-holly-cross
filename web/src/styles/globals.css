@@ -9,12 +9,20 @@ html {
   scroll-behavior: smooth;
   /* In-page links and focus jumps land below the sticky header, never under it. */
   scroll-padding-top: var(--scroll-offset);
-  /* ... and above the floating back-to-top button (48px at the bottom corner, BackToTop.module.css): an element the
-     keyboard reaches at the bottom edge is never hidden under it (WCAG 2.4.11; found on /ar/faq with CI's fonts). */
+  /* ... and above the floating corner buttons (48px, 16px from the bottom: the accessibility settings at the start,
+     A11yPanel.module.css, and back to top at the end, BackToTop.module.css): an element the keyboard reaches at the
+     bottom edge is never hidden under them (WCAG 2.4.11; found on /ar/faq with CI's fonts). */
   scroll-padding-bottom: calc(48px + 2 * var(--space-4) + env(safe-area-inset-bottom, 0px));
   scrollbar-color: color-mix(in srgb, var(--gold) 45%, var(--night-3)) var(--night);
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+/* Phones with the home page's "light a candle" pill showing: both corner buttons step up above the pill, so the band
+   to keep clear is two buttons high. */
+@media (max-width: 560px) {
+  html:has(body [data-shown='true'].ui-btn) {
+    scroll-padding-bottom: calc(2 * 48px + var(--space-3) + 2 * var(--space-4) + env(safe-area-inset-bottom, 0px));
+  }
+}
 
 body {
   margin: 0;

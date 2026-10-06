@@ -338,7 +338,8 @@ test.describe('accessibility of interactive states', () => {
         await expectClean(page, `${path} with errors`);
       }
       await page.goto(`/${locale}/sites/latin`);
-      await page.locator('button[aria-haspopup="dialog"]').first().click();
+      // main: the header's search button and the floating accessibility button open dialogs too.
+      await page.locator('main button[aria-haspopup="dialog"]').first().click();
       await expect(page.getByRole('dialog')).toBeVisible();
       await expectClean(page, 'photo viewer');
     });

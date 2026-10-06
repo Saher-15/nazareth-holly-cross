@@ -1493,7 +1493,7 @@
           },
           "settings": {
             "title": "Ajustes de accesibilidad",
-            "p1": "El botón con el símbolo de accesibilidad, arriba en cada página, abre ajustes que se aplican a todo el sitio y se recuerdan en este navegador. El botón de restablecer devuelve el aspecto original.",
+            "p1": "El botón con el símbolo de accesibilidad, en la esquina inferior de cada página, abre ajustes que se aplican a todo el sitio y se recuerdan en este navegador. El botón de restablecer devuelve el aspecto original.",
             "items": {
               "text": "Tamaño del texto del 100 al 200 por ciento.",
               "contrast": "Alto contraste: fondo negro, texto blanco y dorado más brillante.",
