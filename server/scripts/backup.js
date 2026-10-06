@@ -165,11 +165,27 @@ const OPTIONS = {
   help: { type: 'boolean', short: 'h', default: false },
 };
 
+/** True when `dir` or one of its parents holds a .git entry: a dump with password hashes must never land in a repository. */
+export function insideGitWorkTree(dir) {
+  let current = path.resolve(dir);
+  for (;;) {
+    if (fs.existsSync(path.join(current, ".git"))) return true;
+    const parent = path.dirname(current);
+    if (parent === current) return false;
+    current = parent;
+  }
+}
+
 async function main() {
   const { values } = readArgs(OPTIONS);
   if (values.help || !values.out) {
     console.log('node scripts/backup.js --out <folder>   (read-only; the address comes from DATABASEURL or a hidden prompt)');
     if (!values.help) process.exitCode = 1;
+    return;
+  }
+  if (insideGitWorkTree(values.out)) {
+    console.error(`Refusing to write the backup inside a git work tree (${path.resolve(values.out)}): it holds password hashes and personal data. Choose a folder outside the repository.`);
+    process.exitCode = 1;
     return;
   }
   if (!process.env.DATABASEURL) (await import('dotenv')).default.config();

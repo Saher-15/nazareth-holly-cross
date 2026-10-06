@@ -72,10 +72,10 @@ routerCandle.post('/lightACandle', strictLimiter, asyncHandler(async(req, res)=>
         if (await Candle.exists({ paypalOrderId })) {
             throw new HttpError(409, 'This payment was already used for a candle');
         }
-        const payment = await paymentFor(paypalOrderId, 'candle');
-        // A ledger row that says "captured" was written after PayPal said COMPLETED (complete_order); anything
-        // else is asked of PayPal directly.
-        if (payment?.status !== 'captured') await assertPaid(paypalOrderId, CANDLE_PRICE);
+        await paymentFor(paypalOrderId, 'candle');
+        // Always asked of PayPal, even when the ledger says "captured": a legacy create_order call without a type is
+        // priced from the client, so only PayPal's own amount proves that the full candle price was paid.
+        await assertPaid(paypalOrderId, CANDLE_PRICE);
         proven = paypalOrderId;
     } else if (config.requirePaymentProof) {
         throw new HttpError(402, 'Payment proof is required');

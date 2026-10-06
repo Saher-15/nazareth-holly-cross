@@ -77,6 +77,10 @@ describe('classify: what an answer of the API means for a record', () => {
     expect(classify(fail(409, 'Not enough stock for Olive oil'))).toBe('rejected');
   });
 
+  it('402 "amount does not match" is NOT retried: today's price differs from what was paid, a person must look', () => {
+    expect(classify(fail(402, 'Payment amount does not match the order'))).toBe('rejected');
+  });
+
   it.each([0, 408, 425, 429, 500, 502, 503, 504, 402])('%s is worth trying again (the network, the API, or PayPal lagging behind)', (status) => {
     expect(classify(fail(status))).toBe('retry');
   });

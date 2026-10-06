@@ -315,12 +315,12 @@ describe('lightACandle links the payment to the candle', () => {
     await post('/order/complete_order', { order_id: id });
   };
 
-  it('a payment the ledger knows as captured lights the candle without asking PayPal again', async () => {
+  it('a payment the ledger knows as captured still has its amount proven with PayPal ()', async () => {
     await paidCandle();
-    const state = paypal(); // fresh call log
+    const state = paypal({ getAmount: '3.00' }); // fresh call log
     const res = await post('/candle/lightACandle', candleBody({ paypalOrderId: PAYPAL }));
     expect(res.status).toBe(200);
-    expect(state.calls).toEqual([]);
+    expect(state.calls.some((c) => c.startsWith('GET '))).toBe(true);
     expect(fakes.Candle.docs[0]).toMatchObject({ paypalOrderId: PAYPAL, paymentVerified: true });
     expect(row().linkedTo).toEqual({ kind: 'candle', id: fakes.Candle.docs[0]._id });
   });
@@ -343,8 +343,17 @@ describe('lightACandle links the payment to the candle', () => {
     expect(mail.sendMail).not.toHaveBeenCalled();
   });
 
+  it('a cheaper payment the ledger already shows as captured cannot light a candle (402)', async () => {
+    await paidCandle(); // e.g. a legacy create_order priced by the client
+    paypal({ getAmount: '1.00' });
+    const res = await post('/candle/lightACandle', candleBody({ paypalOrderId: PAYPAL }));
+    expect(res.status).toBe(402);
+    expect(fakes.Candle.docs).toHaveLength(0);
+  });
+
   it('one payment lights one candle: the second request is refused (409)', async () => {
     await paidCandle();
+    paypal({ getAmount: '3.00' });
     expect((await post('/candle/lightACandle', candleBody({ paypalOrderId: PAYPAL }))).status).toBe(200);
     expect((await post('/candle/lightACandle', candleBody({ paypalOrderId: PAYPAL }))).status).toBe(409);
     expect(fakes.Candle.docs).toHaveLength(1);

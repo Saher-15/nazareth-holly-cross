@@ -56,6 +56,8 @@ export function classify(result: PostResult<unknown>): Outcome {
   if (result.ok) return 'saved';
   const { status, error } = result;
   if (status === 409) return /already (used|exists)/i.test(error) ? 'saved' : 'rejected';
+  // The paid amount no longer matches today's price: retrying cannot fix it, a person must (the ledger lists it as paid and not fulfilled).
+  if (status === 402 && /does not match/i.test(error)) return 'rejected';
   if (status === 0 || status === 408 || status === 425 || status === 429 || status === 402 || status >= 500) return 'retry';
   return 'rejected';
 }
