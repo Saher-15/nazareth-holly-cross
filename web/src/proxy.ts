@@ -79,10 +79,12 @@ export const config = {
   // Everything except API routes, Next internals and static files served as they are (public/ and the
   // metadata routes: no language prefix, no nonce). Any other address, even one with a dot in it
   // (/en/x.y), is a page request: it gets a language and the Content-Security-Policy.
+  // /admin is left out: next.config.ts forwards it to the dashboard's own domain in one hop (with the language
+  // proxy first, /admin/orders became /en/admin/orders and was lost).
   // The matcher must be one literal (Next reads it at build time). Backslashes are doubled on purpose: in a
   // plain string a single one is dropped, and the previous pattern then excluded every path except "/",
   // so /shop answered 404 instead of redirecting to /en/shop.
   matcher: [
-    '/((?!api|_next|_vercel|.*\\.(?:ico|png|jpe?g|gif|webp|avif|svg|mp3|mp4|webm|woff2?|ttf|otf|css|js|mjs|map|json|webmanifest|txt|xml|pdf)$).*)',
+    '/((?!api|admin|_next|_vercel|.*\\.(?:ico|png|jpe?g|gif|webp|avif|svg|mp3|mp4|webm|woff2?|ttf|otf|css|js|mjs|map|json|webmanifest|txt|xml|pdf)$).*)',
   ],
 };
