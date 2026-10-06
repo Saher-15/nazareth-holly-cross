@@ -12,8 +12,9 @@ const limiter = (limit, message = 'Too many requests, please try again later.', 
     ...extra,
   });
 
-// Every request, per IP.
-export const globalLimiter = limiter(200);
+// Every request, per IP - except the health check: Render probes /health from a shared address, and a 429
+// there made Render report "server failure" and restart the service (alert of 2026-10-06 02:37).
+export const globalLimiter = limiter(200, undefined, { skip: (req) => req.path === '/health' });
 
 // Public forms that send mail or store text (contact, candle, prayer, review): shared counter per IP.
 export const strictLimiter = limiter(10);

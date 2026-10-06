@@ -44,3 +44,13 @@ describe('central error handling', () => {
     expect(res.status).toBe(404);
   });
 });
+
+describe('health check is never rate limited', () => {
+  it('still answers 200 after the address has used up the global allowance elsewhere', async () => {
+    let other;
+    for (let i = 0; i < 205; i += 1) other = await request(app).get('/anything-else');
+    expect(other.status).toBe(429); // the global limit (200 per 15 min) is exhausted for this address
+    const health = await request(app).get('/health');
+    expect(health.status).toBe(200);
+  });
+});
