@@ -9,15 +9,16 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 // Security headers for every response. The Content-Security-Policy is not here: it carries a
 // per-request nonce, so src/proxy.ts sets it (see src/lib/csp.ts and docs/SECURITY.md).
 // Powerful browser features are off unless the site needs them. PayPal's iframes need `payment`
-// (and passkeys); fullscreen/autoplay/picture-in-picture stay for the site's own videos.
+// (and passkeys); fullscreen/autoplay/picture-in-picture stay for the site's own videos and for Cloudflare Stream's
+// player of the live broadcast on /live (docs/LIVE.md).
 const permissionsPolicy = [
   'accelerometer=()',
-  'autoplay=(self)',
+  'autoplay=(self "https://*.cloudflarestream.com")',
   'bluetooth=()',
   'browsing-topics=()',
   'camera=()',
   'display-capture=()',
-  'fullscreen=(self)',
+  'fullscreen=(self "https://*.cloudflarestream.com")',
   'geolocation=()',
   'gyroscope=()',
   'hid=()',
@@ -26,7 +27,7 @@ const permissionsPolicy = [
   'microphone=()',
   'midi=()',
   'payment=(self "https://www.paypal.com" "https://www.sandbox.paypal.com")',
-  'picture-in-picture=(self)',
+  'picture-in-picture=(self "https://*.cloudflarestream.com")',
   'publickey-credentials-get=(self "https://www.paypal.com")',
   'screen-wake-lock=()',
   'serial=()',
@@ -88,6 +89,13 @@ const nextConfig: NextConfig = {
       ...withLocale({ source: '/product/:id', destination: '/shop/:id' }),
       ...withLocale({ source: '/checkoutcandle', destination: '/candle' }),
       ...withLocale({ source: '/checkoutdonation', destination: '/donate' }),
+      // The dashboard is its own site on its own origin (docs/ADMIN.md): /admin only forwards there. It is never served
+      // under this domain, so a flaw in a public page can never reach the dashboard's session.
+      ...['/admin', '/admin/:path*', `/:locale(${locales.join('|')})/admin`, `/:locale(${locales.join('|')})/admin/:path*`].map((source) => ({
+        source,
+        destination: source.endsWith(':path*') ? 'https://admin.nazarethholycross.com/:path*' : 'https://admin.nazarethholycross.com/',
+        permanent: false,
+      })),
     ];
   },
   async headers() {

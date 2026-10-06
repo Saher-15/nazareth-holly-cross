@@ -16,7 +16,8 @@
       "reviews": "Opinie",
       "about": "O nas",
       "cart": "Koszyk",
-      "donate": "Wesprzyj"
+      "donate": "Wesprzyj",
+      "liveNow": "(teraz na żywo)"
     },
     "footer": {
       "about": "Dzielimy się duchem Nazaretu z pielgrzymami na całym świecie: jego świętymi miejscami, modlitwami i rękodziełem.",
@@ -494,6 +495,14 @@
       "videoFallback": "Twoja przeglądarka nie może odtworzyć tego filmu.",
       "events": {
         "annunciationSunday": "Niedzielna modlitwa z Bazyliki Zwiastowania"
+      },
+      "now": {
+        "badge": "Teraz na żywo",
+        "since": "{minutes, plural, =0 {Właśnie się zaczęła} one {Na żywo od # minuty} few {Na żywo od # minut} many {Na żywo od # minut} other {Na żywo od # minuty}}",
+        "playerTitle": "Transmisja na żywo: {title}",
+        "started": "Rozpoczęła się transmisja na żywo: {title}",
+        "ended": "Transmisja na żywo zakończyła się.",
+        "note": "Naciśnij odtwarzanie, aby modlić się z nami. Transmisja nie jest nagrywana."
       }
     }
   },
@@ -1142,6 +1151,7 @@
         "intro": "Napisz intencję o pokój, uzdrowienie, podziękowanie lub za swoją rodzinę. Pojawi się na ścianie.",
         "name": "Twoje imię",
         "country": "Skąd jesteś?",
+        "countryChoose": "Wybierz swój kraj",
         "category": "Kategoria",
         "prayer": "Twoja modlitwa",
         "counter": "{count} / {max}",

@@ -74,7 +74,9 @@ html:lang(he) .table th, html:lang(ar) .table th { letter-spacing: 0; text-trans
 
 /* ---- product grid ---- */
 .product-grid { display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); }
-.product-card { display: grid; overflow: hidden; border-radius: var(--radius); border: 1px solid var(--glass-line); background: var(--glass); transition: border-color var(--dur-base) ease, transform var(--dur-base) var(--ease-out); }
+/* minmax(0, 1fr): the photo's own width (246px) must not widen the card's column past the card, which cut the stock
+   badge off at the end edge in every grid column narrower than the photo. */
+.product-card { display: grid; grid-template-columns: minmax(0, 1fr); overflow: hidden; border-radius: var(--radius); border: 1px solid var(--glass-line); background: var(--glass); transition: border-color var(--dur-base) ease, transform var(--dur-base) var(--ease-out); }
 .product-card:hover { border-color: color-mix(in srgb, var(--gold) 55%, transparent); transform: translateY(-2px); }
 .product-card__image { display: block; aspect-ratio: 4 / 3; background: var(--night-3); }
 .product-card__image img { width: 100%; height: 100%; object-fit: cover; }
@@ -94,6 +96,8 @@ html:lang(he) .table th, html:lang(ar) .table th { letter-spacing: 0; text-trans
 .field-row dt { font-size: var(--text-xs); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
 html:lang(he) .field-row dt, html:lang(ar) .field-row dt { letter-spacing: 0; text-transform: none; font-size: var(--text-sm); }
 .field-row dd { margin: 0; overflow-wrap: anywhere; }
+/* A link that is the whole value (an e-mail address, a phone number) is a 24px tap target (WCAG 2.5.8), not a 21px line. */
+.field-row dd > .link { display: inline-block; padding-block: 2px; }
 @media (max-width: 480px) { .fields { grid-template-columns: minmax(0, 1fr); } }
 .lines { display: grid; border: 1px solid var(--glass-line); border-radius: var(--radius-sm); }
 .lines__item { display: flex; justify-content: space-between; gap: var(--space-3); padding: 10px 14px; border-bottom: 1px solid var(--glass-line); }

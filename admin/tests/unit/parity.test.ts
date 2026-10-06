@@ -11,7 +11,8 @@ import path from 'node:path';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import {
   auditPage, candlesPage, contactsPage, dashboardSchema, loginResponseSchema, meSchema, ordersPage, prayersPage, productReviewsPage,
-  paymentsPage, privacyEraseSchema, privacyLookupSchema, productSchema, productsPage, siteReviewsPage, totpSetupSchema, usersPage,
+  liveStartSchema, liveStateSchema, liveStopSchema, paymentsPage, privacyEraseSchema, privacyLookupSchema, productSchema, productsPage,
+  siteReviewsPage, totpSetupSchema, usersPage, WHIP_URL,
 } from '@/lib/api';
 import { totpCode } from '../../mock-api/totp.mjs';
 
@@ -20,7 +21,7 @@ const serverDir = path.resolve(root, '../server');
 const haveServer = fs.existsSync(path.join(serverDir, 'node_modules', 'express'));
 
 type Reply = { status: number; json: unknown; text: string; headers: Headers };
-type Backend = { name: string; base: string; process?: ChildProcess; reset(options?: { accounts?: boolean }): Promise<void>; emails(): Promise<{ subject: string; to: string[]; text: string }[]>; mail(fail: boolean): Promise<void> };
+type Backend = { name: string; base: string; process?: ChildProcess; reset(options?: { accounts?: boolean }): Promise<void>; emails(): Promise<{ subject: string; to: string[]; text: string }[]>; mail(fail: boolean): Promise<void>; live(options: { configured?: boolean; failCreate?: boolean }): Promise<void> };
 
 const freePort = () => new Promise<number>((resolve) => {
   const server = net.createServer();
@@ -50,12 +51,14 @@ beforeAll(async () => {
     reset: async (options = {}) => { await json('POST', `http://127.0.0.1:${mockPort}/__mock/reset`, options); },
     emails: async () => (await (await fetch(`http://127.0.0.1:${mockPort}/__mock/emails`)).json()),
     mail: async (fail) => { await json('POST', `http://127.0.0.1:${mockPort}/__mock/mail`, { fail }); },
+    live: async (options) => { await json('POST', `http://127.0.0.1:${mockPort}/__mock/live`, options); },
   };
   real = {
     name: 'real', base: `http://127.0.0.1:${realPort}`, process: realProcess,
     reset: async (options = {}) => { await json('POST', `http://127.0.0.1:${realPort}/__harness/reset`, options); },
     emails: async () => (await (await fetch(`http://127.0.0.1:${realPort}/__harness/emails`)).json()),
     mail: async (fail) => { await json('POST', `http://127.0.0.1:${realPort}/__harness/mail`, { fail }); },
+    live: async (options) => { await json('POST', `http://127.0.0.1:${realPort}/__harness/live`, options); },
   };
   await Promise.all([waitFor(`${mock.base}/__mock/health`), waitFor(`${real.base}/__harness/health`)]);
 }, 90_000);
@@ -240,6 +243,41 @@ async function scenario(backend: Backend): Promise<{ steps: Step[]; replies: Rec
   add('privacy lookup after erase', await O('POST', '/admin/privacy/lookup', { email: 'lost.order@example.com' }));
   add('privacy lookup is audited (GET audit)', await O('GET', '/admin/audit?action=privacy.&size=1'));
   add('privacy GET is not a route', await O('GET', '/admin/privacy/lookup'));
+
+  // live broadcasting (docs/LIVE.md): one at a time, the WHIP address only in the answer to start, the public status
+  const P0 = client(backend);
+  add('live state (nothing yet)', await E('GET', '/admin/live'));
+  add('live state: viewer', await V('GET', '/admin/live'));
+  add('live start: viewer', await V('POST', '/admin/live/start', { title: 'x' }));
+  add('live start: no title', await E('POST', '/admin/live/start', {}));
+  add('live start: blank title', await E('POST', '/admin/live/start', { title: '   ' }));
+  add('live start: title too long', await E('POST', '/admin/live/start', { title: 'x'.repeat(121) }));
+  add('live start: extra field', await E('POST', '/admin/live/start', { title: 'x', force: true }));
+  const liveStart = add('live start', await E('POST', '/admin/live/start', { title: 'Evening prayer & vespers' }));
+  const liveBody = liveStart.json as { whipUrl: string; session: { _id: string } };
+  steps.push({ label: 'live start: the WHIP address has the Cloudflare shape', status: 0, shape: WHIP_URL.test(liveBody.whipUrl) });
+  add('live start again: 409', await O('POST', '/admin/live/start', { title: 'Another' }));
+  const afterStart = [
+    add('live state (live)', await O('GET', '/admin/live')),
+    add('live public status (live)', await P0('GET', '/live/status')),
+    add('live stop: an owner must confirm', await O('POST', '/admin/live/stop', {})),
+    add('live stop: an older session id', await E('POST', '/admin/live/stop', { sessionId: `${'0'.repeat(23)}9` })),
+    add('live stop: bad session id', await E('POST', '/admin/live/stop', { sessionId: 'nope' })),
+    add('live stop: viewer', await V('POST', '/admin/live/stop', {})),
+    add('live stop', await E('POST', '/admin/live/stop', { sessionId: liveBody.session._id })),
+    add('live stop again', await E('POST', '/admin/live/stop', {})),
+    add('live public status (ended)', await P0('GET', '/live/status')),
+    add('live state (after the stop)', await E('GET', '/admin/live')),
+    add('live audit', await O('GET', '/admin/audit?action=live.&size=5')),
+  ];
+  steps.push({ label: 'live: no other answer carries the WHIP address', status: 0, shape: afterStart.every((r) => !r.text.includes('webRTC/publish')) });
+  add('live force: start as editor, end as owner', (await E('POST', '/admin/live/start', { title: 'Forced' }), await O('POST', '/admin/live/stop', { force: true })));
+  await backend.live({ failCreate: true });
+  add('live start: Cloudflare refuses', await E('POST', '/admin/live/start', { title: 'Outage' }));
+  await backend.live({ failCreate: false, configured: false });
+  add('live state: not configured', await E('GET', '/admin/live'));
+  add('live start: not configured', await E('POST', '/admin/live/start', { title: 'Nothing' }));
+  await backend.live({ configured: true });
 
   // users
   const me = (owner.res.json as { user: { id: string } }).user.id;
@@ -436,6 +474,11 @@ describe.skipIf(!haveServer)('the mock and the real API agree (status codes and 
     parse('privacy erase', privacyEraseSchema);
     parse('detail products', productSchema);
     parse('totp setup', totpSetupSchema);
+    parse('live state (nothing yet)', liveStateSchema);
+    parse('live state (live)', liveStateSchema);
+    parse('live start', liveStartSchema);
+    parse('live stop', liveStopSchema);
+    parse('live stop again', liveStopSchema);
   });
 
   it('and so do the mock\'s answers (the mock is what the dashboard\'s own end-to-end run sees)', () => {

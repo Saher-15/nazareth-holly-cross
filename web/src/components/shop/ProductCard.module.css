@@ -142,6 +142,9 @@
   font: 400 clamp(0.98rem, 1.6vw, 1.12rem) / 1.3 var(--serif);
   color: var(--cream);
   overflow-wrap: anywhere;
+  /* Names are entered in English: on a Hebrew or Arabic page they still read left to right, so the two-line clamp
+     cuts the end of the name, not its first letters ("...oil and incense of"). */
+  unicode-bidi: plaintext;
 }
 
 .foot {

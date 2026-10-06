@@ -7,7 +7,7 @@ import { Icon } from '@/components/ui/Icon';
 import { useI18n } from '@/i18n/client';
 import { isApiError } from '@/lib/api';
 import { proxyCall } from '@/lib/client-api';
-import { passwordProblem } from '@/lib/password';
+import { isUsername, passwordProblem } from '@/lib/password';
 import { ROLES, type Role } from '@/lib/roles';
 
 export function CreateUser() {
@@ -36,7 +36,7 @@ export function CreateUser() {
     event.preventDefault();
     if (busy) return;
     const clean = username.trim().toLowerCase();
-    if (!/^[a-z0-9._-]{3,40}$/.test(clean)) return setError(t('users.errUsername'));
+    if (!isUsername(clean)) return setError(t('users.errUsername'));
     const problem = passwordProblem(password, clean);
     if (problem) return setError(t(`password.${problem}` as 'password.short'));
     setBusy(true);

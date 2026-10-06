@@ -67,9 +67,13 @@ export async function uploadProductImage(file: File, folder: string, name: strin
   return downloadUrl(FIREBASE_BUCKET, path, token);
 }
 
-/** An image address the storefront can use: https anywhere, or http only for localhost (development). */
+/**
+ * An image address the storefront can use: https anywhere, or http only for localhost (development). Like the API's
+ * url() rule (server/utils/schema.js), it has no whitespace, quotes, angle brackets, backtick or backslash: the browser
+ * would accept "https://x/a b.jpg", the API refuses it.
+ */
 export function isImageUrl(value: string): boolean {
-  if (value.length > 1000) return false;
+  if (value.length > 1000 || /[\s<>"'`\\]/.test(value)) return false;
   try {
     const url = new URL(value);
     return url.protocol === 'https:' || (url.protocol === 'http:' && (url.hostname === 'localhost' || url.hostname === '127.0.0.1'));

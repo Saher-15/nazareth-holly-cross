@@ -221,8 +221,10 @@ describe('every admin-only route refuses a visitor', () => {
     ['delete', '/product/deleteProduct/64b000000000000000000001'],
     ['delete', '/prayer/64b000000000000000000001'],
     ['delete', '/review/64b000000000000000000001'],
-    ['post', '/live/create_room'],
-    ['post', '/live/close_room'],
+    // (the old /live/create_room and /live/close_room were removed: docs/LIVE.md; live broadcasting is /admin/live)
+    ['get', '/admin/live'],
+    ['post', '/admin/live/start'],
+    ['post', '/admin/live/stop'],
   ];
 
   it.each(routes)('%s %s -> 401', async (method, path) => {

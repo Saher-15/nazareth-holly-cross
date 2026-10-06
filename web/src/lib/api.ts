@@ -24,15 +24,20 @@ const num = (fallback: number) =>
     .nullish()
     .transform((v) => v ?? fallback);
 
+// Text people typed (visitors on the site, the team in the dashboard) is stored HTML-escaped by the API's input
+// sanitiser ("Fish & Loaves" is saved as "Fish &amp; Loaves"). It is shown as text, so it is decoded here, once.
+const visitorText = z.string().transform(decodeEntities);
+const visitorTextOrEmpty = text.transform(decodeEntities);
+
 export const productSchema = z.object({
   _id: z.string(),
-  name: z.string(),
+  name: visitorText,
   price: z.number(),
   img: imageUrl,
   additionalImageUrls: list(imageUrl),
-  description: text,
+  description: visitorTextOrEmpty,
   rate: num(0),
-  color: list(z.string()),
+  color: list(visitorText),
   stock: z
     .number()
     .nullish()
@@ -81,11 +86,11 @@ const catalogSchema = z.object({
 
 export const productReviewSchema = z.object({
   _id: z.string().optional(),
-  name: z.string(),
-  country: text,
+  name: visitorText,
+  country: visitorTextOrEmpty,
   rating: z.number(),
-  title: text,
-  comment: z.string(),
+  title: visitorTextOrEmpty,
+  comment: visitorText,
   createdAt: z.string().nullish(),
 });
 export type ProductReview = z.infer<typeof productReviewSchema>;
@@ -102,14 +107,11 @@ export type ProductReviews = z.infer<typeof productReviewsSchema>;
 
 // --- site reviews and prayers ---
 
-// Visitor-written text is stored HTML-escaped by the API; it is shown as text, so it is decoded here.
-const visitorText = z.string().transform(decodeEntities);
-const visitorTextOrEmpty = text.transform(decodeEntities);
-
 export const reviewSchema = z.object({
   _id: z.string(),
   fullName: visitorText,
-  email: visitorTextOrEmpty, // holds the reviewer's country
+  place: visitorTextOrEmpty.optional(), // where the reviewer is from (since 2026-10-06; absent from older API answers)
+  email: visitorTextOrEmpty, // older reviews (and older API versions) keep the place here
   msg: visitorText,
   createdAt: z.string().optional(),
 });

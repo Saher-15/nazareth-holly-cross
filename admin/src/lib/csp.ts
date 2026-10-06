@@ -8,9 +8,13 @@ export type CspOptions = {
   upgradeInsecure?: boolean;
   extraImgSrc?: string[];
   firebase?: boolean;
+  /** The Live page (/live): the browser publishes the camera to Cloudflare Stream (WHIP), so it may connect there. */
+  live?: boolean;
 };
 
 const FIREBASE = 'https://firebasestorage.googleapis.com';
+/** Cloudflare Stream's customer hosts (customer-<code>.cloudflarestream.com): the WHIP publish address lives there. */
+export const CLOUDFLARE_STREAM = 'https://*.cloudflarestream.com';
 
 export function parseOrigins(value: string | undefined): string[] {
   return (value ?? '')
@@ -19,9 +23,9 @@ export function parseOrigins(value: string | undefined): string[] {
     .filter((s) => /^https:\/\/[a-z0-9.-]+(:\d+)?$/i.test(s));
 }
 
-export function buildCsp({ nonce, dev = false, upgradeInsecure = true, extraImgSrc = [], firebase = true }: CspOptions): string {
+export function buildCsp({ nonce, dev = false, upgradeInsecure = true, extraImgSrc = [], firebase = true, live = false }: CspOptions): string {
   const img = ["'self'", 'data:', 'blob:', FIREBASE, ...extraImgSrc];
-  const connect = ["'self'", ...(firebase ? [FIREBASE] : [])];
+  const connect = ["'self'", ...(firebase ? [FIREBASE] : []), ...(live ? [CLOUDFLARE_STREAM] : [])];
   const directives = [
     ["default-src", "'self'"],
     ['script-src', `'self' 'nonce-${nonce}' 'strict-dynamic'${dev ? " 'unsafe-eval'" : ''}`],

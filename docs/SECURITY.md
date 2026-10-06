@@ -47,6 +47,8 @@ malicious team member, and denial of service at network level (Netlify and Rende
 - `style-src 'self' 'nonce-…'`, plus `style-src-attr 'unsafe-inline'`: style *elements* need the nonce; inline
   `style=""` attributes (CSS variables written by React) cannot carry one and cannot run code.
 - `connect-src`: our own origin, the API (`NEXT_PUBLIC_API_URL`) and PayPal. `frame-src` and `img-src`: PayPal.
+  `frame-src` also allows `https://*.cloudflarestream.com`: Cloudflare Stream's player of a live broadcast on `/live`
+  ([LIVE.md](LIVE.md)); the page frames only an address of the exact shape `https://customer-<code>.cloudflarestream.com/<32 hex>/iframe`.
   `img-src`/`media-src`: Firebase Storage (product photos, videos). `font-src 'self'`: fonts are self-hosted.
 - `object-src 'none'`, `base-uri 'self'`, `form-action 'self'`, `frame-ancestors 'none'`.
 - `upgrade-insecure-requests` is added only for real https hosts (not on `localhost`, so development and the
@@ -55,7 +57,7 @@ malicious team member, and denial of service at network level (Netlify and Rende
 
 Other headers (`next.config.ts`): `Cross-Origin-Opener-Policy: same-origin-allow-popups` (PayPal opens a popup),
 `Cross-Origin-Resource-Policy: same-origin`, `Permissions-Policy` with every sensor and device API off (payment is
-allowed for PayPal only), `Strict-Transport-Security`, `X-Frame-Options: DENY`, `X-Content-Type-Options`,
+allowed for PayPal only; full screen, picture-in-picture and autoplay also for Cloudflare Stream's live player frame), `Strict-Transport-Security`, `X-Frame-Options: DENY`, `X-Content-Type-Options`,
 `Referrer-Policy: strict-origin-when-cross-origin`. No `Cross-Origin-Embedder-Policy`: it would block PayPal and the
 Firebase videos.
 
@@ -135,7 +137,8 @@ removes the token from the address bar at once and sends no Referer.
 
 Every route that reads private data or changes anything is behind `requireAdmin` (all of `/admin`, `/order` reads
 and changes, `/candle` and `/contact` reads and changes, `/product` writes, `/prayer` and `/review` deletes,
-`/live` writes); `auth.test.js` calls each of them without a token and expects 401.
+`/admin/live/*`); `auth.test.js` calls each of them without a token and expects 401. (The old unauthenticated-readable
+`/live` room routes were removed; live broadcasting is `/admin/live`, [LIVE.md](LIVE.md).)
 
 At start-up the server refuses (production) the example secrets, or one value for both `JWT_SECRET` and
 `ADMIN_PASSWORD`, and warns about a `JWT_SECRET` under 32 or an `ADMIN_PASSWORD` under 12 characters.
@@ -152,6 +155,7 @@ At start-up the server refuses (production) the example secrets, or one value fo
 | `/order/newOrder` | 10 | |
 | `/prayer/like/:id` | 30 | |
 | `/admin/*` (any address) | 1000 | per-address ceiling in front of the admin routes ([ADMIN.md](ADMIN.md) 3.1) |
+| `GET /live/status` | 3000 | its own counter: every open `/live` page asks about every 15 seconds; answered from memory for 5 seconds ([LIVE.md](LIVE.md)) |
 | `/admin/auth/login` | 5 failures per address + username, 30 per address | successful sign-ins and the TOTP prompt do not count |
 | `/admin/auth/forgot-password` | 3 per address + e-mail, 10 per address | every request counts (each one can send a mail) |
 | `/admin/auth/reset-password` | 10 failures | successful resets do not count |
@@ -259,6 +263,9 @@ browser                         API                                PayPal
 | The old shared-password / account sign-ins (`/auth/login`, `/admin/login`) | one shared secret, no roles, no lockout, no audit, 8-hour tokens that cannot be revoked | retire them when the old admin site is off (ADMIN.md section 7) |
 | Behind the dashboard the API sees the dashboard host's address, not the visitor's (`trust proxy` 1, last `X-Forwarded-For` entry) | the per-address sign-in limits are shared by all visitors and audit address hashes are identical; anyone can lock an account for 15 minutes | the per-account lockout is the real control; a shared secret between dashboard and API would allow a safe visitor address (ADMIN-RUNBOOK.md 9) |
 | **Behind Cloudflare the API counts the Cloudflare edge address, not the visitor** (measured 2026-10-06: eight requests from one PC were counted in at least three different per-IP buckets, and a forged `X-Forwarded-For` did not create a fresh one; the cause is inferred from that, not seen in the server) | every per-IP limit (5 failed logins, 10 contact forms, 30 payment calls, 200 requests) is shared by all visitors who reach Render through the same Cloudflare address: a spammer can use up the allowance of strangers, and the same address can lock the admin sign-in. Brute force is not made easier (a forged header does not help), but the limits protect less and annoy more than intended | `TRUST_PROXY_HOPS=2` on Render after the check in INFRASTRUCTURE.md 2.5 (code is in; default stays 1) |
+| Live broadcasting: the WHIP publish address is a bearer secret | whoever holds it can broadcast on our page until the session ends (at most 6 hours) | given once, only to the admin who started the session, never stored or logged (tested); ending the session deletes the Cloudflare input, which kills the address ([LIVE.md](LIVE.md) section 3) |
+| Live broadcasting: Cloudflare's player page is framed without a `sandbox` | the frame runs Cloudflare's scripts (a cross-origin frame: it cannot read our page; a top-level navigation needs the visitor's click) | only the exact `customer-<code>.cloudflarestream.com/<id>/iframe` shape is framed, `frame-src` allows only that host family; a sandbox was left out because the player could not be tested against a real account yet (revisit after the first real broadcast) |
+| Live broadcasting: `CF_STREAM_API_TOKEN` | a leaked token can create and delete live inputs (and cost money) | a custom token with Stream: Edit on one account only, Render only, rotate in Cloudflare if leaked |
 | Dashboard tokens cannot be refreshed (60 minutes) | an admin signs in again every hour | add a refresh route if that proves annoying |
 | Admin site (separate repository) keeps its token in the browser | XSS on the admin site would expose it | review there; tokens already expire after 8 hours |
 | Pages are rendered per request (nonce) | slower first byte than static pages | measure; consider hash-based CSP if needed |

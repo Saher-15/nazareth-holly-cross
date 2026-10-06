@@ -173,6 +173,11 @@ describe('password policy', () => {
     expect(passwordProblem('Password1234', 'x')).toBe('common');
     expect(passwordProblem('A-Fine-Passphrase-1', 'owner')).toBeNull();
   });
+  it('applies the rest of the API policy too (tests/unit/form-contracts.test.ts compares it with the server)', () => {
+    expect(passwordProblem('Resetpass-123', 'resetpass')).toBe('username'); // the username with a few characters added
+    expect(passwordProblem('Pass_Word_1234', 'x')).toBe('common'); // separators are ignored
+    expect(passwordProblem('abababababab', 'x')).toBe('repetitive');
+  });
 });
 
 describe('product form', () => {
@@ -194,7 +199,7 @@ describe('product form', () => {
     expect(toBody({ ...ok, stock: '', category: '' }, 'u')).toMatchObject({ stock: null, category: null });
   });
   it('reports every problem', () => {
-    const errors = validateProduct({ ...EMPTY_PRODUCT, name: 'x', price: '0', stock: '-1', rate: '9', img: 'javascript:alert(1)', additional: ['http://insecure.example/a.png'], description: 'x'.repeat(2001), colors: 'y'.repeat(41), category: 'z'.repeat(6) });
+    const errors = validateProduct({ ...EMPTY_PRODUCT, name: 'x', price: '0', stock: '-1', rate: '9', img: 'javascript:alert(1)', additional: ['http://insecure.example/a.png'], description: 'x'.repeat(2001), colors: 'y'.repeat(51), category: 'z'.repeat(6) });
     expect(Object.keys(errors).sort()).toEqual(['additional', 'category', 'colors', 'description', 'img', 'name', 'price', 'rate', 'stock']);
     expect(validateProduct({ ...ok, price: '10001' }).price).toBe('price');
     expect(validateProduct({ ...ok, stock: '1.5' }).stock).toBe('stock');
@@ -203,7 +208,10 @@ describe('product form', () => {
   it('round-trips an API product into form values', () => {
     const values = valuesFrom({ id: 'p', name: 'N', price: 3, img: 'https://x/y.png', stock: null, rate: 4, color: ['red'], additionalImageUrls: ['https://x/z.png'], category: null } as never);
     expect(values).toMatchObject({ name: 'N', price: '3', stock: '', rate: '4', colors: 'red', additional: ['https://x/z.png'], category: '' });
-    expect(parseColors('a,b,c,d,e,f,g,h,i,j,k,l,m,n')).toHaveLength(12);
+    // Every colour is kept (a 13th colour used to be dropped without a word); more than the API's 20 is an error.
+    expect(parseColors('a,b,c,d,e,f,g,h,i,j,k,l,m,n')).toHaveLength(14);
+    expect(validateProduct({ ...ok, colors: 'a,b,c,d,e,f,g,h,i,j,k,l,m,n' }).colors).toBeUndefined();
+    expect(validateProduct({ ...ok, colors: Array.from({ length: 21 }, (_, i) => `c${i}`).join(',') }).colors).toBe('colors');
   });
 });
 

@@ -45,9 +45,10 @@ cost 12.
 | `ADMIN_ORIGINS` | **new**, for the dashboard | Comma-separated exact browser origins of the dashboard, e.g. `https://admin.nazarethholycross.com`. Added to the CORS allow-list. No wildcards; a trailing slash is ignored. Without it the dashboard cannot call the API from a browser (the old admin site's `*.netlify.app` addresses are allowed as before). |
 | `DATABASEURL` | yes (already) | MongoDB. New collections: `adminSession`, `auditLog`. |
 | `ADMIN_PASSWORD` | yes (already) | Only for the deprecated shared-password sign-in (section 7). |
-| `ADMIN_APP_URL` | no | Where the dashboard lives; the password-reset e-mail links to `<ADMIN_APP_URL>/reset-password?token=...`. Default `https://nhc-admin-dashboard.netlify.app`; set it when the dashboard moves to its own domain. A trailing slash is ignored. |
+| `ADMIN_APP_URL` | no | Where the dashboard lives; the password-reset e-mail links to `<ADMIN_APP_URL>/reset-password?token=...`. Default `https://admin.nazarethholycross.com`; set it when the dashboard moves to its own domain. A trailing slash is ignored. |
 | `ADMIN_BOOTSTRAP_EMAILS` | no | Comma-separated addresses that may create the **first** owner by a password-reset request while no account exists (1.1). Default `nazarethholycross@gmail.com`; `ADMIN_BOOTSTRAP_EMAILS=` (empty) turns it off. |
 | `MAIL_FROM`, `MAIL_APP_PASSWORD` | yes (already) | The reset e-mails go out through the same mailer as the order mails. |
+| `CF_ACCOUNT_ID`, `CF_STREAM_API_TOKEN` | no (**new**) | Live broadcasting through Cloudflare Stream (section 4.6, [LIVE.md](LIVE.md)). Without both, the Live page says "not set up yet" and `POST /admin/live/start` answers `503`. The token is a secret (Render only, `sync: false`, never logged). |
 
 On Render: set `ADMIN_ORIGINS` in the service's environment (it is listed in `render.yaml` with `sync: false`), then
 redeploy. `ADMIN_APP_URL` and `ADMIN_BOOTSTRAP_EMAILS` have working defaults; set them in the service's environment
@@ -58,8 +59,8 @@ only to change them.
 | Role | Can |
 |---|---|
 | **viewer** | read the dashboard and every list and detail |
-| **editor** | everything a viewer can, plus change and delete orders' shipping state, candles, contacts, site reviews, product reviews, prayers and products, and export CSV |
-| **owner** | everything an editor can, plus delete orders, manage users, read the audit log |
+| **editor** | everything a viewer can, plus change and delete orders' shipping state, candles, contacts, site reviews, product reviews, prayers and products, export CSV, and broadcast live (section 4.6) |
+| **owner** | everything an editor can, plus delete orders, manage users, read the audit log, end someone else's live broadcast |
 
 The role is enforced on the server for every route (`requireRole`); the UI should only hide what the server would
 refuse. A role is read from the database on **every request**: a demotion or a disabled account takes effect at once,
@@ -76,12 +77,14 @@ whatever the token says.
 | `GET /admin/payments`, `GET /admin/payments/:id` | yes | yes | yes |
 | `PATCH /admin/payments/:id` (resolve with a note, reopen) | - | yes | yes |
 | `POST /admin/privacy/lookup`, `POST /admin/privacy/erase` | - | - | yes |
+| `GET /admin/live`, `POST /admin/live/start`, `POST /admin/live/stop` | - | yes | yes |
 | `DELETE /admin/orders/:id` | - | - | yes |
 | `/admin/users` (all four) | - | - | yes |
 | `GET /admin/audit` | - | - | yes |
 | `/admin/auth/*` (own account) | yes | yes | yes |
 
-Public (no token): `POST /admin/auth/login`, `POST /admin/auth/forgot-password` and `POST /admin/auth/reset-password`.
+Public (no token): `POST /admin/auth/login`, `POST /admin/auth/forgot-password` and `POST /admin/auth/reset-password`
+(and, outside `/admin`, the live status `GET /live/status`, section 4.6).
 
 ## 3. Authentication
 
@@ -213,7 +216,7 @@ the password.
 | `orders` | `pending`, `shipped`, `unverified` (no PayPal-confirmed payment) | `createdAt`, `totalPrice`, `lastName` | name, e-mail, phone, city, country, PayPal id |
 | `candles` | `pending`, `done` | `createdAt`, `lastName` | name, e-mail, prayer |
 | `contacts` | `open`, `done` | `createdAt`, `fullName` | name, e-mail, phone, message |
-| `site-reviews` | `approved`, `hidden` | `createdAt`, `fullName` | name, e-mail, message |
+| `site-reviews` | `approved`, `hidden` | `createdAt`, `fullName` | name, place, e-mail (older reviews keep the place there), message |
 | `product-reviews` | `approved`, `hidden` | `createdAt`, `rating` | name, country, title, comment (the product is populated with its `name`) |
 | `prayers` | a category (`Peace`, `Health`, ...) | `createdAt`, `likes` | name, country, prayer |
 | `products` | `ok` (not tracked, or more than 5), `low` (stock 0-5), `out` (stock 0) | `createdAt`, `name`, `price`, `stock`, `rate` | name, description, uuid |
@@ -249,7 +252,9 @@ the password.
 * **Text is stored HTML-escaped.** The API's sanitizer turns a stray `&`, `<`, `>` in body text into `&amp;`, `&lt;`, `&gt;` (see
   SECURITY.md 4.3), removes scripts and event handlers, and keeps a small set of harmless tags (`<b>`, `<i>`, `<a href="https://...">`) as they were typed (checked against the running sanitizer: the dashboard shows them as text, never as HTML); responses return what is stored. **Decode those three entities when putting a value into an
   edit field, send the raw text back, and the API escapes it once.** (Web addresses are the exception: `&amp;` in an
-  address is decoded before it is saved, so Firebase links keep working.)
+  address is decoded before it is saved, so Firebase links keep working.) **Lengths are checked after that escaping**:
+  a 2,000-character description with one `&` is 2,004 characters for the API. The dashboard's forms count the same
+  way (`admin/src/lib/entities.ts`, `storedLength`); every form's limits are in `docs/FORM-CONTRACTS.md`.
 
 ### 4.3 Dashboard: `GET /admin/dashboard`
 
@@ -298,6 +303,32 @@ capture, linked to the order or candle request when the browser saves it. A dona
 
 Every change is audited (`payment.update`, with `resolved` and the PayPal id).
 
+### 4.6 Live broadcasting: `/admin/live` (editor and owner)
+
+The camera of the admin's phone or computer is published from the browser to Cloudflare Stream (WebRTC, WHIP) and shown on
+the website's `/live` page. Architecture, costs, limits and the owner's set-up: [LIVE.md](LIVE.md). Code:
+`server/route/admin/live.js`, `server/services/live.js`, `server/services/cloudflareStream.js`, `server/model/liveSession.js`.
+
+A session: `{ _id, title, status: "live"|"ended", inputUid, whepUrl, playbackUrl, startedAt, endedAt, endReason, startedBy: { id, name },
+endedBy: { id, name } | null, inputDeleted }`. `endReason` is `stopped` (by who started it), `forced` (by an owner), `auto` (after
+6 hours) or `failed`. `whepUrl` and `playbackUrl` are public addresses (every viewer gets them).
+
+| Request | Body | Answer |
+|---|---|---|
+| `GET /admin/live` | - | `{ configured, maxMinutes: 360, current: session \| null, history: [10 most recent sessions] }`. A broadcast live for more than 6 hours is ended first. |
+| `POST /admin/live/start` | `{ "title": "..." }` (1-120 characters, one line; nothing else) | `201 { session, whipUrl }`. `409 { error, current }` while another one is live (also when two start at the same moment: a unique index decides); `503` when `CF_ACCOUNT_ID` / `CF_STREAM_API_TOKEN` are missing; `502` when Cloudflare refuses or cannot be reached (nothing is saved). |
+| `POST /admin/live/stop` | `{ "sessionId"?: "<24 hex>", "force"?: true }` | `{ stopped: true, session }`. Nothing live, or `sessionId` names one that already ended: `{ stopped: false, session: null }` (a late "stop" from a closed tab never ends the NEXT broadcast). Someone else's broadcast: an editor gets `403`; an owner gets `409 { error, current }` unless `force: true`. The Cloudflare input is deleted (best effort: a failure is logged with the input id and kept as `inputDeleted: false`). |
+
+**`whipUrl` is a secret** (Cloudflare's publish address with the input's broadcast secret in it): it is in exactly one
+answer, the `201` of start, to the admin who started it. It is not stored, not in any other answer, not in the audit log
+and not in the log (tested). Audit actions: `live.start` (title, input id), `live.stop` (`reason`, `minutes`,
+`inputDeleted`), `live.auto_end` (actor `system`), `live.start_failed`.
+
+**Public:** `GET /live/status` (no token) answers `{ "live": false }` or `{ "live": true, "title", "startedAt", "playbackUrl" }`
+(`playbackUrl` = `https://customer-<code>.cloudflarestream.com/<input id>/iframe`, Cloudflare's player). It is answered from
+memory for 5 seconds, carries `Cache-Control: public, max-age=5, s-maxage=5`, and has its own rate limit (3000 per 15
+minutes per address). The old `/live/create_room`, `/live/room_id`, `/live/close_room` were removed (LIVE.md section 3).
+
 ## 5. Users and audit
 
 ### 5.1 Users (owner only)
@@ -339,6 +370,7 @@ request when the log cannot be written. Actions recorded:
 | `export.` | `orders`, `candles`, `contacts`, `payments` (with the row count) |
 | `payment.` | `update` (resolve / reopen) |
 | `privacy.` | `lookup`, `erase` (the counts and a keyed hash of the address: never the address) |
+| `live.` | `start`, `stop`, `auto_end`, `start_failed` (section 4.6; never the publish address) |
 | `user.` | `create`, `update`, `delete` |
 
 A failed sign-in is recorded with the name that was typed (no account was proven).
@@ -374,7 +406,7 @@ the payer's e-mail and names are removed from payments (amount and PayPal id sta
 working, with a `Deprecation: true` header on their answers, **only so the old admin site keeps running until the new
 dashboard is deployed**. The legacy routes they unlock (`/admin/stats`, `/admin/prayers`, `/admin/candles`,
 `/admin/products`, `/admin/product-reviews`, `/order/*`, `/candle/*`, `/contact/*`, `/product/*` writes, `/prayer/:id`,
-`/review/:id`, `/live/*`) are unchanged; where an address exists in both APIs (`/admin/candles`, ...) a legacy token
+`/review/:id`) are unchanged (the old `/live/*` room routes were removed: LIVE.md section 3); where an address exists in both APIs (`/admin/candles`, ...) a legacy token
 gets the legacy answer (a plain array) and a dashboard token gets the new one (`{ items, total, page, size }`).
 A legacy token is **not** accepted on the new-only routes, and a dashboard token is not accepted on the legacy-only
 ones.

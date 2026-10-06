@@ -16,7 +16,8 @@
       "reviews": "Avis",
       "about": "À propos",
       "cart": "Panier",
-      "donate": "Faire un don"
+      "donate": "Faire un don",
+      "liveNow": "(diffusion en cours)"
     },
     "footer": {
       "about": "Nous partageons l’esprit de Nazareth avec les pèlerins du monde entier : ses lieux saints, ses prières et son artisanat.",
@@ -494,6 +495,14 @@
       "videoFallback": "Votre navigateur ne peut pas lire cette vidéo.",
       "events": {
         "annunciationSunday": "Prière du dimanche depuis la basilique de l’Annonciation"
+      },
+      "now": {
+        "badge": "En direct maintenant",
+        "since": "{minutes, plural, =0 {Commencé à l’instant} one {En direct depuis # minute} other {En direct depuis # minutes}}",
+        "playerTitle": "Diffusion en direct : {title}",
+        "started": "Une diffusion en direct a commencé : {title}",
+        "ended": "La diffusion en direct est terminée.",
+        "note": "Appuyez sur lecture pour prier avec nous. La diffusion n’est pas enregistrée."
       }
     }
   },
@@ -1142,6 +1151,7 @@
         "intro": "Écrivez une intention pour la paix, la guérison, l’action de grâce ou votre famille. Elle apparaîtra sur le mur.",
         "name": "Votre nom",
         "country": "D’où venez-vous ?",
+        "countryChoose": "Choisissez votre pays",
         "category": "Catégorie",
         "prayer": "Votre prière",
         "counter": "{count} / {max}",

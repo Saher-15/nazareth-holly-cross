@@ -1,5 +1,8 @@
 // Logic of the share-a-review form (ReviewForm.tsx), kept free of React so it can be unit tested.
 
+import { COUNTRY_CODES, countryName } from '@/components/checkout/countries';
+import { storedLength } from '@/lib/formRules';
+
 export type ReviewField = 'fullName' | 'place' | 'msg';
 export type ReviewValues = Record<ReviewField, string>;
 
@@ -31,9 +34,12 @@ export const REVIEW_RULES: Record<ReviewField, { min: number; max: number; requi
 export function validateField(field: ReviewField, raw: string): FieldError | undefined {
   const value = raw.trim();
   const rule = REVIEW_RULES[field];
+  // The place is a country chosen from the list (an ISO 3166-1 code), never typed.
+  if (field === 'place') return COUNTRY_CODES.includes(value) ? undefined : { key: rule.required };
   if (!value) return { key: rule.required };
   if (rule.tooShort && value.length < rule.min) return { key: rule.tooShort, values: { min: rule.min } };
-  if (value.length > rule.max) return { key: 'tooLong', values: { max: rule.max } };
+  // The model checks the length of the text as stored ("&" is saved as "&amp;"), lib/formRules.ts.
+  if (storedLength(value) > rule.max) return { key: 'tooLong', values: { max: rule.max } };
   return undefined;
 }
 
@@ -50,9 +56,14 @@ export function firstInvalidField(errors: ReviewErrors): ReviewField | undefined
   return REVIEW_FIELDS.find((field) => errors[field]);
 }
 
-/** The body POST /review/addReview expects. The API keeps the visitor's place in its `email` field. */
+/** The body POST /review/addReview expects: the country's English name in the API's `place` field. */
 export function toReviewPayload(values: ReviewValues) {
-  return { fullName: values.fullName.trim(), email: values.place.trim(), msg: values.msg.trim() };
+  const place = values.place.trim();
+  return {
+    fullName: values.fullName.trim(),
+    place: COUNTRY_CODES.includes(place) ? countryName(place, 'en') : place,
+    msg: values.msg.trim(),
+  };
 }
 
 /** Which message to show when the API refused the review (status 0 = no answer at all). */

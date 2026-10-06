@@ -47,6 +47,10 @@ let adminBuckets;
 let privacyBuckets; // 20 privacy requests per 15 minutes per admin (the real API's adminErasureLimiter)
 let resetBuckets; // forgot-password: 3 per address and e-mail, 10 per address; reset-password: 10 failures per address
 let failMail = false;
+// Test control: the next N calls to GET /admin/auth/me answer 429, as a busy API would (POST /__mock/busy { count }).
+let busyMe = 0;
+// Live broadcasting (server/route/admin/live.js): the sessions, and a fake Cloudflare Stream (inputs by uid).
+let live; // { sessions: [], inputs: Map, configured: boolean, failCreate: boolean }
 
 function reset({ accounts = true } = {}) {
   const seed = buildSeed(Date.now(), ASSET_BASE);
@@ -83,6 +87,7 @@ function reset({ accounts = true } = {}) {
   privacyBuckets = new Map();
   resetBuckets = new Map();
   failMail = false;
+  live = { sessions: [], inputs: new Map(), configured: true, failCreate: false };
 }
 reset();
 
@@ -764,7 +769,7 @@ for (const route of collection({
 })) add(route);
 for (const route of collection({
   name: 'site-reviews', type: 'site-review', label: 'site-review', rows: () => db.siteReviews, flag: 'approved',
-  searchable: (r) => [r.fullName, r.email, r.msg],
+  searchable: (r) => [r.fullName, r.place, r.email, r.msg],
   statuses: { approved: (r) => r.approved === true, hidden: (r) => r.approved === false }, sorts: ['createdAt', 'fullName'],
 })) add(route);
 for (const route of collection({
@@ -1039,6 +1044,91 @@ add({
   },
 });
 
+// --- live broadcasting (editor and owner), server/route/admin/live.js over a fake Cloudflare Stream: the WHIP address is
+// given once, in the answer to start, and kept nowhere (like the real API).
+const LIVE_MAX_MS = 6 * 60 * 60 * 1000;
+const STREAM_HOST = 'https://customer-mock.cloudflarestream.com';
+const liveView = (s) => s && ({
+  _id: s._id, title: s.title, status: s.status, inputUid: s.inputUid, whepUrl: s.whepUrl,
+  playbackUrl: `${STREAM_HOST}/${s.inputUid}/iframe`, startedAt: s.startedAt, endedAt: s.endedAt, endReason: s.endReason,
+  startedBy: { ...s.startedBy }, endedBy: s.endedBy ? { ...s.endedBy } : null, inputDeleted: s.inputDeleted,
+});
+const liveNow = () => live.sessions.find((s) => s.status === 'live') ?? null;
+function endLive(req, session, reason, user) {
+  if (session.status !== 'live') return null;
+  const now = Date.now();
+  Object.assign(session, { status: 'ended', endedAt: new Date(now).toISOString(), endReason: reason, endedBy: user ? { id: user._id, name: user.username } : { id: null, name: 'system' } });
+  session.inputDeleted = live.inputs.delete(session.inputUid);
+  const minutes = Math.max(0, Math.round((now - new Date(session.startedAt).getTime()) / 60_000));
+  record(req, reason === 'auto' ? 'live.auto_end' : 'live.stop', { type: 'live', id: session._id }, { reason, minutes, inputDeleted: session.inputDeleted }, user ?? { username: 'system', role: 'system' });
+  return session;
+}
+function endStaleLive(req) {
+  for (const s of live.sessions) if (s.status === 'live' && new Date(s.startedAt).getTime() < Date.now() - LIVE_MAX_MS) endLive(req, s, 'auto', null);
+}
+const hex = (bytes) => randomBytes(bytes).toString('hex');
+
+add({
+  method: 'GET', path: '/admin/live', min: 'editor',
+  run: (ctx) => {
+    endStaleLive(ctx.req);
+    const history = [...live.sessions].sort((a, b) => b.startedAt.localeCompare(a.startedAt)).slice(0, 10);
+    return { configured: live.configured, maxMinutes: LIVE_MAX_MS / 60_000, current: liveView(liveNow()), history: history.map(liveView) };
+  },
+});
+add({
+  method: 'POST', path: '/admin/live/start', min: 'editor',
+  run: (ctx) => {
+    const { title } = parseBody(ctx.body, { title: str({ min: 1, max: 120 }) });
+    if (!live.configured) return { status: 503, body: { error: 'Live broadcasting is not configured yet (CF_ACCOUNT_ID and CF_STREAM_API_TOKEN, docs/LIVE.md)' } };
+    endStaleLive(ctx.req);
+    const current = liveNow();
+    if (current) return { status: 409, body: { error: 'A broadcast is already live', current: liveView(current) } };
+    if (live.failCreate) {
+      record(ctx.req, 'live.start_failed', { type: 'live', id: '' }, { stage: 'cloudflare' });
+      return { status: 502, body: { error: 'Cloudflare Stream could not prepare the broadcast. Try again in a moment.' } };
+    }
+    const inputUid = hex(16);
+    const whipUrl = `${STREAM_HOST}/${hex(32)}/webRTC/publish`;
+    live.inputs.set(inputUid, true);
+    const user = ctx.req.auth.user;
+    const session = {
+      _id: newId('5'), title, status: 'live', inputUid, whepUrl: `${STREAM_HOST}/${inputUid}/webRTC/play`, startedAt: new Date().toISOString(),
+      endedAt: null, endReason: null, startedBy: { id: user._id, name: user.username }, endedBy: null, inputDeleted: false,
+    };
+    live.sessions.push(session);
+    record(ctx.req, 'live.start', { type: 'live', id: session._id }, { title, inputUid });
+    return { status: 201, body: { session: liveView(session), whipUrl } };
+  },
+});
+add({
+  method: 'POST', path: '/admin/live/stop', min: 'editor',
+  run: (ctx) => {
+    const body = parseBody(ctx.body ?? {}, { sessionId: opt(str({ min: 24, max: 24, pattern: /^[a-f0-9]{24}$/i, escape: false })), force: opt(bool()) });
+    const current = liveNow();
+    if (!current || (body.sessionId && current._id !== body.sessionId.toLowerCase())) return { stopped: false, session: null };
+    const user = ctx.req.auth.user;
+    const mine = current.startedBy.id === user._id;
+    if (!mine) {
+      if (user.role !== 'owner') throw new HttpError(403, 'Only the person who started this broadcast, or an owner, can end it');
+      if (body.force !== true) return { status: 409, body: { error: 'Someone else started this broadcast. Confirm to end it.', current: liveView(current) } };
+    }
+    const ended = endLive(ctx.req, current, mine ? 'stopped' : 'forced', user);
+    return { stopped: Boolean(ended), session: liveView(ended) };
+  },
+});
+// The public status the website polls (server/route/liveRoute.js).
+add({
+  method: 'GET', path: '/live/status', public: true,
+  run: (ctx) => {
+    endStaleLive(ctx.req);
+    const current = liveNow();
+    return current
+      ? { live: true, title: current.title, startedAt: current.startedAt, playbackUrl: `${STREAM_HOST}/${current.inputUid}/iframe` }
+      : { live: false };
+  },
+});
+
 // --- test controls (never part of the real API)
 const CONTROL = process.env.MOCK_CONTROL !== '0';
 
@@ -1062,7 +1152,21 @@ export const server = http.createServer(async (req, res) => {
       if (req.method === 'GET' && url.pathname === '/__mock/emails') return send(req, res, 200, emails);
       if (req.method === 'POST' && url.pathname === '/__mock/mail') { const b = await readBody(req); failMail = b.fail === true; return send(req, res, 200, { ok: true, fail: failMail }); }
       if (req.method === 'GET' && url.pathname === '/__mock/health') return send(req, res, 200, { ok: true });
+      if (req.method === 'POST' && url.pathname === '/__mock/busy') { const b = await readBody(req); busyMe = Number.isInteger(b.count) ? b.count : 0; return send(req, res, 200, { ok: true, busy: busyMe }); }
+      // Live broadcasting: { configured: false } = no Cloudflare credentials on the server; { failCreate: true } = Cloudflare refuses.
+      if (req.method === 'POST' && url.pathname === '/__mock/live') {
+        const b = await readBody(req);
+        if (typeof b.configured === 'boolean') live.configured = b.configured;
+        if (typeof b.failCreate === 'boolean') live.failCreate = b.failCreate;
+        return send(req, res, 200, { ok: true, inputs: live.inputs.size });
+      }
       return send(req, res, 404, { error: 'Not found' });
+    }
+
+    if (busyMe > 0 && req.method === 'GET' && url.pathname === '/admin/auth/me') {
+      busyMe -= 1;
+      res.setHeader('Retry-After', '120');
+      return send(req, res, 429, { error: 'Too many requests, please slow down.' });
     }
 
     let route;

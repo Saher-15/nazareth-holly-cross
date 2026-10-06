@@ -139,6 +139,8 @@ export type Contact = z.infer<typeof contactSchema>;
 
 export const siteReviewSchema = doc({
   fullName: z.string(),
+  // Where the reviewer is from (reviews written before 2026-10-06 keep it in email).
+  place: z.string().nullish(),
   email: z.string().nullish(),
   phone: z.string().nullish(),
   msg: z.string(),
@@ -296,6 +298,37 @@ export const dashboardSchema = z.looseObject({
   alerts: z.looseObject({ unfulfilledPayments: z.looseObject({ count: z.number(), amount: z.number() }) }).optional(),
 });
 export type Dashboard = z.infer<typeof dashboardSchema>;
+
+// Live broadcasting (server/route/admin/live.js, docs/LIVE.md). A session never carries the WHIP publish address: that
+// is only in the answer to "start", given to the admin who started it (liveStartSchema).
+const actorSchema = z.looseObject({ id: z.string().nullish(), name: z.string() });
+export const liveSessionSchema = doc({
+  title: z.string(),
+  status: z.enum(['live', 'ended']),
+  inputUid: z.string(),
+  whepUrl: z.string(),
+  playbackUrl: z.string().nullish(),
+  startedAt: isoDate,
+  endedAt: isoDate.nullish(),
+  endReason: z.string().nullish(),
+  startedBy: actorSchema,
+  endedBy: actorSchema.nullish(),
+  inputDeleted: z.boolean().default(false),
+});
+export type LiveSession = z.infer<typeof liveSessionSchema>;
+
+export const liveStateSchema = z.looseObject({
+  configured: z.boolean(),
+  maxMinutes: z.number().positive(),
+  current: liveSessionSchema.nullable(),
+  history: z.array(liveSessionSchema),
+});
+export type LiveState = z.infer<typeof liveStateSchema>;
+
+/** Cloudflare's WHIP address: https, a customer Stream host, ending in /webRTC/publish (checked again before use). */
+export const WHIP_URL = /^https:\/\/customer-[a-z0-9]{1,64}\.cloudflarestream\.com\/[A-Za-z0-9_\-/]{1,600}\/webRTC\/publish$/;
+export const liveStartSchema = z.looseObject({ session: liveSessionSchema, whipUrl: z.string().regex(WHIP_URL) });
+export const liveStopSchema = z.looseObject({ stopped: z.boolean(), session: liveSessionSchema.nullable() });
 
 export const errorBodySchema = z.looseObject({ error: z.string() });
 

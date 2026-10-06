@@ -16,7 +16,8 @@
       "reviews": "Reseñas",
       "about": "Sobre nosotros",
       "cart": "Carrito",
-      "donate": "Donar"
+      "donate": "Donar",
+      "liveNow": "(transmitiendo ahora)"
     },
     "footer": {
       "about": "Compartimos el espíritu de Nazaret con peregrinos de todo el mundo: sus lugares santos, sus oraciones y su artesanía.",
@@ -494,6 +495,14 @@
       "videoFallback": "Tu navegador no puede reproducir este vídeo.",
       "events": {
         "annunciationSunday": "Oración dominical desde la basílica de la Anunciación"
+      },
+      "now": {
+        "badge": "En vivo ahora",
+        "since": "{minutes, plural, =0 {Acaba de empezar} one {En vivo desde hace # minuto} other {En vivo desde hace # minutos}}",
+        "playerTitle": "Transmisión en vivo: {title}",
+        "started": "Ha comenzado una transmisión en vivo: {title}",
+        "ended": "La transmisión en vivo ha terminado.",
+        "note": "Pulsa reproducir para rezar con nosotros. La transmisión no se graba."
       }
     }
   },
@@ -1142,6 +1151,7 @@
         "intro": "Escribe una intención por la paz, la sanación, el agradecimiento o tu familia. Aparecerá en el muro.",
         "name": "Tu nombre",
         "country": "¿De dónde eres?",
+        "countryChoose": "Elige tu país",
         "category": "Categoría",
         "prayer": "Tu oración",
         "counter": "{count} / {max}",

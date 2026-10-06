@@ -29,6 +29,7 @@ that breaks them is refused with a 400), not only by the routes.
 | `admins` | Admin | A dashboard account | the owner, `scripts/create-admin.js` |
 | `adminSession` | AdminSession | One sign-in (the session a token needs) | sign-in |
 | `auditLog` | AuditLog | Who did what in the dashboard | every admin change |
+| `liveSession` | LiveSession | One live broadcast started from the dashboard (docs/LIVE.md) | `POST /admin/live/start`, `/stop`, the automatic end |
 
 ### order
 `firstName` `lastName` (1-100, required), `phone` (<=50, required), `email` (valid address, lower-cased, <=254, required),
@@ -64,6 +65,13 @@ Section 2 explains the flow.
 `totpSecretEnc` (AES-GCM encrypted, `select: false`) `totpEnabled` `totpLastStep` `lastLoginAt`.
 `adminSession`: `sid` (unique) `admin` `expiresAt` (TTL) `revokedAt`.
 `auditLog`: `at` `actorId` `actorName` `role` `action` `target {type,id}` `meta` (small, secret-free) `ipHash` (keyed hash) `ua` (browser summary). TTL 180 days.
+
+### liveSession (new)
+`title` (1-120) `status` (`live` -> `ended`) `inputUid` (the Cloudflare live input, <=64) `whepUrl` (the PUBLIC playback address, <=512)
+`startedAt` `endedAt` `endReason` (`stopped`, `forced` by an owner, `auto` after six hours, `failed`) `startedBy {id,name}` `endedBy {id,name}`
+`inputDeleted` (Cloudflare's input was removed). **At most one document is `live`** (a partial unique index on `status`); `startedAt` is
+indexed for the dashboard's history. The WHIP publish address (it holds the broadcast secret) is **never stored**. No personal data
+beyond the staff name; nothing expires by itself (a few rows a week).
 
 ## 2. The payment ledger (why nothing paid can be lost)
 

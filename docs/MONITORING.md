@@ -29,7 +29,7 @@ checks). Alert contact: the owner's e-mail **and** the phone app, so an e-mail i
 | 3 | `https://nazarethholycross.com/sitemap.xml` | HTTPS, 200, keyword `<urlset` | search engines can read the site; also proves the API-backed sitemap works | same |
 | 4 | `https://nazareth-holy-cross-api.onrender.com/health/deep` | HTTPS, 200, keyword `"status":"ok"` | the API answers **and reaches MongoDB**. Answers 503 when Atlas is unreachable | same. The first check after a long sleep may take 30-60 s: set the monitor timeout to 60 s |
 | 5 | `https://nazareth-holy-cross-api.onrender.com/product/catalog` | HTTPS, 200, keyword `products` | the data the shop shows | same |
-| 6 | `https://nazaretholycrossadmin.netlify.app/login` (later the admin's own domain) | HTTPS, 200 | the dashboard is up (a Netlify site without its runtime answers 404 on every page) | same |
+| 6 | `https://admin.nazarethholycross.com/login` (the new dashboard; `nazarethholycross.com/admin` forwards there) | HTTPS, 200 | the dashboard is up (a Netlify site without its runtime answers 404 on every page) | same |
 | 7 | the domain `nazarethholycross.com` | Domain expiry (Better Stack) | the registration ends **2027-08-26** (GoDaddy) | 30, 14 and 7 days before |
 | 8 | `nazarethholycross.com` | SSL certificate expiry | Netlify renews automatically about 30 days before the end; an alert below 14 days means renewal is stuck | 14 days |
 

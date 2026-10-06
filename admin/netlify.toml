@@ -20,5 +20,13 @@
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
+# The dashboard's address is admin.nazarethholycross.com (Netlify DNS, primary domain of this site); the Netlify
+# subdomain forwards there. Deploy previews (deploy-preview-N--...) are not affected: the rule matches this host only.
+[[redirects]]
+  from = "https://nhc-admin-dashboard.netlify.app/*"
+  to = "https://admin.nazarethholycross.com/:splat"
+  status = 301
+  force = true
+
 # Netlify's own headers file is not used: every header (CSP with a per-request nonce, no-store, noindex, HSTS ...)
 # is set by src/proxy.ts and next.config.ts so they are identical locally and in production.

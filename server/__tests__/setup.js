@@ -25,3 +25,21 @@ vi.mock('../model/payment.js', async (importOriginal) => {
     }),
   };
 });
+
+// The live broadcast sessions (model/liveSession.js), for the same reason: route/admin/live.js and route/liveRoute.js are
+// part of every app the tests build. The Cloudflare client is never real in a test: without CF_* variables the feature
+// is "not configured", and the live tests install test-harness/fake-cloudflare.js.
+vi.mock('../model/liveSession.js', async (importOriginal) => {
+  const { fakeModule } = await import('./helpers/fakes.js');
+  return {
+    ...(await importOriginal()),
+    ...fakeModule('LiveSession', {
+      collection: 'liveSession',
+      timestamps: true,
+      unique: [{ field: 'status', only: 'live' }],
+      defaults: { status: 'live', endedAt: null, endReason: null, inputDeleted: false },
+    }),
+  };
+});
+delete process.env.CF_ACCOUNT_ID;
+delete process.env.CF_STREAM_API_TOKEN;

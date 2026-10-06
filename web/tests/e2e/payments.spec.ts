@@ -175,6 +175,21 @@ test.describe('checkout', () => {
     await expect(currentStep(page)).toContainText('Your details');
   });
 
+  // docs/FORM-CONTRACTS.md 1.2: the API refuses these addresses when it saves the order, which is AFTER the payment.
+  test('an address the API would refuse never reaches the payment step', async ({ page }) => {
+    await mockNetwork(page);
+    await seedCart(page);
+    await page.goto('/en/checkout');
+    await fillContact(page);
+    for (const address of ['maria@exa_mple.com', 'maría@example.com', 'a&b@example.com']) {
+      await page.getByLabel('Email', { exact: true }).fill(address);
+      await page.getByLabel('Confirmation Email').fill(address);
+      await page.getByRole('button', { name: 'Continue to payment' }).click();
+      await expect(page.getByText('Enter a valid email address, for example name@example.com.')).toBeVisible();
+      await expect(currentStep(page)).toContainText('Your details');
+    }
+  });
+
   test('valid details lead to the order summary and PayPal', async ({ page }) => {
     const calls = await mockNetwork(page);
     await seedCart(page);

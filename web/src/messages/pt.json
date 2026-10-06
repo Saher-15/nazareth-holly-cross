@@ -16,7 +16,8 @@
       "reviews": "Avaliações",
       "about": "Sobre nós",
       "cart": "Carrinho",
-      "donate": "Doar"
+      "donate": "Doar",
+      "liveNow": "(transmitindo agora)"
     },
     "footer": {
       "about": "Compartilhamos o espírito de Nazaré com peregrinos do mundo todo: seus lugares santos, suas orações e seu artesanato.",
@@ -494,6 +495,14 @@
       "videoFallback": "Seu navegador não consegue reproduzir este vídeo.",
       "events": {
         "annunciationSunday": "Oração de domingo na Basílica da Anunciação"
+      },
+      "now": {
+        "badge": "Ao vivo agora",
+        "since": "{minutes, plural, =0 {Começou agora mesmo} one {Ao vivo há # minuto} other {Ao vivo há # minutos}}",
+        "playerTitle": "Transmissão ao vivo: {title}",
+        "started": "Uma transmissão ao vivo começou: {title}",
+        "ended": "A transmissão ao vivo terminou.",
+        "note": "Toque em reproduzir para rezar conosco. A transmissão não é gravada."
       }
     }
   },
@@ -1142,6 +1151,7 @@
         "intro": "Escreva uma intenção pela paz, pela cura, em ação de graças ou pela sua família. Aparecerá no mural.",
         "name": "O seu nome",
         "country": "De onde é?",
+        "countryChoose": "Escolha o seu país",
         "category": "Categoria",
         "prayer": "A sua oração",
         "counter": "{count} / {max}",

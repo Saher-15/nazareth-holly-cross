@@ -92,6 +92,23 @@ export function mailtoHref(email: string | null | undefined): string | null {
   return value.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? `mailto:${encodeURIComponent(value)}` : null;
 }
 
+/**
+ * Where a site reviewer is from. Reviews have a `place` since 2026-10-06; the old site sent the reviewer's country in
+ * `email`, so an `email` that is not an address is the place (the same rule as the API's placeOf, route/reviewRoute.js).
+ */
+export function reviewerPlace(review: { place?: string | null; email?: string | null }): string {
+  const place = (review.place ?? '').trim();
+  if (place) return place;
+  const email = (review.email ?? '').trim();
+  return email.includes('@') ? '' : email;
+}
+
+/** A site reviewer's e-mail address, only when the `email` field really holds one (see reviewerPlace). */
+export function reviewerEmail(review: { email?: string | null }): string {
+  const email = (review.email ?? '').trim();
+  return email.includes('@') ? email : '';
+}
+
 /** A mailto/tel-safe plain string for display only; never used to build HTML. */
 export function cleanText(value: unknown): string {
   return typeof value === 'string' ? value : '';

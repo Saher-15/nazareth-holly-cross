@@ -9,7 +9,8 @@ import A11yPanel from './A11yPanel';
 import LanguageSwitcher from './LanguageSwitcher';
 import styles from './SiteHeader.module.css';
 
-export default function SiteHeader() {
+/** `liveNow`: a live broadcast is on (the server's last look, lib/liveStatusPeek.ts): a dot on the Live link. */
+export default function SiteHeader({ liveNow = false }: { liveNow?: boolean }) {
   const t = useTranslations('site');
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -103,6 +104,12 @@ export default function SiteHeader() {
                   onClick={() => setOpen(false)}
                 >
                   {t(`nav.${item.key}`)}
+                  {item.key === 'live' && liveNow ? (
+                    <>
+                      <span className={styles.liveDot} aria-hidden="true" data-testid="nav-live-now" />{' '}
+                      <span className="visually-hidden">{t('nav.liveNow')}</span>
+                    </>
+                  ) : null}
                 </Link>
               </li>
             ))}

@@ -17,6 +17,7 @@ import { CspNonceProvider } from '@/lib/cspNonce';
 import { isRtl, locales, routing } from '@/i18n/routing';
 import { SITE_NAME, SITE_URL } from '@/lib/config';
 import { fontVariables } from '@/lib/fonts';
+import { peekLiveStatus } from '@/lib/liveStatusPeek';
 import { openGraphLocale } from '@/lib/seo';
 import '@/styles/globals.css';
 
@@ -83,7 +84,8 @@ export default async function LocaleLayout({ children, search, params }: LayoutP
             <CartProvider>
               <ToastProvider>
                 <ReadingProgress />
-                <SiteHeader />
+                {/* "live now" on the Live link while a broadcast is on (never waits for the API: lib/liveStatusPeek.ts) */}
+                <SiteHeader liveNow={peekLiveStatus().live} />
                 <main id="main" tabIndex={-1}>
                   {children}
                 </main>

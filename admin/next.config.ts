@@ -21,6 +21,14 @@ const permissionsPolicy = [
   'xr-spatial-tracking=()',
 ].join(', ');
 
+// The Live page (docs/LIVE.md) is the one place that may use the camera and the microphone (and keep the screen on
+// while broadcasting). A browser applies the policy of the page it LOADED, so the dashboard links to /live with a full
+// page load (AppShell FULL_LOAD); everywhere else they stay off.
+const livePermissionsPolicy = permissionsPolicy
+  .replace('camera=()', 'camera=(self)')
+  .replace('microphone=()', 'microphone=(self)')
+  .replace('autoplay=()', 'autoplay=(self)');
+
 const securityHeaders = [
   { key: 'X-Content-Type-Options', value: 'nosniff' },
   { key: 'Referrer-Policy', value: 'no-referrer' },
@@ -45,7 +53,11 @@ const nextConfig: NextConfig = {
   async headers() {
     // Built assets under /_next/static keep Next's own immutable caching; every page and API answer is private
     // (src/proxy.ts sets no-store).
-    return [{ source: '/:path*', headers: securityHeaders }];
+    // When two entries match, the later one wins for the same header: /live gets its own Permissions-Policy.
+    return [
+      { source: '/:path*', headers: securityHeaders },
+      { source: '/live', headers: [{ key: 'Permissions-Policy', value: livePermissionsPolicy }] },
+    ];
   },
 };
 

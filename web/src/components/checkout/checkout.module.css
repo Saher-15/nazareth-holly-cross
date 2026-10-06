@@ -100,7 +100,14 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--muted);
-  overflow-wrap: anywhere;
+  /* a long label hyphenates ("Confir-mation") instead of dropping its last letter on a line of its own */
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+@media (max-width: 400px) {
+  .stepName {
+    letter-spacing: 0.02em;
+  }
 }
 .step[data-state='current'] .stepName {
   color: var(--gold);
@@ -411,10 +418,13 @@
   margin-block-start: 22px;
 }
 
-/* Arabic letters join; letter-spacing would pull them apart. */
+/* Arabic letters join; letter-spacing would pull them apart. Hebrew never gets it either (design guide 3.3). */
 .eyebrow:lang(ar),
 .stepName:lang(ar),
-.payTitle:lang(ar) {
+.payTitle:lang(ar),
+.eyebrow:lang(he),
+.stepName:lang(he),
+.payTitle:lang(he) {
   letter-spacing: 0;
 }
 

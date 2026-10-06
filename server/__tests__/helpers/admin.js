@@ -64,7 +64,7 @@ export const allFilters = () =>
 // sanitizeFilter and strictQuery settings), which proves the fields exist in the schema and the values are castable.
 const MODEL_FILES = {
   Order: 'order', Candle: 'candle', Contact: 'contact', Review: 'review', ProductReview: 'productReview',
-  Prayer: 'prayer', Product: 'product', Admin: 'admin', AdminSession: 'adminSession', AuditLog: 'auditLog', Payment: 'payment',
+  Prayer: 'prayer', Product: 'product', Admin: 'admin', AdminSession: 'adminSession', AuditLog: 'auditLog', Payment: 'payment', LiveSession: 'liveSession',
 };
 const modelDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../model');
 

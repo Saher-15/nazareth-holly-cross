@@ -203,7 +203,7 @@ stylesheet fails `web/tests/unit/conventions.test.ts`; use a token, or mix one w
 | `--muted` | `#b9bfd3` | secondary text, labels, hints |
 | `--danger` | `#ff8a80` | errors (with an icon or words) |
 | `--success` | `#8be0a4` | confirmations (with an icon or words) |
-| `--live` | `#ff4d4f` | reserved for an "on air" badge; no component uses it today (see the contrast note below) |
+| `--live` | `#ff4d4f` | the "on air" colour only: the badge of `<LiveNow>` and the dot on the header's Live link while a broadcast is live (with `--night` ink, see the contrast note below) |
 | `--glass` | `rgba(255, 255, 255, 0.07)` | translucent card fill |
 | `--glass-strong` | `rgba(255, 255, 255, 0.12)` | hover fill, shimmer highlight |
 | `--glass-line` | `rgba(255, 255, 255, 0.16)` | hairline border of cards (decorative, 1.56:1) |
@@ -277,8 +277,8 @@ How to read the failures:
 
 - `--on-gold` on `--gold-deep` is 6.87: passes AA, misses AAA. The gold button's gradient ends in `--gold-deep`, so
   the label on the far end of a wide button is at 6.87; that is still AA and is accepted.
-- `--white` on `--live` is 3.27: **never put white small text on `--live`.** If an "on air" badge is built, use
-  `--night` text (5.89) or a larger bold label, and keep a text word ("Live") next to the colour.
+- `--white` on `--live` is 3.27: **never put white small text on `--live`.** The "on air" badge (`<LiveNow>`) uses
+  `--night` text (5.89) and always says the word ("Live now"); the header's dot carries words for screen readers.
 - `--glass-line` is decorative: it separates cards from the background but carries no information. Anything that
   must be seen to operate a control (a field border, a focus ring, a checkbox edge) uses `--field-line` or `--gold`.
 - A cream focus ring on a gold button is offset from the button (`--focus-offset` 3px), so it sits on the page
@@ -490,7 +490,10 @@ holding `<div className="ui-container">`.
 
 | Width | What changes |
 |---|---|
-| 480 / 560 px | Header on phones (480): the brand name may wrap onto two lines and the language button drops its caret, so the brand and the three round buttons fit down to 320 px. Phone adjustments inside single components: the hero title shrinks for long Russian, German, Greek and Polish words (480), the shop toolbar reflows (559), candle church cards grow taller (560) |
+| 400 px | Very small phones: the cart and wishlist pills show icon and count only, the header gap shrinks, the checkout step labels lose most of their letter-spacing |
+| 476 px | Footer: the auto-fit grid gets its second column, so the contact column spans two (the e-mail address is one long word and must not break) |
+| 480 / 560 px | Header on phones (480): the brand name may wrap onto two lines and the language button drops its caret, so the brand and the three round buttons fit down to 320 px. Phone adjustments inside single components: the hero title shrinks for long Russian, German, Greek and Polish words (480), the language list becomes a full-width panel under the header (480), the shop toolbar reflows (559), candle church cards grow taller (560) |
+| 560-859 px | Product page in one column on a tablet: the photo frame is 4:3, not square, so the price and the cart button stay in view |
 | 640 / 700 px | Holy-site gallery 3 columns (640); shop product grid 3 columns (700) |
 | 768 px | The home hero film may mount (JavaScript check in `HeroVideo`); the hero photo size hint changes |
 | 860 / 900 / 920 px | Two-column layouts begin: contact, product, cart, story + visit card, checkout |
@@ -504,6 +507,45 @@ holding `<div className="ui-container">`.
 - **Hero:** `.ui-hero` is `min-height: clamp(260px, 42vh, 420px)`, `padding: 96px 16px 56px`, centred text. The
   home hero is its own, full-bleed block (`min-height: min(100svh, 880px)`) that slides up under the header.
 - **Safe areas:** floating controls use `env(safe-area-inset-bottom)`.
+
+#### 4.2.1 Responsive rules (checked on every page)
+
+The public site and the admin are checked on twelve viewports, from a 320 x 568 phone to a 1920 x 1080 screen, at
+200% zoom and on a phone held sideways, in English, Hebrew and Arabic: `web/tests/e2e/responsive.spec.ts` and
+`admin/tests/e2e/responsive.spec.ts`, both built on the rules in `web/tests/e2e/responsive-audit.ts`. The matrix, how
+to run it and the last results are in `docs/RESPONSIVE.md`. A page passes when:
+
+- the page never scrolls sideways and no visible element leaves the screen on either side (an RTL page loses content
+  off its left edge as easily as an LTR page off its right);
+- no text is cut by a box with `overflow: hidden` (an ellipsis or a line clamp is deliberate and allowed);
+- images and videos keep their proportions (`object-fit: cover` or `contain` crops or letterboxes, never stretches);
+- a table wider than the screen scrolls inside its own box (`.tableWrap` on the site, `.table-wrap` in the admin),
+  and its caption stays readable in the visible part (`.captionText`);
+- every pressable thing is at least 24 x 24 px (WCAG 2.5.8) or far enough from its neighbours; we aim at 44 px
+  (`--tap`), and the spec lists the smaller ones on touch screens as advice;
+- below 1100 px the header shows the menu button, and no two header controls overlap;
+- fixed and sticky bars cover at most a third of the screen and the page title never starts under the header;
+- menus, drawers and dialogs fit a 320 px phone and a 390 px-high landscape phone, and their last entry can be
+  reached.
+
+How to keep it that way:
+
+- **A track never grows with its content.** A grid or flex item whose content has its own width (a photo's natural
+  width, a `nowrap` name, a long e-mail address) widens an `auto` track past its box: write
+  `grid-template-columns: minmax(0, 1fr)` (and `min-width: 0` on flex children). Three of the problems found on
+  2026-10-06 were this (admin product cards, admin top-products list).
+- **Spacing is fluid, like `.ui-section`.** A fixed 64-96 px block padding that looks right on a laptop leaves a
+  130 px hole between two sections on a phone: use `clamp(40px, 8vw, 64px)` and similar, which reach the full value
+  around 800-900 px.
+- **Popovers on phones are panels.** A list hung from a button's end edge with a fixed width runs off the other edge
+  of a small screen; below 480 px make it `position: fixed` between the gutters (the language list does).
+- **Long words.** Labels that must not break mid-word use `overflow-wrap: break-word` and `hyphens: auto`, not
+  `overflow-wrap: anywhere` ("CONFIRMATIO / N").
+- **Latin text that is clamped or ellipsed inside RTL** (product names typed in English, the brand name in the
+  header of a 320 px phone) gets
+  `unicode-bidi: plaintext`, so the clamp cuts its end, not its first letters.
+- **RTL overrides must not outrank state rules.** `html[dir='rtl'] .x` is more specific than `.x[data-open='true']`;
+  repeat the RTL selector on the state rule (the admin's phone menu never opened in Hebrew and Arabic because of this).
 
 ### 4.3 Page templates
 
@@ -895,7 +937,7 @@ shop has full skeleton sets (`web/src/components/shop/Skeletons.tsx`). Shop page
 | Holy sites | `<SiteList>`, `<PlaceCards>`, `<PlaceStory>`, `<VisitCard>`, `<PlaceGallery>`, `<Lightbox>`, `<PhotoImage>`, `<ExternalLink>` in `web/src/components/places/` | The `<Lightbox>` is a native modal `<dialog>` (focus trapped, Escape closes, arrows and swipes change photo, mirrored in RTL, focus returns to the tile). Its code loads on the first click |
 | Shop | `<ShopBrowser>`, `<FilterPanel>`, `<FilterDrawer>`, `<ProductCard>`, `<ProductStrip>`, `<ProductRow>`, `<ProductDetail>`, `<ImageZoom>`, `<QuantityStepper>`, `<CartView>`, `<CartPill>`, `<WishlistButton>`, `<WishlistLink>`, `<WishlistView>`, `<ShareButton>`, `<ProductReviews>`, `<ProductReviewForm>`, `<RecentlyViewed>`, `<RetryButton>`, `<StateCard>`, `<GridSkeleton>`, `<ProductSkeleton>`, `<CartSkeleton>`, `<ShopBarSkeleton>` in `web/src/components/shop/` | State in the URL; the heart is a toggle with `aria-pressed` and a polite status line; a stepper button at its limit is `aria-disabled` (focus stays); cart and wishlist live in `localStorage` and are validated on read |
 | Checkout and payments | `<StepIndicator>`, `<Field>`, `<TextField>`, `<DonePanel>`, `<PayPalPanel>`, `<LazyPayPalPanel>` in `web/src/components/checkout/` | PayPal loads lazily at the payment step; the server decides every amount; the PayPal SDK gets the CSP nonce (`useCspNonce`) |
-| Community | `<LivePlayer>`, `<PastBroadcasts>`, `<ReviewForm>`, `<ReviewWall>` in `web/src/components/community/` | The player's Live, Upcoming and Offline state follows the visitor's clock each second; recordings use `preload="none"` |
+| Community | `<LiveNow>`, `<LivePlayer>`, `<PastBroadcasts>`, `<ReviewForm>`, `<ReviewWall>` in `web/src/components/community/` | The player's Live, Upcoming and Offline state follows the visitor's clock each second; recordings use `preload="none"`. `<LiveNow>` shows a broadcast started from the dashboard above the schedule (docs/LIVE.md): it polls `/live/status` about every 15 seconds while the page is visible, frames only Cloudflare Stream's player, announces start and end in a polite live region |
 | Pilgrim guides | `<ContactForm>`, `<PrayerForm>`, `<LikeButton>`, `<FaqList>`, `<GalleryBrowser>`, `<LegalDocument>`, `<NextSteps>`, `<Planner>`, `<WalkingTable>` in `web/src/components/pilgrim/` | The planner keeps its answers in the URL, can print and export an iCalendar file made in the browser; the "Amen" counter is optimistic and corrects itself; one Amen per prayer per browser |
 | Search | `<SiteSearch>`, `<LazySiteSearch>`, `<SearchButton>` in `web/src/components/search/` | The palette code is fetched only on `Ctrl/Cmd + K` or the footer button |
 
@@ -1273,7 +1315,9 @@ contract: `docs/ADMIN-UI.md`, `docs/ADMIN.md`, `docs/ADMIN-RUNBOOK.md`, `admin/R
   `?open=<id>` is a deep link). Edit forms are full pages (`/products/new`, `/products/<id>`) with a sticky action
   bar.
 - **Breakpoints:** 1180 (grids collapse), 960 (shell), 860, 760 (tables become cards), 560 and 480 (forms single
-  column).
+  column). The responsive rules of 4.2.1 apply here too (`admin/tests/e2e/responsive.spec.ts`, signed in as the spare
+  owner `tempowner` so that it has its own share of the API's per-admin request budget). Charts draw at their box's
+  width and scale down (`.chart__plot`) rather than push the page sideways before they have measured it.
 
 ![The dashboard](design/admin-dashboard.jpg)
 
@@ -1388,6 +1432,8 @@ npm test                                    # unit tests, including design-guide
 npx next build
 npm run scan:bundle
 E2E_PORT=3830 PW_CHANNEL=msedge npx playwright test    # runs against `next start` on that port (build first)
+# includes tests/e2e/responsive.spec.ts (320, 375, 768, 1280 px; en, he, ar). The whole matrix and screenshots:
+RESPONSIVE_FULL=1 RESPONSIVE_SHOTS=responsive-shots E2E_PORT=3830 PW_CHANNEL=msedge npx playwright test tests/e2e/responsive.spec.ts --project=desktop
 
 # api, from server/ (if the API or a contract changed)
 npm test
@@ -1406,7 +1452,8 @@ pull request is opened.
 
 - [ ] Looked at on desktop (1366) **and** phone (390), in an LTR language and in `/he` or `/ar`.
 - [ ] Tab through the page: order, visible focus, no trap; use it with the keyboard only.
-- [ ] Text zoom 200% and a 320 px window: nothing clipped, no horizontal scroll.
+- [ ] Text zoom 200% and a 320 px window: nothing clipped, no horizontal scroll (the responsive spec checks the
+      geometry; look at its screenshots for awkward wrapping and gaps, `docs/RESPONSIVE.md`).
 - [ ] Reduced motion on: nothing moves by itself.
 - [ ] Slow network (throttle) and offline: loading, empty and error states are present and sensible.
 - [ ] A long German or Russian label and a short English one both fit.
@@ -1445,6 +1492,9 @@ Each one happened (or nearly did) here. The right-hand column says what catches 
 | **Content hidden until JavaScript reveals it** | With JavaScript blocked, whole sections stayed at opacity 0 | `@media (scripting: none)` shows them; hero text animates by movement only |
 | **Colour as the only signal**, icon-only meaning, emoji or text glyphs as icons | Inaccessible, depends on the visitor's fonts | `.ui-error` with an icon and words; the SVG icon set |
 | **A field border at `--glass-line`** | 1.56:1, fails WCAG 1.4.11 (found by QA) | `--field-line` (4.52:1) |
+| **An `auto` grid track sized by its content** (a photo's natural width, a `nowrap` product name) | The card or list grows past its box: the stock badge was cut off in the admin's product cards, a 320 px Hebrew dashboard scrolled sideways | `grid-template-columns: minmax(0, 1fr)`; `web/tests/e2e/responsive-audit.ts` (section 4.2.1) |
+| **An RTL rule that outranks a state rule** (`html[dir='rtl'] .sidebar` vs `.sidebar[data-open='true']`) | The admin's phone menu stayed off the screen in Hebrew and Arabic | Repeat the RTL selector on the state rule; `admin/tests/e2e/responsive.spec.ts` opens the menu in Hebrew |
+| **A fixed-width popover hung from a button's edge on a phone** | The language list started 36 px off a 320 px screen | A full-width fixed panel below 480 px; the overlay test in `web/tests/e2e/responsive.spec.ts` |
 | **Per-page `scroll-margin-top` for the sticky header** | Double offsets, inconsistent jumps | `html { scroll-padding-top }` already does it |
 | **Disabling a stepper button at its limit** | Keyboard focus jumps to the top of the page | `aria-disabled` and keep focus |
 | **Trusting data read from `localStorage` or the API** | A tampered cart or an API change breaks or exploits the page | Validate on read (zod in `web/src/lib/api.ts`, cart validators) |

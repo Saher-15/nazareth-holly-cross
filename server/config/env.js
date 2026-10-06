@@ -61,13 +61,20 @@ export const config = {
   // Comma-separated browser origins of the NEW admin dashboard (docs/ADMIN.md). Exact origins, no wildcards.
   adminOrigins: (env.ADMIN_ORIGINS || '').split(',').map((o) => o.trim().replace(/\/+$/, '')).filter(Boolean),
   // Where the dashboard lives: the password-reset e-mail links to <adminAppUrl>/reset-password.
-  adminAppUrl: (env.ADMIN_APP_URL || 'https://nhc-admin-dashboard.netlify.app').trim().replace(/\/+$/, ''),
+  adminAppUrl: (env.ADMIN_APP_URL || 'https://admin.nazarethholycross.com').trim().replace(/\/+$/, ''),
   // While NO admin account exists, a reset request for one of these addresses creates the first owner (with no usable
   // password) and mails it the link to choose one. Only the mailbox owner can finish. ADMIN_BOOTSTRAP_EMAILS="" turns it off.
   adminBootstrapEmails: (env.ADMIN_BOOTSTRAP_EMAILS ?? 'nazarethholycross@gmail.com').split(',').map((e) => e.trim().toLowerCase()).filter(Boolean),
   mail: {
     from: env.MAIL_FROM,
     appPassword: env.MAIL_APP_PASSWORD,
+  },
+  // Live broadcasting (docs/LIVE.md): Cloudflare Stream, WebRTC (WHIP in, WHEP out). Both are needed; without them the
+  // feature says "not configured" and nothing else changes. The token is a secret: never logged, never sent anywhere
+  // but to api.cloudflare.com.
+  cloudflare: {
+    accountId: (env.CF_ACCOUNT_ID || '').trim(),
+    streamApiToken: (env.CF_STREAM_API_TOKEN || '').trim(),
   },
   paypal: {
     environment: paypalEnvironment,

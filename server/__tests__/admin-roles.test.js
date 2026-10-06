@@ -18,6 +18,10 @@ const { fakes } = await import('./helpers/fakes.js');
 const { freshIp, signedIn, startClient } = await import('./helpers/admin.js');
 const { createApp } = await import('../app.js');
 const { signSessionToken } = await import('../services/adminSessions.js');
+const { setStreamClient } = await import('../services/cloudflareStream.js');
+const { fakeStreamClient } = await import('../test-harness/fake-cloudflare.js');
+setStreamClient(fakeStreamClient());
+afterAll(() => setStreamClient(null));
 
 const { http, close } = startClient(createApp());
 afterAll(close);
@@ -66,6 +70,10 @@ export const ROUTES = [
   ['patch', `/admin/users/${ID}`, 'owner', { disabled: false }],
   ['delete', `/admin/users/${ID}`, 'owner'],
   ['get', '/admin/audit', 'owner'],
+  // Live broadcasting (route/admin/live.js), against the fake Cloudflare client installed below.
+  ['get', '/admin/live', 'editor'],
+  ['post', '/admin/live/start', 'editor', { title: 'Role matrix' }],
+  ['post', '/admin/live/stop', 'editor', {}],
   ['get', '/admin/auth/me', 'viewer'],
   ['post', '/admin/auth/logout', 'viewer'],
 ];

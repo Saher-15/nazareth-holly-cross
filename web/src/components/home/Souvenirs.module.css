@@ -1,5 +1,6 @@
 .section {
-  padding-block: 64px;
+  /* fluid like .ui-section: the full spacing from about 900px, less on a phone so two sections do not leave a 130px hole */
+  padding-block: clamp(40px, 8vw, 64px);
 }
 
 .head {

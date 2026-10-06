@@ -16,7 +16,8 @@
       "reviews": "Recenzii",
       "about": "Despre noi",
       "cart": "Coș",
-      "donate": "Donați"
+      "donate": "Donați",
+      "liveNow": "(în direct acum)"
     },
     "footer": {
       "about": "Împărtășim duhul Nazaretului cu pelerinii din întreaga lume: locurile sale sfinte, rugăciunile și meșteșugurile sale.",
@@ -494,6 +495,14 @@
       "videoFallback": "Browserul dumneavoastră nu poate reda acest videoclip.",
       "events": {
         "annunciationSunday": "Rugăciunea de duminică din Bazilica Buna Vestire"
+      },
+      "now": {
+        "badge": "În direct acum",
+        "since": "{minutes, plural, =0 {Tocmai a început} one {În direct de # minut} few {În direct de # minute} other {În direct de # de minute}}",
+        "playerTitle": "Transmisiune în direct: {title}",
+        "started": "A început o transmisiune în direct: {title}",
+        "ended": "Transmisiunea în direct s-a încheiat.",
+        "note": "Apăsați pe redare pentru a vă ruga împreună cu noi. Transmisiunea nu este înregistrată."
       }
     }
   },
@@ -1142,6 +1151,7 @@
         "intro": "Scrieți o intenție pentru pace, vindecare, mulțumire sau pentru familia dumneavoastră. Ea va apărea pe zid.",
         "name": "Numele dumneavoastră",
         "country": "De unde sunteți?",
+        "countryChoose": "Alegeți țara",
         "category": "Categorie",
         "prayer": "Rugăciunea dumneavoastră",
         "counter": "{count} / {max}",

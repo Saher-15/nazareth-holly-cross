@@ -44,7 +44,14 @@ services:
       # cannot call the API from a browser.
       - key: ADMIN_ORIGINS
         sync: false
+      # Live broadcasting through Cloudflare Stream (docs/LIVE.md section 6): the account id and an API token with
+      # Stream: Edit on that account only. Secrets: set them in the Render dashboard, never here. Without both the
+      # dashboard's Live page says "not set up yet".
+      - key: CF_ACCOUNT_ID
+        sync: false
+      - key: CF_STREAM_API_TOKEN
+        sync: false
       # Not listed, on purpose (both have working defaults in config/env.js; set them in the Render dashboard only to change them):
-      #   ADMIN_APP_URL          the dashboard address in the password-reset e-mail (default https://nhc-admin-dashboard.netlify.app)
+      #   ADMIN_APP_URL          the dashboard address in the password-reset e-mail (default https://admin.nazarethholycross.com)
       #   ADMIN_BOOTSTRAP_EMAILS who may create the first owner by e-mail while no account exists (default
       #                          nazarethholycross@gmail.com; empty turns it off). docs/ADMIN.md 1.1 and 3.6.

@@ -1,6 +1,9 @@
 // Rules of the contact form (/contact), free of React so they can be unit tested. The API
-// (server/route/contactRoute.js, POST /contact/contact_us_request) requires fullName, email, phone and msg,
-// and the model caps them at 200, 500, 50 and 2000 characters.
+// (server/route/contactRoute.js, POST /contact/contact_us_request) requires fullName, email, phone and msg (the route
+// requires the phone although the model makes it optional) and checks the address with its strict isEmail; the model
+// caps them at 200, 500, 50 and 2000 characters, counted as stored (lib/formRules.ts). docs/FORM-CONTRACTS.md.
+
+import { isApiEmail, storedLength } from '@/lib/formRules';
 
 export type ContactField = 'fullName' | 'email' | 'phone' | 'msg';
 export type ContactValues = Record<ContactField, string>;
@@ -19,8 +22,6 @@ export const CONTACT_RULES: Record<ContactField, { min: number; max: number }> =
   msg: { min: 3, max: 2000 },
 };
 
-// The same pattern the API applies to the e-mail address.
-const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // Digits with the usual separators and an optional leading plus: +972 4 123 4567, (04) 123-4567.
 const PHONE = /^\+?[\d\s().-]{5,}$/;
 
@@ -28,8 +29,8 @@ export function validateContactField(field: ContactField, raw: string): ContactF
   const value = raw.trim();
   const rule = CONTACT_RULES[field];
   if (!value) return { key: 'required' };
-  if (value.length > rule.max) return { key: 'tooLong', values: { max: rule.max } };
-  if (field === 'email' && !EMAIL.test(value)) return { key: 'invalidEmail' };
+  if (storedLength(value) > rule.max) return { key: 'tooLong', values: { max: rule.max } };
+  if (field === 'email' && !isApiEmail(value)) return { key: 'invalidEmail' };
   if (field === 'phone' && (!PHONE.test(value) || (value.match(/\d/g)?.length ?? 0) < 5)) return { key: 'invalidPhone' };
   if ((field === 'fullName' || field === 'msg') && value.length < rule.min) {
     return { key: 'tooShort', values: { min: rule.min } };
