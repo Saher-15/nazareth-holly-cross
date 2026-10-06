@@ -1,4 +1,5 @@
 import express from 'express';
+import mongoose from 'mongoose';
 import Admin from '../../model/admin.js';
 import { asyncHandler } from '../../middleware/asyncHandler.js';
 import { adminAccess } from '../../middleware/adminGuard.js';
@@ -11,7 +12,7 @@ import { audit } from '../../services/audit.js';
 import { HttpError } from '../../utils/httpError.js';
 import { parseBody, secret, str } from '../../utils/schema.js';
 import { effectiveRole } from '../../services/roles.js';
-import { findByResetToken, normaliseEmail, requestReset } from '../../services/passwordReset.js';
+import { findByResetToken, looksLikeEmail, normaliseEmail, requestReset } from '../../services/passwordReset.js';
 
 const router = express.Router();
 
@@ -35,6 +36,16 @@ const publicUser = (admin) => ({
 // ---------------------------------------------------------------------------------------------------------------
 
 const INVALID = { error: 'Invalid credentials' };
+
+// An exact username wins; otherwise a text that looks like an e-mail address is matched against the accounts' e-mail.
+async function findForLogin(name) {
+  const byName = await Admin.findOne({ username: name }).select('+totpSecretEnc');
+  if (byName) return byName;
+  const email = normaliseEmail(name);
+  if (!looksLikeEmail(email)) return null;
+  const exact = mongoose.trusted({ $regex: `^${email.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, $options: 'i' });
+  return Admin.findOne({ email: exact }).select('+totpSecretEnc');
+}
 
 async function registerFailure(req, admin, reason) {
   req.auditActor = { username: req.loginName };
@@ -62,7 +73,8 @@ router.post('/login', adminLoginLimiter, adminLoginIpLimiter, asyncHandler(async
   req.loginName = typeof username === 'string' ? username.trim().slice(0, 100) : '';
 
   // The username must be plain text before it reaches the query ({ "$ne": null } never does).
-  const admin = wellFormed ? await Admin.findOne({ username: username.trim() }).select('+totpSecretEnc') : null;
+  // The sign-in name is the username, or the account's e-mail address (compared without regard to case).
+  const admin = wellFormed ? await findForLogin(username.trim()) : null;
   const locked = Boolean(admin?.lockedUntil) && new Date(admin.lockedUntil).getTime() > Date.now();
   const disabled = admin?.disabled === true;
   const usable = admin && !locked && !disabled && effectiveRole(admin) !== null;

@@ -524,7 +524,9 @@ add({
 
     const wellFormed = typeof username === 'string' && username.trim().length > 0 && username.length <= 100
       && typeof password === 'string' && password.length > 0 && password.length <= 200 && (totp === undefined || typeof totp === 'string');
-    const user = wellFormed ? db.users.find((u) => u.username === username.trim()) : null;
+    // Like the API: the exact username, else the account e-mail without regard to case.
+    const signInName = wellFormed ? username.trim() : '';
+    const user = wellFormed ? (db.users.find((u) => u.username === signInName) ?? (signInName.includes('@') ? db.users.find((u) => typeof u.email === 'string' && u.email.toLowerCase() === signInName.toLowerCase()) : undefined) ?? null) : null;
     const locked = Boolean(user?.lockedUntil) && new Date(user.lockedUntil).getTime() > now;
     const usable = user && !locked && !user.disabled;
     const passwordOk = checkPassword(usable ? user : DUMMY, wellFormed ? password : '') && Boolean(usable); // same work for every case

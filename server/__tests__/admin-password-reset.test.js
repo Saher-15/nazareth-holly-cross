@@ -181,3 +181,15 @@ describe('POST /admin/auth/reset-password', () => {
     expect(fakes.Admin.byId(admin._id).totpEnabled).toBe(true);
   });
 });
+
+describe('signing in with the e-mail address', () => {
+  it('accepts the account e-mail (any case) as well as the username, with the same single error otherwise', async () => {
+    seedAdmin({ username: 'saher', email: 'Saher@Example.com' });
+    expect((await login('saher', PASSWORD)).status).toBe(200);
+    expect((await login('SAHER@example.com', PASSWORD)).status).toBe(200);
+    expect((await login('saher@example.com', 'wrong password here')).status).toBe(401);
+    expect((await login('other@example.com', PASSWORD)).status).toBe(401);
+    expect((await login('sa.er@example.com', PASSWORD)).status).toBe(401); // the dot is not a wildcard
+    for (const { filter } of allFilters().filter((f) => f.name === 'Admin')) expect(sanitizeChanges(filter)).toBeNull();
+  });
+});
