@@ -24,6 +24,7 @@ accent colour, photographs do the talking.
 6. **Motion is optional.** Every animation has a `prefers-reduced-motion: reduce` branch that removes it.
 7. **Dark only.** `color-scheme: dark`; there is no light theme.
 8. **Nothing asks the visitor for anything they did not come for:** no newsletter box, no cookie banner, no pop-ups.
+   The single exception, decided by the owner: the "We are live now" window while a broadcast is live (4.11).
 
 ## 2. Foundations
 
@@ -139,6 +140,9 @@ more opaque after 12px of scrolling. Gold "Donate" button from 1240px (not in Po
 Dutch, whose longer labels leave no room for it); at 1180px and below the links become a drawer (at every width when
 the accessibility panel enlarges the text). The round button with the accessibility sign opens the accessibility
 settings (`docs/DESIGN-GUIDE.md` section 5.5). On phones (480px and below) the brand name may wrap onto two lines.
+While a broadcast is live the Live link (in the bar and in the drawer) carries a small red dot (`--live`, pulsing,
+still under reduced motion) and the visually hidden words "(broadcasting now)"; it comes and goes without a reload,
+following the tab's one live-status poller (`LiveNavIndicator`, `lib/liveStatusStore.ts`).
 
 ![Language menu, English](design/shell-language-menu-en.png)
 ![Language menu, Hebrew](design/shell-language-menu-he.png)
@@ -233,6 +237,17 @@ foot fades into night. Each place has a `heroFocus` (object-position) so a narro
 without header, footer, gallery, buttons, "more places" cards or floating controls; external links print their
 address. `PageTools` has the Print button.
 
+### 4.11 "We are live now"
+
+The one window that opens by itself, approved by the owner for live broadcasts only (`LiveAlert`,
+`docs/DESIGN-GUIDE.md` sections 1.5 and 5.2): a small glass card in the middle of the screen over a dimmed page, with
+the red "Live" badge, the serif heading "We are live now", the broadcast's title in gold, one line of invitation,
+"Watch now" (gold, focused) and "Not now" (ghost). Once per broadcast per browser; never on `/live`, the cart, the
+checkout, the candle or the donation pages; never in the first 4 seconds on a page or while the visitor types. A native
+modal `<dialog>`: Tab stays inside, Escape or a tap on the dimmed page closes it and the focus goes back where it was.
+It fades in (and rises 12px unless the visitor asked for less motion). It never sits in a corner, where floating
+buttons live.
+
 ## 5. Right-to-left checklist
 
 - Layout with logical properties; never `left`/`right`/`margin-left`.
@@ -269,6 +284,15 @@ Write `backdrop-filter` alone: the build adds the Safari prefix itself. Check wi
 `getComputedStyle(el).backdropFilter` in a production build.
 
 ## 8. Changelog
+
+### 2026-10-07: live broadcasts around the player (branch `feat/live-recordings`)
+
+- **The Live link's dot** follows the broadcast without a reload (one poller per tab: every 30 s, 15 s on `/live`).
+- **"We are live now"**, the one owner-approved window (4.11).
+- **`/live`**: the next broadcast announced from the dashboard with a countdown in large gold figures, its time in
+  Nazareth and on the visitor's clock and "Add to calendar", then the others ("More live broadcasts"); "Starting soon"
+  at zero; the published recordings first in "Past live events" (Cloudflare's poster, the player only after a press).
+  The static schedule and the Instagram "Join live" button are gone.
 
 ### 2026-10-06: visual polish (branch `feat/visual-polish`)
 

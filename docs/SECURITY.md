@@ -94,8 +94,9 @@ line to its test, not loosening the policy.
 - Links to other sites are constants in the code (social profiles, Google Maps); none is built from user input.
 - Open redirects: no `redirect()` takes user input; the language redirect only ever produces a path on this site
   (tested with `//evil.com`, `/\evil.com`, `/%5Cevil.com`).
-- Browser storage: `localStorage` holds the cart (`nhc.cart.v1`), wishlist, recently viewed, the lit candles and the
-  accessibility settings (`nhc.a11y.v1`: text size and on/off switches, validated on read). No credential, token or
+- Browser storage: `localStorage` holds the cart (`nhc.cart.v1`), wishlist, recently viewed, the lit candles, the
+  accessibility settings (`nhc.a11y.v1`: text size and on/off switches, validated on read) and the broadcasts the
+  "we are live now" window was shown for (`nhc.liveAlert.v1`: at most 20 session ids, validated on read). No credential, token or
   personal data, and no cookie except `NEXT_LOCALE` (the chosen language). The cart is
   validated when read (24-hex id, text fields, bounded quantity) because anything on the origin can edit it; the
   API validates everything again.

@@ -61,15 +61,9 @@
     }
   },
   "live": {
-    "event_ongoing": "Evento live in corso",
-    "upcoming_event": "Prossimo evento live",
-    "nazareth_date_time": "Data e ora di Nazaret:",
-    "time_remaining": "Tempo rimanente:",
-    "join_live": "Unisciti al live",
     "no_upcoming_events": "Nessun evento in programma.",
     "past_live_events": "Eventi live passati",
-    "refresh_note": "Nota: aggiorna la pagina prima di premere il pulsante «Unisciti al live».",
-    "live_note": "Nota: il pulsante «Unisciti al live» è disponibile solo dopo l’inizio dell’evento live."
+    "refresh_note": "Nota: aggiorna la pagina prima di premere il pulsante «Unisciti al live»."
   },
   "common": {
     "home": "Home",
@@ -478,13 +472,11 @@
       "title": "Prega con noi, in diretta",
       "lead": "Preghiere e celebrazioni trasmesse dai luoghi santi di Nazaret, ovunque tu sia.",
       "status": {
-        "live": "In diretta",
         "upcoming": "Prossimamente",
         "offline": "Non in onda"
       },
       "offlineHint": "Al momento non siamo in onda. Qui sotto puoi guardare le dirette passate.",
       "follow": "Seguici su Instagram",
-      "eventStarted": "L’evento è iniziato",
       "units": {
         "days": "{count, plural, one {Giorno} other {Giorni}}",
         "hours": "{count, plural, one {Ora} other {Ore}}",
@@ -493,16 +485,31 @@
       },
       "pastEyebrow": "Guarda di nuovo",
       "videoFallback": "Il tuo browser non può riprodurre questo video.",
-      "events": {
-        "annunciationSunday": "Preghiera domenicale dalla basilica dell’Annunciazione"
-      },
       "now": {
         "badge": "In diretta ora",
         "since": "{minutes, plural, =0 {Appena iniziata} one {In diretta da # minuto} other {In diretta da # minuti}}",
         "playerTitle": "Diretta: {title}",
         "started": "È iniziata una diretta: {title}",
         "ended": "La diretta è terminata.",
-        "note": "Premi play per pregare con noi. La diretta non viene registrata."
+        "note": "Premi play per pregare con noi. La diretta può essere registrata e mostrata più tardi su questa pagina."
+      },
+      "next": {
+        "kicker": "Prossima diretta",
+        "startsIn": "Inizia tra {time}",
+        "days": "{count, plural, one {# giorno} other {# giorni}}",
+        "hours": "{count, plural, one {# ora} other {# ore}}",
+        "minutes": "{count, plural, one {# minuto} other {# minuti}}",
+        "soonTitle": "Sta per iniziare",
+        "soonText": "Il player apparirà in cima a questa pagina appena saremo in diretta.",
+        "startingNow": "La diretta sta iniziando.",
+        "nazarethTime": "Ora di Nazaret",
+        "yourTime": "La tua ora",
+        "addToCalendar": "Aggiungi al calendario",
+        "moreTitle": "Altre dirette"
+      },
+      "recordings": {
+        "play": "Riproduci: {title}",
+        "playerTitle": "Registrazione: {title}"
       }
     }
   },
@@ -860,6 +867,13 @@
     "motion": {
       "pause": "Metti in pausa lo sfondo in movimento",
       "play": "Riproduci lo sfondo in movimento"
+    },
+    "liveAlert": {
+      "badge": "In diretta",
+      "title": "Siamo in diretta",
+      "text": "Unisciti alla nostra preghiera da Nazaret, ovunque tu sia.",
+      "watch": "Guarda ora",
+      "later": "Non ora"
     }
   },
   "pilgrim": {
@@ -1524,7 +1538,7 @@
               "paypal": "Pagamento: i pulsanti e la finestra di pagamento di PayPal sono realizzati da PayPal e non possiamo modificarli. Se non riesci a usarli, scrivici e troveremo un altro modo per completare il tuo ordine o la tua offerta.",
               "videos": "Video: le registrazioni delle trasmissioni passate e i video della pagina del tour non hanno ancora sottotitoli né trascrizioni.",
               "translations": "Traduzioni: la maggior parte dei testi è stata tradotta con l’aiuto di un software ed è in attesa di revisione da parte di madrelingua, quindi alcune frasi possono risultare poco chiare.",
-              "external": "Altri servizi: le dirette, le mappe e i social network si aprono sui loro siti, di cui non controlliamo l’accessibilità.",
+              "external": "Altri servizi: il lettore delle dirette e delle registrazioni (Cloudflare Stream, all’interno delle nostre pagine), le mappe e i social network, di cui non controlliamo l’accessibilità.",
               "photos": "Fotografie: le descrizioni indicano il luogo e il soggetto, ma non descrivono ogni dettaglio."
             }
           },

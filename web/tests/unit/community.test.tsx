@@ -1,8 +1,7 @@
 import type { ReactNode } from 'react';
-import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { NextIntlClientProvider } from 'next-intl';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import LivePlayer from '@/components/community/LivePlayer';
 import ReviewForm from '@/components/community/ReviewForm';
 import ReviewWall from '@/components/community/ReviewWall';
 import type { Review } from '@/lib/api';
@@ -109,38 +108,5 @@ describe('ReviewForm', () => {
     fireEvent.change(screen.getByLabelText(he.pray.placeholderMessage), { target: { value: 'תודה רבה' } });
     fireEvent.click(screen.getByRole('button', { name: he.pray.submitButton }));
     expect(await screen.findByRole('alert')).toHaveTextContent(he.communityPage.reviews.form.errors.network);
-  });
-});
-
-describe('LivePlayer', () => {
-  const start = new Date('2024-10-06T09:00:00+03:00').getTime();
-  const schedule = [{ id: 's', start, title: 'Sunday prayer', when: 'Sunday 09:00' }];
-  const player = (renderedAt: number) =>
-    withIntl(
-      <LivePlayer broadcasts={schedule} renderedAt={renderedAt} joinUrl="https://example.org" titleId="t" background={null} />,
-    );
-
-  beforeEach(() => vi.useFakeTimers({ toFake: ['Date', 'setInterval', 'clearInterval'] }));
-  afterEach(() => vi.useRealTimers());
-
-  it('counts down to the next broadcast, then goes live without a reload', () => {
-    vi.setSystemTime(start - (60 * 60 + 5) * 1000);
-    render(player(start - 10 * 24 * 60 * 60 * 1000));
-    expect(screen.getByRole('status')).toHaveTextContent(en.communityPage.live.status.upcoming);
-    expect(screen.getByRole('timer')).toHaveTextContent(/00.*01.*00.*05/);
-    expect(screen.getByRole('button', { name: en.live.join_live })).toBeDisabled();
-
-    act(() => {
-      vi.advanceTimersByTime((60 * 60 + 6) * 1000);
-    });
-    expect(screen.getByRole('status')).toHaveTextContent(en.communityPage.live.status.live);
-    expect(screen.getByRole('link', { name: new RegExp(en.live.join_live) })).toHaveAttribute('href', 'https://example.org');
-  });
-
-  it('is offline after the broadcast window', () => {
-    vi.setSystemTime(start + 3 * 60 * 60 * 1000);
-    render(player(start + 3 * 60 * 60 * 1000));
-    expect(screen.getByRole('status')).toHaveTextContent(en.communityPage.live.status.offline);
-    expect(screen.getByRole('heading', { name: en.live.no_upcoming_events })).toBeInTheDocument();
   });
 });

@@ -1,18 +1,33 @@
-// A minimal iCalendar (.ics, RFC 5545) writer for the pilgrimage planner. Times are "floating" (no time zone),
-// so a calendar shows 09:00 as 09:00 wherever the pilgrim is, which is what a printed itinerary means.
+// A minimal iCalendar (.ics, RFC 5545) writer. Two kinds of events:
+//   - the pilgrimage planner's: "floating" times (no time zone), so a calendar shows 09:00 as 09:00 wherever the
+//     pilgrim is, which is what a printed itinerary means;
+//   - an announced live broadcast's: a moment in UTC ("...Z"), so every calendar shows it at the visitor's own time.
 
-export type IcsEvent = {
+type IcsEventBase = {
   uid: string;
+  summary: string;
+  description?: string;
+  location?: string;
+  geo?: { lat: number; lng: number };
+  /** A web address (written as is: only an http(s) address without spaces or line breaks is kept). */
+  url?: string;
+};
+
+export type IcsFloatingEvent = IcsEventBase & {
   /** Local date, YYYY-MM-DD. */
   date: string;
   /** Minutes after midnight. */
   start: number;
   end: number;
-  summary: string;
-  description?: string;
-  location?: string;
-  geo?: { lat: number; lng: number };
 };
+
+export type IcsTimedEvent = IcsEventBase & {
+  /** Start and end, milliseconds since the epoch (written in UTC). */
+  startsAt: number;
+  endsAt: number;
+};
+
+export type IcsEvent = IcsFloatingEvent | IcsTimedEvent;
 
 /** Escapes text values (RFC 5545 section 3.3.11). */
 export function escapeIcsText(text: string): string {
@@ -55,6 +70,12 @@ export function icsLocal(date: string, minutes: number): string {
 const icsUtcStamp = (now: Date) =>
   `${now.getUTCFullYear()}${pad(now.getUTCMonth() + 1)}${pad(now.getUTCDate())}T${pad(now.getUTCHours())}${pad(now.getUTCMinutes())}${pad(now.getUTCSeconds())}Z`;
 
+/** A moment as an iCalendar UTC date-time: 1761379200000 -> `20261025T080000Z`. */
+export const icsUtc = (ms: number) => icsUtcStamp(new Date(ms));
+
+/** An http(s) address safe to write into a URI property (nothing that could start a new line or property). */
+const safeUrl = (url: string | undefined) => (url && /^https?:\/\/[^\s"<>\\]+$/.test(url) ? url : null);
+
 /** Adds `days` to a YYYY-MM-DD date. */
 export function addDays(date: string, days: number): string {
   const [y, m, d] = date.split('-').map(Number);
@@ -62,28 +83,34 @@ export function addDays(date: string, days: number): string {
   return `${at.getUTCFullYear()}-${pad(at.getUTCMonth() + 1)}-${pad(at.getUTCDate())}`;
 }
 
-export function buildIcs(events: readonly IcsEvent[], { name, now = new Date() }: { name: string; now?: Date }): string {
+export function buildIcs(
+  events: readonly IcsEvent[],
+  { name, now = new Date(), product = 'Pilgrimage planner' }: { name: string; now?: Date; product?: string },
+): string {
   const stamp = icsUtcStamp(now);
   const lines = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//Nazareth Holy Cross//Pilgrimage planner//EN',
+    `PRODID:-//Nazareth Holy Cross//${product.replace(/[^A-Za-z0-9 .-]/g, '')}//EN`,
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
     `X-WR-CALNAME:${escapeIcsText(name)}`,
   ];
   for (const event of events) {
+    const timed = 'startsAt' in event;
     lines.push(
       'BEGIN:VEVENT',
-      `UID:${event.uid}`,
+      `UID:${event.uid.replace(/[^A-Za-z0-9@._-]/g, '')}`,
       `DTSTAMP:${stamp}`,
-      `DTSTART:${icsLocal(event.date, event.start)}`,
-      `DTEND:${icsLocal(event.date, event.end)}`,
+      `DTSTART:${timed ? icsUtc(event.startsAt) : icsLocal(event.date, event.start)}`,
+      `DTEND:${timed ? icsUtc(event.endsAt) : icsLocal(event.date, event.end)}`,
       `SUMMARY:${escapeIcsText(event.summary)}`,
     );
     if (event.description) lines.push(`DESCRIPTION:${escapeIcsText(event.description)}`);
     if (event.location) lines.push(`LOCATION:${escapeIcsText(event.location)}`);
     if (event.geo) lines.push(`GEO:${event.geo.lat.toFixed(6)};${event.geo.lng.toFixed(6)}`);
+    const url = safeUrl(event.url);
+    if (url) lines.push(`URL:${url}`);
     lines.push('END:VEVENT');
   }
   lines.push('END:VCALENDAR');

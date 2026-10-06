@@ -61,15 +61,9 @@
     }
   },
   "live": {
-    "event_ongoing": "Live-Event läuft",
-    "upcoming_event": "Bevorstehendes Live-Event",
-    "nazareth_date_time": "Datum und Uhrzeit in Nazareth:",
-    "time_remaining": "Verbleibende Zeit:",
-    "join_live": "Live teilnehmen",
     "no_upcoming_events": "Keine bevorstehenden Events verfügbar.",
     "past_live_events": "Vergangene Live-Events",
-    "refresh_note": "Hinweis: Bitte aktualisieren Sie die Seite, bevor Sie auf „Live teilnehmen“ klicken.",
-    "live_note": "Hinweis: „Live teilnehmen“ ist erst verfügbar, nachdem das Live-Event begonnen hat."
+    "refresh_note": "Hinweis: Bitte aktualisieren Sie die Seite, bevor Sie auf „Live teilnehmen“ klicken."
   },
   "common": {
     "home": "Startseite",
@@ -478,13 +472,11 @@
       "title": "Beten Sie live mit uns",
       "lead": "Gebete und Gottesdienste aus den heiligen Stätten Nazareths, wo immer Sie sind.",
       "status": {
-        "live": "Live",
         "upcoming": "Demnächst",
         "offline": "Offline"
       },
       "offlineHint": "Gerade läuft keine Übertragung. Unten können Sie frühere Übertragungen ansehen.",
       "follow": "Folgen Sie uns auf Instagram",
-      "eventStarted": "Die Übertragung hat begonnen",
       "units": {
         "days": "{count, plural, one {Tag} other {Tage}}",
         "hours": "{count, plural, one {Stunde} other {Stunden}}",
@@ -493,16 +485,31 @@
       },
       "pastEyebrow": "Noch einmal ansehen",
       "videoFallback": "Ihr Browser kann dieses Video nicht abspielen.",
-      "events": {
-        "annunciationSunday": "Sonntagsgebet aus der Verkündigungsbasilika"
-      },
       "now": {
         "badge": "Jetzt live",
         "since": "{minutes, plural, =0 {Gerade begonnen} one {Seit # Minute live} other {Seit # Minuten live}}",
         "playerTitle": "Live-Übertragung: {title}",
         "started": "Eine Live-Übertragung hat begonnen: {title}",
         "ended": "Die Live-Übertragung ist beendet.",
-        "note": "Drücken Sie auf Wiedergabe, um mit uns zu beten. Die Übertragung wird nicht aufgezeichnet."
+        "note": "Drücken Sie auf Wiedergabe, um mit uns zu beten. Die Übertragung kann aufgezeichnet und später auf dieser Seite gezeigt werden."
+      },
+      "next": {
+        "kicker": "Nächste Live-Übertragung",
+        "startsIn": "Beginnt in {time}",
+        "days": "{count, plural, one {# Tag} other {# Tagen}}",
+        "hours": "{count, plural, one {# Stunde} other {# Stunden}}",
+        "minutes": "{count, plural, one {# Minute} other {# Minuten}}",
+        "soonTitle": "Beginnt in Kürze",
+        "soonText": "Der Player erscheint oben auf dieser Seite, sobald wir live sind.",
+        "startingNow": "Die Übertragung beginnt jetzt.",
+        "nazarethTime": "Uhrzeit in Nazareth",
+        "yourTime": "Ihre Uhrzeit",
+        "addToCalendar": "Zum Kalender hinzufügen",
+        "moreTitle": "Weitere Live-Übertragungen"
+      },
+      "recordings": {
+        "play": "Abspielen: {title}",
+        "playerTitle": "Aufzeichnung: {title}"
       }
     }
   },
@@ -860,6 +867,13 @@
     "motion": {
       "pause": "Bewegten Hintergrund anhalten",
       "play": "Bewegten Hintergrund abspielen"
+    },
+    "liveAlert": {
+      "badge": "Live",
+      "title": "Wir sind jetzt live",
+      "text": "Beten Sie mit uns aus Nazareth, wo immer Sie sind.",
+      "watch": "Jetzt ansehen",
+      "later": "Nicht jetzt"
     }
   },
   "pilgrim": {
@@ -1524,7 +1538,7 @@
               "paypal": "Zahlung: Die PayPal-Schaltflächen und das Zahlungsfenster stammen von PayPal, und wir können sie nicht ändern. Wenn Sie sie nicht nutzen können, schreiben Sie uns, und wir finden einen anderen Weg für Ihre Bestellung oder Spende.",
               "videos": "Videos: Die Aufzeichnungen früherer Übertragungen und die Filme auf der Seite des Rundgangs haben noch keine Untertitel oder Abschriften.",
               "translations": "Übersetzungen: Die meisten Texte wurden mit Hilfe von Software übersetzt und warten auf die Durchsicht durch Muttersprachler, daher kann manche Formulierung unklar sein.",
-              "external": "Andere Dienste: Liveübertragungen, Karten und soziale Netzwerke öffnen sich auf deren eigenen Websites, deren Barrierefreiheit wir nicht beeinflussen.",
+              "external": "Andere Dienste: der Videoplayer der Liveübertragungen und Aufzeichnungen (Cloudflare Stream, in unsere Seiten eingebettet), Karten und soziale Netzwerke, deren Barrierefreiheit wir nicht beeinflussen.",
               "photos": "Fotos: Ihre Beschreibungen nennen den Ort und das Motiv, beschreiben aber nicht jedes Detail."
             }
           },

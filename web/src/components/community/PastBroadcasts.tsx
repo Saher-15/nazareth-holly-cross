@@ -1,15 +1,20 @@
 import { getImageProps } from 'next/image';
 import { useTranslations } from 'next-intl';
+import type { RecordingView } from '@/lib/liveRecordings';
+import RecordingList from './RecordingList';
 import { pastBroadcasts } from './recordings';
 import styles from './PastBroadcasts.module.css';
 
-// Recordings of past broadcasts. Nothing is downloaded until the visitor presses play (preload="none");
-// the posters go through the Next image optimiser.
-export default function PastBroadcasts() {
+// Past broadcasts on /live, in one list: first the recordings published from the dashboard (Cloudflare Stream,
+// newest first: <RecordingList>), then the older recordings kept with the site. Nothing is downloaded until the
+// visitor presses play (preload="none"; Cloudflare's player only after a press); the posters of the older ones go
+// through the Next image optimiser.
+export default function PastBroadcasts({ recordings = [] }: { recordings?: RecordingView[] }) {
   const t = useTranslations();
 
   return (
     <ul className={styles.grid}>
+      <RecordingList initial={recordings} />
       {pastBroadcasts.map((video) => {
         const titleId = `past-${video.id}-title`;
         const { props: poster } = getImageProps({

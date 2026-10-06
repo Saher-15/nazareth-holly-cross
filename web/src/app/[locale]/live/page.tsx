@@ -1,27 +1,28 @@
 import type { Metadata } from 'next';
-import { getFormatter, getTranslations, setRequestLocale } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
+import BroadcastStage from '@/components/community/BroadcastStage';
 import LiveNow from '@/components/community/LiveNow';
-import LivePlayer, { type PlayerBroadcast } from '@/components/community/LivePlayer';
 import PastBroadcasts from '@/components/community/PastBroadcasts';
-import { broadcasts, LIVE_WINDOW_MS } from '@/components/community/liveSchedule';
 import { pastBroadcasts } from '@/components/community/recordings';
 import JsonLd from '@/components/ui/JsonLd';
 import MediaPicture from '@/components/media/MediaPicture';
 import PageHero from '@/components/ui/PageHero';
 import { getMedia, mediaShareFile } from '@/data/media';
 import Reveal from '@/components/ui/Reveal';
+import { api } from '@/lib/api';
 import { SITE_URL } from '@/lib/config';
+import { recordingView } from '@/lib/liveRecordings';
+import { broadcastView } from '@/lib/liveSchedule';
 import { livePeekCheckedAt, peekLiveStatus } from '@/lib/liveStatusPeek';
 import { contentUrl } from '@/lib/videos';
-import { organizationJsonLd } from '@/lib/jsonLd';
+import { broadcastEventJsonLd, organizationJsonLd, recordingVideoJsonLd } from '@/lib/jsonLd';
 import { pageMetadata } from '@/lib/seo';
 import { socialLinks } from '@/lib/site';
-import { NAZARETH_TIME_ZONE } from '@/lib/time';
 import styles from './page.module.css';
 
-// Re-rendered every hour so the HTML (and the structured data) follow the schedule; in the browser
-// the player recomputes its state every second anyway.
-export const revalidate = 3600;
+// The announced broadcasts and the recordings are read through lib/api.ts (cached a minute, retried, the last good
+// answer kept); in the browser the page reads them once more when it opens.
+export const revalidate = 60;
 
 const INSTAGRAM_URL = socialLinks.find((s) => s.name === 'Instagram')?.href ?? socialLinks[0].href;
 
@@ -38,37 +39,34 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/live'>):
 }
 
 /**
- * The schedule in the page language and the structured data. The current time is read here, once per
- * render (at most hourly, see `revalidate`), like any other data; in the browser the player then follows
- * the visitor's own clock.
+ * The announced broadcasts (GET /live/schedule) and the published recordings (GET /live/recordings), written in the
+ * page language, and the structured data. An API that does not have these routes yet, or is down, gives empty lists
+ * (the page then shows its offline state and the older recordings only), never made-up data.
  */
 async function loadLiveData(locale: string) {
-  const [t, all, format] = await Promise.all([getTranslations('communityPage.live'), getTranslations(), getFormatter()]);
+  const [t, all, schedule, recordings] = await Promise.all([
+    getTranslations('communityPage.live'),
+    getTranslations(),
+    api.liveSchedule().catch(() => []),
+    api.liveRecordings().catch(() => []),
+  ]);
   const renderedAt = Date.now();
-
-  const schedule: PlayerBroadcast[] = broadcasts.map((b) => {
-    const start = new Date(b.startsAt);
-    return {
-      id: b.id,
-      start: start.getTime(),
-      title: t(`events.${b.titleKey}`),
-      when: format.dateTime(start, { dateStyle: 'full', timeStyle: 'short', timeZone: NAZARETH_TIME_ZONE, numberingSystem: 'latn' }),
-    };
-  });
-
+  const liveUrl = `${SITE_URL}/${locale}/live`;
   const organizer = organizationJsonLd({ name: all('site.name') });
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
       {
         '@type': 'WebPage',
-        '@id': `${SITE_URL}/${locale}/live#webpage`,
-        url: `${SITE_URL}/${locale}/live`,
+        '@id': `${liveUrl}#webpage`,
+        url: liveUrl,
         name: t('metaTitle'),
         description: t('metaDescription'),
         inLanguage: locale,
         isPartOf: { '@id': `${SITE_URL}/#website` },
       },
+      ...schedule.filter((b) => b.start > renderedAt).map((b) => broadcastEventJsonLd(b, { liveUrl, organizer })),
+      ...recordings.map(recordingVideoJsonLd),
       ...pastBroadcasts.map((video) => ({
         '@type': 'VideoObject',
         name: all(`videos.${video.messageKey}.title`),
@@ -77,41 +75,39 @@ async function loadLiveData(locale: string) {
         contentUrl: contentUrl(video.sources, SITE_URL),
         ...(video.recordedOn ? { uploadDate: video.recordedOn } : {}),
       })),
-      ...broadcasts
-        .filter((b) => new Date(b.startsAt).getTime() + LIVE_WINDOW_MS >= renderedAt)
-        .map((b) => ({
-          '@type': 'Event',
-          name: t(`events.${b.titleKey}`),
-          startDate: b.startsAt,
-          endDate: new Date(new Date(b.startsAt).getTime() + LIVE_WINDOW_MS).toISOString(),
-          eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
-          eventStatus: 'https://schema.org/EventScheduled',
-          location: { '@type': 'VirtualLocation', url: INSTAGRAM_URL },
-          organizer,
-        })),
     ],
   };
 
-  return { t, all, renderedAt, schedule, jsonLd };
+  return {
+    t,
+    all,
+    renderedAt,
+    broadcasts: schedule.map((b) => broadcastView(b, locale)),
+    recordings: recordings.map((r) => recordingView(r, locale)),
+    jsonLd,
+  };
 }
 
 export default async function LivePage({ params }: PageProps<'/[locale]/live'>) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const { t, all, renderedAt, schedule, jsonLd } = await loadLiveData(locale);
+  const { t, all, renderedAt, broadcasts, recordings, jsonLd } = await loadLiveData(locale);
+  const live = { initial: peekLiveStatus(), checkedAt: livePeekCheckedAt() };
 
   return (
     <div className={`ui-page ${styles.page}`}>
       <PageHero eyebrow={t('eyebrow')} title={t('title')} lead={t('lead')} />
 
-      <section className={`ui-container ${styles.stage}`} aria-labelledby="live-stage-title">
-        {/* A broadcast started from the dashboard (docs/LIVE.md): shown above the schedule while it is live. */}
-        <LiveNow initial={peekLiveStatus()} checkedAt={livePeekCheckedAt()} renderedAt={renderedAt} />
-        <LivePlayer
-          broadcasts={schedule}
+      <div className={`ui-container ${styles.stage}`}>
+        {/* A broadcast started from the dashboard (docs/LIVE.md): the player, at the top while it is live. */}
+        <LiveNow initial={live.initial} checkedAt={live.checkedAt} renderedAt={renderedAt} />
+        {/* Otherwise the next announced broadcast with its countdown (or the offline state); then the others. */}
+        <BroadcastStage
+          initial={broadcasts}
           renderedAt={renderedAt}
-          joinUrl={INSTAGRAM_URL}
+          followUrl={INSTAGRAM_URL}
           titleId="live-stage-title"
+          live={live}
           background={
             <MediaPicture
               item={getMedia('basilica-night-front')}
@@ -121,7 +117,7 @@ export default async function LivePage({ params }: PageProps<'/[locale]/live'>) 
             />
           }
         />
-      </section>
+      </div>
 
       <section className="ui-section" aria-labelledby="past-broadcasts-title">
         <Reveal className="ui-container">
@@ -131,7 +127,7 @@ export default async function LivePage({ params }: PageProps<'/[locale]/live'>) 
               {all('live.past_live_events')}
             </h2>
           </header>
-          <PastBroadcasts />
+          <PastBroadcasts recordings={recordings} />
         </Reveal>
       </section>
 

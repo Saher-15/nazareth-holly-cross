@@ -5,12 +5,14 @@ import { useTranslations } from 'next-intl';
 import { CloseIcon, CrossMark, MenuIcon } from '@/components/ui/icons';
 import { Link, usePathname } from '@/i18n/navigation';
 import { mainNav } from '@/lib/site';
+import type { LiveSeed } from '@/lib/useLiveStatus';
 import A11yPanel from './A11yPanel';
 import LanguageSwitcher from './LanguageSwitcher';
+import LiveNavIndicator from './LiveNavIndicator';
 import styles from './SiteHeader.module.css';
 
-/** `liveNow`: a live broadcast is on (the server's last look, lib/liveStatusPeek.ts): a dot on the Live link. */
-export default function SiteHeader({ liveNow = false }: { liveNow?: boolean }) {
+/** `live`: what the server last knew about a live broadcast (lib/liveStatusPeek.ts), for the dot on the Live link. */
+export default function SiteHeader({ live }: { live?: LiveSeed }) {
   const t = useTranslations('site');
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -104,12 +106,7 @@ export default function SiteHeader({ liveNow = false }: { liveNow?: boolean }) {
                   onClick={() => setOpen(false)}
                 >
                   {t(`nav.${item.key}`)}
-                  {item.key === 'live' && liveNow ? (
-                    <>
-                      <span className={styles.liveDot} aria-hidden="true" data-testid="nav-live-now" />{' '}
-                      <span className="visually-hidden">{t('nav.liveNow')}</span>
-                    </>
-                  ) : null}
+                  {item.key === 'live' ? <LiveNavIndicator seed={live} /> : null}
                 </Link>
               </li>
             ))}

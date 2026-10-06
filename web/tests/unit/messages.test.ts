@@ -126,6 +126,14 @@ describe.each(locales)('messages/%s.json', (locale) => {
     expect(offenders).toEqual([]);
   });
 
+  // A control character renders as nothing: eleven French colons had become U+0001 (found 2026-10-07).
+  it('has no control characters', () => {
+    const offenders = Object.entries(messages)
+      .filter(([, text]) => /[\u0000-\u0009\u000b-\u001f\u007f]/.test(text))
+      .map(([key]) => key);
+    expect(offenders).toEqual([]);
+  });
+
   it.skipIf(locale === 'en')('uses typographic apostrophes between letters (a straight one can start an ICU quote)', () => {
     const offenders = Object.entries(messages)
       .filter(([, text]) => /\p{L}'\p{L}/u.test(text))

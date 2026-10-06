@@ -61,15 +61,9 @@
     }
   },
   "live": {
-    "event_ongoing": "Live event ongoing",
-    "upcoming_event": "Upcoming live event",
-    "nazareth_date_time": "Nazareth Date and Time:",
-    "time_remaining": "Time remaining:",
-    "join_live": "Join live",
     "no_upcoming_events": "No upcoming events available.",
     "past_live_events": "Past live events",
-    "refresh_note": "Note: Please refresh the page before pressing the 'Join Live' button.",
-    "live_note": "Note: The 'Join Live' button is available only after the live event starts."
+    "refresh_note": "Note: Please refresh the page before pressing the 'Join Live' button."
   },
   "common": {
     "home": "Home",
@@ -478,13 +472,11 @@
       "title": "Pray with us, live",
       "lead": "Prayers and services broadcast from the holy sites of Nazareth, wherever you are.",
       "status": {
-        "live": "Live",
         "upcoming": "Upcoming",
         "offline": "Offline"
       },
       "offlineHint": "We are not broadcasting right now. You can watch our past broadcasts below.",
       "follow": "Follow us on Instagram",
-      "eventStarted": "The event has started",
       "units": {
         "days": "{count, plural, one {Day} other {Days}}",
         "hours": "{count, plural, one {Hour} other {Hours}}",
@@ -493,16 +485,31 @@
       },
       "pastEyebrow": "Watch again",
       "videoFallback": "Your browser cannot play this video.",
-      "events": {
-        "annunciationSunday": "Sunday prayer from the Church of the Annunciation"
-      },
       "now": {
         "badge": "Live now",
         "since": "{minutes, plural, =0 {Started a moment ago} one {Live for # minute} other {Live for # minutes}}",
         "playerTitle": "Live broadcast: {title}",
         "started": "A live broadcast has started: {title}",
         "ended": "The live broadcast has ended.",
-        "note": "Press play to pray with us. The broadcast is not recorded."
+        "note": "Press play to pray with us. The broadcast may be recorded and shown later on this page."
+      },
+      "next": {
+        "kicker": "Next live broadcast",
+        "startsIn": "Starts in {time}",
+        "days": "{count, plural, one {# day} other {# days}}",
+        "hours": "{count, plural, one {# hour} other {# hours}}",
+        "minutes": "{count, plural, one {# minute} other {# minutes}}",
+        "soonTitle": "Starting soon",
+        "soonText": "The player will appear at the top of this page as soon as we go live.",
+        "startingNow": "The broadcast is starting now.",
+        "nazarethTime": "Nazareth time",
+        "yourTime": "Your time",
+        "addToCalendar": "Add to calendar",
+        "moreTitle": "More live broadcasts"
+      },
+      "recordings": {
+        "play": "Play: {title}",
+        "playerTitle": "Recording: {title}"
       }
     }
   },
@@ -860,6 +867,13 @@
     "motion": {
       "pause": "Pause the moving background",
       "play": "Play the moving background"
+    },
+    "liveAlert": {
+      "badge": "Live",
+      "title": "We are live now",
+      "text": "Join our prayer from Nazareth, wherever you are.",
+      "watch": "Watch now",
+      "later": "Not now"
     }
   },
   "pilgrim": {
@@ -1524,7 +1538,7 @@
               "paypal": "Payment: the PayPal buttons and payment window are made by PayPal, and we cannot change them. If you cannot use them, write to us and we will find another way to complete your order or gift.",
               "videos": "Videos: the recordings of past broadcasts and the films on the tour page do not have captions or transcripts yet.",
               "translations": "Translations: most texts were translated with the help of software and are waiting for review by native speakers, so some wording may be unclear.",
-              "external": "Other services: live broadcasts, maps and social networks open on their own websites, whose accessibility we do not control.",
+              "external": "Other services: the player of our live broadcasts and recordings (Cloudflare Stream, shown in our pages), maps and social networks, whose accessibility we do not control.",
               "photos": "Photographs: their descriptions name the place and the subject, but do not describe every detail."
             }
           },

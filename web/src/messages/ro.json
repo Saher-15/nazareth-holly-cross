@@ -61,15 +61,9 @@
     }
   },
   "live": {
-    "event_ongoing": "Transmisiune în direct în desfășurare",
-    "upcoming_event": "Următoarea transmisiune în direct",
-    "nazareth_date_time": "Data și ora la Nazaret:",
-    "time_remaining": "Timp rămas:",
-    "join_live": "Alăturați-vă transmisiunii",
     "no_upcoming_events": "Nu există transmisiuni programate.",
     "past_live_events": "Transmisiuni în direct anterioare",
-    "refresh_note": "Notă: reîncărcați pagina înainte de a apăsa butonul „Alăturați-vă transmisiunii”.",
-    "live_note": "Notă: butonul „Alăturați-vă transmisiunii” este disponibil doar după începerea transmisiunii în direct."
+    "refresh_note": "Notă: reîncărcați pagina înainte de a apăsa butonul „Alăturați-vă transmisiunii”."
   },
   "common": {
     "home": "Acasă",
@@ -478,13 +472,11 @@
       "title": "Rugați-vă împreună cu noi, în direct",
       "lead": "Rugăciuni și slujbe transmise din locurile sfinte ale Nazaretului, oriunde v-ați afla.",
       "status": {
-        "live": "În direct",
         "upcoming": "În curând",
         "offline": "Nu transmitem"
       },
       "offlineHint": "Momentan nu transmitem. Mai jos puteți urmări transmisiunile noastre anterioare.",
       "follow": "Urmăriți-ne pe Instagram",
-      "eventStarted": "Transmisiunea a început",
       "units": {
         "days": "{count, plural, one {Zi} few {Zile} other {Zile}}",
         "hours": "{count, plural, one {Oră} few {Ore} other {Ore}}",
@@ -493,16 +485,31 @@
       },
       "pastEyebrow": "Urmăriți din nou",
       "videoFallback": "Browserul dumneavoastră nu poate reda acest videoclip.",
-      "events": {
-        "annunciationSunday": "Rugăciunea de duminică din Bazilica Buna Vestire"
-      },
       "now": {
         "badge": "În direct acum",
         "since": "{minutes, plural, =0 {Tocmai a început} one {În direct de # minut} few {În direct de # minute} other {În direct de # de minute}}",
         "playerTitle": "Transmisiune în direct: {title}",
         "started": "A început o transmisiune în direct: {title}",
         "ended": "Transmisiunea în direct s-a încheiat.",
-        "note": "Apăsați pe redare pentru a vă ruga împreună cu noi. Transmisiunea nu este înregistrată."
+        "note": "Apăsați pe redare pentru a vă ruga împreună cu noi. Transmisiunea poate fi înregistrată și arătată mai târziu pe această pagină."
+      },
+      "next": {
+        "kicker": "Următoarea transmisiune în direct",
+        "startsIn": "Începe în {time}",
+        "days": "{count, plural, one {# zi} few {# zile} other {# de zile}}",
+        "hours": "{count, plural, one {# oră} few {# ore} other {# de ore}}",
+        "minutes": "{count, plural, one {# minut} few {# minute} other {# de minute}}",
+        "soonTitle": "Începem în curând",
+        "soonText": "Playerul va apărea în partea de sus a acestei pagini imediat ce intrăm în direct.",
+        "startingNow": "Transmisiunea începe acum.",
+        "nazarethTime": "Ora din Nazaret",
+        "yourTime": "Ora dumneavoastră",
+        "addToCalendar": "Adăugați în calendar",
+        "moreTitle": "Alte transmisiuni în direct"
+      },
+      "recordings": {
+        "play": "Redați: {title}",
+        "playerTitle": "Înregistrare: {title}"
       }
     }
   },
@@ -860,6 +867,13 @@
     "motion": {
       "pause": "Opriți fundalul în mișcare",
       "play": "Porniți fundalul în mișcare"
+    },
+    "liveAlert": {
+      "badge": "În direct",
+      "title": "Suntem în direct",
+      "text": "Alăturați-vă rugăciunii noastre din Nazaret, oriunde v-ați afla.",
+      "watch": "Urmăriți acum",
+      "later": "Nu acum"
     }
   },
   "pilgrim": {
@@ -1524,7 +1538,7 @@
               "paypal": "Plata: butoanele și fereastra de plată PayPal sunt realizate de PayPal și nu le putem modifica. Dacă nu le puteți folosi, scrieți-ne și vom găsi o altă cale de a finaliza comanda sau donația.",
               "videos": "Videoclipuri: înregistrările transmisiunilor anterioare și filmele de pe pagina turului nu au încă subtitrări sau transcrieri.",
               "translations": "Traduceri: majoritatea textelor au fost traduse cu ajutorul unui program și așteaptă revizuirea unor vorbitori nativi, așa că unele formulări pot fi neclare.",
-              "external": "Alte servicii: transmisiunile în direct, hărțile și rețelele sociale se deschid pe propriile site-uri, a căror accesibilitate nu o controlăm.",
+              "external": "Alte servicii: playerul transmisiunilor în direct și al înregistrărilor (Cloudflare Stream, inclus în paginile noastre), hărțile și rețelele sociale, a căror accesibilitate nu o controlăm.",
               "photos": "Fotografii: descrierile lor numesc locul și subiectul, dar nu descriu fiecare detaliu."
             }
           },

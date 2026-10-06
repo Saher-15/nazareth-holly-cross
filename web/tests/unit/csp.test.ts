@@ -53,6 +53,14 @@ describe('buildCsp (production)', () => {
     expect(csp).not.toContain('ws:'); // the dev websocket is dev only
   });
 
+  it('lets in Cloudflare Stream only where /live needs it: the player in a frame and the recordings\' posters', () => {
+    expect(directive(csp, 'frame-src')).toContain('https://*.cloudflarestream.com');
+    expect(directive(csp, 'img-src')).toContain('https://*.cloudflarestream.com');
+    for (const name of ['script-src', 'connect-src', 'media-src', 'style-src', 'font-src', 'default-src']) {
+      expect(directive(csp, name).join(' '), name).not.toContain('cloudflarestream');
+    }
+  });
+
   it('adds upgrade-insecure-requests only when asked', () => {
     expect(csp).not.toContain('upgrade-insecure-requests');
     expect(buildCsp({ nonce: 'x', upgradeInsecure: true })).toContain('upgrade-insecure-requests');
