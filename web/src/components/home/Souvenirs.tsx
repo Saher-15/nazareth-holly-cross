@@ -41,9 +41,10 @@ export function SouvenirsView({ id, locale, featured }: ViewProps) {
                       sizes="(min-width: 1180px) 280px, (min-width: 1000px) 24vw, (min-width: 700px) 32vw, 48vw"
                     />
                   </span>
-                  {/* names are stored in one language; dir=auto keeps them readable in Hebrew and Arabic */}
-                  <span className={styles.name} dir="auto">
-                    {p.name}
+                  {/* Names are stored in one language: <bdi> keeps an English name in order on a Hebrew or Arabic page,
+                      while the line keeps the page direction, so it starts at the same edge as the price. */}
+                  <span className={styles.name}>
+                    <bdi>{p.name}</bdi>
                   </span>
                   <span className={styles.price}>{formatUsd(p.price, locale)}</span>
                 </Link>
