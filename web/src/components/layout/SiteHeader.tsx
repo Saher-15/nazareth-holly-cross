@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { CloseIcon, CrossMark, MenuIcon } from '@/components/ui/icons';
 import { Link, usePathname } from '@/i18n/navigation';
 import { mainNav } from '@/lib/site';
+import A11yPanel from './A11yPanel';
 import LanguageSwitcher from './LanguageSwitcher';
 import styles from './SiteHeader.module.css';
 
@@ -115,6 +116,8 @@ export default function SiteHeader() {
           <Link href="/donate" className={`ui-btn ui-btn--gold ui-btn--sm ${styles.donate}`}>
             {t('nav.donate')}
           </Link>
+          {/* Opening the accessibility settings closes the mobile menu, so the two never overlap. */}
+          <A11yPanel onOpen={() => setOpen(false)} />
           <LanguageSwitcher />
           <button
             ref={buttonRef}

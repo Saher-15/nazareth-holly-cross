@@ -11,6 +11,7 @@ import RouteFocus from '@/components/layout/RouteFocus';
 import SiteFooter from '@/components/layout/SiteFooter';
 import SiteHeader from '@/components/layout/SiteHeader';
 import { ToastProvider } from '@/components/ui/Toast';
+import { A11Y_PREPAINT } from '@/lib/a11y';
 import { CartProvider } from '@/lib/cart';
 import { CspNonceProvider } from '@/lib/cspNonce';
 import { isRtl, locales, routing } from '@/i18n/routing';
@@ -65,7 +66,17 @@ export default async function LocaleLayout({ children, search, params }: LayoutP
   } as unknown as AbstractIntlMessages;
 
   return (
-    <html lang={locale} dir={isRtl(locale) ? 'rtl' : 'ltr'} className={fontVariables}>
+    // suppressHydrationWarning: the pre-paint script below may add data-a11y-* attributes to <html> before React
+    // hydrates it (only this element's own attributes are exempt, nothing inside it).
+    <html lang={locale} dir={isRtl(locale) ? 'rtl' : 'ltr'} className={fontVariables} suppressHydrationWarning>
+      <head>
+        {/* The visitor's accessibility settings (lib/a11y.ts), applied before the first paint so large text or high
+            contrast never flashes in after the page appears. Inline, so it carries this response's CSP nonce; it
+            only reads localStorage and sets attributes on <html>. */}
+        <script nonce={nonce} suppressHydrationWarning>
+          {A11Y_PREPAINT}
+        </script>
+      </head>
       <body>
         <NextIntlClientProvider messages={clientMessages}>
           <CspNonceProvider nonce={nonce}>

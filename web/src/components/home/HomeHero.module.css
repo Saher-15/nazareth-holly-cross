@@ -152,6 +152,10 @@
   color: var(--gold);
   border-color: color-mix(in srgb, var(--gold) 55%, transparent);
 }
+/* The pause button of the moving background (<MotionToggle>) sits beside the sound button. */
+.motion {
+  inset-inline-end: 72px;
+}
 
 .scroll {
   position: absolute;

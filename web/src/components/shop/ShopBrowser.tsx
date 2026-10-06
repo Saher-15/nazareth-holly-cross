@@ -16,6 +16,7 @@ import {
   type ShopQuery,
   type Sort,
 } from '@/lib/shop/query';
+import { scrollBehavior } from '@/lib/motion';
 import { formatUsd } from '@/lib/pricing';
 import CartPill from './CartPill';
 import FilterDrawer from './FilterDrawer';
@@ -113,8 +114,7 @@ export default function ShopBrowser({ products, strip }: Props) {
   const goToPage = (page: number) => {
     if (page < 1 || page > result.pages || page === result.page) return;
     go({ ...query, page });
-    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-    countRef.current?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    countRef.current?.scrollIntoView({ behavior: scrollBehavior(), block: 'start' });
     countRef.current?.focus({ preventScroll: true });
   };
 

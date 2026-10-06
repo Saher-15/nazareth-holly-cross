@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import MotionToggle from '@/components/ui/MotionToggle';
 import { Link } from '@/i18n/navigation';
 import type { Photo } from '@/data/places/places';
 import { ChevronIcon } from './icons';
@@ -28,7 +29,7 @@ type Props = {
 // eyebrow, title, lead and call-to-action buttons. Builds on the shared ui-hero block.
 export default function PlaceHero({ image, title, eyebrow, eyebrowHref, lead, focus, size = 'tall', children }: Props) {
   return (
-    <header className={`ui-hero ${styles.hero} ${size === 'tall' ? styles.tall : styles.medium}`}>
+    <header className={`ui-hero ${styles.hero} ${size === 'tall' ? styles.tall : styles.medium}`} data-motion-scope="">
       <PhotoImage
         className={`ui-hero__bg ${styles.bg}`}
         photo={image}
@@ -52,6 +53,7 @@ export default function PlaceHero({ image, title, eyebrow, eyebrowHref, lead, fo
         {lead && <p className={`ui-hero__lead ${styles.lead}`}>{lead}</p>}
         {children && <div className={styles.actions}>{children}</div>}
       </div>
+      <MotionToggle className={styles.motion} />
     </header>
   );
 }

@@ -213,6 +213,82 @@
   }
 }
 
+/* Larger text from the accessibility panel (<html data-a11y-text>): the links no longer fit in one row at any
+   width, so the drawer layout above is used everywhere, and the header grows a little with the text. The rules
+   repeat the drawer ones because a media query cannot be combined with a selector. */
+:global(:root[data-a11y-text]) .menuButton {
+  display: grid;
+}
+:global(:root[data-a11y-text]) .actions {
+  margin-inline-start: auto;
+}
+:global(:root[data-a11y-text]) .actions .donate {
+  display: none;
+}
+:global(:root[data-a11y-text]) .nav {
+  position: fixed;
+  inset: var(--header-h) 0 auto 0;
+  max-height: calc(100dvh - var(--header-h));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  margin: 0;
+  background: color-mix(in srgb, var(--night) 98%, transparent);
+  border-bottom: 1px solid var(--glass-line);
+  box-shadow: var(--elev-4);
+  padding: 8px 16px 20px;
+  transform: translateY(-8px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--dur-base) ease, transform var(--dur-base) ease, visibility var(--dur-base);
+}
+:global(:root[data-a11y-text]) .open {
+  opacity: 1;
+  transform: none;
+  visibility: visible;
+  transition: opacity var(--dur-base) ease, transform var(--dur-base) ease, visibility 0s;
+}
+:global(:root[data-a11y-text]) .nav ul {
+  flex-direction: column;
+  gap: 0;
+  max-width: 560px;
+  margin-inline: auto;
+}
+:global(:root[data-a11y-text]) .nav li:not(.drawerCta) + li:not(.drawerCta) {
+  border-top: 1px solid color-mix(in srgb, var(--white) 7%, transparent);
+}
+:global(:root[data-a11y-text]) .link {
+  display: flex;
+  width: 100%;
+  min-height: 52px;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 1.1rem;
+  white-space: normal;
+}
+:global(:root[data-a11y-text]) .drawerCta {
+  display: block;
+  padding-top: 14px;
+}
+:global(:root[data-a11y-text]) .drawerCta :global(.ui-btn) {
+  width: 100%;
+  min-height: 52px;
+}
+:global(:root[data-a11y-text]) .backdrop {
+  display: block;
+  position: fixed;
+  inset: var(--header-h) 0 0 0;
+  z-index: -1;
+  background: color-mix(in srgb, black 60%, transparent);
+}
+/* The brand gives way first when large text leaves no room for it. */
+:global(:root[data-a11y-text]) .brand {
+  min-width: 0;
+}
+:global(:root[data-a11y-text]) .brandName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* Small phones (360px): keep the brand, language and menu buttons on one line. */
 @media (max-width: 400px) {
   .bar {

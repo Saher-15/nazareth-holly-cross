@@ -824,6 +824,33 @@
       "retry": "Erneut versuchen",
       "home": "Zurück zur Startseite",
       "reference": "Referenz"
+    },
+    "a11y": {
+      "open": "Einstellungen zur Barrierefreiheit",
+      "title": "Barrierefreiheit",
+      "intro": "Passen Sie die Darstellung der Website an. Ihre Auswahl bleibt nur in diesem Browser gespeichert.",
+      "close": "Einstellungen zur Barrierefreiheit schließen",
+      "textSize": "Textgröße",
+      "contrast": "Hoher Kontrast",
+      "contrastHint": "Schwarzer Hintergrund, weiße Schrift und helleres Gold.",
+      "links": "Links unterstreichen",
+      "motion": "Animationen stoppen",
+      "motionHint": "Stoppt bewegte Fotos, den Film und Seiteneffekte.",
+      "motionSystem": "Ihr Gerät verlangt bereits weniger Bewegung, daher bewegt sich nichts von selbst.",
+      "font": "Gut lesbare Schrift",
+      "fontHint": "Eine schlichte Schrift für Überschriften und Text.",
+      "spacing": "Mehr Textabstand",
+      "spacingHint": "Mehr Abstand zwischen Zeilen, Buchstaben und Wörtern.",
+      "focus": "Deutlicher Fokusrahmen",
+      "focusHint": "Ein dickerer Rahmen zeigt, wo sich die Tastatur befindet.",
+      "cursor": "Großer Mauszeiger",
+      "reset": "Zurücksetzen",
+      "resetDone": "Die Website zeigt wieder ihr ursprüngliches Aussehen.",
+      "statement": "Erklärung zur Barrierefreiheit"
+    },
+    "motion": {
+      "pause": "Bewegten Hintergrund anhalten",
+      "play": "Bewegten Hintergrund abspielen"
     }
   },
   "pilgrim": {
@@ -838,6 +865,7 @@
       "shipping": "Versand & Rückgabe",
       "privacy": "Datenschutzerklärung",
       "terms": "Nutzungsbedingungen",
+      "accessibility": "Barrierefreiheit",
       "groupPlan": "Planen & entdecken",
       "groupHelp": "Hilfe & Rechtliches"
     },
@@ -1433,6 +1461,72 @@
           "contact": {
             "title": "Fragen",
             "p1": "Schreiben Sie an {email} oder nutzen Sie die Kontaktseite."
+          }
+        }
+      },
+      "accessibility": {
+        "meta": {
+          "title": "Erklärung zur Barrierefreiheit",
+          "description": "Wie barrierefrei Nazareth Holy Cross ist: die erreichte WCAG-2.2-Stufe, die Einstellungen zur Barrierefreiheit, bekannte Einschränkungen und unser Ansprechpartner."
+        },
+        "title": "Erklärung zur Barrierefreiheit",
+        "lead": "Wir möchten, dass alle Menschen diese Website nutzen können, unabhängig von ihren Fähigkeiten, ihrem Gerät oder ihrer Sprache.",
+        "sections": {
+          "commitment": {
+            "title": "Unser Anspruch",
+            "p1": "Nazareth Holy Cross ist für Pilger in aller Welt gemacht, viele von ihnen älter oder mit dem Smartphone unterwegs. Jeder Besucher soll eine Kerze anzünden, über die heiligen Stätten lesen, einkaufen und spenden können: mit Tastatur, Screenreader, Bildschirmlupe oder Touchscreen."
+          },
+          "status": {
+            "title": "Stand der Vereinbarkeit",
+            "p1": "Diese Website ist teilweise konform mit den Richtlinien für barrierefreie Webinhalte (WCAG) 2.2 auf Stufe AA, der Stufe, die auch die israelische Norm IS 5568 verlangt. Teilweise konform bedeutet, dass die von uns gebauten Seiten bei den unten beschriebenen Prüfungen Stufe AA erreichen, während einige Inhalte, die unter den bekannten Einschränkungen aufgeführt sind, sie noch nicht erreichen.",
+            "p2": "Diese Erklärung gilt für die öffentliche Website nazarethholycross.com in allen 14 Sprachen. Sie wurde zuletzt am {date} überprüft."
+          },
+          "settings": {
+            "title": "Einstellungen zur Barrierefreiheit",
+            "p1": "Die Schaltfläche mit dem Symbol für Barrierefreiheit oben auf jeder Seite öffnet Einstellungen, die für die ganze Website gelten und in diesem Browser gespeichert werden. Mit der Schaltfläche zum Zurücksetzen kehrt alles zum ursprünglichen Aussehen zurück.",
+            "items": {
+              "text": "Textgröße von 100 bis 200 Prozent.",
+              "contrast": "Hoher Kontrast: schwarzer Hintergrund, weiße Schrift und helleres Gold.",
+              "links": "Unterstrichene Links.",
+              "motion": "Gestoppte Animationen, bewegte Fotos und Filme. Wenn Ihr Gerät weniger Bewegung verlangt, folgt die Website dem bereits.",
+              "font": "Eine gut lesbare Schrift: eine schlichte Schrift statt der dekorativen Überschriften.",
+              "spacing": "Mehr Abstand zwischen Zeilen, Buchstaben und Wörtern.",
+              "focus": "Ein deutlicher Fokusrahmen, der zeigt, wo sich die Tastatur befindet.",
+              "cursor": "Ein großer Mauszeiger."
+            }
+          },
+          "done": {
+            "title": "Was wir getan haben",
+            "items": {
+              "keyboard": "Jede Seite lässt sich allein mit der Tastatur bedienen, mit sichtbarem Fokusrahmen und einem Link, der direkt zum Hauptinhalt springt.",
+              "structure": "Jede Seite hat eine Hauptüberschrift, Überschriften in richtiger Reihenfolge, benannte Bereiche und eine angegebene Sprache, damit Screenreader sie richtig vorlesen.",
+              "contrast": "Texte und Bedienelemente erfüllen die Kontrastverhältnisse der WCAG, und jedes Bild hat einen Alternativtext oder ist als dekorativ gekennzeichnet.",
+              "zoom": "Text lässt sich auf 200 Prozent vergrößern, und die Seiten passen ohne seitliches Scrollen auf einen 320 Pixel breiten Bildschirm.",
+              "forms": "Formulare haben sichtbare Beschriftungen, erklären jeden Fehler in Worten neben dem Feld und behalten, was Sie eingegeben haben.",
+              "motion": "Bewegte Hintergründe haben eine Pausentaste, und für Besucher, die weniger Bewegung wünschen, bewegt sich nichts von selbst.",
+              "languages": "Seiten auf Hebräisch und Arabisch werden von rechts nach links gespiegelt, und Schaltflächen und Links sind groß genug zum Antippen."
+            }
+          },
+          "limits": {
+            "title": "Bekannte Einschränkungen",
+            "p1": "Diese Teile erfüllen Stufe AA noch nicht vollständig. Bis dahin schreiben Sie uns bitte, und wir helfen Ihnen auf anderem Weg.",
+            "items": {
+              "paypal": "Zahlung: Die PayPal-Schaltflächen und das Zahlungsfenster stammen von PayPal, und wir können sie nicht ändern. Wenn Sie sie nicht nutzen können, schreiben Sie uns, und wir finden einen anderen Weg für Ihre Bestellung oder Spende.",
+              "videos": "Videos: Die Aufzeichnungen früherer Übertragungen und die Filme auf der Seite des Rundgangs haben noch keine Untertitel oder Abschriften.",
+              "translations": "Übersetzungen: Die meisten Texte wurden mit Hilfe von Software übersetzt und warten auf die Durchsicht durch Muttersprachler, daher kann manche Formulierung unklar sein.",
+              "external": "Andere Dienste: Liveübertragungen, Karten und soziale Netzwerke öffnen sich auf deren eigenen Websites, deren Barrierefreiheit wir nicht beeinflussen.",
+              "photos": "Fotos: Ihre Beschreibungen nennen den Ort und das Motiv, beschreiben aber nicht jedes Detail."
+            }
+          },
+          "testing": {
+            "title": "Wie wir geprüft haben",
+            "p1": "Wir haben jede Seite auf Englisch, Hebräisch und Arabisch auf einem Computer- und einem Handybildschirm geprüft: automatisch mit axe-core nach den Regeln der Stufen A und AA der WCAG 2.2 und von Hand mit der Tastatur, mit 200 Prozent Textgröße, bei 320 Pixel Breite und mit jeder eingeschalteten Einstellung zur Barrierefreiheit.",
+            "p2": "Wir haben noch nicht mit jedem Screenreader, Browser und Gerät getestet. Wenn etwas für Sie nicht funktioniert, sagen Sie es uns bitte."
+          },
+          "contact": {
+            "title": "Kontakt zum Ansprechpartner für Barrierefreiheit",
+            "p1": "Wenn Sie auf der Website auf eine Barriere stoßen, Informationen in einer anderen Form benötigen oder einen Vorschlag haben, schreiben Sie unserem Ansprechpartner für Barrierefreiheit an <mail>{email}</mail>. Nennen Sie uns bitte die Seite und was Sie tun wollten.",
+            "p2": "Wir lesen jede Nachricht und antworten so bald wie möglich."
           }
         }
       }

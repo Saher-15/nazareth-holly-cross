@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
-import { prefersReducedMotion, REDUCE_MOTION_QUERY } from '@/lib/motion';
+import { MOTION_PAUSE_EVENT, MOTION_SCOPE_ATTRIBUTE } from '@/components/ui/MotionToggle';
+import { prefersReducedMotion, subscribeMotion } from '@/lib/motion';
 import { HERO_VIDEO } from '@/lib/videos';
 import styles from './HomeHero.module.css';
 
@@ -19,10 +20,15 @@ function videoAllowed() {
   return !prefersReducedMotion() && !connection?.saveData && !slow && wide;
 }
 
+// The motion preference (system or accessibility panel) and the screen width can change while the page is open.
 function subscribe(onChange: () => void) {
-  const queries = [REDUCE_MOTION_QUERY, WIDE_QUERY].map((q) => window.matchMedia?.(q));
-  queries.forEach((q) => q?.addEventListener('change', onChange));
-  return () => queries.forEach((q) => q?.removeEventListener('change', onChange));
+  const wide = window.matchMedia?.(WIDE_QUERY);
+  wide?.addEventListener('change', onChange);
+  const stopMotion = subscribeMotion(onChange);
+  return () => {
+    wide?.removeEventListener('change', onChange);
+    stopMotion();
+  };
 }
 
 /** Runs `fn` once the page has finished loading and the browser is idle, so the film never competes with the photo. */
@@ -51,17 +57,29 @@ export default function HeroVideo({ poster }: { poster: string }) {
 
   useEffect(() => (allowed ? whenIdle(() => setReady(true)) : undefined), [allowed]);
 
-  // Pause while the hero is scrolled out of view: no decoding work nobody sees.
+  // Pause while the hero is scrolled out of view (no decoding work nobody sees) and while the visitor has paused
+  // the hero's motion with its pause button (<MotionToggle>, WCAG 2.2.2).
   useEffect(() => {
     const video = ref.current;
     if (!allowed || !ready || !video || typeof IntersectionObserver === 'undefined') return undefined;
     video.muted = true; // autoplay needs muted set as a property too (iOS)
-    const io = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) video.play().catch(() => {});
+    const scope = video.closest<HTMLElement>(`[${MOTION_SCOPE_ATTRIBUTE}]`);
+    let visible = false;
+    const update = () => {
+      const paused = scope?.hasAttribute('data-motion-paused') ?? false;
+      if (visible && !paused) video.play().catch(() => {});
       else video.pause();
+    };
+    const io = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      update();
     });
     io.observe(video);
-    return () => io.disconnect();
+    scope?.addEventListener(MOTION_PAUSE_EVENT, update);
+    return () => {
+      io.disconnect();
+      scope?.removeEventListener(MOTION_PAUSE_EVENT, update);
+    };
   }, [allowed, ready]);
 
   if (!allowed || !ready) return null;
@@ -72,7 +90,6 @@ export default function HeroVideo({ poster }: { poster: string }) {
       className={`${styles.video} ${playing ? styles.videoOn : ''}`}
       poster={poster}
       preload="auto"
-      autoPlay
       loop
       muted
       playsInline

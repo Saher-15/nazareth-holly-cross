@@ -90,6 +90,72 @@ h1, h2, h3, .ui-hero__title, .ui-h2, .ui-h3 { hyphens: auto; overflow-wrap: brea
 /* Numbers, prices and e-mail addresses inside Hebrew or Arabic text keep their own direction. */
 .ui-ltr { direction: ltr; unicode-bidi: isolate; }
 
+/* ---- Accessibility settings (components/layout/A11yPanel.tsx; lib/a11y.ts puts the attributes on <html>
+   before the first paint). Colours and typefaces of the modes are in tokens.css. ---- */
+
+/* Text size: every font size on the site is in rem, so the root size scales all the text (WCAG 1.4.4). The
+   header grows a little with it; layout widths stay in px so the page still reflows at the same breakpoints. */
+:root[data-a11y-text='125'] { font-size: 125%; }
+:root[data-a11y-text='150'] { font-size: 150%; }
+:root[data-a11y-text='175'] { font-size: 175%; }
+:root[data-a11y-text='200'] { font-size: 200%; }
+:root[data-a11y-text] { --header-h: calc(56px + 0.75rem); }
+
+/* Underline every link, not only the ones inside text. */
+:root[data-a11y-links='underline'] a[href] {
+  text-decoration-line: underline !important;
+  text-decoration-thickness: max(1px, 0.08em);
+  text-underline-offset: 0.18em;
+}
+
+/* Stop animations: everything jumps to its end state at once (the film is not started, see HeroVideo.tsx). */
+:root[data-a11y-motion='reduce'] { scroll-behavior: auto; }
+:root[data-a11y-motion='reduce'] *,
+:root[data-a11y-motion='reduce'] *::before,
+:root[data-a11y-motion='reduce'] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+:root[data-a11y-motion='reduce'] .ui-reveal { opacity: 1; transform: none; }
+:root[data-a11y-motion='reduce']::view-transition-group(*),
+:root[data-a11y-motion='reduce']::view-transition-old(*),
+:root[data-a11y-motion='reduce']::view-transition-new(*) { animation: none !important; }
+
+/* A hero whose moving background was paused with its own button (components/ui/MotionToggle.tsx). */
+[data-motion-paused] *,
+[data-motion-paused] *::before,
+[data-motion-paused] *::after { animation-play-state: paused !important; }
+
+/* Readable font: no italics either (the serif is swapped for the sans in tokens.css). */
+:root[data-a11y-font='readable'] :is(em, i, blockquote, cite, q) { font-style: normal; }
+
+/* Text spacing at the values of WCAG 1.4.12: line height 1.5 or more, paragraphs 2em apart, letters 0.12em and
+   words 0.16em apart. Hebrew and Arabic keep their letters together (spacing breaks Arabic joining). */
+:root[data-a11y-spacing='wide'] body,
+:root[data-a11y-spacing='wide'] body * { line-height: 1.8 !important; word-spacing: 0.16em !important; }
+:root[data-a11y-spacing='wide']:not(:lang(he)):not(:lang(ar)) body * { letter-spacing: 0.12em !important; }
+:root[data-a11y-spacing='wide'] :is(p, li, dd) { margin-block-end: 1em; }
+:root[data-a11y-spacing='wide'] p + p { margin-block-start: 2em; }
+
+/* Strong focus: a thicker gold ring with a dark gap and a cream halo, visible on photos, gold and night alike. */
+:root[data-a11y-focus='strong'] { --focus-width: 4px; }
+:root[data-a11y-focus='strong'] :focus-visible:not(main) {
+  outline-style: solid !important;
+  outline-width: 4px !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 2px var(--night), 0 0 0 9px var(--cream) !important;
+}
+
+/* Large pointer: drawn 48px cursors in web/public/images/cursors (an arrow, a hand over things that can be pressed,
+   a text bar in fields). The hot spot is the tip. */
+:root[data-a11y-cursor='large'],
+:root[data-a11y-cursor='large'] * { cursor: url('/images/cursors/arrow.svg') 6 4, auto !important; }
+:root[data-a11y-cursor='large'] :is(a[href], button, summary, select, label, [role='button'], [role='tab'], [role='switch'], input[type='checkbox'], input[type='radio']),
+:root[data-a11y-cursor='large'] :is(a[href], button, summary, label, [role='button']) * { cursor: url('/images/cursors/hand.svg') 18 4, pointer !important; }
+:root[data-a11y-cursor='large'] :is(input:not([type='checkbox']):not([type='radio']), textarea) { cursor: url('/images/cursors/text.svg') 24 24, text !important; }
+
 /* ---- page transitions (components/layout/PageTransitions.tsx marks <html> with .vt-page while a link
    navigation is in flight; browsers without the View Transitions API simply navigate without the fade) ---- */
 html.vt-page main { view-transition-name: page; }

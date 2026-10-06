@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import { useTranslations } from 'next-intl';
+import { prefersReducedMotion } from '@/lib/motion';
 import type { CardItem } from '@/lib/shop/items';
 import ProductCard from './ProductCard';
 import ShopIcon from './ShopIcon';
@@ -14,7 +15,7 @@ type Props = {
   items: CardItem[];
 };
 
-const reducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+const reducedMotion = prefersReducedMotion;
 const isRtl = (el: HTMLElement) => getComputedStyle(el).direction === 'rtl';
 
 // A horizontal row of product cards (best sellers or the shop's favourites). Touch and
