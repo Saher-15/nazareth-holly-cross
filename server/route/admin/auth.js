@@ -155,9 +155,11 @@ router.post('/forgot-password', adminForgotLimiter, adminForgotIpLimiter, asyncH
   const { admin, created, sent } = await requestReset(email);
   if (admin) {
     if (created) await audit(req, 'auth.owner_bootstrap', { type: 'admin', id: String(admin._id) });
-    await audit(req, 'auth.password_reset_requested', { type: 'admin', id: String(admin._id) }, { mailed: sent });
+    await audit(req, 'auth.password_reset_requested', { type: 'admin', id: String(admin._id) });
   }
   res.status(202).json({ ok: true });
+  // After the answer: a mail that could not be sent is recorded (the server log has the reason).
+  if (admin && !(await sent)) await audit(req, 'auth.password_reset_mail_failed', { type: 'admin', id: String(admin._id) });
 }));
 
 const BAD_LINK = 'This link is invalid or has expired. Ask for a new one.';

@@ -46,10 +46,10 @@ async function createFirstOwner(email) {
   }
 }
 
-/** Returns { admin, created, sent } (admin is null when nothing was done). The route never tells the browser. */
+/** Returns { admin, created, sent: Promise<boolean> } (admin is null when nothing was done). The route never tells the browser. */
 export async function requestReset(rawEmail, { now = new Date() } = {}) {
   const email = normaliseEmail(rawEmail);
-  if (!looksLikeEmail(email)) return { admin: null, created: false, sent: false };
+  if (!looksLikeEmail(email)) return { admin: null, created: false, sent: Promise.resolve(false) };
 
   // Addresses are compared without regard to case (an account may have been saved as Saher@Example.com). The pattern
   // is built from a validated address with every special character escaped, hence trusted.
@@ -59,7 +59,7 @@ export async function requestReset(rawEmail, { now = new Date() } = {}) {
   if (!admin && config.adminBootstrapEmails.includes(email) && (await Admin.countDocuments({})) === 0) {
     ({ admin, created } = await createFirstOwner(email));
   }
-  if (!admin || admin.disabled === true) return { admin: null, created, sent: false };
+  if (!admin || admin.disabled === true) return { admin: null, created, sent: Promise.resolve(false) };
 
   const token = crypto.randomBytes(32).toString('base64url'); // 43 characters
   const expires = new Date(now.getTime() + RESET_MINUTES * 60 * 1000);
@@ -70,7 +70,9 @@ export async function requestReset(rawEmail, { now = new Date() } = {}) {
   const intro = created
     ? 'An owner account was created for this address on the Nazareth Holy Cross dashboard.'
     : 'Someone asked to reset the password of your Nazareth Holy Cross dashboard account.';
-  const sent = await sendMail({
+  // Not awaited: the caller answers the browser first, so neither a slow mail server nor the time it takes says whether
+  // the address has an account. sendMail never throws; the promise says whether the mail went out.
+  const sent = sendMail({
     to: [to],
     subject: created ? 'Nazareth Holy Cross dashboard: choose your password' : 'Nazareth Holy Cross dashboard: reset your password',
     text: [
