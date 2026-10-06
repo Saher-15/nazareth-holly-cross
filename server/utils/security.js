@@ -49,6 +49,10 @@ export const likeLimiter = limiter(30, 'Too many likes, please slow down.');
 export const READ_LIMIT = 1000;
 export const readLimiter = limiter(READ_LIMIT);
 
+// GET /live/status (route/liveRoute.js): every open /live page asks about every 15 seconds. Five seconds at the edge and
+// in the browser; the API itself answers it from memory (services/live.js).
+const LIVE = 'public, max-age=5, s-maxage=5, stale-while-revalidate=10, stale-if-error=30';
+
 const SLOW = 'public, max-age=60, s-maxage=300, stale-while-revalidate=3600, stale-if-error=86400';
 const FRESH = 'public, max-age=30, s-maxage=60, stale-while-revalidate=300, stale-if-error=3600';
 
@@ -59,6 +63,7 @@ const PUBLIC_READS = [
   { pattern: /^\/product\/[^/]+\/reviews\/?$/, cache: FRESH },
   { pattern: /^\/review\/getReviews\/?$/, cache: FRESH },
   { pattern: /^\/prayer\/getPrayers\/?$/, cache: FRESH },
+  { pattern: /^\/live\/status\/?$/, cache: LIVE },
 ];
 
 /** The Cache-Control value of a public read (GET/HEAD of one of the listed addresses), or null for anything else. */
@@ -136,8 +141,16 @@ export const adminErasureLimiter = limiter(20, 'Too many privacy requests, pleas
   keyGenerator: adminKey,
 });
 
+// GET /live/status: a viewer polls it about 60 times per 15 minutes, and behind one address (a church's Wi-Fi, a tour
+// group, or the Cloudflare edge in front of Render, SECURITY.md section 7) many viewers share one counter. The answer
+// comes from memory, so the ceiling can be high; it is still a ceiling (about 50 viewers per address).
+export const LIVE_STATUS_LIMIT = 3000;
+export const liveStatusLimiter = limiter(LIVE_STATUS_LIMIT);
+const LIVE_STATUS = /^\/live\/status\/?$/;
+
 /** The per-IP limit for every request: the large read allowance for public reads, the strict one for the rest. */
 export function apiLimiter(req, res, next) {
   if (req.path.startsWith('/admin/')) return adminIpLimiter(req, res, next);
+  if (LIVE_STATUS.test(req.path) && (req.method === 'GET' || req.method === 'HEAD')) return liveStatusLimiter(req, res, next);
   return (publicReadCacheControl(req) ? readLimiter : globalLimiter)(req, res, next);
 }

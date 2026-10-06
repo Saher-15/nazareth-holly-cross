@@ -7,7 +7,7 @@
 import crypto from 'node:crypto';
 
 // A harness has its own environment; nothing from the shell's real configuration is trusted or used.
-for (const key of ['DATABASEURL', 'MAIL_FROM', 'MAIL_APP_PASSWORD', 'CLIENT_ID', 'CLIENT_SECRET', 'ADMIN_PASSWORD', 'JWT_SECRET', 'CLIENT_URL', 'EXTRA_ORIGINS']) {
+for (const key of ['DATABASEURL', 'MAIL_FROM', 'MAIL_APP_PASSWORD', 'CLIENT_ID', 'CLIENT_SECRET', 'ADMIN_PASSWORD', 'JWT_SECRET', 'CLIENT_URL', 'EXTRA_ORIGINS', 'CF_ACCOUNT_ID', 'CF_STREAM_API_TOKEN']) {
   delete process.env[key];
 }
 process.env.NODE_ENV = process.env.HARNESS_NODE_ENV ?? 'production'; // behave like the deployed server (no stack traces)
@@ -27,6 +27,12 @@ await import('./hooks.mjs'); // must run before anything that imports a model, t
 const { default: express } = await import('express');
 const { createApp } = await import('../app.js');
 const { seed } = await import('./seed.mjs');
+// Live broadcasting talks to a fake Cloudflare Stream (fake-cloudflare.js): never to Cloudflare.
+const { setStreamClient } = await import('../services/cloudflareStream.js');
+const { fakeStreamClient } = await import('./fake-cloudflare.js');
+const { state } = await import('./harness-models.js');
+state.stream = fakeStreamClient({ customerCode: 'harness' });
+setStreamClient(state.stream);
 
 const port = Number(process.env.HARNESS_PORT ?? 3912);
 const host = '127.0.0.1';

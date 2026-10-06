@@ -69,6 +69,13 @@ export const config = {
     from: env.MAIL_FROM,
     appPassword: env.MAIL_APP_PASSWORD,
   },
+  // Live broadcasting (docs/LIVE.md): Cloudflare Stream, WebRTC (WHIP in, WHEP out). Both are needed; without them the
+  // feature says "not configured" and nothing else changes. The token is a secret: never logged, never sent anywhere
+  // but to api.cloudflare.com.
+  cloudflare: {
+    accountId: (env.CF_ACCOUNT_ID || '').trim(),
+    streamApiToken: (env.CF_STREAM_API_TOKEN || '').trim(),
+  },
   paypal: {
     environment: paypalEnvironment,
     clientId: env.CLIENT_ID,

@@ -9,6 +9,7 @@ import mongoose from 'mongoose';
 // scripts/backup.js and scripts/restore.js against an in-memory stand-in for the MongoDB driver (no database).
 
 vi.unmock('../model/payment.js'); // these scripts read the REAL model declarations
+vi.unmock('../model/liveSession.js');
 
 const { EJSON } = mongoose.mongo.BSON;
 const { fakeDb } = await import('../test-harness/fake-db.js');
