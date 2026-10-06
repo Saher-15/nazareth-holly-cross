@@ -195,10 +195,6 @@
   flex: none;
   margin-block-start: 1px;
 }
-.select option {
-  background: var(--night-2);
-  color: var(--cream);
-}
 @media (min-width: 560px) {
   .fields {
     grid-template-columns: 1fr 1fr;
