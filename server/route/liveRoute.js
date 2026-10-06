@@ -1,41 +1,21 @@
 import express from 'express';
-import { requireAdmin } from '../middleware/auth.js';
+import { asyncHandler } from '../middleware/asyncHandler.js';
+import { liveStatus } from '../services/live.js';
+
+// The public side of live broadcasting (docs/LIVE.md):
+//
+//   GET /live/status  ->  { live: false }  or  { live: true, title, startedAt, playbackUrl }
+//
+// The website's /live page polls it (about every 15 seconds while it is open). The answer comes from memory for 5
+// seconds (services/live.js), carries a 5-second Cache-Control (utils/security.js), and has a rate limit of its own.
+//
+// The old "room" routes (POST /live/create_room, GET /live/room_id, POST /live/close_room: one id kept in the memory of
+// the process, readable by anyone) were removed: no page of web/ or admin/ used them (docs/LIVE.md section 8).
 
 const routerLive = express.Router();
-let live_room_id = '';
 
-routerLive.post('/create_room', requireAdmin, (req, res) => {
-  try {
-    const { roomID } = req.body;
-    if (!roomID || typeof roomID !== 'string') {
-      return res.status(400).json({ error: 'roomID is required' });
-    }
-    // Validate roomID: alphanumeric + hyphens/underscores, max 100 chars
-    if (!/^[A-Za-z0-9_-]{1,100}$/.test(roomID)) {
-      return res.status(400).json({ error: 'Invalid roomID format' });
-    }
-    live_room_id = roomID;
-    res.json({ success: true, roomID: live_room_id });
-  } catch {
-    res.status(500).json({ error: 'Server error' });
-  }
-});
-
-routerLive.get('/room_id', (req, res) => {
-  try {
-    res.json({ roomID: live_room_id });
-  } catch {
-    res.status(500).json({ error: 'Server error' });
-  }
-});
-
-routerLive.post('/close_room', requireAdmin, (req, res) => {
-  try {
-    live_room_id = '';
-    res.json({ success: true });
-  } catch {
-    res.status(500).json({ error: 'Server error' });
-  }
-});
+routerLive.get('/status', asyncHandler(async (req, res) => {
+  res.json(await liveStatus());
+}));
 
 export default routerLive;

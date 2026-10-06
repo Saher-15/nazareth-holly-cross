@@ -1,4 +1,4 @@
-// The ten Mongoose models as in-memory fakes, plus the harness state (recorded e-mails, rate-limit stores).
+// The twelve Mongoose models as in-memory fakes, plus the harness state (recorded e-mails, rate-limit stores).
 // Loaded by the module hooks in hooks.mjs: `import Order from '../model/order.js'` anywhere in the server resolves
 // to models.Order here, so the REAL routes, services and middleware run against memory instead of MongoDB.
 import bcrypt from 'bcryptjs';
@@ -27,6 +27,7 @@ take('Prayer', {
   statics: { schema: { path: (p) => (p === 'category' ? { enumValues: PRAYER_CATEGORIES } : undefined) } },
 });
 take('Product', { collection: 'product', timestamps: true, defaults: { rate: 1, stock: null, additionalImageUrls: [], color: [] } });
+take('LiveSession', { collection: 'liveSession', timestamps: true, unique: [{ field: 'status', only: 'live' }], defaults: { status: 'live', endedAt: null, endReason: null, inputDeleted: false } });
 take('AdminSession', { collection: 'adminSession', defaults: { revokedAt: null } });
 take('AuditLog', { collection: 'auditLog', autoCreatedAt: false, defaults: { actorId: null, actorName: '', role: '', meta: {}, ipHash: '', ua: '' } });
 take('Admin', {

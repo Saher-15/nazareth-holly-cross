@@ -215,3 +215,37 @@ html[dir='rtl'] .drawer[open] .drawer__panel { animation-name: drawer-in-rtl; }
 .login__title { font: 400 var(--text-2xl)/var(--leading-tight) var(--serif); color: var(--white); }
 .login__lead { color: var(--muted); font-size: var(--text-sm); max-width: 34ch; }
 .login__foot { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: var(--text-xs); color: var(--muted); text-align: center; }
+
+/* ---- live broadcasting (app/(app)/live, docs/LIVE.md) ---- */
+.grid--studio { grid-template-columns: minmax(0, 1fr); margin-top: 0; }
+.studio__body { display: grid; gap: var(--space-5); grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); align-items: start; }
+.studio__preview {
+  position: relative; display: grid; place-items: center; aspect-ratio: 16 / 9; overflow: hidden;
+  border-radius: var(--radius-sm); border: 1px solid var(--glass-line); background: var(--night-deep);
+}
+.studio__preview[data-live] { border-color: var(--danger); }
+.studio__video { grid-area: 1 / 1; inline-size: 100%; block-size: 100%; object-fit: contain; background: var(--night-deep); }
+/* The self view is mirrored like a mirror; what viewers receive is not. */
+.studio__video--mirror { transform: scaleX(-1); }
+.studio__placeholder { grid-area: 1 / 1; display: grid; justify-items: center; gap: var(--space-2); padding: var(--space-4); color: var(--muted); text-align: center; }
+.studio__placeholder > .icon { color: var(--gold); }
+.studio__controls { min-width: 0; }
+.studio__devices { display: grid; gap: var(--space-3); }
+.studio__buttons { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.studio__controls .hint { display: flex; align-items: center; gap: 8px; }
+.live-badge {
+  display: inline-flex; align-items: center; gap: 8px; padding: 2px 12px; border-radius: 999px;
+  border: 1px solid var(--danger); background: var(--danger-soft); color: var(--danger);
+  font: 700 var(--text-xs)/1.8 var(--sans); text-transform: uppercase; letter-spacing: 0.08em; white-space: nowrap;
+}
+html:lang(he) .live-badge, html:lang(ar) .live-badge { text-transform: none; letter-spacing: 0; }
+.live-badge__dot { inline-size: 8px; block-size: 8px; border-radius: 50%; background: var(--danger); animation: live-pulse 1.6s ease-in-out infinite; }
+.live-badge__time { color: var(--cream); font-variant-numeric: tabular-nums; letter-spacing: 0; }
+.live-other { border-color: var(--danger); }
+.live-other .panel__title { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+@keyframes live-pulse { 50% { opacity: 0.35; } }
+@media (prefers-reduced-motion: reduce) { .live-badge__dot { animation: none; } }
+@media (forced-colors: active) { .live-badge, .studio__preview[data-live] { border-color: CanvasText; } .live-badge__dot { background: CanvasText; } }
+@media (max-width: 860px) {
+  .studio__body { grid-template-columns: minmax(0, 1fr); }
+}

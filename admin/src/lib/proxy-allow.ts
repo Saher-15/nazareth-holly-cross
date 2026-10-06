@@ -15,6 +15,9 @@ const rules: Rule[] = [
   { method: 'GET', pattern: /^payments$/ },
   { method: 'GET', pattern: new RegExp(`^payments/${ID}$`) },
   { method: 'PATCH', pattern: new RegExp(`^payments/${ID}$`) },
+  // Live broadcasting (editor and owner; the API enforces the role). docs/LIVE.md.
+  { method: 'GET', pattern: /^live$/ },
+  { method: 'POST', pattern: /^live\/(start|stop)$/ },
   // Data-protection requests (owner only; the API enforces the role).
   { method: 'POST', pattern: /^privacy\/(lookup|erase)$/ },
   ...['orders', 'candles', 'contacts', 'site-reviews', 'product-reviews', 'prayers', 'products', 'users'].flatMap((resource): Rule[] => [

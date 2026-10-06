@@ -85,10 +85,14 @@ export function fakeModule(name, { hidden = [], onSave, defaults = {}, methods =
   const store = { docs: [] };
 
   // A unique index: a second document with the same non-empty value fails like MongoDB does (error code 11000).
+  // An entry { field, only } is a partial unique index: it covers only documents whose value is `only`
+  // (liveSession: at most one document with status "live").
   function checkUnique(doc) {
-    for (const field of unique) {
+    for (const entry of unique) {
+      const field = typeof entry === 'string' ? entry : entry.field;
       const value = getPath(doc, field);
       if (value === undefined || value === null) continue;
+      if (typeof entry !== 'string' && value !== entry.only) continue;
       if (store.docs.some((d) => d !== doc && getPath(d, field) === value)) {
         const error = new Error(`E11000 duplicate key error collection: ${name} index: ${field}_1`);
         error.code = 11000;

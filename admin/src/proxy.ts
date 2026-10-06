@@ -67,6 +67,8 @@ export function proxy(request: NextRequest) {
     dev: process.env.NODE_ENV === 'development',
     upgradeInsecure: !isLocalHttp(request.url, request.headers),
     extraImgSrc: parseOrigins(process.env.ADMIN_IMG_SRC),
+    // Only the Live page may talk to Cloudflare Stream (the camera is published from the browser, docs/LIVE.md).
+    live: pathname === '/live',
   });
 
   const requestHeaders = new Headers(request.headers);
