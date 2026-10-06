@@ -398,8 +398,8 @@ test.describe('the cart in two tabs', () => {
     await b.goto('/en/cart');
     await expect(b.getByTestId('cart-line')).toHaveCount(1);
     await a.getByRole('button', { name: 'Remove Olive wood cross' }).click();
-    await expect(b.getByRole('heading', { name: 'Your Cart is Empty' })).toBeVisible();
+    await expect(b.getByRole('heading', { name: 'Your cart is empty' })).toBeVisible();
     await b.reload();
-    await expect(b.getByRole('heading', { name: 'Your Cart is Empty' })).toBeVisible();
+    await expect(b.getByRole('heading', { name: 'Your cart is empty' })).toBeVisible();
   });
 });

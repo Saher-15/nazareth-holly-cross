@@ -100,25 +100,25 @@ async function expectNoSeriousA11yIssues(page: Page) {
 }
 
 async function fillContact(page: Page) {
-  await page.getByLabel('First Name').fill('Maria');
-  await page.getByLabel('Last Name').fill('Haddad');
+  await page.getByLabel('First name').fill('Maria');
+  await page.getByLabel('Last name').fill('Haddad');
   await page.getByLabel('Email', { exact: true }).fill('maria@example.com');
-  await page.getByLabel('Confirmation Email').fill('maria@example.com');
+  await page.getByLabel('Confirmation email').fill('maria@example.com');
   await page.getByLabel('Phone').fill('+972 52-123 4567');
   await page.getByLabel('Country').selectOption('IL');
-  await page.getByLabel('Street Address').fill('1 Paulus VI St');
+  await page.getByLabel('Street address').fill('1 Paulus VI St');
   await page.getByLabel('City').fill('Nazareth');
-  await page.getByLabel('State / Province').fill('North');
-  await page.getByLabel('Postal / Zip Code').fill('16000');
+  await page.getByLabel('State / province').fill('North');
+  await page.getByLabel('Postal / ZIP code').fill('16000');
 }
 
 async function fillCandle(page: Page) {
   await page.getByText('Church of the Annunciation').click();
-  await page.getByLabel('First Name').fill('Anna');
-  await page.getByLabel('Last Name').fill('Smith');
-  await page.getByLabel('Your Email').fill('anna@example.com');
-  await page.getByLabel('Confirm Email').fill('anna@example.com');
-  await page.getByLabel('Your Prayer').fill('For my family');
+  await page.getByLabel('First name').fill('Anna');
+  await page.getByLabel('Last name').fill('Smith');
+  await page.getByLabel('Your email').fill('anna@example.com');
+  await page.getByLabel('Confirm email').fill('anna@example.com');
+  await page.getByLabel('Your prayer').fill('For my family');
 }
 
 const currentStep = (page: Page) => page.locator('[aria-current="step"]');
@@ -127,8 +127,8 @@ test.describe('checkout', () => {
   test('an empty cart sends the visitor back to the shop', async ({ page }) => {
     await mockNetwork(page);
     await page.goto('/en/checkout');
-    await expect(page.getByRole('heading', { name: 'Your Cart is Empty' })).toBeVisible();
-    await expect(page.getByRole('link', { name: 'Back To Shopping' })).toHaveAttribute('href', '/en/shop');
+    await expect(page.getByRole('heading', { name: 'Your cart is empty' })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Back to shopping' })).toHaveAttribute('href', '/en/shop');
 
     await page.goto('/he/checkout');
     await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
@@ -142,7 +142,7 @@ test.describe('checkout', () => {
     await seedCart(page);
     await page.goto('/en/checkout');
     await expect(page).toHaveTitle(/Checkout/);
-    await expect(page.getByRole('heading', { name: 'Contact & Delivery Information' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Contact & delivery information' })).toBeVisible();
     await expect(page.getByText('Olive wood cross')).toBeVisible();
     await expect(page.getByTestId('order-total')).toHaveText('$41.00'); // 2 × $20, −10%, +$5 shipping
     await expect(currentStep(page)).toContainText('Your details');
@@ -163,11 +163,11 @@ test.describe('checkout', () => {
 
     await expect(page.locator('main').getByRole('alert')).toHaveText('Please correct the highlighted fields.');
     await expect(page.getByText('This field is required.')).toHaveCount(10);
-    await expect(page.getByLabel('First Name')).toBeFocused();
-    await expect(page.getByLabel('First Name')).toHaveAttribute('aria-invalid', 'true');
+    await expect(page.getByLabel('First name')).toBeFocused();
+    await expect(page.getByLabel('First name')).toHaveAttribute('aria-invalid', 'true');
 
     await page.getByLabel('Email', { exact: true }).fill('maria@example');
-    await page.getByLabel('Confirmation Email').fill('someone@else.com');
+    await page.getByLabel('Confirmation email').fill('someone@else.com');
     await expect(page.getByText('Enter a valid email address, for example name@example.com.')).toBeVisible();
     await expect(page.getByText("Emails don't match")).toBeVisible();
     await page.getByLabel('Phone').fill('call me');
@@ -183,7 +183,7 @@ test.describe('checkout', () => {
     await fillContact(page);
     for (const address of ['maria@exa_mple.com', 'maría@example.com', 'a&b@example.com']) {
       await page.getByLabel('Email', { exact: true }).fill(address);
-      await page.getByLabel('Confirmation Email').fill(address);
+      await page.getByLabel('Confirmation email').fill(address);
       await page.getByRole('button', { name: 'Continue to payment' }).click();
       await expect(page.getByText('Enter a valid email address, for example name@example.com.')).toBeVisible();
       await expect(currentStep(page)).toContainText('Your details');
@@ -198,7 +198,7 @@ test.describe('checkout', () => {
     await page.getByRole('button', { name: 'Continue to payment' }).click();
 
     await expect(currentStep(page)).toContainText('Payment');
-    await expect(page.getByRole('heading', { name: 'Payment Method' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Payment method' })).toBeVisible();
     await expect(page.getByText('Israel')).toBeVisible();
     await expect(page.getByTestId('order-total')).toHaveText('$41.00');
     // The empty PayPal stub never defines window.paypal: the page explains instead of breaking.
@@ -310,7 +310,7 @@ test.describe('candle', () => {
     await fillCandle(page);
     await page.getByRole('button', { name: 'LIGHT', exact: true }).click();
 
-    await expect(page.getByRole('heading', { name: 'Order Summary' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Order summary' })).toBeVisible();
     await expect(page.getByTestId('candle-total')).toHaveText('$3.00');
     await expect(page.getByText('For my family')).toBeVisible();
     await expect(currentStep(page)).toContainText('Payment');
@@ -426,7 +426,7 @@ test.describe('checkout: a paid order is never lost', () => {
     await page.goto('/en/checkout'); // the cart still holds the paid items
     const notice = page.locator('main').getByRole('status').filter({ hasText: 'Your earlier payment (TESTCAPTURE0000001) is still waiting to be saved' });
     await expect(notice).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Contact & Delivery Information' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Contact & delivery information' })).toBeVisible();
 
     newOrder[0] = { status: 201, body: 'Created' }; // the API comes back: the order is saved, the notice goes, the cart is emptied
     await expect(notice).toBeHidden({ timeout: 20_000 });

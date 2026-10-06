@@ -176,7 +176,7 @@ test.describe('product page', () => {
 
     await page.getByRole('button', { name: 'Increase quantity' }).click();
     await expect(inMain(page).getByTestId('quantity')).toHaveText('2');
-    await page.getByRole('button', { name: 'Add to Cart' }).click();
+    await page.getByRole('button', { name: 'Add to cart' }).click();
     await expect(page.getByText('Product added to cart!')).toBeVisible();
     await expect(inMain(page).getByTestId('quantity')).toHaveText('1');
     await expect(inMain(page).getByTestId('cart-count')).toHaveText('2');
@@ -194,14 +194,14 @@ test.describe('product page', () => {
     const colours = page.getByRole('group', { name: 'Colour' });
     test.skip(response?.status() === 404 || !(await colours.count()), 'that product no longer comes in colours');
 
-    await page.getByRole('button', { name: 'Add to Cart' }).click();
+    await page.getByRole('button', { name: 'Add to cart' }).click();
     await expect(page.getByText('Please select a color.')).toBeVisible();
     await expect(colours.getByRole('radio').first()).toBeFocused();
 
     const second = colours.getByRole('radio').nth(1);
     await second.check();
     await expect(page.getByRole('button', { name: 'Show image 3 of', exact: false })).toHaveAttribute('aria-pressed', 'true');
-    await page.getByRole('button', { name: 'Add to Cart' }).click();
+    await page.getByRole('button', { name: 'Add to cart' }).click();
     await expect(page.getByText('Product added to cart!')).toBeVisible();
 
     await page.goto('/en/cart');
@@ -237,7 +237,7 @@ test.describe('product page', () => {
       await page.goto(`/en/shop/${id}`);
       await expect(page.getByRole('heading', { level: 1, name: 'Product not found.' })).toBeVisible();
       await expect(page.locator('meta[name="robots"][content*="noindex"]').first()).toBeAttached();
-      await expect(page.getByRole('link', { name: 'Back To Shopping' })).toHaveAttribute('href', '/en/shop');
+      await expect(page.getByRole('link', { name: 'Back to shopping' })).toHaveAttribute('href', '/en/shop');
     }
   });
 
@@ -291,10 +291,10 @@ test.describe('cart', () => {
     await seedCart(page, [testLines[0]]);
     await page.goto('/en/cart');
     await page.getByRole('button', { name: 'Remove Test olive oil' }).click();
-    const heading = page.getByRole('heading', { name: 'Your Cart is Empty' });
+    const heading = page.getByRole('heading', { name: 'Your cart is empty' });
     await expect(heading).toBeVisible();
     await expect(heading).toBeFocused();
-    await expect(page.getByRole('link', { name: 'Back To Shopping' })).toHaveAttribute('href', '/en/shop');
+    await expect(page.getByRole('link', { name: 'Back to shopping' })).toHaveAttribute('href', '/en/shop');
   });
 
   test('renders right-to-left in Hebrew', async ({ page }) => {
@@ -317,7 +317,7 @@ test.describe('cart', () => {
     }
     await page.evaluate((key) => localStorage.setItem(key, '[]'), CART_KEY);
     await page.goto('/en/cart');
-    await expect(page.getByRole('heading', { name: 'Your Cart is Empty' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Your cart is empty' })).toBeVisible();
     await expectNoSeriousA11yIssues(page);
   });
 });
