@@ -171,8 +171,8 @@ the dashboard's totals and "top products" and the catalogue's "units sold" aggre
 | auditLog | about 0.4 KB | 180 days kept: a few thousand entries | constant |
 | adminSession | 0.15 KB | expires after 60 minutes | constant |
 
-The whole database stays far below the 512 MB of the free tier for many years; the limit that matters first is not size but
-**no backups** (BACKUP.md) and the free cluster's connection limit. Everything that reads "all" documents is capped:
+The whole database (about 84 KB on 2026-10-06, on an M10 cluster with Cloud Backup: INFRASTRUCTURE.md 6.1) stays tiny for
+many years; size is not the limit that matters. Everything that reads "all" documents is capped:
 the old admin routes `getAllOrders`, `getAllCandleRequests`, `get_all_contact_us`, `getAllProducts` and `/admin/{prayers,candles,products}` now return at most
 5,000 documents, newest first, as the same plain array, with an `X-Result-Capped: 5000` header when the cap was reached (`utils/pagination.js`). The
 dashboard's lists are paginated (at most 100 a page, 10,000 for a CSV export), and hot reads use `.lean()` and field lists

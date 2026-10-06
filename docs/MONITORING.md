@@ -163,4 +163,4 @@ Render and Atlas team member) so an alert at night or during a trip is seen by s
 - Errors inside the API (a thrown exception that still answers 500 now and then): Sentry is on the roadmap
   (`docs/ENGINEERING.md` section 8).
 - Failed PayPal captures (no PayPal webhook yet, `docs/SECURITY.md` section 7): the Render log names the PayPal order id.
-- Backups: MongoDB Atlas's free tier has **no automatic backup**; see INFRASTRUCTURE.md 6.
+- Backups: production is on Atlas M10 with Cloud Backup on (INFRASTRUCTURE.md 6.1); check the cluster's *Backup* tab shows recent snapshots.
