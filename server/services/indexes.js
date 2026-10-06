@@ -68,7 +68,13 @@ function signature({ key, options }) {
     if (option === 'unique' || option === 'sparse') value = value === true;
     if (value !== undefined && value !== false) kept[option] = value;
   }
-  return JSON.stringify([Object.entries(key), sortKeys(kept)]);
+  // The fields of a text index have no order (MongoDB reports them alphabetically, from the weights), so they are
+  // compared sorted; any other field keeps its position.
+  const entries = Object.entries(key);
+  const keyed = isText
+    ? [...entries.filter(([, v]) => v !== 'text'), ...entries.filter(([, v]) => v === 'text').sort(([a], [b]) => a.localeCompare(b))]
+    : entries;
+  return JSON.stringify([keyed, sortKeys(kept)]);
 }
 
 export const sameIndex = (a, b) => signature(a) === signature(b);
