@@ -264,15 +264,26 @@
   font-size: 0.95rem;
   color: var(--cream);
 }
+/* The same small gold link as the "Open" and "Explore" links of the site's cards: an icon, no underline until
+   hovered (it was underlined and uppercase at once). */
 .directions {
   display: inline-flex;
   align-items: center;
+  gap: 8px;
   min-height: 44px;
   font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--gold);
+  text-decoration: none;
+}
+.directions:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.directions svg {
+  flex: none;
 }
 .lunch .itemTitle {
   font-size: 1.1rem;

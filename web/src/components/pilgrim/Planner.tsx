@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { useFormatter, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { directionsUrl, getPlace, placeHref, type PlaceSlug } from '@/data/places/places';
+import { RouteIcon } from '@/components/ui/icons';
 import { addDays, buildIcs, type IcsEvent } from '@/data/pilgrim/ics';
 import {
   buildItinerary,
@@ -253,6 +254,7 @@ export default function Planner() {
                           rel="noopener noreferrer"
                           data-noprint
                         >
+                          <RouteIcon size={16} />
                           {tAll('placesPage.directions')} <span className="visually-hidden">{tAll('placesPage.newTab')}</span>
                         </a>
                       </div>

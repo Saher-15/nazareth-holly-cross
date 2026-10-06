@@ -7,7 +7,7 @@
   flex-direction: column;
   min-height: 380px;
   overflow: hidden;
-  border-radius: 20px;
+  border-radius: var(--radius);
   border: 1px solid var(--glass-line);
   background: var(--night);
   box-shadow: var(--shadow), 0 0 80px color-mix(in srgb, var(--gold) 8%, transparent);
@@ -18,7 +18,7 @@
   position: absolute;
   inset: 8px;
   border: 1px solid var(--glass);
-  border-radius: 14px;
+  border-radius: var(--radius-sm);
   pointer-events: none;
 }
 
@@ -255,11 +255,9 @@
 @media (min-width: 700px) {
   .player {
     min-height: clamp(400px, 52vw, 640px);
-    border-radius: 28px;
   }
   .player::after {
     inset: 12px;
-    border-radius: 18px;
   }
   .top {
     padding: 22px 24px 0;

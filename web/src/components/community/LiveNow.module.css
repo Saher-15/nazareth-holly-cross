@@ -5,7 +5,7 @@
   gap: 16px;
   margin-block-end: 24px;
   padding: clamp(14px, 3vw, 24px);
-  border-radius: 20px;
+  border-radius: var(--radius);
   border: 1px solid color-mix(in srgb, var(--live) 60%, transparent);
   background: var(--night);
   box-shadow: var(--shadow), 0 0 90px color-mix(in srgb, var(--live) 18%, transparent);
@@ -75,7 +75,7 @@
   position: relative;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  border-radius: 14px;
+  border-radius: var(--radius-sm);
   border: 1px solid var(--glass-line);
   background: var(--night-deep);
 }

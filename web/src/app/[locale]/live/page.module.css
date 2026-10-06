@@ -9,14 +9,6 @@
   background: radial-gradient(700px 260px at 50% 30%, color-mix(in srgb, var(--gold) 10%, transparent), transparent 70%);
 }
 
-/* Spaced capitals break Arabic letter joining and read poorly in Hebrew. */
-.page :global(.ui-eyebrow):lang(he) {
-  letter-spacing: 0.04em;
-}
-.page :global(.ui-eyebrow):lang(ar) {
-  letter-spacing: 0;
-}
-
 .stage {
   position: relative;
   margin-top: -36px;

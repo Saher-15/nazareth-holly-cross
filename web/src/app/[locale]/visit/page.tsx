@@ -68,7 +68,7 @@ export default async function VisitPage({ params }: PageProps<'/[locale]/visit'>
             </h2>
             <p className={shared.lead}>{t('pilgrim.visit.getting.lead')}</p>
           </Reveal>
-          <ul className={shared.cards}>
+          <ul className={`${shared.cards} ${shared.cardsFour}`}>
             {ROUTES.map((route, i) => (
               <Reveal as="li" key={route.id} className={`ui-glass ui-card ${shared.card}`} delay={i * 80}>
                 <h3 className="ui-h3">{t(`pilgrim.visit.getting.routes.${route.id}.title`)}</h3>

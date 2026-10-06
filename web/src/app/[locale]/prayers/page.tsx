@@ -131,7 +131,8 @@ export default async function PrayersPage({ params, searchParams }: PageProps<'/
               <div className={`ui-glass ui-card ${styles.state}`}>
                 <h3 className="ui-h3">{t('pilgrim.prayers.wall.emptyTitle')}</h3>
                 <p>{t('pilgrim.prayers.wall.emptyText')}</p>
-                <a href="#share" className="ui-btn ui-btn--gold">
+                {/* ghost: the form next to it has the gold button */}
+                <a href="#share" className="ui-btn ui-btn--ghost">
                   {t('pilgrim.prayers.hero.cta')}
                 </a>
               </div>
