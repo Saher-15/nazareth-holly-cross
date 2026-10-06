@@ -14,6 +14,7 @@ import { LanguageSwitcher } from './LanguageSwitcher';
 
 const ICONS: Record<NavId, IconName> = {
   dashboard: 'dashboard',
+  live: 'broadcast',
   orders: 'orders',
   payments: 'payments',
   candles: 'candles',
@@ -28,8 +29,11 @@ const ICONS: Record<NavId, IconName> = {
   profile: 'profile',
 };
 
+// Pages that must be opened with a full page load (their Permissions-Policy differs from the rest of the dashboard).
+const FULL_LOAD = new Set<NavId>(['live']);
+
 const GROUPS: { label: 'shell.groupOverview' | 'shell.groupInbox' | 'shell.groupCatalog' | 'shell.groupAdmin'; ids: NavId[] }[] = [
-  { label: 'shell.groupOverview', ids: ['dashboard'] },
+  { label: 'shell.groupOverview', ids: ['dashboard', 'live'] },
   { label: 'shell.groupInbox', ids: ['orders', 'payments', 'candles', 'contacts', 'prayers', 'reviews'] },
   { label: 'shell.groupCatalog', ids: ['products'] },
   { label: 'shell.groupAdmin', ids: ['users', 'audit', 'privacy', 'settings', 'profile'] },
@@ -89,14 +93,26 @@ export function AppShell({ user, expiresAt, children }: { user: { username: stri
                 <div key={group.label} className="nav__group">
                   <p className="nav__label">{t(group.label)}</p>
                   <ul className="nav__list">
-                    {visible.map((item) => (
-                      <li key={item.id}>
-                        <Link href={item.href} className="nav__link" aria-current={current(item.href) ? 'page' : undefined} onClick={() => setOpen(false)}>
+                    {visible.map((item) => {
+                      const content = (
+                        <>
                           <Icon name={ICONS[item.id]} />
                           <span>{t(`nav.${item.id}`)}</span>
-                        </Link>
-                      </li>
-                    ))}
+                        </>
+                      );
+                      const props = { className: 'nav__link', 'aria-current': current(item.href) ? ('page' as const) : undefined, onClick: () => setOpen(false) };
+                      return (
+                        <li key={item.id}>
+                          {FULL_LOAD.has(item.id) ? (
+                            // A full page load on purpose: the camera and microphone are allowed only on /live, and the
+                            // browser decides that from the headers of the page it LOADED (next.config.ts).
+                            <a href={item.href} {...props}>{content}</a>
+                          ) : (
+                            <Link href={item.href} {...props}>{content}</Link>
+                          )}
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
               );
