@@ -95,6 +95,22 @@ async function apiChecks() {
     fail('API /product/catalog answers', String(err.cause?.code || err.message));
   }
 
+  // Live broadcasting (docs/LIVE.md): the status every page polls, the published recordings and the schedule of /live.
+  for (const [path, shape] of [['/live/status', (b) => typeof b?.live === 'boolean'], ['/live/recordings', (b) => Array.isArray(b?.items)], ['/live/schedule', (b) => Array.isArray(b?.items)]]) {
+    try {
+      const { res, ms } = await get(`${API}${path}`);
+      if (res.status === 404) {
+        warn(`API ${path}`, 'not deployed yet (404)');
+        continue;
+      }
+      const body = await res.json().catch(() => null);
+      const detail = path === '/live/status' ? `live=${body?.live}` : `${body?.items?.length ?? '?'} items`;
+      check(res.status === 200 && shape(body), `API ${path} answers`, `${detail}, ${ms} ms`);
+    } catch (err) {
+      fail(`API ${path} answers`, String(err.cause?.code || err.message));
+    }
+  }
+
   if (isLive) {
     for (const origin of ['https://nazarethholycross.com', 'https://www.nazarethholycross.com']) {
       try {
