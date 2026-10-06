@@ -6,6 +6,8 @@ import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { useCart, type CartLine } from '@/lib/cart';
 import { isOptimizable } from '@/lib/images';
+import { CONTACT_EMAIL } from '@/lib/config';
+import { cartSignature } from '@/lib/pendingFulfilment';
 import type { PaymentPayload } from '@/lib/paypal';
 import { formatUsd } from '@/lib/pricing';
 import DonePanel from '@/components/checkout/DonePanel';
@@ -14,7 +16,7 @@ import PayPalPanel from '@/components/checkout/LazyPayPalPanel';
 import StepIndicator, { type FlowStep } from '@/components/checkout/StepIndicator';
 import CurrencyNote from '@/components/intl/CurrencyNote';
 import { countryName, countryOptions } from '@/components/checkout/countries';
-import { fieldOrder, useErrorText, useSaveAfterPayment, useStepFocus, useValidatedForm } from '@/components/checkout/hooks';
+import { fieldOrder, useErrorText, usePendingPayments, useSaveAfterPayment, useStepFocus, useValidatedForm } from '@/components/checkout/hooks';
 import { BasketIcon } from '@/components/checkout/icons';
 import {
   buildOrderBody,
@@ -59,6 +61,8 @@ export default function CheckoutFlow() {
   const form = useValidatedForm(emptyContact, validateContact);
   const { values, set, touch, shown } = form;
   const saving = useSaveAfterPayment();
+  // A payment of this browser whose order is not saved yet (the API was down): its cart is still here, and paying again would charge twice.
+  const unsaved = usePendingPayments('order');
   const { save } = saving;
   const headingRef = useStepFocus<HTMLHeadingElement>(step);
   const countries = useMemo(() => countryOptions(locale), [locale]);
@@ -72,13 +76,14 @@ export default function CheckoutFlow() {
     async (capture: { id: string }) => {
       setReference(capture.id);
       setStep('done');
-      // paypalOrderId is the proof of payment: the API asks PayPal whether this order was captured in full
-      // before it saves the order, and accepts each payment for one order only.
-      await save('/order/newOrder', {
-        ...buildOrderBody(values, lines, summary.total, countryName(values.country, 'en')),
-        paypalOrderId: capture.id,
+      // The payment id is the proof of payment (the API asks PayPal whether this order was captured in full before
+      // it saves the order, and accepts each payment for one order only). `save` writes the order to this browser
+      // first and keeps retrying until the API confirms it (lib/pendingFulfilment.ts). The cart is emptied only
+      // when the order is confirmed saved, never before: if it is saved later, the retry loop empties it then.
+      const saved = await save('/order/newOrder', buildOrderBody(values, lines, summary.total, countryName(values.country, 'en')), capture.id, {
+        cart: cartSignature(lines),
       });
-      dispatch({ type: 'clear' });
+      if (saved) dispatch({ type: 'clear' });
     },
     [values, lines, summary.total, save, dispatch],
   );
@@ -154,6 +159,11 @@ export default function CheckoutFlow() {
 
   return (
     <div className={shared.flow} data-flow>
+      {unsaved.length > 0 && (
+        <Notice tone="info" role="status">
+          {tr('checkoutPage.pending.waiting', { id: unsaved[0], email: CONTACT_EMAIL })}
+        </Notice>
+      )}
       <StepIndicator current={step} className={styles.stepsTop} />
       <div className={shared.grid}>
         <section className={`ui-glass ${shared.card}`} aria-labelledby="co-contact-title">

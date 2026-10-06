@@ -612,11 +612,13 @@
       "errors": {
         "start": "Não foi possível iniciar o pagamento. Tente novamente.",
         "notCompleted": "O pagamento não foi concluído. Nada foi cobrado.",
-        "paypal": "O PayPal informou um erro. Tente novamente."
+        "paypal": "O PayPal informou um erro. Tente novamente.",
+        "unconfirmed": "Não conseguimos confirmar seu pagamento porque a conexão falhou. Não pague de novo por enquanto: confira sua conta do PayPal ou escreva para nós."
       },
       "reference": "Referência do pagamento: {id}",
       "saving": "Salvando seus dados…",
-      "saveFailed": "Seu pagamento foi realizado, mas não conseguimos salvar seus dados. Tente novamente ou escreva para <mail>{email}</mail> informando a referência do pagamento."
+      "saveFailed": "Seu pagamento foi realizado, mas não conseguimos salvar seus dados. Tente novamente ou escreva para <mail>{email}</mail> informando a referência do pagamento.",
+      "savePending": "Seu pagamento foi realizado. Ainda não conseguimos salvar seus dados, então vamos continuar tentando automaticamente, inclusive na próxima vez que você abrir este site neste dispositivo. Guarde a referência do pagamento ({id}). Dúvidas? Escreva para <mail>{email}</mail>."
     },
     "empty": {
       "text": "Conheça terços, cruzes e lembranças de Nazaré."
@@ -636,6 +638,10 @@
       "donation": "Doação",
       "thanksTitle": "Obrigado pela sua doação!",
       "thanksText": "Sua generosidade ajuda a manter acesa a luz de Nazaré para peregrinos do mundo inteiro."
+    },
+    "pending": {
+      "recovered": "Boas notícias: seu pagamento anterior ({id}) agora foi salvo. Obrigado!",
+      "waiting": "Seu pagamento anterior ({id}) ainda aguarda para ser salvo. Vamos continuar tentando. Se continuar assim, escreva para {email} informando esta referência."
     }
   },
   "shopFeatures": {

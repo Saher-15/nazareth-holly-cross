@@ -10,7 +10,7 @@ production, and what keeps it safe. Anyone (person or AI agent) changing the cod
 | **New website** | `web/` | Netlify (when it replaces `client/`) | Next.js 16 + TypeScript, next-intl, CSS Modules + design tokens |
 | Current website | `client/` | Netlify, `main` branch | React (CRA). Kept live until `web/` reaches parity, then retired |
 | API | `server/` | Render (`nazareth-holy-cross-api`) | Express + Mongoose. Owns prices, payments, e-mails |
-| Database | — | MongoDB Atlas | Products, orders, candles, prayers, reviews |
+| Database | — | MongoDB Atlas | Products, orders, candles, prayers, reviews, the payment ledger. No backups on the free tier: [BACKUP.md](BACKUP.md); design, indexes, personal data: [DATABASE.md](DATABASE.md) |
 | Product images | — | Firebase Storage | Served through `next/image` (resized, AVIF/WebP) |
 | Payments | — | PayPal | **The server decides every amount.** The browser only says *what* is bought |
 
@@ -49,6 +49,8 @@ Then revert the commit on `main` with a pull request.
   `web/src/proxy.ts` and `web/src/lib/csp.ts`. A new third-party service needs its hosts added there, never a
   looser policy. Threat model, controls and open items: [SECURITY.md](SECURITY.md).
 - Structured data (JSON-LD) is always written with `web/src/lib/jsonLd.ts`; raw HTML is never rendered from API data.
+- **Nothing paid may be lost.** The server records every PayPal payment in its own ledger before the customer can pay; the browser keeps a paid order in `localStorage` until the API confirms it (docs/DATABASE.md section 2). Any new payment flow follows the same two rules.
+- **The database is never changed by the server at start-up.** Indexes are declared in the models and created with `server/scripts/ensure-indexes.js --apply` (dry run by default); a release that needs one says so (docs/DATABASE.md sections 5 and 10). A new text field needs a `maxlength`, a new number a `min`/`max` (a test fails otherwise).
 - API input is untrusted: check types, use the helpers in `server/utils/validate.js`, copy named fields only, and
   add a rate limit to any public route that sends mail, calls PayPal or changes data.
 - Performance is part of "done" too: see `docs/PERFORMANCE.md` (budgets, how to measure, how images, videos, fonts and

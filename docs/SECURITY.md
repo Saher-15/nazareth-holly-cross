@@ -93,6 +93,14 @@ The browser only says *what* is bought. The API creates the PayPal order for its
 shop checkout then sends the PayPal order id (`paypalOrderId`) with the order so the API can prove the payment
 (section 5).
 
+**A paid order is never lost (docs/DATABASE.md section 2).** The moment PayPal says COMPLETED, the browser writes the order (or candle
+request) to `localStorage` (`nhc.pending-fulfilment.v1`) and removes it only when the API confirms it, retrying with a growing delay and on every later
+visit (`web/src/lib/pendingFulfilment.ts`). That record holds the customer's name, address, phone and e-mail **in their own browser** for at most
+30 days; it is read only by the site's own script (nothing else on the origin can read `localStorage`, and the CSP allows no foreign script), is
+never sent anywhere but to the API's two save routes, and is deleted on success. The cost: on a shared computer a paid but unsaved order stays in that
+browser until it is saved; it cannot be read by another site. The retry loop only calls `/order/newOrder` and `/candle/lightACandle` (the stored
+path is checked against that list on every read).
+
 ## 4. The API (`server/`)
 
 ### 4.1 Authentication and authorization
@@ -198,8 +206,14 @@ browser                         API                                PayPal
 - If a product price changes between payment and saving, the amounts differ and the order is refused with 402; the
   Render log names the PayPal order id so the payment can be reconciled by hand.
 - **To make it mandatory:** set `REQUIRE_PAYMENT_PROOF=true` on Render once the old site is retired.
-- A candle (3 USD) and a donation have no order record; their only server-side effect is the PayPal charge, and the
-  candle e-mail is sent by the candle form, not by the payment.
+- **The payment ledger** (`payment` collection, `server/services/payments.js`): `create_order` writes a row *before* the PayPal id reaches the browser
+  (if it cannot, 503: nothing is charged); `complete_order` marks it captured, **idempotently** (a repeat never captures or records twice; PayPal's
+  "already captured" is checked and accepted; a declined card is a definite 402); `newOrder` and `lightACandle` accept the optional `paypalOrderId`, require the
+  ledger's type to match (**a donation or a candle payment cannot pay for an order**, which closes a hole: a $23 donation could have been presented as the
+  $23 order total), and link the row. A candle (3 USD) is checked the same way (the ledger says captured, else PayPal is asked for exactly 3 USD), and one payment lights one
+  candle (partial unique index). A donation's only record is its ledger row (with the optional donor name). `REQUIRE_PAYMENT_PROOF=true` now covers candles too.
+- A payment the browser never saved is **listed**, not lost: the dashboard's Payments screen ("Paid, not fulfilled", a warning on the dashboard) and
+  `scripts/reconcile-payments.js`. Rows are never deleted through the API; only marked resolved, with a note, and audited.
 
 ## 6. Repository and delivery
 
@@ -222,7 +236,10 @@ browser                         API                                PayPal
 | Item | Risk | Plan |
 |---|---|---|
 | `/order/newOrder` accepts orders without proof of payment | an attacker can create unpaid orders (the owners would see `paymentVerified: false`) | set `REQUIRE_PAYMENT_PROOF=true` when the old site is retired |
-| No PayPal webhook | a paid order whose browser closed before `newOrder` has no record | PayPal Live phase: webhook with signature verification |
+| No PayPal webhook | a payment whose capture answer was lost *and* whose ledger write also failed stays `created` while PayPal holds the money (the ledger and the browser retry cover the normal cases) | PayPal Live phase: webhook with signature verification fills the ledger from PayPal itself; until then `reconcile-payments.js` lists `created` rows older than 24 h and PayPal's dashboard is the truth |
+| The paid-but-unsaved order sits in the customer's `localStorage` | personal data in a shared browser until it is saved (at most 30 days) | deleted on success; the privacy page should say so (not yet written, docs/TODO-LEGAL.md) |
+| Backups (docs/BACKUP.md) contain all personal data and the admin hashes | a stolen backup folder | keep it private (BitLocker), use a read-only database user, 30-day rotation; never in the repository |
+| The production server no longer builds indexes at start-up | a release that needs a new index (the `payment` unique one) does nothing useful until `ensure-indexes.js --apply` is run | run it before deploying (docs/DATABASE.md section 10); the server logs a warning for any missing index |
 | Reviews and prayers are public immediately (`approved` defaults to true) | spam or abuse appears until an admin deletes it | add moderation (`approved: false` by default and an admin queue) |
 | The candle form mails an address typed by a stranger | it can send one "we received your request" mail per request (rate limited) | verify the address, or send the video link only after payment |
 | Rate-limit counters are per process | not shared between instances | shared store when scaling out |

@@ -59,7 +59,10 @@ whatever the token says.
 | `PATCH /admin/{orders,candles,contacts,site-reviews,product-reviews}/:id` | - | yes | yes |
 | `DELETE /admin/{candles,contacts,site-reviews,product-reviews,prayers,products}/:id` | - | yes | yes |
 | `POST /admin/products`, `PUT`/`PATCH /admin/products/:id` | - | yes | yes |
-| `GET /admin/export/{orders,candles,contacts}.csv` | - | yes | yes |
+| `GET /admin/export/{orders,candles,contacts,payments}.csv` | - | yes | yes |
+| `GET /admin/payments`, `GET /admin/payments/:id` | yes | yes | yes |
+| `PATCH /admin/payments/:id` (resolve with a note, reopen) | - | yes | yes |
+| `POST /admin/privacy/lookup`, `POST /admin/privacy/erase` | - | - | yes |
 | `DELETE /admin/orders/:id` | - | - | yes |
 | `/admin/users` (all four) | - | - | yes |
 | `GET /admin/audit` | - | - | yes |
@@ -171,6 +174,7 @@ different key for the audit address hash. The encrypted secret is never returned
 | `product-reviews` | `approved`, `hidden` | `createdAt`, `rating` | name, country, title, comment (the product is populated with its `name`) |
 | `prayers` | a category (`Peace`, `Health`, ...) | `createdAt`, `likes` | name, country, prayer |
 | `products` | `ok` (not tracked, or more than 5), `low` (stock 0-5), `out` (stock 0) | `createdAt`, `name`, `price`, `stock`, `rate` | name, description, uuid |
+| `payments` | `unfulfilled` (paid, no order or candle request saved, past 10 minutes, not resolved), `captured`, `created`, `failed`, `resolved`, `order`, `candle`, `donation` | `createdAt`, `capturedAt`, `amount`, `status` | PayPal id, payer e-mail and name, donor name, note |
 | `users` | `active` (not disabled), `owner`, `editor`, `viewer`, `disabled` | `createdAt`, `username`, `lastLoginAt` | username, e-mail |
 | `audit` | - (see 5) | `at` | actor, action, target id |
 
@@ -181,6 +185,7 @@ different key for the audit address hash. The encrypted secret is never returned
 | `GET /admin/<resource>/:id` (orders, candles, contacts, site-reviews, product-reviews, prayers, products) | - | the document (a product review has its product populated with `name`), `404` if missing |
 | `PATCH /admin/orders/:id` | `{ "done": true \| false }` | `{ item, emailSent }` |
 | `PATCH /admin/candles/:id`, `.../contacts/:id` | `{ "done": boolean }` | `{ item }` |
+| `PATCH /admin/payments/:id` | `{ "resolved": true, "note": "..." }` or `{ "resolved": false }` | `{ item }` (section 4.5) |
 | `PATCH /admin/site-reviews/:id`, `.../product-reviews/:id` | `{ "approved": boolean }` | `{ item }` |
 | `POST /admin/products` | product fields (below) | `201 { item }` |
 | `PATCH` or `PUT /admin/products/:id` | any of the product fields (at least one) | `{ item }` |
@@ -215,7 +220,8 @@ One request, computed by the database (aggregations and counts, nothing is loade
   "last30Days": [ { "date": "2026-09-07", "orders": 0, "revenue": 0, "candles": 0 }, "... 30 entries, zero-filled" ],
   "topProducts": [ { "productId": "...", "name": "...", "sold": 0, "revenue": 0 } ],
   "lowStock": [ { "productId": "...", "name": "...", "stock": 0 } ],
-  "recent": { "orders": [ "5 newest, with name, e-mail, total, done, paymentVerified" ], "candles": [ "5, with name, e-mail, prayer, done" ], "contacts": [ "5, with name, e-mail, msg, done" ] }
+  "recent": { "orders": [ "5 newest, with name, e-mail, total, done, paymentVerified" ], "candles": [ "5, with name, e-mail, prayer, done" ], "contacts": [ "5, with name, e-mail, msg, done" ] },
+  "alerts": { "unfulfilledPayments": { "count": 0, "amount": 0 } }
 }
 ```
 
@@ -223,13 +229,31 @@ Days are Nazareth days (`Asia/Jerusalem`), oldest first, ending today. `revenue`
 (USD) over **all** orders, including ones saved without a verified PayPal payment (filter `status=unverified` in the
 list to see those). Orders do not store a price per line, so a product's `revenue` is **units sold x the product's
 current price**, an estimate. `lowStock` is tracked stock of 5 or less (at most 20 products, lowest first).
+`alerts.unfulfilledPayments` is the number and the total (USD) of customers who paid but have no saved order or candle request (section 4.5):
+the dashboard shows it as a warning and a figure. An API that predates the payment ledger simply has no `alerts`.
 
-### 4.4 CSV export: `GET /admin/export/orders.csv` (also `candles.csv`, `contacts.csv`)
+### 4.4 CSV export: `GET /admin/export/orders.csv` (also `candles.csv`, `contacts.csv`, `payments.csv`)
 
 Editor or owner (it is a bulk copy of personal data). Newest first, at most 10 000 rows, UTF-8 with a byte-order mark so
 Excel reads Hebrew and Arabic, `Content-Disposition: attachment`. **Formula injection is neutralised:** a text cell
 starting with `=`, `+`, `-`, `@`, a tab or a carriage return gets a leading apostrophe; cells with commas, quotes or
 line breaks are quoted (RFC 4180). Stored `&amp;` etc. are decoded to the characters. Each export is audited.
+`payments.csv` also accepts `?status=unfulfilled` (only the customers who paid and have nothing saved; any other value is `400`).
+
+### 4.5 Payments: `/admin/payments` (the payment ledger)
+
+Every PayPal order the API creates has one row (server/model/payment.js, docs/DATABASE.md section 2): written when the order is created, completed when PayPal confirms the
+capture, linked to the order or candle request when the browser saves it. A donation has only this row. The dashboard's **Payments** screen reads these routes.
+
+* `GET /admin/payments?page&size&q&status&sort`: the list (4.1). An item: `{ _id, paypalOrderId, type, amount, currency, status, capturedAt, payerEmail, payerName, donorName, linkedTo: { kind, id }, resolvedAt, resolvedBy, notes, createdAt }`.
+  `type` is `order`, `candle`, `donation` or `unknown` (an old client); `status` is `created`, `captured` or `failed`.
+* `GET /admin/payments/:id`: one payment.
+* `PATCH /admin/payments/:id` (editor): `{ "resolved": true, "note": "Refunded in PayPal" }` marks a payment dealt with (the **note is required**, 1-1000 characters, and the admin's name and the time are recorded);
+  `{ "resolved": false }` reopens it. Resolving a payment that is already linked to an order or candle is `409`. Anything else in the body is `400`: the amount, status and link cannot be edited.
+* **There is no `DELETE`, `POST` or `PUT`**: nothing in the ledger is removed through the API.
+* *Unfulfilled* means: captured, for an order, a candle or an old client, with no order or candle request pointing at it, not resolved, and captured **more than 10 minutes ago** (before that the customer's browser is simply still saving it). Donations are never unfulfilled.
+
+Every change is audited (`payment.update`, with `resolved` and the PayPal id).
 
 ## 5. Users and audit
 
@@ -269,10 +293,19 @@ request when the log cannot be written. Actions recorded:
 |---|---|
 | `auth.` | `login`, `login_failed` (with a `reason` such as `wrong_password`, `unknown_user`, `locked`, `wrong_totp`), `account_locked`, `logout`, `password_change`, `password_change_failed`, `totp_setup`, `totp_enable`, `totp_enable_failed`, `totp_disable`, `totp_disable_failed` |
 | `order.` `candle.` `contact.` `site-review.` `product-review.` `prayer.` `product.` | `update`, `delete` (and `product.create`) |
-| `export.` | `orders`, `candles`, `contacts` (with the row count) |
+| `export.` | `orders`, `candles`, `contacts`, `payments` (with the row count) |
+| `payment.` | `update` (resolve / reopen) |
+| `privacy.` | `lookup`, `erase` (the counts and a keyed hash of the address: never the address) |
 | `user.` | `create`, `update`, `delete` |
 
 A failed sign-in is recorded with the name that was typed (no account was proven).
+
+### 5.3 Privacy requests (owner only): `POST /admin/privacy/lookup` and `/erase`
+
+`{ "email": "..." }` answers `{ "found": { orders, candles, contacts, reviews, payments } }`: counts only, no personal data. `{ "email": "...", "confirm": "..." }` (the same address typed again, case does not matter)
+erases it: orders and candle requests are **anonymised** (name, address, phone, e-mail, prayer text replaced by "Erased"; the sale and its total stay), contact messages and site reviews are **deleted**,
+the payer's e-mail and names are removed from payments (amount and PayPal id stay). Answer `{ "erased": { ...counts } }`. The address must be a valid one and not the placeholder erased records carry
+(`erased@erased.invalid`); 20 requests per 15 minutes per owner; both calls are audited with a keyed hash of the address, not the address. The policy is in docs/DATABASE.md sections 7 and 8.
 
 ## 6. Operations
 
@@ -307,6 +340,9 @@ ones.
 `POST /admin/login` plus the legacy routes in `route/adminRoute.js`; move the remaining `/order`, `/candle`, `/contact`
 reads to the dashboard routes; unset `ADMIN_PASSWORD` (and drop it from `REQUIRED_ENV` in `config/env.js`). Until
 then the per-address ceiling for `/admin/*` is 1000 requests per 15 minutes (it was the global 200).
+
+The legacy "read everything" routes (`/order/getAllOrders`, `/candle/getAllCandleRequests`, `/contact/get_all_contact_us`, `/product/getAllProducts`, `/admin/prayers`, `/admin/candles`, `/admin/products`) still
+answer a plain array, but **newest first and at most 5,000 documents**; an `X-Result-Capped: 5000` header says when the cap was reached. The paginated routes above are how to read all of them.
 
 ## 8. Security model in one page
 
@@ -359,6 +395,6 @@ script, the models' indexes, and the old admin routes. The database is replaced 
 * No test ran against a real MongoDB or on Render. The fakes understand the operators the routes use; the sanitizeFilter
   test guards the main difference, but compound behaviour (index creation, TTL purge timing, real casting) was not
   observed. Run the first sign-in and one of each change on a staging database before pointing production at it.
-* The TTL indexes and the new `Product.category` field are created by Mongoose on first start (`autoIndex`); on Atlas
-  check that `auditLog` and `adminSession` show the expiry indexes.
+* **Indexes are no longer built by the production server** (`autoIndex` is off when `NODE_ENV=production`, docs/DATABASE.md section 5): run `node scripts/ensure-indexes.js` (dry run) and `--apply` once, before
+  deploying a release that adds one (this one adds the unique `payment.paypalOrderId` index). The server logs a warning at start-up for any missing index; on Atlas check that `auditLog` and `adminSession` show the expiry indexes.
 * No e-mail was sent (the mailer is mocked); the shipped-order mail uses the same `sendMail` as before.

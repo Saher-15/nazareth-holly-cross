@@ -612,11 +612,13 @@
       "errors": {
         "start": "Non è stato possibile avviare il pagamento. Riprova.",
         "notCompleted": "Il pagamento non è stato completato. Non ti è stato addebitato nulla.",
-        "paypal": "PayPal ha segnalato un errore. Riprova."
+        "paypal": "PayPal ha segnalato un errore. Riprova.",
+        "unconfirmed": "Non siamo riusciti a confermare il pagamento perché la connessione è caduta. Per ora non pagare di nuovo: controlla il tuo account PayPal oppure scrivici."
       },
       "reference": "Riferimento del pagamento: {id}",
       "saving": "Salvataggio dei tuoi dati…",
-      "saveFailed": "Il pagamento è andato a buon fine, ma non siamo riusciti a salvare i tuoi dati. Riprova oppure scrivi a <mail>{email}</mail> indicando il riferimento del pagamento."
+      "saveFailed": "Il pagamento è andato a buon fine, ma non siamo riusciti a salvare i tuoi dati. Riprova oppure scrivi a <mail>{email}</mail> indicando il riferimento del pagamento.",
+      "savePending": "Il pagamento è andato a buon fine. Non siamo ancora riusciti a salvare i tuoi dati, quindi continueremo a riprovare in automatico, anche la prossima volta che aprirai questo sito da questo dispositivo. Conserva il riferimento del pagamento ({id}). Domande? Scrivi a <mail>{email}</mail>."
     },
     "empty": {
       "text": "Scopri rosari, croci e ricordi da Nazaret."
@@ -636,6 +638,10 @@
       "donation": "Donazione",
       "thanksTitle": "Grazie per la tua donazione!",
       "thanksText": "La tua generosità aiuta a mantenere accesa la luce di Nazaret per i pellegrini di tutto il mondo."
+    },
+    "pending": {
+      "recovered": "Buone notizie: il tuo pagamento precedente ({id}) è stato salvato. Grazie!",
+      "waiting": "Il tuo pagamento precedente ({id}) è ancora in attesa di essere salvato. Continueremo a riprovare. Se la situazione non cambia, scrivi a {email} indicando questo riferimento."
     }
   },
   "shopFeatures": {

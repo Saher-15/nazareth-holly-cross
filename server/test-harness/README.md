@@ -42,7 +42,8 @@ against either. They are public: never use them anywhere real.
 ## What it contains (seed, relative to "now")
 
 62 products (one out of stock, 13 low), 42 orders over the last 60 days (3 without a verified payment, 5 pending),
-30 candle requests, 24 messages, 12 site reviews, 25 product reviews, 24 prayers. A few rows are there to be
+30 candle requests, 24 messages, 12 site reviews, 25 product reviews, 24 prayers, and the payment ledger: a captured payment for every
+verified order plus the cases the Payments screen is for (two payments paid but never saved, one resolved by hand, donations, an abandoned checkout, a declined card). A few rows are there to be
 awkward on purpose: names that start with `-` or `=` or `@` (CSV injection), text stored with `&amp;` (the API
 stores `&` that way), Hebrew and Arabic names.
 

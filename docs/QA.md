@@ -121,3 +121,19 @@ Severity: **High** = visitors cannot reach content or money is at risk; **Med** 
 * `shop.spec.ts` reads the live API. During the challenge window (about 80 minutes of this pass) 22 of its tests failed
   because the pages had been built without data; after the API answered again, a clean rebuild passed all of them.
   The suite should read from a stubbed API (as `payments.spec.ts` does) so it does not depend on the network.
+
+## 6. Data-safety pass (payment ledger, backups, database review)
+
+What was run, on this PC, with the in-memory stand-ins (no MongoDB, no PayPal, no mail):
+
+| Suite | Result |
+|---|---|
+| `server` `npm test` | 956 passed (736 before). New: payment ledger (`payment-ledger`), Payments and privacy admin routes (`admin-payments`, `admin-privacy`), backup and restore (`ops-backup-restore`), indexes, data check and reconciliation (`ops-indexes-data`), model rules (`database-models`), legacy list caps (`legacy-caps`), the Windows backup task (`ops-backup-windows`, Windows only) |
+| `web` lint, typecheck, `npm test`, `next build` | all pass; 577 unit tests (the pending-order engine, the retry loop on a new visit, the screens) |
+| `web` end-to-end (Edge) | 644 passed, 25 skipped, 1 failed once under load (`qa-site` QA-11, passes when run alone) before the last small change; after it the payment, shop and shop-features specs were run again (119 passed). The payment flows now cover: API down after paying (order kept, cart kept, reference shown), a returning customer told not to pay again, the next visit saving the order and emptying the cart, a tab closed right after paying, a lost capture answer asked for again, a refused request kept as evidence |
+| `admin` `npm run check` (lint, typecheck, 107 unit tests, build) | pass; includes the parity test that runs one script against the mock and the real API code and compares status codes and shapes |
+| `admin` end-to-end, on the mock and on the real API code (`E2E_BACKEND=harness`) | 125 passed on each, 47 skipped (state-changing flows run once, on desktop) |
+
+Not verified: anything against a real MongoDB, Atlas, Render or PayPal (docs/DATABASE.md section 11); the scheduled task registration (`ops/backup-windows.ps1 -Register` changes the PC's tasks, so it was not run) and `-Setup`
+(it asks for the secret at a prompt); the screenshots in docs/admin-ui were not retaken for the two new screens.
+The admin end-to-end suites share one owner session and the API allows 300 requests per admin per 15 minutes: the new specs use the editor session and an owner account of their own so the budget of the others is not used up.

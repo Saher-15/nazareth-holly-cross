@@ -206,11 +206,24 @@ describe('complete_order marks the payment captured, once', () => {
     expect(row().payerEmail).toBeUndefined();
   });
 
-  it('PayPal answering "cannot capture" for an order that is not completed (declined card) is an error and marks it failed', async () => {
+  it('PayPal answering "cannot capture" for an order that is not completed (declined card) is a definite 402 and marks it failed', async () => {
     paypal({ captureHttp: 422, getStatus: 'APPROVED' });
     const res = await post('/order/complete_order', { order_id: PAYPAL });
-    expect(res.status).toBe(502);
+    expect(res.status).toBe(402);
+    expect(res.body.error).toBe('Payment was not completed');
     expect(row().status).toBe('failed');
+  });
+
+  it('PayPal that cannot be asked at all leaves the outcome unknown (502), and the row stays as it was', async () => {
+    global.fetch = vi.fn(async (url, init = {}) => {
+      const u = String(url);
+      if (u.includes('/oauth2/token')) return { ok: true, status: 200, json: async () => ({ access_token: 'tok', expires_in: 100 }) };
+      if (u.endsWith('/capture')) return { ok: false, status: 422, json: async () => ({ name: 'UNPROCESSABLE_ENTITY' }) };
+      throw new Error('ECONNRESET'); // reading the order back fails
+    });
+    const res = await post('/order/complete_order', { order_id: PAYPAL });
+    expect(res.status).toBe(502);
+    expect(row().status).toBe('created');
   });
 
   it('a ledger failure after PayPal took the money does not tell the customer the payment failed', async () => {

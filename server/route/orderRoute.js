@@ -162,9 +162,12 @@ routerOrder.post('/complete_order', paymentLimiter, asyncHandler(async (req, res
         // PayPal refuses to capture it again. Either it was already captured (the first answer never reached the
         // browser, or the ledger write failed) or the card was declined: ask PayPal which.
         const current = await getPayPalOrder(order_id).catch(() => null);
-        if (current?.status !== 'COMPLETED') {
+        if (!current) throw err; // PayPal could not even be asked: the outcome is unknown (502), the browser may ask again
+        if (current.status !== 'COMPLETED') {
+            // PayPal says it is not paid (a declined card): a definite answer, so the customer is told they were not charged
             await recordFailed(order_id, err.message);
-            throw err;
+            console.error(`[${new Date().toISOString()}] PayPal capture for ${order_id} was refused and the order is ${current.status}`);
+            return res.status(402).json({ error: 'Payment was not completed', status: current.status });
         }
         capture = current;
     }

@@ -41,11 +41,14 @@ export default function DonePanel({ icon, title, headingRef, reference, saveStat
       <p role="status" className={saveStatus === 'saving' ? undefined : 'visually-hidden'}>
         {saveStatus === 'saving' ? t('saving') : ''}
       </p>
-      {saveStatus === 'failed' && (
-        <Notice role="alert" className={styles.doneNotice}>
+      {/* retrying: the payment went through and the shop's record is still being saved (by itself, with a growing delay,
+          and again on the next visit); failed: the API refused it for good. Either way the customer keeps their reference. */}
+      {(saveStatus === 'retrying' || saveStatus === 'failed') && (
+        <Notice tone={saveStatus === 'failed' ? 'danger' : 'info'} role={saveStatus === 'failed' ? 'alert' : 'status'} className={styles.doneNotice}>
           <p>
-            {t.rich('saveFailed', {
+            {t.rich(saveStatus === 'failed' ? 'saveFailed' : 'savePending', {
               email: CONTACT_EMAIL,
+              id: reference ?? '',
               mail: (chunks) => <a href={`mailto:${CONTACT_EMAIL}`}>{chunks}</a>,
             })}
           </p>

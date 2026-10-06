@@ -69,7 +69,9 @@ export default function CandleFlow() {
     async (capture: { id: string }) => {
       setReference(capture.id);
       setStep('done');
-      await save('/candle/lightACandle', buildCandleBody(values));
+      // Written to this browser first and retried until the API confirms it (lib/pendingFulfilment.ts); the payment
+      // id lets the API check the $3 was really paid and link it to the request.
+      await save('/candle/lightACandle', buildCandleBody(values), capture.id);
     },
     [values, save],
   );

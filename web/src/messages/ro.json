@@ -612,11 +612,13 @@
       "errors": {
         "start": "Plata nu a putut fi inițiată. Încercați din nou.",
         "notCompleted": "Plata nu a fost finalizată. Nu s-a retras nicio sumă.",
-        "paypal": "PayPal a raportat o eroare. Încercați din nou."
+        "paypal": "PayPal a raportat o eroare. Încercați din nou.",
+        "unconfirmed": "Nu am putut confirma plata deoarece conexiunea a căzut. Nu plătiți din nou deocamdată: verificați contul dumneavoastră PayPal sau scrieți-ne."
       },
       "reference": "Referința plății: {id}",
       "saving": "Se salvează datele dumneavoastră…",
-      "saveFailed": "Plata a fost efectuată, dar nu am putut salva datele dumneavoastră. Încercați din nou sau scrieți la <mail>{email}</mail>, indicând referința plății."
+      "saveFailed": "Plata a fost efectuată, dar nu am putut salva datele dumneavoastră. Încercați din nou sau scrieți la <mail>{email}</mail>, indicând referința plății.",
+      "savePending": "Plata a fost efectuată. Nu am putut încă să salvăm datele dumneavoastră, așa că vom continua să încercăm automat, inclusiv data viitoare când deschideți acest site de pe acest dispozitiv. Păstrați referința plății ({id}). Întrebări? Scrieți la <mail>{email}</mail>."
     },
     "empty": {
       "text": "Descoperiți rozarii, cruci și suveniruri din Nazaret."
@@ -636,6 +638,10 @@
       "donation": "Donație",
       "thanksTitle": "Vă mulțumim pentru donație!",
       "thanksText": "Generozitatea dumneavoastră ajută la păstrarea luminii Nazaretului pentru pelerinii din întreaga lume."
+    },
+    "pending": {
+      "recovered": "Vești bune: plata dumneavoastră anterioară ({id}) a fost salvată. Vă mulțumim!",
+      "waiting": "Plata dumneavoastră anterioară ({id}) încă așteaptă să fie salvată. Vom continua să încercăm. Dacă situația rămâne la fel, scrieți la {email}, indicând această referință."
     }
   },
   "shopFeatures": {
