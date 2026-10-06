@@ -1571,6 +1571,197 @@
         "title": "De site doorzoeken",
         "lead": "Vind pagina’s, heilige plaatsen, antwoorden op veelgestelde vragen en evangelieteksten."
       }
+    },
+    "calendar": {
+      "eyebrow": "Christelijke kalender",
+      "title": "Feesten door het jaar",
+      "lead": "De grote feesten van de katholieke en de orthodoxe Kerken. Nazareth viert ze allebei, dus waar de data verschillen, ziet u ze allebei.",
+      "filter": {
+        "legend": "Feesten tonen",
+        "all": "Beide tradities",
+        "catholic": "Katholiek",
+        "orthodox": "Orthodox"
+      },
+      "tradition": {
+        "catholic": "Katholiek",
+        "orthodox": "Orthodox",
+        "both": "Katholiek en orthodox"
+      },
+      "month": {
+        "previous": "Vorige maand",
+        "next": "Volgende maand",
+        "today": "Vandaag",
+        "hint": "Gebruik de pijltjestoetsen om tussen de dagen te gaan en Page Up of Page Down om van maand te wisselen.",
+        "list": "In {month}",
+        "empty": "Geen feesten deze maand.",
+        "nextFeast": "Volgend feest: {name}"
+      },
+      "day": {
+        "events": "{date}: {events}",
+        "feast": "{name} ({tradition})",
+        "broadcast": "live-uitzending om {time}: {title}",
+        "none": "Geen feest op deze dag.",
+        "today": "Vandaag",
+        "transferred": "Verplaatst van {date} volgens de regels van de Romeinse kalender.",
+        "julian": "{date} volgens de juliaanse kalender.",
+        "broadcastTime": "{time}, tijd in Nazareth"
+      },
+      "legend": {
+        "title": "Legenda",
+        "catholic": "Katholiek feest",
+        "orthodox": "Orthodox feest",
+        "nazareth": "Feest van Nazareth",
+        "broadcast": "Live-uitzending",
+        "today": "Vandaag"
+      },
+      "upcoming": {
+        "title": "Komende feesten",
+        "countdown": "{days, plural, =0 {Vandaag} =1 {Morgen} one {Over # dag} other {Over # dagen}}"
+      },
+      "broadcast": {
+        "badge": "Live-uitzending"
+      },
+      "ics": {
+        "add": "Toevoegen aan agenda",
+        "addNamed": "Toevoegen aan agenda: {name}",
+        "saved": "Het agendabestand voor {name} is gedownload. Open het om de datum aan uw agenda toe te voegen.",
+        "calendarName": "Feesten in Nazareth",
+        "location": "Nazareth"
+      },
+      "notes": {
+        "title": "Over de data",
+        "catholic": "De katholieke data volgen de gregoriaanse kalender, zoals het Latijns Patriarchaat van Jeruzalem en de Annunciatiebasiliek ze aanhouden. Valt een hoogfeest in de Goede Week of op een zondag van de veertigdagentijd of de advent, dan wordt het verplaatst naar de dag die de Romeinse kalender aangeeft.",
+        "holyLand": "In het Heilige Land vieren sommige katholieke parochies, in Galilea en elders, Pasen en de feesten die ervan afhangen op de orthodoxe datum, en parochies vieren Sacramentsdag meestal op de zondag erna. Vraag uw parochie naar haar data.",
+        "orthodox": "De orthodoxe data volgen de juliaanse kalender van het Grieks-orthodoxe Patriarchaat van Jeruzalem: vaste feesten vallen op onze kalender 13 dagen later (Kerstmis op 7 januari, de Annunciatie op 7 april, de Kruisverheffing op 27 september) en Pasen volgt de juliaanse berekening. Orthodoxe Kerken met de herziene kalender, zoals die van Griekenland en Roemenië, vieren de vaste feesten op de katholieke data.",
+        "computed": "De data zijn berekend, niet overgenomen uit een parochiekalender. Controleer de tijden van de diensten bij de kerk."
+      },
+      "feasts": {
+        "maryMotherOfGod": {
+          "name": "Heilige Maria, Moeder van God",
+          "description": "Het jaar begint met Maria, de Moeder van God, op de achtste dag van Kerstmis."
+        },
+        "epiphany": {
+          "name": "Openbaring van de Heer",
+          "orthodoxName": "Theofanie",
+          "description": "Christus wordt aan de wereld geopenbaard: in het Westen aan de wijzen, in het Oosten bij zijn doop in de Jordaan."
+        },
+        "presentation": {
+          "name": "Opdracht van de Heer",
+          "orthodoxName": "Ontmoeting van de Heer",
+          "description": "Maria en Jozef brengen het Kind Jezus naar de tempel, waar Simeon en Anna hem ontmoeten."
+        },
+        "cleanMonday": {
+          "name": "Schone Maandag",
+          "description": "De eerste dag van de Grote Vasten in de orthodoxe Kerk."
+        },
+        "ashWednesday": {
+          "name": "Aswoensdag",
+          "description": "De veertigdagentijd begint: veertig dagen van gebed, vasten en naastenliefde vóór Pasen."
+        },
+        "stJoseph": {
+          "name": "Heilige Jozef",
+          "description": "Jozef van Nazareth, de man van Maria en de beschermer van Jezus."
+        },
+        "annunciation": {
+          "name": "Aankondiging van de Heer",
+          "orthodoxName": "Annunciatie van de Moeder Gods",
+          "description": "De engel Gabriël begroet Maria hier in Nazareth: het feest van de twee Annunciatiekerken van de stad."
+        },
+        "palmSunday": {
+          "name": "Palmzondag",
+          "description": "Jezus trekt Jeruzalem binnen en de Goede Week begint."
+        },
+        "holyThursday": {
+          "name": "Witte Donderdag",
+          "orthodoxName": "Grote en Heilige Donderdag",
+          "description": "Het Laatste Avondmaal: Jezus geeft de eucharistie en wast de voeten van zijn leerlingen."
+        },
+        "goodFriday": {
+          "name": "Goede Vrijdag",
+          "orthodoxName": "Grote en Heilige Vrijdag",
+          "description": "Het lijden en de dood van Jezus aan het kruis."
+        },
+        "holySaturday": {
+          "name": "Stille Zaterdag",
+          "orthodoxName": "Grote en Heilige Zaterdag",
+          "description": "De Kerk waakt bij het graf tot het eerste licht van Pasen."
+        },
+        "easter": {
+          "name": "Paaszondag",
+          "orthodoxName": "Pascha (Pasen)",
+          "description": "De verrijzenis van de Heer, het feest der feesten."
+        },
+        "divineMercy": {
+          "name": "Zondag van de Goddelijke Barmhartigheid",
+          "description": "De tweede zondag van Pasen, toegewijd aan de barmhartigheid van God."
+        },
+        "ascension": {
+          "name": "Hemelvaart van de Heer",
+          "description": "Veertig dagen na Pasen wordt Jezus opgenomen in de hemel."
+        },
+        "pentecost": {
+          "name": "Pinksteren",
+          "orthodoxName": "Pinksteren (Heilige Drie-eenheid)",
+          "description": "De Heilige Geest daalt neer op de apostelen, vijftig dagen na Pasen."
+        },
+        "trinity": {
+          "name": "Zondag van de Heilige Drie-eenheid",
+          "description": "De zondag na Pinksteren, ter ere van de Vader, de Zoon en de Heilige Geest."
+        },
+        "corpusChristi": {
+          "name": "Sacramentsdag",
+          "description": "Het Lichaam en Bloed van Christus, vereerd in de eucharistie en in processies."
+        },
+        "transfiguration": {
+          "name": "Gedaanteverandering van de Heer",
+          "description": "Jezus straalt in heerlijkheid op de berg Tabor, enkele kilometers van Nazareth."
+        },
+        "assumption": {
+          "name": "Maria-Tenhemelopneming",
+          "orthodoxName": "Ontslapen van de Moeder Gods",
+          "description": "Maria wordt opgenomen in de heerlijkheid van de hemel; het Oosten noemt het haar ontslapen."
+        },
+        "nativityOfMary": {
+          "name": "Geboorte van de Heilige Maagd Maria",
+          "orthodoxName": "Geboorte van de Moeder Gods",
+          "description": "De geboortedag van de Maagd Maria."
+        },
+        "holyCross": {
+          "name": "Kruisverheffing",
+          "orthodoxName": "Kruisverheffing",
+          "description": "Het feest van het kruis van Christus, waaraan Nazareth Holy Cross zijn naam ontleent."
+        },
+        "allSaints": {
+          "name": "Allerheiligen",
+          "orthodoxName": "Zondag van Alle Heiligen",
+          "description": "Alle heiligen van God, bekend en onbekend, in één feest."
+        },
+        "advent1": {
+          "name": "Eerste zondag van de advent",
+          "description": "Het nieuwe kerkelijk jaar begint met vier weken van uitzien naar Kerstmis."
+        },
+        "advent2": {
+          "name": "Tweede zondag van de advent",
+          "description": "Advent: bereid de weg van de Heer."
+        },
+        "advent3": {
+          "name": "Derde zondag van de advent",
+          "description": "Zondag Gaudete: verheug u, de Heer is nabij."
+        },
+        "advent4": {
+          "name": "Vierde zondag van de advent",
+          "description": "De laatste zondag voor Kerstmis, met Maria die haar Zoon verwacht."
+        },
+        "immaculateConception": {
+          "name": "Onbevlekte Ontvangenis van Maria",
+          "description": "Maria, vanaf het eerste moment van haar leven bewaard voor alle zonde."
+        },
+        "christmas": {
+          "name": "Kerstmis",
+          "orthodoxName": "Geboorte van Christus",
+          "description": "De geboorte van Jezus in Bethlehem."
+        }
+      }
     }
   },
   "media": {

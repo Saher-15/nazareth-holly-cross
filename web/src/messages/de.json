@@ -1571,6 +1571,197 @@
         "title": "Website durchsuchen",
         "lead": "Finden Sie Seiten, heilige Stätten, Antworten auf häufige Fragen und Evangelienstellen."
       }
+    },
+    "calendar": {
+      "eyebrow": "Christlicher Kalender",
+      "title": "Feste im Jahreslauf",
+      "lead": "Die großen Feste der katholischen und der orthodoxen Kirche. Nazareth feiert beide, deshalb sehen Sie beide Daten, wo sie voneinander abweichen.",
+      "filter": {
+        "legend": "Feste anzeigen",
+        "all": "Beide Traditionen",
+        "catholic": "Katholisch",
+        "orthodox": "Orthodox"
+      },
+      "tradition": {
+        "catholic": "Katholisch",
+        "orthodox": "Orthodox",
+        "both": "Katholisch und orthodox"
+      },
+      "month": {
+        "previous": "Vorheriger Monat",
+        "next": "Nächster Monat",
+        "today": "Heute",
+        "hint": "Mit den Pfeiltasten wechseln Sie zwischen den Tagen, mit den Tasten Bild auf und Bild ab wechseln Sie den Monat.",
+        "list": "Im {month}",
+        "empty": "In diesem Monat gibt es keine Feste.",
+        "nextFeast": "Nächstes Fest: {name}"
+      },
+      "day": {
+        "events": "{date}: {events}",
+        "feast": "{name} ({tradition})",
+        "broadcast": "Live-Übertragung um {time} Uhr: {title}",
+        "none": "An diesem Tag ist kein Fest.",
+        "today": "Heute",
+        "transferred": "Nach den Regeln des römischen Kalenders vom {date} verlegt.",
+        "julian": "{date} nach dem julianischen Kalender.",
+        "broadcastTime": "{time} Uhr, Ortszeit Nazareth"
+      },
+      "legend": {
+        "title": "Zeichenerklärung",
+        "catholic": "Katholisches Fest",
+        "orthodox": "Orthodoxes Fest",
+        "nazareth": "Fest von Nazareth",
+        "broadcast": "Live-Übertragung",
+        "today": "Heute"
+      },
+      "upcoming": {
+        "title": "Die nächsten Feste",
+        "countdown": "{days, plural, =0 {Heute} =1 {Morgen} one {In # Tag} other {In # Tagen}}"
+      },
+      "broadcast": {
+        "badge": "Live-Übertragung"
+      },
+      "ics": {
+        "add": "Zum Kalender hinzufügen",
+        "addNamed": "Zum Kalender hinzufügen: {name}",
+        "saved": "Die Kalenderdatei für {name} wurde heruntergeladen. Öffnen Sie sie, um den Termin in Ihren Kalender zu übernehmen.",
+        "calendarName": "Feste in Nazareth",
+        "location": "Nazareth"
+      },
+      "notes": {
+        "title": "Zu den Daten",
+        "catholic": "Die katholischen Daten folgen dem gregorianischen Kalender, so wie das Lateinische Patriarchat von Jerusalem und die Verkündigungsbasilika sie begehen. Fällt ein Hochfest in die Karwoche oder auf einen Sonntag der Fastenzeit oder des Advents, wird es auf den Tag verlegt, den der römische Kalender vorsieht.",
+        "holyLand": "Im Heiligen Land feiern manche katholischen Pfarreien, in Galiläa und anderswo, Ostern und die davon abhängigen Feste nach dem orthodoxen Datum, und Fronleichnam wird in den Pfarreien meist am folgenden Sonntag gefeiert. Fragen Sie in Ihrer Pfarrei nach den Terminen.",
+        "orthodox": "Die orthodoxen Daten folgen dem julianischen Kalender des Griechisch-Orthodoxen Patriarchats von Jerusalem: Die unbeweglichen Feste fallen in unserem Kalender 13 Tage später (Weihnachten auf den 7. Januar, die Verkündigung auf den 7. April, die Kreuzerhöhung auf den 27. September), und Ostern wird nach der julianischen Regel berechnet. Orthodoxe Kirchen, die dem revidierten Kalender folgen, etwa die Kirchen Griechenlands und Rumäniens, feiern die unbeweglichen Feste an den katholischen Daten.",
+        "computed": "Die Daten sind berechnet, nicht aus einem Pfarrkalender übernommen. Bitte erkundigen Sie sich bei der Kirche nach den Gottesdienstzeiten."
+      },
+      "feasts": {
+        "maryMotherOfGod": {
+          "name": "Hochfest der Gottesmutter Maria",
+          "description": "Das Jahr beginnt mit Maria, der Mutter Gottes, am Oktavtag von Weihnachten."
+        },
+        "epiphany": {
+          "name": "Erscheinung des Herrn",
+          "orthodoxName": "Theophanie",
+          "description": "Christus offenbart sich der Welt: im Westen den Sterndeutern, im Osten bei seiner Taufe im Jordan."
+        },
+        "presentation": {
+          "name": "Darstellung des Herrn",
+          "orthodoxName": "Begegnung des Herrn",
+          "description": "Maria und Josef bringen das Kind Jesus in den Tempel, wo Simeon und Hanna ihm begegnen."
+        },
+        "cleanMonday": {
+          "name": "Reiner Montag",
+          "description": "Der erste Tag der Großen Fastenzeit in der orthodoxen Kirche."
+        },
+        "ashWednesday": {
+          "name": "Aschermittwoch",
+          "description": "Die Fastenzeit beginnt: vierzig Tage des Gebets, des Fastens und der Nächstenliebe vor Ostern."
+        },
+        "stJoseph": {
+          "name": "Heiliger Josef",
+          "description": "Josef von Nazareth, der Mann Marias und Beschützer Jesu."
+        },
+        "annunciation": {
+          "name": "Verkündigung des Herrn",
+          "orthodoxName": "Verkündigung der Gottesgebärerin",
+          "description": "Der Engel Gabriel grüßt Maria hier in Nazareth: das Fest der beiden Verkündigungskirchen der Stadt."
+        },
+        "palmSunday": {
+          "name": "Palmsonntag",
+          "description": "Jesus zieht in Jerusalem ein, und die Karwoche beginnt."
+        },
+        "holyThursday": {
+          "name": "Gründonnerstag",
+          "orthodoxName": "Heiliger und Großer Donnerstag",
+          "description": "Das Letzte Abendmahl: Jesus schenkt die Eucharistie und wäscht seinen Jüngern die Füße."
+        },
+        "goodFriday": {
+          "name": "Karfreitag",
+          "orthodoxName": "Heiliger und Großer Freitag",
+          "description": "Das Leiden und der Tod Jesu am Kreuz."
+        },
+        "holySaturday": {
+          "name": "Karsamstag",
+          "orthodoxName": "Heiliger und Großer Samstag",
+          "description": "Die Kirche hält Wache am Grab bis zum ersten Licht des Ostermorgens."
+        },
+        "easter": {
+          "name": "Ostersonntag",
+          "orthodoxName": "Pascha (Ostern)",
+          "description": "Die Auferstehung des Herrn, das Fest der Feste."
+        },
+        "divineMercy": {
+          "name": "Sonntag der Göttlichen Barmherzigkeit",
+          "description": "Der zweite Sonntag der Osterzeit, der Barmherzigkeit Gottes gewidmet."
+        },
+        "ascension": {
+          "name": "Christi Himmelfahrt",
+          "description": "Vierzig Tage nach Ostern wird Jesus in den Himmel aufgenommen."
+        },
+        "pentecost": {
+          "name": "Pfingsten",
+          "orthodoxName": "Pfingsten (Heilige Dreifaltigkeit)",
+          "description": "Der Heilige Geist kommt auf die Apostel herab, fünfzig Tage nach Ostern."
+        },
+        "trinity": {
+          "name": "Dreifaltigkeitssonntag",
+          "description": "Der Sonntag nach Pfingsten, zu Ehren des Vaters, des Sohnes und des Heiligen Geistes."
+        },
+        "corpusChristi": {
+          "name": "Fronleichnam",
+          "description": "Leib und Blut Christi, verehrt in der Eucharistie und in Prozessionen."
+        },
+        "transfiguration": {
+          "name": "Verklärung des Herrn",
+          "description": "Jesus erstrahlt in Herrlichkeit auf dem Berg Tabor, wenige Kilometer von Nazareth entfernt."
+        },
+        "assumption": {
+          "name": "Mariä Aufnahme in den Himmel",
+          "orthodoxName": "Entschlafen der Gottesgebärerin",
+          "description": "Maria wird in die Herrlichkeit des Himmels aufgenommen; der Osten nennt es ihr Entschlafen."
+        },
+        "nativityOfMary": {
+          "name": "Mariä Geburt",
+          "orthodoxName": "Geburt der Gottesgebärerin",
+          "description": "Der Geburtstag der Jungfrau Maria."
+        },
+        "holyCross": {
+          "name": "Kreuzerhöhung",
+          "orthodoxName": "Kreuzerhöhung",
+          "description": "Das Fest des Kreuzes Christi, nach dem Nazareth Holy Cross benannt ist."
+        },
+        "allSaints": {
+          "name": "Allerheiligen",
+          "orthodoxName": "Sonntag aller Heiligen",
+          "description": "Alle Heiligen Gottes, bekannte und unbekannte, in einem Fest."
+        },
+        "advent1": {
+          "name": "Erster Adventssonntag",
+          "description": "Das neue Kirchenjahr beginnt mit vier Wochen des Wartens auf Weihnachten."
+        },
+        "advent2": {
+          "name": "Zweiter Adventssonntag",
+          "description": "Advent: Bereitet den Weg des Herrn."
+        },
+        "advent3": {
+          "name": "Dritter Adventssonntag",
+          "description": "Sonntag Gaudete: Freut euch, der Herr ist nahe."
+        },
+        "advent4": {
+          "name": "Vierter Adventssonntag",
+          "description": "Der letzte Sonntag vor Weihnachten, mit Maria, die ihren Sohn erwartet."
+        },
+        "immaculateConception": {
+          "name": "Mariä Empfängnis",
+          "description": "Maria, vom ersten Augenblick ihres Lebens an vor jeder Sünde bewahrt."
+        },
+        "christmas": {
+          "name": "Weihnachten",
+          "orthodoxName": "Christi Geburt",
+          "description": "Die Geburt Jesu in Betlehem."
+        }
+      }
     }
   },
   "media": {

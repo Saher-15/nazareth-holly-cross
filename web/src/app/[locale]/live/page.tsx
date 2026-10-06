@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { getFormatter, getTranslations, setRequestLocale } from 'next-intl/server';
+import LiturgicalCalendarSection from '@/components/calendar/LiturgicalCalendarSection';
 import LiveNow from '@/components/community/LiveNow';
 import LivePlayer, { type PlayerBroadcast } from '@/components/community/LivePlayer';
 import PastBroadcasts from '@/components/community/PastBroadcasts';
@@ -122,6 +123,9 @@ export default async function LivePage({ params }: PageProps<'/[locale]/live'>) 
           }
         />
       </section>
+
+      {/* The Christian calendar: feasts of both traditions and the scheduled broadcasts (docs/LITURGICAL-CALENDAR.md). */}
+      <LiturgicalCalendarSection locale={locale} />
 
       <section className="ui-section" aria-labelledby="past-broadcasts-title">
         <Reveal className="ui-container">
