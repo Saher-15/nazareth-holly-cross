@@ -41,7 +41,9 @@ describe('password policy: the same answer as the API for every sample', () => {
 });
 
 describe('new user: a name the form accepts is one the API accepts', () => {
-  const api = serverStr({ min: 3, max: 64, pattern: /^[A-Za-z0-9][A-Za-z0-9._-]*$/ });
+  // The rule of route/admin/users.js (a variable: the JS signature has no type for `pattern`).
+  const rule = { min: 3, max: 64, pattern: /^[A-Za-z0-9][A-Za-z0-9._-]*$/ };
+  const api = serverStr(rule);
   it.each(['casey', 'casey.test', 'a-b_c.d', '.casey', '-casey', '_casey', 'ca', 'ca$ey', 'x'.repeat(40), 'x'.repeat(41)])('%s', (name) => {
     if (isUsername(name)) expect(accepts(api, name)).toBe(true);
   });

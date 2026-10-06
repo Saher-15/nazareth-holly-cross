@@ -158,6 +158,17 @@ test.describe('inbox pages', () => {
     await expect(page.locator('tbody tr').first().locator('.stars')).toBeVisible();
   });
 
+  // docs/FORM-CONTRACTS.md 3.5: where the reviewer is from is searched and shown as a place, never as an e-mail address.
+  test('site review: found and shown by place, old reviews (country in email) included', async ({ page }) => {
+    await page.goto('/reviews?q=Trinidad');
+    const row = page.locator('tbody tr').first();
+    await expect(row.locator('.cell-sub[dir="auto"]')).toHaveText('Trinidad & Tobago');
+    await page.goto('/reviews?q=Germany');
+    const old = page.locator('tbody tr').first();
+    await expect(old.locator('.cell-sub[dir="auto"]')).toHaveText('Germany');
+    await expect(old.locator('.cell-sub bdi, .cell-sub [dir="ltr"]')).toHaveCount(0); // not shown as an address
+  });
+
   test('prayer: delete asks first', async ({ page }) => {
     await page.goto('/prayers');
     const label = await page.getByText(/Showing 1-\d+ of \d+/).textContent();
@@ -242,6 +253,11 @@ test.describe('users', () => {
     await page.goto('/users');
     await page.getByTestId('add-user').click();
     const dialog = page.getByRole('dialog', { name: 'Add user' });
+    // A name the API refuses (it must start with a letter or digit) is caught here, in the admin's language.
+    await dialog.getByLabel('Username').fill(`.${username}`);
+    await dialog.getByLabel('Password', { exact: true }).fill(`${username}-Strong-Pass-1`);
+    await dialog.getByRole('button', { name: 'Create user' }).click();
+    await expect(dialog.getByRole('alert')).toContainText('starting with a letter or digit');
     await dialog.getByLabel('Username').fill(username);
     await dialog.getByLabel('Password', { exact: true }).fill('short');
     await dialog.getByRole('button', { name: 'Create user' }).click();
