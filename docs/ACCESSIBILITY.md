@@ -58,6 +58,7 @@ How it is built, in short:
 | Pause, stop, hide, 2.2.2 | `web/tests/e2e/a11y.spec.ts` | the home and holy-site pause buttons stop the film and the zoom; "Stop animations" leaves no infinite animation and no film |
 | The panel | `web/tests/unit/a11y.test.tsx`, `web/tests/e2e/a11y.spec.ts` | storage validation, the pre-paint script against the TypeScript (same attributes for good, broken and hostile values), keyboard (open, radio arrows, switches, Escape returns focus), persistence before the first paint with no CSP violation, 200% text on a phone in Arabic, high-contrast colour ratios (AAA) |
 | Header fit | `web/tests/e2e/a11y.spec.ts` | the bar never overflows in any of the 14 languages at 320 to 1366 px |
+| The Christian calendar on `/live` (a WAI-ARIA grid) | `web/tests/e2e/calendar.spec.ts`, `web/tests/unit/calendar.test.tsx` | axe on the section with a day of feasts chosen; one tab stop, arrows (mirrored in he and ar), Home/End, Page Up/Down, focus following the chosen day; every day named with its feasts and their tradition (no colour-only marks); 320 px in Arabic (`docs/LITURGICAL-CALENDAR.md`) |
 | By eye | screenshots | home, statement, candle and a holy site at 1366 and 390 px in en, he and ar, panel open, 200% text, high contrast, all modes |
 
 How to run:

@@ -113,6 +113,16 @@ Severity: **High** = visitors cannot reach content or money is at risk; **Med** 
 | Info | translations | machine-made, still to be reviewed by native speakers (ENGINEERING.md); `contentNaz.modernNazareth.title` is English in Polish |
 | Info | not verified | Firefox and Safari engines; real PayPal (never clicked, by rule); screen readers (axe only); real devices |
 
+### Christian calendar on `/live` (branch `feat/christian-calendar`, 2026-10-07)
+
+What is tested and where: `docs/LITURGICAL-CALENDAR.md` section 5 (`web/tests/unit/liturgical.test.ts`,
+`web/tests/unit/calendar.test.tsx`, `web/tests/e2e/calendar.spec.ts`). Found and fixed on the way: ten French messages
+of the accessibility panel and statement (`ux.a11y.motionSystem`, `pilgrim.legal.accessibility.*`) carried the control
+character U+0001 where a colon belonged (probably a replacement written as a backreference); they now read "no-break space + colon", and
+`web/tests/unit/messages.test.ts` rejects control characters in every language. Not verified: the feast names by a
+native speaker or priest of each tradition, a real scheduled broadcast (the production API has no `GET /live/schedule`
+yet), screen readers, Firefox and Safari.
+
 ## 5. Requested changes outside this branch's scope
 
 * `components/shop/products.ts` (shop team) reads products with its own `fetch`; it should use `getJson` from
