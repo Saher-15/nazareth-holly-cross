@@ -55,6 +55,11 @@ On a phone (390 px):
 | --- | --- | --- | --- | --- | --- |
 | ![](admin-ui/login-phone.png) | ![](admin-ui/dashboard-phone.png) | ![](admin-ui/orders-phone.png) | ![](admin-ui/products-phone.png) | ![](admin-ui/users-phone.png) | ![](admin-ui/audit-phone.png) |
 
+**When the API is busy or down while the signed-in user is checked** (the layout's `getSession`, which no page's
+`error.tsx` can catch), `src/app/(app)/layout.tsx` shows a translated state ("Too many requests. Try again in N minutes." for
+a 429, the generic error otherwise) with a retry link, instead of Next's bare error page. E2E: `tests/e2e/busy-api.spec.ts`
+(mock control `POST /__mock/busy { count }`).
+
 ## What each role sees
 
 | | Owner | Editor | Viewer |

@@ -104,6 +104,7 @@ export const en = {
   'state.notFound': 'Page not found',
   'state.notFoundText': 'The page does not exist or was removed.',
   'state.rateLimited': 'Too many requests. Wait a moment and try again.',
+  'state.rateLimitedMinutes': 'Too many requests. Try again in {minutes} minutes.',
   'error.generic': 'That did not work. Please try again.',
 
   // idle timeout

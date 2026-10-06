@@ -47,6 +47,8 @@ let adminBuckets;
 let privacyBuckets; // 20 privacy requests per 15 minutes per admin (the real API's adminErasureLimiter)
 let resetBuckets; // forgot-password: 3 per address and e-mail, 10 per address; reset-password: 10 failures per address
 let failMail = false;
+// Test control: the next N calls to GET /admin/auth/me answer 429, as a busy API would (POST /__mock/busy { count }).
+let busyMe = 0;
 // Live broadcasting (server/route/admin/live.js): the sessions, and a fake Cloudflare Stream (inputs by uid).
 let live; // { sessions: [], inputs: Map, configured: boolean, failCreate: boolean }
 
@@ -1150,6 +1152,7 @@ export const server = http.createServer(async (req, res) => {
       if (req.method === 'GET' && url.pathname === '/__mock/emails') return send(req, res, 200, emails);
       if (req.method === 'POST' && url.pathname === '/__mock/mail') { const b = await readBody(req); failMail = b.fail === true; return send(req, res, 200, { ok: true, fail: failMail }); }
       if (req.method === 'GET' && url.pathname === '/__mock/health') return send(req, res, 200, { ok: true });
+      if (req.method === 'POST' && url.pathname === '/__mock/busy') { const b = await readBody(req); busyMe = Number.isInteger(b.count) ? b.count : 0; return send(req, res, 200, { ok: true, busy: busyMe }); }
       // Live broadcasting: { configured: false } = no Cloudflare credentials on the server; { failCreate: true } = Cloudflare refuses.
       if (req.method === 'POST' && url.pathname === '/__mock/live') {
         const b = await readBody(req);
@@ -1158,6 +1161,12 @@ export const server = http.createServer(async (req, res) => {
         return send(req, res, 200, { ok: true, inputs: live.inputs.size });
       }
       return send(req, res, 404, { error: 'Not found' });
+    }
+
+    if (busyMe > 0 && req.method === 'GET' && url.pathname === '/admin/auth/me') {
+      busyMe -= 1;
+      res.setHeader('Retry-After', '120');
+      return send(req, res, 429, { error: 'Too many requests, please slow down.' });
     }
 
     let route;

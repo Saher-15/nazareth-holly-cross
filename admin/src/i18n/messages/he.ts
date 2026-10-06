@@ -100,6 +100,7 @@ export const he: Partial<Record<MessageKey, string>> = {
   'state.notFound': 'העמוד לא נמצא',
   'state.notFoundText': 'העמוד אינו קיים או הוסר.',
   'state.rateLimited': 'יותר מדי בקשות. המתינו רגע ונסו שוב.',
+  'state.rateLimitedMinutes': 'יותר מדי בקשות. נסו שוב בעוד {minutes} דקות.',
   'error.generic': 'הפעולה לא הצליחה. נסו שוב.',
 
   'idle.title': 'עדיין כאן?',
