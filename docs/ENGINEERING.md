@@ -10,7 +10,7 @@ production, and what keeps it safe. Anyone (person or AI agent) changing the cod
 | **New website** | `web/` | Netlify (when it replaces `client/`) | Next.js 16 + TypeScript, next-intl, CSS Modules + design tokens |
 | Current website | `client/` | Netlify, `main` branch | React (CRA). Kept live until `web/` reaches parity, then retired |
 | API | `server/` | Render (`nazareth-holy-cross-api`) | Express + Mongoose. Owns prices, payments, e-mails |
-| Database | — | MongoDB Atlas | Products, orders, candles, prayers, reviews, the payment ledger. No backups on the free tier: [BACKUP.md](BACKUP.md); design, indexes, personal data: [DATABASE.md](DATABASE.md) |
+| Database | — | MongoDB Atlas | Products, orders, candles, prayers, reviews, the payment ledger. Cluster0 / database `info`, M10 in Frankfurt with Cloud Backup on (INFRASTRUCTURE.md 6.1), plus the independent copy of [BACKUP.md](BACKUP.md); design, indexes, personal data: [DATABASE.md](DATABASE.md) |
 | Product images | — | Firebase Storage | Served through `next/image` (resized, AVIF/WebP) |
 | Payments | — | PayPal | **The server decides every amount.** The browser only says *what* is bought |
 

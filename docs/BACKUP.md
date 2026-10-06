@@ -1,6 +1,8 @@
 # Backups: what is saved, how to restore, how to test it
 
-MongoDB Atlas **M0 (the free tier) has no backups at all**: if the cluster is deleted, damaged, or someone runs a
+**Checked on 2026-10-06:** production runs on an Atlas **M10** cluster with **Cloud Backup ON** (hourly, daily and weekly
+snapshots; INFRASTRUCTURE.md 6.1), so Atlas itself can restore. This page is the second, independent copy. Without one
+(for example on the free M0 tier, which has no backups at all), if the cluster is deleted, damaged, or someone runs a
 wrong command, the orders, candle requests, messages, reviews, prayers, products, accounts and the payment ledger are
 gone. This page is the replacement: a daily copy of the whole database to a folder you choose, a restore that has been
 tested, and what to do about Atlas itself. Everything here is **read-only against the database** except the restore,

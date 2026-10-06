@@ -425,7 +425,25 @@ effect only after the owner merges and deploys, and all of it is guarded by test
 
 ## 6. Database, backups, Firebase
 
-### 6.1 MongoDB Atlas (not verified: no login)
+### 6.1 MongoDB Atlas (checked in the Atlas console, read-only, 2026-10-06)
+
+**Facts.** Organisation `SaherSaadi` (owner: Saher; member: Haytham Taweel, last login 03/2025). Production is the project
+**Nazareth-Holy-Cross** (renamed from "Nazareth-Holly-Cross" on 06/10), cluster **Cluster0**, database **`info`**:
+**M10 dedicated**, MongoDB 7.0, AWS **Frankfurt (eu-central-1)**, 3-node replica set, **Cloud Backup ON** (hourly, daily and
+weekly snapshots, seen in the activity feed for the whole last 30 days), about 84 KB of data. Network Access: `0.0.0.0/0`
+only (since 05/10; access is protected by the database users). Database users: `haythamtaweel95` and `sahersaadi`, both
+`atlasAdmin` (one of them is in Render's `DATABASEURL`: never change their passwords without updating Render first). The same
+project also holds a FREE cluster `memory-map` (Bahrain, another app, not this site). A separate project **Holy Cross** has a
+FREE Cluster0 with an empty IP access list (nothing can connect: not in use). Billing: about $13 so far in October, $76.68
+of usage in September (M10 + backup); the cluster is far larger than an 84 KB database needs, see the cost note below.
+
+**Cost note (owner decision).** M10 is the smallest tier with continuous cloud backup and point-in-time restore. A Flex
+cluster would cost much less and still has daily snapshots, M0 is free but has no backup at all. Going down from a dedicated
+tier may not be possible in place: it can mean a new cluster, moving the data (backup.js / restore.js) and a new
+`DATABASEURL` on Render (Haytham's account), so check in Atlas (*Edit configuration*) before deciding; decide with BACKUP.md section 5 and keep `server/scripts/backup.js` either way.
+
+The bullets below were written before this check, from outside:
+
 
 - **Backups.** The free (M0) cluster has **no automatic backup** (Atlas -> the cluster -> *Backup*: it is empty or disabled for
   M0). "Nothing is ever lost" needs one of: a paid cluster with Cloud Backup (M10 and up, point-in-time), or a scheduled
