@@ -92,6 +92,7 @@ async function SiteReviews({ params, keep, canWrite }: ListProps) {
             cell: (r) => (
               <>
                 <span className="strong">{r.fullName}</span>
+                {r.place ? <span className="cell-sub" dir="auto">{r.place}</span> : null}
                 {r.email ? <span className="cell-sub"><Ltr>{r.email}</Ltr></span> : null}
               </>
             ),
