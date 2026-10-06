@@ -100,6 +100,7 @@ export const ar: Partial<Record<MessageKey, string>> = {
   'state.notFound': 'الصفحة غير موجودة',
   'state.notFoundText': 'الصفحة غير موجودة أو تمت إزالتها.',
   'state.rateLimited': 'طلبات كثيرة جداً. انتظر قليلاً وحاول مرة أخرى.',
+  'state.rateLimitedMinutes': 'طلبات كثيرة جداً. حاول مرة أخرى بعد {minutes} دقائق.',
   'error.generic': 'لم تنجح العملية. حاول مرة أخرى.',
 
   'idle.title': 'هل ما زلت هنا؟',
