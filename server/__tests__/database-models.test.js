@@ -7,6 +7,8 @@ import mongoose from 'mongoose';
 
 vi.unmock('../model/payment.js');
 vi.unmock('../model/liveSession.js');
+vi.unmock('../model/liveRecording.js');
+vi.unmock('../model/scheduledBroadcast.js');
 
 const models = {
   Admin: (await import('../model/admin.js')).default,
@@ -14,6 +16,7 @@ const models = {
   AuditLog: (await import('../model/auditLog.js')).default,
   Candle: (await import('../model/candle.js')).default,
   Contact: (await import('../model/contact.js')).default,
+  LiveRecording: (await import('../model/liveRecording.js')).default,
   LiveSession: (await import('../model/liveSession.js')).default,
   Order: (await import('../model/order.js')).default,
   Payment: (await import('../model/payment.js')).default,
@@ -21,6 +24,7 @@ const models = {
   Product: (await import('../model/product.js')).default,
   ProductReview: (await import('../model/productReview.js')).default,
   Review: (await import('../model/review.js')).default,
+  ScheduledBroadcast: (await import('../model/scheduledBroadcast.js')).default,
 };
 const { PRODUCT_CATEGORIES } = await import('../model/product.js');
 const { CATEGORIES } = await import('../services/catalog.js');
@@ -103,6 +107,12 @@ describe('the indexes the queries need', () => {
     ['AuditLog', 'by action', 'action:1,at:-1'],
     ['LiveSession', 'the session that is live now (also: at most one)', 'status:1'],
     ['LiveSession', 'recent broadcasts on the dashboard', 'startedAt:-1'],
+    ['LiveRecording', 'one recording per broadcast', 'session:1'],
+    ['LiveRecording', 'the dashboard\'s recordings, newest broadcast first', 'liveStartedAt:-1'],
+    ['LiveRecording', 'the website\'s past broadcasts (published, ready, newest first)', 'published:1,status:1,liveStartedAt:-1'],
+    ['ScheduledBroadcast', 'the dashboard\'s schedule, soonest first', 'startsAt:1'],
+    ['ScheduledBroadcast', 'the website\'s upcoming broadcasts', 'published:1,status:1,startsAt:1'],
+    ['ScheduledBroadcast', 'the end of a broadcast marks its scheduled item done', 'liveSession:1'],
   ];
 
   it.each(needed)('%s: %s -> %s', (model, _query, key) => {
@@ -119,6 +129,9 @@ describe('the indexes the queries need', () => {
     // at most one live broadcast: a partial unique index over the documents whose status is "live"
     expect(unique(models.LiveSession)).toEqual(['status']);
     expect(models.LiveSession.schema.indexes().find(([f]) => f.status)[1].partialFilterExpression).toEqual({ status: 'live' });
+    // one recording per broadcast (two uploads of the same broadcast at once: the second is refused)
+    expect(unique(models.LiveRecording)).toEqual(['session']);
+    expect(unique(models.ScheduledBroadcast)).toEqual([]);
     // orders and candles are saved without a PayPal id by older clients: the index only covers documents that have one
     for (const name of ['Order', 'Candle']) {
       const [, options] = models[name].schema.indexes().find(([f]) => f.paypalOrderId);
@@ -253,6 +266,27 @@ describe('writes are validated by the schema itself', () => {
     expect(errorsOf(review({ rating: 2.5 }))).toEqual(['rating']);
     expect(errorsOf(review({ product: undefined }))).toEqual(['product']);
   });
+
+  it('a recording belongs to a broadcast, has a Cloudflare video, a known status and a bounded title', () => {
+    const recording = (over = {}) => new models.LiveRecording({
+      session: new mongoose.Types.ObjectId(), title: 'Evening prayer', liveStartedAt: new Date(), cfVideoUid: 'a'.repeat(32), ...over,
+    });
+    expect(errorsOf(recording())).toEqual([]);
+    expect(recording()).toMatchObject({ status: 'uploading', published: false, publishedAt: null });
+    expect(errorsOf(recording({ session: undefined, cfVideoUid: undefined, liveStartedAt: undefined })).sort()).toEqual(['cfVideoUid', 'liveStartedAt', 'session']);
+    expect(errorsOf(recording({ status: 'live' }))).toEqual(['status']);
+    expect(errorsOf(recording({ title: 'x'.repeat(121) }))).toEqual(['title']);
+    expect(errorsOf(recording({ durationSeconds: -1 }))).toEqual(['durationSeconds']);
+  });
+
+  it('a scheduled broadcast has a start, a known status, a bounded title and description, and is a draft at first', () => {
+    const planned = (over = {}) => new models.ScheduledBroadcast({ title: 'Sunday Mass', startsAt: new Date(), ...over });
+    expect(errorsOf(planned())).toEqual([]);
+    expect(planned()).toMatchObject({ status: 'scheduled', published: false, description: '', liveSession: null });
+    expect(errorsOf(planned({ startsAt: undefined }))).toEqual(['startsAt']);
+    expect(errorsOf(planned({ status: 'postponed' }))).toEqual(['status']);
+    expect(errorsOf(planned({ title: 'x'.repeat(121), description: 'y'.repeat(501) }))).toEqual(['description', 'title']);
+  });
 });
 
 describe('collection names', () => {
@@ -260,7 +294,7 @@ describe('collection names', () => {
     const names = Object.fromEntries(Object.entries(models).map(([model, Model]) => [model, Model.collection.name]));
     expect(names).toEqual({
       Admin: 'admins', AdminSession: 'adminSession', AuditLog: 'auditLog', Candle: 'candle', Contact: 'contact', LiveSession: 'liveSession', Order: 'order', Payment: 'payment',
-      Prayer: 'prayers', Product: 'product', ProductReview: 'productReview', Review: 'review',
+      Prayer: 'prayers', Product: 'product', ProductReview: 'productReview', Review: 'review', LiveRecording: 'liveRecording', ScheduledBroadcast: 'scheduledBroadcast',
     });
   });
 });

@@ -4,6 +4,7 @@
 import bcrypt from 'bcryptjs';
 import { fakeModule, fakes } from './fake-models.js';
 import { runPipeline } from './aggregate.js';
+import { RECORDING_DEFAULTS, SCHEDULE_DEFAULTS } from './live-defaults.js';
 
 // Same list as model/prayer.js (importing that file here would load the fake again).
 export const PRAYER_CATEGORIES = ['Peace', 'Health', 'Gratitude', 'Family', 'Personal', 'World Peace'];
@@ -28,6 +29,8 @@ take('Prayer', {
 });
 take('Product', { collection: 'product', timestamps: true, defaults: { rate: 1, stock: null, additionalImageUrls: [], color: [] } });
 take('LiveSession', { collection: 'liveSession', timestamps: true, unique: [{ field: 'status', only: 'live' }], defaults: { status: 'live', endedAt: null, endReason: null, inputDeleted: false } });
+take('LiveRecording', { collection: 'liveRecording', timestamps: true, unique: ['session'], defaults: RECORDING_DEFAULTS });
+take('ScheduledBroadcast', { collection: 'scheduledBroadcast', timestamps: true, defaults: SCHEDULE_DEFAULTS });
 take('AdminSession', { collection: 'adminSession', defaults: { revokedAt: null } });
 take('AuditLog', { collection: 'auditLog', autoCreatedAt: false, defaults: { actorId: null, actorName: '', role: '', meta: {}, ipHash: '', ua: '' } });
 take('Admin', {

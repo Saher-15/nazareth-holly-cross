@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import LiveSession from '../model/liveSession.js';
 import { audit } from './audit.js';
 import { getStreamClient, playerUrl } from './cloudflareStream.js';
+import { finishScheduledFor } from './liveSchedule.js';
 
 // The live broadcast's state (docs/LIVE.md): what the public status says, how a session ends, the automatic end of a
 // forgotten one. The routes are route/admin/live.js (dashboard) and route/liveRoute.js (public).
@@ -43,11 +44,14 @@ export function resetLiveStatusCache() {
   statusCache = null;
 }
 
-/** What every visitor may know: is a broadcast on, its title, since when, and where to watch it. */
+/**
+ * What every visitor may know: is a broadcast on, which one (`id`: the website's "we are live" window is shown once per
+ * broadcast), its title, since when, and where to watch it.
+ */
 export function publicStatus(doc) {
   const playback = doc ? playerUrl(doc.whepUrl, doc.inputUid) : null;
   if (!doc || doc.status !== 'live' || !playback) return { live: false };
-  return { live: true, title: doc.title, startedAt: iso(doc.startedAt), playbackUrl: playback };
+  return { live: true, id: String(doc._id), title: doc.title, startedAt: iso(doc.startedAt), playbackUrl: playback };
 }
 
 export async function liveStatus(now = Date.now()) {
@@ -86,6 +90,8 @@ export async function endSession(session, { reason, user = null, req = SYSTEM, n
   ).lean();
   if (!ended) return null;
   resetLiveStatusCache();
+  // The scheduled broadcast it fulfilled is done (never in the way of ending the session itself).
+  await finishScheduledFor(ended._id).catch((err) => console.error(`[${new Date().toISOString()}] [live] could not mark the scheduled broadcast done: ${err?.message ?? 'unknown error'}`));
   const inputDeleted = await deleteInputQuietly(ended.inputUid);
   if (inputDeleted) await LiveSession.updateOne({ _id: ended._id }, { $set: { inputDeleted: true } });
   const minutes = Math.max(0, Math.round((now - new Date(ended.startedAt).getTime()) / 60_000));

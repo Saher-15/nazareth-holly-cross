@@ -3,6 +3,7 @@ import AdminSession from '../model/adminSession.js';
 import AuditLog from '../model/auditLog.js';
 import Candle from '../model/candle.js';
 import Contact from '../model/contact.js';
+import LiveRecording from '../model/liveRecording.js';
 import LiveSession from '../model/liveSession.js';
 import Order from '../model/order.js';
 import Payment from '../model/payment.js';
@@ -10,6 +11,7 @@ import Prayer from '../model/prayer.js';
 import Product from '../model/product.js';
 import ProductReview from '../model/productReview.js';
 import Review from '../model/review.js';
+import ScheduledBroadcast from '../model/scheduledBroadcast.js';
 
 // Index bookkeeping shared by scripts/ensure-indexes.js, scripts/backup.js (the manifest records the indexes) and
 // the start-up check (index.js). The indexes the code needs are DECLARED IN THE MODELS (`schema.index(...)`); this
@@ -19,7 +21,7 @@ import Review from '../model/review.js';
 
 // Every model, in one list. The collection names come from the models (note the two that are not singular:
 // `admins` and `prayers`, see docs/DATABASE.md).
-export const MODELS = { Admin, AdminSession, AuditLog, Candle, Contact, LiveSession, Order, Payment, Prayer, Product, ProductReview, Review };
+export const MODELS = { Admin, AdminSession, AuditLog, Candle, Contact, LiveRecording, LiveSession, Order, Payment, Prayer, Product, ProductReview, Review, ScheduledBroadcast };
 
 export const collectionNameOf = (Model) => Model.collection.name;
 

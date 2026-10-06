@@ -367,7 +367,7 @@ describe('GET /live/status', () => {
     const res = await status();
     expect(res.status).toBe(200);
     expect(res.body).toEqual({
-      live: true, title: 'Evening prayer at the Basilica', startedAt: started.body.session.startedAt,
+      live: true, id: started.body.session._id, title: 'Evening prayer at the Basilica', startedAt: started.body.session.startedAt,
       playbackUrl: `https://customer-fake0test.cloudflarestream.com/${started.body.session.inputUid}/iframe`,
     });
     expect(res.headers['cache-control']).toBe('public, max-age=5, s-maxage=5, stale-while-revalidate=10, stale-if-error=30');

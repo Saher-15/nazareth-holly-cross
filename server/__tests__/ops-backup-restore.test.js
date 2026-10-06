@@ -10,6 +10,8 @@ import mongoose from 'mongoose';
 
 vi.unmock('../model/payment.js'); // these scripts read the REAL model declarations
 vi.unmock('../model/liveSession.js');
+vi.unmock('../model/liveRecording.js');
+vi.unmock('../model/scheduledBroadcast.js');
 
 const { EJSON } = mongoose.mongo.BSON;
 const { fakeDb } = await import('../test-harness/fake-db.js');

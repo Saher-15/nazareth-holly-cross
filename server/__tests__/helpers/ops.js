@@ -9,7 +9,7 @@ const days = (n) => new Date(Date.now() - n * 86_400_000);
 const minutes = (n) => new Date(Date.now() - n * 60_000);
 
 export const ids = {
-  cross: newId(), rosary: newId(), order1: newId(), order2: newId(), candle1: newId(), admin: newId(),
+  cross: newId(), rosary: newId(), order1: newId(), order2: newId(), candle1: newId(), admin: newId(), live1: newId(),
 };
 
 export const sample = () => ({
@@ -44,7 +44,13 @@ export const sample = () => ({
     { _id: newId(), paypalOrderId: 'DONATIONPAYPAL001', type: 'donation', amount: 25, currency: 'USD', status: 'captured', capturedAt: days(1), donorName: 'Maria', createdAt: days(1), updatedAt: days(1), __v: 0 },
   ],
   liveSession: [
-    { _id: newId(), title: 'Evening prayer', status: 'ended', inputUid: 'f256e6ea9341d51eea64c9454659e576', whepUrl: 'https://customer-abc123.cloudflarestream.com/f256e6ea9341d51eea64c9454659e576/webRTC/play', startedAt: days(3), endedAt: days(3), endReason: 'stopped', startedBy: { id: ids.admin, name: 'owner' }, endedBy: { id: ids.admin, name: 'owner' }, inputDeleted: true, createdAt: days(3), updatedAt: days(3), __v: 0 },
+    { _id: ids.live1, title: 'Evening prayer', status: 'ended', inputUid: 'f256e6ea9341d51eea64c9454659e576', whepUrl: 'https://customer-abc123.cloudflarestream.com/f256e6ea9341d51eea64c9454659e576/webRTC/play', startedAt: days(3), endedAt: days(3), endReason: 'stopped', startedBy: { id: ids.admin, name: 'owner' }, endedBy: { id: ids.admin, name: 'owner' }, inputDeleted: true, createdAt: days(3), updatedAt: days(3), __v: 0 },
+  ],
+  liveRecording: [
+    { _id: newId(), session: ids.live1, title: 'Evening prayer', liveStartedAt: days(3), liveEndedAt: days(3), durationSeconds: 1800, sizeBytes: 450_000_000, mimeType: 'video/webm;codecs=vp9,opus', cfVideoUid: 'a1b2c3d4e5f6a7b8c9d0a1b2c3d4e5f6', customerCode: 'abc123', status: 'ready', failReason: null, published: true, publishedAt: days(2), uploadExpiresAt: days(3), checkedAt: days(2), createdBy: { id: ids.admin, name: 'owner' }, createdAt: days(3), updatedAt: days(2), __v: 0 },
+  ],
+  scheduledBroadcast: [
+    { _id: newId(), title: 'Evening prayer', description: 'From the Basilica', startsAt: days(3), published: true, status: 'done', liveSession: ids.live1, createdBy: { id: ids.admin, name: 'owner' }, updatedBy: { id: ids.admin, name: 'owner' }, createdAt: days(5), updatedAt: days(3), __v: 0 },
   ],
 });
 

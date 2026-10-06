@@ -41,5 +41,17 @@ vi.mock('../model/liveSession.js', async (importOriginal) => {
     }),
   };
 });
+// The recordings of broadcasts and the scheduled broadcasts (model/liveRecording.js, model/scheduledBroadcast.js): the
+// same, since route/admin/live.js mounts their routes and route/liveRoute.js their public lists.
+vi.mock('../model/liveRecording.js', async (importOriginal) => {
+  const { fakeModule } = await import('./helpers/fakes.js');
+  const { RECORDING_DEFAULTS } = await import('../test-harness/live-defaults.js');
+  return { ...(await importOriginal()), ...fakeModule('LiveRecording', { collection: 'liveRecording', timestamps: true, unique: ['session'], defaults: RECORDING_DEFAULTS }) };
+});
+vi.mock('../model/scheduledBroadcast.js', async (importOriginal) => {
+  const { fakeModule } = await import('./helpers/fakes.js');
+  const { SCHEDULE_DEFAULTS } = await import('../test-harness/live-defaults.js');
+  return { ...(await importOriginal()), ...fakeModule('ScheduledBroadcast', { collection: 'scheduledBroadcast', timestamps: true, defaults: SCHEDULE_DEFAULTS }) };
+});
 delete process.env.CF_ACCOUNT_ID;
 delete process.env.CF_STREAM_API_TOKEN;
