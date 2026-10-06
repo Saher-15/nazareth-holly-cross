@@ -88,6 +88,13 @@ const nextConfig: NextConfig = {
       ...withLocale({ source: '/product/:id', destination: '/shop/:id' }),
       ...withLocale({ source: '/checkoutcandle', destination: '/candle' }),
       ...withLocale({ source: '/checkoutdonation', destination: '/donate' }),
+      // The dashboard is its own site on its own origin (docs/ADMIN.md): /admin only forwards there. It is never served
+      // under this domain, so a flaw in a public page can never reach the dashboard's session.
+      ...['/admin', '/admin/:path*', `/:locale(${locales.join('|')})/admin`, `/:locale(${locales.join('|')})/admin/:path*`].map((source) => ({
+        source,
+        destination: source.endsWith(':path*') ? 'https://admin.nazarethholycross.com/:path*' : 'https://admin.nazarethholycross.com/',
+        permanent: false,
+      })),
     ];
   },
   async headers() {

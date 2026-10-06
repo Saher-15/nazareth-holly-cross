@@ -184,7 +184,7 @@ describe('what the proxy leaves alone', () => {
 
   it('is configured to skip API routes, Next internals and files', () => {
     const matcher = new RegExp(`^${config.matcher[0]}$`);
-    for (const skipped of ['/api/anything', '/_next/static/chunk.js', '/robots.txt', '/sitemap.xml', '/images/logo.webp', '/sw.js']) {
+    for (const skipped of ['/api/anything', '/admin', '/admin/orders', '/_next/static/chunk.js', '/robots.txt', '/sitemap.xml', '/images/logo.webp', '/sw.js']) {
       expect(matcher.test(skipped), skipped).toBe(false);
     }
     for (const handled of ['/', '/fr', '/he/shop', '/ar/sites/latin', '/shop/66c7060187e696939c4ab0f8']) {
