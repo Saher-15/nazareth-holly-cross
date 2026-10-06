@@ -4,9 +4,10 @@
 // API would refuse afterwards (server/route/orderRoute.js, server/route/candleRoute.js,
 // server/model/*.js, server/services/pricing.js) must be caught here, before the visitor pays.
 
-export const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // the API's own check
+import { isApiEmail, storedLength } from '@/lib/formRules';
 
-// Maximum lengths, from the API models.
+// Maximum lengths, from the API models. They are compared with the length the API stores (lib/formRules.ts,
+// storedLength: "&" counts as the 5 characters of "&amp;"), since the models check that one.
 export const LIMITS = {
   name: 100,
   email: 254,
@@ -25,12 +26,14 @@ export type FormErrors<K extends string> = Partial<Record<K, FieldError>>;
 function text(value: string, max: number): FieldError | undefined {
   const v = value.trim();
   if (!v) return 'required';
-  if (v.length > max) return 'tooLong';
+  if (storedLength(v) > max) return 'tooLong';
   return undefined;
 }
 
+// The API's own address check (server/utils/validate.js isEmail), not a looser one: an address the API refuses would
+// only be found out after the payment.
 function email(value: string): FieldError | undefined {
-  return text(value, LIMITS.email) ?? (EMAIL_PATTERN.test(value.trim()) ? undefined : 'email');
+  return text(value, LIMITS.email) ?? (isApiEmail(value) ? undefined : 'email');
 }
 
 // The API lowercases e-mail addresses, so "Anna@x.com" and "anna@x.com" are the same.

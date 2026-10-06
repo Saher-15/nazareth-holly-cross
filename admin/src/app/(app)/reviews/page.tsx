@@ -4,7 +4,7 @@ import { ApiAction } from '@/components/ui/ApiAction';
 import { Badge, DataTable, EmptyState, ErrorState, ListToolbar, Ltr, PageHeader, Pagination, paramsOf } from '@/components/ui/Primitives';
 import { getI18n } from '@/i18n/server';
 import { parseListParams, productReviewsPage, siteReviewsPage, type ProductReview, type SiteReview } from '@/lib/api';
-import { formatDateTime, truncate } from '@/lib/format';
+import { formatDateTime, reviewerEmail, reviewerPlace, truncate } from '@/lib/format';
 import { can } from '@/lib/roles';
 import { one } from '@/lib/search-params';
 import { getSession, load, serverApi } from '@/lib/server-api';
@@ -92,8 +92,8 @@ async function SiteReviews({ params, keep, canWrite }: ListProps) {
             cell: (r) => (
               <>
                 <span className="strong">{r.fullName}</span>
-                {r.place ? <span className="cell-sub" dir="auto">{r.place}</span> : null}
-                {r.email ? <span className="cell-sub"><Ltr>{r.email}</Ltr></span> : null}
+                {reviewerPlace(r) ? <span className="cell-sub" dir="auto">{reviewerPlace(r)}</span> : null}
+                {reviewerEmail(r) ? <span className="cell-sub"><Ltr>{reviewerEmail(r)}</Ltr></span> : null}
               </>
             ),
           },
