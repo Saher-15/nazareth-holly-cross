@@ -46,7 +46,8 @@ export default defineConfig({
           command: 'node mock-api/server.mjs',
           url: `http://127.0.0.1:${API_PORT}/__mock/health`,
           reuseExistingServer: !process.env.CI,
-          env: { MOCK_PORT: String(API_PORT), MOCK_ASSET_BASE: `http://localhost:${APP_PORT}` },
+          // ADMIN_APP_URL: the password-reset mails link to the dashboard under test (the harness sets it from HARNESS_ADMIN_PORT).
+          env: { MOCK_PORT: String(API_PORT), MOCK_ASSET_BASE: `http://localhost:${APP_PORT}`, ADMIN_APP_URL: `http://localhost:${APP_PORT}` },
           timeout: 30_000,
         },
     {

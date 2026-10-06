@@ -44,8 +44,29 @@ Tests: `cd admin; npm run check` (lint, types, unit, build), `npm run test:e2e` 
 
 ## 2. Create the first real owner (production)
 
-Nobody can sign in to production until an owner exists, and an owner can only be created from a terminal, never from
-the web. **Do it on the owner's own computer, typing the password himself, so no one else ever sees it.**
+Nobody can sign in to production until an owner exists. **The password is chosen by the owner himself, on his own
+device, so no one else ever sees it.**
+
+**Recommended: by e-mail (no terminal, no database access).** It works only while the database holds **no admin account
+at all**, and only for the address in `ADMIN_BOOTSTRAP_EMAILS` (default `nazarethholycross@gmail.com`); the API and the
+dashboard must already be deployed, and the API's mail settings (`MAIL_FROM`, `MAIL_APP_PASSWORD`) must work.
+
+1. Open <https://nhc-admin-dashboard.netlify.app/forgot-password> (or **Forgot your password?** under the sign-in form).
+2. Enter `nazarethholycross@gmail.com` and press **Send the link**. The page always answers the same neutral sentence.
+3. Open the mail "Nazareth Holy Cross dashboard: choose your password" in that mailbox (look in spam too) and open the
+   link within 30 minutes. It works once.
+4. Choose the password (12+ characters, not a common one), typed twice. Then sign in with the username
+   `nazarethholycross@gmail.com` and that password.
+5. Open **Security settings** and turn on two-factor sign-in with an authenticator app. Then create the other accounts
+   under **Users** (one per person, `editor` or `viewer`).
+
+The link goes to `ADMIN_APP_URL` (Render; default `https://nhc-admin-dashboard.netlify.app`): if the dashboard lives
+elsewhere, set `ADMIN_APP_URL` first. From then on the same page resets the password of any account that has an e-mail
+address (or an e-mail address as its username). Nothing is created once one account exists; to turn the e-mail route to
+a first owner off entirely, set `ADMIN_BOOTSTRAP_EMAILS=` (empty) on Render.
+
+**Fallback: from a terminal** (the mail does not arrive, or another username is wanted). An owner can always be created
+this way; do it on the owner's own computer, typing the password himself.
 
 1. `git clone` the repository (or use the existing folder), `cd server`, `npm ci`.
 2. Create `server/.env` containing ONLY the production connection string (never commit it, delete it afterwards):
@@ -68,6 +89,9 @@ If the only owner loses the authenticator: ADMIN.md section 6 (`db.admins.update
 | `DATABASEURL` | already set. New collections `adminSession`, `auditLog` appear on first use; check in Atlas that both have their TTL index. |
 | `ADMIN_ORIGINS` | optional here: the exact origin of the dashboard, e.g. `https://nazaretholycrossadmin.netlify.app` or its own domain, no trailing slash. The dashboard calls the API from its server, so CORS is not involved; this only matters if a browser ever calls the API directly. (`https://nazaretholycrossadmin.netlify.app` and its deploy previews are allowed already.) Set it to the final domain anyway, so it is right the day it is needed. |
 | `ADMIN_PASSWORD` | still required by the server's start-up check until the old admin is retired (ADMIN.md 7). |
+| `ADMIN_APP_URL` | optional: the dashboard's address, used in the password-reset e-mail (`<ADMIN_APP_URL>/reset-password?token=...`). Default `https://nhc-admin-dashboard.netlify.app`; set it when the dashboard gets its own domain. |
+| `ADMIN_BOOTSTRAP_EMAILS` | optional: who may create the first owner by e-mail while no account exists (section 2). Default `nazarethholycross@gmail.com`; empty turns it off. |
+| `MAIL_FROM`, `MAIL_APP_PASSWORD` | already set: the password-reset mails use them. |
 
 **Netlify (the admin site)**:
 
@@ -137,7 +161,8 @@ Then in a browser on the preview: sign in with the real owner (section 2), check
 - [ ] `server`: `npm test` green. `admin`: `npm run check`, `npm run test:e2e`, `npm run test:e2e:harness` green.
 - [ ] Staging (or one careful production pass) with a real MongoDB: sign in, one change of each kind, a CSV export,
       shipping an order e-mails the customer exactly once. **No test has run against a real MongoDB or on Render yet.**
-- [ ] The first owner created on his own machine (section 2); two-factor on for every account; no shared accounts.
+- [ ] The first owner created by the owner himself (section 2: the e-mail link, or the terminal on his own machine);
+      two-factor on for every account; no shared accounts.
 - [ ] Atlas: `adminSession` and `auditLog` have their TTL indexes; the `admins` collection holds only real people.
 - [ ] Render: `JWT_SECRET` is 32+ random characters and is not `ADMIN_PASSWORD`; `ADMIN_ORIGINS` set to the final domain.
 - [ ] Netlify: `ADMIN_API_URL` set; the deploy preview answered 200 on `/login` and `/robots.txt`; CSP and cookie flags

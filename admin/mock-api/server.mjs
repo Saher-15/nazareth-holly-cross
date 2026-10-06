@@ -23,6 +23,11 @@ const WINDOW_MS = Number(process.env.MOCK_LOGIN_WINDOW_MS ?? 15 * 60_000);
 const LOCK_MS = Number(process.env.MOCK_LOCK_MS ?? 15 * 60_000);
 const ASSET_BASE = process.env.MOCK_ASSET_BASE ?? 'http://localhost:3901';
 const ADMIN_ORIGINS = (process.env.ADMIN_ORIGINS ?? '').split(',').map((s) => s.trim().replace(/\/+$/, '')).filter(Boolean);
+// Where the password-reset e-mail points (the real API: ADMIN_APP_URL, default the Netlify site; here the local app).
+const ADMIN_APP_URL = (process.env.ADMIN_APP_URL ?? 'http://localhost:3901').trim().replace(/\/+$/, '');
+// While NO account exists, a reset request for one of these addresses creates the first owner (server/config/env.js).
+const BOOTSTRAP_EMAILS = (process.env.ADMIN_BOOTSTRAP_EMAILS ?? 'nazarethholycross@gmail.com').split(',').map((e) => e.trim().toLowerCase()).filter(Boolean);
+const RESET_MINUTES = 30;
 const IP_SALT = 'mock-ip-salt';
 const ROLES = ['owner', 'editor', 'viewer'];
 const RANK = { viewer: 1, editor: 2, owner: 3 };
@@ -40,18 +45,20 @@ let audit;
 let loginFailures; // "ip|name" -> [timestamps]; "ip" -> [timestamps]
 let adminBuckets;
 let privacyBuckets; // 20 privacy requests per 15 minutes per admin (the real API's adminErasureLimiter)
+let resetBuckets; // forgot-password: 3 per address and e-mail, 10 per address; reset-password: 10 failures per address
 let failMail = false;
 
-function reset() {
+function reset({ accounts = true } = {}) {
   const seed = buildSeed(Date.now(), ASSET_BASE);
   for (const rows of Object.values(seed)) for (const row of rows) row.updatedAt = row.createdAt; // Mongoose timestamps
   db = {
     ...seed,
-    users: MOCK_USERS.map((u) => {
+    users: (accounts ? MOCK_USERS : []).map((u) => {
       const { salt, hash } = hashPassword(u.password);
       return {
         _id: newId('7'),
         username: u.username,
+        email: u.email ?? '',
         role: u.role,
         disabled: false,
         salt,
@@ -62,6 +69,8 @@ function reset() {
         failedLogins: 0,
         lockedUntil: null,
         lastLoginAt: null,
+        resetTokenHash: null,
+        resetTokenExpires: null,
         createdAt: new Date(Date.now() - 90 * 86_400_000).toISOString(),
       };
     }),
@@ -72,6 +81,7 @@ function reset() {
   loginFailures = new Map();
   adminBuckets = new Map();
   privacyBuckets = new Map();
+  resetBuckets = new Map();
   failMail = false;
 }
 reset();
@@ -316,7 +326,7 @@ const revokeAll = (userId, exceptSid) => { for (const [sid, s] of sessions) if (
 const publicUser = (u) => ({ id: u._id, username: u.username, role: u.role, totpEnabled: Boolean(u.totpSecret) });
 // GET /admin/users items (server/route/admin/users.js present())
 const userItem = (u) => ({
-  _id: u._id, username: u.username, email: '', role: u.role, disabled: u.disabled, totpEnabled: Boolean(u.totpSecret),
+  _id: u._id, username: u.username, email: u.email ?? '', role: u.role, disabled: u.disabled, totpEnabled: Boolean(u.totpSecret),
   lockedUntil: u.lockedUntil && new Date(u.lockedUntil).getTime() > Date.now() ? u.lockedUntil : null, lastLoginAt: u.lastLoginAt, createdAt: u.createdAt,
 });
 
@@ -632,6 +642,93 @@ add({
     Object.assign(u, { totpSecret: null, totpLastStep: -1 });
     revokeAll(u._id, ctx.req.auth.sid);
     record(ctx.req, 'auth.totp_disable', { type: 'admin', id: u._id });
+    return 204;
+  },
+});
+
+// --- forgotten password (server/route/admin/auth.js, services/passwordReset.js)
+// POST /admin/auth/forgot-password { email } -> always 202 { ok: true }; POST /admin/auth/reset-password { token, password }
+// -> 204, or 400 for a link that is invalid, used or expired, or a password the policy refuses. Only the SHA-256 of
+// the token is kept; the token itself is only in the recorded e-mail.
+const sha256 = (text) => createHash('sha256').update(text).digest('hex');
+const BAD_LINK = 'This link is invalid or has expired. Ask for a new one.';
+const looksLikeEmail = (value) => value.length >= 6 && value.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+// Like express-rate-limit: the request is counted, and over the limit the answer is 429 with Retry-After.
+function hit(key, limit, message, { count = true } = {}) {
+  const now = Date.now();
+  const recent = (resetBuckets.get(key) ?? []).filter((t) => now - t < WINDOW_MS);
+  if (count) recent.push(now);
+  resetBuckets.set(key, recent);
+  if (recent.length > limit || (!count && recent.length >= limit)) {
+    throw new HttpError(429, message, { 'Retry-After': String(Math.max(1, Math.ceil((WINDOW_MS - (now - recent[0])) / 1000))) });
+  }
+}
+
+add({
+  method: 'POST', path: '/admin/auth/forgot-password', public: true,
+  run: (ctx) => {
+    const ip = clientIp(ctx.req);
+    const email = (typeof ctx.body?.email === 'string' ? ctx.body.email : '').trim().toLowerCase();
+    hit(`forgot|${ip}|${email.slice(0, 254)}`, 3, 'Too many requests, please try again in 15 minutes.');
+    hit(`forgot|${ip}`, 10, 'Too many requests, please try again in 15 minutes.');
+    ctx.req.auditActor = { username: email.slice(0, 100) };
+    if (!looksLikeEmail(email)) return { status: 202, body: { ok: true } };
+
+    let user = db.users.find((u) => String(u.email ?? '').toLowerCase() === email || u.username.toLowerCase() === email);
+    let created = false;
+    if (!user && BOOTSTRAP_EMAILS.includes(email) && db.users.length === 0) {
+      // The first owner, with a password nobody knows: the link is the only way in.
+      user = {
+        _id: newId('7'), username: email, email, role: 'owner', disabled: false, ...hashPassword(randomBytes(32).toString('base64url')),
+        totpSecret: null, totpLastStep: -1, pendingTotp: null, failedLogins: 0, lockedUntil: null, lastLoginAt: null,
+        resetTokenHash: null, resetTokenExpires: null, createdAt: new Date().toISOString(),
+      };
+      db.users.push(user);
+      created = true;
+    }
+    if (!user || user.disabled) return { status: 202, body: { ok: true } };
+
+    const token = randomBytes(32).toString('base64url'); // 43 characters
+    Object.assign(user, { resetTokenHash: sha256(token), resetTokenExpires: Date.now() + RESET_MINUTES * 60_000 });
+    const link = `${ADMIN_APP_URL}/reset-password?token=${token}`;
+    const intro = created
+      ? 'An owner account was created for this address on the Nazareth Holy Cross dashboard.'
+      : 'Someone asked to reset the password of your Nazareth Holy Cross dashboard account.';
+    const mailed = !failMail;
+    if (mailed) {
+      emails.push({
+        at: new Date().toISOString(),
+        to: [String(user.email || email).toLowerCase()],
+        subject: created ? 'Nazareth Holy Cross dashboard: choose your password' : 'Nazareth Holy Cross dashboard: reset your password',
+        text: [intro, '', `Choose a password here (the link works once, for ${RESET_MINUTES} minutes):`, link, '', `Your username: ${user.username}`, '', 'If you did not ask for this, ignore this e-mail: nothing changes.'].join('\n'),
+        html: `<p>${intro}</p><p><a href="${link}">Choose a password</a> (the link works once, for ${RESET_MINUTES} minutes).</p>`,
+      });
+    }
+    if (created) record(ctx.req, 'auth.owner_bootstrap', { type: 'admin', id: user._id });
+    record(ctx.req, 'auth.password_reset_requested', { type: 'admin', id: user._id }, { mailed });
+    return { status: 202, body: { ok: true } };
+  },
+});
+
+add({
+  method: 'POST', path: '/admin/auth/reset-password', public: true,
+  run: (ctx) => {
+    const key = `reset|${clientIp(ctx.req)}`;
+    hit(key, 10, 'Too many attempts, please try again in 15 minutes.', { count: false }); // only failures count
+    const failed = (message) => { hit(key, Infinity, ''); return new HttpError(400, message); };
+    const body = ctx.body !== null && typeof ctx.body === 'object' && !Array.isArray(ctx.body) ? ctx.body : {};
+    const { token, password } = body;
+    if (typeof password !== 'string' || password.length === 0 || password.length > 200) throw failed('Choose a password');
+    const user = typeof token === 'string' && /^[A-Za-z0-9_-]{43}$/.test(token)
+      ? db.users.find((u) => u.resetTokenHash && u.resetTokenHash === sha256(token))
+      : null;
+    if (!user || !user.resetTokenExpires || user.resetTokenExpires <= Date.now() || user.disabled) throw failed(BAD_LINK);
+    const problem = passwordProblem(password, user.username);
+    if (problem) throw failed(problem);
+    Object.assign(user, hashPassword(password), { resetTokenHash: null, resetTokenExpires: null, failedLogins: 0, lockedUntil: null });
+    revokeAll(user._id);
+    ctx.req.auditActor = { username: user.username, role: user.role };
+    record(ctx.req, 'auth.password_reset', { type: 'admin', id: user._id });
     return 204;
   },
 });
@@ -958,7 +1055,8 @@ export const server = http.createServer(async (req, res) => {
     if (req.method === 'OPTIONS') return send(req, res, 204, null);
 
     if (CONTROL && url.pathname.startsWith('/__mock/')) {
-      if (req.method === 'POST' && url.pathname === '/__mock/reset') { reset(); return send(req, res, 200, { ok: true }); }
+      // { "accounts": false }: no admin account at all, the state in which a reset request creates the first owner.
+      if (req.method === 'POST' && url.pathname === '/__mock/reset') { const b = await readBody(req); reset({ accounts: b.accounts !== false }); return send(req, res, 200, { ok: true }); }
       if (req.method === 'GET' && url.pathname === '/__mock/emails') return send(req, res, 200, emails);
       if (req.method === 'POST' && url.pathname === '/__mock/mail') { const b = await readBody(req); failMail = b.fail === true; return send(req, res, 200, { ok: true, fail: failMail }); }
       if (req.method === 'GET' && url.pathname === '/__mock/health') return send(req, res, 200, { ok: true });

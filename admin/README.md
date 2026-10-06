@@ -39,12 +39,15 @@ Worktrees that share a `node_modules` junction need `TURBOPACK_ROOT=<common pare
 
 Mock and harness accounts (public, they exist nowhere else): `owner`, `editor`, `viewer` with passwords
 `Owner-Mock-Pass-1`, `Editor-Mock-Pass-1`, `Viewer-Mock-Pass-1`; `secure` (owner, two-factor on, secret
-`JBSWY3DPEHPK3PXP`, password `Secure-Mock-Pass-1`). More spare accounts for tests are in `mock-api/seed.mjs`.
+`JBSWY3DPEHPK3PXP`, password `Secure-Mock-Pass-1`). More spare accounts for tests are in `mock-api/seed.mjs`
+(`resetpass` has the invented address `resetpass@example.com`, for the forgotten-password tests).
 
 The mock implements every route of the contract with deterministic seed data: JWT HS256 (60 min), session
 revocation, lockout after 5 failures (15 min), a login rate limit (429), TOTP (RFC 6238), role checks per route, audit
 log, CSV export with formula-injection protection, request size limits and the product validation. Test hooks:
-`POST /__mock/reset`, `GET /__mock/emails` (the "shipped" e-mails it would have sent), `POST /__mock/mail {fail}`. Disable with `MOCK_CONTROL=0`.
+`POST /__mock/reset` (`{"accounts": false}`: no account at all, to try the creation of the first owner), `GET /__mock/emails` (the "shipped" and password-reset e-mails it would have sent), `POST /__mock/mail {fail}`. Disable with `MOCK_CONTROL=0`.
+The forgotten-password routes behave like the real ones (always `202`, one-time 30-minute link, policy, limits, the first
+owner for `ADMIN_BOOTSTRAP_EMAILS` while no account exists); the link points to `ADMIN_APP_URL` (default `http://localhost:3901`).
 Knobs: `MOCK_PORT`, `MOCK_LOGIN_LIMIT` (default 5, like the real API: sign-in tests that need the account lock use a fresh
 `X-Forwarded-For` per attempt), `MOCK_TOKEN_TTL`, `MOCK_LOCK_MS`.
 
@@ -96,7 +99,8 @@ admin as one address - configure the API's `trust proxy` accordingly.
 * `tests/unit` - API schemas and error mapping, session/cookie rules, CSRF check, CSP builder, proxy allow-list,
   the request gate (`src/proxy.ts`), CSV and TOTP (RFC vectors), QR encoder (decoded by an independent decoder),
   roles, formatting, password policy, product form, i18n completeness.
-* `tests/e2e` - login (success, failure, lockout, rate limit, TOTP), redirect when signed out, sign-out revokes the
+* `tests/e2e` - login (success, failure, lockout, rate limit, TOTP), forgotten password (link read from the recorded
+  mail, policy, used and invalid links, neutral answer, Hebrew), redirect when signed out, sign-out revokes the
   token, every page (axe WCAG 2.1 A/AA, no CSP violations, no sideways scroll) on desktop and a phone, the role matrix,
   mark-shipped flow (confirm dialog, e-mail), orders/candles/contacts/reviews/prayers actions, product create/edit/delete,
   user admin, password change, TOTP set-up, idle time-out (fake clock), RTL languages, CSP and cookie flags, no token in

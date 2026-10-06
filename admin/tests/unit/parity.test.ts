@@ -20,7 +20,7 @@ const serverDir = path.resolve(root, '../server');
 const haveServer = fs.existsSync(path.join(serverDir, 'node_modules', 'express'));
 
 type Reply = { status: number; json: unknown; text: string; headers: Headers };
-type Backend = { name: string; base: string; process?: ChildProcess; reset(): Promise<void>; emails(): Promise<{ subject: string; to: string[] }[]>; mail(fail: boolean): Promise<void> };
+type Backend = { name: string; base: string; process?: ChildProcess; reset(options?: { accounts?: boolean }): Promise<void>; emails(): Promise<{ subject: string; to: string[]; text: string }[]>; mail(fail: boolean): Promise<void> };
 
 const freePort = () => new Promise<number>((resolve) => {
   const server = net.createServer();
@@ -47,13 +47,13 @@ beforeAll(async () => {
   const json = (method: string, url: string, body?: unknown) => fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: body === undefined ? undefined : JSON.stringify(body) });
   mock = {
     name: 'mock', base: `http://127.0.0.1:${mockPort}`, process: mockProcess,
-    reset: async () => { await json('POST', `http://127.0.0.1:${mockPort}/__mock/reset`); },
+    reset: async (options = {}) => { await json('POST', `http://127.0.0.1:${mockPort}/__mock/reset`, options); },
     emails: async () => (await (await fetch(`http://127.0.0.1:${mockPort}/__mock/emails`)).json()),
     mail: async (fail) => { await json('POST', `http://127.0.0.1:${mockPort}/__mock/mail`, { fail }); },
   };
   real = {
     name: 'real', base: `http://127.0.0.1:${realPort}`, process: realProcess,
-    reset: async () => { await json('POST', `http://127.0.0.1:${realPort}/__harness/reset`); },
+    reset: async (options = {}) => { await json('POST', `http://127.0.0.1:${realPort}/__harness/reset`, options); },
     emails: async () => (await (await fetch(`http://127.0.0.1:${realPort}/__harness/emails`)).json()),
     mail: async (fail) => { await json('POST', `http://127.0.0.1:${realPort}/__harness/mail`, { fail }); },
   };
@@ -305,6 +305,54 @@ async function scenario(backend: Backend): Promise<{ steps: Step[]; replies: Rec
   }
   steps.push({ label: 'attempts before 429', status: 0, shape: limited });
 
+  // forgotten password: the same neutral answer for every address, a one-time link by e-mail, the policy, one use only
+  const forgot = (email: unknown, headers: Record<string, string> = {}) => client(backend)('POST', '/admin/auth/forgot-password', { email }, headers);
+  const resetPassword = (body: Record<string, unknown>) => client(backend)('POST', '/admin/auth/reset-password', body);
+  const resetMails = async () => (await backend.emails()).filter((m) => /dashboard: (reset|choose) your password/.test(m.subject));
+  const linkToken = (text: string) => /\/reset-password\?token=([A-Za-z0-9_-]{43})(?:\s|$)/.exec(text)?.[1] ?? '';
+  const errorText = (r: Reply) => (r.json as { error?: string } | null)?.error ?? null;
+  const before = await signIn(backend, 'resetpass', 'Resetpass-Mock-Pass-1');
+  add('forgot: an account\'s address (any case, spaces)', await forgot('  ResetPass@Example.COM '));
+  add('forgot: an unknown address', await forgot('nobody-here@example.com'));
+  add('forgot: not an address', await forgot('nope'));
+  add('forgot: not text', await forgot({ $ne: null }));
+  add('forgot: a username is not an address', await forgot('owner'));
+  const mails = await resetMails();
+  steps.push({ label: 'forgot: mails sent (to, subject, link shape)', status: 0, shape: mails.map((m) => [m.to, m.subject, linkToken(m.text).length, /Your username: resetpass/.test(m.text)]) });
+  const token = linkToken(mails.at(-1)?.text ?? '');
+  const NEW = 'A-Fresh-Reset-Pass-2026';
+  for (const [label, body] of Object.entries({
+    'an unknown token': { token: 'A'.repeat(43), password: NEW },
+    'a malformed token': { token: 'short', password: NEW },
+    'no token': { password: NEW },
+    'no password': { token },
+    'a short password': { token, password: 'short' },
+    'the username': { token, password: 'Resetpass-123' },
+    'a common password': { token, password: 'password1234' },
+    'a repetitive password': { token, password: 'abababababab' },
+  })) {
+    const r = add(`reset: ${label}`, await resetPassword(body));
+    steps.push({ label: `reset: ${label} (text)`, status: 0, shape: errorText(r) });
+  }
+  add('reset: ok', await resetPassword({ token, password: NEW }));
+  const again = add('reset: the same link again', await resetPassword({ token, password: `${NEW}-2` }));
+  steps.push({ label: 'reset: the same link again (text)', status: 0, shape: errorText(again) });
+  add('reset: the session from before ended', await client(backend, before.token)('GET', '/admin/auth/me'));
+  add('reset: the old password fails', (await signIn(backend, 'resetpass', 'Resetpass-Mock-Pass-1')).res);
+  add('reset: sign in with the new password', (await signIn(backend, 'resetpass', NEW)).res);
+  let forgotLimited = 0;
+  for (let i = 0; i < 6; i += 1) {
+    const res = await forgot('rate.probe@example.com', { 'X-Forwarded-For': '10.201.0.1' });
+    if (res.status === 429) { forgotLimited = i + 1; add('forgot rate limited', res); break; }
+  }
+  steps.push({ label: 'forgot: requests before 429 (one address and e-mail)', status: 0, shape: forgotLimited });
+  let resetLimited = 0;
+  for (let i = 0; i < 14; i += 1) {
+    const res = await client(backend)('POST', '/admin/auth/reset-password', { token: 'B'.repeat(43), password: NEW }, { 'X-Forwarded-For': '10.202.0.1' });
+    if (res.status === 429) { resetLimited = i + 1; add('reset rate limited', res); break; }
+  }
+  steps.push({ label: 'reset: failures before 429', status: 0, shape: resetLimited });
+
   // sessions and roles
   add('no token', await client(backend)('GET', '/admin/orders'));
   add('bad token', await client(backend, 'abc.def.ghi')('GET', '/admin/orders'));
@@ -314,6 +362,20 @@ async function scenario(backend: Backend): Promise<{ steps: Step[]; replies: Rec
   add('unknown route', await O('GET', '/admin/nothing-here'));
   add('logout', await V('POST', '/admin/auth/logout'));
   add('token after logout', await V('GET', '/admin/auth/me'));
+
+  // the first owner: while NO account exists, a request for the owner's address creates it and mails the link
+  await backend.reset({ accounts: false });
+  const OWNER_EMAIL = 'nazarethholycross@gmail.com';
+  add('bootstrap: another address', await forgot('someone@example.com'));
+  steps.push({ label: 'bootstrap: no mail for another address', status: 0, shape: (await resetMails()).length });
+  add('bootstrap: the owner\'s address', await forgot(' NazarethHolyCross@gmail.com '));
+  const first = await resetMails();
+  steps.push({ label: 'bootstrap: the mail', status: 0, shape: first.map((m) => [m.to, m.subject, /Your username: nazarethholycross@gmail\.com/.test(m.text)]) });
+  add('bootstrap: choose the password', await resetPassword({ token: linkToken(first.at(-1)?.text ?? ''), password: 'Olive-Courtyard-Lamp-77' }));
+  const ownerLogin = add('bootstrap: sign in with the address as the username', (await signIn(backend, OWNER_EMAIL, 'Olive-Courtyard-Lamp-77')).res);
+  steps.push({ label: 'bootstrap: the role', status: 0, shape: (ownerLogin.json as { user?: { role?: string } } | null)?.user?.role ?? null });
+  add('bootstrap: a second request (the account exists now)', await forgot(OWNER_EMAIL));
+  steps.push({ label: 'bootstrap: mail subjects', status: 0, shape: (await resetMails()).map((m) => m.subject) });
   return { steps, replies };
 }
 

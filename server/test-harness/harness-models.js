@@ -32,8 +32,8 @@ take('AuditLog', { collection: 'auditLog', autoCreatedAt: false, defaults: { act
 take('Admin', {
   collection: 'admins',
   timestamps: true,
-  hidden: ['totpSecretEnc'],
-  defaults: { role: 'owner', disabled: false, failedLogins: 0, lockedUntil: null, totpEnabled: false, totpSecretEnc: null, totpLastStep: -1, lastLoginAt: null },
+  hidden: ['totpSecretEnc', 'resetTokenHash'],
+  defaults: { role: 'owner', disabled: false, failedLogins: 0, lockedUntil: null, totpEnabled: false, totpSecretEnc: null, totpLastStep: -1, lastLoginAt: null, resetTokenHash: null, resetTokenExpires: null },
   methods: { comparePassword(password) { return bcrypt.compare(password, this.password); } },
   // Plain passwords are hashed on save (cost 12, like the real model) unless the caller marked them hashed.
   onSave: async (doc) => { if (!doc.$locals.passwordHashed && !String(doc.password).startsWith('$2')) doc.password = hashCost12(doc.password); },

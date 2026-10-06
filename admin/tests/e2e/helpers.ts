@@ -17,6 +17,7 @@ export const USERS = {
   locktest: { username: 'locktest', password: 'Locktest-Mock-Pass-1' },
   passchange: { username: 'passchange', password: 'Passchange-Mock-Pass-1' },
   totpsetup: { username: 'totpsetup', password: 'Totpsetup-Mock-Pass-1' },
+  resetpass: { username: 'resetpass', password: 'Resetpass-Mock-Pass-1', email: 'resetpass@example.com' },
 } as const;
 
 export type Role = 'owner' | 'editor' | 'viewer';
@@ -75,7 +76,7 @@ export async function resetBackend() {
 }
 
 /** The mails the backend would have sent (the mock records them, the harness's fake mailer does). */
-export async function sentEmails(): Promise<{ to: string | string[]; subject: string }[]> {
+export async function sentEmails(): Promise<{ to: string | string[]; subject: string; text?: string }[]> {
   const res = await fetch(`${API}${HARNESS ? '/__harness/emails' : '/__mock/emails'}`);
   expect(res.ok).toBeTruthy();
   return res.json();

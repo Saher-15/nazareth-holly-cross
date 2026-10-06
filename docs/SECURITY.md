@@ -124,6 +124,11 @@ few seconds of clock tolerance, rejected if older than 8 hours or without an iss
 mechanism later: stop the admin site calling it, delete its route and its test in `auth.test.js`; nothing else
 depends on it.
 
+The new dashboard's only public API routes are `POST /admin/auth/login`, `POST /admin/auth/forgot-password` (always
+`202`, never says whether an address has an account) and `POST /admin/auth/reset-password` (a one-time, 30-minute
+token from the e-mail; only its SHA-256 is stored): [ADMIN.md](ADMIN.md) 3.1 and 3.6. The reset page of the dashboard
+removes the token from the address bar at once and sends no Referer.
+
 Every route that reads private data or changes anything is behind `requireAdmin` (all of `/admin`, `/order` reads
 and changes, `/candle` and `/contact` reads and changes, `/product` writes, `/prayer` and `/review` deletes,
 `/live` writes); `auth.test.js` calls each of them without a token and expects 401.
@@ -144,6 +149,8 @@ At start-up the server refuses (production) the example secrets, or one value fo
 | `/prayer/like/:id` | 30 | |
 | `/admin/*` (any address) | 1000 | per-address ceiling in front of the admin routes ([ADMIN.md](ADMIN.md) 3.1) |
 | `/admin/auth/login` | 5 failures per address + username, 30 per address | successful sign-ins and the TOTP prompt do not count |
+| `/admin/auth/forgot-password` | 3 per address + e-mail, 10 per address | every request counts (each one can send a mail) |
+| `/admin/auth/reset-password` | 10 failures | successful resets do not count |
 | `/admin/*` signed in | 300 | per admin account, not per address |
 | `/admin/auth/password`, `totp/enable`, `totp/disable` | 5 failures | per admin account |
 

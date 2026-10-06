@@ -2,7 +2,7 @@
 // tests can start from a known state and read what the fake mailer recorded. They are not part of the API and are
 // refused from any address that is not this machine.
 import express from 'express';
-import { clearData, state } from './harness-models.js';
+import { clearData, models, state } from './harness-models.js';
 import { seed } from './seed.mjs';
 
 const LOOPBACK = new Set(['127.0.0.1', '::1', '::ffff:127.0.0.1']);
@@ -19,11 +19,15 @@ export function controlRouter() {
 
   router.get('/health', (req, res) => res.json({ ok: true, harness: true }));
   // Back to the seed: every collection, every account (locks, sessions, TOTP) and every rate-limit counter.
+  // { "accounts": false } leaves no admin account at all (the state before the first owner exists), so the creation
+  // of the first owner by a password-reset request can be tested.
   router.post('/reset', async (req, res, next) => {
     try {
       clearData();
       state.failMail = false;
-      res.json({ ok: true, ...(await seed()) });
+      const seeded = await seed();
+      if (req.body?.accounts === false) models.Admin.resetData();
+      res.json({ ok: true, ...seeded, ...(req.body?.accounts === false ? { accounts: 0 } : {}) });
     } catch (error) {
       next(error);
     }

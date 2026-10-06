@@ -11,7 +11,16 @@ Every error is `{ "error": "text" }`; every answer under `/admin` carries `Cache
 
 ### 1.1 The first owner
 
-Accounts are created by an owner in the dashboard (`POST /admin/users`). The first owner is created from a terminal:
+Accounts are created by an owner in the dashboard (`POST /admin/users`). The first owner is created one of two ways.
+
+**Recommended: by e-mail, from the dashboard's "Forgot your password?" page.** While the database holds **no admin
+account at all**, a password-reset request (section 3.6) for an address listed in `ADMIN_BOOTSTRAP_EMAILS` (default
+`nazarethholycross@gmail.com`) creates an **owner** whose username is that address and whose password is random and
+unknown to anyone, and mails that address the one-time link to choose the password. Only the person who can read that
+mailbox can finish. As soon as one account exists, the address is treated like any other (no account is ever created
+again this way). Steps: [ADMIN-RUNBOOK.md](ADMIN-RUNBOOK.md) section 2.
+
+**Fallback: from a terminal**, when mail does not work or for another username:
 
 ```bash
 cd server
@@ -36,9 +45,13 @@ cost 12.
 | `ADMIN_ORIGINS` | **new**, for the dashboard | Comma-separated exact browser origins of the dashboard, e.g. `https://admin.nazarethholycross.com`. Added to the CORS allow-list. No wildcards; a trailing slash is ignored. Without it the dashboard cannot call the API from a browser (the old admin site's `*.netlify.app` addresses are allowed as before). |
 | `DATABASEURL` | yes (already) | MongoDB. New collections: `adminSession`, `auditLog`. |
 | `ADMIN_PASSWORD` | yes (already) | Only for the deprecated shared-password sign-in (section 7). |
+| `ADMIN_APP_URL` | no | Where the dashboard lives; the password-reset e-mail links to `<ADMIN_APP_URL>/reset-password?token=...`. Default `https://nhc-admin-dashboard.netlify.app`; set it when the dashboard moves to its own domain. A trailing slash is ignored. |
+| `ADMIN_BOOTSTRAP_EMAILS` | no | Comma-separated addresses that may create the **first** owner by a password-reset request while no account exists (1.1). Default `nazarethholycross@gmail.com`; `ADMIN_BOOTSTRAP_EMAILS=` (empty) turns it off. |
+| `MAIL_FROM`, `MAIL_APP_PASSWORD` | yes (already) | The reset e-mails go out through the same mailer as the order mails. |
 
 On Render: set `ADMIN_ORIGINS` in the service's environment (it is listed in `render.yaml` with `sync: false`), then
-redeploy. No other variable is new.
+redeploy. `ADMIN_APP_URL` and `ADMIN_BOOTSTRAP_EMAILS` have working defaults; set them in the service's environment
+only to change them.
 
 ## 2. Roles
 
@@ -67,6 +80,8 @@ whatever the token says.
 | `/admin/users` (all four) | - | - | yes |
 | `GET /admin/audit` | - | - | yes |
 | `/admin/auth/*` (own account) | yes | yes | yes |
+
+Public (no token): `POST /admin/auth/login`, `POST /admin/auth/forgot-password` and `POST /admin/auth/reset-password`.
 
 ## 3. Authentication
 
@@ -147,6 +162,34 @@ The TOTP secret is stored encrypted (AES-256-GCM, random IV per value, authentic
 `JWT_SECRET` by HKDF-SHA256; a copy of the database alone does not give the second factor. The same HKDF gives a
 different key for the audit address hash. The encrypted secret is never returned by the API, never selected by default
 (`select: false`) and never written to the log.
+
+### 3.6 Forgotten password: `POST /admin/auth/forgot-password`, `POST /admin/auth/reset-password`
+
+Both are public (no token). Code: `server/route/admin/auth.js`, `server/services/passwordReset.js`.
+
+1. `POST /admin/auth/forgot-password { "email": "..." }` -> **always `202 { ok: true }`**, whether or not an account has
+   that address, so the answer never says which addresses exist. When an enabled account has this e-mail (or this
+   e-mail as its username; compared without regard to case), the API mails it a link
+   `<ADMIN_APP_URL>/reset-password?token=<43 characters>` that works **once, for 30 minutes**. A new request replaces
+   the previous link. While no account exists at all, an address in `ADMIN_BOOTSTRAP_EMAILS` first gets an owner
+   account (1.1). Audit: `auth.password_reset_requested` (`mailed: true|false`) and `auth.owner_bootstrap`.
+2. `POST /admin/auth/reset-password { "token": "...", "password": "..." }` -> `204`. The password follows the policy of
+   3.3 (checked against the account's username). Every session of the account ends, a lockout is lifted, two-factor
+   sign-in stays as it was. Audit: `auth.password_reset`.
+
+| Answer | Meaning |
+|---|---|
+| `400 { error: "This link is invalid or has expired. Ask for a new one." }` | unknown, malformed, used or expired token, or a disabled account |
+| `400 { error: "Password must ..." }` / `"Password is too common"` / `"Password is too repetitive"` / `"Choose a password"` | the policy refused the password (the link stays valid) |
+| `429` | forgot: 3 requests per 15 minutes per address and e-mail, 10 per address (each request can send a mail); reset: 10 failures per 15 minutes per address |
+
+Only SHA-256(token) is stored (`resetTokenHash`, `select: false`, with `resetTokenExpires`); the token itself exists
+only in the e-mail. Setting the password and spending the link is one atomic write, so two tabs with the same link
+cannot both succeed. Bodies of `/admin/auth/*` skip the HTML sanitizer, so `&`, `<`, `>` in the password are kept.
+
+The dashboard's pages: `/forgot-password` and `/reset-password` ([ADMIN-UI.md](ADMIN-UI.md)); its server routes
+`POST /api/session/forgot` and `POST /api/session/reset` pass the requests on and never log the address, the token or
+the password.
 
 ## 4. Data routes
 
@@ -349,6 +392,7 @@ answer a plain array, but **newest first and at most 5,000 documents**; an `X-Re
 | Concern | Control |
 |---|---|
 | Who is calling | personal accounts; bcrypt cost 12; password policy; optional TOTP |
+| Forgotten password | one-time 30-minute link by e-mail, only its SHA-256 stored; the same `202` for every address; 3 requests per address and e-mail, 10 per address; a reset ends every session of the account |
 | Brute force | per address + username limit (5/15 min), per address limit (30), account lockout (5 -> 15 min), constant work for unknown users, one generic `401` |
 | Stolen or leaked token | 60-minute lifetime, server-side session per token (revocable at once), HS256 pinned (no `none`, no other algorithm), role read from the database each request |
 | Privilege | role checked on every route; strict bodies (unknown fields refused); no one can grant themselves anything; last-owner and self-protection guards |
@@ -396,4 +440,5 @@ script, the models' indexes, and the old admin routes. The database is replaced 
   test guards the main difference, but compound behaviour (index creation, TTL purge timing, real casting) was not
   observed. Run the first sign-in and one of each change on a staging database before pointing production at it.
 * **Indexes are built by the server at start-up, in production too** (docs/DATABASE.md section 5; `AUTO_INDEX=false` turns it off). This release adds the unique `payment.paypalOrderId` index. After the deploy, check on Atlas that it exists and that `auditLog` and `adminSession` show the expiry indexes; `node scripts/ensure-indexes.js` (dry run) lists anything missing.
-* No e-mail was sent (the mailer is mocked); the shipped-order mail uses the same `sendMail` as before.
+* No e-mail was sent (the mailer is mocked); the shipped-order mail uses the same `sendMail` as before. The same holds
+  for the password-reset mail: the first real one is the owner's first request on production (ADMIN-RUNBOOK.md 2).
