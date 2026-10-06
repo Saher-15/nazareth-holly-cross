@@ -107,6 +107,8 @@ export default function ProductStrip({ id, title, lead, items }: Props) {
         id={`${id}-track`}
         ref={trackRef}
         className={styles.track}
+        data-more-start={edges.atStart ? undefined : ''}
+        data-more-end={edges.atEnd ? undefined : ''}
         role="region"
         aria-label={title}
         tabIndex={0}

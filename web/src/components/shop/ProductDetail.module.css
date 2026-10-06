@@ -38,7 +38,9 @@
   overflow: hidden;
   border: 1px solid var(--glass-line);
   border-radius: var(--radius);
-  background: var(--cream);
+  /* The photo is contained, never cropped: the space around it is a soft night backdrop, like the photo viewer (a
+     bright cream mat beside the white product photos read as a mismatch on the night page). */
+  background: radial-gradient(120% 90% at 50% 35%, var(--night-3), var(--night-2));
   box-shadow: var(--shadow);
   cursor: zoom-in;
 }

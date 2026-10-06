@@ -128,6 +128,11 @@
 :global(:lang(ar)) .badge {
   letter-spacing: 0;
 }
+/* no capitals and no tracking in Hebrew and Arabic: a step larger, like .ui-eyebrow */
+:global(:lang(he)) .category,
+:global(:lang(ar)) .category {
+  font-size: 0.8rem;
+}
 
 .rating {
   display: flex;
@@ -139,12 +144,13 @@
    spacing (WCAG 1.4.4, 1.4.12). Cards in a row still line up (the grid stretches them). */
 .name {
   margin: 0;
-  font: 400 clamp(0.98rem, 1.6vw, 1.12rem) / 1.3 var(--serif);
+  font: 400 clamp(1.05rem, 1.6vw, 1.15rem) / 1.3 var(--serif);
   color: var(--cream);
   overflow-wrap: anywhere;
-  /* Names are entered in English: on a Hebrew or Arabic page they still read left to right, so the two-line clamp
-     cuts the end of the name, not its first letters ("...oil and incense of"). */
-  unicode-bidi: plaintext;
+  /* No unicode-bidi: plaintext any more (it was there for a two-line clamp that is gone): names are entered in
+     English and the <bdi> inside keeps their letters in order, while the heading keeps the page direction, so on a
+     Hebrew or Arabic page the name lines up with the category and the price at the start (right) edge instead of
+     sitting alone on the left. */
 }
 
 .foot {

@@ -63,7 +63,8 @@ export default async function ContactPage({ params }: PageProps<'/[locale]/conta
             <p className={styles.text}>{t('pilgrim.contact.direct.text')}</p>
             <ul className={styles.channels}>
               <li>
-                <a className={`ui-btn ui-btn--gold ${styles.channel}`} href={`mailto:${CONTACT_EMAIL}`}>
+                {/* ghost, not gold: the form beside it holds the one primary action of the view */}
+                <a className={`ui-btn ui-btn--ghost ${styles.channel}`} href={`mailto:${CONTACT_EMAIL}`}>
                   {t('pilgrim.contact.direct.email')}
                 </a>
                 <span className={styles.address} dir="ltr">

@@ -177,9 +177,6 @@
   grid-template-columns: 1fr;
   column-gap: 14px;
 }
-.form :global(.ui-label) {
-  color: var(--cream);
-}
 .form [aria-invalid='true'] {
   border-color: var(--danger);
 }
@@ -197,10 +194,6 @@
 .fieldError svg {
   flex: none;
   margin-block-start: 1px;
-}
-.select option {
-  background: var(--night-2);
-  color: var(--cream);
 }
 @media (min-width: 560px) {
   .fields {
@@ -253,13 +246,10 @@
   overflow-wrap: anywhere;
   white-space: pre-line;
 }
+/* The intention in the recap: upright serif (no italic face is loaded, the browser would only slant it). */
 .prayer {
   font-family: var(--serif);
-  font-style: italic;
-}
-.prayer:lang(he),
-.prayer:lang(ar) {
-  font-style: normal;
+  font-size: 1.05rem;
 }
 @media (max-width: 420px) {
   .details > div {
@@ -283,6 +273,8 @@
 .amounts dd {
   margin: 0;
   color: var(--cream);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 .saving dd {
@@ -307,10 +299,14 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
+  color: var(--cream);
+  font-weight: 600;
 }
+/* The total is set like every price of the site (gold sans, tabular figures), the same in the cart and here. */
 .total dd {
   margin: 0;
-  font: 400 clamp(1.7rem, 4vw, 2.1rem)/1 var(--serif);
+  font: 700 clamp(1.4rem, 3vw, 1.6rem)/1.1 var(--sans);
+  font-variant-numeric: tabular-nums;
   color: var(--gold);
   white-space: nowrap;
 }
@@ -327,7 +323,7 @@
 .well {
   margin: 0 0 12px;
   padding: 16px 16px 6px;
-  border-radius: 16px;
+  border-radius: var(--radius-sm);
   background: var(--cream);
   color-scheme: light;
 }
@@ -426,6 +422,13 @@
 .stepName:lang(he),
 .payTitle:lang(he) {
   letter-spacing: 0;
+}
+/* no capitals and no tracking: a step larger keeps the label's weight (like .ui-eyebrow in ui.css) */
+.eyebrow:lang(ar),
+.eyebrow:lang(he),
+.payTitle:lang(ar),
+.payTitle:lang(he) {
+  font-size: 0.9rem;
 }
 
 @keyframes pop {

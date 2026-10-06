@@ -75,7 +75,7 @@
   width: 56px;
   height: 56px;
   overflow: hidden;
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
 }
 .thumb img {
   object-fit: cover;

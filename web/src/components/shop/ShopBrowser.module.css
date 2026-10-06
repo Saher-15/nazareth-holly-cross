@@ -174,13 +174,8 @@
   width: auto;
   min-width: 0;
   min-height: 46px;
-  padding-inline: 16px 10px;
+  padding-inline: 16px 40px; /* the end padding leaves room for the chevron of .ui-select */
   border-radius: 999px;
-  cursor: pointer;
-}
-.select option {
-  background: var(--night-2);
-  color: var(--cream);
 }
 
 /* desktop: one row (the filters sit in the sidebar, so no filters button) */

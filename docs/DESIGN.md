@@ -50,15 +50,16 @@ Serif (EB Garamond, Frank Ruhl Libre for Hebrew, Amiri for Arabic) for headings;
 Sans Arabic) for text and controls. The scale is fluid, so there are no per-breakpoint font sizes:
 `--text-xs` ... `--text-4xl` (`clamp()`; body never below 1rem). Reading text uses `.ui-prose` (68ch measure,
 `text-wrap: pretty`); headings balance their lines (`text-wrap: balance`). Hebrew and Arabic get a taller line
-(`--leading-body: 1.8`) and never letter-spacing or uppercase (`:lang(he|ar)` rules in `ui.css`).
+(`--leading-body: 1.8`) and never letter-spacing (one rule in `globals.css` for the whole page) or uppercase
+(`:lang(he|ar)` rules in `ui.css`). No italics: no italic face of the serifs is loaded, so quotations are upright.
 Long Russian, German, Greek and Polish words shrink hero titles a little on phones instead of breaking mid-word.
 
 ### Spacing, elevation, layers
 
 ![Spacing and elevation](design/ds-space.png)
 
-- Spacing: `--space-1` ... `--space-9` (4, 8, 12, 16, 24, 32, 48, 64, 96px). Section rhythm is `.ui-section`
-  (`clamp(40px, 7vw, 80px)` block padding); page width `.ui-container` (`--container` 1180px, 16px gutters).
+- Spacing: `--space-1` ... `--space-9` (4, 8, 12, 16, 24, 32, 48, 64, 96px). Section rhythm is `--section-space`
+  (36-64px, the block padding of `.ui-section` and of every home section); page width `.ui-container` (`--container` 1180px, 16px gutters).
 - Elevation: `--elev-0` ... `--elev-4`. Rest = 1-2, cards = 3 (`--shadow`), menus, toasts, hover = 4.
 - Layers (`z-index`): sticky actions 40, header 50, menus 60, toasts 80, skip link 100. The reading-progress
   line (51) sits just above the header.
@@ -239,7 +240,9 @@ address. `PageTools` has the Print button.
 - Carousels: scroll maths uses `Math.abs(scrollLeft)`; arrow keys swap (see `SitesCarousel`, `LanguageSwitcher`).
 - Progress and fills grow from the start edge (`transform-origin: right` under `[dir='rtl']`).
 - Latin names, e-mail addresses, numbers inside sentences: `.ui-ltr`, `<bdi>` or `dir="auto"`.
-- No letter-spacing and no uppercase in Hebrew/Arabic (`:lang()` rules).
+- No letter-spacing and no uppercase in Hebrew/Arabic (`globals.css` and the `:lang()` rules in `ui.css`).
+- English text typed in a Hebrew or Arabic card (product names) sits in a `<bdi>` inside a box that keeps the page
+  direction, so it starts at the same edge as the rest of the card. Never `:dir()` in CSS (the build rewrites it).
 - Test every new page in `/he` and `/ar` at 390px.
 
 ## 6. Accessibility
@@ -264,6 +267,31 @@ Do **not** write `-webkit-backdrop-filter` next to `backdrop-filter`. The produc
 prefixed twin, and Chrome and Edge ignore it, so the blur silently disappears in the build (it works in dev).
 Write `backdrop-filter` alone: the build adds the Safari prefix itself. Check with
 `getComputedStyle(el).backdropFilter` in a production build.
+
+## 8. Changelog
+
+### 2026-10-06: visual polish (branch `feat/visual-polish`)
+
+A pass over every page at 1440 and 390 px in English, Hebrew and Arabic, to make the site calmer and more consistent
+without changing its look, words or behaviour. Before-and-after pairs of the most changed views were made for the
+owner (outside the repository).
+
+- **Rhythm.** One section spacing, `--section-space` (36-64px), for `.ui-section` and the home sections (they had five
+  different paddings); a page ends 32px under its last section instead of 72px.
+- **Hero titles** centred on every `PlaceHero` page (they sat 130px towards the start on wide screens).
+- **Forms.** One label style (cream, 500) on every form; one gold chevron on every select; English labels in sentence
+  case ("First name").
+- **Figures.** Prices, amounts and totals in gold sans with tabular figures everywhere (the checkout total was a serif,
+  the candle step digits and donation amounts too).
+- **Quotes** upright (no faux italic); Hebrew and Arabic eyebrows a step larger; no letter-spacing anywhere in
+  Hebrew and Arabic; English product names line up with the rest of a Hebrew or Arabic card.
+- **Surfaces.** Radii back on `--radius` / `--radius-sm` / pills (eight one-offs); the product photo on a night
+  backdrop instead of a cream mat; the favourites strip fades at its edges; both past broadcasts in the same 4:5
+  frame; the home candle strip draws a rack of candles.
+- **One gold button per view** on contact and the prayer wall; the visitor guide's four route cards never leave one
+  alone on a row; the phone footer puts each group's links two to a row (half the height).
+
+The `ds-*` specimens and the page screenshots in `docs/design/` predate this pass; the differences are small.
 
 *Specimen images of the building blocks (`ds-*.png`) are rendered from the real `tokens.css` and `ui.css` with
 system fonts; page screenshots (`shell-*`, `page-*`) are from a production build with the real fonts.*

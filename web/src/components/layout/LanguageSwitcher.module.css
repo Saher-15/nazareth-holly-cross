@@ -103,7 +103,7 @@
   min-height: var(--tap);
   padding: 8px 12px;
   border: 1px solid transparent;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   background: transparent;
   color: var(--cream);
   text-decoration: none; /* every language is a link */

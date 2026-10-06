@@ -78,6 +78,18 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr);
 }
+/* On a phone the footer is one column: each group's links sit two to a row, so twenty links do not make a
+   1,500px-tall list (the grid above gets its second column at 476px). */
+@media (max-width: 475px) {
+  .links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-4);
+  }
+  /* with the text enlarged (accessibility panel, 150% and more) one link per row again */
+  :global(:root:is([data-a11y-text='150'], [data-a11y-text='175'], [data-a11y-text='200'])) .links {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
 .contact {
   display: grid;
   margin-bottom: var(--space-3);
@@ -106,7 +118,10 @@
   text-decoration: none;
   transition: color var(--dur-fast) ease;
 }
+/* The e-mail link is also .ui-ltr, whose inline-block would win over the flex above and leave the address 8px above
+   its icon: keep it a centred flex box. */
 .contact .link {
+  display: inline-flex;
   overflow-wrap: anywhere;
 }
 /* Each language is named in its own script (Русский, Ελληνικά, עברית, العربية). Set in the system font so that the

@@ -135,8 +135,10 @@
     var(--gold) 55%,
     var(--gold-deep)
   );
-  color: var(--night);
-  font: 400 1.2rem/1 var(--serif);
+  color: var(--on-gold);
+  /* the digits of the site's step circles are sans, like the checkout steps (the serif's old-style 1 read as an I) */
+  font: 700 1.05rem/1 var(--sans);
+  font-variant-numeric: lining-nums tabular-nums;
   box-shadow: 0 6px 18px color-mix(in srgb, var(--gold) 30%, transparent);
 }
 .steps p {
@@ -200,7 +202,7 @@
   min-height: 150px;
   overflow: hidden;
   isolation: isolate;
-  border-radius: 16px;
+  border-radius: var(--radius-sm);
   border: 1px solid var(--glass-line);
   cursor: pointer;
   transition:

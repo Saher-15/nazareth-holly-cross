@@ -25,8 +25,11 @@ export default function VerseOfDay({ id, locale, now = new Date() }: Props) {
         <figure className={`ui-glass ${styles.card}`} data-verse={n}>
           <h2 id={`${id}-title`} className={`ui-eyebrow ${styles.eyebrow}`}>
             {t('verseEyebrow')}{' '}
+            <span className={styles.sep} aria-hidden="true">
+              ·{' '}
+            </span>
             <time className={styles.date} dateTime={isoDate}>
-              · {dateLabel}
+              {dateLabel}
             </time>
           </h2>
           <blockquote className={styles.text}>

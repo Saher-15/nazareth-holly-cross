@@ -15,14 +15,6 @@
   mask-image: linear-gradient(180deg, var(--night) 50%, transparent 100%);
 }
 
-/* Spaced capitals break Arabic letter joining and read poorly in Hebrew. */
-.page :global(.ui-eyebrow):lang(he) {
-  letter-spacing: 0.04em;
-}
-.page :global(.ui-eyebrow):lang(ar) {
-  letter-spacing: 0;
-}
-
 .layout {
   position: relative;
   display: grid;

@@ -86,7 +86,7 @@ const LINE = [{ _id: 'p1', name: 'Cross', price: 25, img: '/images/candle.jpg', 
   page.on('console', (m) => m.type() === 'error' && errs.push(m.text().slice(0, 150)));
   const t0 = Date.now();
   await page.goto(BASE + '/en/candle', { waitUntil: 'load' });
-  const nameInput = page.getByLabel('First Name');
+  const nameInput = page.getByLabel('First name');
   await nameInput.fill('Anna');
   out(`slow network: candle usable after ${Date.now() - t0}ms; errors:`, errs.filter((e) => !/ERR_FAILED/.test(e)));
   await ctx.close();

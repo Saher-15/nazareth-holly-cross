@@ -46,3 +46,6 @@ next-env.d.ts
 
 # screenshots of the responsive review (tests/e2e/responsive.spec.ts, RESPONSIVE_SHOTS)
 /responsive-shots/
+
+# visual polish screenshots (before/after review, not committed)
+/polish-shots/

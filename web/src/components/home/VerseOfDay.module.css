@@ -1,6 +1,6 @@
 .section {
-  /* fluid like .ui-section: the full spacing from about 900px, less on a phone so two sections do not leave a 130px hole */
-  padding-block: clamp(40px, 7vw, 56px);
+  /* the rhythm of every page section (--section-space, like .ui-section) */
+  padding-block: var(--section-space);
 }
 
 .card {
@@ -34,13 +34,28 @@
   text-transform: none;
   color: var(--muted);
 }
+.sep {
+  color: var(--muted);
+  font-weight: 400;
+}
+/* On a phone the date goes on its own line (it wrapped with the dot at the start of the line). */
+@media (max-width: 560px) {
+  .sep {
+    display: none;
+  }
+  .date {
+    display: block;
+    margin-block-start: 4px;
+  }
+}
 
 .text {
   margin: 14px 0 18px;
 }
+/* Upright serif: the site loads no italic face of its serifs, so "italic" was a slant drawn by the browser. */
 .text p {
   margin: 0;
-  font: italic 400 clamp(1.4rem, 3.6vw, 2.2rem) / 1.4 var(--serif);
+  font: 400 clamp(1.4rem, 3.6vw, 2.2rem) / 1.4 var(--serif);
   color: var(--cream);
   text-wrap: balance;
 }

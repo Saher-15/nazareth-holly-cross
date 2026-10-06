@@ -215,12 +215,12 @@
 .row dd {
   margin: 0;
   color: var(--cream);
-  font-weight: 700;
+  font-weight: 600;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
   unicode-bidi: isolate;
 }
-.discount dt,
+/* the saving is green (with its minus sign and words), its label stays like the other labels */
 .discount dd {
   color: var(--success);
 }
@@ -234,7 +234,8 @@
 }
 .grand dd {
   color: var(--gold);
-  font-size: 1.5rem;
+  font-size: clamp(1.4rem, 3vw, 1.6rem);
+  font-weight: 700;
 }
 
 .summary .checkout,

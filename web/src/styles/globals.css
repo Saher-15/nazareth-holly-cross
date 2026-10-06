@@ -90,6 +90,10 @@ p, li, dd, blockquote, figcaption { hyphens: auto; text-wrap: pretty; }
 h1, h2, h3, .ui-hero__title, .ui-h2, .ui-h3 { hyphens: auto; overflow-wrap: break-word; text-wrap: balance; }
 :lang(he), :lang(ar) { hyphens: manual; }
 :lang(he) *, :lang(ar) * { hyphens: manual; }
+/* Hebrew and Arabic never take letter-spacing (it breaks the joins of Arabic and pulls Hebrew apart, guide 3.3). Ten
+   component labels (product quantity, cart, place cards, the photo viewer...) tracked their Hebrew and Arabic too: one
+   rule for the whole page, so a new component cannot forget it. */
+:root:is(:lang(he), :lang(ar)) body * { letter-spacing: 0 !important; }
 /* Numbers, prices and e-mail addresses inside Hebrew or Arabic text keep their own direction. */
 .ui-ltr { direction: ltr; unicode-bidi: isolate; }
 
