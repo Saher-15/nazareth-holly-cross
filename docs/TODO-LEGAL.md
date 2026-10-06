@@ -28,6 +28,10 @@ before the new site replaces the old one. Texts live in `web/src/messages/<local
 - [ ] The payment record also keeps the **payer's name and e-mail as PayPal reports them**, and a donor's name (the `payment` collection); a candle request's prayer text can reveal religious belief
       (special-category data in the EU): the policy should say so and say how a person asks for erasure (owners use the dashboard's *Privacy requests* page, DATABASE.md section 8).
 - [ ] A paid order that could not be saved yet is kept **in the customer's own browser** (localStorage, at most 30 days) until it is saved; say so in the policy.
+- [ ] **Live broadcasts** (docs/LIVE.md): while a broadcast is live, `/live` shows Cloudflare Stream's player in a frame, so a
+      visitor who watches it connects to Cloudflare (their address and browser reach Cloudflare, as with any video
+      service). Name Cloudflare as a provider in the privacy policy, and say that live broadcasts are not recorded.
+      People filmed in a church during a broadcast: decide whether a notice at the site is needed.
 - [ ] Backups (docs/BACKUP.md) hold all personal data for 30 days; say how long erased data remains in them.
 - [ ] "No advertising or analytics cookies": true today. Revisit the day analytics (roadmap item 5) is added; consent
       banner and policy text must change together.

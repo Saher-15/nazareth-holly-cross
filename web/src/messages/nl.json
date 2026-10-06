@@ -16,7 +16,8 @@
       "reviews": "Reviews",
       "about": "Over ons",
       "cart": "Winkelwagen",
-      "donate": "Doneren"
+      "donate": "Doneren",
+      "liveNow": "(nu live)"
     },
     "footer": {
       "about": "Wij delen de geest van Nazareth met pelgrims over de hele wereld: de heilige plaatsen, de gebeden en het ambacht van de stad.",
@@ -494,6 +495,14 @@
       "videoFallback": "Uw browser kan deze video niet afspelen.",
       "events": {
         "annunciationSunday": "Zondagsgebed vanuit de Annunciatiebasiliek"
+      },
+      "now": {
+        "badge": "Nu live",
+        "since": "{minutes, plural, =0 {Net begonnen} one {Al # minuut live} other {Al # minuten live}}",
+        "playerTitle": "Live-uitzending: {title}",
+        "started": "Er is een live-uitzending begonnen: {title}",
+        "ended": "De live-uitzending is afgelopen.",
+        "note": "Druk op afspelen om met ons mee te bidden. De uitzending wordt niet opgenomen."
       }
     }
   },

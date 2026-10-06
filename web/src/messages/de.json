@@ -16,7 +16,8 @@
       "reviews": "Bewertungen",
       "about": "Über uns",
       "cart": "Warenkorb",
-      "donate": "Spenden"
+      "donate": "Spenden",
+      "liveNow": "(jetzt auf Sendung)"
     },
     "footer": {
       "about": "Wir teilen den Geist Nazareths mit Pilgern auf der ganzen Welt: seine heiligen Stätten, seine Gebete und sein Kunsthandwerk.",
@@ -494,6 +495,14 @@
       "videoFallback": "Ihr Browser kann dieses Video nicht abspielen.",
       "events": {
         "annunciationSunday": "Sonntagsgebet aus der Verkündigungsbasilika"
+      },
+      "now": {
+        "badge": "Jetzt live",
+        "since": "{minutes, plural, =0 {Gerade begonnen} one {Seit # Minute live} other {Seit # Minuten live}}",
+        "playerTitle": "Live-Übertragung: {title}",
+        "started": "Eine Live-Übertragung hat begonnen: {title}",
+        "ended": "Die Live-Übertragung ist beendet.",
+        "note": "Drücken Sie auf Wiedergabe, um mit uns zu beten. Die Übertragung wird nicht aufgezeichnet."
       }
     }
   },

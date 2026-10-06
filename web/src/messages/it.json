@@ -16,7 +16,8 @@
       "reviews": "Recensioni",
       "about": "Chi siamo",
       "cart": "Carrello",
-      "donate": "Dona"
+      "donate": "Dona",
+      "liveNow": "(in diretta ora)"
     },
     "footer": {
       "about": "Condividiamo lo spirito di Nazaret con i pellegrini di tutto il mondo: i suoi luoghi santi, le sue preghiere e il suo artigianato.",
@@ -494,6 +495,14 @@
       "videoFallback": "Il tuo browser non può riprodurre questo video.",
       "events": {
         "annunciationSunday": "Preghiera domenicale dalla basilica dell’Annunciazione"
+      },
+      "now": {
+        "badge": "In diretta ora",
+        "since": "{minutes, plural, =0 {Appena iniziata} one {In diretta da # minuto} other {In diretta da # minuti}}",
+        "playerTitle": "Diretta: {title}",
+        "started": "È iniziata una diretta: {title}",
+        "ended": "La diretta è terminata.",
+        "note": "Premi play per pregare con noi. La diretta non viene registrata."
       }
     }
   },

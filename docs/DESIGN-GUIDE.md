@@ -203,7 +203,7 @@ stylesheet fails `web/tests/unit/conventions.test.ts`; use a token, or mix one w
 | `--muted` | `#b9bfd3` | secondary text, labels, hints |
 | `--danger` | `#ff8a80` | errors (with an icon or words) |
 | `--success` | `#8be0a4` | confirmations (with an icon or words) |
-| `--live` | `#ff4d4f` | reserved for an "on air" badge; no component uses it today (see the contrast note below) |
+| `--live` | `#ff4d4f` | the "on air" colour only: the badge of `<LiveNow>` and the dot on the header's Live link while a broadcast is live (with `--night` ink, see the contrast note below) |
 | `--glass` | `rgba(255, 255, 255, 0.07)` | translucent card fill |
 | `--glass-strong` | `rgba(255, 255, 255, 0.12)` | hover fill, shimmer highlight |
 | `--glass-line` | `rgba(255, 255, 255, 0.16)` | hairline border of cards (decorative, 1.56:1) |
@@ -277,8 +277,8 @@ How to read the failures:
 
 - `--on-gold` on `--gold-deep` is 6.87: passes AA, misses AAA. The gold button's gradient ends in `--gold-deep`, so
   the label on the far end of a wide button is at 6.87; that is still AA and is accepted.
-- `--white` on `--live` is 3.27: **never put white small text on `--live`.** If an "on air" badge is built, use
-  `--night` text (5.89) or a larger bold label, and keep a text word ("Live") next to the colour.
+- `--white` on `--live` is 3.27: **never put white small text on `--live`.** The "on air" badge (`<LiveNow>`) uses
+  `--night` text (5.89) and always says the word ("Live now"); the header's dot carries words for screen readers.
 - `--glass-line` is decorative: it separates cards from the background but carries no information. Anything that
   must be seen to operate a control (a field border, a focus ring, a checkbox edge) uses `--field-line` or `--gold`.
 - A cream focus ring on a gold button is offset from the button (`--focus-offset` 3px), so it sits on the page
@@ -876,7 +876,7 @@ shop has full skeleton sets (`web/src/components/shop/Skeletons.tsx`). Shop page
 | Holy sites | `<SiteList>`, `<PlaceCards>`, `<PlaceStory>`, `<VisitCard>`, `<PlaceGallery>`, `<Lightbox>`, `<PhotoImage>`, `<ExternalLink>` in `web/src/components/places/` | The `<Lightbox>` is a native modal `<dialog>` (focus trapped, Escape closes, arrows and swipes change photo, mirrored in RTL, focus returns to the tile). Its code loads on the first click |
 | Shop | `<ShopBrowser>`, `<FilterPanel>`, `<FilterDrawer>`, `<ProductCard>`, `<ProductStrip>`, `<ProductRow>`, `<ProductDetail>`, `<ImageZoom>`, `<QuantityStepper>`, `<CartView>`, `<CartPill>`, `<WishlistButton>`, `<WishlistLink>`, `<WishlistView>`, `<ShareButton>`, `<ProductReviews>`, `<ProductReviewForm>`, `<RecentlyViewed>`, `<RetryButton>`, `<StateCard>`, `<GridSkeleton>`, `<ProductSkeleton>`, `<CartSkeleton>`, `<ShopBarSkeleton>` in `web/src/components/shop/` | State in the URL; the heart is a toggle with `aria-pressed` and a polite status line; a stepper button at its limit is `aria-disabled` (focus stays); cart and wishlist live in `localStorage` and are validated on read |
 | Checkout and payments | `<StepIndicator>`, `<Field>`, `<TextField>`, `<DonePanel>`, `<PayPalPanel>`, `<LazyPayPalPanel>` in `web/src/components/checkout/` | PayPal loads lazily at the payment step; the server decides every amount; the PayPal SDK gets the CSP nonce (`useCspNonce`) |
-| Community | `<LivePlayer>`, `<PastBroadcasts>`, `<ReviewForm>`, `<ReviewWall>` in `web/src/components/community/` | The player's Live, Upcoming and Offline state follows the visitor's clock each second; recordings use `preload="none"` |
+| Community | `<LiveNow>`, `<LivePlayer>`, `<PastBroadcasts>`, `<ReviewForm>`, `<ReviewWall>` in `web/src/components/community/` | The player's Live, Upcoming and Offline state follows the visitor's clock each second; recordings use `preload="none"`. `<LiveNow>` shows a broadcast started from the dashboard above the schedule (docs/LIVE.md): it polls `/live/status` about every 15 seconds while the page is visible, frames only Cloudflare Stream's player, announces start and end in a polite live region |
 | Pilgrim guides | `<ContactForm>`, `<PrayerForm>`, `<LikeButton>`, `<FaqList>`, `<GalleryBrowser>`, `<LegalDocument>`, `<NextSteps>`, `<Planner>`, `<WalkingTable>` in `web/src/components/pilgrim/` | The planner keeps its answers in the URL, can print and export an iCalendar file made in the browser; the "Amen" counter is optimistic and corrects itself; one Amen per prayer per browser |
 | Search | `<SiteSearch>`, `<LazySiteSearch>`, `<SearchButton>` in `web/src/components/search/` | The palette code is fetched only on `Ctrl/Cmd + K` or the footer button |
 

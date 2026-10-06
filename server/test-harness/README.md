@@ -55,6 +55,9 @@ stores `&` that way), Hebrew and Arabic names.
   are deleted at start.
 * It listens on 127.0.0.1 only. The test hooks (`/__harness/*`) exist only when `HARNESS=1` (set by `serve.mjs`) and
   refuse any address that is not this machine.
+* Live broadcasting talks to a fake Cloudflare Stream (`fake-cloudflare.js`, addresses on `customer-harness.cloudflarestream.com`):
+  never to Cloudflare. `POST /__harness/live {"configured": false}` behaves like a server without `CF_ACCOUNT_ID` /
+  `CF_STREAM_API_TOKEN`, `{"failCreate": true}` like Cloudflare refusing; `/__harness/reset` puts both back.
 * Mail goes to a recorder, `GET /__harness/emails`. `POST /__harness/mail {"fail": true}` makes the mailer fail like
   an SMTP outage. Password-reset mails link to `http://localhost:<HARNESS_ADMIN_PORT>` (`ADMIN_APP_URL` is set by
   `serve.mjs`). `POST /__harness/reset {"accounts": false}` starts with no admin account, the state in which a reset
@@ -64,7 +67,7 @@ stores `&` that way), Hebrew and Arabic names.
 
 `hooks.mjs` registers Node module hooks before the server is imported: `server/model/*.js` resolve to the fakes in
 `harness-models.js` (built on `fake-models.js`, the same fakes the 700+ server tests use), `emailService.js` to a
-recorder, `paypalService.js` to a stub that refuses, `dotenv` to a no-op, and `express-rate-limit` to the real library
+recorder, `paypalService.js` to a stub that refuses (and `serve.mjs` installs the fake Cloudflare client), `dotenv` to a no-op, and `express-rate-limit` to the real library
 with stores the harness can reset. `aggregate.js` is a small aggregation interpreter for the dashboard's pipelines.
 `seed.mjs` builds the data and the accounts; `control.js` has the `/__harness` routes; `serve.mjs` starts it all.
 

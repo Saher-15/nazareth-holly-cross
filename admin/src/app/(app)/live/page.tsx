@@ -47,7 +47,7 @@ export default async function LivePage() {
     <>
       <PageHeader title={t('nav.live')} description={t('live.lead')} />
       <LiveStudio configured={configured} current={current} maxMinutes={maxMinutes} me={{ id: user.id, role: user.role }} />
-      <div className="grid grid--two">
+      <div className="grid">
         <Panel title={t('live.historyTitle')}>
           {history.length === 0 ? (
             <p className="hint">{t('live.historyEmpty')}</p>
@@ -58,7 +58,7 @@ export default async function LivePage() {
               rowKey={(s) => s.id}
               columns={[
                 { key: 'title', header: t('live.colTitle'), primary: true, cell: (s) => <span dir="auto">{s.title}</span> },
-                { key: 'started', header: t('live.colStarted'), cell: (s) => <span className="ltr">{formatDateTime(s.startedAt, locale)}</span> },
+                { key: 'started', header: t('live.colStarted'), cell: (s) => formatDateTime(s.startedAt, locale) },
                 { key: 'duration', header: t('live.colDuration'), align: 'end', cell: (s) => t('live.minutes', { n: durationMinutes(s) }) },
                 { key: 'by', header: t('live.colBy'), cell: (s) => <span dir="auto">{s.startedBy.name}</span> },
                 { key: 'end', header: t('live.colEnd'), cell: ending },

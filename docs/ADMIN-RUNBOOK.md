@@ -92,6 +92,7 @@ If the only owner loses the authenticator: ADMIN.md section 6 (`db.admins.update
 | `ADMIN_APP_URL` | optional: the dashboard's address, used in the password-reset e-mail (`<ADMIN_APP_URL>/reset-password?token=...`). Default `https://admin.nazarethholycross.com`; set it when the dashboard gets its own domain. |
 | `ADMIN_BOOTSTRAP_EMAILS` | optional: who may create the first owner by e-mail while no account exists (section 2). Default `nazarethholycross@gmail.com`; empty turns it off. |
 | `MAIL_FROM`, `MAIL_APP_PASSWORD` | already set: the password-reset mails use them. |
+| `CF_ACCOUNT_ID`, `CF_STREAM_API_TOKEN` | optional: live broadcasting from the dashboard's Live page through Cloudflare Stream. Set up and first test: [LIVE.md](LIVE.md) sections 6 and 7. Without them the Live page says "not set up yet". New collection `liveSession`. |
 
 **Netlify (the admin site)**:
 

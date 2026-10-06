@@ -81,6 +81,31 @@
 .link:active {
   background: var(--glass-strong);
 }
+/* A broadcast is live (SiteHeader liveNow): a small pulsing dot after "Live"; the words are for screen readers. */
+.liveDot {
+  inline-size: 8px;
+  block-size: 8px;
+  margin-inline-start: 7px;
+  border-radius: 50%;
+  background: var(--live);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--live) 60%, transparent);
+  animation: live-dot 1.6s ease-out infinite;
+}
+@keyframes live-dot {
+  100% {
+    box-shadow: 0 0 0 8px transparent;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .liveDot {
+    animation: none;
+  }
+}
+@media (forced-colors: active) {
+  .liveDot {
+    background: CanvasText;
+  }
+}
 .link[aria-current='page'] {
   color: var(--gold);
   background: var(--gold-soft);
