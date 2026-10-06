@@ -55,6 +55,9 @@
   --space-8: 64px;
   --space-9: 96px;
   --page-gutter: 16px; /* page side margin, matches .ui-container */
+  /* Vertical rhythm: the block padding of a page section (.ui-section and the home sections). Two sections in a row
+     are 72px apart on a phone and 128px on a laptop. */
+  --section-space: clamp(36px, 5.5vw, 64px);
 
   /* Fluid type scale: body copy never below 1rem, headings grow with the viewport. */
   --text-xs: 0.78rem;

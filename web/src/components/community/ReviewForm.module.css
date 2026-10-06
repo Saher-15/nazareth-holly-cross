@@ -33,9 +33,6 @@
   color: var(--muted);
   font-size: 0.95rem;
 }
-.card :global(.ui-label) {
-  color: color-mix(in srgb, var(--cream) 88%, transparent);
-}
 
 .fieldError {
   margin: 0;

@@ -5,7 +5,8 @@
 /* ---- page shell: every page sits on the night background ---- */
 .ui-page {
   min-height: 70vh;
-  padding-bottom: 72px;
+  /* A little room under the last section before the footer's gold line (the section brings its own padding). */
+  padding-bottom: var(--space-6);
   background: var(--grad-glow), var(--grad-night);
   color: var(--cream);
   font-family: var(--sans);
@@ -15,7 +16,7 @@
 .ui-page *, .ui-page *::before, .ui-page *::after { box-sizing: border-box; }
 .ui-page :focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-offset); }
 .ui-container { width: min(var(--container), 100% - 32px); margin-inline: auto; }
-.ui-section { padding-block: clamp(40px, 7vw, 80px); }
+.ui-section { padding-block: var(--section-space); }
 
 /* ---- page header (see components/ui/PageHero.tsx) ---- */
 .ui-hero {
@@ -35,8 +36,10 @@
   content: ''; position: absolute; inset: 0; z-index: -1;
   background: var(--grad-scrim);
 }
+/* Centred with auto inline margins, so a hero that caps the title's width (PlaceHero, 920px) keeps it in the middle
+   whichever stylesheet the build puts last (the title sat 130px towards the start on 11 pages). */
 .ui-hero__title {
-  margin: 0 0 12px;
+  margin: 0 auto 12px;
   font: 400 clamp(2rem, 6vw, 3.6rem)/var(--leading-tight) var(--serif);
   color: var(--white);
   text-wrap: balance;
@@ -65,6 +68,9 @@
 
 /* ---- type ---- */
 .ui-eyebrow { margin: 0 0 8px; font-size: 0.78rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); font-weight: 700; }
+/* Hebrew and Arabic have no capitals and take no letter-spacing, so the same 0.78rem reads as a tiny label: a step
+   larger keeps the eyebrow's weight on the page. */
+:lang(he) .ui-eyebrow, :lang(ar) .ui-eyebrow { font-size: 0.9rem; }
 .ui-h2 { margin: 0 0 12px; font: 400 clamp(1.7rem, 4.6vw, 2.8rem)/var(--leading-tight) var(--serif); color: var(--white); text-wrap: balance; overflow-wrap: break-word; }
 .ui-h3 { margin: 0 0 8px; font: 400 clamp(1.2rem, 2.6vw, 1.5rem)/1.25 var(--serif); color: var(--gold); text-wrap: balance; }
 .ui-muted { color: var(--muted); }
@@ -144,7 +150,9 @@
 
 /* ---- forms ---- */
 .ui-field { display: grid; gap: 6px; margin-bottom: 14px; }
-.ui-label { font-size: 0.85rem; color: var(--muted); }
+/* The label is cream and a little heavier than the hint under the field, so the two never read as the same thing
+   (every form used to restyle it on its own: muted on contact and prayers, cream on checkout and reviews). */
+.ui-label { font-size: 0.875rem; font-weight: 500; color: var(--cream); }
 .ui-hint { font-size: 0.85rem; color: var(--muted); }
 .ui-input, .ui-select, .ui-textarea {
   width: 100%; min-height: 46px; padding: 10px 14px;
@@ -154,6 +162,25 @@
   transition: border-color var(--dur-fast) ease, box-shadow var(--dur-fast) ease, background var(--dur-fast) ease;
 }
 .ui-textarea { min-height: 120px; resize: vertical; }
+/* One chevron on every select instead of each browser's own arrow: two 2px gold strokes drawn with gradients (a "\"
+   and a "/" side by side, like the stroke icons of the set), at the end edge. No image file and no data: URL, so the
+   CSP is untouched. Windows high contrast drops gradients, so it gets the native arrow back. */
+.ui-select {
+  appearance: none;
+  padding-inline-end: 42px;
+  background-image:
+    linear-gradient(45deg, transparent calc(50% - 1.3px), var(--gold) calc(50% - 0.7px), var(--gold) calc(50% + 0.7px), transparent calc(50% + 1.3px)),
+    linear-gradient(135deg, transparent calc(50% - 1.3px), var(--gold) calc(50% - 0.7px), var(--gold) calc(50% + 0.7px), transparent calc(50% + 1.3px));
+  background-size: 7px 7px, 7px 7px;
+  background-position: right 24px top 50%, right 17px top 50%;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+:root[dir='rtl'] .ui-select { background-position: left 17px top 50%, left 24px top 50%; }
+.ui-select option { background: var(--night-2); color: var(--cream); }
+@media (forced-colors: active) {
+  .ui-select { appearance: auto; background-image: none; padding-inline-end: 14px; }
+}
 /* E-mail, phone and postal code are written left to right in every language; on a right-to-left page
    they still line up with the other fields. */
 :root[dir='rtl'] .ui-input[dir='ltr'] { text-align: end; }
