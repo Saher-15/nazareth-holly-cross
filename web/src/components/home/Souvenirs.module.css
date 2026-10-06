@@ -1,6 +1,6 @@
 .section {
-  /* fluid like .ui-section: the full spacing from about 900px, less on a phone so two sections do not leave a 130px hole */
-  padding-block: clamp(40px, 8vw, 64px);
+  /* the rhythm of every page section (--section-space, like .ui-section) */
+  padding-block: var(--section-space);
 }
 
 .head {
@@ -8,10 +8,12 @@
   text-align: center;
 }
 
+/* The cards follow the shop's <ProductCard>: glass, square photo, serif name, gold price at the foot so the prices of
+   a row line up. */
 .grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  gap: clamp(12px, 2vw, 18px);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -19,26 +21,29 @@
 
 .product {
   overflow: hidden;
-  border-radius: calc(var(--radius) - 2px);
+  border-radius: var(--radius);
   border: 1px solid var(--glass-line);
   background: var(--glass);
-  transition: transform 0.3s ease, border-color 0.3s ease;
+  box-shadow: var(--shadow);
+  transition: transform var(--dur-base) var(--ease-out), border-color var(--dur-base) ease;
 }
 .product:hover {
-  transform: translateY(-5px);
+  transform: translateY(-4px);
   border-color: color-mix(in srgb, var(--gold) 55%, transparent);
 }
 
 .link {
-  display: block;
-  padding-block-end: 14px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding-block-end: 16px;
   color: var(--cream);
   text-decoration: none;
 }
 /* the focus ring is drawn inside the rounded card, which clips overflow */
 .link:focus-visible {
   outline-offset: -3px;
-  border-radius: calc(var(--radius) - 2px);
+  border-radius: var(--radius);
 }
 
 .imgWrap {
@@ -60,15 +65,19 @@
    text or wider spacing (WCAG 1.4.4, 1.4.12). */
 .name {
   display: block;
-  padding: 12px 14px 2px;
-  font-weight: 700;
+  padding: 14px clamp(12px, 2vw, 18px) 10px;
+  font: 400 clamp(1.05rem, 1.6vw, 1.15rem) / 1.3 var(--serif);
+  color: var(--cream);
   overflow-wrap: anywhere;
   text-align: match-parent;
 }
 .price {
   display: block;
-  padding-inline: 14px;
+  margin-block-start: auto;
+  padding-inline: clamp(12px, 2vw, 18px);
+  font-size: clamp(1.02rem, 1.8vw, 1.18rem);
   font-weight: 700;
+  font-variant-numeric: tabular-nums;
   color: var(--gold);
 }
 

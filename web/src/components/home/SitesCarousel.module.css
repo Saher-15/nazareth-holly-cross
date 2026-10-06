@@ -1,7 +1,7 @@
 .section {
   --gutter: max(16px, calc((100% - var(--container)) / 2));
-  /* fluid like .ui-section: the full spacing from about 900px, less on a phone so two sections do not leave a 130px hole */
-  padding-block: 40px clamp(48px, 8vw, 72px);
+  /* the rhythm of every page section (--section-space, like .ui-section) */
+  padding-block: var(--section-space);
 }
 
 .head {
@@ -86,7 +86,7 @@
   display: block;
   aspect-ratio: 3 / 4;
   overflow: hidden;
-  border-radius: calc(var(--radius) + 4px);
+  border-radius: var(--radius);
   border: 1px solid var(--glass-line);
   box-shadow: var(--shadow);
   color: var(--cream);
