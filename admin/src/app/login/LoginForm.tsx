@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from 'react';
 import { Icon } from '@/components/ui/Icon';
 import { useI18n } from '@/i18n/client';
@@ -193,7 +194,11 @@ export function LoginForm({ reason, next }: { reason?: 'expired' | 'idle'; next:
         >
           {t('common.back')}
         </button>
-      ) : null}
+      ) : (
+        <p className="login__forgot">
+          <Link href="/forgot-password" className="link">{t('login.forgot')}</Link>
+        </p>
+      )}
     </form>
   );
 }

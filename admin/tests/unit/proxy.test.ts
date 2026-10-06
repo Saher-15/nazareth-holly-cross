@@ -61,6 +61,27 @@ describe('proxy.ts', () => {
     expect(new URL(res.headers.get('location')!).pathname).toBe('/');
   });
 
+  it('keeps the forgotten-password pages public; a signed-in visitor may still open a reset link', () => {
+    expect(proxy(req('/forgot-password')).status).toBe(200);
+    expect(proxy(req('/reset-password?token=' + 'a'.repeat(43))).status).toBe(200);
+    expect(proxy(req('/api/session/forgot', { method: 'POST', headers: { origin: 'http://localhost:3901' } })).status).toBe(200);
+    expect(proxy(req('/api/session/reset', { method: 'POST', headers: { origin: 'http://localhost:3901' } })).status).toBe(200);
+    const bounced = proxy(req('/forgot-password', { cookie: `nhc_admin=${LIVE}` }));
+    expect(bounced.status).toBe(307);
+    expect(new URL(bounced.headers.get('location')!).pathname).toBe('/');
+    expect(proxy(req('/reset-password', { cookie: `nhc_admin=${LIVE}` })).status).toBe(200);
+  });
+
+  it('sends no Referer from the reset page (its address holds the one-time token)', () => {
+    expect(proxy(req('/reset-password?token=' + 'a'.repeat(43))).headers.get('referrer-policy')).toBe('no-referrer');
+  });
+
+  it('still refuses a cross-site POST to the public session routes', () => {
+    for (const path of ['/api/session/forgot', '/api/session/reset']) {
+      expect(proxy(req(path, { method: 'POST', headers: { origin: 'https://evil.example' } })).status, path).toBe(403);
+    }
+  });
+
   it('refuses a cross-site state-changing request before anything else', async () => {
     const attempts: Record<string, string>[] = [{ origin: 'https://evil.example' }, {}, { 'sec-fetch-site': 'cross-site' }];
     for (const headers of attempts) {

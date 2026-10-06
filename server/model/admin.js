@@ -18,6 +18,9 @@ const adminSchema = new mongoose.Schema({
   totpEnabled: { type: Boolean, default: false },
   totpLastStep: { type: Number, default: -1 }, // the last accepted 30-second step: a code cannot be used twice
   lastLoginAt: { type: Date, default: null },
+  // Password reset by e-mail (services/passwordReset.js): only the SHA-256 of the one-time token is stored, never the token.
+  resetTokenHash: { type: String, default: null, select: false, maxlength: 64 },
+  resetTokenExpires: { type: Date, default: null },
 }, { timestamps: true });
 
 // Hashes a plain password on save. Code that already hashed it (the admin API, the create-admin script) sets

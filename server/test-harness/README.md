@@ -35,6 +35,7 @@ and the second factor are set the way the dashboard's own routes do it.
 | `locktest` | `Locktest-Mock-Pass-1` | editor | spare: for lockout tests |
 | `passchange` | `Passchange-Mock-Pass-1` | editor | spare: for password-change tests |
 | `totpsetup` | `Totpsetup-Mock-Pass-1` | editor | spare: for two-factor set-up tests |
+| `resetpass` | `Resetpass-Mock-Pass-1` | editor | spare, with the invented address `resetpass@example.com`: for forgotten-password tests |
 
 They are the same names and passwords as the mock API (`admin/mock-api`), so the end-to-end suite runs unchanged
 against either. They are public: never use them anywhere real.
@@ -55,7 +56,9 @@ stores `&` that way), Hebrew and Arabic names.
 * It listens on 127.0.0.1 only. The test hooks (`/__harness/*`) exist only when `HARNESS=1` (set by `serve.mjs`) and
   refuse any address that is not this machine.
 * Mail goes to a recorder, `GET /__harness/emails`. `POST /__harness/mail {"fail": true}` makes the mailer fail like
-  an SMTP outage.
+  an SMTP outage. Password-reset mails link to `http://localhost:<HARNESS_ADMIN_PORT>` (`ADMIN_APP_URL` is set by
+  `serve.mjs`). `POST /__harness/reset {"accounts": false}` starts with no admin account, the state in which a reset
+  request for `nazarethholycross@gmail.com` creates the first owner.
 
 ## How it works
 

@@ -22,7 +22,9 @@ right, arrows flipped, numbers and e-mail addresses stay left-to-right). Text li
 
 | Screen | What it does |
 | --- | --- |
-| **Sign in** | Username + password; a second step appears when the account has two-factor. One message for a wrong user, wrong password or locked account. Show/hide password, Caps Lock hint, rate-limit message, "session ended" / "signed out for inactivity" notices. |
+| **Sign in** | "Username or e-mail" + password (the first owner's username is his e-mail address); a second step appears when the account has two-factor. One message for a wrong user, wrong password or locked account. Show/hide password, Caps Lock hint, rate-limit message, "session ended" / "signed out for inactivity" notices, and a **Forgot your password?** link. |
+| **Forgot password** (`/forgot-password`, public) | E-mail address, **Send the link**, then always the same neutral confirmation ("If an account uses this address, we sent a link. It works for 30 minutes."), whether or not the address has an account; a link back to sign in. A malformed address is caught before sending; rate-limit and "not available" messages. A signed-in visitor is sent to the dashboard. |
+| **Choose a new password** (`/reset-password?token=...`, public, the link from the e-mail) | The token is taken from the address and **removed from the address bar at once** (`history.replaceState`); the page sends no Referer and is not cached. New password + repeat, show/hide, Caps Lock hint, the policy checked before sending and the API's own policy answer translated. Success: a confirmation (every session of the account was signed out) and a **Sign in** button. An invalid, used or expired link, or no link: "This link is invalid or has expired. Ask for a new one." with **Ask for a new link**. Reloading the page after the token was removed shows that message too: open the link from the e-mail again. |
 | **Dashboard** | A warning when customers paid but have nothing saved; nine figures (orders, revenue, candle requests, messages, products, site and product reviews, prayers, and **Paid, not fulfilled**) that link to their lists; orders + revenue and candle charts for 30 days (keyboard readable, data table behind each); top products; low stock; the five latest orders, candle requests and messages. |
 | **Orders** | Search, status filter, sort, pagination, CSV export, detail drawer (deep link `?open=`), **Mark shipped** with a confirm dialog (the API e-mails the customer exactly like the old `orderSent`), delete (owner only). |
 | **Payments** | Every PayPal payment the server recorded. Filters: **Paid, not fulfilled** (the customers who paid and have no order or candle request: a warning above the list and on the dashboard), paid, started and not paid, failed, resolved, orders, candles, donations; search by PayPal number, payer or note; detail drawer with the link to the order or candle request; **Mark resolved** (a note is required) and **Reopen**; CSV export of everything or only the unfulfilled. There is no delete. |
@@ -95,3 +97,10 @@ mock and the real API are compared by `admin/tests/unit/parity.test.ts`):
   cannot also sign in within its 30 seconds. The error texts the person can act on are translated by the UI.
 * The app forwards the visitor's address (Netlify's header; `X-Forwarded-For` only with `ADMIN_TRUST_XFF=1`) and the
   browser's `User-Agent` for the audit trail.
+* Forgotten password (`docs/ADMIN.md` 3.6): `POST /api/session/forgot { email }` answers `202 { ok: true }` for every
+  address (`429 { retryAfter }` when limited, `502` when the API cannot be reached); `POST /api/session/reset { token,
+  password }` answers `204` (and clears a session cookie this browser still holds, since the API ended every session of
+  the account), `400 { error: "link" }` for an invalid, used or expired link, `400 { error: "policy", reason, message }`
+  for a password the policy refuses (`reason` is `short`, `long`, `username`, `common`, `repetitive` or null and is
+  translated; only an unknown rule shows the API's English text), `429 { retryAfter }`. Both check CSRF, take at most
+  2 KB / 4 KB of JSON validated by zod, answer `no-store`, and never log or echo the address, the token or the password.

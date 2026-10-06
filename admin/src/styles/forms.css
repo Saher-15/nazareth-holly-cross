@@ -48,6 +48,8 @@ html[dir='rtl'] .input[dir='ltr'] { text-align: end; }
 
 /* ---- login specifics ---- */
 .login__form { gap: var(--space-4); }
+.login__forgot { text-align: center; font-size: var(--text-sm); }
+.login__forgot .link { display: inline-block; padding: 10px 4px; }
 
 /* ---- product form ---- */
 .product-form { display: grid; gap: var(--space-4); grid-template-columns: minmax(0, 1fr) 320px; align-items: start; }

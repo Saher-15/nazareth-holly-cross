@@ -19,7 +19,7 @@ import { getDashboard } from '../../services/dashboard.js';
 // Every route below is behind adminAccess (Bearer token + live session + per-admin rate limit) and a role check:
 //   viewer  GET lists and details         editor  change and delete, export
 //   owner   users, audit log, delete orders
-// The only public route is POST /admin/auth/login.
+// The only public routes are POST /admin/auth/login, /admin/auth/forgot-password and /admin/auth/reset-password.
 
 const router = express.Router();
 

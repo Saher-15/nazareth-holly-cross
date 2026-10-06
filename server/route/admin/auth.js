@@ -1,16 +1,18 @@
 import express from 'express';
+import mongoose from 'mongoose';
 import Admin from '../../model/admin.js';
 import { asyncHandler } from '../../middleware/asyncHandler.js';
 import { adminAccess } from '../../middleware/adminGuard.js';
-import { adminLoginIpLimiter, adminLoginLimiter, adminSensitiveLimiter } from '../../utils/security.js';
+import { adminForgotIpLimiter, adminForgotLimiter, adminLoginIpLimiter, adminLoginLimiter, adminResetLimiter, adminSensitiveLimiter } from '../../utils/security.js';
 import { comparePasswordTimingSafe, hashPassword } from '../../services/adminAuth.js';
-import { createSession, revokeOtherSessions, revokeSession, signSessionToken, SESSION_SECONDS } from '../../services/adminSessions.js';
+import { createSession, revokeAllSessions, revokeOtherSessions, revokeSession, signSessionToken, SESSION_SECONDS } from '../../services/adminSessions.js';
 import { checkPasswordPolicy } from '../../services/passwordPolicy.js';
 import { decryptSecret, encryptSecret, isCodeFormat, newSecret, otpauthUrl, verifyTotp } from '../../services/totp.js';
 import { audit } from '../../services/audit.js';
 import { HttpError } from '../../utils/httpError.js';
 import { parseBody, secret, str } from '../../utils/schema.js';
 import { effectiveRole } from '../../services/roles.js';
+import { findByResetToken, looksLikeEmail, normaliseEmail, requestReset } from '../../services/passwordReset.js';
 
 const router = express.Router();
 
@@ -34,6 +36,16 @@ const publicUser = (admin) => ({
 // ---------------------------------------------------------------------------------------------------------------
 
 const INVALID = { error: 'Invalid credentials' };
+
+// An exact username wins; otherwise a text that looks like an e-mail address is matched against the accounts' e-mail.
+async function findForLogin(name) {
+  const byName = await Admin.findOne({ username: name }).select('+totpSecretEnc');
+  if (byName) return byName;
+  const email = normaliseEmail(name);
+  if (!looksLikeEmail(email)) return null;
+  const exact = mongoose.trusted({ $regex: `^${email.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, $options: 'i' });
+  return Admin.findOne({ email: exact }).select('+totpSecretEnc');
+}
 
 async function registerFailure(req, admin, reason) {
   req.auditActor = { username: req.loginName };
@@ -61,7 +73,8 @@ router.post('/login', adminLoginLimiter, adminLoginIpLimiter, asyncHandler(async
   req.loginName = typeof username === 'string' ? username.trim().slice(0, 100) : '';
 
   // The username must be plain text before it reaches the query ({ "$ne": null } never does).
-  const admin = wellFormed ? await Admin.findOne({ username: username.trim() }).select('+totpSecretEnc') : null;
+  // The sign-in name is the username, or the account's e-mail address (compared without regard to case).
+  const admin = wellFormed ? await findForLogin(username.trim()) : null;
   const locked = Boolean(admin?.lockedUntil) && new Date(admin.lockedUntil).getTime() > Date.now();
   const disabled = admin?.disabled === true;
   const usable = admin && !locked && !disabled && effectiveRole(admin) !== null;
@@ -126,6 +139,48 @@ router.post('/password', ...adminAccess, adminSensitiveLimiter, asyncHandler(asy
   await Admin.updateOne({ _id: admin._id }, { $set: { password: await hashPassword(newPassword), failedLogins: 0, lockedUntil: null } });
   await revokeOtherSessions(admin._id, req.adminUser.sid);
   await audit(req, 'auth.password_change', { type: 'admin', id: req.adminUser.id });
+  res.status(204).end();
+}));
+
+// ---- Forgotten password (services/passwordReset.js) ----
+// POST /admin/auth/forgot-password { email } -> always 202 { ok: true }: the answer never says whether the address has
+// an account. POST /admin/auth/reset-password { token, password } -> 204, or 400 for a link that is invalid, used or
+// expired, or a password the policy refuses. A reset signs out every session of the account and clears a lockout;
+// two-factor sign-in, when on, stays on.
+
+router.post('/forgot-password', adminForgotLimiter, adminForgotIpLimiter, asyncHandler(async (req, res) => {
+  res.set('Cache-Control', 'no-store');
+  const email = normaliseEmail(req.body?.email);
+  req.auditActor = { username: email.slice(0, 100) };
+  const { admin, created, sent } = await requestReset(email);
+  if (admin) {
+    if (created) await audit(req, 'auth.owner_bootstrap', { type: 'admin', id: String(admin._id) });
+    await audit(req, 'auth.password_reset_requested', { type: 'admin', id: String(admin._id) }, { mailed: sent });
+  }
+  res.status(202).json({ ok: true });
+}));
+
+const BAD_LINK = 'This link is invalid or has expired. Ask for a new one.';
+
+router.post('/reset-password', adminResetLimiter, asyncHandler(async (req, res) => {
+  res.set('Cache-Control', 'no-store');
+  const body = req.body !== null && typeof req.body === 'object' && !Array.isArray(req.body) ? req.body : {};
+  const { token, password } = body;
+  if (typeof password !== 'string' || password.length === 0 || password.length > 200) throw new HttpError(400, 'Choose a password');
+  const admin = await findByResetToken(token);
+  if (!admin) throw new HttpError(400, BAD_LINK);
+  const problem = checkPasswordPolicy(password, admin.username);
+  if (problem) throw new HttpError(400, problem);
+
+  // One atomic write that also spends the link: two tabs using the same link cannot both succeed.
+  const result = await Admin.updateOne(
+    { _id: admin._id, resetTokenHash: admin.resetTokenHash },
+    { $set: { password: await hashPassword(password), resetTokenHash: null, resetTokenExpires: null, failedLogins: 0, lockedUntil: null } },
+  );
+  if (!result?.modifiedCount) throw new HttpError(400, BAD_LINK);
+  await revokeAllSessions(admin._id);
+  req.auditActor = { username: admin.username, role: effectiveRole(admin) };
+  await audit(req, 'auth.password_reset', { type: 'admin', id: String(admin._id) });
   res.status(204).end();
 }));
 

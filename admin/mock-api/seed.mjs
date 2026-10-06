@@ -34,6 +34,8 @@ export const MOCK_USERS = [
   { username: 'tempowner', password: 'Tempowner-Mock-Pass-1', role: 'owner' },
   { username: 'passchange', password: 'Passchange-Mock-Pass-1', role: 'editor' },
   { username: 'totpsetup', password: 'Totpsetup-Mock-Pass-1', role: 'editor' },
+  // Spare account with an e-mail address, for the forgotten-password tests (an invented address).
+  { username: 'resetpass', password: 'Resetpass-Mock-Pass-1', role: 'editor', email: 'resetpass@example.com' },
 ];
 
 const FIRST = ['Maria', 'John', 'Elena', 'Michael', 'Sofia', 'David', 'Anna', 'Paul', 'Rita', 'George', 'Layla', 'Samir', 'Noa', 'Daniel', 'Grace', 'Luca', 'Hana', 'Peter', 'Yusef', 'Clara'];

@@ -105,6 +105,18 @@ export const adminLoginIpLimiter = limiter(30, 'Too many login attempts, please 
   requestWasSuccessful: succeeded,
 });
 
+// POST /admin/auth/forgot-password: 3 requests per 15 minutes per address and e-mail, 10 per address in all (each one
+// can send an e-mail, so this also stops the form from being used to flood a mailbox).
+const resetEmail = (req) => String(typeof req.body?.email === 'string' ? req.body.email : '').trim().toLowerCase().slice(0, 254);
+export const adminForgotLimiter = limiter(3, 'Too many requests, please try again in 15 minutes.', {
+  keyGenerator: (req) => `${req.ip}|${resetEmail(req)}`,
+});
+export const adminForgotIpLimiter = limiter(10, 'Too many requests, please try again in 15 minutes.');
+
+// POST /admin/auth/reset-password: 10 failed tries per 15 minutes per address (a token cannot be guessed; this is
+// against hammering).
+export const adminResetLimiter = limiter(10, 'Too many attempts, please try again in 15 minutes.', { skipSuccessfulRequests: true });
+
 const adminKey = (req) => `admin:${req.adminUser?.id}`;
 
 // Every authenticated admin request.

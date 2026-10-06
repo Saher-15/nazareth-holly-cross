@@ -9,8 +9,12 @@ import { isLocalHttp, looksValid, readSessionToken } from '@/lib/session';
 //   2. Sign-in gate: no valid-looking session cookie -> /login (or 401 for /api calls). The API verifies the token
 //      itself; this only avoids rendering a page for someone who is obviously signed out.
 //   3. Per-request nonce Content-Security-Policy, plus no-store and noindex on everything.
+//
+// Public pages: /login, /forgot-password and /reset-password (the link from the e-mail). A signed-in visitor is sent
+// from /login and /forgot-password to the dashboard; /reset-password stays open to anyone holding a link.
 
-const PUBLIC_PATHS = new Set(['/login', '/robots.txt']);
+const PUBLIC_PATHS = new Set(['/login', '/forgot-password', '/reset-password', '/robots.txt']);
+const SIGNED_OUT_ONLY = new Set(['/login', '/forgot-password']);
 
 function isPublic(pathname: string): boolean {
   return PUBLIC_PATHS.has(pathname) || pathname.startsWith('/api/session/');
@@ -48,7 +52,7 @@ export function proxy(request: NextRequest) {
     return redirect;
   }
 
-  if (authed && pathname === '/login') {
+  if (authed && SIGNED_OUT_ONLY.has(pathname)) {
     const url = request.nextUrl.clone();
     url.pathname = '/';
     url.search = '';
@@ -74,6 +78,9 @@ export function proxy(request: NextRequest) {
   response.headers.set('Cache-Control', NO_STORE);
   response.headers.set('Pragma', 'no-cache');
   response.headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive, nosnippet');
+  // The reset link carries a one-time token in its address: never let it leave in a Referer (next.config.ts sets this
+  // for every page too; repeated here so the rule cannot be lost with a header change).
+  if (pathname === '/reset-password') response.headers.set('Referrer-Policy', 'no-referrer');
   return response;
 }
 

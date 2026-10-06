@@ -22,6 +22,8 @@ export const HARNESS_USERS = [
   { username: 'tempowner', password: 'Tempowner-Mock-Pass-1', role: 'owner' },
   { username: 'passchange', password: 'Passchange-Mock-Pass-1', role: 'editor' },
   { username: 'totpsetup', password: 'Totpsetup-Mock-Pass-1', role: 'editor' },
+  // Spare account with an e-mail address, for the forgotten-password tests (an invented address).
+  { username: 'resetpass', password: 'Resetpass-Mock-Pass-1', role: 'editor', email: 'resetpass@example.com' },
 ];
 
 function rng(seed) {
@@ -291,7 +293,7 @@ async function createAccounts() {
       log: () => {},
     });
     const doc = await Admin.findOne({ username: user.username });
-    const set = { role: user.role, createdAt: new Date(Date.now() - 90 * 86_400_000) };
+    const set = { role: user.role, createdAt: new Date(Date.now() - 90 * 86_400_000), ...(user.email ? { email: user.email } : {}) };
     if (user.totpSecret) Object.assign(set, { totpEnabled: true, totpSecretEnc: encryptSecret(user.totpSecret), totpLastStep: -1 });
     await Admin.updateOne({ _id: doc._id }, { $set: set });
     created.push(doc.username);
