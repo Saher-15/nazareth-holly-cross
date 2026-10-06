@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useId, useMemo, useRef, useState, useTransition, type ChangeEvent, type FormEvent } from 'react';
+import { useEffect, useId, useRef, useState, useTransition, type ChangeEvent, type FormEvent } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { countryOptions } from '@/components/checkout/countries';
+import { useCountryOptions } from '@/components/checkout/useCountryOptions';
 import { postJson } from '@/lib/apiClient';
 import Notice from '@/components/ui/Notice';
 import { revalidateReviews } from './actions';
@@ -31,8 +31,8 @@ export default function ReviewForm({ titleId }: { titleId: string }) {
   const tf = useTranslations('communityPage.reviews.form');
   const tc = useTranslations('pilgrim.prayers');
   const locale = useLocale();
-  // Every country, named in the visitor's language and in that language's order (the same list as the prayer form).
-  const countries = useMemo(() => countryOptions(locale), [locale]);
+  // Every country, named in the visitor's language and in that language's order (filled in after hydration).
+  const countries = useCountryOptions(locale);
   const id = useId();
   const [values, setValues] = useState<ReviewValues>(emptyReview);
   const [errors, setErrors] = useState<ReviewErrors>({});

@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useId, useMemo, useRef, useState, useTransition, type ChangeEvent, type FormEvent } from 'react';
+import { useEffect, useId, useRef, useState, useTransition, type ChangeEvent, type FormEvent } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { countryOptions } from '@/components/checkout/countries';
+import { useCountryOptions } from '@/components/checkout/useCountryOptions';
 import { useRouter } from '@/i18n/navigation';
 import { postJson } from '@/lib/apiClient';
 import {
@@ -31,8 +31,8 @@ type Status = 'idle' | 'sending' | 'sent';
 export default function PrayerForm({ titleId }: { titleId: string }) {
   const t = useTranslations('pilgrim.prayers');
   const locale = useLocale();
-  // Every country, named in the visitor's language and in that language's order (Intl, nothing to translate).
-  const countries = useMemo(() => countryOptions(locale), [locale]);
+  // Every country, named in the visitor's language and in that language's order (filled in after hydration).
+  const countries = useCountryOptions(locale);
   const id = useId();
   const router = useRouter();
   const [values, setValues] = useState<PrayerValues>(emptyPrayer);
