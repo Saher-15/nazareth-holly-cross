@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useId, useRef, useState, useTransition, type ChangeEvent, type FormEvent } from 'react';
-import { useTranslations } from 'next-intl';
+import { useEffect, useId, useMemo, useRef, useState, useTransition, type ChangeEvent, type FormEvent } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
+import { countryOptions } from '@/components/checkout/countries';
 import { useRouter } from '@/i18n/navigation';
 import { postJson } from '@/lib/apiClient';
 import {
@@ -29,6 +30,9 @@ type Status = 'idle' | 'sending' | 'sent';
 // On success the wall is rebuilt on the server and the page refreshes, so the new prayer shows at once.
 export default function PrayerForm({ titleId }: { titleId: string }) {
   const t = useTranslations('pilgrim.prayers');
+  const locale = useLocale();
+  // Every country, named in the visitor's language and in that language's order (Intl, nothing to translate).
+  const countries = useMemo(() => countryOptions(locale), [locale]);
   const id = useId();
   const router = useRouter();
   const [values, setValues] = useState<PrayerValues>(emptyPrayer);
@@ -38,7 +42,7 @@ export default function PrayerForm({ titleId }: { titleId: string }) {
   const [, startTransition] = useTransition();
 
   const nameRef = useRef<HTMLInputElement>(null);
-  const countryRef = useRef<HTMLInputElement>(null);
+  const countryRef = useRef<HTMLSelectElement>(null);
   const prayerRef = useRef<HTMLTextAreaElement>(null);
   const doneRef = useRef<HTMLHeadingElement>(null);
   const focusFirst = useRef(false);
@@ -55,7 +59,7 @@ export default function PrayerForm({ titleId }: { titleId: string }) {
   const errorId = (field: string) => `${id}-${field}-error`;
   const counterId = `${id}-counter`;
 
-  const onChange = (field: PrayerField) => (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const onChange = (field: PrayerField) => (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { value } = e.target;
     setValues((prev) => ({ ...prev, [field]: value }));
     if (errors[field]) setErrors((prev) => ({ ...prev, [field]: validatePrayerField(field, value) }));
@@ -158,21 +162,27 @@ export default function PrayerForm({ titleId }: { titleId: string }) {
             <label className="ui-label" htmlFor={fieldId('country')}>
               {t('form.country')}
             </label>
-            <input
+            <select
               ref={countryRef}
               id={fieldId('country')}
               name="country"
-              type="text"
-              dir="auto"
-              className="ui-input"
-              autoComplete="country-name"
-              maxLength={PRAYER_RULES.country.max}
+              className="ui-select"
+              autoComplete="country"
               required
               value={values.country}
               onChange={onChange('country')}
               aria-invalid={errors.country ? true : undefined}
               aria-describedby={describedBy('country')}
-            />
+            >
+              <option value="" disabled>
+                {t('form.countryChoose')}
+              </option>
+              {countries.map((c) => (
+                <option key={c.code} value={c.code}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
             {fieldError('country')}
           </div>
 

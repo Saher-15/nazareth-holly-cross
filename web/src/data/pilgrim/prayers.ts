@@ -1,5 +1,7 @@
 // Rules of the prayer wall (/prayers), free of React so they can be unit tested.
 
+import { COUNTRY_CODES, countryName } from '@/components/checkout/countries';
+
 /** The categories the API accepts (server/model/prayer.js). The value is what is sent; labels are messages. */
 export const PRAYER_CATEGORIES = ['Peace', 'Health', 'Gratitude', 'Family', 'Personal', 'World Peace'] as const;
 export type PrayerCategory = (typeof PRAYER_CATEGORIES)[number];
@@ -36,6 +38,8 @@ export const containsLinkOrMarkup = (text: string) => LINK.test(text) || EMAIL.t
 
 export function validatePrayerField(field: PrayerField, raw: string): PrayerFieldError | undefined {
   const value = raw.trim();
+  // The country is chosen from the list (an ISO 3166-1 code), never typed.
+  if (field === 'country') return COUNTRY_CODES.includes(value) ? undefined : { key: 'required' };
   const rule = PRAYER_RULES[field];
   if (!value) return { key: 'required' };
   if (value.length < rule.min) return { key: 'tooShort', values: { min: rule.min } };
@@ -57,10 +61,13 @@ export function validatePrayer(values: PrayerValues): PrayerErrors {
 
 export const firstInvalidPrayerField = (errors: PrayerErrors) => PRAYER_FIELDS.find((f) => errors[f]);
 
-/** The body POST /prayer/create expects. */
+/**
+ * The body POST /prayer/create expects. The country is sent by its English name (like the orders), so the admin list
+ * and the prayers saved before the list existed read the same; the wall shows it in the visitor's language.
+ */
 export const toPrayerPayload = (values: PrayerValues) => ({
   name: values.name.trim(),
-  country: values.country.trim(),
+  country: COUNTRY_CODES.includes(values.country) ? countryName(values.country, 'en') : values.country.trim(),
   prayer: values.prayer.trim(),
   category: values.category,
 });
@@ -88,4 +95,20 @@ export function displayText(raw: string, maxLength: number = PRAYER_RULES.prayer
     .replace(new RegExp(LINK.source, 'gi'), mask)
     .trim();
   return cleaned.length > maxLength ? `${cleaned.slice(0, maxLength).trimEnd()}…` : cleaned;
+}
+
+// English country name -> ISO code, built once (the English names are what the form sends and the API stores).
+let englishToCode: Map<string, string> | null = null;
+function codeOfEnglishName(name: string): string | undefined {
+  englishToCode ??= new Map(COUNTRY_CODES.map((code) => [countryName(code, 'en').toLowerCase(), code]));
+  return englishToCode.get(name.trim().toLowerCase());
+}
+
+/**
+ * The country of a prayer as the wall shows it: a known country in the visitor's language; any other text (prayers
+ * saved before the list existed) cleaned like the rest of the wall.
+ */
+export function wallCountry(stored: string, locale: string): string {
+  const code = codeOfEnglishName(stored);
+  return code ? countryName(code, locale) : displayText(stored, 100);
 }

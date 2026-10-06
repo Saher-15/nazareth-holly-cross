@@ -1114,6 +1114,7 @@
         "intro": "Écrivez une intention pour la paix, la guérison, l’action de grâce ou votre famille. Elle apparaîtra sur le mur.",
         "name": "Votre nom",
         "country": "D’où venez-vous ?",
+        "countryChoose": "Choisissez votre pays",
         "category": "Catégorie",
         "prayer": "Votre prière",
         "counter": "{count} / {max}",
