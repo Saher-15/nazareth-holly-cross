@@ -438,8 +438,9 @@ FREE Cluster0 with an empty IP access list (nothing can connect: not in use). Bi
 of usage in September (M10 + backup); the cluster is far larger than an 84 KB database needs, see the cost note below.
 
 **Cost note (owner decision).** M10 is the smallest tier with continuous cloud backup and point-in-time restore. A Flex
-cluster would cost much less and still has daily snapshots, M0 is free but has no backup at all. Changing tier changes
-the price, not the connection string; decide with BACKUP.md section 5 and keep `server/scripts/backup.js` either way.
+cluster would cost much less and still has daily snapshots, M0 is free but has no backup at all. Going down from a dedicated
+tier may not be possible in place: it can mean a new cluster, moving the data (backup.js / restore.js) and a new
+`DATABASEURL` on Render (Haytham's account), so check in Atlas (*Edit configuration*) before deciding; decide with BACKUP.md section 5 and keep `server/scripts/backup.js` either way.
 
 The bullets below were written before this check, from outside:
 
