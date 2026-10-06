@@ -77,7 +77,7 @@ describe('classify: what an answer of the API means for a record', () => {
     expect(classify(fail(409, 'Not enough stock for Olive oil'))).toBe('rejected');
   });
 
-  it('402 "amount does not match" is NOT retried: today's price differs from what was paid, a person must look', () => {
+  it('402 amount does not match is NOT retried: the price changed since the payment, a person must look', () => {
     expect(classify(fail(402, 'Payment amount does not match the order'))).toBe('rejected');
   });
 
