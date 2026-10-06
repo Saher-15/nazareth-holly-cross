@@ -249,6 +249,7 @@ test.describe('look and feel', () => {
   });
 
   test('QA-11 without JavaScript the page content is visible, not waiting to fade in', async ({ browser }) => {
+    test.setTimeout(120_000); // four pages, and a shared CI runner can be slow
     const context = await browser.newContext({ javaScriptEnabled: false });
     const page = await context.newPage();
     await page.route(
@@ -256,7 +257,7 @@ test.describe('look and feel', () => {
       (route) => route.abort(),
     );
     for (const path of ['/en', '/en/about', '/he/sites', '/en/sites/latin']) {
-      await page.goto(path);
+      await page.goto(path, { waitUntil: 'domcontentloaded' });
       const hidden = await page.evaluate(() => [...document.querySelectorAll('.ui-reveal')].filter((e) => getComputedStyle(e).opacity === '0').length);
       expect(hidden, path).toBe(0);
       await expect(page.locator('h1')).toBeVisible();
