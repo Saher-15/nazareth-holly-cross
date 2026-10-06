@@ -134,7 +134,10 @@ No emoji and no text glyphs (`✝`, `★`, `→`) as icons.
 ![Header, Hebrew](design/shell-header-he.png)
 
 Sticky; frosted glass (a blurred pseudo-element, so the fixed drawer is not trapped inside it) that turns
-more opaque after 12px of scrolling. Gold "Donate" button from 1240px (1320px in Russian, the longest labels); below 1100px the links become a drawer.
+more opaque after 12px of scrolling. Gold "Donate" button from 1240px (not in Polish, Russian, Greek, Ukrainian and
+Dutch, whose longer labels leave no room for it); at 1180px and below the links become a drawer (at every width when
+the accessibility panel enlarges the text). The round button with the accessibility sign opens the accessibility
+settings (`docs/DESIGN-GUIDE.md` section 5.5). On phones (480px and below) the brand name may wrap onto two lines.
 
 ![Language menu, English](design/shell-language-menu-en.png)
 ![Language menu, Hebrew](design/shell-language-menu-he.png)
@@ -239,8 +242,9 @@ address. `PageTools` has the Print button.
 
 ## 6. Accessibility
 
-Checked with axe (WCAG 2.0 A/AA, 2.1 AA and 2.2 AA including target size) on the 12 main pages in English and
-Hebrew at 1440 and 390px: no violations. Contrast: cream on night 16.8:1, muted 10.5:1, gold 11.3:1 (every pair: DESIGN-GUIDE.md section 3.2); gold buttons use
+Checked with axe (WCAG 2.0 A/AA, 2.1 AA and 2.2 AA including target size) on every page in English, Hebrew and
+Arabic at desktop and phone width, plain and with every accessibility-panel mode on: no violations
+(`docs/ACCESSIBILITY.md`). Contrast: cream on night 16.8:1, muted 10.5:1, gold 11.3:1 (every pair: DESIGN-GUIDE.md section 3.2); gold buttons use
 `#1a1405` text. Touch targets: header and footer controls are asserted at 44px by `ux.spec.ts`. Keyboard: skip
 link, menus, focus return, drawer, photo viewer, carousel are covered by tests.
 

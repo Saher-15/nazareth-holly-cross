@@ -27,7 +27,10 @@ that it loads (after scrolling through the page), links/buttons without a name, 
 hreflang (11 languages + `x-default`), Open Graph and Twitter tags, JSON-LD parses, `lang`/`dir`, text that looks like
 an untranslated message key. Then every internal link found is requested and must answer 200.
 
-### Accessibility (`tests/qa/axe.mjs`, `tests/e2e/qa-site.spec.ts`)
+### Accessibility (`tests/qa/axe.mjs`, `tests/e2e/qa-site.spec.ts`, `tests/e2e/a11y.spec.ts`)
+
+The full WCAG 2.2 AA audit of every route, the accessibility panel and the probes axe cannot replace (text on
+photographs, focus not obscured, text spacing) are described with their results in `docs/ACCESSIBILITY.md`.
 
 axe-core with `wcag2a, wcag2aa, wcag21a, wcag21aa, wcag22aa, best-practice` on every page in en, he, ar at desktop
 and phone width, and in these states: language menu open, phone menu open, photo viewer open, checkout / candle /

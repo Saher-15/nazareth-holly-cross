@@ -120,7 +120,7 @@ Religious words follow the glossary (`docs/GLOSSARY.md`): one approved word per 
 |---|---|---|
 | Page title (`<h1>`) | One per page. A phrase a person could say, 2 to 7 words, serif. Sentence case. No full stop. | "Souvenirs from Nazareth" |
 | Eyebrow | One or two words above a title, naming the kind of page. Written in normal case in the message; CSS uppercases it in Latin scripts. | `home.eyebrow` |
-| Lead / intro | One or two sentences under the title that say what the page offers. Muted colour. | "Rosaries, crosses, stained glass and keepsakes from the city of the Annunciation, sent to your door." |
+| Lead / intro | One or two sentences under the title that say what the page offers. Muted colour on night; cream with a dark halo on a hero photograph. | "Rosaries, crosses, stained glass and keepsakes from the city of the Annunciation, sent to your door." |
 | Section heading (`<h2>`) | A noun phrase or short invitation. Sentence case. | "How to light a candle?" |
 | Primary button | A verb (or verb + object), 1 to 3 words. One gold button per view. | "Light a candle", "Add to cart", "Back to home" |
 | Secondary button | Same style, ghost or glass variant. | "Try again" |
@@ -287,6 +287,22 @@ How to read the failures:
 Other computed facts: the placeholder colour (`--muted` at 70% over the field fill) is 5.20:1; the admin's
 `.btn--danger` ink `#2a0a07` on `--danger` is 8.03:1.
 
+**High-contrast mode** (the accessibility panel, section 5.5) redefines the colour tokens under
+`:root[data-a11y-contrast='high']` at the end of `web/src/styles/tokens.css`: black surfaces, white text, a brighter
+gold (`#ffd75e`), opaque glass and strong borders; gradients and glows become flat and the photo scrim deepens to at
+least 78% black. Every text pair in use reaches AAA; `web/tests/unit/a11y.test.tsx` recomputes them (the rows below
+name the colours without backticks, so the table test above does not read them as base values):
+
+| Pair in high contrast | Ratio |
+|---|---|
+| cream on night (both redefined: white on black) | 21.00 |
+| cream on night-3 (fields) | 18.73 |
+| muted on night / on night-3 / on glass-strong | 16.21 / 14.46 / 10.50 |
+| gold on night / on night-3 / on gold-soft | 15.13 / 13.50 / 10.12 |
+| on-gold on gold (buttons) / on gold-light | 15.13 / 17.46 |
+| danger on night / success on night | 11.62 / 15.72 |
+| glass-line on night (card borders, now well above 3:1) / field-line on night | 9.96 / 21.00 |
+
 ### 3.3 Typography
 
 ![Type scale](design/ds-type.png)
@@ -442,6 +458,7 @@ Every localized page is rendered by `web/src/app/[locale]/layout.tsx`:
 
 ```
 <html lang dir>            lang and dir come from the URL language; dir="rtl" for he and ar
+  <head>                     one inline script with the CSP nonce: applies the accessibility settings (5.5) before the first paint
   <body>
     <ReadingProgress/>     3px gold line at the very top (long pages only)
     <SiteHeader/>          sticky, 68px (--header-h), skip link first
@@ -473,14 +490,14 @@ holding `<div className="ui-container">`.
 
 | Width | What changes |
 |---|---|
-| 480 / 560 px | Phone adjustments inside single components: the hero title shrinks for long Russian, German, Greek and Polish words (480), the shop toolbar reflows (559), candle church cards grow taller (560) |
+| 480 / 560 px | Header on phones (480): the brand name may wrap onto two lines and the language button drops its caret, so the brand and the three round buttons fit down to 320 px. Phone adjustments inside single components: the hero title shrinks for long Russian, German, Greek and Polish words (480), the shop toolbar reflows (559), candle church cards grow taller (560) |
 | 640 / 700 px | Holy-site gallery 3 columns (640); shop product grid 3 columns (700) |
 | 768 px | The home hero film may mount (JavaScript check in `HeroVideo`); the hero photo size hint changes |
 | 860 / 900 / 920 px | Two-column layouts begin: contact, product, cart, story + visit card, checkout |
 | 960 / 1000 px | Candle page two columns; footer five columns; gallery 4 columns |
 | 1040 px | Shop: filter sidebar (250px) replaces the filter drawer |
-| 1100 px | Header: below it the links become a drawer behind the menu button |
-| 1240 / 1320 px | Header: the gold "Donate" button joins the bar (1320 in Russian, the longest labels) |
+| 1180 px | Header: at and below it the links become a drawer behind the menu button (at every width when the accessibility panel enlarges the text) |
+| 1240 px | Header: the gold "Donate" button joins the bar, except in Polish, Russian, Greek, Ukrainian and Dutch, whose longer labels leave no room for it next to the accessibility button (`web/tests/e2e/a11y.spec.ts` checks that the bar never overflows in any language) |
 
 - **Height queries** (`min-height: 760px` / `820px`) decide whether a sticky side column is used, so it never
   becomes taller than the window.
@@ -742,7 +759,7 @@ every pressable thing is at least `--tap` (44px) tall and wide. Reuse before you
 | `.ui-hero` | Page header band with a photo behind a scrim (`.ui-hero__bg`, `::after` scrim) | Prefer `<PageHero>` |
 | `.ui-hero__bg` | The photo of the hero, `object-fit: cover`, behind (`z-index: -2`) | |
 | `.ui-hero__title` | The page's `<h1>` | One per page |
-| `.ui-hero__lead` | Intro under the title, `max-width: 640px`, muted | |
+| `.ui-hero__lead` | Intro under the title, `max-width: 640px`, cream with a dark halo (it sits on a photograph; the hero's eyebrow gets the same halo) | Muted text on a photo fell under 4.5:1 (`docs/ACCESSIBILITY.md`) |
 | `.ui-hero__action` | Spacing for a button under the lead | |
 | `.ui-eyebrow` | Small gold uppercase label above a title | In Hebrew and Arabic: no letter-spacing |
 | `.ui-h2`, `.ui-h3` | Section and sub-section headings | Use the heading element that fits the outline; the class only styles |
@@ -859,7 +876,9 @@ shop has full skeleton sets (`web/src/components/shop/Skeletons.tsx`). Shop page
 | `<LoadingScreen>` `web/src/components/ui/LoadingScreen.tsx` | Cross mark with a slow gold halo, "Loading..." | none | `role="status"`; fades in after 250ms so quick pages never flash it |
 | `<JsonLd>` `web/src/components/ui/JsonLd.tsx` | Structured data script | `data` built with `web/src/lib/jsonLd.ts` | The only allowed `dangerouslySetInnerHTML` (escaped) |
 | `<SvgIcon>`, icons `web/src/components/ui/icons.tsx` | The icon set (3.6) | `size`, `flip` on directional icons | Decorative |
-| `<SiteHeader>` `web/src/components/layout/SiteHeader.tsx` | Sticky frosted header: brand, nav, Donate, language menu, drawer | Reads `mainNav` from `web/src/lib/site.ts` | Skip link first; drawer returns focus; `aria-current="page"` |
+| `<SiteHeader>` `web/src/components/layout/SiteHeader.tsx` | Sticky frosted header: brand, nav, Donate, accessibility settings, language menu, drawer | Reads `mainNav` from `web/src/lib/site.ts` | Skip link first; drawer returns focus; `aria-current="page"` |
+| `<A11yPanel>` `web/src/components/layout/A11yPanel.tsx` | The accessibility settings: a round button in the header that opens a small non-modal dialog (section 5.5) | `onOpen` (the header closes its drawer) | `aria-expanded`, `aria-controls`, `aria-haspopup="dialog"`; real radio buttons and switches; Escape and the close button return the focus |
+| `<MotionToggle>` `web/src/components/ui/MotionToggle.tsx` | Pause / play button for a moving background (WCAG 2.2.2) | `className`; pauses the CSS animations inside the nearest `data-motion-scope` element and tells `<HeroVideo>` | The label follows the state (`ux.motion.pause`, `ux.motion.play`); not shown when the visitor asked for less motion |
 | `<LanguageSwitcher>` `web/src/components/layout/LanguageSwitcher.tsx` | Menu of all 14 languages, each in its own script, two columns | Real links with `hreflang` | Arrow keys mirror in RTL; Escape returns focus |
 | `<SiteFooter>` `web/src/components/layout/SiteFooter.tsx` | Four quiet columns plus languages; no newsletter, no cookie banner | Reads `footerNav`, `pilgrimNav`, `legalNav`, `socialLinks` | Social buttons 44px; the copyright line is one LTR unit |
 | `<BackToTop>` `web/src/components/layout/BackToTop.tsx` | Round button after 1.4 screens of scrolling | none | Out of the tab order while hidden; hands focus to `<main>` |
@@ -892,6 +911,47 @@ the comment records the decision (why a native `<dialog>`, why `aria-disabled` a
 | A choice that needs the whole page (photo viewer, filters on a phone) | A native `<dialog>` opened with `showModal()` | A hand-rolled overlay with a focus trap |
 | A destructive confirmation | Admin only: `confirm()` of the feedback provider (11.4) | Public pages have no destructive actions |
 
+### 5.5 The accessibility panel
+
+Every page has a round button with the accessibility sign in the header, between the Donate button and the language
+menu (`<A11yPanel>`, label `ux.a11y.open`, the other texts in `ux.a11y`). It opens a small non-modal dialog below
+the header at the reading end (mirrored in Hebrew and Arabic; nearly as wide as the screen on a phone, scrolling
+inside itself) with:
+
+| Control | What it does | Attribute on `<html>` | CSS |
+|---|---|---|---|
+| Text size: 100, 125, 150, 175, 200% (radio buttons in a `fieldset`) | Root font size; every font size is in rem, so all text scales (WCAG 1.4.4). The header switches to its drawer and grows a little (`--header-h`) | `data-a11y-text` = `125` ... `200` | `web/src/styles/globals.css`, `web/src/components/layout/SiteHeader.module.css` |
+| High contrast | Redefines the colour tokens (section 3.2) | `data-a11y-contrast="high"` | `web/src/styles/tokens.css` |
+| Underline links | Every `a[href]` underlined | `data-a11y-links="underline"` | `web/src/styles/globals.css` |
+| Stop animations | Animations and transitions jump to their end, the hero film is not started, page transitions and smooth scrolling are off; `prefersReducedMotion()` in `web/src/lib/motion.ts` reports it too. The system setting `prefers-reduced-motion` is always honoured as well, and the panel says so | `data-a11y-motion="reduce"` | `web/src/styles/globals.css` |
+| Readable font | `--serif` becomes `--sans`: one plain typeface per script, no italics | `data-a11y-font="readable"` | `web/src/styles/tokens.css`, `web/src/styles/globals.css` |
+| More text spacing | The WCAG 1.4.12 values: line height 1.8, words 0.16em, paragraphs apart; letters 0.12em except in Hebrew and Arabic | `data-a11y-spacing="wide"` | `web/src/styles/globals.css` |
+| Strong focus ring | 4px gold ring with a dark gap and a cream halo | `data-a11y-focus="strong"` | `web/src/styles/globals.css` |
+| Large pointer | 48px cursors from `web/public/images/cursors` | `data-a11y-cursor="large"` | `web/src/styles/globals.css` |
+| Reset | Back to the defaults (announced in a `role="status"` line) | none | |
+| Accessibility statement | Link to `/accessibility` | | |
+
+Rules:
+
+- **Storage and first paint.** The settings live in `localStorage` under `nhc.a11y.v1` (`web/src/lib/a11y.ts`):
+  validated on read, wrapped in `try/catch`, kept in memory when storage is blocked, synchronised between tabs. A
+  tiny ES5 script in the `<head>` of `web/src/app/[locale]/layout.tsx` (`A11Y_PREPAINT`) carries the request's CSP
+  nonce and sets the attributes before anything is drawn, so large text or high contrast never flashes in. The unit
+  test runs that script against the TypeScript functions so the two cannot drift. No cookie, nothing sent anywhere.
+- **Styling a new component for the modes.** Use tokens (high contrast then works by itself), rem font sizes (text
+  size works by itself), no fixed heights on text, no `text-overflow: ellipsis` or line clamp on content that has
+  no other place to be read (product, cart and photo names wrap instead: `<ProductCard>`, the checkout summary,
+  `<Lightbox>`), and a `prefers-reduced-motion` branch for any animation (the stop-animations mode covers the rest).
+- **Moving backgrounds** get a `<MotionToggle>` inside an element marked `data-motion-scope` (the home hero and
+  `<PlaceHero>` have one): it pauses the CSS animations in the scope (`[data-motion-paused]` in
+  `web/src/styles/globals.css`) and the hero film.
+- **No overlay widget.** Do not add a third-party "accessibility overlay" script: it would break the CSP, add a
+  tracker-like dependency and does not make a site conform. The panel is plain CSS on tokens.
+- Tests: `web/tests/unit/a11y.test.tsx` (storage, attributes, the pre-paint script, the dialog's keyboard
+  behaviour, the high-contrast colours) and `web/tests/e2e/a11y.spec.ts` (axe on every page with and without the
+  modes, the panel with the keyboard, persistence under the CSP, the pause buttons, the header in 14 languages,
+  focus not obscured). The audit and its results are in `docs/ACCESSIBILITY.md`.
+
 ## 6. Interaction and motion
 
 **Principle.** Motion is slow, small and optional. One loop only: the loading halo and the Ken Burns zoom on hero
@@ -909,7 +969,8 @@ photographs (both removed for reduced motion). Everything else plays once and th
 | Drawers and dialogs | Native `<dialog>`: opens modal, page behind inert, Escape closes, focus returns to the opener |
 | Focus management | Skip link first; after client navigation `<RouteFocus>` focuses `<main>`; after a step change the card heading is focused (`useStepFocus`); menus return focus to their button; a hidden control is out of the tab order |
 | Smooth scroll | `scroll-behavior: smooth` on `html`, `auto` under reduced motion; programmatic scrolls use `scrollBehavior()` from `web/src/lib/motion.ts` |
-| Reduced motion | Every animation has a `prefers-reduced-motion: reduce` branch that removes it; test with the emulation (the Playwright test `ux.spec.ts` does) |
+| Reduced motion | Every animation has a `prefers-reduced-motion: reduce` branch that removes it; test with the emulation (the Playwright test `ux.spec.ts` does). The panel's "Stop animations" (5.5) does the same for visitors who cannot change their system setting |
+| Pause | A background that keeps moving (the home hero film and Ken Burns zoom, the holy-site Ken Burns) has a `<MotionToggle>` pause button in its bottom corner at the reading end (WCAG 2.2.2) |
 
 ![Reading progress and back to top](design/shell-progress-back-to-top.jpg)
 
@@ -921,9 +982,12 @@ than 1s except the 24s Ken Burns; never autoplay audio; JavaScript reads the pre
 ## 7. Accessibility checklist
 
 Target: WCAG 2.2 level AA on every page, in every language. What is automated: axe-core with the tags `wcag2a`,
-`wcag2aa`, `wcag21a`, `wcag21aa`, `wcag22aa`, `best-practice` on the main pages in English, Hebrew and Arabic at
-desktop and phone width and in the interactive states (`web/tests/qa/axe.mjs`, `web/tests/e2e/shell.spec.ts`,
-`web/tests/e2e/qa-site.spec.ts`; the admin in `admin/tests/e2e/`). What is **not** verified: real screen readers
+`wcag2aa`, `wcag21a`, `wcag21aa`, `wcag22aa` on every page in English, Hebrew and Arabic at desktop and phone width,
+plain and with every mode of the accessibility panel on (`web/tests/e2e/a11y.spec.ts`), plus `best-practice` on the
+main pages and in the interactive states (`web/tests/qa/axe.mjs`, `web/tests/e2e/shell.spec.ts`,
+`web/tests/e2e/qa-site.spec.ts`; the admin in `admin/tests/e2e/`). The checks axe cannot make (text on photographs,
+focus not obscured, text spacing) are run by `web/tests/qa/a11y-probe.mjs`; results and known gaps are in
+`docs/ACCESSIBILITY.md`, and the public statement is `/accessibility`. What is **not** verified: real screen readers
 (NVDA, VoiceOver, TalkBack), real devices, and Firefox and Safari engines. Axe finds roughly a third of the
 problems; the checklist below is the rest.
 
@@ -966,6 +1030,8 @@ Check every item for each new page or component:
       overrides (1.4.12) do not clip. Never set fixed heights on text containers.
 - [ ] Body text is at least 16px; never a font-size in `px` below 12px.
 - [ ] `prefers-reduced-motion: reduce` removes every animation (section 6).
+- [ ] The page still works with every accessibility panel mode on (5.5): 200% text without sideways scroll, high
+      contrast without invisible parts, nothing cut off with the wider spacing.
 - [ ] Forced colours (Windows high contrast): state that relies on a background (current page, selected, pressed) has
       a system-colour outline (`@media (forced-colors: active)` in `web/src/styles/globals.css`); focused fields get a
       real outline because `box-shadow` is dropped.
@@ -983,9 +1049,9 @@ Check every item for each new page or component:
 - [ ] Nothing times out silently; a session that ends says so (admin: idle warning dialog with a countdown).
 
 **Media**
-- [ ] Autoplaying motion that lasts more than five seconds can be stopped (2.2.2). Known gap: the home hero film and
-      Ken Burns zoom have no pause control; they are hidden for reduced motion, `Save-Data` and phones. If you add
-      moving content, add a pause button.
+- [ ] Autoplaying motion that lasts more than five seconds can be stopped (2.2.2): the home hero film and the Ken
+      Burns zooms have a `<MotionToggle>` pause button, and the accessibility panel can stop all motion. If you add
+      moving content, put it in a `data-motion-scope` with a `<MotionToggle>`.
 - [ ] Videos with speech have captions and a transcript (1.2.2). Known gap: none of the site's videos has captions yet.
 - [ ] No flashing content.
 
@@ -1127,7 +1193,9 @@ Full threat model: `docs/SECURITY.md`. What a UI change must respect:
    (`x-nonce`) and exposes it through `<CspNonceProvider>`; a client component that starts a third-party script
    passes `useCspNonce()` to it (`<PayPalPanel>` does).
 2. **No inline scripts, no inline event handlers, no `<style>` elements you wrote by hand.** The only `<script>` you
-   write is `<JsonLd>`, built by `web/src/lib/jsonLd.ts`, which escapes `<`, `>`, `&` and U+2028/9. Inline `style=""`
+   write is `<JsonLd>`, built by `web/src/lib/jsonLd.ts`, which escapes `<`, `>`, `&` and U+2028/9. The one
+   exception is the accessibility pre-paint script in `web/src/app/[locale]/layout.tsx`: a constant string
+   (`A11Y_PREPAINT`, no visitor data in it) that carries the request's nonce. Inline `style=""`
    attributes are tolerated only to pass CSS variables or computed sizes (CSP `style-src-attr 'unsafe-inline'`
    is a recorded, accepted risk in `docs/SECURITY.md`); never use them for static styling.
 3. **Never** use `dangerouslySetInnerHTML` for anything but JSON-LD, `eval`, `document.write` or `innerHTML =`.
@@ -1136,7 +1204,7 @@ Full threat model: `docs/SECURITY.md`. What a UI change must respect:
 4. **Visitor text** (reviews, prayers, names) is rendered as React text only. The API stores it HTML-escaped;
    decode it once with `web/src/lib/plainText.ts` for display as text.
 5. **Storage rules.** `localStorage` holds only the cart (`nhc.cart.v1`), the wishlist, recently viewed products,
-   lit candles and liked prayers: never a credential, a token, an e-mail address or a prayer text. Anything read
+   lit candles, liked prayers and the accessibility settings (`nhc.a11y.v1`): never a credential, a token, an e-mail address or a prayer text. Anything read
    back is validated (24-hex id, bounded quantity, text fields) because any script on the origin can edit it. The
    only cookie is `NEXT_LOCALE`. Wrap storage in `try/catch` (private mode) and render correctly without it. The
    admin keeps its session in an `httpOnly` cookie only.
@@ -1405,9 +1473,10 @@ the same change, never merge or deploy without the owner's approval (`docs/WORKI
 5. **Navigation and discovery.** Add the page to the right list in `web/src/lib/site.ts` (`mainNav` for the header,
    `footerNav`, `pilgrimNav` or `legalNav`); the footer, the sitemap (`web/src/app/sitemap.ts`) and the site search
    (`web/src/data/pilgrim/searchIndex.ts`) read from it. A header link needs a label `site.nav.<key>` and a check that
-   the header still fits at 1100 px in Russian.
+   the header still fits in every language (the header test in `web/tests/e2e/a11y.spec.ts`).
 6. **Tests.** Add the route to the list in `web/tests/e2e/pilgrim.spec.ts` (title, h1, JSON-LD) or write a new spec;
-   add it to `ROUTES` in `web/tests/qa/matrix.mjs` and to the axe pages; unit-test any logic.
+   add it to `ROUTES` in `web/tests/qa/matrix.mjs`, in `web/tests/e2e/a11y.spec.ts` (axe on every page) and in
+   `web/tests/qa/a11y-audit.mjs`; unit-test any logic.
 7. **Look** at it on desktop and phone, in `/en`, `/he` and `/de`; then section 12.
 
 ### 14.2 A language

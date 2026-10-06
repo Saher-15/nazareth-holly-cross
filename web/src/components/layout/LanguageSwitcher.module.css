@@ -34,6 +34,12 @@
     gap: 4px;
   }
 }
+/* Phones: the globe and the language code are enough; the caret's room goes to the brand name. */
+@media (max-width: 480px) {
+  .trigger .caret {
+    display: none;
+  }
+}
 .code {
   font-size: 0.8rem;
   font-weight: 700;

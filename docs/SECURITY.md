@@ -40,7 +40,10 @@ malicious team member, and denial of service at network level (Netlify and Rende
 
 - `script-src 'self' 'nonce-…' 'strict-dynamic'`: only scripts that carry the nonce run, and the scripts they load
   (the PayPal SDK) inherit the trust. **No `unsafe-inline`, no `unsafe-eval`** in production. Injected markup such
-  as `<script>…</script>` or `onerror="…"` is refused by the browser even if it got into the page.
+  as `<script>…</script>` or `onerror="…"` is refused by the browser even if it got into the page. The only inline
+  script the site writes itself is the accessibility pre-paint script in the `<head>` (`web/src/lib/a11y.ts`,
+  `A11Y_PREPAINT`): a constant with no visitor data that carries the nonce like Next's own scripts and only reads
+  `localStorage` and sets `data-a11y-*` attributes on `<html>` (`tests/e2e/a11y.spec.ts` checks the nonce).
 - `style-src 'self' 'nonce-…'`, plus `style-src-attr 'unsafe-inline'`: style *elements* need the nonce; inline
   `style=""` attributes (CSS variables written by React) cannot carry one and cannot run code.
 - `connect-src`: our own origin, the API (`NEXT_PUBLIC_API_URL`) and PayPal. `frame-src` and `img-src`: PayPal.
@@ -79,8 +82,9 @@ line to its test, not loosening the policy.
 - Links to other sites are constants in the code (social profiles, Google Maps); none is built from user input.
 - Open redirects: no `redirect()` takes user input; the language redirect only ever produces a path on this site
   (tested with `//evil.com`, `/\evil.com`, `/%5Cevil.com`).
-- Browser storage: `localStorage` holds the cart (`nhc.cart.v1`), wishlist, recently viewed and the lit candles. No
-  credential, token or personal data, and no cookie except `NEXT_LOCALE` (the chosen language). The cart is
+- Browser storage: `localStorage` holds the cart (`nhc.cart.v1`), wishlist, recently viewed, the lit candles and the
+  accessibility settings (`nhc.a11y.v1`: text size and on/off switches, validated on read). No credential, token or
+  personal data, and no cookie except `NEXT_LOCALE` (the chosen language). The cart is
   validated when read (24-hex id, text fields, bounded quantity) because anything on the origin can edit it; the
   API validates everything again.
 - No secret reaches the browser: only `NEXT_PUBLIC_*` variables are read; the PayPal client id is public by design.

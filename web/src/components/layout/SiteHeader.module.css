@@ -133,16 +133,20 @@
   }
 }
 
-/* Russian is the longest set of labels: its Donate button waits for a wider window. */
-@media (max-width: 1319px) {
-  .actions .donate:lang(ru) {
-    display: none;
-  }
+/* Polish, Russian, Greek, Ukrainian and Dutch have the longest labels: with the accessibility button their Donate
+   button never fits in the bar (the bar is at most 1180px wide), so it lives in the footer and the drawer only.
+   web/tests/e2e/a11y.spec.ts checks that the bar never overflows in any language. */
+.actions .donate:lang(pl),
+.actions .donate:lang(ru),
+.actions .donate:lang(el),
+.actions .donate:lang(uk),
+.actions .donate:lang(nl) {
+  display: none;
 }
 
-/* Drawer layout: below 1100px even the long Russian, Greek and Polish labels would not fit in one row.
+/* Drawer layout: at 1180px and below the long Russian, Ukrainian and Polish labels would not fit in one row.
    (SiteHeader.tsx asks the menu button whether it is shown, so there is no second number to keep in sync.) */
-@media (max-width: 1100px) {
+@media (max-width: 1180px) {
   .menuButton {
     display: grid;
   }
@@ -196,6 +200,15 @@
   .drawerCta :global(.ui-btn) {
     width: 100%;
     min-height: 52px;
+  }
+  /* Never wider than the bar: the brand name wraps onto a second line before anything is pushed out (nothing is
+     cut off, WCAG 1.4.10 and 1.4.12). */
+  .brand {
+    min-width: 0;
+    white-space: normal;
+  }
+  .brandName {
+    line-height: 1.1;
   }
   /* Dimmed page behind the open drawer; a tap on it closes the menu. */
   .backdrop {
@@ -280,28 +293,38 @@
   z-index: -1;
   background: color-mix(in srgb, black 60%, transparent);
 }
-/* The brand gives way first when large text leaves no room for it. */
+/* The brand name wraps when large text leaves no room for it in one line. On a phone the large name would make
+   the sticky header a quarter of the screen: the cross alone stays (the link keeps the name for screen readers). */
 :global(:root[data-a11y-text]) .brand {
   min-width: 0;
+  white-space: normal;
 }
 :global(:root[data-a11y-text]) .brandName {
-  overflow: hidden;
-  text-overflow: ellipsis;
+  line-height: 1.1;
+}
+@media (max-width: 480px) {
+  :global(:root[data-a11y-text]) .brand {
+    min-width: var(--tap);
+    justify-content: center;
+  }
+  :global(:root[data-a11y-text]) .brandName {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
 }
 
-/* Small phones (360px): keep the brand, language and menu buttons on one line. */
-@media (max-width: 400px) {
+/* Phones: keep the brand, the accessibility, language and menu buttons on one line (the brand name gives way). */
+@media (max-width: 480px) {
   .bar {
     gap: 8px;
   }
   .brand {
     font-size: 1rem;
     gap: 6px;
-    min-width: 0;
-  }
-  .brandName {
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 }
 

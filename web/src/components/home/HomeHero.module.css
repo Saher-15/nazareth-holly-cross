@@ -81,6 +81,8 @@
 .eyebrow {
   font-size: 0.85rem;
   color: var(--light-gold);
+  /* Small text on the photograph: a dark halo keeps it readable over the bright roofs (WCAG 1.4.3). */
+  text-shadow: 0 0 2px var(--night), 0 1px 3px color-mix(in srgb, black 75%, transparent), 0 0 14px var(--night);
 }
 .title {
   margin: 0;

@@ -42,7 +42,13 @@
   hyphens: auto;
 }
 .ui-hero__action { margin: 28px 0 0; }
-.ui-hero__lead { margin: 0 auto; max-width: 640px; color: var(--muted); font-size: clamp(1rem, 2.2vw, 1.15rem); text-wrap: pretty; }
+.ui-hero__lead { margin: 0 auto; max-width: 640px; color: var(--cream); font-size: clamp(1rem, 2.2vw, 1.15rem); text-wrap: pretty; }
+/* The eyebrow and the lead are small text on a photograph: a dark halo keeps them at 4.5:1 over its brightest parts
+   (WCAG 1.4.3; measured by web/tests/qa/a11y-probe.mjs, docs/ACCESSIBILITY.md). */
+.ui-hero .ui-eyebrow,
+.ui-hero__lead {
+  text-shadow: 0 0 2px var(--night), 0 1px 3px color-mix(in srgb, black 75%, transparent), 0 0 14px var(--night);
+}
 /* Long words (Russian, German, Greek) shrink the title a little on phones instead of breaking mid-word. */
 @media (max-width: 480px) {
   .ui-hero__title:lang(ru), .ui-hero__title:lang(de), .ui-hero__title:lang(el), .ui-hero__title:lang(pl) { font-size: clamp(1.7rem, 8.4vw, 2.2rem); }

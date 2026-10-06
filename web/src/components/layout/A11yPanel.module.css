@@ -174,9 +174,11 @@
   opacity: 0;
   cursor: pointer;
 }
-/* The drawn switch: a pill with a knob that moves to the end edge when on. */
+/* The drawn switch: a pill with a knob that moves to the end edge when on. Clicks go through it to the real
+   check box underneath (the label would toggle it anyway). */
 .track {
   position: relative;
+  pointer-events: none;
   flex: none;
   inline-size: 44px;
   block-size: 26px;

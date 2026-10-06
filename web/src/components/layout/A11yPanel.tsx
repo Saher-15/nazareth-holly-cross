@@ -5,6 +5,8 @@ import { useFormatter, useTranslations } from 'next-intl';
 import { AccessibilityIcon, CloseIcon } from '@/components/ui/icons';
 import { Link } from '@/i18n/navigation';
 import {
+  A11Y_ATTRIBUTES,
+  applySettings,
   commitSettings,
   DEFAULT_SETTINGS,
   isDefault,
@@ -42,6 +44,18 @@ export default function A11yPanel({ onOpen }: { onOpen?: () => void }) {
   const raw = useSyncExternalStore(subscribeSettings, readStoredSettings, () => null);
   const settings = useMemo(() => parseSettings(raw), [raw]);
   const systemMotion = useSyncExternalStore(subscribeMotion, systemReducesMotion, () => false);
+
+  // The pre-paint script put the settings on <html> before React started. When React renders <html> itself instead
+  // of hydrating it (the not-found page does), it drops attributes it does not know; put them back whenever that
+  // happens.
+  useEffect(() => {
+    const root = document.documentElement;
+    const sync = () => applySettings(root, parseSettings(readStoredSettings()));
+    sync();
+    const observer = new MutationObserver(sync);
+    observer.observe(root, { attributes: true, attributeFilter: A11Y_ATTRIBUTES });
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!open) return undefined;

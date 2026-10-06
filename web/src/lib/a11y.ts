@@ -92,12 +92,19 @@ export function settingsToAttributes(settings: A11ySettings): Record<string, str
   return attributes;
 }
 
-/** Puts the settings on an element (normally <html>), removing the attributes of settings that are off. */
+/** Every attribute the settings may put on <html>. */
+export const A11Y_ATTRIBUTES = [TEXT_ATTRIBUTE, ...SWITCHES.map((name) => SWITCH_ATTRIBUTES[name][0])];
+
+/** Puts the settings on an element (normally <html>), removing the attributes of settings that are off. Only what
+ *  differs is touched, so an observer of these attributes (A11yPanel) never sees a change it did not ask for. */
 export function applySettings(root: HTMLElement, settings: A11ySettings): void {
   const wanted = settingsToAttributes(settings);
-  for (const attribute of [TEXT_ATTRIBUTE, ...SWITCHES.map((name) => SWITCH_ATTRIBUTES[name][0])]) {
-    if (attribute in wanted) root.setAttribute(attribute, wanted[attribute]);
-    else root.removeAttribute(attribute);
+  for (const attribute of A11Y_ATTRIBUTES) {
+    if (attribute in wanted) {
+      if (root.getAttribute(attribute) !== wanted[attribute]) root.setAttribute(attribute, wanted[attribute]);
+    } else if (root.hasAttribute(attribute)) {
+      root.removeAttribute(attribute);
+    }
   }
 }
 

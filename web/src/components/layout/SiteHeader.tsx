@@ -81,7 +81,10 @@ export default function SiteHeader() {
       <div className={`ui-container ${styles.bar}`}>
         <Link href="/" className={styles.brand}>
           <CrossMark size={26} className={styles.cross} />
-          <span className={styles.brandName}>{t('name')}</span>
+          {/* The brand is Latin in every language: left to right, so a cut-off name ends in "..." on its own end. */}
+          <span className={styles.brandName} dir="ltr">
+            {t('name')}
+          </span>
         </Link>
 
         <nav
