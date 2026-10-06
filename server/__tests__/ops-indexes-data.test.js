@@ -126,6 +126,16 @@ describe('index comparison', () => {
     expect(normaliseActual(reported).key).toEqual({ name: 'text', description: 'text' });
   });
 
+  it('does not care about the order of the fields of a text index (production reports them alphabetically)', () => {
+    const declared = declaredIndexes(MODELS.Product).find((i) => Object.values(i.key).includes('text'));
+    // As the production cluster answered on 2026-10-06 (the false "conflict" warning at start-up).
+    const reported = { v: 2, key: { _fts: 'text', _ftsx: 1 }, name: 'name_text_description_text', weights: { description: 1, name: 1 }, default_language: 'english', language_override: 'language', textIndexVersion: 3 };
+    expect(diffIndexes([declared], [{ v: 2, key: { _id: 1 }, name: '_id_' }, reported])).toEqual({ missing: [], conflict: [], extra: [] });
+    // ... but other weights are still a real difference.
+    const reweighted = { ...reported, weights: { description: 1, name: 10 } };
+    expect(diffIndexes([declared], [{ v: 2, key: { _id: 1 }, name: '_id_' }, reweighted]).conflict).toHaveLength(1);
+  });
+
   it('notices a different option (unique, TTL seconds, partial filter)', () => {
     const wanted = { name: 'at_1', key: { at: 1 }, options: { expireAfterSeconds: 100 } };
     expect(diffIndexes([wanted], [{ v: 2, key: { at: 1 }, name: 'at_1', expireAfterSeconds: 200 }]).conflict).toHaveLength(1);
