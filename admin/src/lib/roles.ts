@@ -10,11 +10,12 @@ export type Capability =
   | 'deleteOrders' // DELETE /admin/orders/:id
   | 'manageUsers' // /admin/users
   | 'viewAudit' // /admin/audit
-  | 'managePrivacy'; // /admin/privacy: look up and erase a customer's personal data
+  | 'managePrivacy' // /admin/privacy: look up and erase a customer's personal data
+  | 'broadcast'; // /admin/live: start and stop a live broadcast (docs/LIVE.md)
 
 const CAPABILITIES: Record<Role, readonly Capability[]> = {
-  owner: ['write', 'export', 'deleteOrders', 'manageUsers', 'viewAudit', 'managePrivacy'],
-  editor: ['write', 'export'],
+  owner: ['write', 'export', 'deleteOrders', 'manageUsers', 'viewAudit', 'managePrivacy', 'broadcast'],
+  editor: ['write', 'export', 'broadcast'],
   viewer: [],
 };
 
@@ -30,6 +31,7 @@ export function can(role: Role | null | undefined, capability: Capability): bool
 /** Pages of the dashboard, with the capability a role needs to see the navigation entry. */
 export type NavId =
   | 'dashboard'
+  | 'live'
   | 'orders'
   | 'payments'
   | 'candles'
@@ -45,6 +47,7 @@ export type NavId =
 
 export const NAV: readonly { id: NavId; href: string; needs?: Capability }[] = [
   { id: 'dashboard', href: '/' },
+  { id: 'live', href: '/live', needs: 'broadcast' },
   { id: 'orders', href: '/orders' },
   { id: 'payments', href: '/payments' },
   { id: 'candles', href: '/candles' },

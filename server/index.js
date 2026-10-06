@@ -4,6 +4,8 @@ import { createApp } from './app.js';
 import { config, missingEnv, secretProblems } from './config/env.js';
 import { applyMongooseSafety } from './config/mongoose.js';
 import { MODELS, planIndexes, problemsIn } from './services/indexes.js';
+import { streamConfigured } from './services/cloudflareStream.js';
+import { endStaleSessions } from './services/live.js';
 
 // Validate required env vars at startup
 const missing = missingEnv();
@@ -50,7 +52,14 @@ function connectDB() {
 connectDB();
 
 const app = createApp();
-const server = app.listen(config.port, () => console.log(`Server running on port ${config.port} (PayPal: ${config.paypal.environment})`));
+const server = app.listen(config.port, () => console.log(`Server running on port ${config.port} (PayPal: ${config.paypal.environment}, live broadcasting: ${streamConfigured() ? 'configured' : 'not configured'})`));
+
+// A live broadcast nobody stopped (the admin's phone died, the tab was closed without the stop arriving) ends by itself
+// after LIVE_MAX_MS. The reads of the status do it too; this timer covers the hours when nobody looks (docs/LIVE.md).
+setInterval(() => {
+  if (mongoose.connection.readyState !== 1) return;
+  endStaleSessions().catch((err) => console.error('[live] automatic end failed:', err.message));
+}, 10 * 60_000).unref();
 
 process.on('unhandledRejection', (reason) => {
   console.error(`[${new Date().toISOString()}] Unhandled rejection:`, reason);

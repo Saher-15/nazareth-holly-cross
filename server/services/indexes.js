@@ -3,6 +3,7 @@ import AdminSession from '../model/adminSession.js';
 import AuditLog from '../model/auditLog.js';
 import Candle from '../model/candle.js';
 import Contact from '../model/contact.js';
+import LiveSession from '../model/liveSession.js';
 import Order from '../model/order.js';
 import Payment from '../model/payment.js';
 import Prayer from '../model/prayer.js';
@@ -18,7 +19,7 @@ import Review from '../model/review.js';
 
 // Every model, in one list. The collection names come from the models (note the two that are not singular:
 // `admins` and `prayers`, see docs/DATABASE.md).
-export const MODELS = { Admin, AdminSession, AuditLog, Candle, Contact, Order, Payment, Prayer, Product, ProductReview, Review };
+export const MODELS = { Admin, AdminSession, AuditLog, Candle, Contact, LiveSession, Order, Payment, Prayer, Product, ProductReview, Review };
 
 export const collectionNameOf = (Model) => Model.collection.name;
 

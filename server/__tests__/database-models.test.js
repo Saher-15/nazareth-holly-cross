@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 // production server does not build indexes by itself.
 
 vi.unmock('../model/payment.js');
+vi.unmock('../model/liveSession.js');
 
 const models = {
   Admin: (await import('../model/admin.js')).default,
@@ -13,6 +14,7 @@ const models = {
   AuditLog: (await import('../model/auditLog.js')).default,
   Candle: (await import('../model/candle.js')).default,
   Contact: (await import('../model/contact.js')).default,
+  LiveSession: (await import('../model/liveSession.js')).default,
   Order: (await import('../model/order.js')).default,
   Payment: (await import('../model/payment.js')).default,
   Prayer: (await import('../model/prayer.js')).default,
@@ -99,6 +101,8 @@ describe('the indexes the queries need', () => {
     ['AuditLog', 'the audit screen, newest first', 'at:-1'],
     ['AuditLog', 'by actor', 'actorName:1,at:-1'],
     ['AuditLog', 'by action', 'action:1,at:-1'],
+    ['LiveSession', 'the session that is live now (also: at most one)', 'status:1'],
+    ['LiveSession', 'recent broadcasts on the dashboard', 'startedAt:-1'],
   ];
 
   it.each(needed)('%s: %s -> %s', (model, _query, key) => {
@@ -112,6 +116,9 @@ describe('the indexes the queries need', () => {
     expect(unique(models.Candle)).toEqual(['paypalOrderId']);
     expect(unique(models.Admin)).toEqual(['username']);
     expect(unique(models.AdminSession)).toEqual(['sid']);
+    // at most one live broadcast: a partial unique index over the documents whose status is "live"
+    expect(unique(models.LiveSession)).toEqual(['status']);
+    expect(models.LiveSession.schema.indexes().find(([f]) => f.status)[1].partialFilterExpression).toEqual({ status: 'live' });
     // orders and candles are saved without a PayPal id by older clients: the index only covers documents that have one
     for (const name of ['Order', 'Candle']) {
       const [, options] = models[name].schema.indexes().find(([f]) => f.paypalOrderId);
@@ -252,7 +259,7 @@ describe('collection names', () => {
   it('are singular, except the two that Mongoose pluralised before explicit names were used (renaming would orphan the data)', () => {
     const names = Object.fromEntries(Object.entries(models).map(([model, Model]) => [model, Model.collection.name]));
     expect(names).toEqual({
-      Admin: 'admins', AdminSession: 'adminSession', AuditLog: 'auditLog', Candle: 'candle', Contact: 'contact', Order: 'order', Payment: 'payment',
+      Admin: 'admins', AdminSession: 'adminSession', AuditLog: 'auditLog', Candle: 'candle', Contact: 'contact', LiveSession: 'liveSession', Order: 'order', Payment: 'payment',
       Prayer: 'prayers', Product: 'product', ProductReview: 'productReview', Review: 'review',
     });
   });

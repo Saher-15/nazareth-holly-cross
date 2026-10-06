@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { getFormatter, getTranslations, setRequestLocale } from 'next-intl/server';
+import LiveNow from '@/components/community/LiveNow';
 import LivePlayer, { type PlayerBroadcast } from '@/components/community/LivePlayer';
 import PastBroadcasts from '@/components/community/PastBroadcasts';
 import { broadcasts, LIVE_WINDOW_MS } from '@/components/community/liveSchedule';
@@ -10,6 +11,7 @@ import PageHero from '@/components/ui/PageHero';
 import { getMedia, mediaShareFile } from '@/data/media';
 import Reveal from '@/components/ui/Reveal';
 import { SITE_URL } from '@/lib/config';
+import { livePeekCheckedAt, peekLiveStatus } from '@/lib/liveStatusPeek';
 import { contentUrl } from '@/lib/videos';
 import { organizationJsonLd } from '@/lib/jsonLd';
 import { pageMetadata } from '@/lib/seo';
@@ -103,6 +105,8 @@ export default async function LivePage({ params }: PageProps<'/[locale]/live'>) 
       <PageHero eyebrow={t('eyebrow')} title={t('title')} lead={t('lead')} />
 
       <section className={`ui-container ${styles.stage}`} aria-labelledby="live-stage-title">
+        {/* A broadcast started from the dashboard (docs/LIVE.md): shown above the schedule while it is live. */}
+        <LiveNow initial={peekLiveStatus()} checkedAt={livePeekCheckedAt()} renderedAt={renderedAt} />
         <LivePlayer
           broadcasts={schedule}
           renderedAt={renderedAt}

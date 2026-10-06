@@ -16,7 +16,8 @@
       "reviews": "Reviews",
       "about": "About",
       "cart": "Cart",
-      "donate": "Donate"
+      "donate": "Donate",
+      "liveNow": "(broadcasting now)"
     },
     "footer": {
       "about": "We share the spirit of Nazareth with pilgrims everywhere: its holy places, its prayers and its crafts.",
@@ -494,6 +495,14 @@
       "videoFallback": "Your browser cannot play this video.",
       "events": {
         "annunciationSunday": "Sunday prayer from the Church of the Annunciation"
+      },
+      "now": {
+        "badge": "Live now",
+        "since": "{minutes, plural, =0 {Started a moment ago} one {Live for # minute} other {Live for # minutes}}",
+        "playerTitle": "Live broadcast: {title}",
+        "started": "A live broadcast has started: {title}",
+        "ended": "The live broadcast has ended.",
+        "note": "Press play to pray with us. The broadcast is not recorded."
       }
     }
   },

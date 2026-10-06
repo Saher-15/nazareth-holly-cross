@@ -354,7 +354,8 @@ previews keep using sandbox and the preview API).
 
 **Render** (`render.yaml`): `DATABASEURL`, `JWT_SECRET` (32+ chars), `ADMIN_PASSWORD`, `MAIL_FROM`, `MAIL_APP_PASSWORD`,
 `CLIENT_ID`, `CLIENT_SECRET` (PayPal REST), `ENVIRONMENT` (`sandbox` unless `production`), `CLIENT_URL`, `ADMIN_ORIGINS`,
-`REQUIRE_PAYMENT_PROOF`, optional `EXTRA_ORIGINS`, `TRUST_PROXY_HOPS`. `/health/deep` reports `paypalMode` so the API side can
+`REQUIRE_PAYMENT_PROOF`, optional `EXTRA_ORIGINS`, `TRUST_PROXY_HOPS`, and for live broadcasting `CF_ACCOUNT_ID`,
+`CF_STREAM_API_TOKEN` (Cloudflare Stream; LIVE.md section 6). `/health/deep` reports `paypalMode` so the API side can
 be read without a login.
 
 #### Checklist: switching PayPal to Live safely (owner; an agent never presses a live pay button)

@@ -1,0 +1,108 @@
+/* The broadcast that is live now, above the schedule of the /live page (LiveNow.tsx). Mobile first. */
+
+.live {
+  display: grid;
+  gap: 16px;
+  margin-block-end: 24px;
+  padding: clamp(14px, 3vw, 24px);
+  border-radius: 20px;
+  border: 1px solid color-mix(in srgb, var(--live) 60%, transparent);
+  background: var(--night);
+  box-shadow: var(--shadow), 0 0 90px color-mix(in srgb, var(--live) 18%, transparent);
+}
+
+.head {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 7px 14px;
+  border-radius: 999px;
+  /* The reserved "on air" colour with night ink (5.89:1, docs/DESIGN-GUIDE.md 3.2), and the word next to it. */
+  border: 1px solid var(--live);
+  background: var(--live);
+  color: var(--night);
+  font: 700 0.78rem/1 var(--sans);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.badge:lang(he),
+.badge:lang(ar) {
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.dot {
+  inline-size: 9px;
+  block-size: 9px;
+  border-radius: 50%;
+  background: var(--night);
+  animation: pulse 1.4s ease-out infinite;
+}
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--night) 70%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 0 10px transparent;
+  }
+}
+
+.title {
+  margin: 0;
+  max-inline-size: 40ch;
+  font: 400 clamp(1.4rem, 3.6vw, 2.2rem)/1.2 var(--serif);
+  color: var(--cream);
+  overflow-wrap: break-word;
+  text-wrap: balance;
+}
+
+.since {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* 16:9, the player fills it; the frame keeps the space before it loads (no layout shift). */
+.frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid var(--glass-line);
+  background: var(--night-deep);
+}
+.player {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  border: 0;
+}
+
+.note {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dot {
+    animation: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .live,
+  .badge {
+    border-color: CanvasText;
+  }
+}

@@ -43,6 +43,9 @@ export const sample = () => ({
     { _id: newId(), paypalOrderId: 'CANDLEPAYPAL00001', type: 'candle', amount: 3, currency: 'USD', status: 'captured', capturedAt: days(2), linkedTo: { kind: 'candle', id: ids.candle1 }, createdAt: days(2), updatedAt: days(2), __v: 0 },
     { _id: newId(), paypalOrderId: 'DONATIONPAYPAL001', type: 'donation', amount: 25, currency: 'USD', status: 'captured', capturedAt: days(1), donorName: 'Maria', createdAt: days(1), updatedAt: days(1), __v: 0 },
   ],
+  liveSession: [
+    { _id: newId(), title: 'Evening prayer', status: 'ended', inputUid: 'f256e6ea9341d51eea64c9454659e576', whepUrl: 'https://customer-abc123.cloudflarestream.com/f256e6ea9341d51eea64c9454659e576/webRTC/play', startedAt: days(3), endedAt: days(3), endReason: 'stopped', startedBy: { id: ids.admin, name: 'owner' }, endedBy: { id: ids.admin, name: 'owner' }, inputDeleted: true, createdAt: days(3), updatedAt: days(3), __v: 0 },
+  ],
 });
 
 // A fake database holding `sample()` (or another set of collections).

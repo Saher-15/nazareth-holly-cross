@@ -37,6 +37,10 @@ async function seriousViolations(page: Page) {
 
 test.beforeEach(async ({ page }) => {
   await page.route(ADD_REVIEW, (route) => route.abort());
+  // The /live page asks the API whether a broadcast is live (live-broadcast.spec.ts tests that): here nothing is.
+  await page.route('**/live/status', (route) =>
+    route.fulfill({ status: 200, headers: { ...CORS, 'content-type': 'application/json' }, body: JSON.stringify({ live: false }) }),
+  );
 });
 
 test.describe('reviews page', () => {
