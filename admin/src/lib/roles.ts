@@ -9,10 +9,11 @@ export type Capability =
   | 'export' // GET /admin/export/*.csv (a bulk copy of personal data: editor and owner, not viewer)
   | 'deleteOrders' // DELETE /admin/orders/:id
   | 'manageUsers' // /admin/users
-  | 'viewAudit'; // /admin/audit
+  | 'viewAudit' // /admin/audit
+  | 'managePrivacy'; // /admin/privacy: look up and erase a customer's personal data
 
 const CAPABILITIES: Record<Role, readonly Capability[]> = {
-  owner: ['write', 'export', 'deleteOrders', 'manageUsers', 'viewAudit'],
+  owner: ['write', 'export', 'deleteOrders', 'manageUsers', 'viewAudit', 'managePrivacy'],
   editor: ['write', 'export'],
   viewer: [],
 };
@@ -30,6 +31,7 @@ export function can(role: Role | null | undefined, capability: Capability): bool
 export type NavId =
   | 'dashboard'
   | 'orders'
+  | 'payments'
   | 'candles'
   | 'contacts'
   | 'products'
@@ -37,12 +39,14 @@ export type NavId =
   | 'prayers'
   | 'users'
   | 'audit'
+  | 'privacy'
   | 'settings'
   | 'profile';
 
 export const NAV: readonly { id: NavId; href: string; needs?: Capability }[] = [
   { id: 'dashboard', href: '/' },
   { id: 'orders', href: '/orders' },
+  { id: 'payments', href: '/payments' },
   { id: 'candles', href: '/candles' },
   { id: 'contacts', href: '/contacts' },
   { id: 'products', href: '/products' },
@@ -50,6 +54,7 @@ export const NAV: readonly { id: NavId; href: string; needs?: Capability }[] = [
   { id: 'prayers', href: '/prayers' },
   { id: 'users', href: '/users', needs: 'manageUsers' },
   { id: 'audit', href: '/audit', needs: 'viewAudit' },
+  { id: 'privacy', href: '/privacy', needs: 'managePrivacy' },
   { id: 'settings', href: '/settings' },
   { id: 'profile', href: '/profile' },
 ];

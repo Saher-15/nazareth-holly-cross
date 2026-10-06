@@ -612,11 +612,13 @@
       "errors": {
         "start": "We could not start the payment. Please try again.",
         "notCompleted": "The payment was not completed. You have not been charged.",
-        "paypal": "PayPal reported an error. Please try again."
+        "paypal": "PayPal reported an error. Please try again.",
+        "unconfirmed": "We could not confirm your payment because the connection failed. Please do not pay again yet: check your PayPal account, or write to us."
       },
       "reference": "Payment reference: {id}",
       "saving": "Saving your details…",
-      "saveFailed": "Your payment went through, but we could not save your details. Please try again, or write to <mail>{email}</mail> with your payment reference."
+      "saveFailed": "Your payment went through, but we could not save your details. Please try again, or write to <mail>{email}</mail> with your payment reference.",
+      "savePending": "Your payment went through. We could not save your details just yet, so we will keep trying by ourselves, also the next time you open this site on this device. Please keep your payment reference ({id}). Questions? Write to <mail>{email}</mail>."
     },
     "empty": {
       "text": "Browse rosaries, crosses and keepsakes from Nazareth."
@@ -636,6 +638,10 @@
       "donation": "Donation",
       "thanksTitle": "Thank you for your donation!",
       "thanksText": "Your generosity helps keep the light of Nazareth shining for pilgrims around the world."
+    },
+    "pending": {
+      "recovered": "Good news: your earlier payment ({id}) has now been saved with us. Thank you!",
+      "waiting": "Your earlier payment ({id}) is still waiting to be saved with us. We will keep trying. If it stays like this, please write to {email} with this reference."
     }
   },
   "shopFeatures": {

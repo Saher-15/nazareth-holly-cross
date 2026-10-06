@@ -7,10 +7,10 @@ import request from 'supertest';
 const mocks = vi.hoisted(() => ({ product: null }));
 
 vi.mock('../model/product.js', () => {
-  const chain = { sort: () => chain, limit: () => chain, skip: () => Promise.resolve([{ name: 'Olive oil' }]) };
+  const chain = { sort: () => chain, limit: () => chain, skip: () => chain, lean: () => Promise.resolve([{ name: 'Olive oil' }]) };
   return {
     default: {
-      find: vi.fn(() => Object.assign(Promise.resolve([{ name: 'Olive oil' }]), chain)),
+      find: vi.fn(() => chain),
       findById: vi.fn(async () => mocks.product),
       countDocuments: vi.fn(() => Promise.resolve(1)),
     },

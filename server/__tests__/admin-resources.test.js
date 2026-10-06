@@ -506,7 +506,7 @@ describe('GET /admin/dashboard', () => {
     const res = await call('get', '/admin/dashboard', viewer);
     expect(res.status).toBe(200);
     expect(res.headers['cache-control']).toBe('no-store');
-    expect(Object.keys(res.body).sort()).toEqual(['generatedAt', 'last30Days', 'lowStock', 'recent', 'topProducts', 'totals']);
+    expect(Object.keys(res.body).sort()).toEqual(['alerts', 'generatedAt', 'last30Days', 'lowStock', 'recent', 'topProducts', 'totals']);
     expect(res.body.totals).toEqual({
       orders: 12, ordersPending: 5, revenue: 1234.57, candles: 3, candlesPending: 2, contacts: 2, contactsOpen: 1,
       products: 4, productReviews: 3, prayers: 2, reviews: 1,

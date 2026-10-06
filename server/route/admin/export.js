@@ -2,6 +2,8 @@ import express from 'express';
 import Order from '../../model/order.js';
 import Candle from '../../model/candle.js';
 import Contact from '../../model/contact.js';
+import Payment from '../../model/payment.js';
+import { unfulfilledFilter } from '../../services/payments.js';
 import { asyncHandler } from '../../middleware/asyncHandler.js';
 import { requireRole } from '../../middleware/adminGuard.js';
 import { audit } from '../../services/audit.js';
@@ -49,16 +51,32 @@ const RESOURCES = {
     Model: Contact,
     columns: [id, field('createdAt'), field('fullName'), field('email'), field('phone'), field('msg'), field('done')],
   },
+  payments: {
+    Model: Payment,
+    columns: [
+      id, field('createdAt'), field('capturedAt'), field('paypalOrderId'), field('type'), field('status'), field('amount'),
+      field('currency'), field('payerEmail'), field('payerName'), field('donorName'),
+      { header: 'linkedKind', value: (p) => p.linkedTo?.kind },
+      { header: 'linkedId', value: (p) => (p.linkedTo?.id ? String(p.linkedTo.id) : '') },
+      field('resolvedAt'), field('resolvedBy'), field('notes'),
+    ],
+  },
 };
 
-// GET /admin/export/orders.csv | candles.csv | contacts.csv   (editor or owner: it is a bulk copy of personal data)
+// GET /admin/export/orders.csv | candles.csv | contacts.csv | payments.csv   (editor or owner: it is a bulk copy of personal data)
 router.get('/:file', requireRole('editor'), asyncHandler(async (req, res) => {
-  const match = /^(orders|candles|contacts)\.csv$/.exec(req.params.file);
+  const match = /^(orders|candles|contacts|payments)\.csv$/.exec(req.params.file);
   if (!match) throw new HttpError(404, 'Not found');
   const resource = match[1];
   const { Model, columns } = RESOURCES[resource];
 
-  const rows = await Model.find().sort({ createdAt: -1 }).limit(MAX_EXPORT_ROWS).lean();
+  // payments.csv?status=unfulfilled: only the customers who paid but have no order / candle request saved.
+  let filter = {};
+  if (resource === 'payments' && req.query.status !== undefined) {
+    if (req.query.status !== 'unfulfilled') throw new HttpError(400, 'Invalid status: use unfulfilled');
+    filter = unfulfilledFilter();
+  }
+  const rows = await Model.find(filter).sort({ createdAt: -1 }).limit(MAX_EXPORT_ROWS).lean();
   await audit(req, `export.${resource}`, { type: resource, id: '' }, { rows: rows.length });
   res.set({
     'Content-Type': 'text/csv; charset=utf-8',

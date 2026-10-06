@@ -23,7 +23,12 @@ before the new site replaces the old one. Texts live in `web/src/messages/<local
 - [ ] Data kept (from the models in `server/model`): orders (name, e-mail, phone, address, items, total, date),
       candle requests (name, e-mail, prayer), prayers (name, country, category, prayer, likes), reviews (name,
       place in the `email` field, message), contact messages (name, e-mail, phone, message).
-- [ ] Retention is stated in general terms only. Choose real periods (accounting law usually fixes one for orders).
+- [ ] Retention is stated in general terms only. Choose real periods (accounting law usually fixes one for orders). A proposal per kind of data is in
+      [DATABASE.md](DATABASE.md) section 7; nothing but audit entries (180 days) and sessions expires by itself.
+- [ ] The payment record also keeps the **payer's name and e-mail as PayPal reports them**, and a donor's name (the `payment` collection); a candle request's prayer text can reveal religious belief
+      (special-category data in the EU): the policy should say so and say how a person asks for erasure (owners use the dashboard's *Privacy requests* page, DATABASE.md section 8).
+- [ ] A paid order that could not be saved yet is kept **in the customer's own browser** (localStorage, at most 30 days) until it is saved; say so in the policy.
+- [ ] Backups (docs/BACKUP.md) hold all personal data for 30 days; say how long erased data remains in them.
 - [ ] "No advertising or analytics cookies": true today. Revisit the day analytics (roadmap item 5) is added; consent
       banner and policy text must change together.
 - [ ] Processors named: PayPal, hosting (Netlify for the site, Render for the API, MongoDB Atlas, Firebase

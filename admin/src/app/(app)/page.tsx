@@ -39,16 +39,30 @@ export default async function DashboardPage() {
 
 async function DashboardBody({ data }: { data: Dashboard }) {
   const { t, locale } = await getI18n();
-  const { totals, last30Days, topProducts, lowStock, recent } = data;
+  const { totals, last30Days, topProducts, lowStock, recent, alerts } = data;
+  const unfulfilled = alerts?.unfulfilledPayments;
   const maxSold = Math.max(1, ...topProducts.map((p) => p.sold));
   const orders30 = last30Days.reduce((s, d) => s + d.orders, 0);
   const revenue30 = last30Days.reduce((s, d) => s + d.revenue, 0);
 
   return (
     <>
+      {unfulfilled && unfulfilled.count > 0 ? (
+        <p className="alert alert--warn" role="alert" data-testid="unfulfilled-alert">
+          <Icon name="alert" size={18} />
+          <span className="alert__body">
+            <strong>{t('payments.alertTitle', { n: formatNumber(unfulfilled.count, locale) })} ({formatMoney(unfulfilled.amount, locale)})</strong>
+            <span>{t('payments.alertText')}</span>
+            <Link className="link" href="/payments?status=unfulfilled">{t('payments.showUnfulfilled')}</Link>
+          </span>
+        </p>
+      ) : null}
       <section className="kpis" aria-label={t('dash.kpis')}>
         <Kpi icon="orders" label={t('dash.kpiOrders')} value={formatNumber(totals.orders, locale)} hint={t('dash.kpiOrdersHint', { n: formatNumber(totals.ordersPending, locale) })} href="/orders" tone={totals.ordersPending ? 'gold' : undefined} />
         <Kpi icon="dashboard" label={t('dash.kpiRevenue')} value={formatMoney(totals.revenue, locale, true)} hint={t('dash.kpiRevenueHint', { amount: formatMoney(revenue30, locale, true), n: formatNumber(orders30, locale) })} href="/orders" />
+        {unfulfilled ? (
+          <Kpi icon="payments" label={t('dash.kpiPayments')} value={formatNumber(unfulfilled.count, locale)} hint={unfulfilled.count ? t('dash.kpiPaymentsHint', { amount: formatMoney(unfulfilled.amount, locale) }) : t('dash.kpiPaymentsOk')} href="/payments?status=unfulfilled" tone={unfulfilled.count ? 'warn' : undefined} />
+        ) : null}
         <Kpi icon="candles" label={t('dash.kpiCandles')} value={formatNumber(totals.candles, locale)} hint={t('dash.kpiPendingHint', { n: formatNumber(totals.candlesPending, locale) })} href="/candles" tone={totals.candlesPending ? 'gold' : undefined} />
         <Kpi icon="mail" label={t('dash.kpiContacts')} value={formatNumber(totals.contacts, locale)} hint={t('dash.kpiOpenHint', { n: formatNumber(totals.contactsOpen, locale) })} href="/contacts" tone={totals.contactsOpen ? 'gold' : undefined} />
         <Kpi icon="products" label={t('dash.kpiProducts')} value={formatNumber(totals.products, locale)} hint={t('dash.kpiLowHint', { n: formatNumber(lowStock.length, locale) })} href="/products" tone={lowStock.length ? 'warn' : undefined} />

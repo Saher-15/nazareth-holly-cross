@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { postJson } from '@/lib/apiClient';
+import { pendingFulfilment, type PendingPath } from '@/lib/pendingFulfilment';
 import { scrollBehavior } from '@/lib/motion';
 import { formatUsd } from '@/lib/pricing';
 import { DONATION_MAX, DONATION_MIN, hasErrors, type FieldError, type FormErrors } from './validation';
@@ -90,25 +90,70 @@ export function useStepFocus<T extends HTMLElement>(step: string) {
   return ref;
 }
 
-export type SaveStatus = 'saving' | 'saved' | 'failed';
+// The PayPal ids of payments of this kind that were made (in this browser) but whose order or candle request the API
+// has not confirmed yet. The checkout uses it to tell a returning customer not to pay a second time.
+export function usePendingPayments(kind: 'order' | 'candle'): string[] {
+  const [ids, setIds] = useState<string[]>([]);
+  useEffect(() => {
+    const read = () =>
+      setIds(
+        pendingFulfilment
+          .list()
+          .filter((r) => r.kind === kind)
+          .map((r) => r.paypalOrderId),
+      );
+    read();
+    return pendingFulfilment.subscribe(read);
+  }, [kind]);
+  return ids;
+}
 
-// After PayPal reports the payment as completed, the order or candle request is saved
-// with the API. If that fails the visitor has still paid, so they can try again.
+// saving    a request to the API is in flight
+// saved     the API confirmed the order / candle request: the record kept in the browser was removed
+// retrying  the API could not be reached or answered with an error: the record is kept and retried by itself
+//           (with a growing delay now, and on the next visit), the customer is shown their reference
+// failed    the API refused it for good: a person at the shop has to look at it (the record is kept as evidence)
+export type SaveStatus = 'saving' | 'saved' | 'retrying' | 'failed';
+
+// After PayPal reports the payment as completed, the order or candle request is saved with the API. The customer
+// has already paid, so nothing may depend on this call succeeding right now: the record is written to the browser
+// FIRST (lib/pendingFulfilment.ts), and removed only when the API confirms it.
 export function useSaveAfterPayment() {
   const [status, setStatus] = useState<SaveStatus | null>(null);
-  const last = useRef<{ path: string; body: unknown } | null>(null);
+  const current = useRef<string | null>(null);
 
-  const save = useCallback(async (path: string, body: unknown) => {
-    last.current = { path, body };
+  // The engine reports every outcome of this payment, also those of its own timer after this page has moved on.
+  useEffect(
+    () =>
+      pendingFulfilment.subscribe((event) => {
+        if (event.record.paypalOrderId !== current.current) return;
+        if (event.type === 'saved') setStatus('saved');
+        else if (event.type === 'retry') setStatus('retrying');
+        else if (event.type === 'rejected') setStatus('failed');
+      }),
+    [],
+  );
+
+  /** Resolves true when the API confirmed the record. `extra.cart` lets the engine empty the cart when an order is saved later. */
+  const save = useCallback(async (path: PendingPath, body: Record<string, unknown>, paypalOrderId: string, extra: { cart?: string } = {}) => {
+    current.current = paypalOrderId;
     setStatus('saving');
-    const res = await postJson(path, body);
-    setStatus(res.ok ? 'saved' : 'failed');
-    return res.ok;
+    // Persist before anything else (synchronously): a tab closed right now is recovered on the next visit.
+    pendingFulfilment.add({ paypalOrderId, kind: path === '/order/newOrder' ? 'order' : 'candle', path, body, cart: extra.cart });
+    const outcome = await pendingFulfilment.attempt(paypalOrderId);
+    if (outcome === 'saved') setStatus('saved');
+    else if (outcome === 'retry') setStatus('retrying');
+    else if (outcome === 'rejected') setStatus('failed');
+    // 'busy': the retry loop is sending it right now, its answer arrives through the subscription above
+    return outcome === 'saved';
   }, []);
 
   const retry = useCallback(() => {
-    if (last.current) void save(last.current.path, last.current.body);
-  }, [save]);
+    const id = current.current;
+    if (!id) return;
+    setStatus('saving');
+    void pendingFulfilment.attempt(id, { force: true });
+  }, []);
 
   return { status, save, retry };
 }

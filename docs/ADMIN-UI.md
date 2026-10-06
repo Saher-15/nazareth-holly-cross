@@ -23,13 +23,15 @@ right, arrows flipped, numbers and e-mail addresses stay left-to-right). Text li
 | Screen | What it does |
 | --- | --- |
 | **Sign in** | Username + password; a second step appears when the account has two-factor. One message for a wrong user, wrong password or locked account. Show/hide password, Caps Lock hint, rate-limit message, "session ended" / "signed out for inactivity" notices. |
-| **Dashboard** | Eight figures (orders, revenue, candle requests, messages, products, site and product reviews, prayers) that link to their lists; orders + revenue and candle charts for 30 days (keyboard readable, data table behind each); top products; low stock; the five latest orders, candle requests and messages. |
+| **Dashboard** | A warning when customers paid but have nothing saved; nine figures (orders, revenue, candle requests, messages, products, site and product reviews, prayers, and **Paid, not fulfilled**) that link to their lists; orders + revenue and candle charts for 30 days (keyboard readable, data table behind each); top products; low stock; the five latest orders, candle requests and messages. |
 | **Orders** | Search, status filter, sort, pagination, CSV export, detail drawer (deep link `?open=`), **Mark shipped** with a confirm dialog (the API e-mails the customer exactly like the old `orderSent`), delete (owner only). |
+| **Payments** | Every PayPal payment the server recorded. Filters: **Paid, not fulfilled** (the customers who paid and have no order or candle request: a warning above the list and on the dashboard), paid, started and not paid, failed, resolved, orders, candles, donations; search by PayPal number, payer or note; detail drawer with the link to the order or candle request; **Mark resolved** (a note is required) and **Reopen**; CSV export of everything or only the unfulfilled. There is no delete. |
 | **Candle requests / Messages** | Same pattern: search, filter, drawer with the full text, mark done, delete, CSV export; "reply by e-mail" link on messages. |
 | **Products** | Table or grid, stock filter, add / edit form with live preview, photo upload to Firebase Storage (REST, no SDK) or a pasted https address, up to 5 extra photos, category override, stock, featured weight, colours; delete. |
 | **Reviews** | Site reviews and product reviews in two tabs: hide / show (moderation) and delete. |
 | **Prayers** | Search and delete. |
 | **Users** (owner) | Create (password policy checked), change role, disable / enable, delete; you cannot touch your own row. |
+| **Privacy requests** (owner) | Type an e-mail address: how many orders, candle requests, messages, site reviews and payments are stored about it (counts only). **Erase this data** asks for the address again, anonymises orders and candle requests, deletes messages and site reviews, removes the payer's details from payments, and says what it did. Both steps are in the audit log, without the address. |
 | **Audit log** (owner) | Who did what, when, from which device (IP only as a salted hash); filter by user and action. |
 | **Security settings** | Change password (signs out other sessions); two-factor set-up with a QR drawn in the page (`src/lib/qr.ts`, in-house, decoded by an independent decoder in the tests) or the key typed by hand; turn off with password + code. |
 | **Profile** | Account, role abilities, session end time, where the key is kept, sign out. |
@@ -56,8 +58,9 @@ On a phone (390 px):
 | --- | --- | --- | --- |
 | Dashboard, lists, detail drawers, CSV export | yes | yes | yes |
 | Mark shipped / done, hide reviews, edit products, delete messages, requests, prayers | yes | yes | no (buttons are not shown; the API answers 403 anyway) |
+| Resolve a payment, export payments | yes | yes | no (read only) |
 | Delete orders | yes | no | no |
-| Users, Audit log | yes | no | no |
+| Users, Audit log, Privacy requests | yes | no | no |
 | Own password and two-factor | yes | yes | yes |
 
 ## The contract, as verified against the real API

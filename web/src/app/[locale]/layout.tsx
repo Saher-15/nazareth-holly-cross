@@ -3,6 +3,7 @@ import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { hasLocale, NextIntlClientProvider, type AbstractIntlMessages } from 'next-intl';
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
+import PendingFulfilmentRunner from '@/components/checkout/PendingFulfilmentRunner';
 import BackToTop from '@/components/layout/BackToTop';
 import PageTransitions from '@/components/layout/PageTransitions';
 import ReadingProgress from '@/components/layout/ReadingProgress';
@@ -80,6 +81,7 @@ export default async function LocaleLayout({ children, search, params }: LayoutP
                 <BackToTop />
                 <RouteFocus />
                 <PageTransitions />
+                <PendingFulfilmentRunner />
               </ToastProvider>
             </CartProvider>
           </CspNonceProvider>

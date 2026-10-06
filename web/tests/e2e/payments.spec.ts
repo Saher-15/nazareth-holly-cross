@@ -302,7 +302,7 @@ test.describe('candle', () => {
     expect(calls).toEqual([]);
   });
 
-  test('a completed payment sends the candle request, and a failed save can be retried', async ({ page }) => {
+  test('a completed payment sends the candle request with the payment id, and a failed save is kept and retried by itself', async ({ page }) => {
     const calls = await mockNetwork(page, {
       paypal: 'fake',
       replies: { '/candle/lightACandle': [{ status: 500, body: { error: 'down' } }, { body: 'Success' }] },
@@ -312,19 +312,166 @@ test.describe('candle', () => {
     await page.getByRole('button', { name: 'LIGHT', exact: true }).click();
     await page.getByRole('button', { name: 'Test PayPal' }).click();
 
+    // the payment went through; the first save failed: the customer is told, with the reference, nothing is lost
     await expect(page.getByRole('heading', { name: 'Thank You!' })).toBeVisible();
-    await expect(page.locator('main').getByRole('alert')).toContainText('we could not save your details');
-    await page.getByRole('button', { name: 'Try again' }).click();
-    await expect(page.locator('main').getByRole('alert')).toBeHidden();
-    await expect(page.getByText('A receipt has been sent to your email address.')).toBeVisible();
+    const notice = page.locator('main').getByRole('status').filter({ hasText: 'We could not save your details just yet' });
+    await expect(notice).toBeVisible();
+    await expect(notice).toContainText('TESTCAPTURE0000001');
+    await expect(page.getByText('Payment reference: TESTCAPTURE0000001')).toBeVisible();
+    await expect.poll(() => page.evaluate(() => localStorage.getItem('nhc.pending-fulfilment.v1'))).toContain('TESTCAPTURE0000001');
 
-    const expected = { firstName: 'Anna', lastName: 'Smith', email: 'anna@example.com', prayer: 'Annunciation church, For my family' };
+    // ...and the page tries again by itself (after two seconds), no click needed
+    await expect(notice).toBeHidden({ timeout: 15_000 });
+    await expect(page.getByText('A receipt has been sent to your email address.')).toBeVisible();
+    await expect.poll(() => page.evaluate(() => localStorage.getItem('nhc.pending-fulfilment.v1'))).toBeNull();
+
+    const expected = {
+      firstName: 'Anna',
+      lastName: 'Smith',
+      email: 'anna@example.com',
+      prayer: 'Annunciation church, For my family',
+      paypalOrderId: 'TESTCAPTURE0000001', // lets the API check the $3 was paid and link it to the request
+    };
     expect(calls).toEqual([
       { path: '/order/create_order', body: { type: 'candle' } },
       { path: '/order/complete_order', body: { order_id: 'TESTORDER00000001' } },
       { path: '/candle/lightACandle', body: expected },
       { path: '/candle/lightACandle', body: expected },
     ]);
+  });
+
+  test('the Try again button sends the request at once, without waiting', async ({ page }) => {
+    const replies: Reply[] = [{ status: 503, body: { error: 'down' } }];
+    const calls = await mockNetwork(page, { paypal: 'fake', replies: { '/candle/lightACandle': replies } });
+    await page.goto('/en/candle');
+    await fillCandle(page);
+    await page.getByRole('button', { name: 'LIGHT', exact: true }).click();
+    await page.getByRole('button', { name: 'Test PayPal' }).click();
+    const notice = page.locator('main').getByRole('status').filter({ hasText: 'We could not save your details just yet' });
+    await expect(notice).toBeVisible();
+    const before = calls.filter((c) => c.path === '/candle/lightACandle').length;
+
+    replies[0] = { status: 200, body: 'Success' }; // the API is back
+    await notice.getByRole('button', { name: 'Try again' }).click();
+    await expect(notice).toBeHidden();
+    expect(calls.filter((c) => c.path === '/candle/lightACandle').length).toBeGreaterThan(before);
+    await expect.poll(() => page.evaluate(() => localStorage.getItem('nhc.pending-fulfilment.v1'))).toBeNull();
+  });
+
+  test('a candle the API refuses for good (bad data) is shown as a problem with the reference, and is not retried by itself', async ({ page }) => {
+    const calls = await mockNetwork(page, { paypal: 'fake', replies: { '/candle/lightACandle': [{ status: 422, body: { error: 'Bad input' } }] } });
+    await page.goto('/en/candle');
+    await fillCandle(page);
+    await page.getByRole('button', { name: 'LIGHT', exact: true }).click();
+    await page.getByRole('button', { name: 'Test PayPal' }).click();
+    await expect(page.locator('main').getByRole('alert')).toContainText('Your payment went through, but we could not save your details.');
+    await expect(page.getByText('Payment reference: TESTCAPTURE0000001')).toBeVisible();
+    await page.waitForTimeout(3_500); // longer than the first retry delay
+    expect(calls.filter((c) => c.path === '/candle/lightACandle')).toHaveLength(1);
+    // kept as evidence: the customer paid
+    await expect.poll(() => page.evaluate(() => localStorage.getItem('nhc.pending-fulfilment.v1'))).toContain('TESTCAPTURE0000001');
+  });
+});
+
+test.describe('checkout: a paid order is never lost', () => {
+  const payAndSave = async (page: Page) => {
+    await page.goto('/en/checkout');
+    await fillContact(page);
+    await page.getByRole('button', { name: 'Continue to payment' }).click();
+    await page.getByRole('button', { name: 'Test PayPal' }).click();
+  };
+  const pending = (page: Page) => page.evaluate(() => localStorage.getItem('nhc.pending-fulfilment.v1'));
+  const waitingNotice = (page: Page) => page.locator('main').getByRole('status').filter({ hasText: 'We could not save your details just yet' });
+
+  test('the API is down after the payment: the order is kept in the browser, the cart is NOT emptied, the customer sees the reference', async ({ page }) => {
+    const newOrder: Reply[] = [{ status: 503, body: { error: 'down' } }];
+    await mockNetwork(page, { paypal: 'fake', replies: { '/order/newOrder': newOrder } });
+    await seedCart(page);
+    await payAndSave(page);
+
+    await expect(page.getByRole('heading', { name: 'Thank You!' })).toBeVisible();
+    await expect(page.getByText('Payment reference: TESTCAPTURE0000001')).toBeVisible();
+    await expect(waitingNotice(page)).toBeVisible();
+    // the order itself is in storage (name, address, products, with the payment id as its key)
+    const record = JSON.parse((await pending(page)) ?? '[]');
+    expect(record).toHaveLength(1);
+    expect(record[0]).toMatchObject({ paypalOrderId: 'TESTCAPTURE0000001', path: '/order/newOrder', state: 'pending' });
+    expect(record[0].body).toMatchObject({ firstName: 'Maria', email: 'maria@example.com', products: [{ productID: '66eb4665c7e03262956c8d1d', quantity: 2 }] });
+    // the cart still holds what was paid for: it is emptied only when the order is confirmed saved
+    expect(await page.evaluate(() => localStorage.getItem('nhc.cart.v1'))).not.toBe('[]');
+  });
+
+  test('coming back to the checkout while the order is still unsaved: told not to pay again, with the reference', async ({ page }) => {
+    const newOrder: Reply[] = [{ status: 503, body: { error: 'down' } }];
+    await mockNetwork(page, { paypal: 'fake', replies: { '/order/newOrder': newOrder } });
+    await seedCart(page);
+    await payAndSave(page);
+    await expect(waitingNotice(page)).toBeVisible();
+
+    await page.goto('/en/checkout'); // the cart still holds the paid items
+    const notice = page.locator('main').getByRole('status').filter({ hasText: 'Your earlier payment (TESTCAPTURE0000001) is still waiting to be saved' });
+    await expect(notice).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Contact & Delivery Information' })).toBeVisible();
+
+    newOrder[0] = { status: 201, body: 'Created' }; // the API comes back: the order is saved, the notice goes, the cart is emptied
+    await expect(notice).toBeHidden({ timeout: 20_000 });
+    await expect.poll(() => page.evaluate(() => localStorage.getItem('nhc.cart.v1'))).toBe('[]');
+  });
+
+  test('on the next visit the order is saved by itself, the customer is thanked, and the cart is emptied', async ({ page }) => {
+    const newOrder: Reply[] = [{ status: 503, body: { error: 'down' } }];
+    const calls = await mockNetwork(page, { paypal: 'fake', replies: { '/order/newOrder': newOrder } });
+    await seedCart(page);
+    await payAndSave(page);
+    await expect(waitingNotice(page)).toBeVisible();
+    expect(await pending(page)).not.toBeNull();
+
+    newOrder[0] = { status: 201, body: 'Created' }; // the API is back; the customer comes back another day
+    await page.goto('/en/faq');
+    await expect(page.getByText('Good news: your earlier payment (TESTCAPTURE0000001) has now been saved with us. Thank you!')).toBeVisible();
+    await expect.poll(() => pending(page)).toBeNull();
+    await expect.poll(() => page.evaluate(() => localStorage.getItem('nhc.cart.v1'))).toBe('[]');
+    const saves = calls.filter((c) => c.path === '/order/newOrder');
+    expect(saves.at(-1)?.body).toMatchObject({ firstName: 'Maria', paypalOrderId: 'TESTCAPTURE0000001' });
+  });
+
+  test('a tab closed right after paying loses nothing: the order is in storage before the first request is sent', async ({ page }) => {
+    // the save request never gets an answer (the page is gone first); what matters is what storage held by then
+    let held: string | null = null;
+    await mockNetwork(page, { paypal: 'fake' });
+    await page.route(
+      (url) => url.pathname === '/order/newOrder',
+      async (route) => {
+        held = await page.evaluate(() => localStorage.getItem('nhc.pending-fulfilment.v1'));
+        await route.abort();
+      },
+    );
+    await seedCart(page);
+    await payAndSave(page);
+    await expect(page.getByRole('heading', { name: 'Thank You!' })).toBeVisible();
+    await expect.poll(() => held).not.toBeNull(); // the request was made (and aborted); this is what storage held at that moment
+    expect(JSON.parse(held ?? '[]')[0]).toMatchObject({ paypalOrderId: 'TESTCAPTURE0000001', path: '/order/newOrder' });
+  });
+
+  test('a lost answer to the capture is asked for again: the customer is not told they were not charged', async ({ page }) => {
+    const completes: Reply[] = [
+      { status: 503, body: { error: 'asleep' } },
+      { status: 503, body: { error: 'asleep' } },
+      { body: { id: 'TESTCAPTURE0000001', status: 'COMPLETED' } },
+    ];
+    const calls = await mockNetwork(page, { paypal: 'fake', replies: { '/order/complete_order': completes } });
+    await seedCart(page);
+    await payAndSave(page);
+    await expect(page.getByRole('heading', { name: 'Thank You!' })).toBeVisible({ timeout: 15_000 });
+    expect(calls.filter((c) => c.path === '/order/complete_order')).toHaveLength(3);
+  });
+
+  test('a capture that never answers says so honestly: do not pay again, check PayPal', async ({ page }) => {
+    await mockNetwork(page, { paypal: 'fake', replies: { '/order/complete_order': [{ status: 503, body: { error: 'asleep' } }] } });
+    await seedCart(page);
+    await payAndSave(page);
+    await expect(page.locator('main').getByRole('alert')).toContainText('We could not confirm your payment', { timeout: 20_000 });
+    await expect(page.locator('main').getByRole('alert')).toContainText('Please do not pay again yet');
   });
 });
 
@@ -373,7 +520,8 @@ test.describe('donate', () => {
     await page.getByRole('button', { name: 'Test PayPal' }).click();
     await expect(page.getByRole('heading', { name: 'Thank you for your donation!' })).toBeVisible();
     expect(calls).toEqual([
-      { path: '/order/create_order', body: { type: 'donation', amount: 40 } },
+      // the donor's name is stored with the payment: a donation has no other record
+      { path: '/order/create_order', body: { type: 'donation', amount: 40, donorName: 'Anna' } },
       { path: '/order/complete_order', body: { order_id: 'TESTORDER00000001' } },
     ]);
   });

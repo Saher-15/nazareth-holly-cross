@@ -6,9 +6,10 @@ import request from 'supertest';
 process.env.NODE_ENV = 'production';
 
 const mocks = vi.hoisted(() => ({ productFind: vi.fn(), productFindById: vi.fn() }));
+const query = () => { const chain = { sort: () => chain, limit: () => chain, skip: () => chain, select: () => chain, lean: () => mocks.productFind() }; return chain; };
 vi.mock('../model/product.js', () => ({
   default: {
-    find: (...a) => mocks.productFind(...a),
+    find: () => query(),
     findById: (...a) => mocks.productFindById(...a),
     countDocuments: vi.fn(),
   },

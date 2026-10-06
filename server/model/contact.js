@@ -14,6 +14,7 @@ const contactSchema = new Schema({
     required: [true, 'Email field is required'],
     trim: true,
     maxlength: [500, 'Email field too long'],
+    match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Invalid email format'],
   },
   phone: {
     type: String,
@@ -34,7 +35,8 @@ const contactSchema = new Schema({
   },
 }, { timestamps: true });
 
-contactSchema.index({ done: 1 });
-contactSchema.index({ createdAt: -1 });
+contactSchema.index({ done: 1, createdAt: -1 }); // the admin list by status, newest first
+contactSchema.index({ createdAt: -1 }); // the default list, the CSV export, the dashboard's recent
+contactSchema.index({ email: 1 }); // a customer's data request (docs/DATABASE.md, erase)
 
 export default mongoose.model('Contact', contactSchema, 'contact');

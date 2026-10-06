@@ -21,7 +21,7 @@ const login = (path, body, ip = client()) => request(app).post(path).set('X-Forw
 
 beforeEach(() => {
   mocks.findOne.mockReset();
-  mocks.orderFind.mockReset().mockResolvedValue([]);
+  mocks.orderFind.mockReset().mockImplementation(() => { const chain = { sort: () => chain, limit: () => chain, lean: async () => [] }; return chain; });
 });
 
 const accountDoc = (password = 'right-password') => ({

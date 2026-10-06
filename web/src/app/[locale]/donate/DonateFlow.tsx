@@ -40,7 +40,9 @@ export default function DonateFlow() {
   const headingRef = useStepFocus<HTMLHeadingElement>(step);
   const amount = donationAmount(values) ?? 0;
 
-  const getPayload = useCallback((): PaymentPayload => ({ type: 'donation', amount }), [amount]);
+  // The name the donor typed is stored with the payment (the API's ledger): a donation has no other record.
+  const donorName = values.name.trim();
+  const getPayload = useCallback((): PaymentPayload => ({ type: 'donation', amount, donorName }), [amount, donorName]);
   const onPaid = useCallback((capture: { id: string }) => {
     setReference(capture.id);
     setStep('done');
