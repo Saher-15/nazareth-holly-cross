@@ -103,7 +103,8 @@ export type Column<Row> = {
 
 export function DataTable<Row>({ caption, columns, rows, rowKey, rowClass }: { caption: string; columns: Column<Row>[]; rows: Row[]; rowKey: (row: Row) => string; rowClass?: (row: Row) => string | undefined }) {
   return (
-    <div className="table-wrap">
+    // Scrollable when wide: it must be reachable with the keyboard (and named for screen readers).
+    <div className="table-wrap" tabIndex={0} role="region" aria-label={caption}>
       <table className="table">
         <caption className="visually-hidden">{caption}</caption>
         <thead>

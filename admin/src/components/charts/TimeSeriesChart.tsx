@@ -141,7 +141,7 @@ export function TimeSeriesChart({ title, days, bars, line }: Props) {
       <p id={`${uid}-readout`} className="chart__readout" aria-live="polite">{readout}</p>
       <details className="chart__data">
         <summary>{t('chart.showTable')}</summary>
-        <div className="table-wrap">
+        <div className="table-wrap" tabIndex={0} role="region" aria-label={title}>
           <table className="table table--plain">
             <caption className="visually-hidden">{title}</caption>
             <thead>
