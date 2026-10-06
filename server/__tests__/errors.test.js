@@ -44,3 +44,13 @@ describe('central error handling', () => {
     expect(res.status).toBe(404);
   });
 });
+
+describe('health check is never rate limited', () => {
+  it('answers 200 on the 300th request from one address, while other routes are limited', async () => {
+    let last;
+    for (let i = 0; i < 300; i += 1) last = await request(app).get('/health');
+    expect(last.status).toBe(200);
+    const other = await request(app).get('/anything-else');
+    expect(other.status).toBe(429);
+  });
+});
