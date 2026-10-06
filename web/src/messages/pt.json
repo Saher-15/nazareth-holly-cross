@@ -1123,6 +1123,7 @@
         "intro": "Escreva uma intenção pela paz, pela cura, em ação de graças ou pela sua família. Aparecerá no mural.",
         "name": "O seu nome",
         "country": "De onde é?",
+        "countryChoose": "Escolha o seu país",
         "category": "Categoria",
         "prayer": "A sua oração",
         "counter": "{count} / {max}",

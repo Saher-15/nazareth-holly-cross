@@ -1123,6 +1123,7 @@
         "intro": "Write an intention for peace, healing, thanks or your family. It will appear on the wall.",
         "name": "Your name",
         "country": "Where are you from?",
+        "countryChoose": "Choose your country",
         "category": "Category",
         "prayer": "Your prayer",
         "counter": "{count} / {max}",

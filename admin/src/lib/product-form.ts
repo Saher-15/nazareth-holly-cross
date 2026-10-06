@@ -1,4 +1,5 @@
 // Product form values <-> API body, with the same limits the server enforces (so errors show before the request).
+import { storedLength } from './entities';
 import { isImageUrl } from './firebase-upload';
 import type { Product } from './api';
 
@@ -37,27 +38,35 @@ export function valuesFrom(product: Product): ProductValues {
   };
 }
 
+/** The API's limits (route/admin/products.js PRODUCT_FIELDS): at most 20 colours of 1 to 50 characters each. */
+export const MAX_COLORS = 20;
+export const MAX_COLOR_LENGTH = 50;
+
+/** Every colour typed, in order. Nothing is dropped silently: more than MAX_COLORS is a validation error. */
 export function parseColors(text: string): string[] {
   return text
     .split(',')
     .map((c) => c.trim())
-    .filter(Boolean)
-    .slice(0, 12);
+    .filter(Boolean);
 }
 
-/** Returns error codes (translated by the form); an empty object means the values are valid. */
+/**
+ * Returns error codes (translated by the form); an empty object means the values are valid. Text lengths are counted
+ * as the API counts them (lib/entities.ts storedLength: "&" is 5 characters once sanitised).
+ */
 export function validateProduct(v: ProductValues): FieldErrors {
   const errors: FieldErrors = {};
   const name = v.name.trim();
-  if (name.length < 2 || name.length > 200) errors.name = 'name';
+  if (name.length < 2 || storedLength(name) > 200) errors.name = 'name';
   const price = Number(v.price);
   if (!v.price.trim() || !Number.isFinite(price) || price < 0.01 || price > 10_000) errors.price = 'price';
-  if (v.description.length > 2000) errors.description = 'description';
+  if (storedLength(v.description.trim()) > 2000) errors.description = 'description';
   if (v.category !== '' && !(CATEGORIES as readonly string[]).includes(v.category)) errors.category = 'category';
   if (v.stock.trim() !== '' && (!/^\d+$/.test(v.stock.trim()) || Number(v.stock) > 1_000_000)) errors.stock = 'stock';
   const rate = Number(v.rate);
   if (!Number.isFinite(rate) || rate < 0 || rate > 5) errors.rate = 'rate';
-  if (parseColors(v.colors).some((c) => c.length > 40)) errors.colors = 'colors';
+  const colors = parseColors(v.colors);
+  if (colors.length > MAX_COLORS || colors.some((c) => storedLength(c) > MAX_COLOR_LENGTH)) errors.colors = 'colors';
   if (!isImageUrl(v.img.trim())) errors.img = 'img';
   const extra = v.additional.map((u) => u.trim()).filter(Boolean);
   if (extra.length > 5 || extra.some((u) => !isImageUrl(u))) errors.additional = 'additional';

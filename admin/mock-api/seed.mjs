@@ -166,12 +166,15 @@ export function buildSeed(now = Date.now(), assetBase = 'http://localhost:3901')
   }
 
   const siteReviews = [];
+  const PLACES = ['Italy', 'Brazil', 'Trinidad &amp; Tobago', 'Philippines', 'Poland']; // stored as the API stores "&"
   for (let i = 0; i < 12; i += 1) {
     const first = pick(FIRST);
+    // Like the API (server/test-harness/seed.mjs): `place` since 2026-10-06, older reviews kept it in `email` (every 4th).
     siteReviews.push({
       _id: newId('f'),
       fullName: `${first} ${pick(LAST)}`,
-      email: i % 2 ? `${first}@example.com`.toLowerCase() : '',
+      email: i % 2 ? `${first}@example.com`.toLowerCase() : i % 4 === 0 ? 'Germany' : '',
+      ...(i % 4 === 0 ? {} : { place: PLACES[i % PLACES.length] }),
       phone: '000',
       msg: pick(COMMENTS),
       approved: i % 5 !== 3,

@@ -1123,6 +1123,7 @@
         "intro": "Schrijf een intentie voor vrede, genezing, dank of uw gezin. Ze verschijnt op de muur.",
         "name": "Uw naam",
         "country": "Waar komt u vandaan?",
+        "countryChoose": "Kies uw land",
         "category": "Categorie",
         "prayer": "Uw gebed",
         "counter": "{count} / {max}",

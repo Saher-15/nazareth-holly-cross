@@ -1123,6 +1123,7 @@
         "intro": "Schreiben Sie eine Bitte um Frieden, Heilung, Dank oder für Ihre Familie. Sie erscheint an der Wand.",
         "name": "Ihr Name",
         "country": "Woher kommen Sie?",
+        "countryChoose": "Wählen Sie Ihr Land",
         "category": "Kategorie",
         "prayer": "Ihr Gebet",
         "counter": "{count} / {max}",

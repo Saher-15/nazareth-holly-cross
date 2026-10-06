@@ -216,7 +216,7 @@ the password.
 | `orders` | `pending`, `shipped`, `unverified` (no PayPal-confirmed payment) | `createdAt`, `totalPrice`, `lastName` | name, e-mail, phone, city, country, PayPal id |
 | `candles` | `pending`, `done` | `createdAt`, `lastName` | name, e-mail, prayer |
 | `contacts` | `open`, `done` | `createdAt`, `fullName` | name, e-mail, phone, message |
-| `site-reviews` | `approved`, `hidden` | `createdAt`, `fullName` | name, e-mail, message |
+| `site-reviews` | `approved`, `hidden` | `createdAt`, `fullName` | name, place, e-mail (older reviews keep the place there), message |
 | `product-reviews` | `approved`, `hidden` | `createdAt`, `rating` | name, country, title, comment (the product is populated with its `name`) |
 | `prayers` | a category (`Peace`, `Health`, ...) | `createdAt`, `likes` | name, country, prayer |
 | `products` | `ok` (not tracked, or more than 5), `low` (stock 0-5), `out` (stock 0) | `createdAt`, `name`, `price`, `stock`, `rate` | name, description, uuid |
@@ -252,7 +252,9 @@ the password.
 * **Text is stored HTML-escaped.** The API's sanitizer turns a stray `&`, `<`, `>` in body text into `&amp;`, `&lt;`, `&gt;` (see
   SECURITY.md 4.3), removes scripts and event handlers, and keeps a small set of harmless tags (`<b>`, `<i>`, `<a href="https://...">`) as they were typed (checked against the running sanitizer: the dashboard shows them as text, never as HTML); responses return what is stored. **Decode those three entities when putting a value into an
   edit field, send the raw text back, and the API escapes it once.** (Web addresses are the exception: `&amp;` in an
-  address is decoded before it is saved, so Firebase links keep working.)
+  address is decoded before it is saved, so Firebase links keep working.) **Lengths are checked after that escaping**:
+  a 2,000-character description with one `&` is 2,004 characters for the API. The dashboard's forms count the same
+  way (`admin/src/lib/entities.ts`, `storedLength`); every form's limits are in `docs/FORM-CONTRACTS.md`.
 
 ### 4.3 Dashboard: `GET /admin/dashboard`
 

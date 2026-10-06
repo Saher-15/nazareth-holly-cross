@@ -79,12 +79,13 @@ export const contacts = collection({
 });
 
 // Reviews of the website itself (the public "Reviews" page). `approved: false` hides one without deleting it.
+// Where the reviewer is from is in `place` (and, for reviews written before that field existed, in `email`).
 export const siteReviews = collection({
   Model: Review,
   type: 'site-review',
   flag: 'approved',
   listOptions: {
-    searchFields: ['fullName', 'email', 'msg'],
+    searchFields: ['fullName', 'place', 'email', 'msg'],
     statuses: { approved: { approved: true }, hidden: { approved: false } },
     sorts: { createdAt: true, fullName: true },
   },

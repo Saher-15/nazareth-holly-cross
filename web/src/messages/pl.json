@@ -1123,6 +1123,7 @@
         "intro": "Napisz intencję o pokój, uzdrowienie, podziękowanie lub za swoją rodzinę. Pojawi się na ścianie.",
         "name": "Twoje imię",
         "country": "Skąd jesteś?",
+        "countryChoose": "Wybierz swój kraj",
         "category": "Kategoria",
         "prayer": "Twoja modlitwa",
         "counter": "{count} / {max}",

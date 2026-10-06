@@ -767,7 +767,7 @@ for (const route of collection({
 })) add(route);
 for (const route of collection({
   name: 'site-reviews', type: 'site-review', label: 'site-review', rows: () => db.siteReviews, flag: 'approved',
-  searchable: (r) => [r.fullName, r.email, r.msg],
+  searchable: (r) => [r.fullName, r.place, r.email, r.msg],
   statuses: { approved: (r) => r.approved === true, hidden: (r) => r.approved === false }, sorts: ['createdAt', 'fullName'],
 })) add(route);
 for (const route of collection({

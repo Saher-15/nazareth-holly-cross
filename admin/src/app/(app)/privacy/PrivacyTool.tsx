@@ -6,8 +6,8 @@ import { Icon } from '@/components/ui/Icon';
 import { useI18n } from '@/i18n/client';
 import { isApiError, privacyEraseSchema, privacyLookupSchema, type PrivacyCounts } from '@/lib/api';
 import { proxyCall } from '@/lib/client-api';
+import { isApiEmail } from '@/lib/email';
 
-const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const KINDS = ['orders', 'candles', 'contacts', 'reviews', 'payments'] as const;
 const total = (counts: PrivacyCounts) => KINDS.reduce((sum, kind) => sum + counts[kind], 0);
 
@@ -31,7 +31,8 @@ export function PrivacyTool() {
     event.preventDefault();
     if (busy) return;
     const address = email.trim().toLowerCase();
-    if (!EMAIL.test(address)) return setError(t('privacy.errInvalid'));
+    // The API's own check (it would refuse anything else with an English "Invalid email").
+    if (!isApiEmail(address)) return setError(t('privacy.errInvalid'));
     setBusy(true);
     setError(null);
     setFound(null);

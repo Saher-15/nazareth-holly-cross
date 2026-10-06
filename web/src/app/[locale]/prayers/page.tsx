@@ -6,6 +6,7 @@ import { pilgrimMetadata } from '@/data/pilgrim/meta';
 import {
   categoryKey,
   displayText,
+  wallCountry,
   isCategory,
   PRAYER_CATEGORIES,
   PRAYERS_PER_PAGE,
@@ -147,7 +148,7 @@ export default async function PrayersPage({ params, searchParams }: PageProps<'/
                             <span dir="auto">{name}</span>
                             {prayer.country && (
                               <span className={styles.country} dir="auto">
-                                {displayText(prayer.country, 100)}
+                                {wallCountry(prayer.country, locale)}
                               </span>
                             )}
                           </p>
