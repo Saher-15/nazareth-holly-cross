@@ -5,6 +5,7 @@ import { requireAdmin } from '../middleware/auth.js';
 import { asyncHandler } from "../middleware/asyncHandler.js"
 import { strictLimiter } from '../utils/security.js';
 import { isEmail } from '../utils/validate.js';
+import { LEGACY_LIST_CAP, sendCapped } from '../utils/pagination.js';
 
 
 const routerContact = express.Router();
@@ -44,8 +45,8 @@ routerContact.post('/contact_us_request', strictLimiter, asyncHandler(async (req
 }))
 
 routerContact.get('/get_all_contact_us', requireAdmin, asyncHandler(async (req, res) => {
-    const requests = await Contact.find();
-    res.status(200).send(requests)
+    const requests = await Contact.find().sort({ createdAt: -1 }).limit(LEGACY_LIST_CAP).lean();
+    sendCapped(res, requests)
 }))
 
 routerContact.get('/get_request/:id', requireAdmin, asyncHandler(async (req, res) => {

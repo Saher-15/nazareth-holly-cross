@@ -1,21 +1,25 @@
 import express from "express"
 import Order from "../model/order.js";
 import { sendMail } from '../services/emailService.js';
-import { createOrder as createPayPalOrder, captureOrder as capturePayPalOrder, assertPaid } from '../services/paypalService.js';
+import { createOrder as createPayPalOrder, captureOrder as capturePayPalOrder, getOrder as getPayPalOrder, assertPaid } from '../services/paypalService.js';
+import { capturedPayment, linkPayment, paymentFor, recordCaptured, recordCreated, recordFailed } from '../services/payments.js';
 import { priceFor, quoteShopOrder } from '../services/pricing.js';
 import { requireAdmin } from '../middleware/auth.js';
 import { asyncHandler } from "../middleware/asyncHandler.js"
 import { config } from '../config/env.js';
 import { HttpError } from '../utils/httpError.js';
 import { paymentLimiter, newOrderLimiter } from '../utils/security.js';
-import { isEmail, isPayPalOrderId } from '../utils/validate.js';
+import { clip, isEmail, isPayPalOrderId } from '../utils/validate.js';
+import { LEGACY_LIST_CAP, sendCapped } from '../utils/pagination.js';
 
 
 const routerOrder = express.Router();
 
 routerOrder.get('/getAllOrders', requireAdmin, asyncHandler(async (req, res) => {
-    const orders = await Order.find();
-    res.status(200).send(orders);
+    // The old admin site wants a plain array. It is newest first and capped (docs/DATABASE.md): the dashboard's
+    // /admin/orders is the paginated way to read all of them.
+    const orders = await Order.find().sort({ createdAt: -1 }).limit(LEGACY_LIST_CAP).lean();
+    sendCapped(res, orders);
 }))
 
 routerOrder.get('/getOrder/:id', requireAdmin, asyncHandler(async (req, res) => {
@@ -68,6 +72,8 @@ routerOrder.post('/newOrder', newOrderLimiter, asyncHandler(async (req, res) => 
         if (await Order.exists({ paypalOrderId: body.paypalOrderId })) {
             throw new HttpError(409, 'This payment was already used for an order');
         }
+        // The ledger knows what this payment was for: a $23 donation or a $3 candle cannot pay for an order.
+        await paymentFor(body.paypalOrderId, 'order');
         await assertPaid(body.paypalOrderId, totalPrice);
         paypalOrderId = body.paypalOrderId;
     } else if (config.requirePaymentProof) {
@@ -84,6 +90,8 @@ routerOrder.post('/newOrder', newOrderLimiter, asyncHandler(async (req, res) => 
         done: false,
         ...(paypalOrderId ? { paypalOrderId, paymentVerified: true } : {}),
     });
+
+    if (paypalOrderId) await linkPayment(paypalOrderId, { kind: 'order', id: order._id, amount: totalPrice });
 
     // The order is already saved, so a mail failure must not fail the request; sendMail logs it.
     sendMail({
@@ -123,8 +131,17 @@ routerOrder.delete('/deleteOrder/:id', requireAdmin, asyncHandler(async (req, re
 }))
 
 routerOrder.post('/create_order', paymentLimiter, asyncHandler(async (req, res) => {
-    const amount = await priceFor(req.body ?? {});
+    const body = req.body ?? {};
+    const amount = await priceFor(body);
     const order = await createPayPalOrder(amount);
+    // The ledger row is written BEFORE the id reaches the browser, so every payment that can happen has a record
+    // (model/payment.js). If it cannot be written the customer is told to try again and nothing was charged.
+    await recordCreated({
+        paypalOrderId: order.id,
+        type: body.type ?? 'unknown',
+        amount,
+        donorName: body.type === 'donation' ? clip(body.donorName, 100) : undefined,
+    });
     res.json({ id: order.id, status: order.status, amount });
 }));
 
@@ -134,12 +151,36 @@ routerOrder.post('/complete_order', paymentLimiter, asyncHandler(async (req, res
         return res.status(400).json({ error: 'Invalid order ID' });
     }
 
-    const capture = await capturePayPalOrder(order_id);
+    // Idempotent: a second call (double click, a retry after a lost answer) never captures or records twice.
+    if (await capturedPayment(order_id)) return res.json({ id: order_id, status: 'COMPLETED' });
+
+    let capture;
+    try {
+        capture = await capturePayPalOrder(order_id);
+    } catch (err) {
+        if (err.upstreamStatus !== 422) throw err;
+        // PayPal refuses to capture it again. Either it was already captured (the first answer never reached the
+        // browser, or the ledger write failed) or the card was declined: ask PayPal which.
+        const current = await getPayPalOrder(order_id).catch(() => null);
+        if (current?.status !== 'COMPLETED') {
+            await recordFailed(order_id, err.message);
+            throw err;
+        }
+        capture = current;
+    }
     if (capture.status !== 'COMPLETED') {
         console.error(`[${new Date().toISOString()}] PayPal capture for ${order_id} ended as ${capture.status}`);
+        await recordFailed(order_id, `capture ended as ${capture.status}`);
         return res.status(402).json({ error: 'Payment was not completed', status: capture.status });
     }
-    res.json({ id: capture.id, status: capture.status });
+    // The money has moved. A ledger failure must not tell the customer the payment failed: log it loudly (the order
+    // or candle request that follows links the payment again, and the reconciliation script finds the rest).
+    try {
+        await recordCaptured(order_id, capture);
+    } catch (error) {
+        console.error(`[${new Date().toISOString()}] payment ledger: PayPal order ${order_id} was captured but not recorded: ${error.message}`);
+    }
+    res.json({ id: order_id, status: capture.status });
 }));
 
 export default routerOrder;

@@ -56,6 +56,9 @@ async function ratingsByProduct() {
   return new Map(rows.map((r) => [String(r._id), { avg: round1(r.avg), count: r.count }]));
 }
 
+// Only what the storefront shows (the product documents are cached whole, so no field is read twice).
+const PRODUCT_FIELDS = 'name price img additionalImageUrls description color stock createdAt category rate';
+
 const CACHE_MS = 5 * 60 * 1000;
 let cache = null; // { at, products }
 
@@ -67,7 +70,7 @@ export async function getCatalog() {
   if (cache && Date.now() - cache.at < CACHE_MS) return cache.products;
 
   const [products, sold, ratings] = await Promise.all([
-    Product.find().lean(),
+    Product.find().select(PRODUCT_FIELDS).lean(),
     soldByProduct(),
     ratingsByProduct(),
   ]);

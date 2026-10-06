@@ -22,7 +22,7 @@ const reviewFind = vi.fn();
 const reviewCreate = vi.fn();
 
 vi.mock('../model/product.js', () => ({
-  default: { find: () => ({ lean: async () => PRODUCTS.map((p) => ({ ...p })) }) },
+  default: { find: () => { const chain = { select: () => chain, lean: async () => PRODUCTS.map((p) => ({ ...p })) }; return chain; } },
 }));
 vi.mock('../model/order.js', () => ({ default: { aggregate: (...a) => orderAggregate(...a) } }));
 vi.mock('../model/productReview.js', () => ({

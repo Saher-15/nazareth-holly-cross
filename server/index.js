@@ -1,7 +1,9 @@
 import mongoose from 'mongoose';
+import './config/indexPolicy.js'; // must run before any model is compiled (autoIndex is off in production)
 import { createApp } from './app.js';
 import { config, missingEnv, secretProblems } from './config/env.js';
 import { applyMongooseSafety } from './config/mongoose.js';
+import { MODELS, planIndexes, problemsIn } from './services/indexes.js';
 
 // Validate required env vars at startup
 const missing = missingEnv();
@@ -19,9 +21,27 @@ for (const { fatal, message } of secretProblems()) {
 
 applyMongooseSafety();
 
+// In production the server does not build indexes by itself (config/indexPolicy.js): say so when the database lacks
+// one. Never fatal and never blocks start-up; the fix is `node scripts/ensure-indexes.js --apply` (docs/DATABASE.md).
+async function warnAboutMissingIndexes() {
+  if (!config.isProd) return;
+  try {
+    const problems = problemsIn(await planIndexes(mongoose.connection.db, MODELS));
+    if (problems.length) {
+      const list = problems.slice(0, 12).map((p) => `${p.collection}.${p.index} (${p.kind})`).join(', ');
+      console.error(`WARNING: ${problems.length} database index(es) missing or different: ${list}. Run: node scripts/ensure-indexes.js --apply`);
+    }
+  } catch (err) {
+    console.error('Could not check the database indexes:', err.message);
+  }
+}
+
 function connectDB() {
   mongoose.connect(config.databaseUrl, { serverSelectionTimeoutMS: 10000 })
-    .then(() => console.log('DB connected'))
+    .then(() => {
+      console.log('DB connected');
+      return warnAboutMissingIndexes();
+    })
     .catch(err => {
       console.error('DB failed to connect, retrying in 10s:', err.message);
       setTimeout(connectDB, 10000);

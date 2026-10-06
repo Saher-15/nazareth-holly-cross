@@ -113,6 +113,11 @@ export const adminSensitiveLimiter = limiter(5, 'Too many attempts, please try a
   skipSuccessfulRequests: true,
 });
 
+// Data-protection lookups and erasures (route/admin/privacy.js): few, deliberate, and each one is audited.
+export const adminErasureLimiter = limiter(20, 'Too many privacy requests, please try again later.', {
+  keyGenerator: adminKey,
+});
+
 /** The per-IP limit for every request: the large read allowance for public reads, the strict one for the rest. */
 export function apiLimiter(req, res, next) {
   if (req.path.startsWith('/admin/')) return adminIpLimiter(req, res, next);

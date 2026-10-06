@@ -14,6 +14,7 @@ vi.mock('../model/product.js', () => ({
 vi.mock('../model/order.js', () => ({ default: { create: (...a) => orderCreate(...a) } }));
 vi.mock('../services/emailService.js', () => ({ sendMail: (...a) => sendMail(...a), SENDER: {} }));
 
+const { fakes } = await import('./helpers/fakes.js');
 const { createApp } = await import('../app.js');
 const app = createApp();
 
@@ -33,6 +34,7 @@ const orderBody = () => JSON.parse(global.fetch.mock.calls.find(([u]) => String(
 
 beforeEach(() => {
   vi.clearAllMocks();
+  fakes.Payment.reset(); // the payment ledger (an in-memory model, __tests__/setup.js) starts empty in every test
   const all = [
     { _id: OID1, price: 10, name: 'Olive oil', stock: null },
     { _id: OID2, price: 50, name: 'Puzzle', stock: 2 },

@@ -13,6 +13,7 @@ const reviewSchema = new Schema({
     type: String,
     trim: true,
     maxlength: [200, 'Email too long'],
+    match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Invalid email format'], // an empty address is allowed (the field is optional)
     default: '',
   },
   phone: {
@@ -34,7 +35,8 @@ const reviewSchema = new Schema({
   },
 }, { timestamps: true });
 
-reviewSchema.index({ approved: 1 });
-reviewSchema.index({ createdAt: -1 });
+reviewSchema.index({ approved: 1, createdAt: -1 }); // the public list (approved, newest first) and the admin filter
+reviewSchema.index({ createdAt: -1 }); // the default admin list
+reviewSchema.index({ email: 1 }); // a customer's data request (docs/DATABASE.md, erase)
 
 export default mongoose.model('Review', reviewSchema, 'review');
