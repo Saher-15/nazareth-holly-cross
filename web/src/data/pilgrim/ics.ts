@@ -131,5 +131,7 @@ export function saveIcsFile(ics: string, fileName: string): void {
   document.body.appendChild(link);
   link.click();
   link.remove();
-  setTimeout(() => URL.revokeObjectURL(href), 1000);
+  // Freed after a minute, not at once: a busy browser may start reading the file late, and revoking the address
+  // earlier cancels the download (seen as "download canceled" in the end-to-end tests under load).
+  setTimeout(() => URL.revokeObjectURL(href), 60_000);
 }

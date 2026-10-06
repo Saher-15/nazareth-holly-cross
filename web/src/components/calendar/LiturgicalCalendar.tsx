@@ -540,7 +540,12 @@ function FeastBody({
         </div>
       </div>
       <p className={styles.entryText}>{description}</p>
-      {note && <p className={styles.entryNote}>{note}</p>}
+      {note && (
+        // (The note holds a date written by Intl, which the server and the browser may spell a little differently.)
+        <p className={styles.entryNote} suppressHydrationWarning>
+          {note}
+        </p>
+      )}
       <span className={styles.footer}>{children}</span>
     </div>
   );
