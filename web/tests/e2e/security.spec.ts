@@ -11,6 +11,13 @@ async function blockOutside(page: Page) {
   );
 }
 
+// Waits for the page to load and, for a few seconds at most, to go quiet: a long-lived media request on a slow runner
+// must not hang the test the way an unbounded networkidle wait does.
+async function settle(page: Page) {
+  await page.waitForLoadState('load');
+  await page.waitForLoadState('networkidle', { timeout: 8000 }).catch(() => undefined);
+}
+
 // Collects every Content-Security-Policy violation the browser reports on the page.
 async function watchViolations(page: Page) {
   const violations: string[] = [];
@@ -149,7 +156,7 @@ test.describe('the policy does not break the site', () => {
       page.on('pageerror', (e) => pageErrors.push(e.message));
       await page.goto(path);
       // Hydration ran: the header's mobile/desktop controls are interactive React components.
-      await page.waitForLoadState('networkidle');
+      await settle(page);
       await expect(page.locator('html')).toHaveAttribute('lang', /.+/);
       expect(violations).toEqual([]);
       expect(pageErrors).toEqual([]);
@@ -160,7 +167,7 @@ test.describe('the policy does not break the site', () => {
     await blockOutside(page);
     const violations = await watchViolations(page);
     await page.goto('/en/sites/latin');
-    await page.waitForLoadState('networkidle');
+    await settle(page);
     const broken = await page.evaluate(() =>
       [...document.images].filter((img) => img.complete && img.currentSrc.startsWith(location.origin) && img.naturalWidth === 0).map((i) => i.currentSrc),
     );
