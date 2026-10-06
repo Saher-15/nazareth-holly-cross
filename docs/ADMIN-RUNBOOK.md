@@ -51,7 +51,7 @@ device, so no one else ever sees it.**
 at all**, and only for the address in `ADMIN_BOOTSTRAP_EMAILS` (default `nazarethholycross@gmail.com`); the API and the
 dashboard must already be deployed, and the API's mail settings (`MAIL_FROM`, `MAIL_APP_PASSWORD`) must work.
 
-1. Open <https://nhc-admin-dashboard.netlify.app/forgot-password> (or **Forgot your password?** under the sign-in form).
+1. Open <https://admin.nazarethholycross.com/forgot-password> (or **Forgot your password?** under the sign-in form).
 2. Enter `nazarethholycross@gmail.com` and press **Send the link**. The page always answers the same neutral sentence.
 3. Open the mail "Nazareth Holy Cross dashboard: choose your password" in that mailbox (look in spam too) and open the
    link within 30 minutes. It works once.
@@ -60,7 +60,7 @@ dashboard must already be deployed, and the API's mail settings (`MAIL_FROM`, `M
 5. Open **Security settings** and turn on two-factor sign-in with an authenticator app. Then create the other accounts
    under **Users** (one per person, `editor` or `viewer`).
 
-The link goes to `ADMIN_APP_URL` (Render; default `https://nhc-admin-dashboard.netlify.app`): if the dashboard lives
+The link goes to `ADMIN_APP_URL` (Render; default `https://admin.nazarethholycross.com`): if the dashboard lives
 elsewhere, set `ADMIN_APP_URL` first. From then on the same page resets the password of any account that has an e-mail
 address (or an e-mail address as its username). Nothing is created once one account exists; to turn the e-mail route to
 a first owner off entirely, set `ADMIN_BOOTSTRAP_EMAILS=` (empty) on Render.
@@ -89,7 +89,7 @@ If the only owner loses the authenticator: ADMIN.md section 6 (`db.admins.update
 | `DATABASEURL` | already set. New collections `adminSession`, `auditLog` appear on first use; check in Atlas that both have their TTL index. |
 | `ADMIN_ORIGINS` | optional here: the exact origin of the dashboard, e.g. `https://nazaretholycrossadmin.netlify.app` or its own domain, no trailing slash. The dashboard calls the API from its server, so CORS is not involved; this only matters if a browser ever calls the API directly. (`https://nazaretholycrossadmin.netlify.app` and its deploy previews are allowed already.) Set it to the final domain anyway, so it is right the day it is needed. |
 | `ADMIN_PASSWORD` | still required by the server's start-up check until the old admin is retired (ADMIN.md 7). |
-| `ADMIN_APP_URL` | optional: the dashboard's address, used in the password-reset e-mail (`<ADMIN_APP_URL>/reset-password?token=...`). Default `https://nhc-admin-dashboard.netlify.app`; set it when the dashboard gets its own domain. |
+| `ADMIN_APP_URL` | optional: the dashboard's address, used in the password-reset e-mail (`<ADMIN_APP_URL>/reset-password?token=...`). Default `https://admin.nazarethholycross.com`; set it when the dashboard gets its own domain. |
 | `ADMIN_BOOTSTRAP_EMAILS` | optional: who may create the first owner by e-mail while no account exists (section 2). Default `nazarethholycross@gmail.com`; empty turns it off. |
 | `MAIL_FROM`, `MAIL_APP_PASSWORD` | already set: the password-reset mails use them. |
 
@@ -107,6 +107,11 @@ If the only owner loses the authenticator: ADMIN.md section 6 (`db.admins.update
 No secret belongs in `admin/netlify.toml` or in the repository.
 
 ## 4. Deploy the dashboard (Netlify)
+
+**Live since 2026-10-06:** the new dashboard is the Netlify site `nhc-admin-dashboard` (base `admin`) at
+**https://admin.nazarethholycross.com** (Netlify DNS, Force HTTPS on); `https://nazarethholycross.com/admin` and the
+`netlify.app` address forward there. The steps below describe the older plan of re-linking the 2024 site
+`nazaretholycrossadmin` and are kept for reference; that old site still serves the 2024 admin until it is retired.
 
 The dashboard is its **own Netlify site**, `nazaretholycrossadmin`, never the public site. That site is currently
 connected to the OLD admin repository; point it at this repository instead.
