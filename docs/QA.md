@@ -92,6 +92,7 @@ Severity: **High** = visitors cannot reach content or money is at risk; **Med** 
 
 | QA-13 | Med | all photos and sounds in `public/` | served with `Cache-Control: public, max-age=0`: the browser re-asked the server for every image and the 4.8 MB music file on every visit | **Fixed** (`next.config.ts`: 1 day + 7 days stale-while-revalidate for `/images` and `/sounds`) | `qa-site.spec.ts` |
 | QA-14 | Low | checkout phone field, Arabic | digits typed on an Arabic or Persian keyboard (`٠٥٢…`) were refused as "not a phone number" | **Fixed** (accepted, and sent to the API as 0-9) | `tests/unit/checkout.test.ts` |
+| QA-15 | Med | whole site and admin, phones to wide screens | the responsive pass of 2026-10-06 (12 viewports, en/he/ar, every page) found 19 layout problems, among them the language list cut off on phones and the admin's phone menu that never opened in Hebrew and Arabic: list R-01 to R-12 and A-01 to A-07 in `docs/RESPONSIVE.md` | **Fixed** | `web/tests/e2e/responsive.spec.ts`, `admin/tests/e2e/responsive.spec.ts` |
 
 ## 4. Open issues and notes
 

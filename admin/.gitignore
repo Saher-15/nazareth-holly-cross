@@ -23,3 +23,6 @@
 next-env.d.ts
 .DS_Store
 .netlify
+
+# screenshots of the responsive review (tests/e2e/responsive.spec.ts, RESPONSIVE_SHOTS)
+/responsive-shots/
