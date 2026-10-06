@@ -20,7 +20,7 @@ const { allFilters, castProblem, freshIp, sanitizeChanges, signedIn, startClient
 const { createApp } = await import('../app.js');
 const { signSessionToken } = await import('../services/adminSessions.js');
 const { resetDashboardCache } = await import('../services/dashboard.js');
-const { PAYMENT_GRACE_MS } = await import('../model/payment.js');
+const { PAYMENT_GRACE_MS } = await import('../model/paymentConstants.js');
 
 const { http, close } = startClient(createApp());
 afterAll(close);

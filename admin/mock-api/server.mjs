@@ -39,6 +39,7 @@ let sessions; // sid -> { userId, revokedAt }
 let audit;
 let loginFailures; // "ip|name" -> [timestamps]; "ip" -> [timestamps]
 let adminBuckets;
+let privacyBuckets; // 20 privacy requests per 15 minutes per admin (the real API's adminErasureLimiter)
 let failMail = false;
 
 function reset() {
@@ -70,6 +71,7 @@ function reset() {
   audit = [];
   loginFailures = new Map();
   adminBuckets = new Map();
+  privacyBuckets = new Map();
   failMail = false;
 }
 reset();
@@ -460,7 +462,17 @@ function dashboard() {
       candles: newest(db.candles, ['firstName', 'lastName', 'email', 'prayer', 'done', 'createdAt']),
       contacts: newest(db.contacts, ['fullName', 'email', 'msg', 'done', 'createdAt']),
     },
+    // Customers who paid but whose order or candle request was never saved (server/services/payments.js)
+    alerts: { unfulfilledPayments: { count: unfulfilledPayments().length, amount: round2(unfulfilledPayments().reduce((s, p) => s + p.amount, 0)) } },
   };
+}
+
+// ------------------------------------------------------------------ payment ledger (server/model/payment.js, services/payments.js)
+
+const GRACE_MS = 10 * 60 * 1000; // a captured payment is only "unfulfilled" after this long
+// Captured, for an order / candle / old client, nothing linked, not resolved, past the grace period. Donations never.
+function unfulfilledPayments(now = Date.now()) {
+  return db.payments.filter((p) => p.status === 'captured' && ['order', 'candle', 'unknown'].includes(p.type) && !p.linkedTo?.id && !p.resolvedAt && p.capturedAt && new Date(p.capturedAt).getTime() <= now - GRACE_MS);
 }
 
 // ------------------------------------------------------------------ routes
@@ -667,6 +679,37 @@ for (const route of collection({
   statuses: Object.fromEntries(PRAYER_CATEGORIES.map((c) => [c, (p) => p.category === c])), sorts: ['createdAt', 'likes'],
 })) add(route);
 
+// --- payments (server/route/admin/payments.js): the ledger is read and resolved, never deleted
+add({
+  method: 'GET', path: '/admin/payments', min: 'viewer',
+  run: (ctx) => paginate(ctx.url, db.payments, {
+    searchable: (p) => [p.paypalOrderId, p.payerEmail, p.payerName, p.donorName, p.notes],
+    statuses: {
+      unfulfilled: (p) => unfulfilledPayments().includes(p),
+      captured: (p) => p.status === 'captured', created: (p) => p.status === 'created', failed: (p) => p.status === 'failed',
+      resolved: (p) => p.resolvedAt !== null && p.resolvedAt !== undefined,
+      order: (p) => p.type === 'order', candle: (p) => p.type === 'candle', donation: (p) => p.type === 'donation',
+    },
+    sorts: ['createdAt', 'capturedAt', 'amount', 'status'],
+  }),
+});
+add({ method: 'GET', path: '/admin/payments/:id', min: 'viewer', run: (ctx) => found(byId(db.payments, objectId(ctx.params.id)), 'Payment') });
+add({
+  method: 'PATCH', path: '/admin/payments/:id', min: 'editor',
+  run: (ctx) => {
+    const id = objectId(ctx.params.id);
+    const body = parseBody(ctx.body, { resolved: bool(), note: opt(str({ min: 1, max: 1000, multiline: true })) });
+    if (body.resolved && !body.note) throw new HttpError(400, 'note is required when resolving a payment');
+    const payment = found(byId(db.payments, id), 'Payment');
+    if (body.resolved && payment.linkedTo?.id) throw new HttpError(409, 'This payment is already linked to an order or candle request');
+    if (body.resolved) Object.assign(payment, { resolvedAt: new Date().toISOString(), resolvedBy: ctx.req.auth.user.username, notes: body.note });
+    else Object.assign(payment, { resolvedAt: null, ...(body.note ? { notes: body.note } : {}) });
+    payment.updatedAt = new Date().toISOString();
+    record(ctx.req, 'payment.update', { type: 'payment', id }, { resolved: body.resolved, paypalOrderId: payment.paypalOrderId });
+    return { item: payment };
+  },
+});
+
 // --- products
 add({
   method: 'GET', path: '/admin/products', min: 'viewer',
@@ -722,14 +765,26 @@ const EXPORTS = {
   ] },
   candles: { rows: () => db.candles, cols: [idCol, field('createdAt'), field('firstName'), field('lastName'), field('email'), field('prayer'), field('done')] },
   contacts: { rows: () => db.contacts, cols: [idCol, field('createdAt'), field('fullName'), field('email'), field('phone'), field('msg'), field('done')] },
+  payments: { rows: () => db.payments, cols: [
+    idCol, field('createdAt'), field('capturedAt'), field('paypalOrderId'), field('type'), field('status'), field('amount'), field('currency'), field('payerEmail'), field('payerName'), field('donorName'),
+    { header: 'linkedKind', value: (p) => p.linkedTo?.kind }, { header: 'linkedId', value: (p) => (p.linkedTo?.id ? String(p.linkedTo.id) : '') },
+    field('resolvedAt'), field('resolvedBy'), field('notes'),
+  ] },
 };
 add({
   method: 'GET', path: '/admin/export/:file', min: 'editor',
   run: (ctx) => {
-    const match = /^(orders|candles|contacts)\.csv$/.exec(ctx.params.file);
+    const match = /^(orders|candles|contacts|payments)\.csv$/.exec(ctx.params.file);
     if (!match) throw new HttpError(404, 'Not found');
     const spec = EXPORTS[match[1]];
-    const rows = [...spec.rows()].sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt))).slice(0, 10_000);
+    let source = spec.rows();
+    // payments.csv?status=unfulfilled: only the customers who paid and have nothing saved
+    const status = ctx.url.searchParams.get('status');
+    if (match[1] === 'payments' && status !== null) {
+      if (status !== 'unfulfilled') throw new HttpError(400, 'Invalid status: use unfulfilled');
+      source = unfulfilledPayments();
+    }
+    const rows = [...source].sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt))).slice(0, 10_000);
     record(ctx.req, `export.${match[1]}`, { type: match[1], id: '' }, { rows: rows.length });
     return { status: 200, raw: toCsv(spec.cols, rows, decodeEntities), headers: { 'Content-Type': 'text/csv; charset=utf-8', 'Content-Disposition': `attachment; filename="${match[1]}-${new Date().toISOString().slice(0, 10)}.csv"` } };
   },
@@ -819,6 +874,69 @@ add({
     if (action !== null) rows = rows.filter((e) => (action.endsWith('.') ? e.action.startsWith(action) : e.action === action));
     // sorted by `at`, newest first by default (paginate() sorts by the named key)
     return paginate(ctx.url, rows, { searchable: (e) => [e.actorName, e.action, e.target.id], sorts: ['at'], defaultSort: '-at' });
+  },
+});
+
+// --- privacy (owner only), server/route/admin/privacy.js: find and erase what is stored about an e-mail address
+const ERASED_EMAIL = 'erased@erased.invalid';
+// server/utils/validate.js isEmail
+const EMAIL = /^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]{1,64}@[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)+$/;
+const personalEmail = (value) => {
+  const address = value.trim().toLowerCase();
+  if (address.length > 254 || !EMAIL.test(address) || address === ERASED_EMAIL) throw new HttpError(400, 'Invalid email');
+  return address;
+};
+const subjectRef = (address) => createHash('sha256').update(IP_SALT + address).digest('hex').slice(0, 32);
+function privacyLimit(user) {
+  const bucket = privacyBuckets.get(user._id) ?? { start: Date.now(), count: 0 };
+  if (Date.now() - bucket.start > WINDOW_MS) Object.assign(bucket, { start: Date.now(), count: 0 });
+  bucket.count += 1;
+  privacyBuckets.set(user._id, bucket);
+  if (bucket.count > 20) throw new HttpError(429, 'Too many privacy requests, please try again later.', { 'Retry-After': '60' });
+}
+const sameAddress = (stored, address) => String(stored ?? '').toLowerCase() === address; // contact messages and site reviews: any case
+function privacyCounts(address) {
+  return {
+    orders: db.orders.filter((o) => o.email === address).length,
+    candles: db.candles.filter((c) => c.email === address).length,
+    contacts: db.contacts.filter((c) => sameAddress(c.email, address)).length,
+    reviews: db.siteReviews.filter((r) => sameAddress(r.email, address)).length,
+    payments: db.payments.filter((p) => p.payerEmail === address).length,
+  };
+}
+add({
+  method: 'POST', path: '/admin/privacy/lookup', min: 'owner',
+  run: (ctx) => {
+    privacyLimit(ctx.req.auth.user);
+    const address = personalEmail(parseBody(ctx.body, { email: str({ min: 3, max: 254, escape: false }) }).email);
+    const found = privacyCounts(address);
+    record(ctx.req, 'privacy.lookup', { type: 'privacy', id: subjectRef(address) }, found);
+    return { found };
+  },
+});
+add({
+  method: 'POST', path: '/admin/privacy/erase', min: 'owner',
+  run: (ctx) => {
+    privacyLimit(ctx.req.auth.user);
+    const input = parseBody(ctx.body, { email: str({ min: 3, max: 254, escape: false }), confirm: str({ min: 3, max: 254, escape: false }) });
+    const address = personalEmail(input.email);
+    if (personalEmail(input.confirm) !== address) throw new HttpError(400, 'The confirmation does not match the address');
+    const erasedAt = new Date().toISOString();
+    const orders = db.orders.filter((o) => o.email === address);
+    const candles = db.candles.filter((c) => c.email === address);
+    const linked = new Set([...orders, ...candles].map((d) => d._id));
+    const person = { firstName: 'Erased', lastName: 'Erased', email: ERASED_EMAIL, erasedAt };
+    for (const o of orders) Object.assign(o, person, { phone: 'Erased', street: 'Erased', city: 'Erased', state: 'Erased', postal: 'Erased', country: 'Erased' });
+    for (const c of candles) Object.assign(c, person, { prayer: 'Erased' });
+    const contacts = db.contacts.filter((c) => sameAddress(c.email, address)).length;
+    db.contacts = db.contacts.filter((c) => !sameAddress(c.email, address));
+    const reviews = db.siteReviews.filter((r) => sameAddress(r.email, address)).length;
+    db.siteReviews = db.siteReviews.filter((r) => !sameAddress(r.email, address));
+    const payments = db.payments.filter((p) => p.payerEmail === address || (p.linkedTo?.id && linked.has(p.linkedTo.id)));
+    for (const p of payments) { delete p.payerEmail; delete p.payerName; delete p.donorName; }
+    const erased = { orders: orders.length, candles: candles.length, contacts, reviews, payments: payments.length };
+    record(ctx.req, 'privacy.erase', { type: 'privacy', id: subjectRef(address) }, erased);
+    return { erased };
   },
 });
 

@@ -19,6 +19,7 @@ html:lang(he) .table th, html:lang(ar) .table th { letter-spacing: 0; text-trans
 .table tbody tr:hover { background: var(--row-hover); }
 .table .is-end { text-align: end; }
 .table tr.is-muted td { opacity: 0.7; }
+.table tr.is-attention td { background: var(--warn-soft); }
 .table td.cell-wide { min-width: 260px; max-width: 460px; color: var(--cream); }
 .table td.is-primary { min-width: 180px; }
 .strong + .badge { margin-inline-start: 8px; }

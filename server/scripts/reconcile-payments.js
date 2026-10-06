@@ -21,7 +21,7 @@
 
 import { askHidden } from './create-admin.js';
 import { isMain, openDatabase, readArgs, readDatabaseUrl } from './lib/cli.js';
-import { PAYMENT_GRACE_MS } from '../model/payment.js';
+import { PAYMENT_GRACE_MS } from '../model/paymentConstants.js';
 import Candle from '../model/candle.js';
 import Order from '../model/order.js';
 import Payment from '../model/payment.js';

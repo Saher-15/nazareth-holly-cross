@@ -10,7 +10,13 @@ const rules: Rule[] = [
   { method: 'POST', pattern: /^auth\/password$/ },
   { method: 'POST', pattern: /^auth\/totp\/(setup|enable|disable)$/ },
   { method: 'GET', pattern: /^dashboard$/ },
-  { method: 'GET', pattern: /^export\/(orders|candles|contacts)\.csv$/ },
+  { method: 'GET', pattern: /^export\/(orders|candles|contacts|payments)\.csv$/ },
+  // The payment ledger: read, and resolve with a note. There is no delete, on purpose (docs/ADMIN.md, Payments).
+  { method: 'GET', pattern: /^payments$/ },
+  { method: 'GET', pattern: new RegExp(`^payments/${ID}$`) },
+  { method: 'PATCH', pattern: new RegExp(`^payments/${ID}$`) },
+  // Data-protection requests (owner only; the API enforces the role).
+  { method: 'POST', pattern: /^privacy\/(lookup|erase)$/ },
   ...['orders', 'candles', 'contacts', 'site-reviews', 'product-reviews', 'prayers', 'products', 'users'].flatMap((resource): Rule[] => [
     { method: 'GET', pattern: new RegExp(`^${resource}$`) },
     { method: 'GET', pattern: new RegExp(`^${resource}/${ID}$`) },

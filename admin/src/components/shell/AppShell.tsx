@@ -15,6 +15,7 @@ import { LanguageSwitcher } from './LanguageSwitcher';
 const ICONS: Record<NavId, IconName> = {
   dashboard: 'dashboard',
   orders: 'orders',
+  payments: 'payments',
   candles: 'candles',
   contacts: 'mail',
   products: 'products',
@@ -22,15 +23,16 @@ const ICONS: Record<NavId, IconName> = {
   prayers: 'prayers',
   users: 'users',
   audit: 'audit',
+  privacy: 'userX',
   settings: 'settings',
   profile: 'profile',
 };
 
 const GROUPS: { label: 'shell.groupOverview' | 'shell.groupInbox' | 'shell.groupCatalog' | 'shell.groupAdmin'; ids: NavId[] }[] = [
   { label: 'shell.groupOverview', ids: ['dashboard'] },
-  { label: 'shell.groupInbox', ids: ['orders', 'candles', 'contacts', 'prayers', 'reviews'] },
+  { label: 'shell.groupInbox', ids: ['orders', 'payments', 'candles', 'contacts', 'prayers', 'reviews'] },
   { label: 'shell.groupCatalog', ids: ['products'] },
-  { label: 'shell.groupAdmin', ids: ['users', 'audit', 'settings', 'profile'] },
+  { label: 'shell.groupAdmin', ids: ['users', 'audit', 'privacy', 'settings', 'profile'] },
 ];
 
 export function AppShell({ user, expiresAt, children }: { user: { username: string; role: Role }; expiresAt: number | null; children: ReactNode }) {

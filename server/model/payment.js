@@ -1,5 +1,8 @@
 import mongoose from 'mongoose';
+import { LINK_KINDS, PAYMENT_STATUSES, PAYMENT_TYPES } from './paymentConstants.js';
 const { Schema } = mongoose;
+
+export * from './paymentConstants.js';
 
 // The payment ledger: one document per PayPal order the API created. It is the shop's own record that money moved,
 // written by the server BEFORE the customer can pay (create_order) and updated when PayPal confirms the capture
@@ -11,13 +14,6 @@ const { Schema } = mongoose;
 //   captured  PayPal confirmed the money
 //   failed    PayPal refused the capture (a later retry on the same PayPal order can still succeed)
 
-export const PAYMENT_TYPES = ['order', 'candle', 'donation', 'unknown']; // 'unknown': a legacy client that sent no type
-export const PAYMENT_STATUSES = ['created', 'captured', 'failed'];
-export const LINK_KINDS = ['order', 'candle'];
-
-// A captured order/candle payment that is still not linked to a saved record after this long is "unfulfilled": the
-// customer has paid and the shop has nothing to ship or light. Before that the browser is simply still posting it.
-export const PAYMENT_GRACE_MS = 10 * 60 * 1000;
 
 const paymentSchema = new Schema({
   paypalOrderId: {

@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
-import Payment, { PAYMENT_GRACE_MS } from '../model/payment.js';
+import Payment from '../model/payment.js';
+import { PAYMENT_GRACE_MS } from '../model/paymentConstants.js';
 import { HttpError } from '../utils/httpError.js';
 
 // The payment ledger (model/payment.js). Every function here is idempotent: calling it twice with the same input

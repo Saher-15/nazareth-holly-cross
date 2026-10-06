@@ -36,6 +36,8 @@ const PATHS = {
   flame: 'M12 3c3 3 5 5.500 5 9a5 5 0 0 1-10 0c0-1.800.700-3 2-4.500.300 1.200 1 2 2 2.500C10.500 7.500 11 5.500 12 3Z',
   clock: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0-14v5l3 2',
   copy: 'M9 9h11v11H9V9Zm-5 6V4h11',
+  payments: 'M3 6h18v12H3V6Zm0 4h18M7 15h4',
+  userX: 'M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-7 10a7 7 0 0 1 14 0M17 8l5 5m0-5-5 5',
 } as const;
 
 export type IconName = keyof typeof PATHS;

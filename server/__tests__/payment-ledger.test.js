@@ -14,7 +14,7 @@ vi.mock('../services/emailService.js', () => ({ sendMail: mail.sendMail, SENDER:
 const { fakes, oid } = await import('./helpers/fakes.js');
 const { createApp } = await import('../app.js');
 const { config } = await import('../config/env.js');
-const { PAYMENT_GRACE_MS } = await import('../model/payment.js');
+const { PAYMENT_GRACE_MS } = await import('../model/paymentConstants.js');
 const { recordCreated, recordCaptured, unfulfilledFilter, unfulfilledSummary } = await import('../services/payments.js');
 const app = createApp();
 

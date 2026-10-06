@@ -11,7 +11,7 @@ import path from 'node:path';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import {
   auditPage, candlesPage, contactsPage, dashboardSchema, loginResponseSchema, meSchema, ordersPage, prayersPage, productReviewsPage,
-  productSchema, productsPage, siteReviewsPage, totpSetupSchema, usersPage,
+  paymentsPage, privacyEraseSchema, privacyLookupSchema, productSchema, productsPage, siteReviewsPage, totpSetupSchema, usersPage,
 } from '@/lib/api';
 import { totpCode } from '../../mock-api/totp.mjs';
 
@@ -146,6 +146,7 @@ async function scenario(backend: Backend): Promise<{ steps: Step[]; replies: Rec
   const lists: [string, string[]][] = [
     ['orders', ['pending', 'shipped', 'unverified']], ['candles', ['pending', 'done']], ['contacts', ['open', 'done']], ['site-reviews', ['approved', 'hidden']],
     ['product-reviews', ['approved', 'hidden']], ['prayers', ['Peace']], ['products', ['ok', 'low', 'out']], ['users', ['active', 'owner', 'editor', 'viewer', 'disabled']],
+    ['payments', ['unfulfilled', 'captured', 'created', 'failed', 'resolved', 'order', 'candle', 'donation']],
   ];
   const ids: Record<string, string> = {};
   for (const [name, statuses] of lists) {
@@ -206,6 +207,40 @@ async function scenario(backend: Backend): Promise<{ steps: Step[]; replies: Rec
   add('product delete', await E('DELETE', `/admin/products/${productId}`));
   add('product delete again', await E('DELETE', `/admin/products/${productId}`));
 
+  // payments: resolve with a note, reopen, and what cannot be done (the ledger has no delete)
+  const unfulfilled = (await O('GET', '/admin/payments?status=unfulfilled&size=1')).json as { items: { _id: string }[] };
+  const lostId = unfulfilled.items[0]._id;
+  const linked = ((await O('GET', '/admin/payments?size=100')).json as { items: { _id: string; linkedTo?: { id?: string } }[] }).items.find((p) => p.linkedTo?.id)!;
+  add('payment resolve without a note', await E('PATCH', `/admin/payments/${lostId}`, { resolved: true }));
+  add('payment resolve with a blank note', await E('PATCH', `/admin/payments/${lostId}`, { resolved: true, note: '   ' }));
+  add('payment resolve: unknown field', await E('PATCH', `/admin/payments/${lostId}`, { resolved: true, note: 'x', amount: 1 }));
+  add('payment resolve: viewer', await V('PATCH', `/admin/payments/${lostId}`, { resolved: true, note: 'x' }));
+  add('payment resolve: already linked', await E('PATCH', `/admin/payments/${linked._id}`, { resolved: true, note: 'x' }));
+  add('payment resolve', await E('PATCH', `/admin/payments/${lostId}`, { resolved: true, note: 'Refunded in PayPal & told the customer <b>' }));
+  add('payment unfulfilled after resolve', await O('GET', '/admin/payments?status=unfulfilled&size=1'));
+  add('payment reopen', await E('PATCH', `/admin/payments/${lostId}`, { resolved: false }));
+  add('payment has no DELETE', await O('DELETE', `/admin/payments/${lostId}`));
+  add('payment has no POST', await O('POST', '/admin/payments', { paypalOrderId: 'X' }));
+  add('payment unknown id', await E('PATCH', `/admin/payments/${'0'.repeat(23)}9`, { resolved: false }));
+  add('dashboard alert after changes', await O('GET', '/admin/dashboard'));
+
+  // privacy (owner only): look up and erase one address. Both seeds hold one lost order by lost.order@example.com.
+  const lookup = add('privacy lookup', await O('POST', '/admin/privacy/lookup', { email: ' Lost.Order@Example.com ' }));
+  steps.push({ label: 'privacy lookup counts', status: 0, shape: (lookup.json as { found: unknown }).found });
+  add('privacy lookup: nobody', await O('POST', '/admin/privacy/lookup', { email: 'nobody@example.com' }));
+  add('privacy lookup: editor', await E('POST', '/admin/privacy/lookup', { email: 'lost.order@example.com' }));
+  add('privacy lookup: not an address', await O('POST', '/admin/privacy/lookup', { email: 'nope' }));
+  add('privacy lookup: the placeholder', await O('POST', '/admin/privacy/lookup', { email: 'erased@erased.invalid' }));
+  add('privacy lookup: extra field', await O('POST', '/admin/privacy/lookup', { email: 'a@b.co', all: true }));
+  add('privacy erase: confirmation differs', await O('POST', '/admin/privacy/erase', { email: 'lost.order@example.com', confirm: 'other@example.com' }));
+  add('privacy erase: no confirmation', await O('POST', '/admin/privacy/erase', { email: 'lost.order@example.com' }));
+  add('privacy erase: editor', await E('POST', '/admin/privacy/erase', { email: 'lost.order@example.com', confirm: 'lost.order@example.com' }));
+  const erased = add('privacy erase', await O('POST', '/admin/privacy/erase', { email: 'lost.order@example.com', confirm: 'LOST.order@example.com' }));
+  steps.push({ label: 'privacy erase counts', status: 0, shape: (erased.json as { erased: unknown }).erased });
+  add('privacy lookup after erase', await O('POST', '/admin/privacy/lookup', { email: 'lost.order@example.com' }));
+  add('privacy lookup is audited (GET audit)', await O('GET', '/admin/audit?action=privacy.&size=1'));
+  add('privacy GET is not a route', await O('GET', '/admin/privacy/lookup'));
+
   // users
   const me = (owner.res.json as { user: { id: string } }).user.id;
   const made = add('user create', await O('POST', '/admin/users', { username: 'Casey.Test', password: 'Casey-Test-Pass-77', role: 'viewer' }));
@@ -225,10 +260,12 @@ async function scenario(backend: Backend): Promise<{ steps: Step[]; replies: Rec
   add('user delete again', await O('DELETE', `/admin/users/${caseyId}`));
 
   // export
-  for (const file of ['orders', 'candles', 'contacts']) {
+  for (const file of ['orders', 'candles', 'contacts', 'payments']) {
     const csv = add(`export ${file}`, await E('GET', `/admin/export/${file}.csv`));
     steps.push({ label: `export ${file} header and type`, status: 0, shape: [csv.text.replace(/^﻿/, '').split('\r\n')[0], csv.headers.get('content-type'), /^attachment; filename="\w+-\d{4}-\d\d-\d\d\.csv"$/.test(csv.headers.get('content-disposition') ?? ''), csv.text.charCodeAt(0) === 0xfeff] });
   }
+  add('export payments: unfulfilled only', await E('GET', '/admin/export/payments.csv?status=unfulfilled'));
+  add('export payments: bad status', await E('GET', '/admin/export/payments.csv?status=bogus'));
   add('export: viewer', await V('GET', '/admin/export/orders.csv'));
   add('export: unknown file', await O('GET', '/admin/export/users.csv'));
 
@@ -332,13 +369,16 @@ describe.skipIf(!haveServer)('the mock and the real API agree (status codes and 
     parse('list products', productsPage);
     parse('list users', usersPage);
     parse('list audit', auditPage);
+    parse('list payments', paymentsPage);
+    parse('privacy lookup', privacyLookupSchema);
+    parse('privacy erase', privacyEraseSchema);
     parse('detail products', productSchema);
     parse('totp setup', totpSetupSchema);
   });
 
   it('and so do the mock\'s answers (the mock is what the dashboard\'s own end-to-end run sees)', () => {
     const r = a.replies;
-    for (const [label, schema] of Object.entries({ login: loginResponseSchema, me: meSchema, dashboard: dashboardSchema, 'list orders': ordersPage, 'list users': usersPage, 'list audit': auditPage, 'list products': productsPage })) {
+    for (const [label, schema] of Object.entries({ login: loginResponseSchema, me: meSchema, dashboard: dashboardSchema, 'list orders': ordersPage, 'list users': usersPage, 'list audit': auditPage, 'list products': productsPage, 'list payments': paymentsPage })) {
       expect(schema.safeParse(r[label].json).success, label).toBe(true);
     }
   });

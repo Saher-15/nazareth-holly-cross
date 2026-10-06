@@ -185,6 +185,32 @@ export const productSchema = doc({
 });
 export type Product = z.infer<typeof productSchema>;
 
+// The payment ledger (server/model/payment.js, docs/ADMIN.md "Payments"). type: order | candle | donation | unknown;
+// status: created | captured | failed. linkedTo points at the order or candle request the payment paid for.
+export const paymentSchema = doc({
+  paypalOrderId: z.string(),
+  type: z.string(),
+  amount: money,
+  currency: z.string().nullish(),
+  status: z.string(),
+  capturedAt: isoDate.nullish(),
+  createdAt: isoDate.nullish(),
+  payerEmail: z.string().nullish(),
+  payerName: z.string().nullish(),
+  donorName: z.string().nullish(),
+  linkedTo: z.looseObject({ kind: z.string().nullish(), id: z.string().nullish() }).nullish(),
+  resolvedAt: isoDate.nullish(),
+  resolvedBy: z.string().nullish(),
+  notes: z.string().nullish(),
+});
+export type Payment = z.infer<typeof paymentSchema>;
+
+// POST /admin/privacy/lookup and /erase (owner): counts per collection, never the data itself.
+const privacyCounts = z.looseObject({ orders: z.number(), candles: z.number(), contacts: z.number(), reviews: z.number(), payments: z.number() });
+export const privacyLookupSchema = z.looseObject({ found: privacyCounts });
+export const privacyEraseSchema = z.looseObject({ erased: privacyCounts });
+export type PrivacyCounts = z.infer<typeof privacyCounts>;
+
 export const userSchema = doc({
   username: z.string(),
   role: roleSchema,
@@ -240,6 +266,7 @@ export const siteReviewsPage = pageOf(siteReviewSchema);
 export const productReviewsPage = pageOf(productReviewSchema);
 export const prayersPage = pageOf(prayerSchema);
 export const productsPage = pageOf(productSchema);
+export const paymentsPage = pageOf(paymentSchema);
 export const usersPage = pageOf(userSchema);
 export const auditPage = pageOf(auditSchema);
 
@@ -265,6 +292,8 @@ export const dashboardSchema = z.looseObject({
     candles: z.array(candleSchema),
     contacts: z.array(contactSchema),
   }),
+  // Absent from an API that predates the payment ledger: the dashboard then simply shows no alert.
+  alerts: z.looseObject({ unfulfilledPayments: z.looseObject({ count: z.number(), amount: z.number() }) }).optional(),
 });
 export type Dashboard = z.infer<typeof dashboardSchema>;
 
