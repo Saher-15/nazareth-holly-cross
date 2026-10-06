@@ -167,7 +167,7 @@ Keep the total at or under 40 photos unless there is a reason (each is about 0.9
 import { getMedia } from '@/data/media';
 import MediaPicture from '@/components/media/MediaPicture';
 
-<MediaPicture item={getMedia('city-sunset-glow')} alt="" sizes="max(100vw, 1200px)" fill priority />
+<MediaPicture item={getMedia('city-sunset-glow')} alt="" sizes="(max-width: 767px) 740px, 100vw" fill priority />
 ```
 
 * `getMedia(id)` returns the typed item (`MediaItem`: id, topic, subject, English `alt`, `width`, `height`,
@@ -176,7 +176,7 @@ import MediaPicture from '@/components/media/MediaPicture';
   `mediaObjectPosition`.
 * `MediaPicture` renders `<picture>` with AVIF then WebP sources in every width, the blur placeholder, and the
   focal-point crop. Pass `sizes` honestly. A photo that covers a box which is **taller than wide** (a hero on a
-  phone) is cropped sideways, so it needs a wider file than the screen: use `max(100vw, 1200px)` for heroes.
+  phone) is cropped sideways, so it needs a wider file than the screen: use `(max-width: 767px) 740px, 100vw` for heroes (a phone then takes the 1920 px file; see PERFORMANCE.md).
 * `mediaPhoto(id)` (in `data/places/places.ts`) turns an item into a place `Photo`; `PhotoImage`
   (`components/places`) shows either kind. The holy-site pages, the sites index, the cards and the lightbox
   already use it.

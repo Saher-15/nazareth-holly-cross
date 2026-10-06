@@ -60,6 +60,8 @@ Then revert the commit on `main` with a pull request.
 
 ## 5. Design system
 
+- Mandatory reading for every change: `docs/WORKING-AGREEMENT.md` (how to work) and `docs/DESIGN-GUIDE.md` (the master
+  design specification, with a unit test that keeps it in step with the code).
 - Look: **"Immersive pilgrimage"** — night background, gold accents, serif headings, glass cards.
 - Tokens (colours, fonts, spacing, type, elevation, focus, motion): `web/src/styles/tokens.css`. Shared blocks (`ui-*`): `web/src/styles/ui.css`.
   Every component, state and rule, with screenshots: **`docs/DESIGN.md`**.

@@ -3,7 +3,9 @@
 How the Nazareth Holy Cross site looks and behaves, and how to build a new page that fits. The rules here are
 enforced by the shared CSS (`web/src/styles/`), the shared components (`web/src/components/ui/`,
 `web/src/components/layout/`) and the tests in `web/tests/` (`ux.spec.ts`, `ux.test.tsx`, axe in `shell.spec.ts`).
-The screenshots are in `docs/design/`.
+The screenshots are in `docs/design/`. The complete specification (brand and voice, every token and component, page
+templates, accessibility, RTL, budgets, the admin dashboard, how to add things) is `docs/DESIGN-GUIDE.md`; this file
+is the short reference of the shell.
 
 **Look:** a night sky (deep blue-black), gold for everything that matters or can be pressed, cream for text,
 serif headings, glass cards over photographs. **Feel:** quiet, reverent, never busy: motion is slow and small, one
@@ -33,7 +35,7 @@ accent colour, photographs do the talking.
 |---|---|
 | `--night`, `--night-2`, `--night-3` | page background, raised surface, field/menu surface |
 | `--gold`, `--gold-deep`, `--gold-soft` | accent, pressed/primary, tinted fill for "current" and "selected" |
-| `--cream`, `--muted` | body text, secondary text (contrast on night: 15:1 and 9:1) |
+| `--cream`, `--muted` | body text, secondary text (contrast on night: 16.8:1 and 10.5:1) |
 | `--danger`, `--success` | errors, confirmations (always with an icon or words, never colour alone) |
 | `--glass`, `--glass-strong`, `--glass-line` | translucent surfaces and their hairline border |
 
@@ -238,7 +240,7 @@ address. `PageTools` has the Print button.
 ## 6. Accessibility
 
 Checked with axe (WCAG 2.0 A/AA, 2.1 AA and 2.2 AA including target size) on the 12 main pages in English and
-Hebrew at 1440 and 390px: no violations. Contrast: cream on night 15:1, muted 9:1, gold 11:1; gold buttons use
+Hebrew at 1440 and 390px: no violations. Contrast: cream on night 16.8:1, muted 10.5:1, gold 11.3:1 (every pair: DESIGN-GUIDE.md section 3.2); gold buttons use
 `#1a1405` text. Touch targets: header and footer controls are asserted at 44px by `ux.spec.ts`. Keyboard: skip
 link, menus, focus return, drawer, photo viewer, carousel are covered by tests.
 
