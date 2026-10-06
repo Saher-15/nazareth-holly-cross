@@ -16,7 +16,7 @@ import { publicSchedule } from '../services/liveSchedule.js';
 // answered from memory for a minute and half a minute, with the public-read limit and Cache-Control.
 //
 // The old "room" routes (POST /live/create_room, GET /live/room_id, POST /live/close_room: one id kept in the memory of
-// the process, readable by anyone) were removed: no page of web/ or admin/ used them (docs/LIVE.md section 8).
+// the process, readable by anyone) were removed: no page of web/ or admin/ used them (docs/LIVE.md section 3).
 
 const routerLive = express.Router();
 

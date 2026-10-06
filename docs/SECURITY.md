@@ -47,9 +47,19 @@ malicious team member, and denial of service at network level (Netlify and Rende
 - `style-src 'self' 'nonce-…'`, plus `style-src-attr 'unsafe-inline'`: style *elements* need the nonce; inline
   `style=""` attributes (CSS variables written by React) cannot carry one and cannot run code.
 - `connect-src`: our own origin, the API (`NEXT_PUBLIC_API_URL`) and PayPal. `frame-src` and `img-src`: PayPal.
-  `frame-src` also allows `https://*.cloudflarestream.com`: Cloudflare Stream's player of a live broadcast on `/live`
-  ([LIVE.md](LIVE.md)); the page frames only an address of the exact shape `https://customer-<code>.cloudflarestream.com/<32 hex>/iframe`.
-  `img-src`/`media-src`: Firebase Storage (product photos, videos). `font-src 'self'`: fonts are self-hosted.
+  `frame-src` also allows `https://*.cloudflarestream.com`: Cloudflare Stream's player of a live broadcast and of a
+  published recording on `/live` ([LIVE.md](LIVE.md)); the page frames only an address of the exact shape
+  `https://customer-<code>.cloudflarestream.com/<32 hex>/iframe`. `img-src` also allows `https://*.cloudflarestream.com`
+  for the poster pictures of published recordings (`https://customer-<code>.cloudflarestream.com/<32 hex>/thumbnails/thumbnail.jpg`,
+  the only shape the page shows). `img-src`/`media-src`: Firebase Storage (product photos, videos). `font-src 'self'`: fonts are self-hosted.
+- **The dashboard** (`admin/src/proxy.ts`, `admin/src/lib/csp.ts`) has its own strict policy (no `frame-src` beyond `'self'`,
+  `media-src 'none'`). Only its Live page (`/live`) adds: `connect-src https://*.cloudflarestream.com` (the WHIP publish
+  address) and exactly `https://upload.videodelivery.net https://upload.cloudflarestream.com` (the one-time tus upload
+  addresses of recordings, Cloudflare's two upload hosts; the API refuses an upload address on any other host,
+  `UPLOAD_HOSTS` in `server/services/cloudflareStream.js`), `frame-src https://*.cloudflarestream.com` (the preview player
+  of a recording) and `img-src https://*.cloudflarestream.com` (the thumbnails). Every other dashboard page keeps the
+  plain policy. If Cloudflare ever answers with another upload host, the API says "Cloudflare sent an upload address on
+  an unexpected host (<host>)" in its log and the upload is refused: add the host to both lists, deliberately.
 - `object-src 'none'`, `base-uri 'self'`, `form-action 'self'`, `frame-ancestors 'none'`.
 - `upgrade-insecure-requests` is added only for real https hosts (not on `localhost`, so development and the
   end-to-end tests keep working).
@@ -265,7 +275,11 @@ browser                         API                                PayPal
 | **Behind Cloudflare the API counts the Cloudflare edge address, not the visitor** (measured 2026-10-06: eight requests from one PC were counted in at least three different per-IP buckets, and a forged `X-Forwarded-For` did not create a fresh one; the cause is inferred from that, not seen in the server) | every per-IP limit (5 failed logins, 10 contact forms, 30 payment calls, 200 requests) is shared by all visitors who reach Render through the same Cloudflare address: a spammer can use up the allowance of strangers, and the same address can lock the admin sign-in. Brute force is not made easier (a forged header does not help), but the limits protect less and annoy more than intended | `TRUST_PROXY_HOPS=2` on Render after the check in INFRASTRUCTURE.md 2.5 (code is in; default stays 1) |
 | Live broadcasting: the WHIP publish address is a bearer secret | whoever holds it can broadcast on our page until the session ends (at most 6 hours) | given once, only to the admin who started the session, never stored or logged (tested); ending the session deletes the Cloudflare input, which kills the address ([LIVE.md](LIVE.md) section 3) |
 | Live broadcasting: Cloudflare's player page is framed without a `sandbox` | the frame runs Cloudflare's scripts (a cross-origin frame: it cannot read our page; a top-level navigation needs the visitor's click) | only the exact `customer-<code>.cloudflarestream.com/<id>/iframe` shape is framed, `frame-src` allows only that host family; a sandbox was left out because the player could not be tested against a real account yet (revisit after the first real broadcast) |
-| Live broadcasting: `CF_STREAM_API_TOKEN` | a leaked token can create and delete live inputs (and cost money) | a custom token with Stream: Edit on one account only, Render only, rotate in Cloudflare if leaked |
+| Live broadcasting: `CF_STREAM_API_TOKEN` | a leaked token can create and delete live inputs and videos (and cost money) | a custom token with Stream: Edit on one account only, Render only, rotate in Cloudflare if leaked |
+| Recordings: the one-time tus upload address is a bearer secret | whoever holds it could upload a different file (up to the stated size and length) as that recording until the upload is done or the address expires (4 hours); the dashboard would then show that file as the recording | given once, only to the admin who asked (who started the broadcast, or an owner), never stored (not in the database, not in the browser's IndexedDB copy), never logged (tested), sent only to Cloudflare's upload hosts with no cookies or referrer; nothing is ever published by itself: an editor watches the preview before pressing Publish ([LIVE.md](LIVE.md) section 9) |
+| Recordings: a ready but unpublished video can be played by anyone who knows its 32-hex id | the id is random and is shown only in the dashboard; it is not guessable | signed playback URLs (`requireSignedURLs`) would close it, at the cost of a token service; revisit if drafts ever hold something sensitive. Deleting a recording deletes the video at Cloudflare |
+| Recordings: the browser keeps a copy of a recording in IndexedDB until it is uploaded | a recording on a shared or lost phone or computer | deleted after a successful upload or on "Discard"; the dashboard is staff-only and signed out after 30 idle minutes, but the IndexedDB copy stays on the device: staff record on their own devices |
+| The website's "we are live now" window | a pop-up is a pattern the site otherwise refuses (DESIGN-GUIDE 1.5) | the owner asked for it; it is our own markup (no third-party script), once per broadcast, never on payment pages, and stores only a broadcast id in `localStorage` |
 | Dashboard tokens cannot be refreshed (60 minutes) | an admin signs in again every hour | add a refresh route if that proves annoying |
 | Admin site (separate repository) keeps its token in the browser | XSS on the admin site would expose it | review there; tokens already expire after 8 hours |
 | Pages are rendered per request (nonce) | slower first byte than static pages | measure; consider hash-based CSP if needed |

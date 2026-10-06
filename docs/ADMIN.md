@@ -78,13 +78,16 @@ whatever the token says.
 | `PATCH /admin/payments/:id` (resolve with a note, reopen) | - | yes | yes |
 | `POST /admin/privacy/lookup`, `POST /admin/privacy/erase` | - | - | yes |
 | `GET /admin/live`, `POST /admin/live/start`, `POST /admin/live/stop` | - | yes | yes |
+| `GET`/`POST /admin/live/recordings`, `POST /admin/live/recordings/:id/{upload-url,uploaded}`, `PATCH`/`DELETE /admin/live/recordings/:id` | - | yes (uploads only for their own broadcasts) | yes |
+| `GET`/`POST /admin/live/schedule`, `PATCH`/`DELETE /admin/live/schedule/:id` | - | yes | yes |
 | `DELETE /admin/orders/:id` | - | - | yes |
 | `/admin/users` (all four) | - | - | yes |
 | `GET /admin/audit` | - | - | yes |
 | `/admin/auth/*` (own account) | yes | yes | yes |
 
 Public (no token): `POST /admin/auth/login`, `POST /admin/auth/forgot-password` and `POST /admin/auth/reset-password`
-(and, outside `/admin`, the live status `GET /live/status`, section 4.6).
+(and, outside `/admin`, the live status `GET /live/status`, the published recordings `GET /live/recordings` and the
+published schedule `GET /live/schedule`, section 4.6).
 
 ## 3. Authentication
 
@@ -307,7 +310,9 @@ Every change is audited (`payment.update`, with `resolved` and the PayPal id).
 
 The camera of the admin's phone or computer is published from the browser to Cloudflare Stream (WebRTC, WHIP) and shown on
 the website's `/live` page. Architecture, costs, limits and the owner's set-up: [LIVE.md](LIVE.md). Code:
-`server/route/admin/live.js`, `server/services/live.js`, `server/services/cloudflareStream.js`, `server/model/liveSession.js`.
+`server/route/admin/live.js`, `server/services/live.js`, `server/services/cloudflareStream.js`, `server/model/liveSession.js`;
+recordings `server/route/admin/liveRecordings.js`, `server/services/liveRecordings.js`, `server/model/liveRecording.js`; the schedule
+`server/route/admin/liveSchedule.js`, `server/services/liveSchedule.js`, `server/model/scheduledBroadcast.js`.
 
 A session: `{ _id, title, status: "live"|"ended", inputUid, whepUrl, playbackUrl, startedAt, endedAt, endReason, startedBy: { id, name },
 endedBy: { id, name } | null, inputDeleted }`. `endReason` is `stopped` (by who started it), `forced` (by an owner), `auto` (after
@@ -316,7 +321,7 @@ endedBy: { id, name } | null, inputDeleted }`. `endReason` is `stopped` (by who 
 | Request | Body | Answer |
 |---|---|---|
 | `GET /admin/live` | - | `{ configured, maxMinutes: 360, current: session \| null, history: [10 most recent sessions] }`. A broadcast live for more than 6 hours is ended first. |
-| `POST /admin/live/start` | `{ "title": "..." }` (1-120 characters, one line; nothing else) | `201 { session, whipUrl }`. `409 { error, current }` while another one is live (also when two start at the same moment: a unique index decides); `503` when `CF_ACCOUNT_ID` / `CF_STREAM_API_TOKEN` are missing; `502` when Cloudflare refuses or cannot be reached (nothing is saved). |
+| `POST /admin/live/start` | `{ "title": "...", "scheduleId"?: "<24 hex>" }` (title 1-120 characters, one line; nothing else) | `201 { session, whipUrl }`. `409 { error, current }` while another one is live (also when two start at the same moment: a unique index decides); `503` when `CF_ACCOUNT_ID` / `CF_STREAM_API_TOKEN` are missing; `502` when Cloudflare refuses or cannot be reached (nothing is saved). With `scheduleId` the scheduled broadcast becomes `live` (linked to the session) and `done` when the session ends; an unknown one is `404`, one that is not `scheduled` (live, done, cancelled) `409`, both before Cloudflare is asked. |
 | `POST /admin/live/stop` | `{ "sessionId"?: "<24 hex>", "force"?: true }` | `{ stopped: true, session }`. Nothing live, or `sessionId` names one that already ended: `{ stopped: false, session: null }` (a late "stop" from a closed tab never ends the NEXT broadcast). Someone else's broadcast: an editor gets `403`; an owner gets `409 { error, current }` unless `force: true`. The Cloudflare input is deleted (best effort: a failure is logged with the input id and kept as `inputDeleted: false`). |
 
 **`whipUrl` is a secret** (Cloudflare's publish address with the input's broadcast secret in it): it is in exactly one
@@ -324,10 +329,55 @@ answer, the `201` of start, to the admin who started it. It is not stored, not i
 and not in the log (tested). Audit actions: `live.start` (title, input id), `live.stop` (`reason`, `minutes`,
 `inputDeleted`), `live.auto_end` (actor `system`), `live.start_failed`.
 
-**Public:** `GET /live/status` (no token) answers `{ "live": false }` or `{ "live": true, "title", "startedAt", "playbackUrl" }`
-(`playbackUrl` = `https://customer-<code>.cloudflarestream.com/<input id>/iframe`, Cloudflare's player). It is answered from
+**Public:** `GET /live/status` (no token) answers `{ "live": false }` or `{ "live": true, "id", "title", "startedAt", "playbackUrl" }`
+(`id` = the session id, so the website shows its "we are live" window once per broadcast; `playbackUrl` =
+`https://customer-<code>.cloudflarestream.com/<input id>/iframe`, Cloudflare's player). It is answered from
 memory for 5 seconds, carries `Cache-Control: public, max-age=5, s-maxage=5`, and has its own rate limit (3000 per 15
 minutes per address). The old `/live/create_room`, `/live/room_id`, `/live/close_room` were removed (LIVE.md section 3).
+
+#### Recordings: `/admin/live/recordings` (LIVE.md section 9)
+
+The admin's browser records the broadcast and uploads the file **straight to Cloudflare Stream** (tus, a one-time
+address the API asks Cloudflare for); the API never receives the video. A recording:
+`{ _id, session, title, liveStartedAt, liveEndedAt, durationSeconds, sizeBytes, mimeType, cfVideoUid, status: "uploading"|"processing"|"ready"|"failed",
+failReason, published, publishedAt, thumbnailUrl, playbackUrl, createdBy: { id, name }, createdAt }` (`thumbnailUrl` and `playbackUrl` are
+derived from the video id and the account's customer code: `https://customer-<code>.cloudflarestream.com/<uid>/thumbnails/thumbnail.jpg` and `.../<uid>/iframe`).
+
+| Request | Body | Answer |
+|---|---|---|
+| `GET /admin/live/recordings` | - | `{ configured, items: [up to 100, newest broadcast first], storage: { usedMinutes, limitMinutes, videos, source: "cloudflare"\|"estimate", pricePer1000Minutes: 5 } }`. Unfinished ones (uploading, processing) are checked with Cloudflare first (`GET /stream/<uid>`: state, `readyToStream`, duration), at most every 10 seconds each and 10 per read; a recording never moves backwards. `storage` is Cloudflare's own figure (`GET /stream/storage-usage`, cached a minute), or the sum of our recordings when Cloudflare does not answer. |
+| `POST /admin/live/recordings` | `{ sessionId, sizeBytes (1 B to 30 GB), durationSeconds (0-21600), mimeType ("video/mp4" or "video/webm", "video/x-matroska", with codecs), title? (1-120; default: the broadcast's) }` | `201 { recordingId, uploadUrl, recording }`. Only for a broadcast the caller started, or any for an owner (`403`); unknown broadcast `404`; a broadcast that already has a recording `409 { error, recording }` (also for two at the same moment); `503` not configured; `502` Cloudflare refused (audited `live.recording_failed`). Cloudflare is told the size, a name, a maximum length (the measured one plus 20% and 5 minutes, at most 6 hours) and an expiry four hours ahead. |
+| `POST /admin/live/recordings/:id/upload-url` | `{ sizeBytes, durationSeconds?, mimeType? }` | `{ recordingId, uploadUrl, recording }`: a new address for an upload that did not finish (expired, a browser that died); a new Cloudflare video, the old one is deleted, the upload starts again from the beginning. Only while `uploading` or `failed` (`409` otherwise); same permission as creating. |
+| `POST /admin/live/recordings/:id/uploaded` | `{}` | `{ recording }`: the browser sent the last byte: `processing` (or already `ready`: Cloudflare is asked at once). Saying it twice changes nothing; a `failed` one is `409`. Same permission as creating. |
+| `PATCH /admin/live/recordings/:id` | `{ title?, published? }` (at least one) | `{ recording }`. **Publishing only when `ready`**: otherwise Cloudflare is asked once more, then `409 { error, recording }`. Unpublishing and renaming always work. Any editor or owner. |
+| `DELETE /admin/live/recordings/:id` | - | `{ deleted: true, cloudflareDeleted }`: the row is removed and the Cloudflare video deleted (best effort: a failure is logged with the video id). Any editor or owner. |
+
+**`uploadUrl` is a secret of sorts** (whoever holds it can upload one video into the account until it is used or
+expires): it is in exactly one answer, to the admin who asked; never stored, never logged, never in another answer
+(tested). A recording that Cloudflare cannot encode becomes `failed` (and unpublished); one that disappears at
+Cloudflare while processing too; an upload address nobody used is given up after 48 hours.
+
+**Public:** `GET /live/recordings` answers `{ "items": [{ "id", "title", "date", "durationSeconds", "thumbnailUrl", "playbackUrl" }] }`
+(published **and** ready only, newest broadcast first, at most 50; `date` = when the broadcast was live), from memory for a
+minute (reset at once by every change in the dashboard), `Cache-Control: public, max-age=30, s-maxage=30, ...`, the public-read
+rate limit (1000 per 15 minutes per address).
+
+#### Scheduled broadcasts: `/admin/live/schedule` (LIVE.md section 10)
+
+An item: `{ _id, title, description, startsAt (UTC), startsAtLocal ("YYYY-MM-DDTHH:MM" in Nazareth), timeZone: "Asia/Jerusalem", published,
+status: "scheduled"|"live"|"done"|"cancelled", liveSession, createdBy, updatedAt }`.
+
+| Request | Body | Answer |
+|---|---|---|
+| `GET /admin/live/schedule` | - | `{ timeZone, items }`: the live one and everything from seven days ago on, soonest first (at most 100). |
+| `POST /admin/live/schedule` | `{ title (1-120), description? (0-500, may have line breaks), startsAtLocal ("2026-10-20T19:30", **Nazareth time**), published? (default false) }` | `201 { item }`. The time is converted to UTC by the API (the hour skipped in spring moves forward by an hour; the hour repeated in autumn is the first, summer-time one). `400` for a time that does not exist as a date, more than five minutes ago, or more than about a year ahead. |
+| `PATCH /admin/live/schedule/:id` | `{ title?, description?, startsAtLocal?, published?, status?: "scheduled"\|"cancelled" }` (at least one) | `{ item }`. The time and the status of an item that is `live` or `done` cannot change (`409`); its title, description and publication can. `live` and `done` are set only by starting and ending a broadcast. |
+| `DELETE /admin/live/schedule/:id` | - | `{ deleted: true }`; a `live` one is `409`. |
+
+**Public:** `GET /live/schedule` answers `{ "timeZone": "Asia/Jerusalem", "items": [{ "id", "title", "description", "startsAt", "status" }] }`:
+published, `scheduled` or `live`, starting after now minus two hours (an item that was never started drops off by itself two
+hours after its time), soonest first, at most 10; from memory for 30 seconds (reset by every change), the same
+Cache-Control and rate limit as the recordings.
 
 ## 5. Users and audit
 
@@ -370,7 +420,7 @@ request when the log cannot be written. Actions recorded:
 | `export.` | `orders`, `candles`, `contacts`, `payments` (with the row count) |
 | `payment.` | `update` (resolve / reopen) |
 | `privacy.` | `lookup`, `erase` (the counts and a keyed hash of the address: never the address) |
-| `live.` | `start`, `stop`, `auto_end`, `start_failed` (section 4.6; never the publish address) |
+| `live.` | `start` (with `scheduleId` when it fulfils a scheduled broadcast), `stop`, `auto_end`, `start_failed` (section 4.6; never the publish address); recordings: `recording_create`, `recording_renew`, `recording_uploaded`, `recording_update` (title, published), `recording_delete` (with `cloudflareDeleted`), `recording_status` (actor `system`: Cloudflare finished or failed), `recording_failed` (Cloudflare refused an upload address); never the upload address. Schedule: `schedule_create`, `schedule_update`, `schedule_delete` |
 | `user.` | `create`, `update`, `delete` |
 
 A failed sign-in is recorded with the name that was typed (no account was proven).
