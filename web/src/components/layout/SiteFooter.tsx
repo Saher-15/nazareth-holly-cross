@@ -97,7 +97,7 @@ export default async function SiteFooter() {
           </ul>
         </nav>
 
-        <section>
+        <section className={styles.contactCol}>
           <h2 className={styles.heading}>{t('footer.contact')}</h2>
           <ul className={styles.contact}>
             <li>

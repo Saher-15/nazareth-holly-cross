@@ -48,7 +48,6 @@
   border-radius: 50%;
   background: color-mix(in srgb, var(--night) 62%, transparent);
   backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
 }
 .icon:hover {
   background: color-mix(in srgb, var(--night) 80%, transparent);

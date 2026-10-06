@@ -60,6 +60,11 @@ On a phone (390 px):
 a 429, the generic error otherwise) with a retry link, instead of Next's bare error page. E2E: `tests/e2e/busy-api.spec.ts`
 (mock control `POST /__mock/busy { count }`).
 
+Every screen is checked from a 320 px phone to a 1920 px screen, at 200% zoom and on a phone held sideways, in
+English, Hebrew and Arabic, by `admin/tests/e2e/responsive.spec.ts` (matrix and results: `docs/RESPONSIVE.md`). Its
+first run (2026-10-06) found that the phone menu never opened in Hebrew and Arabic, and that product cards, the
+top-products list and the charts could be wider than their panels; all fixed.
+
 ## What each role sees
 
 | | Owner | Editor | Viewer |

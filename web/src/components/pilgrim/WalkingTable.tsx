@@ -9,7 +9,9 @@ export default async function WalkingTable() {
   return (
     <div className={shared.tableWrap} tabIndex={0} role="region" aria-label={t('pilgrim.plan.walking.title')}>
       <table className={shared.table}>
-        <caption>{t('pilgrim.plan.walking.caption')}</caption>
+        <caption>
+          <span className={shared.captionText}>{t('pilgrim.plan.walking.caption')}</span>
+        </caption>
         <thead>
           <tr>
             <th scope="col">

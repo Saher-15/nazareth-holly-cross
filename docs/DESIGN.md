@@ -141,7 +141,8 @@ more opaque after 12px of scrolling. Gold "Donate" button from 1240px (1320px in
 
 **Language menu:** all 14 languages, each in its own script, two columns, current one ticked. Keyboard: Enter or
 arrow-down opens and focuses the current language; arrows (mirrored in RTL), Home, End move; Escape closes;
-choosing a language reopens the same page in it and puts the focus back on the button.
+choosing a language reopens the same page in it and puts the focus back on the button. Below 480 px it is a
+full-width panel under the header (hung from the button it ran off the edge of small phones).
 
 ![Mobile menu, English](design/shell-mobile-menu-en.png)
 ![Mobile menu, Hebrew](design/shell-mobile-menu-he.png)
@@ -156,7 +157,8 @@ link, Escape returns it to the menu button, a tap on the dimmed page closes it.
 
 Four calm columns: who we are with social buttons (44px), explore, contact (with Donate), and every language as
 a real link (`hreflang`, `aria-current`, no prefetch). No newsletter, no cookie banner. The copyright line keeps
-the year and name as one left-to-right unit inside right-to-left text.
+the year and name as one left-to-right unit inside right-to-left text. The contact column is never narrower than
+the e-mail address (it spans two columns from 476 to 999 px), so the address does not break.
 
 ### 4.3 Skip link and focus
 

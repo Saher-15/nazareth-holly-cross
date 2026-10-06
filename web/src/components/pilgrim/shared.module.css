@@ -85,6 +85,14 @@
   color: var(--muted);
   font-size: 0.9rem;
 }
+/* The caption is as wide as the table, so on a phone its end scrolled out of view with the columns. Its text stays in
+   the visible part of the box and wraps there (the box is the page width minus the gutters and the padding). */
+.captionText {
+  position: sticky;
+  inset-inline-start: 16px;
+  display: block;
+  max-inline-size: calc(100vw - 2 * var(--page-gutter) - 34px);
+}
 .table th,
 .table td {
   padding: 10px 14px;

@@ -21,9 +21,17 @@
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
   padding-bottom: var(--space-7);
 }
+/* The e-mail address is one long word: its column is never narrower than the address, so it does not break
+   ("nazarethholycross@gmail. / com" in a 210px column at 768px and in the 1.25fr column at 1440px).
+   476px is where the auto-fit grid above gets its second column (2 x 210px + gap + gutters). */
+@media (min-width: 476px) and (max-width: 999px) {
+  .contactCol {
+    grid-column: span 2;
+  }
+}
 @media (min-width: 1000px) {
   .grid {
-    grid-template-columns: 1.5fr 1fr 1fr 1fr 1.25fr;
+    grid-template-columns: minmax(0, 1.5fr) repeat(3, minmax(0, 1fr)) auto;
   }
 }
 

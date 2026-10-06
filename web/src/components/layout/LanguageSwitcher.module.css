@@ -67,6 +67,17 @@
   box-shadow: var(--elev-4);
   animation: menu-in var(--dur-base) var(--ease-out) both;
 }
+/* Phones: hung from the button's end edge, the 320px list started 13px (375px screen) to 36px (320px screen) off the
+   other edge, hiding a column of languages. Here it spans the screen between the gutters, just under the header (the
+   header has no transform or filter of its own, so "fixed" is relative to the window). */
+@media (max-width: 480px) {
+  .menu {
+    position: fixed;
+    inset-inline: var(--page-gutter);
+    top: calc(var(--header-h) + 4px);
+    width: auto;
+  }
+}
 .menu li {
   display: contents;
 }
