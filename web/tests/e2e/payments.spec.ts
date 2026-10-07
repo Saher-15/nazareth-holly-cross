@@ -258,12 +258,12 @@ test.describe('checkout', () => {
     await page.getByLabel('שם פרטי').fill('Maria');
     await page.getByLabel('שם משפחה').fill('Haddad');
     await page.getByLabel('דוא״ל', { exact: true }).fill('maria@example.com');
-    await page.getByLabel('אימות דוא״ל').fill('maria@example.com');
+    await page.getByLabel('אימות כתובת הדוא״ל').fill('maria@example.com');
     await page.getByLabel('טלפון').fill('+972521234567');
     await page.getByLabel('מדינה', { exact: true }).selectOption('IL');
     await page.getByLabel('רחוב ומספר בית').fill('Paulus VI 1');
     await page.getByLabel('עיר').fill('נצרת');
-    await page.getByLabel('מדינה / מחוז').fill('צפון');
+    await page.getByLabel('מחוז / אזור').fill('צפון');
     await page.getByLabel('מיקוד').fill('16000');
     await page.getByRole('button', { name: 'המשך לתשלום' }).click();
     await page.getByRole('button', { name: 'Test PayPal' }).click();
