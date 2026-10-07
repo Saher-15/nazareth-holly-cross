@@ -12,7 +12,9 @@ export default function ErrorSummary({ fields }: { fields: string[] }) {
   const t = useTranslations('checkoutPage.form');
   const locale = useLocale();
   if (!fields.length) return null;
-  const list = new Intl.ListFormat(locale, { style: 'long', type: 'conjunction' }).format(fields);
+  // A label may end in a colon ("Select the church:"), which does not belong inside a list.
+  const names = fields.map((field) => field.replace(/[\s:：]+$/u, ''));
+  const list = new Intl.ListFormat(locale, { style: 'long', type: 'conjunction' }).format(names);
   return (
     <Notice role="alert">
       <span data-testid="error-summary">{t('errorSummary', { fields: list })}</span>

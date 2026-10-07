@@ -176,13 +176,14 @@ test.describe('checkout', () => {
         'focusin',
         (e) => {
           const el = e.target as HTMLElement;
+          if (el.id !== 'co-first-name') return;
           const ids = (el.getAttribute('aria-describedby') ?? '').split(' ').filter(Boolean);
           (window as unknown as { atFocus: unknown }).atFocus = {
             invalid: el.getAttribute('aria-invalid'),
             description: ids.map((id) => document.getElementById(id)?.textContent ?? '').join(' '),
           };
         },
-        { once: true, capture: true },
+        { capture: true },
       );
     });
     await page.getByRole('button', { name: 'Continue to payment' }).click();

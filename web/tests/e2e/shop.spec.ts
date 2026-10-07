@@ -252,6 +252,8 @@ test.describe('product page', () => {
         expect(head, `${where} canonical`).toMatch(new RegExp(`<link rel="canonical" href="[^"]+/en/shop/${id}"`));
         expect(head, `${where} hreflang`).not.toContain('hrefLang=');
         expect(head, `${where} og:title`).toMatch(/<meta property="og:title" content="[^"]+"/);
+        // The catalogue's English text says so in every language (WCAG 3.1.2).
+        expect(html, `${where} lang of the product name`).toMatch(/<h1[^>]*><bdi lang="en">/);
       }
     }
   });
