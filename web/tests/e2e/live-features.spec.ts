@@ -428,6 +428,7 @@ test.describe('past broadcasts on /live', () => {
     const poster = first.locator('img');
     await expect(poster).toHaveAttribute('src', THUMB('b'));
     await expect(poster).toHaveAttribute('alt', '');
+    await poster.scrollIntoViewIfNeeded(); // lazy: it loads near the screen (the calendar section sits above it)
     await expect.poll(() => poster.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true); // the policy let the poster in
     await expect(page.locator('video')).toHaveCount(2); // the older recordings follow
     await expect(page.locator('iframe')).toHaveCount(0);
