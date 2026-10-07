@@ -9,9 +9,30 @@ import { config } from '../config/env.js';
 import { HttpError } from '../utils/httpError.js';
 import { strictLimiter } from '../utils/security.js';
 import { isEmail, isPayPalOrderId } from '../utils/validate.js';
+import { greeting } from '../services/mailText.js';
 
 
 const routerCandle = express.Router();
+
+/** The "we received your candle request" mail: plain text, built from server-made values and a checked greeting. */
+export function candleConfirmation({ email, firstName, candleId, paypalOrderId }) {
+    return {
+        to: [email],
+        subject: 'We have received your candle request',
+        text: [
+            greeting(firstName),
+            '',
+            'Thank you: we have received your request to light a candle in Nazareth.',
+            'A video of your candle being lit will be sent to this e-mail address.',
+            '',
+            `Your request number: ${candleId}`,
+            `Your PayPal payment reference: ${paypalOrderId}`,
+            '',
+            'Best regards,',
+            'Nazareth Holy Cross',
+        ].join('\n'),
+    };
+}
 
 routerCandle.post('/lightACandle', strictLimiter, asyncHandler(async(req, res)=>{
     const { firstName, lastName, email, prayer, paypalOrderId } = req.body;
@@ -59,13 +80,6 @@ routerCandle.post('/lightACandle', strictLimiter, asyncHandler(async(req, res)=>
         console.warn(`[${new Date().toISOString()}] [unverified-candle] /candle/lightACandle without paypalOrderId: payment not checked`);
     }
 
-    const emailMsg = {
-        to: [email.trim()],
-        subject: 'We have received your request',
-        text: `Dear ${firstName} ${lastName} ,\n\nA video with lighting a candle will be sent to your email \n\nBest regards,\nNazareth Holy Cross`
-    };
-
-
     const newPrayer = new Candle({
         firstName: firstName,
         lastName: lastName,
@@ -75,8 +89,16 @@ routerCandle.post('/lightACandle', strictLimiter, asyncHandler(async(req, res)=>
     });
 
     await newPrayer.save();
-    if (proven) await linkPayment(proven, { kind: 'candle', id: newPrayer._id, amount: CANDLE_PRICE });
-    await sendMail(emailMsg);
+    if (proven) {
+        await linkPayment(proven, { kind: 'candle', id: newPrayer._id, amount: CANDLE_PRICE });
+        // The confirmation goes out only for a PAID request (security review 06, finding 5): an unpaid request, possible
+        // while REQUIRE_PAYMENT_PROOF is off, is saved for the staff to see but makes the church's Gmail send nothing
+        // to an address a stranger typed. The mail is plain text and echoes no visitor text except a greeting name that
+        // still looks like a name after cleaning (services/mailText.js); the prayer itself is never repeated.
+        await sendMail(candleConfirmation({ email: email.trim(), firstName, candleId: newPrayer._id, paypalOrderId: proven }));
+    } else {
+        console.warn(`[${new Date().toISOString()}] [unverified-candle] candle ${newPrayer._id} saved without a payment: no confirmation mail sent`);
+    }
 
     res.status(200).send("Success")
 }))

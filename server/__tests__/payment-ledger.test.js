@@ -388,6 +388,78 @@ describe('lightACandle links the payment to the candle', () => {
   });
 });
 
+describe('confirmation mails: only for a paid request, and no visitor text in them (security review 06, finding 5)', () => {
+  const paidCandle = async () => {
+    paypal({ createId: PAYPAL, getAmount: '3.00' });
+    await post('/order/create_order', { type: 'candle' });
+    await post('/order/complete_order', { order_id: PAYPAL });
+  };
+  const paidOrder = async () => {
+    paypal();
+    await post('/order/create_order', { type: 'order', items: [{ _id: PRODUCT_ID, quantity: 2 }] });
+    await post('/order/complete_order', { order_id: PAYPAL });
+  };
+  const sent = () => mail.sendMail.mock.calls.map(([m]) => m);
+  const flush = () => new Promise((resolve) => setImmediate(resolve));
+
+  it('a paid candle request is confirmed once, in plain text, to exactly the address typed', async () => {
+    await paidCandle();
+    const res = await post('/candle/lightACandle', candleBody({ email: ' Ann.Lee+nhc@Example.co.il ', paypalOrderId: PAYPAL }));
+    expect(res.status).toBe(200);
+    expect(sent()).toHaveLength(1);
+    const [m] = sent();
+    expect(m.to).toEqual(['Ann.Lee+nhc@Example.co.il']);
+    expect(m.html).toBeUndefined();
+    expect(m.text.split('\n')[0]).toBe('Dear Ann,');
+    expect(m.text).toContain(`Your request number: ${fakes.Candle.docs[0]._id}`);
+    expect(m.text).toContain(`Your PayPal payment reference: ${PAYPAL}`);
+    expect(m.text).not.toContain('Peace for all'); // the prayer is never repeated
+    expect(m.text).not.toContain('Lee'); // nor the last name
+  });
+
+  it.each([
+    ['a phishing sentence with a link', 'Your PayPal refund is ready, claim it at https://evil.example/claim'],
+    ['a bare domain', 'evil.example'],
+    ['markup', '<a href="https://evil.example">Click</a>'],
+    ['an escaped tag (as the API stores it)', '&lt;b&gt;Ann&lt;/b&gt;'],
+    ['a line break and a fake header', 'Ann\r\nBcc: victim@example.com'],
+    ['digits', 'Call 0501234567'],
+    ['a long run of words', 'Ann Bea Cat Dot'],
+    ['an invisible right-to-left override', 'Ann‮gpj.exe'],
+  ])('a name with %s is not echoed: the mail says "Dear friend,"', async (_label, firstName) => {
+    await paidCandle();
+    const res = await post('/candle/lightACandle', candleBody({ firstName, lastName: 'Visit https://evil.example now', paypalOrderId: PAYPAL }));
+    expect(res.status).toBe(200);
+    const [m] = sent();
+    expect(m.text.split('\n')[0]).toBe('Dear friend,');
+    expect(m.text).not.toMatch(/evil|https?:|refund|<|&lt;|Bcc|0501234567|‮|Visit/i);
+    expect(m.text.split('\n').every((line) => line.length <= 80)).toBe(true);
+  });
+
+  it('an UNPAID candle request is saved for the staff, but no mail goes out', async () => {
+    const res = await post('/candle/lightACandle', candleBody({ firstName: 'Your PayPal refund is ready', email: 'victim@example.com' }));
+    expect(res.status).toBe(200);
+    expect(fakes.Candle.docs[0].paymentVerified).toBe(false);
+    expect(mail.sendMail).not.toHaveBeenCalled();
+    expect(console.warn).toHaveBeenCalledWith(expect.stringContaining('no confirmation mail sent'));
+  });
+
+  it('a paid shop order is confirmed with the order number only; an UNPAID one is saved without a mail', async () => {
+    await paidOrder();
+    expect((await post('/order/newOrder', orderBody({ firstName: 'Claim your refund at https://evil.example', paypalOrderId: PAYPAL }))).status).toBe(201);
+    await flush();
+    expect(sent()).toHaveLength(1);
+    expect(sent()[0].text).toBe(`Order number ${fakes.Order.docs[0]._id}, we will let you know when your order ships :)`);
+    expect(sent()[0].html).toBeUndefined();
+
+    mail.sendMail.mockClear();
+    expect((await post('/order/newOrder', orderBody({ email: 'victim@example.com' }))).status).toBe(201);
+    await flush();
+    expect(fakes.Order.docs).toHaveLength(2);
+    expect(mail.sendMail).not.toHaveBeenCalled();
+  });
+});
+
 describe('services/payments', () => {
   it('recordCreated twice keeps one row and never rewrites the amount', async () => {
     await recordCreated({ paypalOrderId: PAYPAL, type: 'order', amount: 23 });

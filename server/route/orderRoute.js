@@ -72,14 +72,17 @@ routerOrder.post('/newOrder', newOrderLimiter, asyncHandler(async (req, res) => 
         ...(paypalOrderId ? { paypalOrderId, paymentVerified: true } : {}),
     });
 
-    if (paypalOrderId) await linkPayment(paypalOrderId, { kind: 'order', id: order._id, amount: totalPrice });
-
-    // The order is already saved, so a mail failure must not fail the request; sendMail logs it.
-    sendMail({
-        to: [fields.email],
-        subject: 'We Got Your Order: Thanks for ordering',
-        text: `Order number ${order._id}, we will let you know when your order ships :)`,
-    });
+    if (paypalOrderId) {
+        await linkPayment(paypalOrderId, { kind: 'order', id: order._id, amount: totalPrice });
+        // The order is already saved, so a mail failure must not fail the request; sendMail logs it. Only a PAID order
+        // is confirmed by mail (security review 06, finding 5): an unpaid one (possible while REQUIRE_PAYMENT_PROOF is
+        // off) must not make the church's Gmail write to an address a stranger typed. Plain text, server-made values only.
+        sendMail({
+            to: [fields.email],
+            subject: 'We Got Your Order: Thanks for ordering',
+            text: `Order number ${order._id}, we will let you know when your order ships :)`,
+        });
+    }
     res.status(201).send("Created");
 }))
 
