@@ -5,7 +5,8 @@ import { ErrorState, Ltr, PageHeader, Panel } from '@/components/ui/Primitives';
 import { getI18n } from '@/i18n/server';
 import { productSchema } from '@/lib/api';
 import { formatDateTime, formatMoney } from '@/lib/format';
-import { valuesFrom } from '@/lib/product-form';
+import { isShopImageUrl } from '@/lib/firebase-upload';
+import { isCategory, valuesFrom } from '@/lib/product-form';
 import { can } from '@/lib/roles';
 import { getSession, load, serverApi } from '@/lib/server-api';
 import { ProductForm } from '../ProductForm';
@@ -40,13 +41,20 @@ export default async function EditProductPage({ params }: { params: Promise<{ id
       ) : (
         <Panel title={t('products.sectionDetails')}>
           <dl className="fields">
-            <div className="field-row"><dt>{t('products.price')}</dt><dd>{formatMoney(result.data.price, locale)}</dd></div>
+            <div className="field-row"><dt>{t('products.price')}</dt><dd><bdi>{formatMoney(result.data.price, locale)}</bdi></dd></div>
             <div className="field-row"><dt>{t('products.stock')}</dt><dd>{result.data.stock ?? t('products.unlimited')}</dd></div>
-            <div className="field-row"><dt>{t('products.category')}</dt><dd>{result.data.category ?? '-'}</dd></div>
+            <div className="field-row"><dt>{t('products.category')}</dt><dd>{isCategory(result.data.category) ? t(`category.${result.data.category}` as 'category.gifts') : t('products.categoryAuto')}</dd></div>
             <div className="field-row"><dt>{t('products.rate')}</dt><dd>{result.data.rate ?? 0}</dd></div>
             <div className="field-row"><dt>{t('common.date')}</dt><dd>{formatDateTime(result.data.createdAt, locale)}</dd></div>
-            <div className="field-row field-row--wide"><dt>{t('products.description')}</dt><dd>{result.data.description || '-'}</dd></div>
-            <div className="field-row field-row--wide"><dt>{t('products.mainImage')}</dt><dd><Ltr>{result.data.img}</Ltr></dd></div>
+            <div className="field-row field-row--wide"><dt>{t('products.colors')}</dt><dd>{result.data.color?.length ? result.data.color.map((c) => <span key={c} className="chip" dir="auto">{c}</span>) : '-'}</dd></div>
+            <div className="field-row field-row--wide"><dt>{t('products.description')}</dt><dd dir="auto">{result.data.description || '-'}</dd></div>
+            <div className="field-row field-row--wide">
+              <dt>{t('products.mainImage')}</dt>
+              <dd>
+                {isShopImageUrl(result.data.img) ? <img className="product-photo" src={result.data.img} alt="" /> : null}
+                <span className="cell-sub"><Ltr>{result.data.img}</Ltr></span>
+              </dd>
+            </div>
           </dl>
         </Panel>
       )}

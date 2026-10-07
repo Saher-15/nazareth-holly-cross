@@ -9,6 +9,7 @@ import { requireRole } from '../../middleware/adminGuard.js';
 import { audit } from '../../services/audit.js';
 import { HttpError } from '../../utils/httpError.js';
 import { decodeEntities } from '../../utils/schema.js';
+import { orderNumber } from '../../utils/orderNumber.js';
 
 const router = express.Router();
 
@@ -37,7 +38,8 @@ const RESOURCES = {
   orders: {
     Model: Order,
     columns: [
-      id, field('createdAt'), field('firstName'), field('lastName'), field('email'), field('phone'), field('street'),
+      // `number`: the order number the dashboard, the e-mails and the search use (utils/orderNumber.js)
+      id, { header: 'number', value: (o) => orderNumber(o._id) }, field('createdAt'), field('firstName'), field('lastName'), field('email'), field('phone'), field('street'),
       field('city'), field('state'), field('postal'), field('country'), field('totalPrice'), field('done'),
       field('paymentVerified'), field('paypalOrderId'),
       { header: 'products', value: (o) => (o.products ?? []).map((p) => `${p.productName ?? ''} x${p.quantity ?? ''}${p.color ? ` (${p.color})` : ''}`).join('; ') },

@@ -5,6 +5,7 @@ import { config, missingEnv, secretProblems } from './config/env.js';
 import { applyMongooseSafety } from './config/mongoose.js';
 import { MODELS, planIndexes, problemsIn } from './services/indexes.js';
 import { streamConfigured } from './services/cloudflareStream.js';
+import { siteRefreshConfigured } from './services/siteRefresh.js';
 import { endStaleSessions } from './services/live.js';
 
 // Validate required env vars at startup
@@ -52,7 +53,7 @@ function connectDB() {
 connectDB();
 
 const app = createApp();
-const server = app.listen(config.port, () => console.log(`Server running on port ${config.port} (PayPal: ${config.paypal.environment}, live broadcasting: ${streamConfigured() ? 'configured' : 'not configured'})`));
+const server = app.listen(config.port, () => console.log(`Server running on port ${config.port} (PayPal: ${config.paypal.environment}, live broadcasting: ${streamConfigured() ? 'configured' : 'not configured'}, website refresh after product changes: ${siteRefreshConfigured() ? 'configured' : 'not configured'})`));
 
 // A live broadcast nobody stopped (the admin's phone died, the tab was closed without the stop arriving) ends by itself
 // after LIVE_MAX_MS. The reads of the status do it too; this timer covers the hours when nobody looks (docs/LIVE.md).

@@ -10,18 +10,21 @@ import { ROLES, effectiveRole } from '../../services/roles.js';
 import { audit } from '../../services/audit.js';
 import { HttpError } from '../../utils/httpError.js';
 import { bool, oneOf, opt, parseBody, secret, str } from '../../utils/schema.js';
+import { isEmail } from '../../utils/validate.js';
 import { found, objectId, paginate, parseList } from './common.js';
 
 // User accounts of the dashboard. OWNER ONLY, on every route (mounted behind requireRole('owner') in index.js).
 //
 //   GET    /admin/users
-//   POST   /admin/users              { username, password, role }
-//   PATCH  /admin/users/:id          { role?, disabled?, resetTotp? }
+//   POST   /admin/users              { username, password, role, email? }
+//   PATCH  /admin/users/:id          { role?, disabled?, resetTotp?, unlock?, email? }
 //   DELETE /admin/users/:id
 //
 // Guards: nobody can delete or disable themselves, change their own role or reset their own second factor, and
 // the last enabled owner can never be deleted, disabled or demoted. Disabling, demoting, resetting the second
-// factor and deleting all end the account's sessions at once. Setting disabled: false also lifts a lockout.
+// factor and deleting all end the account's sessions at once. Setting disabled: false also lifts a lockout, and
+// unlock: true lifts only the lockout (5 wrong passwords). `email` ('' removes it) is where "Forgot your password?"
+// sends the link; two accounts never share an address (nor one account's address and another's username).
 
 const router = express.Router();
 
@@ -45,6 +48,21 @@ const present = (admin) => ({
   createdAt: admin.createdAt ?? null,
 });
 
+// An e-mail address for an account: '' (none) or one mailbox, stored in lower case.
+const emailRule = (value, field) => {
+  const text = str({ min: 0, max: 254 })(value, field).toLowerCase();
+  if (text && !isEmail(text)) throw new HttpError(400, `Invalid ${field}: not an e-mail address`);
+  return text;
+};
+
+/** 409 when another account already uses this address as its e-mail or its username (the reset link must be one person's). */
+async function assertEmailFree(email, exceptId = null) {
+  if (!email) return;
+  const exact = () => mongoose.trusted({ $regex: `^${email.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, $options: 'i' });
+  const clash = await Admin.findOne({ $or: [{ email: exact() }, { username: exact() }] }).select('_id').lean();
+  if (clash && String(clash._id) !== String(exceptId)) throw new HttpError(409, 'E-mail address already used by another account');
+}
+
 const otherEnabledOwners = (id) =>
   Admin.countDocuments({ $and: [{ _id: mongoose.trusted({ $ne: id }) }, ENABLED, OWNER] });
 
@@ -65,10 +83,11 @@ router.get('/', asyncHandler(async (req, res) => {
 }));
 
 router.post('/', asyncHandler(async (req, res) => {
-  const { username, password, role } = parseBody(req.body, {
+  const { username, password, role, email = '' } = parseBody(req.body, {
     username: str({ min: 3, max: 64, pattern: /^[A-Za-z0-9][A-Za-z0-9._-]*$/ }),
     password: secret({ max: 200 }),
     role: oneOf(ROLES),
+    email: opt(emailRule),
   });
   const problem = checkPasswordPolicy(password, username);
   if (problem) throw new HttpError(400, problem);
@@ -78,17 +97,18 @@ router.post('/', asyncHandler(async (req, res) => {
   if (await Admin.findOne({ username: mongoose.trusted({ $regex: pattern, $options: 'i' }) }).select('_id').lean()) {
     throw new HttpError(409, 'Username already exists');
   }
+  await assertEmailFree(email);
 
-  const admin = new Admin({ username, password: await hashPassword(password), role });
+  const admin = new Admin({ username, password: await hashPassword(password), role, ...(email ? { email } : {}) });
   admin.$locals.passwordHashed = true; // already hashed: the model's save hook must not hash it again
   await admin.save();
-  await audit(req, 'user.create', { type: 'user', id: admin._id }, { username, role });
+  await audit(req, 'user.create', { type: 'user', id: admin._id }, { username, role, email: Boolean(email) });
   res.status(201).json({ item: present(admin) });
 }));
 
 router.patch('/:id', asyncHandler(async (req, res) => {
   const id = objectId(req.params.id);
-  const changes = parseBody(req.body, { role: opt(oneOf(ROLES)), disabled: opt(bool()), resetTotp: opt(bool()) });
+  const changes = parseBody(req.body, { role: opt(oneOf(ROLES)), disabled: opt(bool()), resetTotp: opt(bool()), unlock: opt(bool()), email: opt(emailRule) });
   if (Object.keys(changes).length === 0) throw new HttpError(400, 'No fields to update');
 
   const target = found(await Admin.findById(id), 'User');
@@ -111,12 +131,21 @@ router.patch('/:id', asyncHandler(async (req, res) => {
     if (changes.disabled === false) Object.assign(set, { failedLogins: 0, lockedUntil: null }); // re-enabling unlocks
   }
   if (changes.resetTotp === true) Object.assign(set, { totpEnabled: false, totpSecretEnc: null, totpLastStep: -1 });
+  if (changes.unlock === true) Object.assign(set, { failedLogins: 0, lockedUntil: null });
+  if (changes.email !== undefined) {
+    await assertEmailFree(changes.email, id);
+    set.email = changes.email;
+  }
 
   const item = found(await Admin.findByIdAndUpdate(id, { $set: set }, { new: true }).select('-password -totpSecretEnc').lean(), 'User');
   if (changes.disabled === true || (changes.role !== undefined && changes.role !== roleOf(target)) || changes.resetTotp === true) {
     await revokeAllSessions(id);
   }
-  await audit(req, 'user.update', { type: 'user', id }, { role: changes.role, disabled: changes.disabled, resetTotp: changes.resetTotp });
+  // The address itself is not written to the log (only that it changed).
+  await audit(req, 'user.update', { type: 'user', id }, {
+    role: changes.role, disabled: changes.disabled, resetTotp: changes.resetTotp, unlock: changes.unlock,
+    ...(changes.email !== undefined ? { email: changes.email ? 'changed' : 'removed' } : {}),
+  });
   res.json({ item: present(item) });
 }));
 

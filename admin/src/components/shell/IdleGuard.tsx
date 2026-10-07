@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Icon } from '@/components/ui/Icon';
 import { useI18n } from '@/i18n/client';
 import { formatCountdown } from '@/lib/format';
+import { clearAllDrafts, markLeavingForSignIn } from '@/lib/drafts';
 import { onSessionEnded, onSessionHoldChange, sessionHeld } from '@/lib/session-hold';
 
 // Signs the admin out after 30 minutes without activity, with a warning dialog for the last two minutes.
@@ -38,7 +39,10 @@ export async function signOut(reason: 'idle' | 'expired' | 'manual' = 'manual') 
   } catch {
     // Offline: the cookie is cleared by /api/session/expire on the next request anyway.
   }
-  // After an idle or expired sign-out the sign-in page brings the admin back to the same page.
+  // After an idle or expired sign-out the sign-in page brings the admin back to the same page, where a form finds what
+  // was typed (lib/drafts.ts); a manual sign-out forgets it (the next person on this tab must not see it).
+  if (reason === 'manual') clearAllDrafts();
+  else markLeavingForSignIn();
   const here = `${window.location.pathname}${window.location.search}`;
   const next = reason !== 'manual' && here !== '/' ? `&next=${encodeURIComponent(here)}` : '';
   window.location.assign(reason === 'manual' ? '/login' : `/login?reason=${reason}${next}`);

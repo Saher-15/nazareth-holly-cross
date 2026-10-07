@@ -4,7 +4,8 @@ import bcrypt from 'bcryptjs';
 // It understands what the admin routes use: find / findOne / findById (+ sort skip limit select populate lean),
 // countDocuments, exists, create / new + save, insertMany, findByIdAndUpdate, findOneAndUpdate (also with
 // { upsert: true } and $setOnInsert), updateOne, updateMany, findByIdAndDelete, deleteOne, deleteMany, aggregate (answers come from Model.aggregateImpl), and the filter operators
-// $and $or $ne $lt $lte $gt $gte $in $exists $regex/$options. Every query is recorded in Model.calls.
+// $and $or $ne $lt $lte $gt $gte $in $exists $regex/$options, and $expr with $regexMatch over $toString (the order-number
+// search). Every query is recorded in Model.calls.
 //
 // Use in a test file:
 //   vi.mock('../model/order.js', async () => (await import('./helpers/fakes.js')).fakeModule('Order'));
@@ -45,10 +46,28 @@ function matchValue(value, cond) {
   });
 }
 
+// $expr: only what the routes use, { $regexMatch: { input: '$field' | { $toString: '$field' }, regex, options } }
+// (the order-number search, route/admin/orders.js). Anything else throws, so a new expression is never silently true.
+function exprValue(doc, expr) {
+  if (typeof expr === 'string') return expr.startsWith('$') ? getPath(doc, expr.slice(1)) : expr;
+  if (expr && typeof expr === 'object' && '$toString' in expr) {
+    const value = exprValue(doc, expr.$toString);
+    return value == null ? null : String(value);
+  }
+  throw new Error(`fake model: unsupported $expr input ${JSON.stringify(expr)}`);
+}
+
+function matchExpr(doc, expr) {
+  const [op, arg] = Object.entries(expr)[0] ?? [];
+  if (op === '$regexMatch') return new RegExp(arg.regex, arg.options ?? '').test(String(exprValue(doc, arg.input) ?? ''));
+  throw new Error(`fake model: unsupported $expr operator ${op}`);
+}
+
 export function matches(doc, filter = {}) {
   return Object.entries(filter).every(([key, cond]) => {
     if (key === '$and') return cond.every((f) => matches(doc, f));
     if (key === '$or') return cond.some((f) => matches(doc, f));
+    if (key === '$expr') return matchExpr(doc, cond);
     return matchValue(getPath(doc, key), cond);
   });
 }

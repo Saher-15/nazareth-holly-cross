@@ -11,8 +11,11 @@ import { unfulfilledSummary } from './payments.js';
 // The numbers behind GET /admin/dashboard, computed by the database (aggregations and counts), never by loading
 // collections into memory, and cached for 30 seconds (one computation at a time, however many admins refresh).
 //
-// Revenue = the sum of `totalPrice` over all orders (USD). Orders have no per-line price, so a product's revenue in
-// `topProducts` is units sold x the product's CURRENT price: an estimate that drifts if prices change.
+// Revenue = the sum of `totalPrice` (USD) over the shop orders whose PayPal payment was VERIFIED (paymentVerified): money
+// that really came in. Orders saved without a verified payment are counted apart (revenueUnverified, ordersUnverified),
+// so the dashboard can say so instead of mixing them in. Candles and donations are not shop revenue (Payments has them).
+// Orders have no per-line price, so a product's revenue in `topProducts` is units sold x the product's CURRENT price: an
+// estimate that drifts if prices change (the dashboard labels it so).
 
 export const TIME_ZONE = 'Asia/Jerusalem'; // days are Nazareth days
 export const CACHE_MS = 30_000;
@@ -46,7 +49,8 @@ const perDay = (extra) => (from) => [
   { $match: { createdAt: { $gte: from } } },
   { $group: { _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt', timezone: TIME_ZONE }, }, ...extra } },
 ];
-const ordersPerDay = perDay({ orders: { $sum: 1 }, revenue: { $sum: '$totalPrice' } });
+const VERIFIED = { $eq: ['$paymentVerified', true] };
+const ordersPerDay = perDay({ orders: { $sum: 1 }, revenue: { $sum: { $cond: [VERIFIED, '$totalPrice', 0] } } });
 const candlesPerDay = perDay({ candles: { $sum: 1 } });
 
 const orderTotals = () => [
@@ -55,7 +59,9 @@ const orderTotals = () => [
       _id: null,
       orders: { $sum: 1 },
       ordersPending: { $sum: { $cond: [{ $eq: ['$done', true] }, 0, 1] } },
-      revenue: { $sum: '$totalPrice' },
+      revenue: { $sum: { $cond: [VERIFIED, '$totalPrice', 0] } },
+      revenueUnverified: { $sum: { $cond: [VERIFIED, 0, '$totalPrice'] } },
+      ordersUnverified: { $sum: { $cond: [VERIFIED, 0, 1] } },
     },
   },
 ];
@@ -115,6 +121,8 @@ export async function buildDashboard(now = new Date()) {
       orders: t.orders ?? 0,
       ordersPending: t.ordersPending ?? 0,
       revenue: round2(t.revenue),
+      revenueUnverified: round2(t.revenueUnverified),
+      ordersUnverified: t.ordersUnverified ?? 0,
       candles,
       candlesPending,
       contacts,

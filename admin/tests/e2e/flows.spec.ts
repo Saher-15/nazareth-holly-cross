@@ -97,7 +97,7 @@ test.describe('orders', () => {
     const text = await page.request.get('/api/proxy/export/orders.csv').then((r) => r.text());
     expect(text.charCodeAt(0)).toBe(0xfeff); // byte-order mark: Excel reads Hebrew and Arabic names right
     const lines = text.slice(1).split('\r\n');
-    expect(lines[0]).toBe('id,createdAt,firstName,lastName,email,phone,street,city,state,postal,country,totalPrice,done,paymentVerified,paypalOrderId,products');
+    expect(lines[0]).toBe('id,number,createdAt,firstName,lastName,email,phone,street,city,state,postal,country,totalPrice,done,paymentVerified,paypalOrderId,products');
     expect(text.length).toBeGreaterThan(1000);
     // Formula injection: no cell may START with = + - @ (the seed has a last name "-2+3" and a message "=HYPERLINK(...)").
     const cells = lines.flatMap((line) => line.split(','));

@@ -1,5 +1,6 @@
 import type { z } from 'zod';
 import { ApiError, apiRequest, type Query } from './api';
+import { markLeavingForSignIn } from './drafts';
 import { reportSessionEnded, sessionHeld } from './session-hold';
 
 // Browser-side calls. They only ever go to this app's own /api/proxy route (same origin, cookie attached by the
@@ -21,6 +22,7 @@ export async function proxyCall<T = void>(call: Call<T>): Promise<T> {
         // A route handler (not a page): it must run on the server to delete the cookie, so a full navigation is right.
         const here = `${window.location.pathname}${window.location.search}`;
         const next = here !== '/' ? `&next=${encodeURIComponent(here)}` : '';
+        markLeavingForSignIn(); // a form's draft comes back after the sign-in: no "leave the page?" question
         // eslint-disable-next-line @next/next/no-location-assign-relative-destination
         window.location.assign(`/api/session/expire?reason=expired${next}`);
       }

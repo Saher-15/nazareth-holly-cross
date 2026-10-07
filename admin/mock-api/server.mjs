@@ -356,10 +356,15 @@ function parseList(url, { searchable, statuses = {}, sorts, defaultSort = '-crea
   return { page, size, q: q.toLowerCase(), status, key, desc, searchable, statuses };
 }
 
+// server/utils/orderNumber.js and route/admin/orders.js orderNumberClause
+const orderNumber = (id) => `#${String(id ?? '').slice(-8)}`;
+const ORDER_NUMBER = /^#?\s*([a-f0-9]{6,24})$/i;
+
 function paginate(url, rows, options) {
   const p = parseList(url, options);
   let list = rows;
-  if (p.q) list = list.filter((row) => (isId(p.q) && String(row._id) === p.q) || options.searchable(row).some((v) => decodeEntities(String(v ?? '')).toLowerCase().includes(p.q) || String(v ?? '').toLowerCase().includes(p.q)));
+  const number = options.byNumber ? ORDER_NUMBER.exec(p.q)?.[1]?.toLowerCase() : undefined;
+  if (p.q) list = list.filter((row) => (isId(p.q) && String(row._id) === p.q) || (number && String(row._id).toLowerCase().endsWith(number)) || options.searchable(row).some((v) => decodeEntities(String(v ?? '')).toLowerCase().includes(p.q) || String(v ?? '').toLowerCase().includes(p.q)));
   if (p.status && p.status !== 'all') list = list.filter(p.statuses[p.status]);
   const get = (row) => row[p.key] ?? null;
   list = [...list].sort((a, b) => {
@@ -375,9 +380,9 @@ function paginate(url, rows, options) {
 const byId = (rows, id) => rows.find((r) => r._id === id);
 
 // One resource of the collections router (server/route/admin/collections.js)
-function collection({ name, type, label, rows, searchable, statuses, sorts, flag, deleteRole = 'editor', onChange }) {
+function collection({ name, type, label, rows, searchable, byNumber = false, statuses, sorts, flag, deleteRole = 'editor', onChange }) {
   const out = [];
-  out.push({ method: 'GET', path: `/admin/${name}`, min: 'viewer', run: (ctx) => paginate(ctx.url, rows(), { searchable, statuses, sorts }) });
+  out.push({ method: 'GET', path: `/admin/${name}`, min: 'viewer', run: (ctx) => paginate(ctx.url, rows(), { searchable, byNumber, statuses, sorts }) });
   out.push({ method: 'GET', path: `/admin/${name}/:id`, min: 'viewer', run: (ctx) => found(byId(rows(), objectId(ctx.params.id)), label) });
   if (flag) {
     out.push({
@@ -415,7 +420,11 @@ function collection({ name, type, label, rows, searchable, statuses, sorts, flag
 
 const PRODUCT_FIELDS = {
   name: str({ min: 2, max: 200 }),
-  price: num({ min: 0.01, max: 10_000 }),
+  price: (v, f) => {
+    const price = num({ min: 0.01, max: 10_000 })(v, f);
+    if (Math.abs(price * 100 - Math.round(price * 100)) > 1e-6) throw new HttpError(400, `Invalid ${f}: at most two decimals`);
+    return price;
+  },
   img: url(),
   additionalImageUrls: arrayOf(url(), { max: 20 }),
   description: str({ min: 0, max: 2000, multiline: true }),
@@ -425,6 +434,24 @@ const PRODUCT_FIELDS = {
   stock: nullable(int({ min: 0, max: 1_000_000 })),
   category: nullable(oneOf(CATEGORIES)),
 };
+// server/route/admin/products.js imageHostAllowed: a photo must be on a host the website can show (PRODUCT_IMAGE_HOSTS);
+// a local address too (the mock is never production). A photo already saved on the product stays editable around it.
+const PRODUCT_IMAGE_HOSTS = (process.env.PRODUCT_IMAGE_HOSTS ?? 'firebasestorage.googleapis.com').split(',').map((h) => h.trim().toLowerCase()).filter(Boolean);
+const imageHostAllowed = (address) => {
+  try {
+    const u = new URL(address);
+    if (u.protocol === 'https:' && PRODUCT_IMAGE_HOSTS.includes(u.hostname.toLowerCase())) return true;
+    return ['localhost', '127.0.0.1'].includes(u.hostname) && (u.protocol === 'http:' || u.protocol === 'https:');
+  } catch { return false; }
+};
+function checkImageHosts(fields, before = null) {
+  const hosts = PRODUCT_IMAGE_HOSTS.join(', ');
+  if (fields.img !== undefined && fields.img !== before?.img && !imageHostAllowed(fields.img)) throw new HttpError(400, `Invalid img: the website shows photos only from ${hosts}`);
+  const known = new Set(before?.additionalImageUrls ?? []);
+  if ((fields.additionalImageUrls ?? []).some((u) => !known.has(u) && !imageHostAllowed(u))) throw new HttpError(400, `Invalid additionalImageUrls: the website shows photos only from ${hosts}`);
+}
+// services/siteRefresh.js: the mock never calls a website (as the API without REVALIDATE_SECRET): 'off'.
+const SITE_REFRESH = 'off';
 const CREATE_SHAPE = Object.fromEntries(Object.entries(PRODUCT_FIELDS).map(([k, r]) => [k, ['name', 'price', 'img'].includes(k) ? r : opt(r)]));
 const UPDATE_SHAPE = Object.fromEntries(Object.entries(PRODUCT_FIELDS).map(([k, r]) => [k, opt(r)]));
 
@@ -439,7 +466,8 @@ function dashboard() {
   const [y, m, d] = dayKey(now).split('-').map(Number);
   const days = Array.from({ length: 30 }, (_, i) => new Date(Date.UTC(y, m - 1, d - (29 - i))).toISOString().slice(0, 10));
   const map = new Map(days.map((day) => [day, { date: day, orders: 0, revenue: 0, candles: 0 }]));
-  for (const o of db.orders) { const e = map.get(dayKey(new Date(o.createdAt))); if (e) { e.orders += 1; e.revenue = round2(e.revenue + o.totalPrice); } }
+  // Revenue = verified payments only (server/services/dashboard.js); the unverified orders are counted apart.
+  for (const o of db.orders) { const e = map.get(dayKey(new Date(o.createdAt))); if (e) { e.orders += 1; if (o.paymentVerified === true) e.revenue = round2(e.revenue + o.totalPrice); } }
   for (const c of db.candles) { const e = map.get(dayKey(new Date(c.createdAt))); if (e) e.candles += 1; }
 
   const sold = new Map();
@@ -460,7 +488,9 @@ function dashboard() {
     totals: {
       orders: db.orders.length,
       ordersPending: db.orders.filter((o) => o.done !== true).length,
-      revenue: round2(db.orders.reduce((s, o) => s + o.totalPrice, 0)),
+      revenue: round2(db.orders.filter((o) => o.paymentVerified === true).reduce((s, o) => s + o.totalPrice, 0)),
+      revenueUnverified: round2(db.orders.filter((o) => o.paymentVerified !== true).reduce((s, o) => s + o.totalPrice, 0)),
+      ordersUnverified: db.orders.filter((o) => o.paymentVerified !== true).length,
       candles: db.candles.length,
       candlesPending: db.candles.filter((c) => c.done === false).length,
       contacts: db.contacts.length,
@@ -748,13 +778,14 @@ add({ method: 'GET', path: '/admin/dashboard', min: 'viewer', run: () => dashboa
 for (const route of collection({
   name: 'orders', type: 'order', label: 'Order', rows: () => db.orders, flag: 'done', deleteRole: 'owner',
   searchable: (o) => [o.firstName, o.lastName, o.email, o.phone, o.city, o.country, o.paypalOrderId],
+  byNumber: true,
   statuses: { pending: (o) => o.done !== true, shipped: (o) => o.done === true, unverified: (o) => o.paymentVerified !== true },
   sorts: ['createdAt', 'totalPrice', 'lastName'],
   // Shipping e-mails the customer once (server/route/admin/orders.js): emailSent true | false | null (nothing was due).
   onChange: (row, before) => {
     if (!row.done || before === true) return { extra: { emailSent: null }, meta: { emailSent: null } }; // un-shipped, or already shipped: no mail due
     if (failMail) return { extra: { emailSent: false }, meta: { emailSent: false } };
-    emails.push({ at: new Date().toISOString(), to: [row.email], subject: 'Your order was shipped', text: `Your order number ${row._id} was shipped :)` });
+    emails.push({ at: new Date().toISOString(), to: [row.email], subject: `Your order ${orderNumber(row._id)} was shipped`, text: `Your order ${orderNumber(row._id)} was shipped :) (reference ${row._id})` });
     return { extra: { emailSent: true }, meta: { emailSent: true } };
   },
 })) add(route);
@@ -829,11 +860,12 @@ add({
   method: 'POST', path: '/admin/products', min: 'editor',
   run: (ctx) => {
     const data = parseBody(ctx.body, CREATE_SHAPE);
+    checkImageHosts(data);
     const now = new Date().toISOString();
     const product = { _id: newId('b'), additionalImageUrls: [], description: '', color: [], rate: 1, stock: null, ...data, createdAt: now, updatedAt: now };
     db.products.unshift(product);
     record(ctx.req, 'product.create', { type: 'product', id: product._id }, { name: data.name });
-    return { status: 201, body: { item: product } };
+    return { status: 201, body: { item: product, siteRefresh: SITE_REFRESH } };
   },
 });
 const updateProduct = (ctx) => {
@@ -841,9 +873,10 @@ const updateProduct = (ctx) => {
   const fields = parseBody(ctx.body, UPDATE_SHAPE);
   if (Object.keys(fields).length === 0) throw new HttpError(400, 'No fields to update');
   const product = found(byId(db.products, id), 'Product');
+  checkImageHosts(fields, product);
   Object.assign(product, fields, { updatedAt: new Date().toISOString() });
   record(ctx.req, 'product.update', { type: 'product', id }, { fields: Object.keys(fields) });
-  return { item: product };
+  return { item: product, siteRefresh: SITE_REFRESH };
 };
 add({ method: 'PUT', path: '/admin/products/:id', min: 'editor', run: updateProduct });
 add({ method: 'PATCH', path: '/admin/products/:id', min: 'editor', run: updateProduct });
@@ -855,7 +888,7 @@ add({
     const product = found(index >= 0 ? db.products[index] : null, 'Product');
     db.products.splice(index, 1);
     record(ctx.req, 'product.delete', { type: 'product', id }, { name: product.name });
-    return { message: 'Product deleted' };
+    return { message: 'Product deleted', siteRefresh: SITE_REFRESH };
   },
 });
 
@@ -864,7 +897,7 @@ const field = (name) => ({ header: name, value: (row) => row[name] });
 const idCol = { header: 'id', value: (row) => String(row._id) };
 const EXPORTS = {
   orders: { rows: () => db.orders, cols: [
-    idCol, field('createdAt'), field('firstName'), field('lastName'), field('email'), field('phone'), field('street'), field('city'), field('state'), field('postal'),
+    idCol, { header: 'number', value: (o) => orderNumber(o._id) }, field('createdAt'), field('firstName'), field('lastName'), field('email'), field('phone'), field('street'), field('city'), field('state'), field('postal'),
     field('country'), field('totalPrice'), field('done'), field('paymentVerified'), field('paypalOrderId'),
     { header: 'products', value: (o) => (o.products ?? []).map((p) => `${p.productName ?? ''} x${p.quantity ?? ''}${p.color ? ` (${p.color})` : ''}`).join('; ') },
   ] },
@@ -896,13 +929,24 @@ add({
 });
 
 // --- users (owner only), server/route/admin/users.js
+// server/route/admin/users.js emailRule / assertEmailFree
+const accountEmail = (v, f) => {
+  const text = str({ min: 0, max: 254, escape: false })(v, f).toLowerCase();
+  if (text && (text.length > 254 || !EMAIL.test(text))) throw new HttpError(400, `Invalid ${f}: not an e-mail address`);
+  return text;
+};
+const assertEmailFree = (email, exceptId = null) => {
+  if (email && db.users.some((u) => u._id !== exceptId && (String(u.email ?? '').toLowerCase() === email || u.username.toLowerCase() === email))) {
+    throw new HttpError(409, 'E-mail address already used by another account');
+  }
+};
 const enabledOwners = (exceptId) => db.users.filter((u) => u._id !== exceptId && u.role === 'owner' && !u.disabled).length;
 const isEnabledOwner = (u) => u.role === 'owner' && !u.disabled;
 add({
   method: 'GET', path: '/admin/users', min: 'owner',
   run: (ctx) => {
     const page = paginate(ctx.url, db.users, {
-      searchable: (u) => [u.username],
+      searchable: (u) => [u.username, u.email],
       statuses: { active: (u) => !u.disabled, owner: (u) => u.role === 'owner', editor: (u) => u.role === 'editor', viewer: (u) => u.role === 'viewer', disabled: (u) => u.disabled },
       sorts: ['createdAt', 'username', 'lastLoginAt'],
     });
@@ -912,17 +956,19 @@ add({
 add({
   method: 'POST', path: '/admin/users', min: 'owner',
   run: (ctx) => {
-    const { username, password, role } = parseBody(ctx.body, {
+    const { username, password, role, email = '' } = parseBody(ctx.body, {
       username: str({ min: 3, max: 64, pattern: /^[A-Za-z0-9][A-Za-z0-9._-]*$/, escape: false }),
       password: secret({ max: 200 }),
       role: oneOf(ROLES),
+      email: opt(accountEmail),
     });
     const problem = passwordProblem(password, username);
     if (problem) throw new HttpError(400, problem);
     if (db.users.some((u) => u.username.toLowerCase() === username.toLowerCase())) throw new HttpError(409, 'Username already exists');
-    const user = { _id: newId('7'), username, role, disabled: false, ...hashPassword(password), totpSecret: null, totpLastStep: -1, pendingTotp: null, failedLogins: 0, lockedUntil: null, lastLoginAt: null, createdAt: new Date().toISOString() };
+    assertEmailFree(email);
+    const user = { _id: newId('7'), username, email, role, disabled: false, ...hashPassword(password), totpSecret: null, totpLastStep: -1, pendingTotp: null, failedLogins: 0, lockedUntil: null, lastLoginAt: null, createdAt: new Date().toISOString() };
     db.users.push(user);
-    record(ctx.req, 'user.create', { type: 'user', id: user._id }, { username, role });
+    record(ctx.req, 'user.create', { type: 'user', id: user._id }, { username, role, email: Boolean(email) });
     return { status: 201, body: { item: userItem(user) } };
   },
 });
@@ -930,7 +976,7 @@ add({
   method: 'PATCH', path: '/admin/users/:id', min: 'owner',
   run: (ctx) => {
     const id = objectId(ctx.params.id);
-    const changes = parseBody(ctx.body, { role: opt(oneOf(ROLES)), disabled: opt(bool()), resetTotp: opt(bool()) });
+    const changes = parseBody(ctx.body, { role: opt(oneOf(ROLES)), disabled: opt(bool()), resetTotp: opt(bool()), unlock: opt(bool()), email: opt(accountEmail) });
     if (Object.keys(changes).length === 0) throw new HttpError(400, 'No fields to update');
     const target = found(byId(db.users, id), 'User');
     const self = id === ctx.req.auth.user._id;
@@ -946,8 +992,16 @@ add({
       if (changes.disabled === false) Object.assign(target, { failedLogins: 0, lockedUntil: null });
     }
     if (changes.resetTotp === true) Object.assign(target, { totpSecret: null, pendingTotp: null, totpLastStep: -1 });
+    if (changes.unlock === true) Object.assign(target, { failedLogins: 0, lockedUntil: null });
+    if (changes.email !== undefined) {
+      assertEmailFree(changes.email, id);
+      target.email = changes.email;
+    }
     if (changes.disabled === true || (changes.role !== undefined && changes.role !== before.role) || changes.resetTotp === true) revokeAll(id);
-    record(ctx.req, 'user.update', { type: 'user', id }, { role: changes.role, disabled: changes.disabled, resetTotp: changes.resetTotp });
+    record(ctx.req, 'user.update', { type: 'user', id }, {
+      role: changes.role, disabled: changes.disabled, resetTotp: changes.resetTotp, unlock: changes.unlock,
+      ...(changes.email !== undefined ? { email: changes.email ? 'changed' : 'removed' } : {}),
+    });
     return { item: userItem(target) };
   },
 });
@@ -978,7 +1032,17 @@ add({
     if (actor !== null) rows = rows.filter((e) => e.actorName === actor);
     if (action !== null) rows = rows.filter((e) => (action.endsWith('.') ? e.action.startsWith(action) : e.action === action));
     // sorted by `at`, newest first by default (paginate() sorts by the named key)
-    return paginate(ctx.url, rows, { searchable: (e) => [e.actorName, e.action, e.target.id], sorts: ['at'], defaultSort: '-at' });
+    const page = paginate(ctx.url, rows, { searchable: (e) => [e.actorName, e.action, e.target.id], sorts: ['at'], defaultSort: '-at' });
+    // server/route/admin/audit.js withTargetNames: a user's username, a product's name, an order's number
+    const nameOf = (e) => {
+      const { type, id } = e.target ?? {};
+      if (type === 'order' && id) return orderNumber(id);
+      const recorded = typeof e.meta?.username === 'string' ? e.meta.username : typeof e.meta?.name === 'string' ? e.meta.name : null;
+      if (type === 'user') return db.users.find((u) => u._id === id)?.username ?? recorded;
+      if (type === 'product') return db.products.find((x) => x._id === id)?.name ?? recorded;
+      return null;
+    };
+    return { ...page, items: page.items.map((e) => { const targetName = nameOf(e); return targetName ? { ...e, targetName } : e; }) };
   },
 });
 

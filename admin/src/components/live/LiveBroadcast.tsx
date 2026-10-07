@@ -6,6 +6,7 @@ import { useFeedback } from '@/components/ui/Feedback';
 import { useI18n } from '@/i18n/client';
 import { isApiError, liveStartSchema, liveStopSchema, type LiveSession } from '@/lib/api';
 import { proxyCall } from '@/lib/client-api';
+import { internalHref } from '@/lib/links';
 import { audioConstraints, listDevices, mediaProblem, mediaSupportProblem, stopStream, videoConstraints, type Device, type Facing, type MediaProblem } from '@/lib/media';
 import { BroadcastRecorder, pickMimeType, prefersMp4, RecorderMixer, recordingSupported } from '@/lib/recorder';
 import { askPersistentStorage, holdRecordingLock, openRecordingStore, type RecordingStore } from '@/lib/recording-store';
@@ -116,21 +117,6 @@ export function sendStopBeacon(sessionId: string) {
 function showStream(video: HTMLVideoElement, stream: MediaStream | null) {
   video.srcObject = stream;
   if (stream) void video.play().catch(() => undefined);
-}
-
-/** An internal link a plain click would follow inside this tab (not a new tab, a download or another site). */
-export function internalHref(event: MouseEvent, origin: string): string | null {
-  if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return null;
-  const anchor = (event.target as Element | null)?.closest?.('a[href]') as HTMLAnchorElement | null;
-  if (!anchor || anchor.hasAttribute('download') || (anchor.target && anchor.target !== '_self')) return null;
-  let url: URL;
-  try {
-    url = new URL(anchor.href, origin);
-  } catch {
-    return null;
-  }
-  if (url.origin !== origin || url.pathname.startsWith('/api/')) return null;
-  return `${url.pathname}${url.search}${url.hash}`;
 }
 
 export function LiveBroadcastProvider({ userId, expiresAt, children }: { userId: string; expiresAt: number | null; children: ReactNode }) {
