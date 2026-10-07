@@ -1,19 +1,22 @@
-// A minimal iCalendar (.ics, RFC 5545) writer. Two kinds of events:
-//   - the pilgrimage planner's: "floating" times (no time zone), so a calendar shows 09:00 as 09:00 wherever the
-//     pilgrim is, which is what a printed itinerary means;
-//   - an announced live broadcast's: a moment in UTC ("...Z"), so every calendar shows it at the visitor's own time.
+// A minimal iCalendar (.ics, RFC 5545) writer, shared by the pilgrimage planner and the Christian calendar of /live.
+// Three kinds of event:
+//  - the planner's itinerary items: "floating" times (no time zone), so a calendar shows 09:00 as 09:00 wherever the
+//    pilgrim is, which is what a printed itinerary means;
+//  - a feast: an all-day event on its calendar date (DTSTART;VALUE=DATE), the same day in every time zone;
+//  - a live broadcast: an exact instant in UTC (…Z), which every calendar shows in its owner's own time.
 
-type IcsEventBase = {
+type IcsCommon = {
   uid: string;
   summary: string;
   description?: string;
   location?: string;
   geo?: { lat: number; lng: number };
-  /** A web address (written as is: only an http(s) address without spaces or line breaks is kept). */
+  /** A page about the event (absolute address). */
   url?: string;
 };
 
-export type IcsFloatingEvent = IcsEventBase & {
+/** An itinerary item at local ("floating") times. */
+export type IcsTimedEvent = IcsCommon & {
   /** Local date, YYYY-MM-DD. */
   date: string;
   /** Minutes after midnight. */
@@ -21,13 +24,13 @@ export type IcsFloatingEvent = IcsEventBase & {
   end: number;
 };
 
-export type IcsTimedEvent = IcsEventBase & {
-  /** Start and end, milliseconds since the epoch (written in UTC). */
-  startsAt: number;
-  endsAt: number;
-};
+/** A whole day (or several), YYYY-MM-DD. */
+export type IcsAllDayEvent = IcsCommon & { allDay: true; date: string; days?: number };
 
-export type IcsEvent = IcsFloatingEvent | IcsTimedEvent;
+/** An exact instant, in milliseconds since the epoch. */
+export type IcsInstantEvent = IcsCommon & { startsAt: number; endsAt: number };
+
+export type IcsEvent = IcsTimedEvent | IcsAllDayEvent | IcsInstantEvent;
 
 /** Escapes text values (RFC 5545 section 3.3.11). */
 export function escapeIcsText(text: string): string {
@@ -67,14 +70,16 @@ export function icsLocal(date: string, minutes: number): string {
   return `${at.getUTCFullYear()}${pad(at.getUTCMonth() + 1)}${pad(at.getUTCDate())}T${pad(at.getUTCHours())}${pad(at.getUTCMinutes())}00`;
 }
 
-const icsUtcStamp = (now: Date) =>
-  `${now.getUTCFullYear()}${pad(now.getUTCMonth() + 1)}${pad(now.getUTCDate())}T${pad(now.getUTCHours())}${pad(now.getUTCMinutes())}${pad(now.getUTCSeconds())}Z`;
+/** `2026-03-25` -> `20260325` (a DATE value). */
+export function icsDate(date: string): string {
+  return date.replace(/-/g, '');
+}
 
-/** A moment as an iCalendar UTC date-time: 1761379200000 -> `20261025T080000Z`. */
-export const icsUtc = (ms: number) => icsUtcStamp(new Date(ms));
-
-/** An http(s) address safe to write into a URI property (nothing that could start a new line or property). */
-const safeUrl = (url: string | undefined) => (url && /^https?:\/\/[^\s"<>\\]+$/.test(url) ? url : null);
+/** An instant as a UTC DATE-TIME: `20261020T163000Z`. */
+export function icsUtc(at: Date | number): string {
+  const d = typeof at === 'number' ? new Date(at) : at;
+  return `${d.getUTCFullYear()}${pad(d.getUTCMonth() + 1)}${pad(d.getUTCDate())}T${pad(d.getUTCHours())}${pad(d.getUTCMinutes())}${pad(d.getUTCSeconds())}Z`;
+}
 
 /** Adds `days` to a YYYY-MM-DD date. */
 export function addDays(date: string, days: number): string {
@@ -83,11 +88,22 @@ export function addDays(date: string, days: number): string {
   return `${at.getUTCFullYear()}-${pad(at.getUTCMonth() + 1)}-${pad(at.getUTCDate())}`;
 }
 
+function timing(event: IcsEvent): string[] {
+  if ('allDay' in event) {
+    return [`DTSTART;VALUE=DATE:${icsDate(event.date)}`, `DTEND;VALUE=DATE:${icsDate(addDays(event.date, event.days ?? 1))}`, 'TRANSP:TRANSPARENT'];
+  }
+  if ('startsAt' in event) return [`DTSTART:${icsUtc(event.startsAt)}`, `DTEND:${icsUtc(event.endsAt)}`];
+  return [`DTSTART:${icsLocal(event.date, event.start)}`, `DTEND:${icsLocal(event.date, event.end)}`];
+}
+
+/** An http(s) address safe to write into a URI property (nothing that could start a new line or property). */
+const safeUrl = (url: string | undefined) => (url && /^https?:\/\/[^\s"<>\\]+$/.test(url) ? url : null);
+
 export function buildIcs(
   events: readonly IcsEvent[],
   { name, now = new Date(), product = 'Pilgrimage planner' }: { name: string; now?: Date; product?: string },
 ): string {
-  const stamp = icsUtcStamp(now);
+  const stamp = icsUtc(now);
   const lines = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
@@ -97,15 +113,7 @@ export function buildIcs(
     `X-WR-CALNAME:${escapeIcsText(name)}`,
   ];
   for (const event of events) {
-    const timed = 'startsAt' in event;
-    lines.push(
-      'BEGIN:VEVENT',
-      `UID:${event.uid.replace(/[^A-Za-z0-9@._-]/g, '')}`,
-      `DTSTAMP:${stamp}`,
-      `DTSTART:${timed ? icsUtc(event.startsAt) : icsLocal(event.date, event.start)}`,
-      `DTEND:${timed ? icsUtc(event.endsAt) : icsLocal(event.date, event.end)}`,
-      `SUMMARY:${escapeIcsText(event.summary)}`,
-    );
+    lines.push('BEGIN:VEVENT', `UID:${event.uid.replace(/[^A-Za-z0-9@._-]/g, '')}`, `DTSTAMP:${stamp}`, ...timing(event), `SUMMARY:${escapeIcsText(event.summary)}`);
     if (event.description) lines.push(`DESCRIPTION:${escapeIcsText(event.description)}`);
     if (event.location) lines.push(`LOCATION:${escapeIcsText(event.location)}`);
     if (event.geo) lines.push(`GEO:${event.geo.lat.toFixed(6)};${event.geo.lng.toFixed(6)}`);
@@ -115,4 +123,19 @@ export function buildIcs(
   }
   lines.push('END:VCALENDAR');
   return `${lines.map(foldIcsLine).join('\r\n')}\r\n`;
+}
+
+/** Hands an .ics text to the browser as a file to save or open (made in the page: nothing is sent anywhere). */
+export function saveIcsFile(ics: string, fileName: string): void {
+  const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+  const href = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = href;
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  // Freed after a minute, not at once: a busy browser may start reading the file late, and revoking the address
+  // earlier cancels the download (seen as "download canceled" in the end-to-end tests under load).
+  setTimeout(() => URL.revokeObjectURL(href), 60_000);
 }

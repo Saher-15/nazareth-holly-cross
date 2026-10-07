@@ -1585,6 +1585,197 @@
         "title": "Search the site",
         "lead": "Find pages, holy sites, answers to common questions and Gospel passages."
       }
+    },
+    "calendar": {
+      "eyebrow": "Christian calendar",
+      "title": "Feasts through the year",
+      "lead": "The great feasts of the Catholic and Orthodox Churches. Nazareth keeps both, so where their dates differ you see both.",
+      "filter": {
+        "legend": "Show the feasts of",
+        "all": "Both traditions",
+        "catholic": "Catholic",
+        "orthodox": "Orthodox"
+      },
+      "tradition": {
+        "catholic": "Catholic",
+        "orthodox": "Orthodox",
+        "both": "Catholic and Orthodox"
+      },
+      "month": {
+        "previous": "Previous month",
+        "next": "Next month",
+        "today": "Today",
+        "hint": "Use the arrow keys to move between days, and Page Up or Page Down to change the month.",
+        "list": "In {month}",
+        "empty": "No feasts this month.",
+        "nextFeast": "Next feast: {name}"
+      },
+      "day": {
+        "events": "{date}: {events}",
+        "feast": "{name} ({tradition})",
+        "broadcast": "live broadcast at {time}: {title}",
+        "none": "No feast on this day.",
+        "today": "Today",
+        "transferred": "Moved from {date} by the rules of the Roman calendar.",
+        "julian": "{date} on the Julian calendar.",
+        "broadcastTime": "{time}, Nazareth time"
+      },
+      "legend": {
+        "title": "Key",
+        "catholic": "Catholic feast",
+        "orthodox": "Orthodox feast",
+        "nazareth": "Feast of Nazareth",
+        "broadcast": "Live broadcast",
+        "today": "Today"
+      },
+      "upcoming": {
+        "title": "Upcoming feasts",
+        "countdown": "{days, plural, =0 {Today} =1 {Tomorrow} one {In # day} other {In # days}}"
+      },
+      "broadcast": {
+        "badge": "Live broadcast"
+      },
+      "ics": {
+        "add": "Add to calendar",
+        "addNamed": "Add to calendar: {name}",
+        "saved": "The calendar file for {name} has been downloaded. Open it to add the date to your calendar.",
+        "calendarName": "Feasts in Nazareth",
+        "location": "Nazareth"
+      },
+      "notes": {
+        "title": "About the dates",
+        "catholic": "Catholic dates follow the Gregorian calendar, as the Latin Patriarchate of Jerusalem and the Basilica of the Annunciation keep them. When a solemnity falls in Holy Week or on a Sunday of Lent or Advent, it moves to the day the Roman calendar sets.",
+        "holyLand": "In the Holy Land some Catholic parishes, in Galilee and elsewhere, keep Easter and the feasts that depend on it on the Orthodox date, and parishes usually keep Corpus Christi on the following Sunday. Ask your parish for its dates.",
+        "orthodox": "Orthodox dates follow the Julian calendar of the Greek Orthodox Patriarchate of Jerusalem: fixed feasts fall 13 days later on our calendar (Christmas on 7 January, the Annunciation on 7 April, the Holy Cross on 27 September), and Easter follows the Julian rule. Orthodox Churches on the revised calendar, such as those of Greece and Romania, keep the fixed feasts on the Catholic dates.",
+        "computed": "The dates are calculated, not copied from a parish calendar. Please confirm the times of services with the church."
+      },
+      "feasts": {
+        "maryMotherOfGod": {
+          "name": "Mary, Mother of God",
+          "description": "The year opens with Mary, the Mother of God, on the eighth day of Christmas."
+        },
+        "epiphany": {
+          "name": "Epiphany",
+          "orthodoxName": "Theophany",
+          "description": "Christ is revealed to the world: the Magi in the West, his Baptism in the Jordan in the East."
+        },
+        "presentation": {
+          "name": "Presentation of the Lord",
+          "orthodoxName": "Meeting of the Lord",
+          "description": "Mary and Joseph bring the Child Jesus to the Temple, where Simeon and Anna meet him."
+        },
+        "cleanMonday": {
+          "name": "Clean Monday",
+          "description": "The first day of Great Lent in the Orthodox Church."
+        },
+        "ashWednesday": {
+          "name": "Ash Wednesday",
+          "description": "Lent begins: forty days of prayer, fasting and charity before Easter."
+        },
+        "stJoseph": {
+          "name": "Saint Joseph",
+          "description": "Joseph of Nazareth, husband of Mary and guardian of Jesus."
+        },
+        "annunciation": {
+          "name": "Annunciation of the Lord",
+          "orthodoxName": "Annunciation of the Theotokos",
+          "description": "The angel Gabriel greets Mary here in Nazareth: the feast of the city’s two churches of the Annunciation."
+        },
+        "palmSunday": {
+          "name": "Palm Sunday",
+          "description": "Jesus enters Jerusalem and Holy Week begins."
+        },
+        "holyThursday": {
+          "name": "Holy Thursday",
+          "orthodoxName": "Great and Holy Thursday",
+          "description": "The Last Supper: Jesus gives the Eucharist and washes the feet of his disciples."
+        },
+        "goodFriday": {
+          "name": "Good Friday",
+          "orthodoxName": "Great and Holy Friday",
+          "description": "The Passion and death of Jesus on the Cross."
+        },
+        "holySaturday": {
+          "name": "Holy Saturday",
+          "orthodoxName": "Great and Holy Saturday",
+          "description": "The Church keeps watch at the tomb until the first light of Easter."
+        },
+        "easter": {
+          "name": "Easter Sunday",
+          "orthodoxName": "Pascha (Easter)",
+          "description": "The Resurrection of the Lord, the feast of feasts."
+        },
+        "divineMercy": {
+          "name": "Divine Mercy Sunday",
+          "description": "The Second Sunday of Easter, dedicated to the mercy of God."
+        },
+        "ascension": {
+          "name": "Ascension of the Lord",
+          "description": "Forty days after Easter, Jesus is taken up into heaven."
+        },
+        "pentecost": {
+          "name": "Pentecost",
+          "orthodoxName": "Pentecost (Holy Trinity)",
+          "description": "The Holy Spirit comes down on the apostles, fifty days after Easter."
+        },
+        "trinity": {
+          "name": "Trinity Sunday",
+          "description": "The Sunday after Pentecost, in honour of the Father, the Son and the Holy Spirit."
+        },
+        "corpusChristi": {
+          "name": "Corpus Christi",
+          "description": "The Body and Blood of Christ, honoured in the Eucharist and in processions."
+        },
+        "transfiguration": {
+          "name": "Transfiguration of the Lord",
+          "description": "Jesus shines in glory on Mount Tabor, a few kilometres from Nazareth."
+        },
+        "assumption": {
+          "name": "Assumption of Mary",
+          "orthodoxName": "Dormition of the Theotokos",
+          "description": "Mary is taken up into the glory of heaven; the East calls it her falling asleep."
+        },
+        "nativityOfMary": {
+          "name": "Nativity of Mary",
+          "orthodoxName": "Nativity of the Theotokos",
+          "description": "The birthday of the Virgin Mary."
+        },
+        "holyCross": {
+          "name": "Exaltation of the Holy Cross",
+          "orthodoxName": "Exaltation of the Holy Cross",
+          "description": "The feast of the Cross of Christ, which gives Nazareth Holy Cross its name."
+        },
+        "allSaints": {
+          "name": "All Saints",
+          "orthodoxName": "Sunday of All Saints",
+          "description": "All the saints of God, known and unknown, in one feast."
+        },
+        "advent1": {
+          "name": "First Sunday of Advent",
+          "description": "The Church’s new year begins with four weeks of waiting for Christmas."
+        },
+        "advent2": {
+          "name": "Second Sunday of Advent",
+          "description": "Advent: prepare the way of the Lord."
+        },
+        "advent3": {
+          "name": "Third Sunday of Advent",
+          "description": "Gaudete Sunday: rejoice, the Lord is near."
+        },
+        "advent4": {
+          "name": "Fourth Sunday of Advent",
+          "description": "The last Sunday before Christmas, with Mary who awaits her Son."
+        },
+        "immaculateConception": {
+          "name": "Immaculate Conception",
+          "description": "Mary, kept free from all sin from the first moment of her life."
+        },
+        "christmas": {
+          "name": "Christmas",
+          "orthodoxName": "Nativity of Christ",
+          "description": "The birth of Jesus in Bethlehem."
+        }
+      }
     }
   },
   "media": {

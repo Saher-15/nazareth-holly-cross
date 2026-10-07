@@ -95,6 +95,13 @@ Audit: `live.start` (with `scheduleId`), `live.stop` (with `reason`: `stopped` o
 `live.auto_end`, `live.start_failed`; `live.recording_create`, `_renew`, `_uploaded`, `_update`, `_delete`, `_status`
 (the system: Cloudflare finished or failed), `_failed`; `live.schedule_create`, `_update`, `_delete`.
 
+**Scheduled broadcasts on the website's calendar.** The Christian calendar of `/live` (`docs/LITURGICAL-CALENDAR.md`)
+also shows the broadcasts scheduled in the dashboard, read on the server from `GET /live/schedule`
+(`{ timeZone, items: [{ id, title, description, startsAt, status }] }`, published and still to come) by the adapter
+`web/src/lib/broadcastSchedule.ts`: a mark on the day (in Nazareth time), the time and description on the chosen day,
+"add to calendar" (an exact instant, one hour long) and a schema.org `Event` per broadcast. Until the API has the route
+it answers 404 and the calendar shows no broadcasts (it asks again 10 minutes later).
+
 ## 3. Security
 
 | Concern | Decision |
@@ -236,8 +243,10 @@ then reload. On iPhone: Settings > Safari > Camera / Microphone > Ask or Allow.
 * **Past broadcasts** lists the published recordings first (newest first: title, date of the live in the page's
   language and Nazareth time, length), then the older videos kept in the site. A recording shows its thumbnail; the
   Cloudflare player is loaded only when the visitor presses play (never all frames at once).
-* **Structured data**: a `VideoObject` per published recording (`uploadDate` = the date of the live) and an `Event`
-  (online) per published upcoming broadcast.
+* **Structured data**: a `VideoObject` per published recording (`uploadDate` = the date of the live), in the page's
+  own block; an `Event` (online) per published upcoming broadcast, written once, by the Christian calendar section
+  (`web/src/lib/broadcastSchedule.ts`, `broadcastEventsJsonLd`). The countdown and the calendar read the same
+  `GET /live/schedule` answer (the server reads it once per minute through Next's data cache).
 
 ## 9. Recordings
 

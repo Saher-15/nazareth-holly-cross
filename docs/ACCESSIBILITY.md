@@ -88,6 +88,7 @@ How it is built, in short:
 | The panel | `web/tests/unit/a11y.test.tsx`, `web/tests/e2e/a11y.spec.ts` | storage validation, the pre-paint script against the TypeScript (same attributes for good, broken and hostile values), keyboard (open, radio arrows, switches, Escape returns focus), persistence before the first paint with no CSP violation, 200% text on a phone in Arabic, high-contrast colour ratios (AAA) |
 | Header fit | `web/tests/e2e/a11y.spec.ts` | the bar never overflows in any of the 14 languages at 320 to 1366 px |
 | The floating button | `web/tests/e2e/a11y.spec.ts` | not in the header, in its landmark; 16px from the bottom and the start edge in en and he; never meets back to top; the panel opens above it inside the window; on a phone it clears the home page's candle pill; the open phone menu makes it inert |
+| The Christian calendar on `/live` (a WAI-ARIA grid) | `web/tests/e2e/calendar.spec.ts`, `web/tests/unit/calendar.test.tsx` | axe on the section with a day of feasts chosen; one tab stop, arrows (mirrored in he and ar), Home/End, Page Up/Down, focus following the chosen day; every day named with its feasts and their tradition (no colour-only marks); 320 px in Arabic (`docs/LITURGICAL-CALENDAR.md`) |
 | By eye | screenshots | home, statement, candle and a holy site at 1366 and 390 px in en, he and ar, panel open, 200% text, high contrast, all modes |
 
 How to run:

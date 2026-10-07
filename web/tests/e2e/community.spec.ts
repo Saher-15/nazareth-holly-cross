@@ -171,9 +171,14 @@ test.describe('live page', () => {
     }
     await expect(page.getByRole('heading', { name: en.videos.interview_nazareth.title })).toBeVisible();
 
-    // The older recordings are always in the structured data (published ones from the API come in addition).
-    const jsonLd = JSON.parse((await page.locator('script[type="application/ld+json"]').textContent()) ?? '{}');
-    expect(jsonLd['@graph'].filter((n: { '@type': string }) => n['@type'] === 'VideoObject').length).toBeGreaterThanOrEqual(2);
+    // The older recordings are always in the structured data (published ones from the API come in addition). The
+    // Christian calendar adds a second JSON-LD block when broadcasts are scheduled: read every block.
+    const blocks = await page.locator('script[type="application/ld+json"]').allTextContents();
+    const nodes = blocks.flatMap((block) => (JSON.parse(block) as { '@graph'?: { '@type': string }[] })['@graph'] ?? []);
+    expect(nodes.filter((n) => n['@type'] === 'VideoObject').length).toBeGreaterThanOrEqual(2);
+    // The scheduled broadcasts' Events are written once (by the calendar), never twice.
+    const events = nodes.filter((n) => n['@type'] === 'Event') as unknown as { startDate: string; name: string }[];
+    expect(new Set(events.map((e) => `${e.name}|${e.startDate}`)).size).toBe(events.length);
   });
 
   test('renders right-to-left in Hebrew', async ({ page }) => {

@@ -3,7 +3,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import RecordingList from '@/components/community/RecordingList';
 import { buildIcs, icsUtc } from '@/data/pilgrim/ics';
-import { broadcastEventJsonLd, recordingVideoJsonLd, serializeJsonLd } from '@/lib/jsonLd';
+import { recordingVideoJsonLd } from '@/lib/jsonLd';
 import {
   fetchRecordingsInBrowser,
   formatDuration,
@@ -114,26 +114,7 @@ describe('structured data', () => {
     });
     expect(recordingVideoJsonLd({ ...recording, date: null, durationSeconds: 0 })).not.toHaveProperty('uploadDate');
   });
-
-  it('an announced broadcast is an online Event watched on the /live page', () => {
-    const organizer = { '@type': 'Organization', name: 'Nazareth Holy Cross' };
-    const event = broadcastEventJsonLd(
-      { title: 'Vespers </script>', description: 'From the basilica', start: Date.parse('2026-10-25T08:00:00Z') },
-      { liveUrl: 'https://nazarethholycross.com/en/live', organizer },
-    );
-    expect(event).toEqual({
-      '@type': 'Event',
-      name: 'Vespers </script>',
-      description: 'From the basilica',
-      startDate: '2026-10-25T08:00:00.000Z',
-      eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
-      eventStatus: 'https://schema.org/EventScheduled',
-      location: { '@type': 'VirtualLocation', url: 'https://nazarethholycross.com/en/live' },
-      organizer,
-    });
-    expect(serializeJsonLd(event)).not.toContain('</script>');
-    expect(broadcastEventJsonLd({ title: 'A', description: '', start: 0 }, { liveUrl: 'u', organizer })).not.toHaveProperty('description');
-  });
+  // The announced broadcasts' Events are written once, by the calendar section (lib/broadcastSchedule.ts, its tests).
 });
 
 describe('the calendar file of an announced broadcast', () => {

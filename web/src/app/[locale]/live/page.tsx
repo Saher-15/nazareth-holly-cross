@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import LiturgicalCalendarSection from '@/components/calendar/LiturgicalCalendarSection';
 import BroadcastStage from '@/components/community/BroadcastStage';
 import LiveNow from '@/components/community/LiveNow';
 import PastBroadcasts from '@/components/community/PastBroadcasts';
@@ -15,7 +16,7 @@ import { recordingView } from '@/lib/liveRecordings';
 import { broadcastView } from '@/lib/liveSchedule';
 import { livePeekCheckedAt, peekLiveStatus } from '@/lib/liveStatusPeek';
 import { contentUrl } from '@/lib/videos';
-import { broadcastEventJsonLd, organizationJsonLd, recordingVideoJsonLd } from '@/lib/jsonLd';
+import { recordingVideoJsonLd } from '@/lib/jsonLd';
 import { pageMetadata } from '@/lib/seo';
 import { socialLinks } from '@/lib/site';
 import styles from './page.module.css';
@@ -52,7 +53,7 @@ async function loadLiveData(locale: string) {
   ]);
   const renderedAt = Date.now();
   const liveUrl = `${SITE_URL}/${locale}/live`;
-  const organizer = organizationJsonLd({ name: all('site.name') });
+  // The scheduled broadcasts' Events are written by the calendar section (LiturgicalCalendarSection), once.
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -65,7 +66,6 @@ async function loadLiveData(locale: string) {
         inLanguage: locale,
         isPartOf: { '@id': `${SITE_URL}/#website` },
       },
-      ...schedule.filter((b) => b.start > renderedAt).map((b) => broadcastEventJsonLd(b, { liveUrl, organizer })),
       ...recordings.map(recordingVideoJsonLd),
       ...pastBroadcasts.map((video) => ({
         '@type': 'VideoObject',
@@ -118,6 +118,9 @@ export default async function LivePage({ params }: PageProps<'/[locale]/live'>) 
           }
         />
       </div>
+
+      {/* The Christian calendar: feasts of both traditions and the scheduled broadcasts (docs/LITURGICAL-CALENDAR.md). */}
+      <LiturgicalCalendarSection locale={locale} />
 
       <section className="ui-section" aria-labelledby="past-broadcasts-title">
         <Reveal className="ui-container">

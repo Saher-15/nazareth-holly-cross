@@ -82,6 +82,13 @@ but only a person can check the wording: see `docs/TRANSLATION-REVIEW.md` for wh
 
 ¹ German "Glaskunst" is what the shop copy uses; "Glasmalerei" / "Buntglas" would be the precise word and is on the review list.
 
+## Feast names
+
+The names of the feasts of the Church year, Catholic and Orthodox, in every language are the ones in
+`web/src/messages/<language>.json` under `pilgrim.calendar.feasts` (`name` for the Catholic name, `orthodoxName` for
+the Orthodox one where it differs). Use those words anywhere else on the site; their open questions are in
+`docs/TRANSLATION-REVIEW.md` and their sources and conventions in `docs/LITURGICAL-CALENDAR.md`.
+
 ## Numbers
 
 - **Western digits (0-9) everywhere**, in Hebrew and Arabic too. Arabic-Indic digits (٠-٩) are never used:

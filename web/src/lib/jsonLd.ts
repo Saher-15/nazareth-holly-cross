@@ -112,26 +112,6 @@ export function contactPointJsonLd(name: string): JsonLd {
   };
 }
 
-/**
- * An announced live broadcast (GET /live/schedule) as an online Event: where to watch it is the /live page of the
- * language (`liveUrl`). No end date: the team announces a start, not an end.
- */
-export function broadcastEventJsonLd(
-  broadcast: { title: string; description: string; start: number },
-  { liveUrl, organizer }: { liveUrl: string; organizer: JsonLd },
-): JsonLd {
-  return {
-    '@type': 'Event',
-    name: broadcast.title,
-    ...(broadcast.description ? { description: broadcast.description } : {}),
-    startDate: new Date(broadcast.start).toISOString(),
-    eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
-    eventStatus: 'https://schema.org/EventScheduled',
-    location: { '@type': 'VirtualLocation', url: liveUrl },
-    organizer,
-  };
-}
-
 /** A recording of a past broadcast (GET /live/recordings) as a VideoObject played in Cloudflare Stream's player. */
 export function recordingVideoJsonLd(recording: {
   title: string;
