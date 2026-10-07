@@ -83,9 +83,59 @@ export function looksValid(token: string | undefined, nowMs = Date.now()): boole
   return true;
 }
 
-/** Only same-site relative paths are valid redirect targets after sign-in. */
+// Characters that never belong in a sign-in redirect target, anywhere in it: every control character (browsers DROP
+// tab, CR and LF while parsing a URL, so "/\t/evil.example" becomes "//evil.example"), every kind of whitespace, the
+// invisible format characters (zero-width, bidi overrides, BOM) and the backslash (browsers read it as "/").
+const UNSAFE_IN_NEXT = /[\u0000-\u0020\u007f-\u00a0\u00ad\u1680\u180e\u2000-\u200f\u2028-\u202f\u205f-\u206f\u3000\ufeff\\]/;
+const NEXT_BASE = 'http://x';
+const MAX_NEXT = 2048;
+
+/** Every form of the value a browser could end up using: as given, and percent-decoded (repeatedly) until stable. */
+function decodedForms(value: string): string[] | null {
+  const forms = [value];
+  let current = value;
+  for (let i = 0; i < 3; i += 1) {
+    let next: string;
+    try {
+      next = decodeURIComponent(current);
+    } catch {
+      return null; // a malformed escape: refuse rather than guess
+    }
+    if (next === current) return forms;
+    forms.push(next);
+    current = next;
+  }
+  return forms;
+}
+
+/**
+ * The page to go to after sign-in (security review 06, finding 4): only a path on this dashboard. Anything else gives
+ * '/'. The value must start with exactly one '/', contain no backslash, control character or whitespace (also once
+ * percent-decoded), resolve against a dummy origin to that same origin, and still start with exactly one '/' after the
+ * URL parser normalised it ("/a/..//evil" becomes "//evil"). The NORMALISED path and query are returned, so what the
+ * browser navigates to is exactly what was checked. The sign-in page and the API routes are never targets.
+ */
 export function safeNextPath(value: string | null | undefined): string {
-  if (!value || !value.startsWith('/') || value.startsWith('//') || value.startsWith('/\\') || /[\r\n]/.test(value)) return '/';
-  if (value.startsWith('/api/') || value.startsWith('/login')) return '/';
-  return value;
+  if (typeof value !== 'string' || value.length === 0 || value.length > MAX_NEXT) return '/';
+  const forms = decodedForms(value);
+  if (!forms) return '/';
+  for (const form of forms) {
+    if (!form.startsWith('/') || form.startsWith('//') || UNSAFE_IN_NEXT.test(form)) return '/';
+  }
+  let url: URL;
+  try {
+    url = new URL(value, NEXT_BASE);
+  } catch {
+    return '/';
+  }
+  if (url.origin !== NEXT_BASE || url.username || url.password) return '/';
+  const path = url.pathname;
+  if (!path.startsWith('/') || path.startsWith('//') || path.includes('\\')) return '/';
+  // The sign-in page and the API routes are never a target, however they are spelled (/%61pi/... is /api/...).
+  for (const form of decodedForms(path) ?? [path]) {
+    const lower = form.toLowerCase();
+    if (lower === '/api' || lower.startsWith('/api/') || lower === '/login' || lower.startsWith('/login/')) return '/';
+  }
+  const target = `${path}${url.search}`;
+  return target.startsWith('//') ? '/' : target;
 }

@@ -83,6 +83,81 @@ describe('safeNextPath', () => {
       expect(safeNextPath(bad as string | null | undefined)).toBe('/');
     }
   });
+
+  // Security review 06, finding 4: browsers drop TAB, CR and LF while parsing a URL, so "/\t/evil.example" reached
+  // location.assign as "//evil.example" (another site). Every one of these must give '/'.
+  const NASTY: [string, string][] = [
+    ['a tab after the slash', '/\t/evil.example'],
+    ['a tab, percent-encoded', '/%09/evil.example'],
+    ['a tab first', '\t//evil.example'],
+    ['a newline after the slash', '/\n/evil.example'],
+    ['a carriage return after the slash', '/\r/evil.example'],
+    ['CR LF encoded', '/%0d%0a/evil.example'],
+    ['a NUL', '/\u0000/evil.example'],
+    ['a vertical tab', '/\u000b/evil.example'],
+    ['a form feed', '/\u000c/evil.example'],
+    ['DEL', '/\u007f/evil.example'],
+    ['a C1 control', '/\u0085/evil.example'],
+    ['a space', '/ /evil.example'],
+    ['a leading space', ' //evil.example'],
+    ['a space, encoded', '/%20/evil.example'],
+    ['a no-break space', '/\u00a0/evil.example'],
+    ['an ideographic space', '/\u3000/evil.example'],
+    ['a zero-width space', '/\u200b/evil.example'],
+    ['a right-to-left override', '/\u202e/evil.example'],
+    ['a line separator', '/\u2028/evil.example'],
+    ['a byte-order mark', '/\ufeff/evil.example'],
+    ['a backslash', '/\\evil.example'],
+    ['a backslash, encoded', '/%5Cevil.example'],
+    ['a backslash, encoded twice', '/%255Cevil.example'],
+    ['a backslash later in the path', '/orders\\..\\..\\evil'],
+    ['two slashes', '//evil.example'],
+    ['three slashes', '///evil.example'],
+    ['two slashes, encoded', '/%2Fevil.example'],
+    ['two slashes, encoded twice', '/%252Fevil.example'],
+    ['dot segments that end in two slashes', '/a/..//evil.example'],
+    ['a dot segment that ends in two slashes', '/.//evil.example'],
+    ['an encoded dot segment', '/%2e%2e//evil.example'],
+    ['a scheme', 'http://evil.example'],
+    ['a scheme without slashes', 'http:evil.example'],
+    ['a javascript: URL', 'javascript:alert(document.cookie)'],
+    ['a data: URL', 'data:text/html,<script>alert(1)</script>'],
+    ['credentials', '//user:pass@evil.example'],
+    ['a relative path', 'orders'],
+    ['a dot path', './orders'],
+    ['a malformed escape', '/orders%'],
+    ['a malformed escape later', '/orders?q=%E0%A4%A'],
+    ['the sign-in page', '/login'],
+    ['the sign-in page with a query', '/login?next=/orders'],
+    ['the sign-in page via dot segments', '/orders/../login'],
+    ['an API route', '/api/session/logout'],
+    ['an API route via dot segments', '/orders/../api/session/logout'],
+    ['an API route, encoded', '/%61pi/session/logout'],
+    ['too long', `/${'a'.repeat(3000)}`],
+  ];
+  it.each(NASTY)('refuses %s', (_label, value) => {
+    expect(safeNextPath(value)).toBe('/');
+  });
+
+  it.each([
+    ['/', '/'],
+    ['/orders', '/orders'],
+    ['/orders?status=pending&page=2', '/orders?status=pending&page=2'],
+    ['/orders/64b000000000000000000001', '/orders/64b000000000000000000001'],
+    ['/settings#totp', '/settings'], // the fragment is dropped, it never reaches the server anyway
+    ['/products/./new', '/products/new'], // the normalised form is returned
+    ['/orders?q=caf%C3%A9', '/orders?q=caf%C3%A9'],
+    ['/loginx', '/loginx'], // only /login itself is excluded
+  ])('keeps %s as %s', (value, expected) => {
+    expect(safeNextPath(value)).toBe(expected);
+  });
+
+  it('what it returns always resolves to this site', () => {
+    for (const [, value] of NASTY) {
+      const target = safeNextPath(value);
+      expect(new URL(target, 'https://admin.nazarethholycross.com').origin).toBe('https://admin.nazarethholycross.com');
+    }
+  });
 });
 
 describe('CSRF check', () => {
