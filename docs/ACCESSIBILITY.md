@@ -69,6 +69,10 @@ How it is built, in short:
   never on the payment pages (3.2.5 and 2.2.4 are AAA, but the same care). The header's live dot carries words for
   screen readers and stops pulsing with less motion. Each recording's poster is one button named "Play: <title>"; the
   player (Cloudflare's frame, with a title) replaces it only after a press and takes the focus.
+- The home page's "Today in Nazareth" band has a clock and, when a broadcast is scheduled, a countdown: both change once
+  a minute and never show seconds, the calm form the `/live` countdown uses for visitors who asked for less motion.
+  The home hero's film (since 2026-10-07 the whole silent tour) is never started under reduced motion or "Stop
+  animations", and its pause button stops it.
 - Moving backgrounds have their own pause button (`<MotionToggle>`): the home hero (film and Ken Burns zoom) and
   every `<PlaceHero>` (the five holy sites, the sites index, tour, about, contact, credits, gallery, gospel, plan,
   prayers, visit).

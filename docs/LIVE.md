@@ -91,6 +91,15 @@ Full contract: [ADMIN.md](ADMIN.md) section 4.6. In short:
 | `GET /live/recordings` | anyone | `{ items: [{ id, title, date, durationSeconds, thumbnailUrl, playbackUrl }] }`: published and ready |
 | `GET /live/schedule` | anyone | `{ timeZone, items: [{ id, title, description, startsAt, status }] }`: published, upcoming |
 
+The home page's "Today in Nazareth" band (`web/src/components/home/TodayInNazareth.tsx`) shows the broadcast too: "Live
+now" from the same server-side peek as the header's dot, else the next item of `GET /live/schedule`
+(`{ timeZone, items: [{ id, title, description, startsAt, status }] }`, added by the recordings and schedule work) with
+its start in Nazareth time and a countdown in minutes. The schedule is read on the server at most once a minute per
+instance (`web/src/components/home/broadcast.ts`); while the API has no such route (404), or answers something else,
+the band leaves the broadcast out. When the live page gets its own schedule reader in `web/src/lib/`, point the home
+band at it and delete `broadcast.ts`.
+
+
 Audit: `live.start` (with `scheduleId`), `live.stop` (with `reason`: `stopped` or `forced`, and the minutes),
 `live.auto_end`, `live.start_failed`; `live.recording_create`, `_renew`, `_uploaded`, `_update`, `_delete`, `_status`
 (the system: Cloudflare finished or failed), `_failed`; `live.schedule_create`, `_update`, `_delete`.

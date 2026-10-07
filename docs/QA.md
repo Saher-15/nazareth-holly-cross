@@ -106,7 +106,7 @@ Severity: **High** = visitors cannot reach content or money is at risk; **Med** 
 
 | Sev | Where | Note |
 |---|---|---|
-| Med | home hero video | **Fixed for the hero** (a 2 MB, 16 s silent loop, wide screens only, after the page loaded; see PERFORMANCE.md). `tour.mp4` (851 MB) and `interview.mp4` (69 MB) are still the Firebase originals until the re-encoded files are uploaded (instructions in PERFORMANCE.md) |
+| Med | home hero video | **Fixed for the hero**: since 2026-10-07 the whole tour as a silent background, self-hosted in twelve 30 s parts (20.1 MB in all, 1.4 MB for the first 30 s, wide screens with a good connection only, the 16 s loop as the fallback; see PERFORMANCE.md). `tour.mp4` (851 MB) and `interview.mp4` (69 MB) on `/tour` and `/live` are still the Firebase originals until the re-encoded files are uploaded (instructions in PERFORMANCE.md) |
 | Med | images | **Fixed** for the home hero and the heroes of shop, candle, FAQ, reviews, search, legal, prayers, live, plan, visit, tour (licensed 2560 px photos, see MEDIA.md and PERFORMANCE.md). Still soft: the older gallery photos in `public/images/{latin,greek,mary,old,nazareth}` (`node scripts/media/audit.mjs` lists them) and the two video posters (the videos themselves are 520x850) |
 | Med | videos | no captions or transcript on any video (WCAG 1.2.2); content task |
 | Med | caching | **Fixed**: a client without Accept-Language or cookie (probe, curl) no longer gets `Set-Cookie: NEXT_LOCALE`; a browser gets it only when it opens a language other than its own (next-intl's rule, kept). Every page is still rendered per request because of the CSP nonce, so the HTML is `no-store` by design; see PERFORMANCE.md |

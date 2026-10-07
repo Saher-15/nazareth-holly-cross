@@ -451,11 +451,21 @@ Photographs are the point of the site. The rules:
   preloaded). Everything else is lazy. Never put `priority` on more than one image per page.
 - **Weight:** the home hero uses lean copies (`<MediaPicture lean />`, AVIF quality 38) because it sits under a
   dark gradient. Photos that are looked at (gallery, viewer) stay at full quality.
-- **Video:** the home hero loop is silent, 16 seconds, AV1/WebM then H.264/MP4, mounted only on screens 768 px or
-  wider, not under `prefers-reduced-motion`, `Save-Data` or a 2g/3g connection, only after the `load` event and
-  when the browser is idle (`web/src/components/home/HeroVideo.tsx`). Other videos use `preload="none"` and a
-  licensed poster. A video over 8 MB does not go in the repository (upload it to Firebase Storage). Videos that carry
-  speech need captions (WCAG 1.2.2: still an open content task, `docs/QA.md`).
+- **Video:** the home hero film is the whole virtual tour as a silent background (960x540 H.264, 1.5x faster,
+  subtitles and logo cropped out, 20.1 MB, served by the site itself, no video service), in twelve 30-second parts
+  (`web/public/videos/hero-tour-00.mp4` to `web/public/videos/hero-tour-11.mp4`) that play one after the other on two
+  stacked players, so a browser never buffers more than the part on screen and the next; the 16 s loop
+  (`web/public/videos/hero-loop.webm`, `web/public/videos/hero-loop.mp4`) is the fallback when the tour cannot be
+  loaded. It is mounted only on screens 768 px or wider with a good connection (`navigator.connection.effectiveType`
+  "4g" where the browser reports it, never with `Save-Data`), never under `prefers-reduced-motion` or the panel's "Stop
+  animations", only after the `load` event and when the browser is idle, with `preload="none"`; it plays only while
+  the hero is on screen and the tab is visible, and the hero's `<MotionToggle>` pauses it
+  (`web/src/components/home/HeroVideo.tsx`). The tour's burned-in place-name cards are painted out in the encode
+  (the crop would have cut them in half). Other videos use
+  `preload="none"` and a licensed poster. A video over 8 MB does not go in the repository (upload it to Firebase
+  Storage); the hero tour is the one exception the owner decided (no per-minute bill): no part over 3 MB and the
+  whole film under 25 MB (`web/tests/unit/perf-assets.test.ts`). Videos that carry speech need captions (WCAG 1.2.2: still an open content
+  task, `docs/QA.md`); the hero film is silent and has none.
 - **The logo.** The master is `web/public/images/logo.webp` (1024 x 1024, the emblem on its own navy ground, no
   transparency; it is also the app icon and the `Organization` logo in structured data). The header shows it round,
   as a medallion with a fine gold ring (`<BrandLogo>`), from pre-sized files in `web/public/images/brand/` (48, 96 and
@@ -530,7 +540,7 @@ holding `<div className="ui-container">`.
 | 600 / 1100 px | Sets of exactly four cards (`.cardsFour` in `web/src/components/pilgrim/shared.module.css`, the "getting there" cards of `/visit`): two by two from 600, one row of four from 1100, never three and one alone |
 | 560-859 px | Product page in one column on a tablet: the photo frame is 4:3, not square, so the price and the cart button stay in view |
 | 640 / 700 px | Holy-site gallery 3 columns (640); shop product grid 3 columns (700) |
-| 768 px | The home hero film may mount (JavaScript check in `HeroVideo`); the hero photo size hint changes |
+| 768 px | The home hero film may mount (JavaScript check in `HeroVideo`, which also needs a good connection); the hero photo size hint changes |
 | 860 / 900 / 920 px | Two-column layouts begin: contact, product, cart, story + visit card, checkout |
 | 960 / 1000 px | Candle page two columns; footer five columns; gallery 4 columns |
 | 1040 px | Shop: filter sidebar (250px) replaces the filter drawer |
@@ -595,7 +605,7 @@ region, `( )` a button, `{ }` a card on `.ui-glass`.
 +-----------------------------------------------------------------+
 | header (sticky; open over the photo, solid after scrolling)     |
 +-----------------------------------------------------------------+
-|                 HomeHero: full-bleed photo (+ silent film >= 768)|
+|     HomeHero: full-bleed photo (+ silent tour film >= 768, 4g)  |
 |                 eyebrow   (gold, uppercase)                      |
 |                 H1 "Walk where Jesus walked"  (serif, 4xl)       |
 |                 lead (cream)                                     |
@@ -603,11 +613,15 @@ region, `( )` a button, `{ }` a card on `.ui-glass`.
 |                 [ 10% discount line ]       ( sound toggle )     |
 |                       Scroll v                                   |
 +-----------------------------------------------------------------+
+| TodayInNazareth time, sunrise/sunset, feast, next broadcast      |
 | CandleStrip     the flame counter + the way to light a candle    |
 | SitesCarousel   scroll-snap row of 5 place cards + tour card     |
+| SitesMap        drawn map of the 5 sites + walking minutes       |
 | VerseOfDay      one verse, the same for every visitor that day   |
 | Souvenirs       featured products (server rendered, or a note)   |
-| Voices          visitor reviews (left out when there are none)   |
+| NewestPrayers   prayer wall figures + 3 newest (or left out)     |
+| Voices          visitor reviews with their month (or left out)  |
+| FollowUs        the three social profiles, labelled buttons      |
 | Story           Nazareth in Scripture, invitation to keep close  |
 | StickyCta       "light a candle" pill after the hero scrolled    |
 +-----------------------------------------------------------------+
@@ -615,7 +629,19 @@ region, `( )` a button, `{ }` a card on `.ui-glass`.
 ```
 
 Phone: the three hero buttons stack full width; the carousel is swiped; the sticky candle button spans the bottom
-edge and the floating accessibility and back-to-top buttons step up above it. The top 2600 px of the page on a phone (the strip is shown at 77% of its real width):
+edge and the floating accessibility and back-to-top buttons step up above it; the "Today in Nazareth" band shows
+its items one per row (two from 560 px, one row from 1000 px); the map sits above its list.
+
+Rules of the newer home sections (2026-10-07): every figure is real or left out. The band computes sunrise and sunset
+itself (`web/src/lib/sun.ts`, no weather service), names the feast of the day or the next great feast
+(`web/src/components/home/feasts.ts`, a stand-in until the liturgical calendar of the branch feat/christian-calendar lands) and
+shows a broadcast only when the API says one is live or scheduled (`GET /live/status`, `GET /live/schedule`; a missing
+route hides it). Its clock and countdown change once a minute, never every second. The prayer wall shows the API's
+count of prayers and the number of known countries among the newest 50 (it says so in the label); candles lit are not
+shown because no public figure exists. The map is an inline SVG placed by the sites' coordinates, hidden from
+assistive technology; the numbered list beside it carries the same content.
+
+The top 2600 px of the page on a phone, before these sections were added (the strip is shown at 77% of its real width):
 
 ![The home page on a phone, scrolled through the first sections](design/site-home-phone-strip.jpg)
 
@@ -1002,7 +1028,7 @@ shop has full skeleton sets (`web/src/components/shop/Skeletons.tsx`). Shop page
 
 | Area | Components (all under `web/src/components/`) | Notes |
 |---|---|---|
-| Home | `<HomeHero>`, `<HeroVideo>`, `<SoundToggle>`, `<CandleStrip>`, `<SitesCarousel>`, `<VerseOfDay>`, `<Souvenirs>`, `<Voices>`, `<Story>`, `<StickyCta>` in `web/src/components/home/` | Sections render on the server; each is left out or replaced by a friendly note when its data cannot be loaded. Every section uses `--section-space`. The carousel works with touch, mouse drag, arrow buttons and keyboard (arrows, Home, End) in both directions. The candle strip draws a rack of candles (wicks, a few heights, a gold ledge; lit ones glow) above a quiet cream count; the souvenir cards share the look of `<ProductCard>` (serif name, gold price at the foot) |
+| Home | `<HomeHero>`, `<HeroVideo>`, `<SoundToggle>`, `<TodayInNazareth>` (with `<NazarethClock>` and `<StartsIn>`), `<CandleStrip>`, `<SitesCarousel>`, `<SitesMap>`, `<VerseOfDay>`, `<Souvenirs>`, `<NewestPrayers>`, `<Voices>`, `<FollowUs>`, `<Story>`, `<StickyCta>` in `web/src/components/home/` | Sections render on the server; each is left out or replaced by a friendly note when its data cannot be loaded. Every section uses `--section-space`. The carousel works with touch, mouse drag, arrow buttons and keyboard (arrows, Home, End) in both directions. The candle strip draws a rack of candles (wicks, a few heights, a gold ledge; lit ones glow) above a quiet cream count; the souvenir cards share the look of `<ProductCard>` (serif name, gold price at the foot) |
 | Holy sites | `<SiteList>`, `<PlaceCards>`, `<PlaceStory>`, `<VisitCard>`, `<PlaceGallery>`, `<Lightbox>`, `<PhotoImage>`, `<ExternalLink>` in `web/src/components/places/` | The `<Lightbox>` is a native modal `<dialog>` (focus trapped, Escape closes, arrows and swipes change photo, mirrored in RTL, focus returns to the tile). Its code loads on the first click |
 | Shop | `<ShopBrowser>`, `<FilterPanel>`, `<FilterDrawer>`, `<ProductCard>`, `<ProductStrip>`, `<ProductRow>`, `<ProductDetail>`, `<ImageZoom>`, `<QuantityStepper>`, `<CartView>`, `<CartPill>`, `<WishlistButton>`, `<WishlistLink>`, `<WishlistView>`, `<ShareButton>`, `<ProductReviews>`, `<ProductReviewForm>`, `<RecentlyViewed>`, `<RetryButton>`, `<StateCard>`, `<GridSkeleton>`, `<ProductSkeleton>`, `<CartSkeleton>`, `<ShopBarSkeleton>` in `web/src/components/shop/` | State in the URL; the product photo is contained on a soft night backdrop (`--night-3` to `--night-2`, like the photo viewer), never a cream mat; `<ProductStrip>` fades out at an edge where more cards wait (a mask, off while the keyboard is inside the row); the heart is a toggle with `aria-pressed` and a polite status line; a stepper button at its limit is `aria-disabled` (focus stays); cart and wishlist live in `localStorage` and are validated on read |
 | Checkout and payments | `<StepIndicator>`, `<Field>`, `<TextField>`, `<DonePanel>`, `<PayPalPanel>`, `<LazyPayPalPanel>` in `web/src/components/checkout/` | PayPal loads lazily at the payment step; the server decides every amount; the PayPal SDK gets the CSP nonce (`useCspNonce`) |
@@ -1278,7 +1304,7 @@ Visitors are on phones and slow networks. Performance is part of "done".
 | Images loaded before scrolling | under 1 MB per page | the same test | 109-698 kB |
 | JavaScript, all of it, compressed | under 350 kB per page | the same test | 195-295 kB (React, Next, next-intl, the layout) |
 | Fonts | under 250 kB per page | the same test | 90 kB (two Latin files preloaded) |
-| Hero film | under 3 MB, never on a phone | the same test | 1.4 MB WebM, 2.0 MB MP4 |
+| Hero film | under 3 MB downloaded in its first seconds, never on a phone; each part under 3 MB, the whole tour under 25 MB | the same test, and `web/tests/unit/perf-assets.test.ts` for the files | the tour: 12 parts of 1.0-2.8 MB, 20.1 MB in all (460 kbit/s, about 3.4 MB per minute watched; 1.4 MB in the first seconds); the fallback loop 1.4 MB WebM, 2.0 MB MP4 |
 | Cache | photos and videos one month; other images one day; `/_next/static` immutable; an anonymous request gets no `Set-Cookie` | the same test | |
 
 Guidelines for new work (not enforced by a test, but reviewers will ask):

@@ -1,0 +1,131 @@
+/* "Today in Nazareth": a quiet glass band under the hero. Mobile first: one item per row, two from 560 px, all in one
+   row from 1000 px (three or four, depending on whether a broadcast is announced). */
+.section {
+  /* the rhythm of every page section (--section-space, like .ui-section) */
+  padding-block: var(--section-space);
+}
+
+.band {
+  padding: clamp(18px, 3vw, 28px);
+}
+
+.title {
+  margin: 0 0 var(--space-4);
+  text-align: center;
+}
+
+.items {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-5);
+  margin: 0;
+}
+
+.item {
+  display: grid;
+  align-content: start;
+  gap: 4px;
+  min-width: 0;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--muted);
+}
+.icon {
+  flex: none;
+  color: var(--gold);
+}
+
+.value {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--cream);
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: break-word;
+}
+.pair {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--space-4);
+}
+
+.sub {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--muted);
+  overflow-wrap: break-word;
+}
+
+.action {
+  margin: 4px 0 0;
+  font-size: var(--text-sm);
+}
+/* The link is short text in a dense band: give it the full touch height without moving the text. */
+.action a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+}
+
+/* "Live now": the reserved on-air colour with night ink (5.89:1, docs/DESIGN-GUIDE.md 3.2), always with the words. */
+.onAir {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--live);
+  color: var(--night);
+  font-weight: 700;
+  font-size: var(--text-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.onAir:lang(he),
+.onAir:lang(ar) {
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: var(--text-sm);
+}
+.dot {
+  inline-size: 8px;
+  block-size: 8px;
+  border-radius: 50%;
+  background: var(--night);
+}
+
+@media (min-width: 560px) {
+  .items {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* One row of equal columns, however many items there are; not with the accessibility panel's large text (two
+   columns stay readable there). */
+@media (min-width: 1000px) {
+  :root:not([data-a11y-text='150'], [data-a11y-text='175'], [data-a11y-text='200']) .items {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+  :root:not([data-a11y-text='150'], [data-a11y-text='175'], [data-a11y-text='200']) .item {
+    padding-inline: var(--space-5);
+  }
+  :root:not([data-a11y-text='150'], [data-a11y-text='175'], [data-a11y-text='200']) .item + .item {
+    border-inline-start: 1px solid var(--glass-line);
+  }
+  :root:not([data-a11y-text='150'], [data-a11y-text='175'], [data-a11y-text='200']) .item:first-child {
+    padding-inline-start: 0;
+  }
+  :root:not([data-a11y-text='150'], [data-a11y-text='175'], [data-a11y-text='200']) .item:last-child {
+    padding-inline-end: 0;
+  }
+}
