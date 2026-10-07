@@ -130,6 +130,18 @@ describe('the answers it understands', () => {
     expect(privacyLookupSchema.safeParse({ found: { orders: 1 } }).success).toBe(false);
   });
 
+  it('prayers, product reviews and the "not erased" list: read when sent, defaulted for an older API, unknown codes dropped', () => {
+    const counts = { orders: 1, candles: 0, contacts: 2, reviews: 0, payments: 3 };
+    const older = privacyEraseSchema.parse({ erased: counts });
+    expect(older.erased).toMatchObject({ prayers: 0, productReviews: 0 });
+    expect(older.notErased).toEqual([]);
+    const now = privacyEraseSchema.parse({ erased: { ...counts, prayers: 2, productReviews: 1 }, notErased: ['prayersNotSearched', 'gmailSent', 'backups', 'something-new'] });
+    expect(now.erased).toMatchObject({ prayers: 2, productReviews: 1 });
+    expect(now.notErased).toEqual(['prayersNotSearched', 'gmailSent', 'backups']);
+    expect(privacyLookupSchema.parse({ found: counts, notSearched: ['productReviewsNotSearched'] }).notSearched).toEqual(['productReviewsNotSearched']);
+    expect(privacyEraseSchema.safeParse({ erased: { ...counts, prayers: 'two' } }).success).toBe(false);
+  });
+
   it('the dashboard still parses from an API that predates the ledger (no alerts)', () => {
     const minimal = {
       totals: { orders: 0, ordersPending: 0, revenue: 0, candles: 0, candlesPending: 0, contacts: 0, contactsOpen: 0, products: 0, productReviews: 0, prayers: 0, reviews: 0 },

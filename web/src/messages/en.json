@@ -1250,7 +1250,7 @@
         "intro": "All fields are needed so that we can reply.",
         "fullName": "Full name",
         "email": "E-mail address",
-        "phone": "Phone number",
+        "phone": "Phone number (optional)",
         "phoneHint": "Include the country code, for example +1 555 123 4567.",
         "msg": "Your message",
         "counter": "{count} / {max}",

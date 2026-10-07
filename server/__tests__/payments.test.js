@@ -141,7 +141,7 @@ describe('newOrder', () => {
       .send({ ...address, totalPrice: 0.01, products: [{ productID: OID1, productName: 'Olive oil', quantity: 2, color: '' }] });
     expect(res.status).toBe(201);
     expect(orderCreate.mock.calls[0][0].totalPrice).toBe(23);
-    expect(sendMail).toHaveBeenCalledOnce();
+    expect(sendMail).not.toHaveBeenCalled(); // not paid: saved, but no mail to a typed address (security review 06, finding 5)
   });
 
   it('still answers 422 when a field is missing', async () => {

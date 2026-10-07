@@ -1,11 +1,9 @@
 import express from "express"
 import Contact from "../model/contact.js"
 import { config } from "../config/env.js"
-import { requireAdmin } from '../middleware/auth.js';
 import { asyncHandler } from "../middleware/asyncHandler.js"
 import { strictLimiter } from '../utils/security.js';
 import { isEmail } from '../utils/validate.js';
-import { LEGACY_LIST_CAP, sendCapped } from '../utils/pagination.js';
 
 
 const routerContact = express.Router();
@@ -25,8 +23,14 @@ routerContact.post('/contact_us_request', strictLimiter, asyncHandler(async (req
         return res.status(422).json({error:"Bad input: invalid email format"})
     }
 
-    if(!phone || typeof phone !== 'string' || phone.trim() === ''){
-        return res.status(422).json({error:"Bad input: phone is required"})
+    // The phone number is optional (data minimisation, security review 06 finding 8): absent, null or empty means
+    // "not given". When it is given it must be text; the model bounds it at 50 characters (a longer one is a 400).
+    let phoneText = '';
+    if (phone !== undefined && phone !== null && phone !== '') {
+        if (typeof phone !== 'string') {
+            return res.status(422).json({error:"Bad input: phone must be text"})
+        }
+        phoneText = phone.trim();
     }
 
     if(!msg || typeof msg !== 'string' || msg.trim() === ''){
@@ -36,44 +40,12 @@ routerContact.post('/contact_us_request', strictLimiter, asyncHandler(async (req
     const newContact = new Contact({
         fullName: fullName,
         email: email,
-        phone: phone,
+        phone: phoneText,
         msg: msg
     })
 
     await newContact.save();
     res.status(201).send("Created")
-}))
-
-routerContact.get('/get_all_contact_us', requireAdmin, asyncHandler(async (req, res) => {
-    const requests = await Contact.find().sort({ createdAt: -1 }).limit(LEGACY_LIST_CAP).lean();
-    sendCapped(res, requests)
-}))
-
-routerContact.get('/get_request/:id', requireAdmin, asyncHandler(async (req, res) => {
-    const request = await Contact.findById(req.params.id)
-
-    if (!request) {
-        return res.status(204).send("No Content");
-    }
-
-    res.status(200).send(request);
-}))
-
-routerContact.patch('/request_done/:id', requireAdmin, asyncHandler(async (req, res) => {
-    const requestId = req.params.id;
-
-    const updatedRequest = await Contact.findByIdAndUpdate(requestId, { done: true }, { new: true });
-
-    if (!updatedRequest) {
-        return res.status(204).send("No Content");
-    }
-
-    res.status(200).send("Success")
-}))
-
-routerContact.delete('/delete_request/:id', requireAdmin, asyncHandler(async (req, res) => {
-    await Contact.findByIdAndDelete(req.params.id);
-    res.status(200).send("Success");
 }))
 
 export default routerContact;

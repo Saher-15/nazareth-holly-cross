@@ -56,15 +56,15 @@ describe('public reads: cache headers', () => {
     expect(get('/product/64b000000000000000000001/similar')).toBeTruthy();
     expect(get('/product/64b000000000000000000001/reviews')).toBeTruthy();
     expect(get('/prayer/getPrayers')).toBeTruthy();
-    expect(get('/product/addProduct', 'POST')).toBeNull();
-    expect(get('/product/deleteProduct/64b000000000000000000001', 'DELETE')).toBeNull();
-    expect(get('/order/getAllOrders')).toBeNull();
+    expect(get('/product/64b000000000000000000001/reviews', 'POST')).toBeNull();
+    expect(get('/order/newOrder', 'POST')).toBeNull();
+    expect(get('/admin/orders')).toBeNull();
     expect(get('/admin/anything')).toBeNull();
     expect(get('/review/addReview', 'POST')).toBeNull();
   });
 
   it('private and write routes carry no public cache header', async () => {
-    const res = await request(app).get('/order/getAllOrders').set('X-Forwarded-For', '10.5.0.4');
+    const res = await request(app).get('/admin/orders').set('X-Forwarded-For', '10.5.0.4');
     expect(res.status).toBe(401);
     expect(res.headers['cache-control'] ?? '').not.toMatch(/public/);
   });
@@ -75,7 +75,7 @@ describe('public reads: their own allowance', () => {
     const read = await request(app).get('/product/getNProducts').set('X-Forwarded-For', '10.5.1.1');
     expect(READ_LIMIT).toBeGreaterThanOrEqual(1000);
     expect(limitOf(read)).toBe(READ_LIMIT);
-    const other = await request(app).get('/order/getAllOrders').set('X-Forwarded-For', '10.5.1.1');
+    const other = await request(app).get('/order/newOrder').set('X-Forwarded-For', '10.5.1.1');
     expect(limitOf(other)).toBe(200);
   });
 
@@ -91,7 +91,7 @@ describe('public reads: their own allowance', () => {
   it('reads do not use up the strict counter of the same address', async () => {
     const ip = '10.5.3.1';
     for (let i = 0; i < 50; i += 1) await request(app).get('/product/getNProducts').set('X-Forwarded-For', ip);
-    const other = await request(app).get('/order/getAllOrders').set('X-Forwarded-For', ip);
+    const other = await request(app).get('/order/newOrder').set('X-Forwarded-For', ip);
     expect(other.headers.ratelimit).toMatch(/remaining=199\b/);
   });
 });
