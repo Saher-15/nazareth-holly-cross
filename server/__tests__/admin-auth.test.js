@@ -329,13 +329,15 @@ describe('the token guard (any protected route; GET /admin/auth/me here)', () =>
   });
 
   it('does not accept the old admin tokens (shared password / old account) on the dashboard routes', async () => {
-    const shared = (await http.post('/auth/login').set('X-Forwarded-For', freshIp()).send({ password: process.env.ADMIN_PASSWORD })).body.token;
-    expect(shared).toBeTruthy();
-    expect((await get('/admin/auth/me', shared)).status).toBe(401);
-    expect((await get('/admin/dashboard', shared)).status).toBe(401);
-    expect((await get('/admin/orders', shared)).status).toBe(401);
-    expect((await get('/admin/users', shared)).status).toBe(401);
-    expect((await get('/admin/audit', shared)).status).toBe(401);
+    // The sign-ins that issued them were removed; a token issued before that, still within its 8 hours, opens nothing.
+    expect((await http.post('/auth/login').set('X-Forwarded-For', freshIp()).send({ password: 'x' })).status).toBe(404);
+    const shared = jwt.sign({ role: 'admin', auth: 'shared-password' }, process.env.JWT_SECRET, { expiresIn: '8h' });
+    const account = jwt.sign({ role: 'admin', id: '64b000000000000000000009', username: 'saher', auth: 'account' }, process.env.JWT_SECRET, { expiresIn: '8h' });
+    for (const token of [shared, account]) {
+      for (const path of ['/admin/auth/me', '/admin/dashboard', '/admin/orders', '/admin/users', '/admin/audit', '/admin/prayers', '/admin/candles', '/admin/products']) {
+        expect((await get(path, token)).status, path).toBe(401);
+      }
+    }
   });
 });
 

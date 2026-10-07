@@ -1,7 +1,8 @@
 import { describe, it, expect, vi, beforeAll, afterAll, beforeEach } from 'vitest';
+import jwt from 'jsonwebtoken';
 
 // The data routes: lists (pagination, search, status, sort), details, changes, e-mail on shipping, products,
-// CSV export, the dashboard, the audit trail of every change, and the old admin site's routes still working.
+// CSV export, the dashboard, the audit trail of every change, and that the old admin site's routes and tokens are gone.
 
 vi.mock('../model/admin.js', async () => (await import('./helpers/fakes.js')).fakeAdminModule());
 vi.mock('../model/adminSession.js', async () => (await import('./helpers/fakes.js')).fakeModule('AdminSession'));
@@ -149,7 +150,7 @@ describe('GET /admin/orders/:id', () => {
 });
 
 describe('PATCH /admin/orders/:id { done } (shipping)', () => {
-  it('marks shipped and e-mails the customer exactly like /order/orderSent', async () => {
+  it('marks shipped and e-mails the customer (the mail the removed /order/orderSent used to send)', async () => {
     const [o] = fakes.Order.seed([order({ email: 'buyer@example.com' })]);
     const res = await call('patch', `/admin/orders/${o._id}`, editor, { done: true });
     expect(res.status).toBe(200);
@@ -605,59 +606,54 @@ describe('every change is in the audit log (and no password ever is)', () => {
   });
 });
 
-describe('the old admin site keeps working', () => {
-  let legacy;
-  beforeAll(async () => {
-    const res = await http.post('/auth/login').set('X-Forwarded-For', freshIp()).send({ password: process.env.ADMIN_PASSWORD });
-    legacy = { auth: { Authorization: `Bearer ${res.body.token}` } };
-  });
+describe('the legacy admin access is gone (security review 06, finding 1)', () => {
+  // What the removed sign-ins used to issue: an 8-hour token with no session. One issued before the change opens nothing.
+  const legacyTokens = () => [
+    jwt.sign({ role: 'admin', auth: 'shared-password' }, process.env.JWT_SECRET, { expiresIn: '8h' }),
+    jwt.sign({ role: 'admin', id: oid(), username: 'legacy-user', auth: 'account' }, process.env.JWT_SECRET, { expiresIn: '8h' }),
+  ].map((token) => ({ auth: { Authorization: `Bearer ${token}` } }));
 
-  it('a shared-password token still reads the legacy lists (plain arrays)', async () => {
-    fakes.Candle.seed([{ firstName: 'A', lastName: 'B', email: 'a@b.co', prayer: 'Please', done: false }]);
-    fakes.Product.seed([{ name: 'Cross', price: 5, img: 'https://example.com/a.jpg' }]);
-    fakes.Prayer.seed([{ name: 'Maria', country: 'BR', prayer: 'x' }]);
-    for (const path of ['candles', 'products', 'prayers']) {
-      const res = await call('get', `/admin/${path}`, legacy);
-      expect(res.status, path).toBe(200);
-      expect(Array.isArray(res.body), path).toBe(true);
-      expect(res.body).toHaveLength(1);
-    }
-  });
-
-  it('the legacy deletes and the old order routes still work with a legacy token', async () => {
+  it('the legacy lists and deletes that shared an address with the dashboard refuse a legacy token, and change nothing', async () => {
     const [c] = fakes.Candle.seed([{ firstName: 'A', lastName: 'B', email: 'a@b.co', prayer: 'Please', done: false }]);
-    expect((await call('delete', `/admin/candles/${c._id}`, legacy)).body).toEqual({ message: 'Candle deleted' });
-    fakes.Order.seed([order()]);
-    expect((await call('get', '/order/getAllOrders', legacy)).status).toBe(200);
-  });
-
-  it('the shared-password sign-in is marked deprecated but still works', async () => {
-    const res = await http.post('/auth/login').set('X-Forwarded-For', freshIp()).send({ password: process.env.ADMIN_PASSWORD });
-    expect(res.status).toBe(200);
-    expect(res.headers.deprecation).toBe('true');
-  });
-
-  it('a legacy token is not a dashboard token: new-only routes refuse it', async () => {
-    for (const path of ['dashboard', 'orders', 'contacts', 'users', 'audit', 'site-reviews', 'export/orders.csv']) {
-      expect((await call('get', `/admin/${path}`, legacy)).status, path).toBe(401);
+    const [p] = fakes.Product.seed([{ name: 'Cross', price: 5, img: 'https://example.com/a.jpg' }]);
+    const [pr] = fakes.Prayer.seed([{ name: 'Maria', country: 'BR', prayer: 'x' }]);
+    for (const legacy of legacyTokens()) {
+      for (const path of ['candles', 'products', 'prayers', 'product-reviews', 'stats']) {
+        expect((await call('get', `/admin/${path}`, legacy)).status, path).toBe(path === 'stats' ? 404 : 401);
+      }
+      expect((await call('delete', `/admin/candles/${c._id}`, legacy)).status).toBe(401);
+      expect((await call('delete', `/admin/products/${p._id}`, legacy)).status).toBe(401);
+      expect((await call('delete', `/admin/prayers/${pr._id}`, legacy)).status).toBe(401);
+      expect((await call('post', '/admin/products', legacy, { name: 'Injected', price: 1, img: 'https://example.com/x.jpg' })).status).toBe(401);
     }
-    expect((await call('patch', `/admin/candles/${oid()}`, legacy, { done: true })).status).not.toBe(200);
+    expect(fakes.Candle.docs).toHaveLength(1);
+    expect(fakes.Product.docs.map((d) => d.name)).toEqual(['Cross']);
+    expect(fakes.Prayer.docs).toHaveLength(1);
+    expect(audits()).toHaveLength(0);
   });
 
-  it('a dashboard token is not a legacy token: it cannot call the legacy-only routes', async () => {
-    expect((await call('get', '/admin/stats', owner)).status).toBe(401);
-    expect((await call('get', '/order/getAllOrders', owner)).status).toBe(401);
+  it('the old order, candle, contact, product, prayer and review routes no longer exist', async () => {
+    fakes.Order.seed([order()]);
+    const [legacy] = legacyTokens();
+    for (const [method, path] of [
+      ['get', '/order/getAllOrders'], ['get', `/order/getOrder/${oid()}`], ['patch', `/order/orderSent/${oid()}`], ['delete', `/order/deleteOrder/${oid()}`],
+      ['get', '/candle/getAllCandleRequests'], ['get', '/contact/get_all_contact_us'], ['delete', `/prayer/${oid()}`], ['delete', `/review/${oid()}`],
+      ['post', '/product/addProduct'], ['delete', `/product/deleteProduct/${oid()}`],
+    ]) {
+      expect((await call(method, path, legacy)).status, path).toBe(404);
+      expect((await call(method, path, owner)).status, `${path} (dashboard token)`).toBe(404);
+    }
+    expect(fakes.Order.docs).toHaveLength(1);
   });
 
-  it('POST /admin/login (the old account sign-in) is untouched', async () => {
+  it('neither POST /auth/login nor POST /admin/login signs anyone in any more', async () => {
     const { quickHash } = await import('./helpers/fakes.js');
     fakes.Admin.seed([{ username: 'legacy-user', password: quickHash('legacy-password-1') }], { raw: true });
-    const res = await http.post('/admin/login').set('X-Forwarded-For', freshIp()).send({ username: 'legacy-user', password: 'legacy-password-1' });
-    expect(res.status).toBe(200);
-    expect(res.body).toMatchObject({ username: 'legacy-user', token: expect.any(String) });
-    expect(res.headers.deprecation).toBe('true'); // marked deprecated (docs/ADMIN.md)
-    // ...and that token is a legacy token, not a dashboard session
-    expect((await http.get('/admin/auth/me').set('X-Forwarded-For', freshIp()).set('Authorization', `Bearer ${res.body.token}`)).status).toBe(401);
+    for (const [path, body] of [['/admin/login', { username: 'legacy-user', password: 'legacy-password-1' }], ['/auth/login', { password: 'legacy-password-1' }]]) {
+      const res = await http.post(path).set('X-Forwarded-For', freshIp()).send(body);
+      expect(res.status, path).toBe(404);
+      expect(res.body.token).toBeUndefined();
+    }
   });
 });
 

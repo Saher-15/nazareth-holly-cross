@@ -2,201 +2,170 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import request from 'supertest';
 import jwt from 'jsonwebtoken';
 
-// Admin authentication: the two sign-in routes, the token they issue, and what requireAdmin accepts.
+// The legacy admin authentication is GONE (security review 06, finding 1). POST /auth/login (the shared
+// ADMIN_PASSWORD) and POST /admin/login (an account's password) used to give an 8-hour token that skipped the second
+// factor, roles, disabling, lockout, revocation and the audit log; requireAdmin accepted it on a set of legacy routes.
+// These tests prove that: (1) both sign-ins no longer exist, (2) every legacy route no longer exists, (3) a legacy
+// token that was issued before the change and is still within its 8 hours opens nothing, anywhere.
 
 const mocks = vi.hoisted(() => ({ findOne: vi.fn(), orderFind: vi.fn() }));
 
-vi.mock('../model/admin.js', () => ({ default: { findOne: (...a) => mocks.findOne(...a) } }));
+vi.mock('../model/admin.js', () => ({ default: { findOne: (...a) => mocks.findOne(...a), findById: (...a) => mocks.findOne(...a) } }));
 vi.mock('../model/order.js', () => ({ default: { find: (...a) => mocks.orderFind(...a) } }));
 
 const { createApp } = await import('../app.js');
-const { safeEqual, checkSharedPassword, comparePasswordTimingSafe, forLog, verifyAdminToken } = await import('../services/adminAuth.js');
+const { comparePasswordTimingSafe } = await import('../services/adminAuth.js');
+const { verifySessionToken, signSessionToken, SESSION_SECONDS } = await import('../services/adminSessions.js');
 const app = createApp();
 
 const SECRET = process.env.JWT_SECRET;
 let ipCounter = 0;
-// Each test uses its own client address so the login limiter (5 failures / 15 min / IP) never leaks between tests.
 const client = () => `10.1.0.${++ipCounter}`;
-const login = (path, body, ip = client()) => request(app).post(path).set('X-Forwarded-For', ip).send(body);
 
 beforeEach(() => {
   mocks.findOne.mockReset();
   mocks.orderFind.mockReset().mockImplementation(() => { const chain = { sort: () => chain, limit: () => chain, lean: async () => [] }; return chain; });
 });
 
-const accountDoc = (password = 'right-password') => ({
-  _id: '64b000000000000000000009',
-  username: 'saher',
-  comparePassword: vi.fn(async (p) => p === password),
+// Exactly what the removed routes used to sign: HS256 with JWT_SECRET, 8 hours.
+const LEGACY_TOKENS = {
+  'shared-password token': () => jwt.sign({ role: 'admin', auth: 'shared-password' }, SECRET, { expiresIn: '8h' }),
+  'account token': () => jwt.sign({ role: 'admin', id: '64b000000000000000000009', username: 'saher', auth: 'account' }, SECRET, { expiresIn: '8h' }),
+  'pre-role account token': () => jwt.sign({ id: '64b000000000000000000009', username: 'saher' }, SECRET, { expiresIn: '8h' }),
+};
+
+// Every legacy route that accepted those tokens (route/adminRoute.js, the requireAdmin routes of the public routers).
+const LEGACY_ROUTES = [
+  ['post', '/auth/login'],
+  ['post', '/admin/login'],
+  ['get', '/admin/stats'],
+  ['get', '/order/getAllOrders'],
+  ['get', '/order/getOrder/64b000000000000000000001'],
+  ['patch', '/order/orderSent/64b000000000000000000001'],
+  ['delete', '/order/deleteOrder/64b000000000000000000001'],
+  ['get', '/candle/getAllCandleRequests'],
+  ['put', '/candle/set_request_done/64b000000000000000000001'],
+  ['delete', '/candle/delete_lighting_request/64b000000000000000000001'],
+  ['get', '/contact/get_all_contact_us'],
+  ['get', '/contact/get_request/64b000000000000000000001'],
+  ['patch', '/contact/request_done/64b000000000000000000001'],
+  ['delete', '/contact/delete_request/64b000000000000000000001'],
+  ['post', '/product/addProduct'],
+  ['put', '/product/updateProduct/64b000000000000000000001'],
+  ['delete', '/product/deleteProduct/64b000000000000000000001'],
+  ['delete', '/prayer/64b000000000000000000001'],
+  ['delete', '/review/64b000000000000000000001'],
+];
+
+// Addresses that exist in BOTH the old and the new admin API: the dashboard's version answers (a session is needed).
+const SHARED_ADMIN_ROUTES = [
+  ['get', '/admin/prayers'],
+  ['delete', '/admin/prayers/64b000000000000000000001'],
+  ['get', '/admin/candles'],
+  ['delete', '/admin/candles/64b000000000000000000001'],
+  ['get', '/admin/products'],
+  ['post', '/admin/products'],
+  ['delete', '/admin/products/64b000000000000000000001'],
+  ['put', '/admin/products/64b000000000000000000001'],
+  ['get', '/admin/product-reviews'],
+  ['patch', '/admin/product-reviews/64b000000000000000000001'],
+  ['delete', '/admin/product-reviews/64b000000000000000000001'],
+];
+
+describe('the legacy sign-ins no longer exist', () => {
+  it.each([
+    ['/auth/login', { password: 'anything-at-all' }],
+    ['/auth/login', {}],
+    ['/admin/login', { username: 'saher', password: 'right-password' }],
+    ['/admin/login', { username: { $ne: null }, password: { $ne: null } }],
+  ])('POST %s answers 404 and issues no token', async (path, body) => {
+    mocks.findOne.mockResolvedValue({ _id: '64b000000000000000000009', username: 'saher', comparePassword: async () => true });
+    const res = await request(app).post(path).set('X-Forwarded-For', client()).send(body);
+    expect(res.status).toBe(404);
+    expect(res.body).toEqual({ error: 'Not found' });
+    expect(res.body.token).toBeUndefined();
+    expect(res.headers.deprecation).toBeUndefined();
+    expect(mocks.findOne).not.toHaveBeenCalled(); // no account is even looked up
+  });
+
+  it('never rate-limits them as sign-ins either (there is nothing to guess)', async () => {
+    const ip = client();
+    for (let i = 0; i < 8; i += 1) {
+      expect((await request(app).post('/admin/login').set('X-Forwarded-For', ip).send({ username: 'a', password: 'x' })).status).toBe(404);
+    }
+  });
 });
 
-describe('POST /auth/login (shared ADMIN_PASSWORD)', () => {
-  it('issues an 8-hour HS256 admin token for the right password', async () => {
-    const res = await login('/auth/login', { password: process.env.ADMIN_PASSWORD });
-    expect(res.status).toBe(200);
-    const payload = jwt.verify(res.body.token, SECRET, { algorithms: ['HS256'] });
-    expect(payload).toMatchObject({ role: 'admin', auth: 'shared-password' });
-    expect(payload.exp - payload.iat).toBe(8 * 3600);
-    expect(jwt.decode(res.body.token, { complete: true }).header.alg).toBe('HS256');
+describe('a legacy token that is still within its 8 hours opens nothing', () => {
+  const legacyCases = Object.entries(LEGACY_TOKENS);
+
+  it.each(LEGACY_ROUTES)('%s %s no longer exists (404), with or without a legacy token', async (method, path) => {
+    for (const [, make] of legacyCases) {
+      const res = await request(app)[method](path).set('X-Forwarded-For', client()).set('Authorization', `Bearer ${make()}`).send({});
+      expect(res.status, path).toBe(404);
+    }
+    expect((await request(app)[method](path).set('X-Forwarded-For', client()).send({})).status).toBe(404);
+    expect(mocks.orderFind).not.toHaveBeenCalled();
+  });
+
+  it.each(SHARED_ADMIN_ROUTES)('%s %s answers 401 to a legacy token (only the dashboard route is left)', async (method, path) => {
+    for (const [name, make] of legacyCases) {
+      const res = await request(app)[method](path).set('X-Forwarded-For', client()).set('Authorization', `Bearer ${make()}`).send({});
+      expect(res.status, `${name} on ${path}`).toBe(401);
+      expect(res.headers['cache-control']).toBe('no-store');
+    }
   });
 
   it.each([
-    ['a wrong password', { password: 'nope' }],
-    ['a password that only starts right', { password: `${process.env.ADMIN_PASSWORD}x` }],
-    ['an empty password', { password: '' }],
-    ['no password', {}],
-    ['an object instead of text', { password: { $ne: null } }],
-    ['an array instead of text', { password: [process.env.ADMIN_PASSWORD] }],
-    ['a number', { password: 123 }],
-  ])('refuses %s', async (_name, body) => {
-    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
-    const res = await login('/auth/login', body);
-    expect(res.status).toBe(401);
-    expect(res.body).toEqual({ error: 'Invalid credentials' });
-    warn.mockRestore();
-  });
-
-  it('stops after 5 failed attempts from one address, and still serves other addresses', async () => {
-    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
-    const ip = client();
-    for (let i = 0; i < 5; i += 1) expect((await login('/auth/login', { password: 'x' }, ip)).status).toBe(401);
-    expect((await login('/auth/login', { password: 'x' }, ip)).status).toBe(429);
-    expect((await login('/auth/login', { password: process.env.ADMIN_PASSWORD }, client())).status).toBe(200);
-    warn.mockRestore();
-  });
-
-  it('does not log the password that was tried', async () => {
-    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
-    await login('/auth/login', { password: 'super-secret-guess' });
-    expect(warn.mock.calls.flat().join(' ')).not.toContain('super-secret-guess');
-    warn.mockRestore();
+    ['get', '/admin/auth/me'], ['get', '/admin/dashboard'], ['get', '/admin/orders'], ['get', '/admin/contacts'],
+    ['get', '/admin/users'], ['get', '/admin/audit'], ['get', '/admin/export/orders.csv'], ['post', '/admin/privacy/lookup'],
+    ['get', '/admin/live'], ['post', '/admin/auth/totp/setup'],
+  ])('%s %s refuses every legacy token with 401', async (method, path) => {
+    for (const [name, make] of legacyCases) {
+      expect((await request(app)[method](path).set('X-Forwarded-For', client()).set('Authorization', `Bearer ${make()}`).send({})).status, name).toBe(401);
+    }
   });
 });
 
-describe('POST /admin/login (account in the database)', () => {
-  it('issues the same kind of token, with the account in it', async () => {
-    mocks.findOne.mockResolvedValue(accountDoc());
-    const res = await login('/admin/login', { username: 'saher', password: 'right-password' });
-    expect(res.status).toBe(200);
-    expect(res.body.username).toBe('saher');
-    expect(mocks.findOne).toHaveBeenCalledWith({ username: 'saher' });
-    expect(jwt.verify(res.body.token, SECRET, { algorithms: ['HS256'] })).toMatchObject({
-      role: 'admin',
-      auth: 'account',
-      username: 'saher',
-      id: '64b000000000000000000009',
-    });
+describe('verifySessionToken: only a dashboard session token passes', () => {
+  const sign = (claims, options = { expiresIn: SESSION_SECONDS }, secret = SECRET) => jwt.sign(claims, secret, { algorithm: 'HS256', ...options });
+
+  it('accepts what POST /admin/auth/login signs', () => {
+    const token = signSessionToken({ id: '64b000000000000000000009', role: 'owner' }, 'sid-1');
+    expect(verifySessionToken(token)).toMatchObject({ sub: '64b000000000000000000009', role: 'owner', sid: 'sid-1' });
   });
 
-  it('refuses a wrong password and an unknown username with the same answer', async () => {
-    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
-    mocks.findOne.mockResolvedValueOnce(accountDoc());
-    const wrong = await login('/admin/login', { username: 'saher', password: 'nope' });
-    mocks.findOne.mockResolvedValueOnce(null);
-    const unknown = await login('/admin/login', { username: 'ghost', password: 'nope' });
-    expect(wrong.status).toBe(401);
-    expect(unknown.status).toBe(401);
-    expect(unknown.body).toEqual(wrong.body);
-    warn.mockRestore();
+  it.each(Object.entries(LEGACY_TOKENS))('refuses a legacy %s', (_name, make) => {
+    expect(() => verifySessionToken(make())).toThrow();
   });
 
-  it('never lets an operator object reach the database query (NoSQL injection)', async () => {
-    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
-    // The classic "log in as the first user" payload.
-    const res = await login('/admin/login', { username: { $ne: null }, password: { $ne: null } });
-    expect(res.status).toBe(401);
-    expect(mocks.findOne).not.toHaveBeenCalled();
-
-    // Same with a valid password but an operator as the username.
-    const res2 = await login('/admin/login', { username: { $gt: '' }, password: 'right-password' });
-    expect(res2.status).toBe(401);
-    expect(mocks.findOne).not.toHaveBeenCalled();
-    warn.mockRestore();
+  it('refuses a token without a session id, a subject or a known role', () => {
+    expect(() => verifySessionToken(sign({ sub: 'x', role: 'owner' }))).toThrow();
+    expect(() => verifySessionToken(sign({ sid: 's', role: 'owner' }))).toThrow();
+    expect(() => verifySessionToken(sign({ sub: 'x', sid: 's', role: 'admin' }))).toThrow();
   });
 
-  it('writes a username with line breaks to the log as one safe line', async () => {
-    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
-    mocks.findOne.mockResolvedValue(null);
-    await login('/admin/login', { username: 'a"\n[2026] Admin logged in OK', password: 'x' });
-    const line = warn.mock.calls.flat().join(' ');
-    expect(line).not.toContain('\n');
-    expect(line).toContain('\\n');
-    warn.mockRestore();
+  it('refuses a session-shaped token that lives longer than a session, or was issued too long ago', () => {
+    expect(() => verifySessionToken(sign({ sub: 'x', sid: 's', role: 'owner' }, { expiresIn: '8h' }))).toThrow();
+    const now = Math.floor(Date.now() / 1000);
+    expect(() => verifySessionToken(sign({ sub: 'x', sid: 's', role: 'owner', iat: now - 2 * 3600, exp: now + 60 }, {}))).toThrow();
+    expect(() => verifySessionToken(sign({ sub: 'x', sid: 's', role: 'owner', exp: now + 600 }, { noTimestamp: true }))).toThrow();
   });
 
-  it('shares the failed-attempt limiter with /auth/login', async () => {
-    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
-    mocks.findOne.mockResolvedValue(null);
-    const ip = client();
-    for (let i = 0; i < 3; i += 1) await login('/auth/login', { password: 'x' }, ip);
-    for (let i = 0; i < 2; i += 1) await login('/admin/login', { username: 'a', password: 'x' }, ip);
-    expect((await login('/auth/login', { password: 'x' }, ip)).status).toBe(429);
-    warn.mockRestore();
-  });
-});
-
-describe('requireAdmin', () => {
-  const get = (token) => {
-    const req = request(app).get('/order/getAllOrders');
-    return token ? req.set('Authorization', `Bearer ${token}`) : req;
-  };
-  const sign = (claims, options = { expiresIn: '1h' }, secret = SECRET) => jwt.sign(claims, secret, options);
-
-  it('accepts a token from either sign-in route', async () => {
-    const shared = (await login('/auth/login', { password: process.env.ADMIN_PASSWORD })).body.token;
-    expect((await get(shared)).status).toBe(200);
-
-    mocks.findOne.mockResolvedValue(accountDoc());
-    const account = (await login('/admin/login', { username: 'saher', password: 'right-password' })).body.token;
-    expect((await get(account)).status).toBe(200);
-  });
-
-  it('still accepts a token issued before tokens carried a role (an account token had id and username)', async () => {
-    expect((await get(sign({ id: '1', username: 'saher' }))).status).toBe(200);
-  });
-
-  it('refuses a validly signed token that is not an admin token', async () => {
-    expect((await get(sign({ role: 'user' }))).status).toBe(401);
-    expect((await get(sign({ sub: 'someone' }))).status).toBe(401);
-  });
-
-  it('refuses another algorithm, "none" and a wrong secret', async () => {
-    expect((await get(sign({ role: 'admin' }, { expiresIn: '1h', algorithm: 'HS512' }))).status).toBe(401);
+  it('refuses another algorithm, "none" and a wrong secret', () => {
+    expect(() => verifySessionToken(sign({ sub: 'x', sid: 's', role: 'owner' }, { expiresIn: 600, algorithm: 'HS512' }))).toThrow();
     const none = `${Buffer.from('{"alg":"none","typ":"JWT"}').toString('base64url')}.${Buffer.from(
-      JSON.stringify({ role: 'admin', exp: Math.floor(Date.now() / 1000) + 3600 }),
+      JSON.stringify({ sub: 'x', sid: 's', role: 'owner', iat: Math.floor(Date.now() / 1000), exp: Math.floor(Date.now() / 1000) + 600 }),
     ).toString('base64url')}.`;
-    expect((await get(none)).status).toBe(401);
-    expect((await get(sign({ role: 'admin' }, { expiresIn: '1h' }, 'another-secret-another-secret-xx'))).status).toBe(401);
-  });
-
-  it('refuses a token without an issue time, and one older than 8 hours whatever its exp says', async () => {
-    const now = Math.floor(Date.now() / 1000);
-    expect((await get(sign({ role: 'admin', exp: now + 7 * 24 * 3600 }, { noTimestamp: true }))).status).toBe(401); // no iat
-    expect((await get(sign({ role: 'admin', iat: now - 9 * 3600, exp: now + 3600 }, {}))).status).toBe(401); // issued 9h ago
-  });
-
-  it('tolerates a few seconds of clock difference, and no more', async () => {
-    const now = Math.floor(Date.now() / 1000);
-    expect((await get(sign({ role: 'admin', iat: now, exp: now - 2 }, {}))).status).toBe(200); // expired 2s ago
-    expect((await get(sign({ role: 'admin', iat: now - 60, exp: now - 30 }, {}))).status).toBe(401);
-  });
-
-  it('refuses a missing header, a wrong scheme and garbage', async () => {
-    expect((await get()).status).toBe(401);
-    expect((await request(app).get('/order/getAllOrders').set('Authorization', `Basic ${SECRET}`)).status).toBe(401);
-    expect((await get('not.a.jwt')).status).toBe(401);
-  });
-
-  it('keeps private answers out of caches', async () => {
-    expect((await get()).headers['cache-control']).toBe('no-store');
-    const token = sign({ role: 'admin' });
-    expect((await get(token)).headers['cache-control']).toBe('no-store');
+    expect(() => verifySessionToken(none)).toThrow();
+    expect(() => verifySessionToken(sign({ sub: 'x', sid: 's', role: 'owner' }, { expiresIn: 600 }, 'another-secret-another-secret-xx'))).toThrow();
+    expect(() => verifySessionToken('junk')).toThrow();
   });
 });
 
-describe('every admin-only route refuses a visitor', () => {
+describe('every private route refuses a visitor without a token', () => {
   const routes = [
-    ['get', '/admin/stats'],
+    ['get', '/admin/dashboard'],
     ['get', '/admin/prayers'],
     ['delete', '/admin/prayers/64b000000000000000000001'],
     ['get', '/admin/candles'],
@@ -205,22 +174,18 @@ describe('every admin-only route refuses a visitor', () => {
     ['post', '/admin/products'],
     ['put', '/admin/products/64b000000000000000000001'],
     ['delete', '/admin/products/64b000000000000000000001'],
-    ['get', '/order/getAllOrders'],
-    ['get', '/order/getOrder/64b000000000000000000001'],
-    ['patch', '/order/orderSent/64b000000000000000000001'],
-    ['delete', '/order/deleteOrder/64b000000000000000000001'],
-    ['get', '/candle/getAllCandleRequests'],
-    ['put', '/candle/set_request_done/64b000000000000000000001'],
-    ['delete', '/candle/delete_lighting_request/64b000000000000000000001'],
-    ['get', '/contact/get_all_contact_us'],
-    ['get', '/contact/get_request/64b000000000000000000001'],
-    ['patch', '/contact/request_done/64b000000000000000000001'],
-    ['delete', '/contact/delete_request/64b000000000000000000001'],
-    ['post', '/product/addProduct'],
-    ['put', '/product/updateProduct/64b000000000000000000001'],
-    ['delete', '/product/deleteProduct/64b000000000000000000001'],
-    ['delete', '/prayer/64b000000000000000000001'],
-    ['delete', '/review/64b000000000000000000001'],
+    ['get', '/admin/orders'],
+    ['patch', '/admin/orders/64b000000000000000000001'],
+    ['delete', '/admin/orders/64b000000000000000000001'],
+    ['get', '/admin/contacts'],
+    ['get', '/admin/site-reviews'],
+    ['get', '/admin/product-reviews'],
+    ['get', '/admin/payments'],
+    ['get', '/admin/export/orders.csv'],
+    ['get', '/admin/users'],
+    ['get', '/admin/audit'],
+    ['post', '/admin/privacy/lookup'],
+    ['post', '/admin/privacy/erase'],
     // (the old /live/create_room and /live/close_room were removed: docs/LIVE.md; live broadcasting is /admin/live)
     ['get', '/admin/live'],
     ['post', '/admin/live/start'],
@@ -228,24 +193,14 @@ describe('every admin-only route refuses a visitor', () => {
   ];
 
   it.each(routes)('%s %s -> 401', async (method, path) => {
-    const res = await request(app)[method](path).send({});
+    const res = await request(app)[method](path).set('X-Forwarded-For', client()).send({});
     expect(res.status).toBe(401);
+    expect(res.headers['cache-control']).toBe('no-store');
   });
 });
 
 describe('admin auth helpers', () => {
-  it('safeEqual compares text without throwing on different lengths', () => {
-    expect(safeEqual('abc', 'abc')).toBe(true);
-    expect(safeEqual('abc', 'abd')).toBe(false);
-    expect(safeEqual('abc', 'abcd')).toBe(false);
-    expect(safeEqual('', 'a')).toBe(false);
-    expect(safeEqual('é', 'é')).toBe(true);
-  });
-
-  it('checkSharedPassword needs a non-empty string equal to ADMIN_PASSWORD', () => {
-    expect(checkSharedPassword(process.env.ADMIN_PASSWORD)).toBe(true);
-    for (const bad of ['', undefined, null, 5, {}, [], 'x']) expect(checkSharedPassword(bad)).toBe(false);
-  });
+  const accountDoc = (password = 'right-password') => ({ comparePassword: vi.fn(async (p) => p === password) });
 
   it('checks a password against a dummy hash when the account does not exist', async () => {
     expect(await comparePasswordTimingSafe(null, 'anything')).toBe(false);
@@ -253,15 +208,5 @@ describe('admin auth helpers', () => {
     const doc = accountDoc();
     expect(await comparePasswordTimingSafe(doc, 'right-password')).toBe(true);
     expect(await comparePasswordTimingSafe(doc, { $ne: 1 })).toBe(false);
-  });
-
-  it('forLog makes one safe, bounded line out of anything', () => {
-    expect(forLog('a\nb')).toBe('"a\\nb"');
-    expect(forLog(undefined)).toBe('""');
-    expect(forLog('x'.repeat(500)).length).toBeLessThanOrEqual(80);
-  });
-
-  it('verifyAdminToken throws on junk', () => {
-    expect(() => verifyAdminToken('junk')).toThrow();
   });
 });

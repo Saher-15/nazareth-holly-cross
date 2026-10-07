@@ -1,20 +1,18 @@
 import Admin from '../model/admin.js';
-import { isSessionLive, verifyAnyToken } from '../services/adminSessions.js';
+import { isSessionLive, verifySessionToken } from '../services/adminSessions.js';
 import { atLeast, effectiveRole, isRole } from '../services/roles.js';
 import { adminLimiter } from '../utils/security.js';
 
-// Guards the admin dashboard API (route/admin/*).
+// Guards the admin dashboard API (route/admin/*). It is the ONLY way into private data: the legacy requireAdmin
+// middleware, its 8-hour tokens and every route that used it were removed on 2026-10-07 (docs/SECURITY.md 4.1).
 //
-//   adminAuth       proves who is calling: a Bearer token whose session is live and whose account still exists and
-//                   is enabled. Sets req.adminUser = { id, username, role, sid } with the role read from the
+//   adminAuth       proves who is calling: a Bearer session token whose session is live and whose account still
+//                   exists and is enabled. Sets req.adminUser = { id, username, role, sid } with the role read from the
 //                   database NOW (a demoted or disabled user is refused on the next request), and req.adminDoc.
 //   requireRole(r)  lets through an account whose role is at least r (owner > editor > viewer); else 403.
 //
-// Legacy tokens (shared password / old accounts) belong to the old admin site. Where a legacy route with the same
-// address exists (LEGACY_PREFIXES) the request is passed on to it (next('router')), so the old site keeps working
-// until it is retired; anywhere else a legacy token is simply not accepted (401).
-
-const LEGACY_PREFIXES = /^\/(stats|prayers|candles|products|product-reviews)(\/|$)/;
+// A legacy token (shared password / old account sign-in, no session id) is refused with 401 like any other token
+// that is not a live session's.
 
 const unauthorized = (res, message = 'Unauthorized') => res.status(401).json({ error: message });
 
@@ -23,21 +21,15 @@ export async function adminAuth(req, res, next) {
   const header = req.headers.authorization;
   if (typeof header !== 'string' || !header.startsWith('Bearer ')) return unauthorized(res);
 
-  let verified;
+  let payload;
   try {
-    verified = verifyAnyToken(header.slice(7));
+    payload = verifySessionToken(header.slice(7));
   } catch {
     return unauthorized(res, 'Invalid or expired token');
   }
 
-  if (verified.kind === 'legacy') {
-    // req.path is relative to where the guard is mounted; the legacy routes are matched by the full /admin/... path.
-    const fullPath = `${req.baseUrl}${req.path}`.replace(/^\/admin/, '');
-    return LEGACY_PREFIXES.test(fullPath) ? next('router') : unauthorized(res, 'Invalid or expired token');
-  }
-
   try {
-    const { sub, sid } = verified.payload;
+    const { sub, sid } = payload;
     if (!(await isSessionLive(sid, sub))) return unauthorized(res, 'Session ended');
     const admin = await Admin.findById(sub);
     if (!admin || admin.disabled === true) return unauthorized(res, 'Session ended');

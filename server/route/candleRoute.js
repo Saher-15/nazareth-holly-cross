@@ -4,38 +4,14 @@ import { sendMail } from '../services/emailService.js';
 import { assertPaid } from '../services/paypalService.js';
 import { CANDLE_PRICE } from '../services/pricing.js';
 import { linkPayment, paymentFor } from '../services/payments.js';
-import { requireAdmin } from '../middleware/auth.js';
 import { asyncHandler } from "../middleware/asyncHandler.js"
 import { config } from '../config/env.js';
 import { HttpError } from '../utils/httpError.js';
-import { LEGACY_LIST_CAP, sendCapped } from '../utils/pagination.js';
 import { strictLimiter } from '../utils/security.js';
 import { isEmail, isPayPalOrderId } from '../utils/validate.js';
 
 
 const routerCandle = express.Router();
-
-routerCandle.get('/getAllCandleRequests', requireAdmin, asyncHandler(async(req,res)=>{
-    // A plain array, newest first and capped (docs/DATABASE.md); /admin/candles is the paginated way.
-    const requests = await Candle.find().sort({ createdAt: -1 }).limit(LEGACY_LIST_CAP).lean();
-    sendCapped(res, requests);
-}))
-
-routerCandle.put('/set_request_done/:id', requireAdmin, asyncHandler(async(req, res)=>{
-    const requestId = req.params.id;
-    const updateRequest = await Candle.findByIdAndUpdate(requestId, { done: true }, { new: true });
-
-    if (!updateRequest) {
-        return res.status(404).send("Request was not found");
-    }
-
-    res.status(200).send("Success")
-}))
-
-routerCandle.delete('/delete_lighting_request/:id', requireAdmin, asyncHandler(async(req, res)=>{
-    await Candle.findByIdAndDelete(req.params.id);
-    res.status(200).send("Success");
-}))
 
 routerCandle.post('/lightACandle', strictLimiter, asyncHandler(async(req, res)=>{
     const { firstName, lastName, email, prayer, paypalOrderId } = req.body;
