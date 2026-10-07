@@ -40,7 +40,7 @@ import sys
 import time
 import urllib.error
 import urllib.request
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -657,6 +657,94 @@ def changes_report(state: dict, api: str, timeout: float, ctx, now: float) -> li
     return lines
 
 
+# ----------------------------------------------------------------------------------------------------------------------
+# Sales for the morning report, from GET /admin/dashboard with a VIEWER account (read-only; docs/ADMIN.md section 2).
+# Only counts and amounts are used: the dashboard's `recent` lists (names, e-mails, prayers) are never read into a
+# message. Off until NHC_VIEWER_USER and NHC_VIEWER_PASSWORD are set (Railway variables of the hermes service, or
+# $HERMES_HOME/.env). The session is signed out at the end; a wrong password is reported, never retried.
+# ----------------------------------------------------------------------------------------------------------------------
+def _setting(name: str, state_path: Path) -> str | None:
+    value = os.environ.get(name, "").strip()
+    if value:
+        return value
+    try:
+        for line in (state_path.parent / ".env").read_text(encoding="utf-8").splitlines():
+            key, sep, raw = line.partition("=")
+            if sep and key.strip() == name:
+                return raw.strip().strip("\"'") or None
+    except OSError:
+        pass
+    return None
+
+
+def api_json(method: str, url: str, timeout: float, ctx, body: dict | None = None, token: str | None = None):
+    headers = {"User-Agent": UA, "Accept": "application/json", "Content-Type": "application/json"}
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+    data = json.dumps(body).encode() if body is not None else None
+    req = urllib.request.Request(url, data=data, method=method, headers=headers)
+    opener = urllib.request.build_opener(urllib.request.HTTPSHandler(context=ctx))
+    try:
+        with opener.open(req, timeout=timeout) as res:
+            raw = res.read(2_000_000).decode("utf-8", "replace")
+            return res.status, (json.loads(raw) if raw else {})
+    except urllib.error.HTTPError as err:
+        return err.code, {}
+
+
+def sales_report(api: str, state_path: Path, timeout: float, ctx, now: float) -> list[str]:
+    user, password = _setting("NHC_VIEWER_USER", state_path), _setting("NHC_VIEWER_PASSWORD", state_path)
+    if not user or not password:
+        return []
+    lines = ["", "Sales (yesterday):"]
+    status, login = api_json("POST", f"{api}/admin/auth/login", timeout, ctx, {"username": user, "password": password})
+    token = login.get("token") if status == 200 else None
+    if not token:
+        reason = {401: "wrong username or password, or the account is locked or disabled",
+                  428: "the account has two-factor sign-in on: turn it off for this viewer account",
+                  429: "too many sign-in attempts, try again later"}
+        lines.append(f"⚪ Not available: sign-in refused ({reason.get(status, f'HTTP {status}')}). Check the Hermes viewer account.")
+        return lines
+    try:
+        role = (login.get("user") or {}).get("role")
+        if role != "viewer":  # never run the report with an account that can change or delete data
+            lines.append(f"🔴 Not used: the Hermes account has role '{role}', it must be 'viewer'. Change it in the dashboard -> Users.")
+            return lines
+        status, dash = api_json("GET", f"{api}/admin/dashboard", timeout, ctx, token=token)
+        if status != 200:
+            lines.append(f"⚪ Not available: dashboard HTTP {status}.")
+            return lines
+        days = {d.get("date"): d for d in dash.get("last30Days", []) if isinstance(d, dict)}
+        yesterday = (datetime.fromtimestamp(now).astimezone(LOCAL_TZ) - timedelta(days=1)).strftime("%Y-%m-%d")
+        y = days.get(yesterday, {})
+        week = [days.get((datetime.fromtimestamp(now).astimezone(LOCAL_TZ) - timedelta(days=i)).strftime("%Y-%m-%d"), {})
+                for i in range(1, 8)]
+        orders, revenue, candles = y.get("orders", 0), y.get("revenue", 0), y.get("candles", 0)
+        lines.append(f"📦 Orders: {orders}  ·  💵 ${revenue:,.2f}  ·  🕯️ Candles: {candles}")
+        w_orders, w_rev, w_candles = (sum(d.get(k, 0) for d in week) for k in ("orders", "revenue", "candles"))
+        lines.append(f"   Last 7 days: {w_orders} orders, ${w_rev:,.2f}, {w_candles} candles")
+        totals = dash.get("totals", {})
+        todo = []
+        if totals.get("ordersPending"):
+            todo.append(f"{totals['ordersPending']} orders to ship")
+        if totals.get("candlesPending"):
+            todo.append(f"{totals['candlesPending']} candles to light")
+        if totals.get("contactsOpen"):
+            todo.append(f"{totals['contactsOpen']} messages to answer")
+        if todo:
+            lines.append("📋 Waiting in the dashboard: " + ", ".join(todo))
+        unpaid = (dash.get("alerts") or {}).get("unfulfilledPayments") or {}
+        if unpaid.get("count"):
+            lines.append(f"🔴 Paid but not saved: {unpaid['count']} payment(s), ${unpaid.get('amount', 0):,.2f}. "
+                         "Dashboard -> Payments (the customer paid and got nothing yet).")
+        low = [f"{p.get('name')} ({p.get('stock')})" for p in dash.get("lowStock", [])[:MAX_LISTED] if isinstance(p, dict)]
+        if low:
+            lines.append("📉 Low stock: " + ", ".join(low))
+    finally:
+        api_json("POST", f"{api}/admin/auth/logout", timeout, ctx, {}, token=token)
+    return lines
+
+
 def summary(results: dict, state: dict) -> str:
     bad = [n for n, r in results.items() if not r["ok"]]
     stamp = datetime.now().astimezone(LOCAL_TZ).strftime("%a %d %b, %H:%M")
@@ -753,6 +841,11 @@ def main(argv: list[str] | None = None) -> int:
     lines += render_messages
     record_run(results, lines, state, now)
     changes = changes_report(state, api, args.timeout, ctx, now) if args.summary else []
+    if args.summary:
+        try:
+            changes += sales_report(api, state_path, args.timeout, ctx, now)
+        except Exception as err:  # the sales part must never break the report
+            changes += ["", f"⚪ Sales not available ({type(err).__name__})."]
     state["lastRun"] = now
     save_state(state_path, state)
 
