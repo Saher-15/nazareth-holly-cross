@@ -1613,6 +1613,197 @@
         "title": "Buscar en el sitio",
         "lead": "Encuentra páginas, lugares santos, respuestas a preguntas frecuentes y pasajes del Evangelio."
       }
+    },
+    "calendar": {
+      "eyebrow": "Calendario cristiano",
+      "title": "Las fiestas a lo largo del año",
+      "lead": "Las grandes fiestas de las Iglesias católica y ortodoxa. Nazaret celebra las dos tradiciones, así que, cuando sus fechas no coinciden, verás ambas.",
+      "filter": {
+        "legend": "Mostrar las fiestas",
+        "all": "De ambas tradiciones",
+        "catholic": "Católicas",
+        "orthodox": "Ortodoxas"
+      },
+      "tradition": {
+        "catholic": "Católica",
+        "orthodox": "Ortodoxa",
+        "both": "Católica y ortodoxa"
+      },
+      "month": {
+        "previous": "Mes anterior",
+        "next": "Mes siguiente",
+        "today": "Hoy",
+        "hint": "Usa las flechas del teclado para moverte entre los días, y Re Pág o Av Pág para cambiar de mes.",
+        "list": "En {month}",
+        "empty": "No hay fiestas este mes.",
+        "nextFeast": "Próxima fiesta: {name}"
+      },
+      "day": {
+        "events": "{date}: {events}",
+        "feast": "{name} ({tradition})",
+        "broadcast": "transmisión en vivo a las {time}: {title}",
+        "none": "No hay ninguna fiesta este día.",
+        "today": "Hoy",
+        "transferred": "Fiesta trasladada del {date} según las normas del calendario romano.",
+        "julian": "{date} en el calendario juliano.",
+        "broadcastTime": "{time}, hora de Nazaret"
+      },
+      "legend": {
+        "title": "Leyenda",
+        "catholic": "Fiesta católica",
+        "orthodox": "Fiesta ortodoxa",
+        "nazareth": "Fiesta de Nazaret",
+        "broadcast": "Transmisión en vivo",
+        "today": "Hoy"
+      },
+      "upcoming": {
+        "title": "Próximas fiestas",
+        "countdown": "{days, plural, =0 {Hoy} =1 {Mañana} one {Dentro de # día} other {Dentro de # días}}"
+      },
+      "broadcast": {
+        "badge": "Transmisión en vivo"
+      },
+      "ics": {
+        "add": "Añadir al calendario",
+        "addNamed": "Añadir al calendario: {name}",
+        "saved": "Se ha descargado el archivo de calendario de «{name}». Ábrelo para añadir la fecha a tu calendario.",
+        "calendarName": "Fiestas en Nazaret",
+        "location": "Nazaret"
+      },
+      "notes": {
+        "title": "Sobre las fechas",
+        "catholic": "Las fechas católicas siguen el calendario gregoriano, tal como las celebran el Patriarcado Latino de Jerusalén y la Basílica de la Anunciación. Cuando una solemnidad cae en Semana Santa o en un domingo de Cuaresma o de Adviento, se traslada al día que fija el calendario romano.",
+        "holyLand": "En Tierra Santa, algunas parroquias católicas, en Galilea y en otros lugares, celebran la Pascua y las fiestas que dependen de ella en la fecha ortodoxa, y las parroquias suelen celebrar el Corpus Christi el domingo siguiente. Consulta las fechas en tu parroquia.",
+        "orthodox": "Las fechas ortodoxas siguen el calendario juliano del Patriarcado Ortodoxo Griego de Jerusalén: las fiestas fijas caen 13 días más tarde en nuestro calendario (la Navidad el 7 de enero, la Anunciación el 7 de abril, la Santa Cruz el 27 de septiembre), y la Pascua sigue la regla juliana. Las Iglesias ortodoxas que siguen el calendario juliano revisado, como las de Grecia y Rumanía, celebran las fiestas fijas en las fechas católicas.",
+        "computed": "Las fechas están calculadas, no copiadas de un calendario parroquial. Confirma con la iglesia el horario de las celebraciones."
+      },
+      "feasts": {
+        "maryMotherOfGod": {
+          "name": "Santa María, Madre de Dios",
+          "description": "El año comienza con María, Madre de Dios, en el octavo día de la Navidad."
+        },
+        "epiphany": {
+          "name": "Epifanía del Señor",
+          "orthodoxName": "Teofanía",
+          "description": "Cristo se manifiesta al mundo: los Magos en Occidente, su Bautismo en el Jordán en Oriente."
+        },
+        "presentation": {
+          "name": "Presentación del Señor",
+          "orthodoxName": "Encuentro del Señor",
+          "description": "María y José llevan al Niño Jesús al Templo, donde Simeón y Ana salen a su encuentro."
+        },
+        "cleanMonday": {
+          "name": "Lunes Puro",
+          "description": "El primer día de la Gran Cuaresma en la Iglesia ortodoxa."
+        },
+        "ashWednesday": {
+          "name": "Miércoles de Ceniza",
+          "description": "Comienza la Cuaresma: cuarenta días de oración, ayuno y caridad antes de la Pascua."
+        },
+        "stJoseph": {
+          "name": "San José",
+          "description": "José de Nazaret, esposo de María y custodio de Jesús."
+        },
+        "annunciation": {
+          "name": "Anunciación del Señor",
+          "orthodoxName": "Anunciación de la Madre de Dios",
+          "description": "El ángel Gabriel saluda a María aquí, en Nazaret: es la fiesta de las dos iglesias de la Anunciación de la ciudad."
+        },
+        "palmSunday": {
+          "name": "Domingo de Ramos",
+          "description": "Jesús entra en Jerusalén y comienza la Semana Santa."
+        },
+        "holyThursday": {
+          "name": "Jueves Santo",
+          "orthodoxName": "Santo y Gran Jueves",
+          "description": "La Última Cena: Jesús instituye la Eucaristía y lava los pies a sus discípulos."
+        },
+        "goodFriday": {
+          "name": "Viernes Santo",
+          "orthodoxName": "Santo y Gran Viernes",
+          "description": "La Pasión y muerte de Jesús en la cruz."
+        },
+        "holySaturday": {
+          "name": "Sábado Santo",
+          "orthodoxName": "Santo y Gran Sábado",
+          "description": "La Iglesia vela junto al sepulcro hasta la primera luz de la Pascua."
+        },
+        "easter": {
+          "name": "Domingo de Pascua",
+          "orthodoxName": "Santa Pascua",
+          "description": "La Resurrección del Señor, la fiesta de las fiestas."
+        },
+        "divineMercy": {
+          "name": "Domingo de la Divina Misericordia",
+          "description": "El segundo domingo de Pascua, dedicado a la misericordia de Dios."
+        },
+        "ascension": {
+          "name": "Ascensión del Señor",
+          "description": "Cuarenta días después de la Pascua, Jesús es elevado al cielo."
+        },
+        "pentecost": {
+          "name": "Pentecostés",
+          "orthodoxName": "Pentecostés (Santísima Trinidad)",
+          "description": "El Espíritu Santo desciende sobre los apóstoles, cincuenta días después de la Pascua."
+        },
+        "trinity": {
+          "name": "Santísima Trinidad",
+          "description": "El domingo después de Pentecostés, en honor del Padre, del Hijo y del Espíritu Santo."
+        },
+        "corpusChristi": {
+          "name": "Santísimo Cuerpo y Sangre de Cristo",
+          "description": "El Cuerpo y la Sangre de Cristo, honrados en la Eucaristía y en procesiones."
+        },
+        "transfiguration": {
+          "name": "Transfiguración del Señor",
+          "description": "Jesús resplandece de gloria en el monte Tabor, a pocos kilómetros de Nazaret."
+        },
+        "assumption": {
+          "name": "Asunción de la Virgen María",
+          "orthodoxName": "Dormición de la Madre de Dios",
+          "description": "María es llevada a la gloria del cielo; Oriente lo llama su Dormición."
+        },
+        "nativityOfMary": {
+          "name": "Natividad de la Virgen María",
+          "orthodoxName": "Natividad de la Madre de Dios",
+          "description": "El nacimiento de la Virgen María."
+        },
+        "holyCross": {
+          "name": "Exaltación de la Santa Cruz",
+          "orthodoxName": "Exaltación de la Santa Cruz",
+          "description": "La fiesta de la Cruz de Cristo, que da nombre a Nazareth Holy Cross."
+        },
+        "allSaints": {
+          "name": "Todos los Santos",
+          "orthodoxName": "Domingo de Todos los Santos",
+          "description": "Todos los santos de Dios, conocidos y desconocidos, en una sola fiesta."
+        },
+        "advent1": {
+          "name": "Primer domingo de Adviento",
+          "description": "El año nuevo de la Iglesia comienza con cuatro semanas de espera de la Navidad."
+        },
+        "advent2": {
+          "name": "Segundo domingo de Adviento",
+          "description": "Adviento: preparad el camino del Señor."
+        },
+        "advent3": {
+          "name": "Tercer domingo de Adviento",
+          "description": "Domingo Gaudete: alegraos, el Señor está cerca."
+        },
+        "advent4": {
+          "name": "Cuarto domingo de Adviento",
+          "description": "El último domingo antes de Navidad, con María, que espera a su Hijo."
+        },
+        "immaculateConception": {
+          "name": "Inmaculada Concepción",
+          "description": "María, preservada de todo pecado desde el primer instante de su vida."
+        },
+        "christmas": {
+          "name": "Navidad",
+          "orthodoxName": "Natividad de Cristo",
+          "description": "El nacimiento de Jesús en Belén."
+        }
+      }
     }
   },
   "media": {

@@ -212,7 +212,7 @@ async function fetchJson<T>(path: string, schema: z.ZodType<T>, { revalidate = 3
   return parsed.data;
 }
 
-async function getJson<T>(path: string, schema: z.ZodType<T>, options: FetchOptions = {}): Promise<T> {
+export async function getJson<T>(path: string, schema: z.ZodType<T>, options: FetchOptions = {}): Promise<T> {
   // A read with its own abort signal belongs to one caller: it is neither shared nor remembered.
   if (options.init?.signal) return fetchJson(path, schema, options);
 

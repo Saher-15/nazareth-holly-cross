@@ -71,6 +71,13 @@ band at it and delete `broadcast.ts`.
 Audit: `live.start`, `live.stop` (with `reason`: `stopped` or `forced`, and the minutes), `live.auto_end`,
 `live.start_failed`.
 
+**Scheduled broadcasts on the website's calendar.** The Christian calendar of `/live` (`docs/LITURGICAL-CALENDAR.md`)
+also shows the broadcasts scheduled in the dashboard, read on the server from `GET /live/schedule`
+(`{ timeZone, items: [{ id, title, description, startsAt, status }] }`, published and still to come) by the adapter
+`web/src/lib/broadcastSchedule.ts`: a mark on the day (in Nazareth time), the time and description on the chosen day,
+"add to calendar" (an exact instant, one hour long) and a schema.org `Event` per broadcast. Until the API has the route
+it answers 404 and the calendar shows no broadcasts (it asks again 10 minutes later).
+
 ## 3. Security
 
 | Concern | Decision |

@@ -1613,6 +1613,197 @@
         "title": "Szukaj na stronie",
         "lead": "Znajdź strony, święte miejsca, odpowiedzi na częste pytania i fragmenty Ewangelii."
       }
+    },
+    "calendar": {
+      "eyebrow": "Kalendarz chrześcijański",
+      "title": "Święta w ciągu roku",
+      "lead": "Wielkie święta Kościoła katolickiego i Kościołów prawosławnych. W Nazarecie obchodzi się jedne i drugie, więc gdy ich daty się różnią, widzisz obie.",
+      "filter": {
+        "legend": "Pokaż święta",
+        "all": "Obu tradycji",
+        "catholic": "Katolickie",
+        "orthodox": "Prawosławne"
+      },
+      "tradition": {
+        "catholic": "Katolickie",
+        "orthodox": "Prawosławne",
+        "both": "Katolickie i prawosławne"
+      },
+      "month": {
+        "previous": "Poprzedni miesiąc",
+        "next": "Następny miesiąc",
+        "today": "Dzisiaj",
+        "hint": "Użyj strzałek, aby przechodzić między dniami, a klawiszy Page Up i Page Down, aby zmienić miesiąc.",
+        "list": "Święta: {month}",
+        "empty": "W tym miesiącu nie ma świąt.",
+        "nextFeast": "Najbliższe święto: {name}"
+      },
+      "day": {
+        "events": "{date}: {events}",
+        "feast": "{name} ({tradition})",
+        "broadcast": "transmisja na żywo o {time}: {title}",
+        "none": "W tym dniu nie ma święta.",
+        "today": "Dzisiaj",
+        "transferred": "Przeniesiono z {date} zgodnie z zasadami kalendarza rzymskiego.",
+        "julian": "{date} według kalendarza juliańskiego.",
+        "broadcastTime": "{time}, czas w Nazarecie"
+      },
+      "legend": {
+        "title": "Legenda",
+        "catholic": "Święto katolickie",
+        "orthodox": "Święto prawosławne",
+        "nazareth": "Święto Nazaretu",
+        "broadcast": "Transmisja na żywo",
+        "today": "Dzisiaj"
+      },
+      "upcoming": {
+        "title": "Najbliższe święta",
+        "countdown": "{days, plural, =0 {Dzisiaj} =1 {Jutro} one {Za # dzień} few {Za # dni} many {Za # dni} other {Za # dnia}}"
+      },
+      "broadcast": {
+        "badge": "Transmisja na żywo"
+      },
+      "ics": {
+        "add": "Dodaj do kalendarza",
+        "addNamed": "Dodaj do kalendarza: {name}",
+        "saved": "Pobrano plik kalendarza: {name}. Otwórz go, aby dodać tę datę do swojego kalendarza.",
+        "calendarName": "Święta w Nazarecie",
+        "location": "Nazaret"
+      },
+      "notes": {
+        "title": "O datach",
+        "catholic": "Daty katolickie opierają się na kalendarzu gregoriańskim, tak jak obchodzą je Łaciński Patriarchat Jerozolimy i Bazylika Zwiastowania. Gdy uroczystość przypada w Wielkim Tygodniu albo w niedzielę Wielkiego Postu lub Adwentu, zostaje przeniesiona na dzień wyznaczony przez kalendarz rzymski.",
+        "holyLand": "W Ziemi Świętej niektóre parafie katolickie, w Galilei i gdzie indziej, obchodzą Wielkanoc i zależne od niej święta w terminie prawosławnym, a Boże Ciało parafie zwykle obchodzą w następną niedzielę. Zapytaj o terminy w swojej parafii.",
+        "orthodox": "Daty prawosławne opierają się na kalendarzu juliańskim Grecko-Prawosławnego Patriarchatu Jerozolimy: święta stałe przypadają w naszym kalendarzu 13 dni później (Boże Narodzenie 7 stycznia, Zwiastowanie 7 kwietnia, Podwyższenie Krzyża 27 września), a datę Wielkanocy wyznacza się według reguły juliańskiej. Kościoły prawosławne korzystające z kalendarza poprawionego, takie jak Kościoły Grecji i Rumunii, obchodzą święta stałe w terminach katolickich.",
+        "computed": "Daty są obliczane, a nie przepisywane z kalendarza parafialnego. Godziny nabożeństw sprawdź, proszę, w danym kościele."
+      },
+      "feasts": {
+        "maryMotherOfGod": {
+          "name": "Uroczystość Świętej Bożej Rodzicielki Maryi",
+          "description": "Rok zaczyna się od Maryi, Matki Bożej, w ósmym dniu Bożego Narodzenia."
+        },
+        "epiphany": {
+          "name": "Objawienie Pańskie",
+          "orthodoxName": "Chrzest Pański (Teofania)",
+          "description": "Chrystus objawia się światu: na Zachodzie – Mędrcom, na Wschodzie – w chrzcie w Jordanie."
+        },
+        "presentation": {
+          "name": "Ofiarowanie Pańskie",
+          "orthodoxName": "Spotkanie Pańskie",
+          "description": "Maryja i Józef przynoszą Dzieciątko Jezus do świątyni, gdzie spotykają Go Symeon i Anna."
+        },
+        "cleanMonday": {
+          "name": "Czysty Poniedziałek",
+          "description": "Pierwszy dzień Wielkiego Postu w Kościele prawosławnym."
+        },
+        "ashWednesday": {
+          "name": "Środa Popielcowa",
+          "description": "Początek Wielkiego Postu: czterdzieści dni modlitwy, postu i jałmużny przed Wielkanocą."
+        },
+        "stJoseph": {
+          "name": "Uroczystość Świętego Józefa, Oblubieńca Najświętszej Maryi Panny",
+          "description": "Józef z Nazaretu, mąż Maryi i opiekun Jezusa."
+        },
+        "annunciation": {
+          "name": "Zwiastowanie Pańskie",
+          "orthodoxName": "Zwiastowanie Przenajświętszej Bogurodzicy",
+          "description": "Anioł Gabriel pozdrawia Maryję tu, w Nazarecie: to święto obu świątyń Zwiastowania w tym mieście."
+        },
+        "palmSunday": {
+          "name": "Niedziela Palmowa",
+          "description": "Jezus wjeżdża do Jerozolimy i zaczyna się Wielki Tydzień."
+        },
+        "holyThursday": {
+          "name": "Wielki Czwartek",
+          "orthodoxName": "Wielki Czwartek",
+          "description": "Ostatnia Wieczerza: Jezus ustanawia Eucharystię i umywa nogi swoim uczniom."
+        },
+        "goodFriday": {
+          "name": "Wielki Piątek",
+          "orthodoxName": "Wielki Piątek",
+          "description": "Męka i śmierć Jezusa na krzyżu."
+        },
+        "holySaturday": {
+          "name": "Wielka Sobota",
+          "orthodoxName": "Wielka Sobota",
+          "description": "Kościół czuwa przy grobie aż do pierwszego światła Wielkanocy."
+        },
+        "easter": {
+          "name": "Niedziela Zmartwychwstania Pańskiego",
+          "orthodoxName": "Pascha (Wielkanoc)",
+          "description": "Zmartwychwstanie Pańskie, święto świąt."
+        },
+        "divineMercy": {
+          "name": "Niedziela Miłosierdzia Bożego",
+          "description": "Druga Niedziela Wielkanocna, poświęcona Bożemu miłosierdziu."
+        },
+        "ascension": {
+          "name": "Wniebowstąpienie Pańskie",
+          "description": "Czterdzieści dni po Wielkanocy Jezus zostaje wzięty do nieba."
+        },
+        "pentecost": {
+          "name": "Zesłanie Ducha Świętego",
+          "orthodoxName": "Pięćdziesiątnica (Trójca Święta)",
+          "description": "Duch Święty zstępuje na apostołów, pięćdziesiąt dni po Wielkanocy."
+        },
+        "trinity": {
+          "name": "Uroczystość Najświętszej Trójcy",
+          "description": "Niedziela po Zesłaniu Ducha Świętego, ku czci Ojca, Syna i Ducha Świętego."
+        },
+        "corpusChristi": {
+          "name": "Boże Ciało",
+          "description": "Ciało i Krew Chrystusa, czczone w Eucharystii i w procesjach."
+        },
+        "transfiguration": {
+          "name": "Przemienienie Pańskie",
+          "description": "Jezus jaśnieje chwałą na górze Tabor, kilka kilometrów od Nazaretu."
+        },
+        "assumption": {
+          "name": "Wniebowzięcie Najświętszej Maryi Panny",
+          "orthodoxName": "Zaśnięcie Przenajświętszej Bogurodzicy",
+          "description": "Maryja zostaje wzięta do chwały nieba; Wschód nazywa to Jej zaśnięciem."
+        },
+        "nativityOfMary": {
+          "name": "Narodzenie Najświętszej Maryi Panny",
+          "orthodoxName": "Narodzenie Przenajświętszej Bogurodzicy",
+          "description": "Urodziny Dziewicy Maryi."
+        },
+        "holyCross": {
+          "name": "Podwyższenie Krzyża Świętego",
+          "orthodoxName": "Podwyższenie Krzyża Pańskiego",
+          "description": "Święto Krzyża Chrystusowego, od którego pochodzi nazwa Nazareth Holy Cross."
+        },
+        "allSaints": {
+          "name": "Wszystkich Świętych",
+          "orthodoxName": "Niedziela Wszystkich Świętych",
+          "description": "Wszyscy święci Boży, znani i nieznani, w jednym święcie."
+        },
+        "advent1": {
+          "name": "Pierwsza Niedziela Adwentu",
+          "description": "Zaczyna się nowy rok liturgiczny: cztery tygodnie oczekiwania na Boże Narodzenie."
+        },
+        "advent2": {
+          "name": "Druga Niedziela Adwentu",
+          "description": "Adwent: przygotujcie drogę Panu."
+        },
+        "advent3": {
+          "name": "Trzecia Niedziela Adwentu",
+          "description": "Niedziela Gaudete: radujcie się, Pan jest blisko."
+        },
+        "advent4": {
+          "name": "Czwarta Niedziela Adwentu",
+          "description": "Ostatnia niedziela przed Bożym Narodzeniem, z Maryją, która oczekuje swojego Syna."
+        },
+        "immaculateConception": {
+          "name": "Niepokalane Poczęcie Najświętszej Maryi Panny",
+          "description": "Maryja zachowana od wszelkiego grzechu od pierwszej chwili swojego życia."
+        },
+        "christmas": {
+          "name": "Boże Narodzenie",
+          "orthodoxName": "Narodzenie Chrystusa",
+          "description": "Narodziny Jezusa w Betlejem."
+        }
+      }
     }
   },
   "media": {

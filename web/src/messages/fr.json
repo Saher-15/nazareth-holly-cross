@@ -887,7 +887,7 @@
       "links": "Souligner les liens",
       "motion": "Arrêter les animations",
       "motionHint": "Arrête les photos animées, le film et les effets de page.",
-      "motionSystem": "Votre appareil demande déjà moins d’animations \u0001 rien ne bouge tout seul.",
+      "motionSystem": "Votre appareil demande déjà moins d’animations : rien ne bouge tout seul.",
       "font": "Police lisible",
       "fontHint": "Une seule police simple pour les titres et le texte.",
       "spacing": "Texte plus espacé",
@@ -1519,7 +1519,7 @@
       "accessibility": {
         "meta": {
           "title": "Déclaration d’accessibilité",
-          "description": "L’accessibilité de Nazareth Holy Cross \u0001 le niveau WCAG 2.2 atteint, les paramètres d’accessibilité, les limites connues et comment joindre notre référent accessibilité."
+          "description": "L’accessibilité de Nazareth Holy Cross : le niveau WCAG 2.2 atteint, les paramètres d’accessibilité, les limites connues et comment joindre notre référent accessibilité."
         },
         "title": "Déclaration d’accessibilité",
         "lead": "Nous voulons que chacun puisse utiliser ce site, quels que soient ses capacités, son appareil ou sa langue.",
@@ -1538,10 +1538,10 @@
             "p1": "Le bouton portant le symbole de l’accessibilité, dans le coin inférieur de chaque page, ouvre des paramètres qui s’appliquent à tout le site et sont mémorisés dans ce navigateur. Le bouton de réinitialisation rend au site son apparence d’origine.",
             "items": {
               "text": "Taille du texte de 100 à 200 pour cent.",
-              "contrast": "Contraste élevé \u0001 fond noir, texte blanc et doré plus lumineux.",
+              "contrast": "Contraste élevé : fond noir, texte blanc et doré plus lumineux.",
               "links": "Liens soulignés.",
               "motion": "Arrêt des animations, des photos animées et du film. Si votre appareil demande moins d’animations, le site le respecte déjà.",
-              "font": "Une police lisible \u0001 une seule police simple au lieu des titres décoratifs.",
+              "font": "Une police lisible : une seule police simple au lieu des titres décoratifs.",
               "spacing": "Plus d’espace entre les lignes, les lettres et les mots.",
               "focus": "Un contour de focus renforcé qui montre où se trouve le clavier.",
               "cursor": "Un grand pointeur de souris."
@@ -1563,16 +1563,16 @@
             "title": "Limites connues",
             "p1": "Ces éléments n’atteignent pas encore entièrement le niveau AA. En attendant, écrivez-nous et nous vous aiderons autrement.",
             "items": {
-              "paypal": "Paiement \u0001 les boutons et la fenêtre de paiement PayPal sont conçus par PayPal et nous ne pouvons pas les modifier. Si vous ne pouvez pas les utiliser, écrivez-nous et nous trouverons un autre moyen de finaliser votre commande ou votre don.",
-              "videos": "Vidéos \u0001 les enregistrements des diffusions passées et les films de la page de visite n’ont pas encore de sous-titres ni de transcription.",
-              "translations": "Traductions \u0001 la plupart des textes ont été traduits à l’aide d’un logiciel et attendent la relecture de locuteurs natifs \u0001 certaines formulations peuvent donc manquer de clarté.",
-              "external": "Autres services \u0001 les diffusions en direct, les cartes et les réseaux sociaux s’ouvrent sur leurs propres sites, dont nous ne maîtrisons pas l’accessibilité.",
-              "photos": "Photographies \u0001 leurs descriptions indiquent le lieu et le sujet, sans décrire chaque détail."
+              "paypal": "Paiement : les boutons et la fenêtre de paiement PayPal sont conçus par PayPal et nous ne pouvons pas les modifier. Si vous ne pouvez pas les utiliser, écrivez-nous et nous trouverons un autre moyen de finaliser votre commande ou votre don.",
+              "videos": "Vidéos : les enregistrements des diffusions passées et les films de la page de visite n’ont pas encore de sous-titres ni de transcription.",
+              "translations": "Traductions : la plupart des textes ont été traduits à l’aide d’un logiciel et attendent la relecture de locuteurs natifs ; certaines formulations peuvent donc manquer de clarté.",
+              "external": "Autres services : les diffusions en direct, les cartes et les réseaux sociaux s’ouvrent sur leurs propres sites, dont nous ne maîtrisons pas l’accessibilité.",
+              "photos": "Photographies : leurs descriptions indiquent le lieu et le sujet, sans décrire chaque détail."
             }
           },
           "testing": {
             "title": "Comment nous avons vérifié",
-            "p1": "Nous avons testé chaque page en anglais, en hébreu et en arabe, sur un écran d’ordinateur et un écran de téléphone \u0001 automatiquement avec axe-core selon les règles WCAG 2.2 A et AA, et manuellement au clavier, avec un texte à 200 pour cent, à 320 pixels de large et avec chaque paramètre d’accessibilité activé.",
+            "p1": "Nous avons testé chaque page en anglais, en hébreu et en arabe, sur un écran d’ordinateur et un écran de téléphone : automatiquement avec axe-core selon les règles WCAG 2.2 A et AA, et manuellement au clavier, avec un texte à 200 pour cent, à 320 pixels de large et avec chaque paramètre d’accessibilité activé.",
             "p2": "Nous n’avons pas encore testé tous les lecteurs d’écran, navigateurs et appareils. Si quelque chose ne fonctionne pas pour vous, dites-le-nous."
           },
           "contact": {
@@ -1612,6 +1612,197 @@
         "eyebrow": "Recherche",
         "title": "Rechercher sur le site",
         "lead": "Trouvez des pages, des lieux saints, des réponses aux questions fréquentes et des passages de l’Évangile."
+      }
+    },
+    "calendar": {
+      "eyebrow": "Calendrier chrétien",
+      "title": "Les fêtes au fil de l’année",
+      "lead": "Les grandes fêtes des Églises catholique et orthodoxe. Nazareth célèbre les deux traditions : lorsque leurs dates diffèrent, vous voyez les deux.",
+      "filter": {
+        "legend": "Afficher les fêtes",
+        "all": "Des deux traditions",
+        "catholic": "Catholiques",
+        "orthodox": "Orthodoxes"
+      },
+      "tradition": {
+        "catholic": "Catholique",
+        "orthodox": "Orthodoxe",
+        "both": "Catholique et orthodoxe"
+      },
+      "month": {
+        "previous": "Mois précédent",
+        "next": "Mois suivant",
+        "today": "Aujourd’hui",
+        "hint": "Utilisez les touches fléchées pour passer d’un jour à l’autre, et les touches Page précédente ou Page suivante pour changer de mois.",
+        "list": "En {month}",
+        "empty": "Aucune fête ce mois-ci.",
+        "nextFeast": "Prochaine fête : {name}"
+      },
+      "day": {
+        "events": "{date} : {events}",
+        "feast": "{name} ({tradition})",
+        "broadcast": "diffusion en direct à {time} : {title}",
+        "none": "Aucune fête ce jour-là.",
+        "today": "Aujourd’hui",
+        "transferred": "Fête transférée du {date} selon les règles du calendrier romain.",
+        "julian": "{date} selon le calendrier julien.",
+        "broadcastTime": "{time}, heure de Nazareth"
+      },
+      "legend": {
+        "title": "Légende",
+        "catholic": "Fête catholique",
+        "orthodox": "Fête orthodoxe",
+        "nazareth": "Fête de Nazareth",
+        "broadcast": "Diffusion en direct",
+        "today": "Aujourd’hui"
+      },
+      "upcoming": {
+        "title": "Prochaines fêtes",
+        "countdown": "{days, plural, =0 {Aujourd’hui} =1 {Demain} one {Dans # jour} other {Dans # jours}}"
+      },
+      "broadcast": {
+        "badge": "Diffusion en direct"
+      },
+      "ics": {
+        "add": "Ajouter au calendrier",
+        "addNamed": "Ajouter au calendrier : {name}",
+        "saved": "Le fichier pour « {name} » a été téléchargé. Ouvrez-le pour ajouter la date à votre calendrier.",
+        "calendarName": "Fêtes à Nazareth",
+        "location": "Nazareth"
+      },
+      "notes": {
+        "title": "À propos des dates",
+        "catholic": "Les dates catholiques suivent le calendrier grégorien, telles que les observent le Patriarcat latin de Jérusalem et la basilique de l’Annonciation. Lorsqu’une solennité tombe pendant la Semaine sainte ou un dimanche de Carême ou de l’Avent, elle est transférée au jour fixé par le calendrier romain.",
+        "holyLand": "En Terre sainte, certaines paroisses catholiques, en Galilée et ailleurs, célèbrent Pâques et les fêtes qui en dépendent à la date orthodoxe, et les paroisses célèbrent généralement la fête du Saint-Sacrement le dimanche suivant. Renseignez-vous auprès de votre paroisse sur ses dates.",
+        "orthodox": "Les dates orthodoxes suivent le calendrier julien du Patriarcat grec orthodoxe de Jérusalem : les fêtes fixes tombent 13 jours plus tard dans notre calendrier (Noël le 7 janvier, l’Annonciation le 7 avril, la Croix glorieuse le 27 septembre), et Pâques suit la règle julienne. Les Églises orthodoxes qui suivent le calendrier julien révisé, comme celles de Grèce et de Roumanie, célèbrent les fêtes fixes aux dates catholiques.",
+        "computed": "Les dates sont calculées, et non reprises d’un calendrier paroissial. Veuillez vérifier les horaires des offices auprès de l’église."
+      },
+      "feasts": {
+        "maryMotherOfGod": {
+          "name": "Sainte Marie, Mère de Dieu",
+          "description": "L’année s’ouvre avec Marie, Mère de Dieu, au huitième jour de Noël."
+        },
+        "epiphany": {
+          "name": "Épiphanie du Seigneur",
+          "orthodoxName": "Théophanie",
+          "description": "Le Christ se manifeste au monde : les Mages en Occident, son baptême dans le Jourdain en Orient."
+        },
+        "presentation": {
+          "name": "Présentation du Seigneur au Temple",
+          "orthodoxName": "Rencontre du Seigneur",
+          "description": "Marie et Joseph présentent l’Enfant Jésus au Temple, où Siméon et Anne viennent à sa rencontre."
+        },
+        "cleanMonday": {
+          "name": "Lundi pur",
+          "description": "Le premier jour du Grand Carême dans l’Église orthodoxe."
+        },
+        "ashWednesday": {
+          "name": "Mercredi des Cendres",
+          "description": "Le Carême commence : quarante jours de prière, de jeûne et de charité avant Pâques."
+        },
+        "stJoseph": {
+          "name": "Saint Joseph",
+          "description": "Joseph de Nazareth, époux de Marie et gardien de Jésus."
+        },
+        "annunciation": {
+          "name": "Annonciation du Seigneur",
+          "orthodoxName": "Annonciation de la Mère de Dieu",
+          "description": "L’ange Gabriel salue Marie ici, à Nazareth : c’est la fête des deux églises de l’Annonciation de la ville."
+        },
+        "palmSunday": {
+          "name": "Dimanche des Rameaux",
+          "description": "Jésus entre à Jérusalem et la Semaine sainte commence."
+        },
+        "holyThursday": {
+          "name": "Jeudi saint",
+          "orthodoxName": "Saint et Grand Jeudi",
+          "description": "La Cène : Jésus institue l’Eucharistie et lave les pieds de ses disciples."
+        },
+        "goodFriday": {
+          "name": "Vendredi saint",
+          "orthodoxName": "Saint et Grand Vendredi",
+          "description": "La Passion et la mort de Jésus sur la Croix."
+        },
+        "holySaturday": {
+          "name": "Samedi saint",
+          "orthodoxName": "Saint et Grand Samedi",
+          "description": "L’Église veille au tombeau jusqu’à la première lumière de Pâques."
+        },
+        "easter": {
+          "name": "Dimanche de Pâques",
+          "orthodoxName": "Sainte Pâque (Pâques)",
+          "description": "La Résurrection du Seigneur, la fête des fêtes."
+        },
+        "divineMercy": {
+          "name": "Dimanche de la Divine Miséricorde",
+          "description": "Le deuxième dimanche de Pâques, consacré à la miséricorde de Dieu."
+        },
+        "ascension": {
+          "name": "Ascension du Seigneur",
+          "description": "Quarante jours après Pâques, Jésus est élevé au ciel."
+        },
+        "pentecost": {
+          "name": "Pentecôte",
+          "orthodoxName": "Pentecôte (Sainte Trinité)",
+          "description": "L’Esprit Saint descend sur les apôtres, cinquante jours après Pâques."
+        },
+        "trinity": {
+          "name": "Sainte Trinité",
+          "description": "Le dimanche après la Pentecôte, en l’honneur du Père, du Fils et du Saint-Esprit."
+        },
+        "corpusChristi": {
+          "name": "Saint-Sacrement du Corps et du Sang du Christ",
+          "description": "Le Corps et le Sang du Christ, honorés dans l’Eucharistie et lors des processions."
+        },
+        "transfiguration": {
+          "name": "Transfiguration du Seigneur",
+          "description": "Jésus resplendit de gloire sur le mont Thabor, à quelques kilomètres de Nazareth."
+        },
+        "assumption": {
+          "name": "Assomption de la Vierge Marie",
+          "orthodoxName": "Dormition de la Mère de Dieu",
+          "description": "Marie est élevée dans la gloire du ciel ; l’Orient parle de sa Dormition."
+        },
+        "nativityOfMary": {
+          "name": "Nativité de la Vierge Marie",
+          "orthodoxName": "Nativité de la Mère de Dieu",
+          "description": "La naissance de la Vierge Marie."
+        },
+        "holyCross": {
+          "name": "Croix glorieuse",
+          "orthodoxName": "Exaltation de la Sainte Croix",
+          "description": "La fête de la Croix du Christ, qui donne son nom à Nazareth Holy Cross."
+        },
+        "allSaints": {
+          "name": "Toussaint",
+          "orthodoxName": "Dimanche de tous les saints",
+          "description": "Tous les saints de Dieu, connus et inconnus, en une seule fête."
+        },
+        "advent1": {
+          "name": "Premier dimanche de l’Avent",
+          "description": "La nouvelle année de l’Église commence par quatre semaines d’attente de Noël."
+        },
+        "advent2": {
+          "name": "Deuxième dimanche de l’Avent",
+          "description": "L’Avent : préparez le chemin du Seigneur."
+        },
+        "advent3": {
+          "name": "Troisième dimanche de l’Avent",
+          "description": "Dimanche de Gaudete : réjouissez-vous, le Seigneur est proche."
+        },
+        "advent4": {
+          "name": "Quatrième dimanche de l’Avent",
+          "description": "Le dernier dimanche avant Noël, avec Marie qui attend son Fils."
+        },
+        "immaculateConception": {
+          "name": "Immaculée Conception",
+          "description": "Marie, préservée de tout péché dès le premier instant de sa vie."
+        },
+        "christmas": {
+          "name": "Noël",
+          "orthodoxName": "Nativité du Christ",
+          "description": "La naissance de Jésus à Bethléem."
+        }
       }
     }
   },
