@@ -325,10 +325,12 @@ name the colours without backticks, so the table test above does not read them a
 | Arabic | Amiri | IBM Plex Sans Arabic | `--font-ar-serif`, `--font-ar-sans` |
 
 `--serif` and `--sans` (in `tokens.css`) add the Hebrew or Arabic pair under `:root:lang(he)` and
-`:root:lang(ar)`, **after** the Latin pair: the Latin faces have no Hebrew or Arabic letters, so those come from the
-script's face, while digits, spaces, punctuation and Latin words use the Latin file that is already preloaded (the
-script faces' own Latin files are then never downloaded: 74 kB less on a Hebrew page, 68 kB on an Arabic one). IBM
-Plex Sans Arabic is loaded in 400 and 700 only (a 500 label shows in 400 in Arabic). `--symbols` is for glyphs a page font may
+`:root:lang(ar)`, **after** the Latin face, which is named by its family (`'Inter'`, `'EB Garamond'`): the Latin faces
+have no Hebrew or Arabic letters, so those come from the script's face, while digits, spaces, punctuation and Latin
+words use the Latin file that is already preloaded (the script faces' own Latin files are then never downloaded: 74 kB
+less on a Hebrew page, 68 kB on an Arabic one). Not `var(--font-sans)` there: it ends in next/font's size-adjusted
+fallback, a local Arial that has Hebrew and Arabic letters and would draw them (`web/tests/unit/perf-assets.test.ts`).
+IBM Plex Sans Arabic is loaded in 400 and 700 only (a 500 label shows in 400 in Arabic). `--symbols` is for glyphs a page font may
 lack (the 14 language names in the menu, rating glyphs). Only the two Latin files are preloaded; the other
 scripts download by unicode-range only on pages that show them. Never add a second instance of the same family
 (duplicate downloads), never name a typeface in a component stylesheet (`font-family` must be `var(--serif)`,
@@ -984,7 +986,13 @@ and align to the end in right-to-left pages (`:root[dir='rtl'] .ui-input[dir='lt
 `aria-describedby` for you.
 Do: the right `type`, `inputmode` and `autocomplete`; accept pasted digits in any keyboard layout (the phone check
 accepts Arabic-Indic digits and sends 0-9). Don't: placeholder as label; validate on every keystroke before the
-visitor has left the field (check on blur and on submit, then re-check while fixing); lose typed text on error.
+visitor has left the field (check on blur once the visitor has changed the field, and on submit, then re-check while
+fixing: tabbing through an empty form shows no error; `useValidatedForm` in `web/src/components/checkout/hooks.ts`);
+lose typed text on error. On submit: render the errors first, then move the focus (`flushSync`, then `moveFocus()` from
+`web/src/lib/motion.ts`), so a screen reader hears the error when the field gets the focus; a submit button that is busy
+sending gets `aria-disabled`, never `disabled` (that drops the focus to `<body>`), and a refused send moves the focus
+to its `role="alert"` message (`tabIndex={-1}`). Step forms (checkout, candle, donate) end with `<ErrorSummary>`,
+one alert that names the fields to fix.
 
 #### States: empty, error, loading
 
@@ -1006,7 +1014,8 @@ shop has full skeleton sets (`web/src/components/shop/Skeletons.tsx`). Shop page
 | `<MediaPicture>` `web/src/components/media/MediaPicture.tsx` | Licensed photo as `<picture>` AVIF/WebP with blur placeholder and focal crop | `item`, `alt`, `sizes`, `priority`, `lean`, `fill`, `className` | `alt` from messages; `priority` once per page |
 | `<Reveal>` `web/src/components/ui/Reveal.tsx` | Fade-and-rise once when scrolled into view | `as`, `className`, `delay` (ms), children | Shows at once without `IntersectionObserver`, under reduced motion, and with JavaScript off (`@media (scripting: none)`) |
 | `<ToastProvider>` `web/src/components/ui/Toast.tsx` | Toasts: the provider and the `useToast()` hook; `toast.show({ message, kind, duration })` | `kind`: `success`, `error`, `info`. Max 3 visible, same message not repeated, pause on hover and focus, 44px close button. Errors stay 7s, others 4.5s | Polite live region always in the page; errors `role="alert"`; silent no-op without a provider |
-| `<Notice>` `web/src/components/ui/Notice.tsx` | Boxed message with icon: form-level and payment errors | `tone` (`danger`, `info`), `role` (`alert`, `status`, none) | `alert` announces at once |
+| `<Notice>` `web/src/components/ui/Notice.tsx` | Boxed message with icon: form-level and payment errors | `tone` (`danger`, `info`), `role` (`alert`, `status`, none), `ref` (then also `tabIndex={-1}`, for code that moves the focus to it) | `alert` announces at once |
+| `<ErrorSummary>` `web/src/components/checkout/ErrorSummary.tsx` | After a submit with problems: "Please check these fields: First name, Email and Country." | `fields` (labels in screen order, from `useValidatedForm().invalid(order)`); list joined by `Intl.ListFormat` | A `<Notice role="alert">`; never "the highlighted fields" (visual only) |
 | `<PageTools>` `web/src/components/ui/PageTools.tsx` | "Share" (phone share sheet or copy link) and "Print" | `title`, `print` | Reports with a toast; hidden in print (`data-print="hide"`) |
 | `<Stars>` `web/src/components/ui/Stars.tsx` | Read-only rating drawn with SVG | `value` (0-5), `label` (spoken), `size`, `count`, `countLabel` | `role="img"` with the spoken label; no font dependence |
 | `<Flame>` `web/src/components/ui/Flame.tsx` | Decorative candle flame in CSS | `size` (`sm`, `md`, `lg`), `ink` (for use on gold) | `aria-hidden`; still under reduced motion |
@@ -1020,6 +1029,7 @@ shop has full skeleton sets (`web/src/components/shop/Skeletons.tsx`). Shop page
 | `<A11yPanel>` `web/src/components/layout/A11yPanel.tsx` | The accessibility settings: a round button with the international accessibility sign floating in the bottom corner at the start of the line, that opens a small non-modal dialog above itself (section 5.5) | none | Its own landmark (`<aside>` named `ux.a11y.title`), early in the tab order; `aria-expanded`, `aria-controls`, `aria-haspopup="dialog"`; real radio buttons and switches; Escape and the close button return the focus |
 | `<MotionToggle>` `web/src/components/ui/MotionToggle.tsx` | Pause / play button for a moving background (WCAG 2.2.2) | `className`; pauses the CSS animations inside the nearest `data-motion-scope` element and tells `<HeroVideo>` | The label follows the state (`ux.motion.pause`, `ux.motion.play`); not shown when the visitor asked for less motion |
 | `<LanguageSwitcher>` `web/src/components/layout/LanguageSwitcher.tsx` | Menu of all 14 languages, each in its own script, two columns | Real links with `hreflang` | Arrow keys mirror in RTL; Escape returns focus |
+| `<IntentLink>` `web/src/components/layout/IntentLink.tsx` | The `Link` of the header and footer menus: prefetches its page only on intent (pointer rests on it, keyboard focus, touch) instead of when it enters the screen | the props of `Link` | Same element and focus as `Link`; every page is rendered per request, so viewport prefetching of the 8-20 menu links cost 15-42 server renders per page view (`docs/PERFORMANCE.md` 10.2) |
 | `<SiteFooter>` `web/src/components/layout/SiteFooter.tsx` | Four quiet columns plus languages; no newsletter, no cookie banner | Reads `footerNav`, `pilgrimNav`, `legalNav`, `socialLinks` | Social buttons 44px; the copyright line is one LTR unit |
 | `<BackToTop>` `web/src/components/layout/BackToTop.tsx` | Round button after 1.4 screens of scrolling | none | Out of the tab order while hidden; hands focus to `<main>` |
 | `<ReadingProgress>` `web/src/components/layout/ReadingProgress.tsx` | 3px gold line, fills as the visitor reads | long pages only | Decorative; grows from the start edge; hidden in print |
@@ -1098,6 +1108,9 @@ Rules:
 - **Moving backgrounds** get a `<MotionToggle>` inside an element marked `data-motion-scope` (the home hero and
   `<PlaceHero>` have one): it pauses the CSS animations in the scope (`[data-motion-paused]` in
   `web/src/styles/globals.css`) and the hero film.
+- **Short windows.** Below 420 px of height (a laptop at 400% zoom is 320 x 256; a phone held sideways) the panel is a
+  sheet over the whole window, header included, scrolling inside itself, with its title and Close pinned at the top
+  (`@media (max-height: 420px)` in `A11yPanel.module.css`). Anchored above the button it was an 84-96 px strip there.
 - **No overlay widget.** Do not add a third-party "accessibility overlay" script: it would break the CSP, add a
   tracker-like dependency and does not make a site conform. The panel is plain CSS on tokens.
 - Tests: `web/tests/unit/a11y.test.tsx` (storage, attributes, the pre-paint script, the dialog's keyboard
@@ -1123,7 +1136,7 @@ photographs (both removed for reduced motion). Everything else plays once and th
 | Countdown (`/live`) | The seconds figure settles in once a second (fade and a 0.12em drop, `--dur-base`); with less motion the seconds are not shown at all, so the countdown changes once a minute (WCAG 2.2.2) |
 | The live dot | The header's red dot pulses (1.6s ring) while a broadcast is live; static under reduced motion and "Stop animations" |
 | Focus management | Skip link first; after client navigation `<RouteFocus>` focuses `<main>`; after a step change the card heading is focused (`useStepFocus`); menus return focus to their button; a hidden control is out of the tab order |
-| Smooth scroll | `scroll-behavior: smooth` on `html`, `auto` under reduced motion; programmatic scrolls use `scrollBehavior()` from `web/src/lib/motion.ts` |
+| Smooth scroll | `scroll-behavior: smooth` on `html`, `auto` under reduced motion; programmatic scrolls use `scrollBehavior()` from `web/src/lib/motion.ts`. Focus moved by code goes through `moveFocus()` (same file): an instant scroll to the element, then `focus({ preventScroll: true })`, because a smooth scroll still running from the previous focus carried the page past the new one (WCAG 2.4.11) |
 | Reduced motion | Every animation has a `prefers-reduced-motion: reduce` branch that removes it; test with the emulation (the Playwright test `ux.spec.ts` does). The panel's "Stop animations" (5.5) does the same for visitors who cannot change their system setting |
 | Header | The bar's looks (`hero`, `glass`, `solid`) cross-fade in 250ms; the phone sheet fades in and its entries rise 10px one after the other (25ms apart); the logo grows 6% on hover. All off under reduced motion |
 | Pause | A background that keeps moving (the home hero film and Ken Burns zoom, the holy-site Ken Burns) has a `<MotionToggle>` pause button in its bottom corner at the reading end (WCAG 2.2.2) |
@@ -1195,8 +1208,9 @@ Check every item for each new page or component:
 
 **Forms and feedback**
 - [ ] Visible labels; `autocomplete` tokens for name, email, tel, address (1.3.5); the right `inputmode`.
-- [ ] Errors: identified in text, linked with `aria-describedby`, `aria-invalid="true"`, summarized by a
-      `role="alert"` notice, focus moved to the first invalid field on submit.
+- [ ] Errors: identified in text, linked with `aria-describedby`, `aria-invalid="true"` (rendered **before** the focus
+      moves), summarized by a `role="alert"` notice that names the fields (`<ErrorSummary>`), focus moved to the first
+      invalid field on submit with `moveFocus()`; no error on a field the visitor only tabbed through.
 - [ ] Status messages (saved, copied, added to cart) use `role="status"` or a polite live region (4.1.3); errors
       use `role="alert"`.
 - [ ] Do not make the visitor enter the same information twice in one flow (3.3.7), except where re-entry is
@@ -1305,8 +1319,8 @@ Visitors are on phones and slow networks. Performance is part of "done".
 | Cumulative Layout Shift | under 0.1 ("good") | same test | 0.000 on all five pages |
 | Interaction to Next Paint | under 200 ms ("good") | **not asserted by any test**; use total blocking time in Lighthouse as the proxy | blocking time 10-65 ms in Lighthouse, 48-285 ms in the throttled probe |
 | Images loaded before scrolling | under 1 MB per page | the same test | 109-698 kB |
-| JavaScript, all of it, compressed | under 350 kB per page | the same test | 195-295 kB (React, Next, next-intl, the layout) |
-| Fonts | under 250 kB per page | the same test | 90 kB (two Latin files preloaded) |
+| JavaScript, all of it, compressed | under 350 kB per page | the same test | 170-195 kB locally since 2026-10-07 (was 240-258; full `zod` out of the browser, `zod/mini` only) |
+| Fonts | under 250 kB per page | the same test (English pages) | 90 kB on Latin pages (two Latin files preloaded); `/he` 121 kB; `/ar` 262 kB (Amiri's Arabic file, 106 kB: over the budget, open, `docs/PERFORMANCE.md` 10.2) |
 | Hero film | under 3 MB downloaded in its first seconds, never on a phone; each part under 3 MB, the whole tour under 25 MB | the same test, and `web/tests/unit/perf-assets.test.ts` for the files | the tour: 12 parts of 1.0-2.8 MB, 20.1 MB in all (460 kbit/s, about 3.4 MB per minute watched; 1.4 MB in the first seconds); the fallback loop 1.4 MB WebM, 2.0 MB MP4 |
 | Cache | photos and videos one month; other images one day; `/_next/static` immutable; an anonymous request gets no `Set-Cookie` | the same test | |
 
@@ -1317,7 +1331,11 @@ Guidelines for new work (not enforced by a test, but reviewers will ask):
 - Load rarely-used heavy parts lazily (the PayPal panel, the photo viewer, the search palette are all lazy).
 - Every `next/image` and `<MediaPicture>` has a truthful `sizes`; below-the-fold images are lazy; give every image
   `width` and `height` or an `aspect-ratio` so nothing shifts.
-- Fonts: do not add a family or weight without measuring (`next/font` preloads the Latin files only).
+- Fonts: do not add a family or weight without measuring (`next/font` preloads the Latin files only). The Hebrew and
+  Arabic stacks start with the Latin face by its family name (3.3), never with `var(--font-sans)`, whose size-adjusted
+  fallback (a local Arial) has Hebrew and Arabic letters.
+- Browser code validates with `zod/mini`, never `zod` (about 70 kB compressed with its locales); a browser module never
+  imports a value from `web/src/lib/api.ts` (types only). `npm run scan:bundle` fails otherwise.
 - Animations on `transform` and `opacity` only; no `backdrop-filter` stacked more than two deep on a phone.
 - Do not read layout (`offsetHeight`) in scroll handlers; use passive listeners and `IntersectionObserver`.
 - Every API read is cached by Next's data cache and survives a 429 or a 5xx with retries (`web/src/lib/api.ts`); a
@@ -1603,7 +1621,7 @@ Each one happened (or nearly did) here. The right-hand column says what catches 
 | **`left` / `right` / `margin-left` in CSS** | Hebrew and Arabic look broken | Logical properties; conventions test |
 | **Installing a service worker** | The August 2026 worker served styles and scripts cache-first and broke the icon stylesheet with a cached opaque response for returning visitors; `web/public/sw.js` now exists only to retire it | Do not add a service worker without the owner's explicit decision and a rollback plan; keep `/sw.js` served with no-cache |
 | **Publishing a Netlify build that 404s** | Merging the new site made every page of nazarethholycross.com answer 404 on Netlify, and the edge cached the 404; `netlify.toml` had to be reverted to the previous site (hotfix `b4f5baa`). After the fix, a preview still showed `/latin` and `/product/:id` as 404 until the legacy redirects were also written with a language prefix | `netlify.toml` names `@netlify/plugin-nextjs`; **verify the deploy preview answers HTTP 200 on real pages before merging a Netlify-affecting change** (`docs/ADMIN-RUNBOOK.md` section 4, and `docs/WORKING-AGREEMENT.md`) |
-| **A `loading.tsx` at `app/[locale]/` or on the review, candle and donate pages** | A Suspense boundary above the catch-all route makes Next stream the 404 page with status 200 (a soft 404); on those pages React rendered a second, hidden copy of the page while hydrating and broke the end-to-end tests | The branded `<LoadingScreen>` via `<PageTransitions>`; `shell.spec.ts` expects a real 404 and checks for a single copy of the page |
+| **A `loading.tsx` at `app/[locale]/`, on the review, candle and donate pages, or on the product page** | A Suspense boundary above the catch-all route makes Next stream the 404 page with status 200 (a soft 404); on those pages React rendered a second, hidden copy of the page while hydrating and broke the end-to-end tests; on `shop/[id]` an unknown product answered 200 and the product's metadata was streamed into `<body>` (removed 2026-10-07) | The branded `<LoadingScreen>` via `<PageTransitions>`; `shell.spec.ts` expects a real 404 and checks for a single copy of the page |
 | **React's own view-transition component in a `template.tsx`** | A second copy of the DOM during hydration, a flash, duplicate form fields | Browser View Transitions hooked on link clicks (`PageTransitions.tsx`) |
 | **A second `next/font` instance of a family "for other scripts"** | Duplicate `@font-face` rules; the browser downloaded the Latin file twice (375 kB of fonts instead of 90 kB) | One instance per family; `subsets` only decides what is preloaded |
 | **A small photo stretched across the screen** as a hero | Soft, blurry; and the wrong `sizes` makes the browser pick a file too small for a phone's cropped hero | Licensed 2560 px photos through `<MediaPicture>` with `fill` and a real `sizes` |
