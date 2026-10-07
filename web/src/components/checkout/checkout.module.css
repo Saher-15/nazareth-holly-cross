@@ -137,9 +137,13 @@
   .stepDot {
     flex: none;
   }
+  /* Sentence case and no tracking here: in capitals with 0.08em tracking "CONFIRMATION" did not fit a 320 px screen at
+     200% text and broke before its last letter. */
   .stepName {
     flex: 1;
     min-width: 0;
+    letter-spacing: 0;
+    text-transform: none;
     overflow-wrap: anywhere;
   }
 }
