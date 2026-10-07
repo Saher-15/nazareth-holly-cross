@@ -182,6 +182,16 @@ previous morning (public `/product/catalog`: new, removed and edited products, p
 day. The state lives in `/opt/data/nhc-watch-state.json`. Every time in a message is Israel time (`NHC_TZ`,
 default `Asia/Jerusalem`): the Railway server itself runs on UTC.
 
+**Sales (yesterday)**, optional: orders, revenue (USD) and candles of the previous Nazareth day and of the last 7
+days, what waits in the dashboard (orders to ship, candles to light, messages to answer), payments that were taken but
+never saved (🔴, the customer paid and got nothing yet), and low stock. Read from `GET /admin/dashboard` with a
+dedicated **viewer** account (read-only, ADMIN.md section 2): sign in, read, sign out, once a day. Only counts and
+amounts reach the message; the dashboard's lists of recent customers are never used. The script refuses any other role
+and never retries a refused sign-in (no lockout). To turn it on: in the dashboard -> Users, create `hermes-report`
+with role **viewer**, a long random password and two-factor sign-in **off** (the script cannot type a code); then set
+`NHC_VIEWER_USER` and `NHC_VIEWER_PASSWORD` as Railway variables of the `hermes` service (or in `/opt/data/.env`).
+To turn it off, disable that account.
+
 To update the scripts on Hermes after a merge: download both files from `main` into `/opt/data/scripts/` (`railway ssh`
 into the `hermes` service). The Render checks in the script run only with `NHC_WATCH_RENDER=1` (the API left Render on
 2026-10-07). Hermes itself runs on Railway: a Railway-wide outage silences it, so keep an outside monitor (section 2)
