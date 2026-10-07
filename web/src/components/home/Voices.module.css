@@ -66,6 +66,14 @@
   font-weight: 400;
   color: var(--muted);
 }
+/* The month of the review, on its own line under the name. */
+.when {
+  display: block;
+  margin-block-start: 2px;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--muted);
+}
 
 .center {
   display: flex;

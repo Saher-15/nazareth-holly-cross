@@ -131,7 +131,8 @@ Screenshots (before and after, mobile and desktop, five pages): `scratchpad/perf
 
 | File | As uploaded | Now | Where |
 |---|---|---|---|
-| Home hero loop (`video-7.mp4`) | 640x360, 4 min 2 s, with sound nobody hears, **21.0 MB**, autoplays on every desktop visit | first 16 s, silent, 1280x720 (Lanczos upscale + light sharpen), **1.4 MB AV1/WebM + 2.0 MB H.264/MP4** | `public/videos/hero-loop.*` |
+| Home hero loop (`video-7.mp4`) | 640x360, 4 min 2 s, with sound nobody hears, **21.0 MB**, autoplays on every desktop visit | first 16 s, silent, 1280x720 (Lanczos upscale + light sharpen), **1.4 MB AV1/WebM + 2.0 MB H.264/MP4** | `public/videos/hero-loop.*` (since 2026-10-07 the fallback of the tour film below) |
+| Home hero film (2026-10-07): the whole virtual tour (`tour-720p.mp4`, 8 min 53 s, 97 MB) | | silent, 1.5x faster (5 min 49 s), cropped to 1024x576 to leave out the burned-in subtitles and the logo, the nine place-name cards painted out, the end card cut, 960x540, 25 fps, a keyframe every 2 s, light denoise, H.264 High two-pass at 460 kbit/s, then cut without re-encoding into **12 parts of 30 s, 1.0 to 2.8 MB each, 20.1 MB in all** (20 095 592 bytes), each with `+faststart` | `public/videos/hero-tour-00.mp4` ... `hero-tour-11.mp4` |
 | Live prayer 17 Sep 2024 | 520x850, 118 s, **13.4 MB** | **4.9 MB AV1/WebM + 6.1 MB H.264/MP4** | `public/videos/live-17-9-24.*` |
 | Interview | 516x848, 6 min 21 s, **69.3 MB** | 33 MB WebM / **38.7 MB** MP4 (too big for the repository) | **upload to Firebase** (below) |
 | Virtual tour (`tour.mp4`) | 1920x1080, 8 min 53 s, 12.4 Mbit/s, **811.8 MB** | **209 MB** 1080p H.264 (3.1 Mbit/s) and **93 MB** 720p | **upload to Firebase** (below) |
@@ -140,10 +141,45 @@ The source of the hero film is only 640x360, so it cannot be made sharper than i
 slightly crisper upscale than the browser's own, and the licensed 2560 px poster underneath is sharp. **To really fix
 it the owner needs the original 1080p footage of the aerial film.**
 
-* `HeroVideo` (`components/home`): not mounted on a screen narrower than 768 px (a phone gets only the photo),
-  not with `prefers-reduced-motion`, `Save-Data` or a 2g/3g connection (`navigator.connection`); mounted only after the
-  `load` event and when the browser is idle (`requestIdleCallback`), so it never competes with the photo; `muted`,
-  `loop`, `playsInline`, `preload="auto"`, paused when scrolled out of view; `<source>` WebM (AV1) first, MP4 fallback.
+* `HeroVideo` (`components/home`), since 2026-10-07 the whole tour instead of the 16 s loop (the owner's choice: a
+  self-hosted file, so no video service bills the minutes a background plays; an HLS stream on Cloudflare Stream was
+  designed and dropped for that reason, so there is no `hls.js` and no new CSP host):
+  * mounted only on a screen 768 px or wider, with a good connection (`navigator.connection.effectiveType` is "4g"
+    where the browser reports it; Safari and Firefox do not, and are treated as a good desktop connection), never with
+    `Save-Data`, `prefers-reduced-motion` or the panel's "Stop animations";
+  * mounted only after the `load` event and when the browser is idle (`requestIdleCallback`), so it never competes with
+    the photo, which stays the LCP element; nothing of the film is in the server HTML;
+  * `preload="none"`, `muted`, `playsInline`: no byte of it is fetched until it is asked to play, and it plays only
+    while the hero is on screen and the tab is visible (IntersectionObserver, `visibilitychange`) and the visitor has
+    not paused it (`<MotionToggle>`, WCAG 2.2.2); it fades in over the photo once it really plays;
+  * **in parts, on purpose.** The first version was one 20 MB file: Microsoft Edge then downloaded **3.1 MB in the
+    first 3 seconds and 6.0 MB after 30 seconds** (it buffers about a minute ahead on a fast line), and the budget test
+    did not see it (a streaming request is not in the resource timing until it ends). Now two stacked `<video>`
+    elements take turns: one plays a 30-second part, the other loads the next part 8 seconds before the end and takes
+    over when it ends (no gap: the parts are cut on keyframes); after the last part the tour starts again. Measured the
+    same way (CDP, local production build, Edge 1440 px): **1.4 MB in the first 3 seconds** (the first part) and 3.0 MB
+    after 30 seconds (the first two parts);
+  * the H.264 file is the only copy: an AV1 copy was measured (10.7 MB at 300 kbit/s, but visibly softer: VMAF 64.8
+    against 74.2 on a busy minute; at the same look about 14 MB) and left out to keep the repository small;
+  * if a part cannot be loaded or decoded (an `error` event) the 16 s loop takes the tour's place (AV1/WebM, else MP4);
+    if that fails too, the photo stays. A browser without H.264 (Playwright's own Chromium) gets the loop directly.
+    `npm run test:e2e` checks all of it (`tests/e2e/hero-film.spec.ts`, including the order of the twelve parts);
+  * there is no separate poster image: the licensed photo underneath is the poster (and the LCP element), the film fades
+    in over it only once it plays;
+  * the tour's own place-name cards (white boxes at the lower left, a few seconds each at nine places) are painted out
+    while they are on screen (ffmpeg `delogo`, listed in `TOUR_LABELS` of the encode script): the crop that removes the
+    subtitles would otherwise cut them in half ("'s Well"). Found by a scan for white boxes with dark text, checked
+    frame by frame, and the result scanned again (no card left; the remaining hits were a bright doorway and a
+    stained-glass window).
+* **Bandwidth of the hero film.** It streams at about 460 kbit/s: **about 3.4 MB per minute** a desktop visitor keeps
+  the hero on screen (1.4 MB for the first 30 seconds), at most 20.1 MB for the whole tour, and nothing for phones,
+  slow connections, data savers or visitors who asked for less motion. The parts are cached for a month (`/videos/*`),
+  so a second visit or a second round of the tour is served from the browser's cache. On Netlify that is ordinary site bandwidth (no per-minute charge); if the bandwidth
+  ever matters, the knobs are, in this order: the width threshold (`WIDE_QUERY` in `HeroVideo.tsx`), the bit rate
+  (`scripts/video/encode.mjs`, job `heroTour`), or the 2 MB loop instead of the tour (`filmPlan` in `HeroVideo.tsx`).
+* To encode it again, from `web/`: `node scripts/video/encode.mjs C:/Users/saher/nhc/video-out public/videos heroTour`
+  (needs ffmpeg with libx264; it reads `tour-720p.mp4`, the output of the `tour` job, and writes only the twelve parts;
+  a second run gave the same sizes within 3 kB). Give a new encode new file names: the files are cached for a month.
 * The tour and the two recordings keep `preload="none"` (nothing downloads until play), a licensed poster (tour) and
   `<source>` lists (`lib/videos.ts`). `/videos/*` is served with `Cache-Control: public, max-age=2592000`.
 * **Captions: none added.** The tour has burned-in English subtitles and spoken English narration; the recordings have
@@ -265,7 +301,7 @@ above improve. Lighthouse itself is not a CI step (it needs a browser path and t
 
 * Real devices and real networks: all numbers are lab numbers on one Windows machine. Lighthouse's mobile score is a
   simulation.
-* The hero film on Safari/iOS (AV1 in WebM falls back to the H.264 MP4 there; not run). Firefox and WebKit were not run.
+* The hero film on Safari/iOS and Firefox (not run; the tour is H.264, which both play). A phone never gets it.
 * Captions for the tour, the interview and the prayer recording (needs a human transcript).
 * The Firebase uploads of the tour (209 MB / 93 MB) and interview (39 MB) were **not** done; the pages still stream the
   originals (811 MB, 69 MB) from Firebase until the owner uploads the new files (section 4).

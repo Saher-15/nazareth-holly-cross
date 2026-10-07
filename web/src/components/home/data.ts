@@ -1,4 +1,5 @@
-import { api, type Product, type Review } from '@/lib/api';
+import { codeOfEnglishName } from '@/components/checkout/countries';
+import { api, type Prayer, type Product, type Review } from '@/lib/api';
 
 // Data for the home page, read on the server. A slow or failing API must never
 // break the page: each loader gives up after a few seconds and returns a fallback.
@@ -55,6 +56,38 @@ export async function loadVoices(
   } catch (error) {
     console.error('[home] pilgrim voices unavailable:', describe(error));
     return [];
+  }
+}
+
+export const NEWEST_PRAYERS = 3;
+/** How many of the newest prayers are read to count their countries (the most the API gives in one page). */
+export const PRAYER_SAMPLE = 50;
+
+export type PrayerWall = {
+  /** Every prayer on the wall (the API's count). */
+  total: number;
+  /** The newest few, to show. */
+  newest: Prayer[];
+  /** How many prayers the country count is based on (the newest PRAYER_SAMPLE, or all of them when there are fewer). */
+  sample: number;
+  /** Different countries among those (only countries the prayer form knows: free text of older prayers is not guessed). */
+  countries: number;
+};
+
+/** The prayer wall in figures, from one read of its newest page; null hides the section (empty wall, API down). */
+export async function loadPrayerWall(
+  fetcher: () => Promise<{ prayers: Prayer[]; total: number }> = () => api.prayers(1, PRAYER_SAMPLE),
+  timeoutMs: number = TIMEOUT_MS,
+): Promise<PrayerWall | null> {
+  try {
+    const { prayers, total } = await withTimeout(fetcher(), timeoutMs);
+    const shown = prayers.filter((p) => p.prayer.trim());
+    if (total === 0 || shown.length === 0) return null;
+    const countries = new Set(prayers.map((p) => codeOfEnglishName(p.country.trim())).filter(Boolean));
+    return { total, newest: shown.slice(0, NEWEST_PRAYERS), sample: prayers.length, countries: countries.size };
+  } catch (error) {
+    console.error('[home] prayer wall unavailable:', describe(error));
+    return null;
   }
 }
 
