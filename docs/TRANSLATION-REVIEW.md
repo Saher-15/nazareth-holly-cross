@@ -99,6 +99,27 @@ These three were written for this pass and **have not been read by a native spea
 | it | "Nazaret" everywhere (was mixed with "Nazareth"). Bible: CEI-style wording, written from memory; check. "Souvenir" and "ricordo" are both used for the product. |
 | pt | **Brazilian Portuguese (pt-BR)** is now used everywhere; Portuguese from Portugal was mixed in on the reviews and live pages. If European Portuguese readers matter, the clean solution is a separate `pt-PT` language. Bible: Almeida-style wording ("Não tenhas medo, Maria"), which is slightly formal next to "você". |
 
+## Christian calendar of `/live` (`pilgrim.calendar`, 2026-10-07)
+
+The feast names follow the Roman Missal of each language for `name` and the Orthodox Church's own usage for
+`orthodoxName` (`docs/LITURGICAL-CALENDAR.md`). They were written carefully but by machine: **a review by a native
+speaker who knows the liturgy (ideally a priest or sacristan of each tradition) is recommended before anyone relies on
+them.** Catholic and Orthodox usage differ inside one language, so check both columns. Open questions:
+
+| Language | Check |
+|---|---|
+| he | Pentecost as "חג השבועות" (or "פנטקוסט"); Advent as "אדוונט"; "יום ראשון של הדקלים" (or "של כפות התמרים"); "יום שישי הטוב" (or "הקדוש"); "יום שני הנקי"; "חג פגישת האדון"; "חג הירדמות יולדת האלוהים"; "חג רוממות הצלב הקדוש"; "ההתעברות ללא חטא"; solemnity as "חג בדרגת חגיגה"; the traditions as nouns ("קתולים", "אורתודוקסים") so they agree with every feast |
+| ar | Catholic Epiphany "عيد الدنح" (Melkites: "الظهور الإلهي"); Orthodox Pentecost "أحد العنصرة" without "(Holy Trinity)", which is not local usage; "خميس الأسرار", "السبت المقدس", Easter as "أحد القيامة" (Catholic) and "عيد الفصح المجيد" (Orthodox); "خطيب مريم" for St Joseph; "التطوافات"; month names written "كانون الثاني/يناير" in the notes |
+| el | Advent as "Κυριακή της Παρουσίας" (Παρουσία also means the Second Coming; "Αναμονής" or "Προσμονής"?); Catholic "Ανάληψη της Θεοτόκου" for the Assumption; "Επιφάνεια του Κυρίου"; "Γέννηση" or "Γενέθλιο της Θεοτόκου"; "Κυριακή της Θείας Ευσπλαχνίας"; "Μεγάλο" or "Μέγα Σάββατο" |
+| ru | "Сретение Господне" also for the Catholic name (or "Принесение Господа во храм"); "Взятие ... на небо" (or "Успение"); "Пальмовое" or "Вербное воскресенье"; "Иерусалимский Православный Патриархат" (without "Greek"); the traditions as "Католическая Церковь" / "Православная Церковь" |
+| uk | "Богоявлення Господнє" (Roman Catholics may say "Об’явлення Господнє"); "Внебовзяття"; "Пальмова" or "Вербна неділя"; "Воздвиження Хреста Господнього" for both (Roman Catholic "Підвищення Святого Хреста"?) |
+| ro | Catholic names after the Romanian Catholic Missal ("Înălțarea la cer a Sfintei Fecioare Maria", "Preasfântul Trup și Sânge al Domnului", "Duminica Divinei Îndurări"); Orthodox Pentecost "Pogorârea Duhului Sfânt (Cincizecimea)" (the Romanian Orthodox keep the Holy Trinity on the Monday); "Iisus/Hristos" as on the rest of the site, where Romanian Catholics write "Isus/Cristos" |
+| pl | The Missal titles "Uroczystość ..." for Mary Mother of God, St Joseph and the Trinity; Orthodox "Chrzest Pański (Teofania)", "Pięćdziesiątnica (Trójca Święta)", "Podwyższenie Krzyża Pańskiego"; "Wielki Czwartek/Piątek, Wielka Sobota" for both Churches; "W {month}" could not be used (the month is in the nominative), so the list heading is "Święta: {month}" |
+| de | "Theophanie", "Begegnung des Herrn", "Verkündigung der Gottesgebärerin", the order "Heiliger und Großer Donnerstag"; "Pfingsten (Heilige Dreifaltigkeit)"; "Mariä Empfängnis"; "Betlehem" or "Bethlehem" |
+| nl | "Aankondiging van de Heer" / "Annunciatie van de Moeder Gods"; "Grote en Heilige Donderdag"; "Ontslapen van de Moeder Gods"; "Schone Maandag"; "Goede Week" (Flemish) or "Stille Week" (Netherlands) |
+| fr | "Croix glorieuse" (Missal) for the Catholic Holy Cross and "Exaltation de la Sainte Croix" for the Orthodox; "Sainte Pâque (Pâques)"; "Saint et Grand Jeudi"; "Mère de Dieu" or "Théotokos"; "Lundi pur"; "Rencontre du Seigneur"; "Ajouter au calendrier" here while the planner says "Ajouter à l’agenda" |
+| es, it, pt | "Santo y Gran Jueves" / "Santo e Grande Giovedì" / "Santa e Grande Quinta-feira" (word order); "Lunes Puro", "Lunedì puro", "Segunda-feira Pura"; the Missal's long Corpus Christi names while the notes say "Corpus Christi" / "Corpus Domini"; pt "Nossa Senhora" in the Marian names |
+
 ## What was *not* done
 
 - No native speaker has proofread any language. The list above is the work to do.

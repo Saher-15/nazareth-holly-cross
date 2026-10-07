@@ -172,8 +172,10 @@ test.describe('live page', () => {
     }
     await expect(page.getByRole('heading', { name: en.videos.interview_nazareth.title })).toBeVisible();
 
-    const jsonLd = JSON.parse((await page.locator('script[type="application/ld+json"]').textContent()) ?? '{}');
-    expect(jsonLd['@graph'].filter((n: { '@type': string }) => n['@type'] === 'VideoObject')).toHaveLength(2);
+    // (The Christian calendar adds a second JSON-LD block when broadcasts are scheduled: read every block.)
+    const blocks = await page.locator('script[type="application/ld+json"]').allTextContents();
+    const nodes = blocks.flatMap((block) => (JSON.parse(block) as { '@graph'?: { '@type': string }[] })['@graph'] ?? []);
+    expect(nodes.filter((n) => n['@type'] === 'VideoObject')).toHaveLength(2);
   });
 
   test('renders right-to-left in Hebrew', async ({ page }) => {

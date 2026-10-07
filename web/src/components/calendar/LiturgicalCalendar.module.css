@@ -1,0 +1,637 @@
+/* The Christian calendar of /live (components/calendar/LiturgicalCalendar.tsx, docs/LITURGICAL-CALENDAR.md).
+   Tokens and logical properties only; the grid mirrors by itself in Hebrew and Arabic (a table follows `dir`).
+   Each tradition has its own shape as well as its own colour: a gold dot (Catholic), a cream diamond (Orthodox),
+   a hollow ring (a live broadcast), a small gold cross (Nazareth's own feasts). The legend says it in words. */
+
+/* ---- section head (LiturgicalCalendarSection) ---- */
+.head {
+  max-width: 760px;
+  margin: 0 auto var(--space-5);
+  text-align: center;
+}
+.head :global(.ui-h2) {
+  margin-bottom: var(--space-2);
+}
+.lead {
+  margin: 0 auto;
+  max-width: 640px;
+  color: var(--muted);
+}
+
+.calendar {
+  display: grid;
+  gap: var(--space-5);
+}
+
+/* ---- tradition filter: real radio buttons as pills ---- */
+.filter {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+  text-align: center;
+}
+.filterLegend {
+  margin-inline: auto;
+  margin-bottom: var(--space-3);
+  padding: 0;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--muted);
+}
+.segments {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+}
+.segment {
+  position: relative;
+  display: inline-flex;
+  cursor: pointer;
+}
+.segment input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.segment > span {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--tap);
+  padding: 0 clamp(12px, 2.5vw, 18px);
+  border-radius: 999px;
+  border: 1px solid var(--glass-line);
+  background: var(--glass);
+  color: var(--cream);
+  font-weight: 500;
+  transition: background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+}
+.segment input:checked + span {
+  border-color: var(--gold);
+  background: var(--gold-soft);
+  box-shadow: inset 0 0 0 1px var(--gold);
+  color: var(--white);
+  font-weight: 700;
+}
+.segment input:focus-visible + span {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+@media (hover: hover) {
+  .segment:hover > span {
+    border-color: color-mix(in srgb, var(--gold) 60%, transparent);
+  }
+}
+
+/* ---- layout: the month and the upcoming feasts side by side on wide screens ---- */
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(16px, 2.4vw, 24px);
+  align-items: stretch;
+}
+@media (min-width: 960px) {
+  .layout {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  }
+}
+
+.monthCard,
+.dayCard {
+  padding: clamp(12px, 2.6vw, 28px);
+  min-width: 0;
+}
+
+/* ---- month bar ---- */
+.monthBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-3);
+}
+.monthTitle {
+  margin: 0;
+  padding-inline-start: var(--space-2);
+  font: 400 var(--text-xl) / var(--leading-tight) var(--serif);
+  color: var(--white);
+}
+.monthNav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-inline-start: auto;
+}
+.monthBar :global(.ui-btn--icon)[aria-disabled='true'] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.todayButton {
+  flex: none;
+}
+
+/* ---- the grid ---- */
+.grid {
+  width: 100%;
+  margin-top: var(--space-4);
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: clamp(2px, 0.7vw, 6px);
+}
+.weekday {
+  padding-block: var(--space-1) var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--muted);
+  text-align: center;
+}
+.short {
+  display: none;
+}
+@media (min-width: 440px) {
+  .short {
+    display: inline;
+  }
+  .narrow {
+    display: none;
+  }
+}
+.cell,
+.empty {
+  padding: 0;
+}
+
+.day {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: 3px;
+  width: 100%;
+  min-height: clamp(42px, 7.5vw, 64px);
+  padding: 5px 0 4px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--cream);
+  font: inherit;
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+}
+@media (hover: hover) {
+  .day:hover {
+    background: var(--glass-strong);
+  }
+}
+/* Inside the cell, so a neighbour never covers the ring. */
+.day:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: -3px;
+}
+.number {
+  display: inline-grid;
+  place-items: center;
+  min-width: max(1.9em, 26px);
+  min-height: max(1.9em, 26px);
+  padding-inline: 2px;
+  border-radius: 999px;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.feastDay .number {
+  color: var(--white);
+  font-weight: 700;
+}
+.nazarethDay .number {
+  color: var(--gold);
+}
+.selected {
+  border-color: color-mix(in srgb, var(--gold) 60%, transparent);
+  background: var(--gold-soft);
+}
+/* Today: the number in a gold disc (a shape, not only a colour), and aria-current="date" for screen readers. */
+.today .number,
+.today.nazarethDay .number {
+  background: var(--gold);
+  color: var(--on-gold);
+  font-weight: 700;
+}
+.marks {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+  min-height: 8px;
+}
+.cornerMark {
+  position: absolute;
+  inset-block-start: 4px;
+  inset-inline-end: 4px;
+  width: 9px;
+  height: 9px;
+  color: var(--gold);
+}
+
+/* ---- the shapes (grid, legend, badges, filter) ---- */
+.shape {
+  display: inline-block;
+  flex: none;
+  width: 7px;
+  height: 7px;
+}
+.dotCatholic {
+  border-radius: 50%;
+  background: var(--gold);
+}
+.dotOrthodox {
+  width: 6px;
+  height: 6px;
+  margin: 0.5px;
+  background: var(--cream);
+  transform: rotate(45deg);
+}
+.dotBroadcast {
+  border: 1.5px solid var(--cream);
+  border-radius: 50%;
+}
+
+/* ---- legend ---- */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2) var(--space-5);
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+.legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.legendMark {
+  width: 11px;
+  height: 11px;
+  color: var(--gold);
+}
+.todaySwatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+/* ---- the chosen day, and the month as a list ---- */
+.dayCard {
+  display: grid;
+  align-content: start;
+  gap: var(--space-5);
+}
+.dayPanel {
+  min-width: 0;
+}
+.dayTitle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  margin: 0 0 var(--space-3);
+  font: 400 var(--text-lg) / var(--leading-tight) var(--serif);
+  color: var(--white);
+}
+.todayTag {
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--gold);
+  color: var(--on-gold);
+  font: 700 var(--text-xs) / 1.6 var(--sans);
+}
+.none {
+  margin: 0;
+  color: var(--muted);
+}
+.dayList {
+  display: grid;
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.entry {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+.entry + .entry {
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--glass-line);
+}
+
+.monthList {
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--glass-line);
+}
+.monthListTitle {
+  margin: 0 0 var(--space-2);
+  font: 600 var(--text-sm) / 1.4 var(--sans);
+  color: var(--muted);
+}
+.monthList ul {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.monthItem {
+  display: grid;
+  grid-template-columns: minmax(4.5em, auto) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  min-height: var(--tap);
+  padding: 6px 10px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--cream);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-out);
+}
+@media (hover: hover) {
+  .monthItem:hover {
+    background: var(--glass-strong);
+  }
+}
+.monthItemActive {
+  border-color: color-mix(in srgb, var(--gold) 60%, transparent);
+  background: var(--gold-soft);
+}
+.monthItemDate {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.monthItemName {
+  overflow-wrap: break-word;
+}
+/* "Next feast: ..." under an empty month: name first, then the date. */
+.nextFeast {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2px;
+  margin-top: var(--space-2);
+  border-color: var(--glass-line);
+}
+
+/* ---- one feast (in the day panel and in the upcoming list) ---- */
+.body {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+.bodyHead {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+.bodyTitle {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+.metaLine {
+  display: block;
+}
+.entryName {
+  margin: 0;
+  font: 400 var(--text-lg) / var(--leading-tight) var(--serif);
+  color: var(--white);
+  overflow-wrap: break-word;
+}
+.entryNazareth {
+  color: var(--gold);
+}
+.entryMeta {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+.entryText {
+  margin: 0;
+  color: var(--cream);
+  text-wrap: pretty;
+}
+.entryNote {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+.countdown {
+  color: var(--cream);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-3);
+  margin-top: 4px;
+}
+.badges {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 10px;
+  border: 1px solid;
+  border-radius: 999px;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  line-height: 1.6;
+}
+.badgeCatholic,
+.badgeNazareth {
+  border-color: color-mix(in srgb, var(--gold) 35%, transparent);
+  background: var(--gold-soft);
+  color: var(--gold);
+}
+.badgeNazareth {
+  background: transparent;
+}
+.badgeOrthodox,
+.badgeBroadcast {
+  border-color: color-mix(in srgb, var(--cream) 35%, transparent);
+  background: color-mix(in srgb, var(--cream) 8%, transparent);
+  color: var(--cream);
+}
+.badgeMark {
+  width: 10px;
+  height: 10px;
+}
+/* "Add to calendar": a quiet text button (gold: it can be pressed), still 44px tall. */
+.add {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 6px;
+  min-height: var(--tap);
+  padding: 0 4px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--gold);
+  font: 600 var(--text-sm) / 1.2 var(--sans);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 4px;
+  cursor: pointer;
+  transition: text-decoration-color var(--dur-fast) var(--ease-out);
+}
+.add:hover {
+  text-decoration-color: currentColor;
+}
+
+/* ---- upcoming feasts: a grid of cards under the month ---- */
+.upcomingBlock {
+  min-width: 0;
+}
+.upcomingTitle {
+  margin: var(--space-3) 0 var(--space-4);
+  text-align: center;
+}
+.upcoming {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
+  gap: clamp(16px, 2.4vw, 24px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.item {
+  padding: clamp(16px, 2vw, 20px);
+  min-width: 0;
+}
+/* Cards of one row are as tall as the tallest: the badges and the button sit at the foot. */
+.item > .body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.item .footer {
+  margin-top: auto;
+}
+.itemNazareth {
+  border-color: color-mix(in srgb, var(--gold) 45%, transparent);
+}
+.dateBox {
+  display: grid;
+  flex: none;
+  place-content: center;
+  justify-items: center;
+  gap: 2px;
+  min-width: max(52px, 3.4em);
+  min-height: max(56px, 3.6em);
+  padding: 6px;
+  border: 1px solid var(--glass-line);
+  border-radius: var(--radius-sm);
+  background: var(--glass);
+}
+.itemNazareth .dateBox {
+  border-color: color-mix(in srgb, var(--gold) 55%, transparent);
+  background: var(--gold-soft);
+}
+.dateDay {
+  font: 700 1.4rem / 1 var(--sans);
+  color: var(--white);
+  font-variant-numeric: tabular-nums;
+}
+.dateMonth {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--gold);
+}
+
+/* ---- notes on the conventions (server-rendered under the calendar) ---- */
+.notes {
+  max-width: var(--measure);
+  margin: var(--space-6) auto 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+.notesTitle {
+  margin: 0 0 var(--space-3);
+  font: 400 var(--text-lg) / var(--leading-tight) var(--serif);
+  color: var(--white);
+}
+.notes ul {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding-inline-start: 1.2em;
+}
+
+/* ---- large text (the accessibility panel): the grid keeps inside its card ---- */
+:root:is([data-a11y-text='150'], [data-a11y-text='175'], [data-a11y-text='200']) .grid {
+  border-spacing: 1px;
+}
+:root:is([data-a11y-text='150'], [data-a11y-text='175'], [data-a11y-text='200']) .number {
+  min-width: 0;
+  min-height: 0;
+  padding: 2px;
+  font-size: 0.8rem;
+}
+:root:is([data-a11y-text='150'], [data-a11y-text='175'], [data-a11y-text='200']) .cornerMark {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .day,
+  .monthItem,
+  .add,
+  .segment > span {
+    transition: none;
+  }
+}
+
+/* Windows high contrast: states drawn with a background get a system-colour outline. */
+@media (forced-colors: active) {
+  .selected {
+    outline: 2px solid Highlight;
+  }
+  .today .number {
+    border: 2px solid CanvasText;
+  }
+  .dotCatholic,
+  .dotOrthodox,
+  .todaySwatch {
+    background: CanvasText;
+  }
+  .dotBroadcast {
+    border-color: CanvasText;
+  }
+  .segment input:checked + span,
+  .monthItemActive {
+    outline: 2px solid Highlight;
+  }
+}

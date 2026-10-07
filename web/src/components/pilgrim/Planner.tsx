@@ -5,7 +5,7 @@ import { useFormatter, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { directionsUrl, getPlace, placeHref, type PlaceSlug } from '@/data/places/places';
 import { RouteIcon } from '@/components/ui/icons';
-import { addDays, buildIcs, type IcsEvent } from '@/data/pilgrim/ics';
+import { addDays, buildIcs, saveIcsFile, type IcsEvent } from '@/data/pilgrim/ics';
 import {
   buildItinerary,
   clockDate,
@@ -104,15 +104,7 @@ export default function Planner() {
         });
       }
     }
-    const blob = new Blob([buildIcs(events, { name: t('calendarName') })], { type: 'text/calendar;charset=utf-8' });
-    const href = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = href;
-    link.download = 'nazareth-pilgrimage.ics';
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    setTimeout(() => URL.revokeObjectURL(href), 1000);
+    saveIcsFile(buildIcs(events, { name: t('calendarName') }), 'nazareth-pilgrimage.ics');
     setNotice(t('calendarDone'));
   }
 

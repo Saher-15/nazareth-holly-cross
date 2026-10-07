@@ -1571,6 +1571,197 @@
         "title": "Căutați pe site",
         "lead": "Găsiți pagini, locuri sfinte, răspunsuri la întrebări frecvente și pasaje din Evanghelie."
       }
+    },
+    "calendar": {
+      "eyebrow": "Calendar creștin",
+      "title": "Sărbătorile anului",
+      "lead": "Marile sărbători ale Bisericii Catolice și ale Bisericilor Ortodoxe. La Nazaret se țin amândouă calendarele, așa că, acolo unde datele diferă, le vedeți pe amândouă.",
+      "filter": {
+        "legend": "Afișați sărbătorile",
+        "all": "Ambele tradiții",
+        "catholic": "Catolice",
+        "orthodox": "Ortodoxe"
+      },
+      "tradition": {
+        "catholic": "Catolică",
+        "orthodox": "Ortodoxă",
+        "both": "Catolică și ortodoxă"
+      },
+      "month": {
+        "previous": "Luna anterioară",
+        "next": "Luna următoare",
+        "today": "Astăzi",
+        "hint": "Folosiți tastele săgeți pentru a trece de la o zi la alta și Page Up sau Page Down pentru a schimba luna.",
+        "list": "În {month}",
+        "empty": "Nicio sărbătoare în această lună.",
+        "nextFeast": "Următoarea sărbătoare: {name}"
+      },
+      "day": {
+        "events": "{date}: {events}",
+        "feast": "{name} ({tradition})",
+        "broadcast": "transmisiune în direct la ora {time}: {title}",
+        "none": "Nicio sărbătoare în această zi.",
+        "today": "Astăzi",
+        "transferred": "Sărbătoare mutată de la {date}, potrivit regulilor calendarului roman.",
+        "julian": "{date} după calendarul iulian.",
+        "broadcastTime": "{time}, ora din Nazaret"
+      },
+      "legend": {
+        "title": "Legendă",
+        "catholic": "Sărbătoare catolică",
+        "orthodox": "Sărbătoare ortodoxă",
+        "nazareth": "Sărbătoare a Nazaretului",
+        "broadcast": "Transmisiune în direct",
+        "today": "Astăzi"
+      },
+      "upcoming": {
+        "title": "Următoarele sărbători",
+        "countdown": "{days, plural, =0 {Astăzi} =1 {Mâine} one {Peste # zi} few {Peste # zile} other {Peste # de zile}}"
+      },
+      "broadcast": {
+        "badge": "Transmisiune în direct"
+      },
+      "ics": {
+        "add": "Adăugați în calendar",
+        "addNamed": "Adăugați în calendar: {name}",
+        "saved": "Fișierul de calendar pentru {name} a fost descărcat. Deschideți-l pentru a adăuga data în calendarul dumneavoastră.",
+        "calendarName": "Sărbători la Nazaret",
+        "location": "Nazaret"
+      },
+      "notes": {
+        "title": "Despre date",
+        "catholic": "Datele catolice urmează calendarul gregorian, așa cum le țin Patriarhia Latină a Ierusalimului și Bazilica Buna Vestire. Când o solemnitate cade în Săptămâna Sfântă sau într-o duminică din Postul Mare ori din Advent, ea se mută în ziua stabilită de calendarul roman.",
+        "holyLand": "În Țara Sfântă, unele parohii catolice, din Galileea și din alte locuri, țin Paștele și sărbătorile care depind de el la data ortodoxă, iar parohiile țin de obicei sărbătoarea Trupului și Sângelui Domnului în duminica următoare. Întrebați la parohia dumneavoastră care sunt datele ei.",
+        "orthodox": "Datele ortodoxe urmează calendarul iulian al Patriarhiei Greco-Ortodoxe a Ierusalimului: sărbătorile cu dată fixă cad cu 13 zile mai târziu în calendarul nostru (Crăciunul pe 7 ianuarie, Buna Vestire pe 7 aprilie, Înălțarea Sfintei Cruci pe 27 septembrie), iar Paștele urmează regula iuliană. Bisericile Ortodoxe care folosesc calendarul îndreptat, precum cele din Grecia și România, țin sărbătorile cu dată fixă la datele catolice.",
+        "computed": "Datele sunt calculate, nu copiate dintr-un calendar parohial. Vă rugăm să confirmați orele slujbelor la biserică."
+      },
+      "feasts": {
+        "maryMotherOfGod": {
+          "name": "Sfânta Maria, Născătoare de Dumnezeu",
+          "description": "Anul începe cu Maria, Născătoarea de Dumnezeu, în a opta zi a Crăciunului."
+        },
+        "epiphany": {
+          "name": "Epifania Domnului",
+          "orthodoxName": "Botezul Domnului (Boboteaza)",
+          "description": "Hristos se arată lumii: în Apus, magilor; în Răsărit, la Botezul Său în Iordan."
+        },
+        "presentation": {
+          "name": "Prezentarea Domnului",
+          "orthodoxName": "Întâmpinarea Domnului",
+          "description": "Maria și Iosif Îl aduc pe Pruncul Iisus la Templu, unde Îl întâmpină Simeon și Ana."
+        },
+        "cleanMonday": {
+          "name": "Lunea Curată",
+          "description": "Prima zi a Postului Mare în Biserica Ortodoxă."
+        },
+        "ashWednesday": {
+          "name": "Miercurea Cenușii",
+          "description": "Începe Postul Mare: patruzeci de zile de rugăciune, post și milostenie înainte de Paști."
+        },
+        "stJoseph": {
+          "name": "Sfântul Iosif",
+          "description": "Iosif din Nazaret, soțul Mariei și ocrotitorul lui Iisus."
+        },
+        "annunciation": {
+          "name": "Buna Vestire a Domnului",
+          "orthodoxName": "Bunavestire",
+          "description": "Îngerul Gavriil o salută pe Maria chiar aici, în Nazaret: hramul celor două biserici ale Bunei Vestiri din oraș."
+        },
+        "palmSunday": {
+          "name": "Duminica Floriilor",
+          "description": "Iisus intră în Ierusalim și începe Săptămâna Sfântă."
+        },
+        "holyThursday": {
+          "name": "Joia Sfântă",
+          "orthodoxName": "Sfânta și Marea Joi",
+          "description": "Cina cea de Taină: Iisus dăruiește Euharistia și spală picioarele ucenicilor Săi."
+        },
+        "goodFriday": {
+          "name": "Vinerea Sfântă",
+          "orthodoxName": "Sfânta și Marea Vineri",
+          "description": "Patimile și moartea lui Iisus pe cruce."
+        },
+        "holySaturday": {
+          "name": "Sâmbăta Sfântă",
+          "orthodoxName": "Sfânta și Marea Sâmbătă",
+          "description": "Biserica veghează la mormânt până la cea dintâi lumină a Paștelui."
+        },
+        "easter": {
+          "name": "Duminica Învierii Domnului",
+          "orthodoxName": "Învierea Domnului (Sfintele Paști)",
+          "description": "Învierea Domnului, sărbătoarea sărbătorilor."
+        },
+        "divineMercy": {
+          "name": "Duminica Divinei Îndurări",
+          "description": "A doua duminică a Paștelui, închinată îndurării lui Dumnezeu."
+        },
+        "ascension": {
+          "name": "Înălțarea Domnului",
+          "description": "La patruzeci de zile după Paști, Iisus este înălțat la cer."
+        },
+        "pentecost": {
+          "name": "Duminica Rusaliilor",
+          "orthodoxName": "Pogorârea Duhului Sfânt (Cincizecimea)",
+          "description": "Duhul Sfânt coboară asupra apostolilor, la cincizeci de zile după Paști."
+        },
+        "trinity": {
+          "name": "Duminica Preasfintei Treimi",
+          "description": "Duminica de după Rusalii, în cinstea Tatălui, a Fiului și a Duhului Sfânt."
+        },
+        "corpusChristi": {
+          "name": "Preasfântul Trup și Sânge al Domnului",
+          "description": "Trupul și Sângele lui Hristos, cinstite în Euharistie și în procesiuni."
+        },
+        "transfiguration": {
+          "name": "Schimbarea la Față a Domnului",
+          "description": "Iisus strălucește în slavă pe Muntele Tabor, la câțiva kilometri de Nazaret."
+        },
+        "assumption": {
+          "name": "Înălțarea la cer a Sfintei Fecioare Maria",
+          "orthodoxName": "Adormirea Maicii Domnului",
+          "description": "Maria este luată în slava cerului; Răsăritul numește această zi adormirea ei."
+        },
+        "nativityOfMary": {
+          "name": "Nașterea Sfintei Fecioare Maria",
+          "orthodoxName": "Nașterea Maicii Domnului",
+          "description": "Ziua de naștere a Fecioarei Maria."
+        },
+        "holyCross": {
+          "name": "Înălțarea Sfintei Cruci",
+          "orthodoxName": "Înălțarea Sfintei Cruci",
+          "description": "Sărbătoarea Crucii lui Hristos, de la care își trage numele Nazareth Holy Cross."
+        },
+        "allSaints": {
+          "name": "Toți Sfinții",
+          "orthodoxName": "Duminica Tuturor Sfinților",
+          "description": "Toți sfinții lui Dumnezeu, cunoscuți și necunoscuți, într-o singură sărbătoare."
+        },
+        "advent1": {
+          "name": "Prima duminică din Advent",
+          "description": "Noul an liturgic începe cu patru săptămâni de așteptare a Crăciunului."
+        },
+        "advent2": {
+          "name": "A doua duminică din Advent",
+          "description": "Advent: pregătiți calea Domnului."
+        },
+        "advent3": {
+          "name": "A treia duminică din Advent",
+          "description": "Duminica Gaudete: bucurați-vă, Domnul este aproape."
+        },
+        "advent4": {
+          "name": "A patra duminică din Advent",
+          "description": "Ultima duminică înainte de Crăciun, cu Maria, care își așteaptă Fiul."
+        },
+        "immaculateConception": {
+          "name": "Neprihănita Zămislire a Sfintei Fecioare Maria",
+          "description": "Maria, ferită de orice păcat din prima clipă a vieții sale."
+        },
+        "christmas": {
+          "name": "Nașterea Domnului (Crăciunul)",
+          "orthodoxName": "Nașterea Domnului (Crăciunul)",
+          "description": "Nașterea lui Iisus în Betleem."
+        }
+      }
     }
   },
   "media": {
