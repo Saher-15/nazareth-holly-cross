@@ -183,6 +183,6 @@ day. The state lives in `/opt/data/nhc-watch-state.json`. Every time in a messag
 default `Asia/Jerusalem`): the Railway server itself runs on UTC.
 
 To update the scripts on Hermes after a merge: download both files from `main` into `/opt/data/scripts/` (`railway ssh`
-into the `hermes` service). The Render checks in the script run only with `NHC_WATCH_RENDER=1` (the API left Render on
-2026-10-07). Hermes itself runs on Railway: a Railway-wide outage silences it, so keep an outside monitor (section 2)
+into the `hermes` service). The script watches Railway only: the API left Render on 2026-10-07 and its Render checks
+were removed; deploy failures show in the report as the Railway status on `main`. Hermes itself runs on Railway: a Railway-wide outage silences it, so keep an outside monitor (section 2)
 and treat a missing 08:00 report as an alert.
