@@ -61,15 +61,9 @@
     }
   },
   "live": {
-    "event_ongoing": "Wydarzenie na żywo w toku",
-    "upcoming_event": "Nadchodzące wydarzenie na żywo",
-    "nazareth_date_time": "Data i godzina w Nazarecie:",
-    "time_remaining": "Pozostały czas:",
-    "join_live": "Dołącz do transmisji na żywo",
     "no_upcoming_events": "Brak zaplanowanych wydarzeń.",
     "past_live_events": "Poprzednie wydarzenia na żywo",
-    "refresh_note": "Uwaga: odśwież stronę przed naciśnięciem przycisku „Dołącz do transmisji na żywo”.",
-    "live_note": "Uwaga: przycisk „Dołącz do transmisji na żywo” jest dostępny dopiero po rozpoczęciu transmisji."
+    "refresh_note": "Uwaga: odśwież stronę przed naciśnięciem przycisku „Dołącz do transmisji na żywo”."
   },
   "common": {
     "home": "Strona główna",
@@ -520,13 +514,11 @@
       "title": "Módl się z nami na żywo",
       "lead": "Modlitwy i nabożeństwa transmitowane z miejsc świętych Nazaretu, gdziekolwiek jesteś.",
       "status": {
-        "live": "Na żywo",
         "upcoming": "Wkrótce",
         "offline": "Poza anteną"
       },
       "offlineHint": "Obecnie nie nadajemy. Poniżej możesz obejrzeć nasze wcześniejsze transmisje.",
       "follow": "Obserwuj nas na Instagramie",
-      "eventStarted": "Wydarzenie się rozpoczęło",
       "units": {
         "days": "{count, plural, one {Dzień} few {Dni} many {Dni} other {Dni}}",
         "hours": "{count, plural, one {Godzina} few {Godziny} many {Godzin} other {Godziny}}",
@@ -535,16 +527,31 @@
       },
       "pastEyebrow": "Obejrzyj ponownie",
       "videoFallback": "Twoja przeglądarka nie może odtworzyć tego filmu.",
-      "events": {
-        "annunciationSunday": "Niedzielna modlitwa z Bazyliki Zwiastowania"
-      },
       "now": {
         "badge": "Teraz na żywo",
         "since": "{minutes, plural, =0 {Właśnie się zaczęła} one {Na żywo od # minuty} few {Na żywo od # minut} many {Na żywo od # minut} other {Na żywo od # minuty}}",
         "playerTitle": "Transmisja na żywo: {title}",
         "started": "Rozpoczęła się transmisja na żywo: {title}",
         "ended": "Transmisja na żywo zakończyła się.",
-        "note": "Naciśnij odtwarzanie, aby modlić się z nami. Transmisja nie jest nagrywana."
+        "note": "Naciśnij odtwarzanie, aby modlić się z nami. Transmisja może zostać nagrana i pokazana później na tej stronie."
+      },
+      "next": {
+        "kicker": "Następna transmisja na żywo",
+        "startsIn": "Początek za {time}",
+        "days": "{count, plural, one {# dzień} few {# dni} many {# dni} other {# dnia}}",
+        "hours": "{count, plural, one {# godzinę} few {# godziny} many {# godzin} other {# godziny}}",
+        "minutes": "{count, plural, one {# minutę} few {# minuty} many {# minut} other {# minuty}}",
+        "soonTitle": "Zaraz zaczynamy",
+        "soonText": "Odtwarzacz pojawi się na górze tej strony, gdy tylko zaczniemy transmisję.",
+        "startingNow": "Transmisja właśnie się zaczyna.",
+        "nazarethTime": "Czas w Nazarecie",
+        "yourTime": "Twój czas",
+        "addToCalendar": "Dodaj do kalendarza",
+        "moreTitle": "Kolejne transmisje na żywo"
+      },
+      "recordings": {
+        "play": "Odtwórz: {title}",
+        "playerTitle": "Nagranie: {title}"
       }
     }
   },
@@ -902,6 +909,13 @@
     "motion": {
       "pause": "Wstrzymaj ruchome tło",
       "play": "Odtwórz ruchome tło"
+    },
+    "liveAlert": {
+      "badge": "Na żywo",
+      "title": "Nadajemy na żywo",
+      "text": "Dołącz do naszej modlitwy z Nazaretu, gdziekolwiek jesteś.",
+      "watch": "Oglądaj teraz",
+      "later": "Nie teraz"
     }
   },
   "pilgrim": {
@@ -1566,7 +1580,7 @@
               "paypal": "Płatność: przyciski i okno płatności PayPal tworzy PayPal i nie możemy ich zmienić. Jeśli nie możesz z nich skorzystać, napisz do nas, a znajdziemy inny sposób na dokończenie zamówienia lub darowizny.",
               "videos": "Filmy: nagrania wcześniejszych transmisji i filmy na stronie wycieczki nie mają jeszcze napisów ani transkrypcji.",
               "translations": "Tłumaczenia: większość tekstów przetłumaczono za pomocą oprogramowania i czekają one na sprawdzenie przez rodzimych użytkowników języka, więc niektóre sformułowania mogą być niejasne.",
-              "external": "Inne usługi: transmisje na żywo, mapy i serwisy społecznościowe otwierają się na własnych stronach, na których dostępność nie mamy wpływu.",
+              "external": "Inne usługi: odtwarzacz transmisji na żywo i nagrań (Cloudflare Stream, osadzony na naszych stronach), mapy i serwisy społecznościowe, na których dostępność nie mamy wpływu.",
               "photos": "Zdjęcia: ich opisy podają miejsce i temat, ale nie opisują każdego szczegółu."
             }
           },

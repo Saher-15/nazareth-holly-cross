@@ -30,6 +30,8 @@ that breaks them is refused with a 400), not only by the routes.
 | `adminSession` | AdminSession | One sign-in (the session a token needs) | sign-in |
 | `auditLog` | AuditLog | Who did what in the dashboard | every admin change |
 | `liveSession` | LiveSession | One live broadcast started from the dashboard (docs/LIVE.md) | `POST /admin/live/start`, `/stop`, the automatic end |
+| `liveRecording` | LiveRecording | The recording of one broadcast, stored as a video at Cloudflare Stream (docs/LIVE.md section 9) | `/admin/live/recordings` |
+| `scheduledBroadcast` | ScheduledBroadcast | A broadcast announced ahead of time (docs/LIVE.md section 10) | `/admin/live/schedule`, `POST /admin/live/start` with a `scheduleId`, the end of that broadcast |
 
 ### order
 `firstName` `lastName` (1-100, required), `phone` (<=50, required), `email` (valid address, lower-cased, <=254, required),
@@ -72,6 +74,22 @@ Section 2 explains the flow.
 `inputDeleted` (Cloudflare's input was removed). **At most one document is `live`** (a partial unique index on `status`); `startedAt` is
 indexed for the dashboard's history. The WHIP publish address (it holds the broadcast secret) is **never stored**. No personal data
 beyond the staff name; nothing expires by itself (a few rows a week).
+
+### liveRecording (new)
+`session` (the broadcast, **unique**: one recording per broadcast) `title` (1-120) `liveStartedAt` `liveEndedAt` (copied from the
+session: the website shows the date of the live) `durationSeconds` (what the browser measured, then Cloudflare's figure) `sizeBytes`
+`mimeType` `cfVideoUid` (the Cloudflare Stream video) `customerCode` (of `customer-<code>.cloudflarestream.com`, from which the
+player and thumbnail addresses are derived) `status` (`uploading` -> `processing` -> `ready`, or `failed`) `failReason` `published`
+`publishedAt` `uploadExpiresAt` `checkedAt` (last status check at Cloudflare) `createdBy {id,name}`. Indexes: `session` (unique),
+`liveStartedAt` (the dashboard), `published + status + liveStartedAt` (the website's list). The one-time upload address is **never
+stored**. The video itself (people filmed in a church, their voices) lives at Cloudflare, not in MongoDB; deleting the row deletes
+the video there too (best effort, logged when it fails). Not in the backups' video sense: a backup holds the row, not the video.
+
+### scheduledBroadcast (new)
+`title` (1-120) `description` (<=500) `startsAt` (UTC; typed and shown in Nazareth time) `published` (draft until true) `status`
+(`scheduled` -> `live` -> `done`, or `cancelled`) `liveSession` (the broadcast that fulfilled it) `createdBy` `updatedBy`. Indexes:
+`startsAt`, `published + status + startsAt` (the website's upcoming list), `liveSession` (marking it done when the broadcast ends).
+No personal data beyond staff names.
 
 ## 2. The payment ledger (why nothing paid can be lost)
 

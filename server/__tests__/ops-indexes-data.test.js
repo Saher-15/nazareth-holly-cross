@@ -5,6 +5,8 @@ import { describe, it, expect, vi } from 'vitest';
 
 vi.unmock('../model/payment.js'); // these scripts read the REAL model declarations
 vi.unmock('../model/liveSession.js');
+vi.unmock('../model/liveRecording.js');
+vi.unmock('../model/scheduledBroadcast.js');
 
 const { fakeDb } = await import('../test-harness/fake-db.js');
 const { ensureIndexes } = await import('../scripts/ensure-indexes.js');
@@ -145,7 +147,7 @@ describe('index comparison', () => {
 
   it('knows every collection name (two are not singular, on purpose)', () => {
     expect(Object.values(MODELS).map(collectionNameOf).sort()).toEqual(
-      ['admins', 'adminSession', 'auditLog', 'candle', 'contact', 'liveSession', 'order', 'payment', 'prayers', 'product', 'productReview', 'review'].sort(),
+      ['admins', 'adminSession', 'auditLog', 'candle', 'contact', 'liveRecording', 'liveSession', 'order', 'payment', 'prayers', 'product', 'productReview', 'review', 'scheduledBroadcast'].sort(),
     );
   });
 });

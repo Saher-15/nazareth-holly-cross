@@ -96,6 +96,9 @@ function timing(event: IcsEvent): string[] {
   return [`DTSTART:${icsLocal(event.date, event.start)}`, `DTEND:${icsLocal(event.date, event.end)}`];
 }
 
+/** An http(s) address safe to write into a URI property (nothing that could start a new line or property). */
+const safeUrl = (url: string | undefined) => (url && /^https?:\/\/[^\s"<>\\]+$/.test(url) ? url : null);
+
 export function buildIcs(
   events: readonly IcsEvent[],
   { name, now = new Date(), product = 'Pilgrimage planner' }: { name: string; now?: Date; product?: string },
@@ -104,17 +107,18 @@ export function buildIcs(
   const lines = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    `PRODID:-//Nazareth Holy Cross//${product}//EN`,
+    `PRODID:-//Nazareth Holy Cross//${product.replace(/[^A-Za-z0-9 .-]/g, '')}//EN`,
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
     `X-WR-CALNAME:${escapeIcsText(name)}`,
   ];
   for (const event of events) {
-    lines.push('BEGIN:VEVENT', `UID:${event.uid}`, `DTSTAMP:${stamp}`, ...timing(event), `SUMMARY:${escapeIcsText(event.summary)}`);
+    lines.push('BEGIN:VEVENT', `UID:${event.uid.replace(/[^A-Za-z0-9@._-]/g, '')}`, `DTSTAMP:${stamp}`, ...timing(event), `SUMMARY:${escapeIcsText(event.summary)}`);
     if (event.description) lines.push(`DESCRIPTION:${escapeIcsText(event.description)}`);
     if (event.location) lines.push(`LOCATION:${escapeIcsText(event.location)}`);
     if (event.geo) lines.push(`GEO:${event.geo.lat.toFixed(6)};${event.geo.lng.toFixed(6)}`);
-    if (event.url) lines.push(`URL:${event.url}`);
+    const url = safeUrl(event.url);
+    if (url) lines.push(`URL:${url}`);
     lines.push('END:VEVENT');
   }
   lines.push('END:VCALENDAR');

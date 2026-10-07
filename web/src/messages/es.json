@@ -61,15 +61,9 @@
     }
   },
   "live": {
-    "event_ongoing": "Evento en vivo en curso",
-    "upcoming_event": "Próximo evento en vivo",
-    "nazareth_date_time": "Fecha y hora en Nazaret:",
-    "time_remaining": "Tiempo restante:",
-    "join_live": "Unirse en vivo",
     "no_upcoming_events": "No hay eventos próximos.",
     "past_live_events": "Eventos en vivo anteriores",
-    "refresh_note": "Nota: actualiza la página antes de pulsar el botón «Unirse en vivo».",
-    "live_note": "Nota: el botón «Unirse en vivo» solo está disponible cuando comienza el evento en vivo."
+    "refresh_note": "Nota: actualiza la página antes de pulsar el botón «Unirse en vivo»."
   },
   "common": {
     "home": "Inicio",
@@ -520,13 +514,11 @@
       "title": "Reza con nosotros, en directo",
       "lead": "Oraciones y celebraciones transmitidas desde los lugares santos de Nazaret, estés donde estés.",
       "status": {
-        "live": "En directo",
         "upcoming": "Próximamente",
         "offline": "Sin emisión"
       },
       "offlineHint": "Ahora no estamos transmitiendo. Puedes ver nuestras transmisiones anteriores más abajo.",
       "follow": "Síguenos en Instagram",
-      "eventStarted": "El evento ha comenzado",
       "units": {
         "days": "{count, plural, one {Día} other {Días}}",
         "hours": "{count, plural, one {Hora} other {Horas}}",
@@ -535,16 +527,31 @@
       },
       "pastEyebrow": "Volver a ver",
       "videoFallback": "Tu navegador no puede reproducir este vídeo.",
-      "events": {
-        "annunciationSunday": "Oración dominical desde la basílica de la Anunciación"
-      },
       "now": {
         "badge": "En vivo ahora",
         "since": "{minutes, plural, =0 {Acaba de empezar} one {En vivo desde hace # minuto} other {En vivo desde hace # minutos}}",
         "playerTitle": "Transmisión en vivo: {title}",
         "started": "Ha comenzado una transmisión en vivo: {title}",
         "ended": "La transmisión en vivo ha terminado.",
-        "note": "Pulsa reproducir para rezar con nosotros. La transmisión no se graba."
+        "note": "Pulsa reproducir para rezar con nosotros. La transmisión puede grabarse y mostrarse más tarde en esta página."
+      },
+      "next": {
+        "kicker": "Próxima transmisión en vivo",
+        "startsIn": "Empieza en {time}",
+        "days": "{count, plural, one {# día} other {# días}}",
+        "hours": "{count, plural, one {# hora} other {# horas}}",
+        "minutes": "{count, plural, one {# minuto} other {# minutos}}",
+        "soonTitle": "Empieza en breve",
+        "soonText": "El reproductor aparecerá arriba en esta página en cuanto estemos en vivo.",
+        "startingNow": "La transmisión está empezando.",
+        "nazarethTime": "Hora de Nazaret",
+        "yourTime": "Tu hora",
+        "addToCalendar": "Añadir al calendario",
+        "moreTitle": "Más transmisiones en vivo"
+      },
+      "recordings": {
+        "play": "Reproducir: {title}",
+        "playerTitle": "Grabación: {title}"
       }
     }
   },
@@ -902,6 +909,13 @@
     "motion": {
       "pause": "Pausar el fondo en movimiento",
       "play": "Reproducir el fondo en movimiento"
+    },
+    "liveAlert": {
+      "badge": "En vivo",
+      "title": "Estamos en vivo",
+      "text": "Únete a nuestra oración desde Nazaret, estés donde estés.",
+      "watch": "Ver ahora",
+      "later": "Ahora no"
     }
   },
   "pilgrim": {
@@ -1566,7 +1580,7 @@
               "paypal": "Pago: los botones y la ventana de pago de PayPal los hace PayPal y no podemos cambiarlos. Si no puedes usarlos, escríbenos y buscaremos otra forma de completar tu pedido o tu donativo.",
               "videos": "Vídeos: las grabaciones de transmisiones anteriores y los vídeos de la página del recorrido todavía no tienen subtítulos ni transcripción.",
               "translations": "Traducciones: la mayoría de los textos se tradujeron con ayuda de software y esperan la revisión de hablantes nativos, así que algunas frases pueden ser poco claras.",
-              "external": "Otros servicios: las transmisiones en vivo, los mapas y las redes sociales se abren en sus propios sitios, cuya accesibilidad no controlamos.",
+              "external": "Otros servicios: el reproductor de las transmisiones en vivo y las grabaciones (Cloudflare Stream, dentro de nuestras páginas), los mapas y las redes sociales, cuya accesibilidad no controlamos.",
               "photos": "Fotografías: sus descripciones indican el lugar y el tema, pero no describen cada detalle."
             }
           },

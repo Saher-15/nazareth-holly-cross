@@ -58,6 +58,17 @@ How it is built, in short:
 - The system setting `prefers-reduced-motion` is always honoured; "Stop animations" adds the same for visitors who
   cannot change it, and `prefersReducedMotion()` (`web/src/lib/motion.ts`) reports both to the code that starts the
   hero film, the scroll reveals, page transitions, carousels and the live countdown.
+- **Live broadcasts (2026-10-07).** The countdown to the next broadcast on `/live` (`<BroadcastStage>`) is a
+  `role="timer"` with `aria-live="off"`: its ticking figures are hidden from screen readers, which read one sentence
+  instead ("Starts in 2 days and 3 hours") that changes at most once a minute and is never announced by itself; only
+  the change of state ("The broadcast is starting now") is announced, in a polite live region. With less motion it
+  shows no seconds (2.2.2). Times are given in Nazareth time and, after the page has loaded, on the visitor's own clock
+  (both labelled). The "We are live now" window (`<LiveAlert>`) is a native modal `<dialog>`: focus on "Watch now",
+  Tab stays inside, Escape and a click outside close it, the focus returns to where it was; it never opens while the
+  visitor is typing in a field or has another dialog or the menu open, never in the first 4 seconds on a page, and
+  never on the payment pages (3.2.5 and 2.2.4 are AAA, but the same care). The header's live dot carries words for
+  screen readers and stops pulsing with less motion. Each recording's poster is one button named "Play: <title>"; the
+  player (Cloudflare's frame, with a title) replaces it only after a press and takes the focus.
 - The home page's "Today in Nazareth" band has a clock and, when a broadcast is scheduled, a countdown: both change once
   a minute and never show seconds, the calm form the `/live` countdown uses for visitors who asked for less motion.
   The home hero's film (since 2026-10-07 the whole silent tour) is never started under reduced motion or "Stop
@@ -151,12 +162,16 @@ panel, and words may break anywhere so nothing is pushed wider than the screen.
 
 - **PayPal.** The PayPal buttons (an iframe) and PayPal's own window are excluded from our tests and outside our
   control. The statement offers another way by e-mail.
-- **Captions.** The recordings of past broadcasts (`/live`) and the tour film (`/tour`) have no captions or
-  transcripts (1.2.2, 1.2.3 / 1.2.5). The home hero film is silent and needs none. Writing captions needs the speech
+- **Captions.** The recordings of past broadcasts (`/live`, the older files and the ones published from the dashboard
+  through Cloudflare Stream) and the tour film (`/tour`) have no captions or transcripts (1.2.2, 1.2.3 / 1.2.5); a live
+  broadcast has no live captions (1.2.4). The home hero film is silent and needs none. Writing captions needs the speech
   of each video: a content task for the owner.
 - **Translations.** Most texts are machine-made and wait for native review (`docs/TRANSLATION-REVIEW.md`); wording,
   not structure, may suffer (3.1.5 is AAA, but clarity matters).
-- **Third-party sites.** Live broadcasts, Google Maps and social profiles open on their own sites.
+- **Third-party content.** The player of a live broadcast or a recording on `/live` is Cloudflare Stream's page in a
+  frame: its controls are Cloudflare's and are not tested by us. Google Maps and social profiles open on their own
+  sites. (The public statement's "other services" line, `pilgrim.legal.accessibility.sections.limits.items.external`,
+  says the same in all 14 languages since 2026-10-07; it used to say live broadcasts open on another site.)
 - **Decorative motion outside the heroes.** The small candle flames and the candle page's glow keep flickering
   unless the visitor asks for less motion (system setting or the panel). They are small decorative effects; the
   panel's "Stop animations", present on every page, is the mechanism that stops them (2.2.2).

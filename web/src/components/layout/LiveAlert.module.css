@@ -1,0 +1,143 @@
+/* "We are live now" (LiveAlert.tsx): a small centred modal window over a dimmed page. It sits in the middle of the
+   screen, never in a corner (floating buttons live there). Glass card (.ui-glass: border, radius, blur, shadow) on a
+   nearly opaque night surface, so its text keeps its contrast over any photograph behind it. */
+
+.dialog {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  inline-size: min(440px, 100% - 32px);
+  max-inline-size: none;
+  block-size: fit-content;
+  max-block-size: calc(100dvh - 32px);
+  padding: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  color: var(--cream);
+  font-family: var(--sans);
+}
+/* Two selectors' weight, so the surface wins over .ui-glass's translucent fill whatever order the stylesheets load in. */
+.dialog[open] {
+  background: color-mix(in srgb, var(--night-2) 94%, transparent);
+  border-color: color-mix(in srgb, var(--gold) 30%, var(--glass-line));
+  box-shadow: var(--elev-4), 0 0 80px color-mix(in srgb, var(--live) 14%, transparent);
+  animation: live-alert-in var(--dur-base) var(--ease-out);
+}
+.dialog:not([open]) {
+  display: none;
+}
+.dialog::backdrop {
+  background: color-mix(in srgb, var(--night) 74%, transparent);
+  backdrop-filter: blur(3px);
+}
+.dialog[open]::backdrop {
+  animation: live-alert-fade var(--dur-base) var(--ease-out);
+}
+
+.body {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+  padding: clamp(24px, 5vw, 36px) clamp(20px, 5vw, 32px);
+  text-align: center;
+}
+
+/* The reserved "on air" colour with night ink (5.89:1, docs/DESIGN-GUIDE.md 3.2), always with the word. */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--live);
+  background: var(--live);
+  color: var(--night);
+  font: 700 0.78rem/1 var(--sans);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.badge:lang(he),
+.badge:lang(ar) {
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 0.9rem;
+}
+.dot {
+  inline-size: 9px;
+  block-size: 9px;
+  border-radius: 50%;
+  background: var(--night);
+}
+
+.title {
+  margin: var(--space-1) 0 0;
+  font: 400 clamp(1.6rem, 4.6vw, 2.1rem) / var(--leading-tight) var(--serif);
+  color: var(--white);
+  text-wrap: balance;
+}
+
+.broadcast {
+  margin: 0;
+  max-inline-size: 34ch;
+  color: var(--gold);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  overflow-wrap: break-word;
+  text-wrap: balance;
+}
+
+.text {
+  margin: 0;
+  max-inline-size: 36ch;
+  color: var(--muted);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-block-start: var(--space-3);
+  inline-size: 100%;
+}
+.actions > * {
+  flex: 1 1 10rem;
+  justify-content: center;
+  text-align: center;
+}
+
+@keyframes live-alert-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes live-alert-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Less motion: it only fades in. */
+@media (prefers-reduced-motion: reduce) {
+  .dialog[open] {
+    animation-name: live-alert-fade;
+  }
+}
+
+@media (forced-colors: active) {
+  .dialog[open] {
+    border: 2px solid CanvasText;
+  }
+  .badge {
+    border-color: CanvasText;
+  }
+}

@@ -18,11 +18,16 @@ export const USERS = {
   passchange: { username: 'passchange', password: 'Passchange-Mock-Pass-1' },
   totpsetup: { username: 'totpsetup', password: 'Totpsetup-Mock-Pass-1' },
   resetpass: { username: 'resetpass', password: 'Resetpass-Mock-Pass-1', email: 'resetpass@example.com' },
+  // The editor of the live specs (live.spec.ts, live-recordings.spec.ts): the Live page polls its lists, and with the
+  // rest of the suite on `editor` the API's 300 requests per admin per 15 minutes ran out.
+  liveeditor: { username: 'liveeditor', password: 'Liveeditor-Mock-Pass-1' },
+  // ... and their owner: their clean-up between tests (as an owner) used up `owner`'s allowance for the pages that follow.
+  liveowner: { username: 'liveowner', password: 'Liveowner-Mock-Pass-1' },
 } as const;
 
 export type Role = 'owner' | 'editor' | 'viewer';
 
-export function stateFile(role: Role): string {
+export function stateFile(role: Role | 'liveeditor' | 'liveowner'): string {
   return path.join(__dirname, '.auth', `${role}.json`);
 }
 
@@ -58,8 +63,8 @@ export function watchProblems(page: Page) {
   return problems;
 }
 
-export async function expectNoAxeViolations(page: Page) {
-  const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
+export async function expectNoAxeViolations(page: Page, tags: string[] = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']) {
+  const results = await new AxeBuilder({ page }).withTags(tags).analyze();
   const summary = results.violations.map((v) => `${v.id}: ${v.help} (${v.nodes.length}) ${v.nodes.slice(0, 3).map((n) => n.target.join(' ')).join(' | ')}`);
   expect(summary, 'axe violations').toEqual([]);
 }

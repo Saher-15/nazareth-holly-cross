@@ -61,15 +61,9 @@
     }
   },
   "live": {
-    "event_ongoing": "Livestream is bezig",
-    "upcoming_event": "Eerstvolgende livestream",
-    "nazareth_date_time": "Datum en tijd in Nazareth:",
-    "time_remaining": "Resterende tijd:",
-    "join_live": "Live meekijken",
     "no_upcoming_events": "Er zijn geen livestreams gepland.",
     "past_live_events": "Eerdere livestreams",
-    "refresh_note": "Let op: vernieuw de pagina voordat u op de knop ‘Live meekijken’ klikt.",
-    "live_note": "Let op: de knop ‘Live meekijken’ is pas beschikbaar nadat de livestream is begonnen."
+    "refresh_note": "Let op: vernieuw de pagina voordat u op de knop ‘Live meekijken’ klikt."
   },
   "common": {
     "home": "Home",
@@ -520,13 +514,11 @@
       "title": "Bid live met ons mee",
       "lead": "Gebeden en diensten, uitgezonden vanuit de heilige plaatsen van Nazareth, waar u ook bent.",
       "status": {
-        "live": "Live",
         "upcoming": "Binnenkort",
         "offline": "Offline"
       },
       "offlineHint": "We zenden nu niet uit. Hieronder kunt u onze eerdere uitzendingen bekijken.",
       "follow": "Volg ons op Instagram",
-      "eventStarted": "De uitzending is begonnen",
       "units": {
         "days": "{count, plural, one {Dag} other {Dagen}}",
         "hours": "{count, plural, one {Uur} other {Uren}}",
@@ -535,16 +527,31 @@
       },
       "pastEyebrow": "Opnieuw bekijken",
       "videoFallback": "Uw browser kan deze video niet afspelen.",
-      "events": {
-        "annunciationSunday": "Zondagsgebed vanuit de Annunciatiebasiliek"
-      },
       "now": {
         "badge": "Nu live",
         "since": "{minutes, plural, =0 {Net begonnen} one {Al # minuut live} other {Al # minuten live}}",
         "playerTitle": "Live-uitzending: {title}",
         "started": "Er is een live-uitzending begonnen: {title}",
         "ended": "De live-uitzending is afgelopen.",
-        "note": "Druk op afspelen om met ons mee te bidden. De uitzending wordt niet opgenomen."
+        "note": "Druk op afspelen om met ons mee te bidden. De uitzending kan worden opgenomen en later op deze pagina worden getoond."
+      },
+      "next": {
+        "kicker": "Volgende live-uitzending",
+        "startsIn": "Begint over {time}",
+        "days": "{count, plural, one {# dag} other {# dagen}}",
+        "hours": "{count, plural, one {# uur} other {# uur}}",
+        "minutes": "{count, plural, one {# minuut} other {# minuten}}",
+        "soonTitle": "Begint zo",
+        "soonText": "De speler verschijnt boven aan deze pagina zodra we live zijn.",
+        "startingNow": "De uitzending begint nu.",
+        "nazarethTime": "Tijd in Nazareth",
+        "yourTime": "Uw tijd",
+        "addToCalendar": "Toevoegen aan agenda",
+        "moreTitle": "Meer live-uitzendingen"
+      },
+      "recordings": {
+        "play": "Afspelen: {title}",
+        "playerTitle": "Opname: {title}"
       }
     }
   },
@@ -902,6 +909,13 @@
     "motion": {
       "pause": "Bewegende achtergrond pauzeren",
       "play": "Bewegende achtergrond afspelen"
+    },
+    "liveAlert": {
+      "badge": "Live",
+      "title": "We zijn nu live",
+      "text": "Bid met ons mee vanuit Nazareth, waar u ook bent.",
+      "watch": "Nu kijken",
+      "later": "Niet nu"
     }
   },
   "pilgrim": {
@@ -1566,7 +1580,7 @@
               "paypal": "Betalen: de PayPal-knoppen en het betaalvenster worden door PayPal gemaakt en wij kunnen ze niet aanpassen. Kunt u ze niet gebruiken, schrijf ons dan en we vinden een andere manier om uw bestelling of gift af te ronden.",
               "videos": "Video’s: de opnamen van eerdere uitzendingen en de films op de rondleidingspagina hebben nog geen ondertitels of uitgeschreven tekst.",
               "translations": "Vertalingen: de meeste teksten zijn met hulp van software vertaald en wachten op controle door moedertaalsprekers, dus sommige zinnen kunnen onduidelijk zijn.",
-              "external": "Andere diensten: live-uitzendingen, kaarten en sociale netwerken openen op hun eigen websites, waarvan wij de toegankelijkheid niet in de hand hebben.",
+              "external": "Andere diensten: de videospeler van live-uitzendingen en opnamen (Cloudflare Stream, in onze pagina’s), kaarten en sociale netwerken, waarvan wij de toegankelijkheid niet in de hand hebben.",
               "photos": "Foto’s: de beschrijvingen noemen de plaats en het onderwerp, maar niet elk detail."
             }
           },

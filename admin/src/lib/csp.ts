@@ -8,13 +8,18 @@ export type CspOptions = {
   upgradeInsecure?: boolean;
   extraImgSrc?: string[];
   firebase?: boolean;
-  /** The Live page (/live): the browser publishes the camera to Cloudflare Stream (WHIP), so it may connect there. */
+  /**
+   * The Live page (/live): the browser publishes the camera to Cloudflare Stream (WHIP), uploads the recording to
+   * Cloudflare's tus hosts, frames Cloudflare's player for a preview and shows its thumbnails. Only there.
+   */
   live?: boolean;
 };
 
 const FIREBASE = 'https://firebasestorage.googleapis.com';
 /** Cloudflare Stream's customer hosts (customer-<code>.cloudflarestream.com): the WHIP publish address lives there. */
 export const CLOUDFLARE_STREAM = 'https://*.cloudflarestream.com';
+/** Cloudflare's one-time tus upload hosts (Direct Creator Upload): the recording of a broadcast goes there. */
+export const CLOUDFLARE_UPLOAD = ['https://upload.videodelivery.net', 'https://upload.cloudflarestream.com'];
 
 export function parseOrigins(value: string | undefined): string[] {
   return (value ?? '')
@@ -24,8 +29,8 @@ export function parseOrigins(value: string | undefined): string[] {
 }
 
 export function buildCsp({ nonce, dev = false, upgradeInsecure = true, extraImgSrc = [], firebase = true, live = false }: CspOptions): string {
-  const img = ["'self'", 'data:', 'blob:', FIREBASE, ...extraImgSrc];
-  const connect = ["'self'", ...(firebase ? [FIREBASE] : []), ...(live ? [CLOUDFLARE_STREAM] : [])];
+  const img = ["'self'", 'data:', 'blob:', FIREBASE, ...extraImgSrc, ...(live ? [CLOUDFLARE_STREAM] : [])];
+  const connect = ["'self'", ...(firebase ? [FIREBASE] : []), ...(live ? [CLOUDFLARE_STREAM, ...CLOUDFLARE_UPLOAD] : [])];
   const directives = [
     ["default-src", "'self'"],
     ['script-src', `'self' 'nonce-${nonce}' 'strict-dynamic'${dev ? " 'unsafe-eval'" : ''}`],
@@ -36,6 +41,8 @@ export function buildCsp({ nonce, dev = false, upgradeInsecure = true, extraImgS
     ['font-src', "'self'"],
     ['connect-src', dev ? `${connect.join(' ')} ws: wss:` : connect.join(' ')],
     ['media-src', "'none'"],
+    // Only the Live page frames anything: Cloudflare's player, to preview a recording. Elsewhere default-src applies.
+    ...(live ? [['frame-src', CLOUDFLARE_STREAM]] : []),
     ['object-src', "'none'"],
     ['base-uri', "'none'"],
     ['form-action', "'self'"],

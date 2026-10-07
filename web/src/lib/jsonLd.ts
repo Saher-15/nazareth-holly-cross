@@ -1,4 +1,5 @@
 import { CONTACT_EMAIL, SITE_NAME, SITE_URL } from './config';
+import { isoDuration } from './liveRecordings';
 import { absoluteUrl, localePath } from './seo';
 import { socialLinks } from './site';
 
@@ -108,6 +109,24 @@ export function contactPointJsonLd(name: string): JsonLd {
     url: SITE_URL,
     email: CONTACT_EMAIL,
     contactPoint: { '@type': 'ContactPoint', contactType: 'customer support', email: CONTACT_EMAIL },
+  };
+}
+
+/** A recording of a past broadcast (GET /live/recordings) as a VideoObject played in Cloudflare Stream's player. */
+export function recordingVideoJsonLd(recording: {
+  title: string;
+  date: number | null;
+  durationSeconds: number;
+  thumbnailUrl: string;
+  playbackUrl: string;
+}): JsonLd {
+  return {
+    '@type': 'VideoObject',
+    name: recording.title,
+    ...(recording.date !== null ? { uploadDate: new Date(recording.date).toISOString() } : {}),
+    thumbnailUrl: recording.thumbnailUrl,
+    embedUrl: recording.playbackUrl,
+    ...(recording.durationSeconds > 0 ? { duration: isoDuration(recording.durationSeconds) } : {}),
   };
 }
 

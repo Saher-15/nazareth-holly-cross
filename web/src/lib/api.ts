@@ -1,6 +1,8 @@
 import './zodConfig';
 import { z } from 'zod';
 import { API_URL } from './config';
+import { parseRecordings } from './liveRecordings';
+import { parseSchedule } from './liveSchedule';
 import { decodeEntities } from './plainText';
 
 // Every response from the API is validated before the UI touches it, so a bad
@@ -267,4 +269,8 @@ export const api = {
       z.object({ prayers: z.array(prayerSchema), total: z.number() }),
       { revalidate: 60 },
     ),
+  // The /live page (docs/LIVE.md): announced broadcasts and published recordings. Each item is checked on its own
+  // (lib/liveSchedule.ts, lib/liveRecordings.ts); a bad one is dropped, the rest still shows.
+  liveSchedule: () => getJson('/live/schedule', z.unknown().transform(parseSchedule), { revalidate: 60, timeoutMs: 5_000 }),
+  liveRecordings: () => getJson('/live/recordings', z.unknown().transform(parseRecordings), { revalidate: 60, timeoutMs: 5_000 }),
 };

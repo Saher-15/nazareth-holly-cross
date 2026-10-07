@@ -129,6 +129,13 @@ export const RouteIcon = make(
   </>,
 );
 export const FlameIcon = make(<path d="M12 3c.5 3-1.8 4.6-3.2 6.6A6.2 6.2 0 0 0 12 21a6 6 0 0 0 5-9.3c-1 1-1.9 1.3-2.6 1.1C14.8 9.9 13.7 5.4 12 3z" />);
+/** A calendar page with a plus: "add to calendar". */
+export const CalendarAddIcon = make(
+  <>
+    <rect x="3.5" y="5" width="17" height="15.5" rx="2.5" />
+    <path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5" />
+  </>,
+);
 
 // ---- social (outline versions in the same stroke style) ----
 export const InstagramIcon = make(

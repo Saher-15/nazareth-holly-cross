@@ -6,6 +6,8 @@ import { clearData, models, state } from './harness-models.js';
 import { seed } from './seed.mjs';
 import { setStreamClient } from '../services/cloudflareStream.js';
 import { resetLiveStatusCache } from '../services/live.js';
+import { resetRecordingsCache, resetStorageCache } from '../services/liveRecordings.js';
+import { resetScheduleCache } from '../services/liveSchedule.js';
 
 const LOOPBACK = new Set(['127.0.0.1', '::1', '::ffff:127.0.0.1']);
 
@@ -30,6 +32,9 @@ export function controlRouter() {
       state.stream?.reset();
       if (state.stream) setStreamClient(state.stream);
       resetLiveStatusCache();
+      resetRecordingsCache();
+      resetStorageCache();
+      resetScheduleCache();
       const seeded = await seed();
       if (req.body?.accounts === false) models.Admin.resetData();
       res.json({ ok: true, ...seeded, ...(req.body?.accounts === false ? { accounts: 0 } : {}) });
@@ -45,12 +50,30 @@ export function controlRouter() {
     res.json({ ok: true, fail: state.failMail });
   });
   // Live broadcasting: { configured: false } behaves like a server without CF_ACCOUNT_ID / CF_STREAM_API_TOKEN;
-  // { failCreate: true } makes the fake Cloudflare refuse to create an input (an outage).
+  // { failCreate: true } makes the fake Cloudflare refuse to create an input (an outage), { failUpload: true } refuse
+  // an upload address. Recordings: { videoState: 'queued' | 'inprogress' | 'ready' | 'error', videoUid?, durationSeconds? }
+  // moves a stored video (every video when no uid is given) through Cloudflare's processing, as if it had been uploaded.
+  const VIDEO_STATES = ['pendingupload', 'queued', 'inprogress', 'ready', 'error'];
+  const liveState = () => ({
+    ok: true,
+    inputs: state.stream ? state.stream.inputs.size : 0,
+    videos: state.stream ? [...state.stream.videos.entries()].map(([uid, v]) => ({ uid, state: v.state, sizeBytes: v.sizeBytes })) : [],
+  });
+  router.get('/live', (req, res) => res.json(liveState()));
   router.post('/live', (req, res) => {
     if (typeof req.body?.configured === 'boolean') setStreamClient(req.body.configured ? state.stream : null);
     if (typeof req.body?.failCreate === 'boolean' && state.stream) state.stream.fail.create = req.body.failCreate;
+    if (typeof req.body?.failUpload === 'boolean' && state.stream) state.stream.fail.upload = req.body.failUpload;
+    if (VIDEO_STATES.includes(req.body?.videoState) && state.stream) {
+      const duration = Number.isInteger(req.body.durationSeconds) && req.body.durationSeconds >= 0 ? req.body.durationSeconds : undefined;
+      const uids = typeof req.body.videoUid === 'string' ? [req.body.videoUid] : [...state.stream.videos.keys()];
+      for (const uid of uids) state.stream.setVideoState(uid, req.body.videoState, { durationSeconds: duration });
+    }
     resetLiveStatusCache();
-    res.json({ ok: true, inputs: state.stream ? state.stream.inputs.size : 0 });
+    resetRecordingsCache();
+    resetStorageCache();
+    resetScheduleCache();
+    res.json(liveState());
   });
   return router;
 }

@@ -24,6 +24,9 @@ export const HARNESS_USERS = [
   { username: 'totpsetup', password: 'Totpsetup-Mock-Pass-1', role: 'editor' },
   // Spare account with an e-mail address, for the forgotten-password tests (an invented address).
   { username: 'resetpass', password: 'Resetpass-Mock-Pass-1', role: 'editor', email: 'resetpass@example.com' },
+  // Spare editor of the dashboard's live end-to-end specs (their own share of the per-admin request limit).
+  { username: 'liveeditor', password: 'Liveeditor-Mock-Pass-1', role: 'editor' },
+  { username: 'liveowner', password: 'Liveowner-Mock-Pass-1', role: 'owner' },
 ];
 
 function rng(seed) {

@@ -30,8 +30,25 @@ before the new site replaces the old one. Texts live in `web/src/messages/<local
 - [ ] A paid order that could not be saved yet is kept **in the customer's own browser** (localStorage, at most 30 days) until it is saved; say so in the policy.
 - [ ] **Live broadcasts** (docs/LIVE.md): while a broadcast is live, `/live` shows Cloudflare Stream's player in a frame, so a
       visitor who watches it connects to Cloudflare (their address and browser reach Cloudflare, as with any video
-      service). Name Cloudflare as a provider in the privacy policy, and say that live broadcasts are not recorded.
-      People filmed in a church during a broadcast: decide whether a notice at the site is needed.
+      service). Name Cloudflare as a provider in the privacy policy. **Broadcasts are now recorded** (docs/LIVE.md section
+      9): the policy must no longer say they are not, and must say that recordings may be published on `/live` and kept
+      at Cloudflare until deleted.
+- [ ] **Recordings show people: consent before publishing.** A recording of a Mass or a prayer can show and let hear the
+      faithful, the clergy, a choir, children, people in grief: identifiable people, in a religious setting (in the EU
+      that touches special-category data, religious belief). Before the first recording is published, decide and write
+      down: (1) a visible notice at the church or place while filming ("this celebration is broadcast live and may be
+      published online"), and a way to sit out of the camera's view; (2) written consent of the people who are the
+      subject (the priest, a choir, a speaker), and of a parent for any child who can be recognised; (3) who checks a
+      recording before pressing Publish in the dashboard (nothing is published by itself: every recording starts as a
+      draft); (4) how a person asks for a recording to be taken down (the contact e-mail; an editor or owner deletes it
+      in the dashboard, which also deletes the video at Cloudflare) and how fast; (5) how long recordings stay online
+      (there is no automatic expiry). Add the result to the privacy policy (`pilgrim.legal.privacy`) and, if a notice
+      is used, to the `/live` page text.
+- [ ] **Scheduled broadcasts** publish a title, a time and a short description written by staff: no personal data
+      should be put in them (e.g. the name of a person a Mass is said for) without that person's consent.
+- [ ] **The "we are live now" window** (every page except `/live` and the payment pages, once per broadcast) stores
+      only the id of the last broadcast it was shown for in the visitor's browser (`localStorage`); no cookie, nothing
+      sent. Add it to the list of browser storage below.
 - [ ] Backups (docs/BACKUP.md) hold all personal data for 30 days; say how long erased data remains in them.
 - [ ] "No advertising or analytics cookies": true today. Revisit the day analytics (roadmap item 5) is added; consent
       banner and policy text must change together.

@@ -36,6 +36,8 @@ and the second factor are set the way the dashboard's own routes do it.
 | `passchange` | `Passchange-Mock-Pass-1` | editor | spare: for password-change tests |
 | `totpsetup` | `Totpsetup-Mock-Pass-1` | editor | spare: for two-factor set-up tests |
 | `resetpass` | `Resetpass-Mock-Pass-1` | editor | spare, with the invented address `resetpass@example.com`: for forgotten-password tests |
+| `liveeditor` | `Liveeditor-Mock-Pass-1` | editor | spare: the dashboard's live specs (their own share of the per-admin request limit) |
+| `liveowner` | `Liveowner-Mock-Pass-1` | owner | spare: the owner of the dashboard's live specs (same reason) |
 
 They are the same names and passwords as the mock API (`admin/mock-api`), so the end-to-end suite runs unchanged
 against either. They are public: never use them anywhere real.
@@ -58,6 +60,11 @@ stores `&` that way), Hebrew and Arabic names.
 * Live broadcasting talks to a fake Cloudflare Stream (`fake-cloudflare.js`, addresses on `customer-harness.cloudflarestream.com`):
   never to Cloudflare. `POST /__harness/live {"configured": false}` behaves like a server without `CF_ACCOUNT_ID` /
   `CF_STREAM_API_TOKEN`, `{"failCreate": true}` like Cloudflare refusing; `/__harness/reset` puts both back.
+  Recordings: the fake hands out one-time upload addresses on `https://upload.videodelivery.net/tus/<uid>?tusv2=true`, but
+  nothing is ever sent there (the dashboard's end-to-end tests answer those requests inside the browser). `GET
+  /__harness/live` lists the fake's inputs and videos; `POST /__harness/live {"videoState": "ready", "videoUid"?: "...",
+  "durationSeconds"?: 60}` moves videos through Cloudflare's processing (`queued`, `inprogress`, `ready`, `error`) as if
+  they had been uploaded; `{"failUpload": true}` makes it refuse an upload address.
 * Mail goes to a recorder, `GET /__harness/emails`. `POST /__harness/mail {"fail": true}` makes the mailer fail like
   an SMTP outage. Password-reset mails link to `http://localhost:<HARNESS_ADMIN_PORT>` (`ADMIN_APP_URL` is set by
   `serve.mjs`). `POST /__harness/reset {"accounts": false}` starts with no admin account, the state in which a reset

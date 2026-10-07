@@ -50,7 +50,7 @@ a risk that needs an unusual situation.
 | B8 | Low | `components/home/SitesCarousel.tsx:96-107` | After a mouse drag that ended outside the track no `click` follows, so `moved` stayed `true` and swallowed the next genuine click (a keyboard Enter on a card). | **fixed**. |
 | B9 | Low | `candle/CandleFlow.tsx`, `checkout/CheckoutFlow.tsx` | E-mail/phone inputs have `dir="ltr"`; only the checkout aligned them to the end of the row on right-to-left pages, the candle form did not. | **fixed** once in `ui.css` (`.ui-input[dir='ltr']`), the checkout-only class is gone. |
 | B10 | Low | `components/layout/LanguageSwitcher.tsx:53` | `aria-haspopup="true"` announces a menu, but the popup is a plain list of buttons; Escape closed it and left the focus on `<body>`. | **fixed** (`aria-controls`, focus returns to the trigger). |
-| B11 | Medium | `components/community/liveSchedule.ts:20` | The only scheduled broadcast is **6 Oct 2024**, so `/live` is permanently "offline". Not a code bug, a content one. | **open**: owner must supply the schedule (add to `broadcasts`). |
+| B11 | Medium | `components/community/liveSchedule.ts:20` | The only scheduled broadcast is **6 Oct 2024**, so `/live` is permanently "offline". Not a code bug, a content one. | **fixed** (feat/live-recordings): the static file is gone; editors schedule broadcasts in the dashboard and `/live` shows the published ones with a countdown (docs/LIVE.md section 10). |
 | B12 | Low | `components/layout/SiteFooter.tsx:9` | The copyright year is computed when the (static) layout is built, so it only changes on a deploy. | open (low). |
 
 ### Security (web and server)
@@ -225,4 +225,4 @@ on the reviews and live pages, `/health` also reports `database`.
    instead of the shop's copies; `/en/shop/<unknown id>` answers **200** (it should be 404; seen in the production build);
    `components/shop/seo.ts` duplicates `serializeJsonLd`.
 3. **Performance branch**: client message tree (section 2, i18n); ISR error caching.
-4. **Owner**: broadcast schedule (B11); `NEXT_PUBLIC_*` variables on Netlify.
+4. **Owner**: broadcast schedule (B11: now scheduled from the dashboard's Live page); `NEXT_PUBLIC_*` variables on Netlify.

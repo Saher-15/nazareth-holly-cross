@@ -61,15 +61,9 @@
     }
   },
   "live": {
-    "event_ongoing": "Evento ao vivo em andamento",
-    "upcoming_event": "Próximo evento ao vivo",
-    "nazareth_date_time": "Data e hora de Nazaré:",
-    "time_remaining": "Tempo restante:",
-    "join_live": "Participe ao vivo",
     "no_upcoming_events": "Nenhum evento futuro disponível.",
     "past_live_events": "Eventos ao vivo anteriores",
-    "refresh_note": "Observação: atualize a página antes de clicar no botão «Participe ao vivo».",
-    "live_note": "Observação: o botão «Participe ao vivo» estará disponível somente após o início do evento ao vivo."
+    "refresh_note": "Observação: atualize a página antes de clicar no botão «Participe ao vivo»."
   },
   "common": {
     "home": "Início",
@@ -520,13 +514,11 @@
       "title": "Reze conosco, ao vivo",
       "lead": "Orações e celebrações transmitidas dos lugares santos de Nazaré, onde quer que você esteja.",
       "status": {
-        "live": "Ao vivo",
         "upcoming": "Em breve",
         "offline": "Fora do ar"
       },
       "offlineHint": "Não estamos transmitindo no momento. Você pode assistir às nossas transmissões anteriores abaixo.",
       "follow": "Siga-nos no Instagram",
-      "eventStarted": "O evento começou",
       "units": {
         "days": "{count, plural, one {Dia} other {Dias}}",
         "hours": "{count, plural, one {Hora} other {Horas}}",
@@ -535,16 +527,31 @@
       },
       "pastEyebrow": "Assista de novo",
       "videoFallback": "Seu navegador não consegue reproduzir este vídeo.",
-      "events": {
-        "annunciationSunday": "Oração de domingo na Basílica da Anunciação"
-      },
       "now": {
         "badge": "Ao vivo agora",
         "since": "{minutes, plural, =0 {Começou agora mesmo} one {Ao vivo há # minuto} other {Ao vivo há # minutos}}",
         "playerTitle": "Transmissão ao vivo: {title}",
         "started": "Uma transmissão ao vivo começou: {title}",
         "ended": "A transmissão ao vivo terminou.",
-        "note": "Toque em reproduzir para rezar conosco. A transmissão não é gravada."
+        "note": "Toque em reproduzir para rezar conosco. A transmissão pode ser gravada e exibida mais tarde nesta página."
+      },
+      "next": {
+        "kicker": "Próxima transmissão ao vivo",
+        "startsIn": "Começa em {time}",
+        "days": "{count, plural, one {# dia} other {# dias}}",
+        "hours": "{count, plural, one {# hora} other {# horas}}",
+        "minutes": "{count, plural, one {# minuto} other {# minutos}}",
+        "soonTitle": "Começa em instantes",
+        "soonText": "O player aparecerá no topo desta página assim que entrarmos ao vivo.",
+        "startingNow": "A transmissão está começando.",
+        "nazarethTime": "Horário de Nazaré",
+        "yourTime": "Seu horário",
+        "addToCalendar": "Adicionar à agenda",
+        "moreTitle": "Mais transmissões ao vivo"
+      },
+      "recordings": {
+        "play": "Reproduzir: {title}",
+        "playerTitle": "Gravação: {title}"
       }
     }
   },
@@ -902,6 +909,13 @@
     "motion": {
       "pause": "Pausar o fundo em movimento",
       "play": "Reproduzir o fundo em movimento"
+    },
+    "liveAlert": {
+      "badge": "Ao vivo",
+      "title": "Estamos ao vivo",
+      "text": "Junte-se à nossa oração em Nazaré, onde quer que você esteja.",
+      "watch": "Assistir agora",
+      "later": "Agora não"
     }
   },
   "pilgrim": {
@@ -1566,7 +1580,7 @@
               "paypal": "Pagamento: os botões e a janela de pagamento do PayPal são feitos pelo PayPal, e não podemos alterá-los. Se você não conseguir usá-los, escreva para nós e encontraremos outra forma de concluir seu pedido ou sua doação.",
               "videos": "Vídeos: as gravações das transmissões anteriores e os vídeos da página do passeio ainda não têm legendas nem transcrições.",
               "translations": "Traduções: a maior parte dos textos foi traduzida com a ajuda de software e aguarda a revisão de falantes nativos, por isso algumas frases podem ficar pouco claras.",
-              "external": "Outros serviços: transmissões ao vivo, mapas e redes sociais abrem em seus próprios sites, cuja acessibilidade não controlamos.",
+              "external": "Outros serviços: o player das transmissões ao vivo e das gravações (Cloudflare Stream, dentro das nossas páginas), mapas e redes sociais, cuja acessibilidade não controlamos.",
               "photos": "Fotografias: as descrições indicam o lugar e o assunto, mas não descrevem cada detalhe."
             }
           },

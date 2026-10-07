@@ -54,6 +54,8 @@ but only a person can check the wording: see `docs/TRANSLATION-REVIEW.md` for wh
 | Shop / cart | shop / cart | boutique / panier | tienda / carrito | Shop / Warenkorb | negozio / carrello | loja / carrinho | sklep / koszyk |
 | Donate | donate | faire un don | donar | spenden | donare | doar | wesprzeć / przekazać darowiznę |
 | Live broadcast | live | en direct | en vivo | live | live / in diretta | ao vivo | na żywo |
+| Nazareth time (of a broadcast) | Nazareth time | heure de Nazareth | hora de Nazaret | Uhrzeit in Nazareth | ora di Nazaret | horário de Nazaré | czas w Nazarecie |
+| Recording (of a broadcast) | recording | enregistrement | grabación | Aufzeichnung | registrazione | gravação | nagranie |
 | Review | review | avis | reseña / opinión | Bewertung | recensione | avaliação | opinia |
 
 | Term | ru | uk | ro | nl | el | he | ar |
@@ -74,6 +76,8 @@ but only a person can check the wording: see `docs/TRANSLATION-REVIEW.md` for wh
 | Shop / cart | магазин / корзина | магазин / кошик | magazin / coș | winkel / winkelwagen | κατάστημα / καλάθι | חנות / סל הקניות | المتجر / السلة |
 | Donate | пожертвовать | пожертвувати | a dona | doneren / een gift | δωρεά | תרומה | تبرّع |
 | Live broadcast | прямой эфир | прямий ефір / наживо | în direct | live | ζωντανά | שידור חי | بث مباشر |
+| Nazareth time (of a broadcast) | время в Назарете | час у Назареті | ora din Nazaret | tijd in Nazareth | ώρα Ναζαρέτ | שעון נצרת | توقيت الناصرة |
+| Recording (of a broadcast) | запись | запис | înregistrare | opname | εγγραφή | הקלטה | تسجيل |
 | Review | отзыв | відгук | recenzie | review | κριτική | חוות דעת | رأي / آراء الزوار |
 
 ¹ German "Glaskunst" is what the shop copy uses; "Glasmalerei" / "Buntglas" would be the precise word and is on the review list.
@@ -95,5 +99,8 @@ the Orthodox one where it differs). Use those words anywhere else on the site; t
 - Prices are always USD, formatted by `Intl.NumberFormat` for the page language (`$3.00`, `3,00 $`, `US$ 3,00`,
   `‏3.00 ‏$`). Never write `$` by hand next to a number in a message.
 - Dates and times are shown in **Nazareth time** (`Asia/Jerusalem`) with `Intl.DateTimeFormat` / next-intl,
-  whatever the visitor's own time zone.
+  whatever the visitor's own time zone. The one addition: an announced live broadcast on `/live` also shows its start
+  on the visitor's own clock, labelled ("Your time", with the zone's short name), when that differs from Nazareth's.
+- Lengths of recordings use the language's own short units through `Intl` ("1 hr 5 min", "1 Std., 5 Min."), never
+  units written into a message.
 - Counts that change the wording use ICU plurals (see Rules).

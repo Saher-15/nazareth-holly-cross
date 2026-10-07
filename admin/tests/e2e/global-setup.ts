@@ -9,7 +9,7 @@ export default async function globalSetup() {
   await resetBackend();
 
   fs.mkdirSync(path.join(__dirname, '.auth'), { recursive: true });
-  for (const role of ['owner', 'editor', 'viewer'] as const) {
+  for (const role of ['owner', 'editor', 'viewer', 'liveeditor', 'liveowner'] as const) {
     const ctx = await request.newContext({ baseURL: APP, extraHTTPHeaders: { Origin: APP } });
     const res = await ctx.post('/api/session/login', { data: { username: USERS[role].username, password: USERS[role].password } });
     if (!res.ok()) throw new Error(`sign-in as ${role} failed: ${res.status()}`);

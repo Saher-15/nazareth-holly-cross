@@ -20,6 +20,7 @@ const { createApp } = await import('../app.js');
 const { signSessionToken } = await import('../services/adminSessions.js');
 const { setStreamClient } = await import('../services/cloudflareStream.js');
 const { fakeStreamClient } = await import('../test-harness/fake-cloudflare.js');
+const { utcToNazarethLocal } = await import('../services/liveSchedule.js');
 setStreamClient(fakeStreamClient());
 afterAll(() => setStreamClient(null));
 
@@ -74,6 +75,17 @@ export const ROUTES = [
   ['get', '/admin/live', 'editor'],
   ['post', '/admin/live/start', 'editor', { title: 'Role matrix' }],
   ['post', '/admin/live/stop', 'editor', {}],
+  // Recordings of broadcasts (route/admin/liveRecordings.js) and scheduled broadcasts (route/admin/liveSchedule.js).
+  ['get', '/admin/live/recordings', 'editor'],
+  ['post', '/admin/live/recordings', 'editor', { sessionId: ID, sizeBytes: 1024, durationSeconds: 60, mimeType: 'video/webm' }],
+  ['post', `/admin/live/recordings/${ID}/upload-url`, 'editor', { sizeBytes: 1024 }],
+  ['post', `/admin/live/recordings/${ID}/uploaded`, 'editor', {}],
+  ['patch', `/admin/live/recordings/${ID}`, 'editor', { title: 'Role matrix' }],
+  ['delete', `/admin/live/recordings/${ID}`, 'editor'],
+  ['get', '/admin/live/schedule', 'editor'],
+  ['post', '/admin/live/schedule', 'editor', { title: 'Role matrix', startsAtLocal: utcToNazarethLocal(Date.now() + 86_400_000) }],
+  ['patch', `/admin/live/schedule/${ID}`, 'editor', { published: true }],
+  ['delete', `/admin/live/schedule/${ID}`, 'editor'],
   ['get', '/admin/auth/me', 'viewer'],
   ['post', '/admin/auth/logout', 'viewer'],
 ];
@@ -83,7 +95,7 @@ const RANK = { viewer: 1, editor: 2, owner: 3 };
 const accounts = {};
 
 beforeAll(async () => {
-  // One account per role. (Each makes about 35 requests; the limit is 300 per admin per 15 minutes.)
+  // One account per role. (Each makes at most about 160 requests; the limit is 300 per admin per 15 minutes.)
   for (const role of Object.keys(RANK)) accounts[role] = await signedIn(signSessionToken, { username: `matrix-${role}`, role });
 });
 

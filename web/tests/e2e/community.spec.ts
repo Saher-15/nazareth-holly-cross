@@ -1,6 +1,5 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
-import { broadcasts, LIVE_WINDOW_MS, liveState } from '../../src/components/community/liveSchedule';
 import en from '../../src/messages/en.json';
 import he from '../../src/messages/he.json';
 
@@ -37,9 +36,13 @@ async function seriousViolations(page: Page) {
 
 test.beforeEach(async ({ page }) => {
   await page.route(ADD_REVIEW, (route) => route.abort());
-  // The /live page asks the API whether a broadcast is live (live-broadcast.spec.ts tests that): here nothing is.
+  // Every page asks the API whether a broadcast is live, and /live reads the announced broadcasts and the recordings
+  // (live-broadcast.spec.ts and live-features.spec.ts test those): here nothing is live, announced or recorded.
   await page.route('**/live/status', (route) =>
     route.fulfill({ status: 200, headers: { ...CORS, 'content-type': 'application/json' }, body: JSON.stringify({ live: false }) }),
+  );
+  await page.route(/\/live\/(schedule|recordings)$/, (route) =>
+    route.fulfill({ status: 200, headers: { ...CORS, 'content-type': 'application/json' }, body: JSON.stringify({ items: [] }) }),
   );
 });
 
@@ -150,19 +153,15 @@ test.describe('reviews page', () => {
 });
 
 test.describe('live page', () => {
-  const first = broadcasts.map((b) => ({ ...b, start: new Date(b.startsAt).getTime() })).sort((a, b) => a.start - b.start)[0];
-  const status = en.communityPage.live.status;
-
-  test('renders in English with the player and the past broadcasts', async ({ page }) => {
+  test('renders in English with the stage and the past broadcasts', async ({ page }) => {
     await page.goto('/en/live');
     await expect(page).toHaveTitle(new RegExp(en.communityPage.live.metaTitle));
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(en.communityPage.live.title);
 
-    const expected = liveState(
-      broadcasts.map((b) => ({ start: new Date(b.startsAt).getTime() })),
-      Date.now(),
-    ).status;
-    await expect(page.getByRole('status')).toHaveText(status[expected]);
+    // Nothing announced (the browser's read is answered with an empty list above): the offline state.
+    const stage = page.getByTestId('live-stage');
+    await expect(stage).toHaveAttribute('data-status', 'offline');
+    await expect(stage.getByRole('heading', { level: 2 })).toHaveText(en.live.no_upcoming_events);
 
     const videos = page.locator('video');
     await expect(videos).toHaveCount(2);
@@ -172,10 +171,14 @@ test.describe('live page', () => {
     }
     await expect(page.getByRole('heading', { name: en.videos.interview_nazareth.title })).toBeVisible();
 
-    // (The Christian calendar adds a second JSON-LD block when broadcasts are scheduled: read every block.)
+    // The older recordings are always in the structured data (published ones from the API come in addition). The
+    // Christian calendar adds a second JSON-LD block when broadcasts are scheduled: read every block.
     const blocks = await page.locator('script[type="application/ld+json"]').allTextContents();
     const nodes = blocks.flatMap((block) => (JSON.parse(block) as { '@graph'?: { '@type': string }[] })['@graph'] ?? []);
-    expect(nodes.filter((n) => n['@type'] === 'VideoObject')).toHaveLength(2);
+    expect(nodes.filter((n) => n['@type'] === 'VideoObject').length).toBeGreaterThanOrEqual(2);
+    // The scheduled broadcasts' Events are written once (by the calendar), never twice.
+    const events = nodes.filter((n) => n['@type'] === 'Event') as unknown as { startDate: string; name: string }[];
+    expect(new Set(events.map((e) => `${e.name}|${e.startDate}`)).size).toBe(events.length);
   });
 
   test('renders right-to-left in Hebrew', async ({ page }) => {
@@ -183,27 +186,6 @@ test.describe('live page', () => {
     await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(he.communityPage.live.title);
     await expect(page.getByRole('heading', { name: he.live.past_live_events })).toBeVisible();
-  });
-
-  test('counts down, goes live and goes offline on the visitor clock', async ({ page }) => {
-    test.skip(!first, 'no broadcast scheduled');
-    await page.clock.install({ time: first.start - 65 * 60 * 1000 });
-    await page.goto('/en/live');
-
-    await expect(page.getByRole('status')).toHaveText(status.upcoming);
-    await expect(page.getByRole('heading', { name: en.live.upcoming_event })).toBeVisible();
-    // The unit labels are plural messages ("Minute" / "Minutes"), chosen by the number above them.
-    await expect(page.getByRole('timer')).toContainText(/Minutes?/);
-    await expect(page.getByRole('button', { name: en.live.join_live })).toBeDisabled();
-
-    await page.clock.fastForward('01:06:00');
-    await expect(page.getByRole('status')).toHaveText(status.live);
-    const join = page.getByRole('link', { name: new RegExp(en.live.join_live) });
-    await expect(join).toHaveAttribute('href', /instagram\.com/);
-    await expect(join).toHaveAttribute('target', '_blank');
-
-    await page.clock.fastForward(LIVE_WINDOW_MS);
-    await expect(page.getByRole('status')).toHaveText(status.offline);
   });
 });
 

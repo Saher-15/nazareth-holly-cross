@@ -6,6 +6,7 @@ import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server
 import PendingFulfilmentRunner from '@/components/checkout/PendingFulfilmentRunner';
 import A11yPanel from '@/components/layout/A11yPanel';
 import BackToTop from '@/components/layout/BackToTop';
+import LiveAlert from '@/components/layout/LiveAlert';
 import PageTransitions from '@/components/layout/PageTransitions';
 import ReadingProgress from '@/components/layout/ReadingProgress';
 import RouteFocus from '@/components/layout/RouteFocus';
@@ -18,7 +19,7 @@ import { CspNonceProvider } from '@/lib/cspNonce';
 import { isRtl, locales, routing } from '@/i18n/routing';
 import { SITE_NAME, SITE_URL } from '@/lib/config';
 import { fontVariables } from '@/lib/fonts';
-import { peekLiveStatus } from '@/lib/liveStatusPeek';
+import { livePeekCheckedAt, peekLiveStatus } from '@/lib/liveStatusPeek';
 import { openGraphLocale } from '@/lib/seo';
 import '@/styles/globals.css';
 
@@ -61,6 +62,10 @@ export default async function LocaleLayout({ children, search, params }: LayoutP
   // for each response, and only a request-time render can put it on the page's scripts and styles.
   const nonce = (await headers()).get('x-nonce') ?? undefined;
 
+  // What the server last knew about a live broadcast (never waits for the API: lib/liveStatusPeek.ts). It seeds the
+  // tab's live-status poller (lib/liveStatusStore.ts) behind the header's dot and the "we are live" window.
+  const live = { initial: peekLiveStatus(), checkedAt: livePeekCheckedAt() };
+
   const { pilgrim, ...messages } = (await getMessages()) as Record<string, Record<string, unknown>>;
   const clientMessages = {
     ...messages,
@@ -85,8 +90,8 @@ export default async function LocaleLayout({ children, search, params }: LayoutP
             <CartProvider>
               <ToastProvider>
                 <ReadingProgress />
-                {/* "live now" on the Live link while a broadcast is on (never waits for the API: lib/liveStatusPeek.ts) */}
-                <SiteHeader liveNow={peekLiveStatus().live} />
+                {/* "live now" on the Live link while a broadcast is on */}
+                <SiteHeader live={live} />
                 {/* The accessibility settings: a floating button in the bottom corner, early in the tab order. */}
                 <A11yPanel />
                 <main id="main" tabIndex={-1}>
@@ -98,6 +103,8 @@ export default async function LocaleLayout({ children, search, params }: LayoutP
                 <RouteFocus />
                 <PageTransitions />
                 <PendingFulfilmentRunner />
+                {/* "We are live now": the one pop-up the owner approved (docs/DESIGN-GUIDE.md 1.5) */}
+                <LiveAlert seed={live} />
               </ToastProvider>
             </CartProvider>
           </CspNonceProvider>

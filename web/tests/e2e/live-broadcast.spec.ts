@@ -3,8 +3,8 @@ import { expect, test, type Page } from '@playwright/test';
 import en from '../../src/messages/en.json';
 import he from '../../src/messages/he.json';
 
-// The live broadcast on /live (docs/LIVE.md): the browser polls GET /live/status and shows Cloudflare Stream's player
-// above the schedule while a broadcast is live. Every status request is answered here (nothing reaches the real API)
+// The live broadcast on /live (docs/LIVE.md): the tab's live-status poller asks GET /live/status (every 15 seconds on
+// this page) and the page shows Cloudflare Stream's player at the top while a broadcast is live. Every status request is answered here (nothing reaches the real API)
 // and the player address is answered with a stand-in page (nothing reaches Cloudflare).
 
 const PLAYER = `https://customer-e2e0test.cloudflarestream.com/${'a'.repeat(32)}/iframe`;
@@ -19,6 +19,10 @@ async function fakeApi(page: Page, initial: Status) {
     state.requests += 1;
     return route.fulfill({ status: 200, headers: { ...CORS, 'content-type': 'application/json' }, body: JSON.stringify(state.status) });
   });
+  // Nothing announced and no recordings (live-features.spec.ts tests those): the page reads both once when it opens.
+  await page.route(/\/live\/(schedule|recordings)$/, (route) =>
+    route.fulfill({ status: 200, headers: { ...CORS, 'content-type': 'application/json' }, body: JSON.stringify({ items: [] }) }),
+  );
   await page.route(/^https:\/\/customer-[a-z0-9]+\.cloudflarestream\.com\//, (route) =>
     route.fulfill({ status: 200, headers: { 'content-type': 'text/html' }, body: '<!doctype html><html lang="en"><title>Player</title><body>fake player</body></html>' }),
   );
@@ -46,7 +50,7 @@ test.describe('live broadcast on /live', () => {
     await expect.poll(() => api.requests).toBeGreaterThanOrEqual(1);
     await expect(page.getByTestId('live-now')).toHaveCount(0);
     await expect(page.locator('iframe')).toHaveCount(0);
-    await expect(page.locator('#live-stage-title')).toBeVisible(); // the schedule's player frame
+    await expect(page.locator('#live-stage-title')).toBeVisible(); // the stage: nothing announced, the offline state
     // One question per 15 seconds: nothing after 14 s, one more after 15 s, three times in a row.
     for (let i = 0; i < 3; i += 1) {
       const before = api.requests;
@@ -77,9 +81,10 @@ test.describe('live broadcast on /live', () => {
     await expect(frame).toHaveAttribute('allow', /fullscreen/);
     await expect(page.frameLocator('iframe').getByText('fake player')).toBeVisible(); // the policy let the player in
     await expect(page.getByTestId('live-now-announcement')).toHaveText('A live broadcast has started: Evening prayer & vespers');
-    // above the schedule
-    const [playerTop, scheduleTop] = await Promise.all([section.evaluate((el) => el.getBoundingClientRect().top), page.locator('#live-stage-title').evaluate((el) => el.getBoundingClientRect().top)]);
-    expect(playerTop).toBeLessThan(scheduleTop);
+    // the player takes the top of the page: the stage (countdown or offline state) steps aside, the past broadcasts follow
+    await expect(page.getByTestId('live-stage')).toHaveCount(0);
+    const [playerTop, pastTop] = await Promise.all([section.evaluate((el) => el.getBoundingClientRect().top), page.locator('#past-broadcasts-title').evaluate((el) => el.getBoundingClientRect().top)]);
+    expect(playerTop).toBeLessThan(pastTop);
 
     await page.emulateMedia({ reducedMotion: 'reduce' });
     const axe = await new AxeBuilder({ page }).include('[data-testid="live-now"]').withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
@@ -89,6 +94,7 @@ test.describe('live broadcast on /live', () => {
     await page.clock.fastForward(16_000);
     await expect(section).toHaveCount(0);
     await expect(page.getByTestId('live-now-announcement')).toHaveText(now.ended);
+    await expect(page.getByTestId('live-stage')).toBeVisible(); // and the stage is back
     expect(problems).toEqual([]);
   });
 

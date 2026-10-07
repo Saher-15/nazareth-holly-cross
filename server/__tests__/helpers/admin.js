@@ -65,6 +65,7 @@ export const allFilters = () =>
 const MODEL_FILES = {
   Order: 'order', Candle: 'candle', Contact: 'contact', Review: 'review', ProductReview: 'productReview',
   Prayer: 'prayer', Product: 'product', Admin: 'admin', AdminSession: 'adminSession', AuditLog: 'auditLog', Payment: 'payment', LiveSession: 'liveSession',
+  LiveRecording: 'liveRecording', ScheduledBroadcast: 'scheduledBroadcast',
 };
 const modelDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../model');
 

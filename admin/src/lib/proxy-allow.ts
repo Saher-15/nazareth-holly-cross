@@ -2,8 +2,11 @@
 // turned into an open relay (no sign-in, no arbitrary path, no method the contract does not have).
 
 const ID = '[A-Za-z0-9_-]{1,64}';
+/** A Mongo id (the recordings and schedule routes take nothing else). */
+const OID = '[a-f0-9]{24}';
 
-type Rule = { method: string; pattern: RegExp };
+/** `segments`: how many path segments the rule has (most have 1 to 3; only a few live routes need 4). */
+type Rule = { method: string; pattern: RegExp; segments?: number };
 
 const rules: Rule[] = [
   { method: 'GET', pattern: /^auth\/me$/ },
@@ -18,6 +21,17 @@ const rules: Rule[] = [
   // Live broadcasting (editor and owner; the API enforces the role). docs/LIVE.md.
   { method: 'GET', pattern: /^live$/ },
   { method: 'POST', pattern: /^live\/(start|stop)$/ },
+  // Recordings of broadcasts: list, create an upload, renew its address, say it finished, rename/publish, delete.
+  { method: 'GET', pattern: /^live\/recordings$/ },
+  { method: 'POST', pattern: /^live\/recordings$/ },
+  { method: 'POST', pattern: new RegExp(`^live/recordings/${OID}/(upload-url|uploaded)$`), segments: 4 },
+  { method: 'PATCH', pattern: new RegExp(`^live/recordings/${OID}$`) },
+  { method: 'DELETE', pattern: new RegExp(`^live/recordings/${OID}$`) },
+  // Scheduled broadcasts.
+  { method: 'GET', pattern: /^live\/schedule$/ },
+  { method: 'POST', pattern: /^live\/schedule$/ },
+  { method: 'PATCH', pattern: new RegExp(`^live/schedule/${OID}$`) },
+  { method: 'DELETE', pattern: new RegExp(`^live/schedule/${OID}$`) },
   // Data-protection requests (owner only; the API enforces the role).
   { method: 'POST', pattern: /^privacy\/(lookup|erase)$/ },
   ...['orders', 'candles', 'contacts', 'site-reviews', 'product-reviews', 'prayers', 'products', 'users'].flatMap((resource): Rule[] => [
@@ -32,12 +46,16 @@ const rules: Rule[] = [
   { method: 'GET', pattern: /^audit$/ },
 ];
 
+const MAX_SEGMENTS = Math.max(3, ...rules.map((rule) => rule.segments ?? 3));
+
 /** `segments` is the catch-all route parameter, e.g. ['orders', 'abc123']. Returns the API path or null. */
 export function resolveProxyPath(segments: string[] | undefined, method: string): string | null {
-  if (!segments?.length || segments.length > 3) return null;
+  if (!segments?.length || segments.length > MAX_SEGMENTS) return null;
   if (segments.some((s) => !s || s === '.' || s === '..' || /[\\/?#%\0-\x1f]/.test(s))) return null;
   const path = segments.join('/');
-  return rules.some((rule) => rule.method === method.toUpperCase() && rule.pattern.test(path)) ? `/admin/${path}` : null;
+  // A path of 4 segments only matches a rule written for 4; every other rule keeps the old limit of 3.
+  const fits = (rule: Rule) => (segments.length > 3 ? rule.segments === segments.length : true);
+  return rules.some((rule) => rule.method === method.toUpperCase() && fits(rule) && rule.pattern.test(path)) ? `/admin/${path}` : null;
 }
 
 export const MAX_PROXY_BODY_BYTES = 64 * 1024;

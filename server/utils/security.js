@@ -52,6 +52,8 @@ export const readLimiter = limiter(READ_LIMIT);
 // GET /live/status (route/liveRoute.js): every open /live page asks about every 15 seconds. Five seconds at the edge and
 // in the browser; the API itself answers it from memory (services/live.js).
 const LIVE = 'public, max-age=5, s-maxage=5, stale-while-revalidate=10, stale-if-error=30';
+// GET /live/recordings and /live/schedule: change when an admin publishes or schedules something; half a minute.
+const LIVE_LISTS = 'public, max-age=30, s-maxage=30, stale-while-revalidate=60, stale-if-error=600';
 
 const SLOW = 'public, max-age=60, s-maxage=300, stale-while-revalidate=3600, stale-if-error=86400';
 const FRESH = 'public, max-age=30, s-maxage=60, stale-while-revalidate=300, stale-if-error=3600';
@@ -64,6 +66,7 @@ const PUBLIC_READS = [
   { pattern: /^\/review\/getReviews\/?$/, cache: FRESH },
   { pattern: /^\/prayer\/getPrayers\/?$/, cache: FRESH },
   { pattern: /^\/live\/status\/?$/, cache: LIVE },
+  { pattern: /^\/live\/(recordings|schedule)\/?$/, cache: LIVE_LISTS },
 ];
 
 /** The Cache-Control value of a public read (GET/HEAD of one of the listed addresses), or null for anything else. */

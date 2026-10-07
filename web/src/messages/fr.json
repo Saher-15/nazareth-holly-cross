@@ -61,15 +61,9 @@
     }
   },
   "live": {
-    "event_ongoing": "Événement en direct en cours",
-    "upcoming_event": "Prochain événement en direct",
-    "nazareth_date_time": "Date et heure à Nazareth :",
-    "time_remaining": "Temps restant :",
-    "join_live": "Rejoindre le direct",
     "no_upcoming_events": "Aucun événement à venir.",
     "past_live_events": "Événements en direct passés",
-    "refresh_note": "Remarque : veuillez actualiser la page avant d’appuyer sur le bouton « Rejoindre le direct ».",
-    "live_note": "Remarque : le bouton « Rejoindre le direct » n’est disponible qu’après le début de l’événement en direct."
+    "refresh_note": "Remarque : veuillez actualiser la page avant d’appuyer sur le bouton « Rejoindre le direct »."
   },
   "common": {
     "home": "Accueil",
@@ -520,13 +514,11 @@
       "title": "Priez avec nous, en direct",
       "lead": "Prières et offices diffusés depuis les lieux saints de Nazareth, où que vous soyez.",
       "status": {
-        "live": "En direct",
         "upcoming": "À venir",
         "offline": "Hors ligne"
       },
       "offlineHint": "Aucune diffusion en ce moment. Vous pouvez regarder nos diffusions passées ci-dessous.",
       "follow": "Suivez-nous sur Instagram",
-      "eventStarted": "L’événement a commencé",
       "units": {
         "days": "{count, plural, one {Jour} other {Jours}}",
         "hours": "{count, plural, one {Heure} other {Heures}}",
@@ -535,16 +527,31 @@
       },
       "pastEyebrow": "À revoir",
       "videoFallback": "Votre navigateur ne peut pas lire cette vidéo.",
-      "events": {
-        "annunciationSunday": "Prière du dimanche depuis la basilique de l’Annonciation"
-      },
       "now": {
         "badge": "En direct maintenant",
         "since": "{minutes, plural, =0 {Commencé à l’instant} one {En direct depuis # minute} other {En direct depuis # minutes}}",
         "playerTitle": "Diffusion en direct : {title}",
         "started": "Une diffusion en direct a commencé : {title}",
         "ended": "La diffusion en direct est terminée.",
-        "note": "Appuyez sur lecture pour prier avec nous. La diffusion n’est pas enregistrée."
+        "note": "Appuyez sur lecture pour prier avec nous. La diffusion peut être enregistrée et montrée plus tard sur cette page."
+      },
+      "next": {
+        "kicker": "Prochaine diffusion en direct",
+        "startsIn": "Commence dans {time}",
+        "days": "{count, plural, one {# jour} other {# jours}}",
+        "hours": "{count, plural, one {# heure} other {# heures}}",
+        "minutes": "{count, plural, one {# minute} other {# minutes}}",
+        "soonTitle": "Début imminent",
+        "soonText": "Le lecteur apparaîtra en haut de cette page dès que nous serons en direct.",
+        "startingNow": "La diffusion commence maintenant.",
+        "nazarethTime": "Heure de Nazareth",
+        "yourTime": "Votre heure",
+        "addToCalendar": "Ajouter au calendrier",
+        "moreTitle": "Autres diffusions en direct"
+      },
+      "recordings": {
+        "play": "Lire : {title}",
+        "playerTitle": "Enregistrement : {title}"
       }
     }
   },
@@ -902,6 +909,13 @@
     "motion": {
       "pause": "Mettre en pause l’arrière-plan animé",
       "play": "Relancer l’arrière-plan animé"
+    },
+    "liveAlert": {
+      "badge": "En direct",
+      "title": "Nous sommes en direct",
+      "text": "Rejoignez notre prière depuis Nazareth, où que vous soyez.",
+      "watch": "Regarder",
+      "later": "Plus tard"
     }
   },
   "pilgrim": {
@@ -1566,7 +1580,7 @@
               "paypal": "Paiement : les boutons et la fenêtre de paiement PayPal sont conçus par PayPal et nous ne pouvons pas les modifier. Si vous ne pouvez pas les utiliser, écrivez-nous et nous trouverons un autre moyen de finaliser votre commande ou votre don.",
               "videos": "Vidéos : les enregistrements des diffusions passées et les films de la page de visite n’ont pas encore de sous-titres ni de transcription.",
               "translations": "Traductions : la plupart des textes ont été traduits à l’aide d’un logiciel et attendent la relecture de locuteurs natifs ; certaines formulations peuvent donc manquer de clarté.",
-              "external": "Autres services : les diffusions en direct, les cartes et les réseaux sociaux s’ouvrent sur leurs propres sites, dont nous ne maîtrisons pas l’accessibilité.",
+              "external": "Autres services : le lecteur des diffusions en direct et des enregistrements (Cloudflare Stream, intégré à nos pages), les cartes et les réseaux sociaux, dont nous ne maîtrisons pas l’accessibilité.",
               "photos": "Photographies : leurs descriptions indiquent le lieu et le sujet, sans décrire chaque détail."
             }
           },

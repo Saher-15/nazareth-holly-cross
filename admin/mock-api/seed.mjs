@@ -36,6 +36,9 @@ export const MOCK_USERS = [
   { username: 'totpsetup', password: 'Totpsetup-Mock-Pass-1', role: 'editor' },
   // Spare account with an e-mail address, for the forgotten-password tests (an invented address).
   { username: 'resetpass', password: 'Resetpass-Mock-Pass-1', role: 'editor', email: 'resetpass@example.com' },
+  // Spare editor of the live end-to-end specs (their own share of the per-admin request limit).
+  { username: 'liveeditor', password: 'Liveeditor-Mock-Pass-1', role: 'editor' },
+  { username: 'liveowner', password: 'Liveowner-Mock-Pass-1', role: 'owner' },
 ];
 
 const FIRST = ['Maria', 'John', 'Elena', 'Michael', 'Sofia', 'David', 'Anna', 'Paul', 'Rita', 'George', 'Layla', 'Samir', 'Noa', 'Daniel', 'Grace', 'Luca', 'Hana', 'Peter', 'Yusef', 'Clara'];

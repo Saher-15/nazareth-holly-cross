@@ -67,7 +67,8 @@ lost, with an admin dashboard that controls the whole site.
 Four words, in this order of priority:
 
 1. **Reverence.** A night sky, one gold light, slow movement, serif headings, photographs that do the talking. No
-   noise, no exclamation marks, no pop-ups, no countdowns, no badges that shout.
+   noise, no exclamation marks, no pop-ups (one exception the owner approved: section 1.5), no countdowns that press
+   anyone to act (the one countdown, on `/live`, only says when the next prayer begins), no badges that shout.
 2. **Warmth.** The voice is that of a kind host in Nazareth: first person plural ("we will pray for your
    intention"), plain words, thanks at the end. Cream text, not stark white, for reading.
 3. **Clarity.** One primary action per view (the gold button). Every page answers three questions at once: where am
@@ -98,6 +99,12 @@ These come from `docs/DESIGN.md` section 1 and are enforced by tests or review:
 - No newsletter box, no cookie banner, no pop-ups, no "sign up for 10% off" overlays. The only cookie is
   `NEXT_LOCALE` (the language the visitor chose). Adding any non-essential cookie or third-party script changes the
   legal position (`docs/TODO-LEGAL.md`) and needs the owner's decision first.
+- **The one approved window: "We are live now"** (`<LiveAlert>`, decided by the owner on 2026-10-07). While a
+  broadcast is live, a visitor sees a small centred modal with the broadcast's title, "Watch now" (to `/live`) and
+  "Not now": only for live broadcasts, once per broadcast per browser (`nhc.liveAlert.v1`), never on `/live` and never
+  on a page with a payment step or on the way to one (`/cart`, `/checkout`, `/candle`, `/donate`), never in the first
+  4 seconds on a page, never while the visitor is typing in a field or another dialog or the menu is open. It asks
+  nothing of the visitor and collects nothing. Any other pop-up still needs the owner's explicit decision.
 - No light theme, no theme switch (`color-scheme: dark`).
 - No emoji or text glyphs used as icons.
 - No colour as the only signal (errors and success always carry an icon or words).
@@ -205,7 +212,7 @@ stylesheet fails `web/tests/unit/conventions.test.ts`; use a token, or mix one w
 | `--muted` | `#b9bfd3` | secondary text, labels, hints |
 | `--danger` | `#ff8a80` | errors (with an icon or words) |
 | `--success` | `#8be0a4` | confirmations (with an icon or words) |
-| `--live` | `#ff4d4f` | the "on air" colour only: the badge of `<LiveNow>` and the dot on the header's Live link while a broadcast is live (with `--night` ink, see the contrast note below) |
+| `--live` | `#ff4d4f` | the "on air" colour only: the badge of `<LiveNow>`, the badge of the "we are live" window (`<LiveAlert>`), the "Live now" mark in the list of `/live` and the dot on the header's Live link while a broadcast is live (with `--night` ink, see the contrast note below) |
 | `--glass` | `rgba(255, 255, 255, 0.07)` | translucent card fill |
 | `--glass-strong` | `rgba(255, 255, 255, 0.12)` | hover fill, shimmer highlight |
 | `--glass-line` | `rgba(255, 255, 255, 0.16)` | hairline border of cards (decorative, 1.56:1) |
@@ -355,6 +362,7 @@ Roles:
 | Label | `.ui-label`: 0.875rem, weight 500, `--cream` (one style on every form; no per-form colour) |
 | Hint | `.ui-hint`: 0.85rem, `--muted` (so a label and a hint never look alike) |
 | Price, amount, total | sans 700, gold, `font-variant-numeric: tabular-nums`; the order total `clamp(1.4rem, 3vw, 1.6rem)` in the cart and the checkout alike. Never the serif for figures (its old-style 1 reads as an I) |
+| Countdown figures (`/live`) | serif 400, gold, `clamp(2.1rem, 7vw, 3.4rem)`, `font-variant-numeric: lining-nums tabular-nums` (lining, so the 1 never reads as an I; equal widths, so nothing jumps as they change), on small glass tiles with the unit under each in muted capitals (`web/src/components/community/BroadcastStage.module.css`) |
 | Quotation (verse, scripture note, review) | serif 400, upright, a step larger than the text around it, marked by a gold rule or a quote mark |
 | Brand name in the header | serif 600, 1.2rem (1rem on phones), `letter-spacing: 0.04em`, white, beside the round logo (`<BrandLogo>`, 46px; 40px on phones) |
 
@@ -819,6 +827,34 @@ without JavaScript, a `role="status"` result count, and results grouped by type 
 
 ![Search](design/site-search-en.jpg)
 
+#### Live (`/live`)
+
+```
++-----------------------------------------------------------------+
+| PageHero without a photo ("Pray with us, live")                 |
++-----------------------------------------------------------------+
+| <LiveNow>  while a broadcast is live: LIVE NOW badge, title,    |
+|            Cloudflare's player 16:9, "live for N minutes"       |
+| <BroadcastStage> otherwise: the frame over the night basilica   |
+|   [UPCOMING]                                  (broadcast mark)  |
+|        NEXT LIVE BROADCAST                                      |
+|        H2 title of the broadcast (serif, white)                 |
+|        [02][03][04][05]  days hours minutes seconds (gold)      |
+|        Nazareth time: ...      Your time: ... (when different)  |
+|        description                                              |
+|        (Add to calendar)   gold                                 |
+|   ("Starting soon" in place of the figures after the start;     |
+|    "No upcoming events" + Follow us when nothing is announced)  |
+| More live broadcasts: {glass card: title, time, (Add to cal.)}  |
++-----------------------------------------------------------------+
+| Past broadcasts: recordings (16:9 posters, newest first, the    |
+| newest full width when their number is odd), then the older 4:5 |
++-----------------------------------------------------------------+
+```
+
+Everything above reads the tab's one live-status poller (`web/src/lib/liveStatusStore.ts`); the schedule and the
+recordings are read on the server (HTML and structured data: `Event`, `VideoObject`) and once more in the browser.
+
 #### 404 and errors
 
 ```
@@ -974,8 +1010,10 @@ shop has full skeleton sets (`web/src/components/shop/Skeletons.tsx`). Shop page
 | `<LoadingScreen>` `web/src/components/ui/LoadingScreen.tsx` | Cross mark with a slow gold halo, "Loading..." | none | `role="status"`; fades in after 250ms so quick pages never flash it |
 | `<JsonLd>` `web/src/components/ui/JsonLd.tsx` | Structured data script | `data` built with `web/src/lib/jsonLd.ts` | The only allowed `dangerouslySetInnerHTML` (escaped) |
 | `<SvgIcon>`, icons `web/src/components/ui/icons.tsx` | The icon set (3.6) | `size`, `flip` on directional icons | Decorative |
-| `<SiteHeader>` `web/src/components/layout/SiteHeader.tsx` | Sticky header: the logo and the name, the main links (centred, a short gold line under the current page), a round search button (opens the search palette), the language menu, Donate, and below 1180px the full-height phone sheet. Three looks in `data-look`: `hero` (open over the home photo, a soft shade from the top edge and a halo on the text), `glass` (other pages at rest), `solid` (after 12px of scrolling or while the sheet is open, with a gold hairline). The Live link's dot is its indicator slot. | Reads `mainNav` from `web/src/lib/site.ts`; `liveNow` | Skip link first; the sheet takes the focus, returns it to the menu button, locks the page and makes it inert; `aria-current="page"`; the search button has `aria-keyshortcuts` |
+| `<SiteHeader>` `web/src/components/layout/SiteHeader.tsx` | Sticky header: the logo and the name, the main links (centred, a short gold line under the current page), a round search button (opens the search palette), the language menu, Donate, and below 1180px the full-height phone sheet. Three looks in `data-look`: `hero` (open over the home photo, a soft shade from the top edge and a halo on the text), `glass` (other pages at rest), `solid` (after 12px of scrolling or while the sheet is open, with a gold hairline). The Live link's dot is its indicator slot. | Reads `mainNav` from `web/src/lib/site.ts`; `live` (the server's last look at the live status) seeds the Live link's dot | Skip link first; the sheet takes the focus, returns it to the menu button, locks the page and makes it inert; `aria-current="page"`; the search button has `aria-keyshortcuts` |
 | `<BrandLogo>` `web/src/components/layout/BrandLogo.tsx` | The round logo medallion of the header (section 3.5) | `sizes`, `size`, `className` | Decorative (`alt=""`); width and height set, so nothing shifts |
+| `<LiveNavIndicator>` `web/src/components/layout/LiveNavIndicator.tsx` | Inside the header's Live link (bar and drawer): a red dot (`--live`) that pulses while a broadcast is live | `seed`; follows the tab's one live-status poller (`web/src/lib/liveStatusStore.ts`, every 30 s while the tab is visible), so it comes and goes without a reload | The dot is `aria-hidden`; visually hidden words `site.nav.liveNow` follow it; static under reduced motion and "Stop animations" |
+| `<LiveAlert>` `web/src/components/layout/LiveAlert.tsx` | "We are live now": the one pop-up the owner approved (1.5), a small centred window, never in a corner (the accessibility button floats in the bottom corner at the start of the line) | `seed`; rules in `web/src/lib/liveAlert.ts` (only live, once per broadcast in `nhc.liveAlert.v1`, never on `/live` or a payment page, after 4 s on a page, not while the visitor types or another dialog is open, only on a status read in the last minute) | Native modal `<dialog>` with `showModal()`: heading `ux.liveAlert.title`, the title of the broadcast (`dir="auto"`), "Watch now" (the gold link, focused), "Not now" (ghost); Tab stays inside, Escape and a click on the dimmed page close it, the focus goes back where it was; fades in (and rises 12px unless the visitor asked for less motion) |
 | `<A11yPanel>` `web/src/components/layout/A11yPanel.tsx` | The accessibility settings: a round button with the international accessibility sign floating in the bottom corner at the start of the line, that opens a small non-modal dialog above itself (section 5.5) | none | Its own landmark (`<aside>` named `ux.a11y.title`), early in the tab order; `aria-expanded`, `aria-controls`, `aria-haspopup="dialog"`; real radio buttons and switches; Escape and the close button return the focus |
 | `<MotionToggle>` `web/src/components/ui/MotionToggle.tsx` | Pause / play button for a moving background (WCAG 2.2.2) | `className`; pauses the CSS animations inside the nearest `data-motion-scope` element and tells `<HeroVideo>` | The label follows the state (`ux.motion.pause`, `ux.motion.play`); not shown when the visitor asked for less motion |
 | `<LanguageSwitcher>` `web/src/components/layout/LanguageSwitcher.tsx` | Menu of all 14 languages, each in its own script, two columns | Real links with `hreflang` | Arrow keys mirror in RTL; Escape returns focus |
@@ -994,9 +1032,9 @@ shop has full skeleton sets (`web/src/components/shop/Skeletons.tsx`). Shop page
 | Holy sites | `<SiteList>`, `<PlaceCards>`, `<PlaceStory>`, `<VisitCard>`, `<PlaceGallery>`, `<Lightbox>`, `<PhotoImage>`, `<ExternalLink>` in `web/src/components/places/` | The `<Lightbox>` is a native modal `<dialog>` (focus trapped, Escape closes, arrows and swipes change photo, mirrored in RTL, focus returns to the tile). Its code loads on the first click |
 | Shop | `<ShopBrowser>`, `<FilterPanel>`, `<FilterDrawer>`, `<ProductCard>`, `<ProductStrip>`, `<ProductRow>`, `<ProductDetail>`, `<ImageZoom>`, `<QuantityStepper>`, `<CartView>`, `<CartPill>`, `<WishlistButton>`, `<WishlistLink>`, `<WishlistView>`, `<ShareButton>`, `<ProductReviews>`, `<ProductReviewForm>`, `<RecentlyViewed>`, `<RetryButton>`, `<StateCard>`, `<GridSkeleton>`, `<ProductSkeleton>`, `<CartSkeleton>`, `<ShopBarSkeleton>` in `web/src/components/shop/` | State in the URL; the product photo is contained on a soft night backdrop (`--night-3` to `--night-2`, like the photo viewer), never a cream mat; `<ProductStrip>` fades out at an edge where more cards wait (a mask, off while the keyboard is inside the row); the heart is a toggle with `aria-pressed` and a polite status line; a stepper button at its limit is `aria-disabled` (focus stays); cart and wishlist live in `localStorage` and are validated on read |
 | Checkout and payments | `<StepIndicator>`, `<Field>`, `<TextField>`, `<DonePanel>`, `<PayPalPanel>`, `<LazyPayPalPanel>` in `web/src/components/checkout/` | PayPal loads lazily at the payment step; the server decides every amount; the PayPal SDK gets the CSP nonce (`useCspNonce`) |
-| Community | `<LiveNow>`, `<LivePlayer>`, `<PastBroadcasts>`, `<ReviewForm>`, `<ReviewWall>` in `web/src/components/community/` | The player's Live, Upcoming and Offline state follows the visitor's clock each second; recordings use `preload="none"`. `<LiveNow>` shows a broadcast started from the dashboard above the schedule (docs/LIVE.md): it polls `/live/status` about every 15 seconds while the page is visible, frames only Cloudflare Stream's player, announces start and end in a polite live region |
+| Community | `<LiveNow>`, `<BroadcastStage>`, `<PastBroadcasts>`, `<RecordingList>`, `<ReviewForm>`, `<ReviewWall>` in `web/src/components/community/` | `/live` (docs/LIVE.md): `<LiveNow>` shows a broadcast started from the dashboard at the top (the tab's live-status poller, asked every 15 seconds on this page; only Cloudflare Stream's player is framed; start and end announced in a polite live region). `<BroadcastStage>` shows, when nothing is live, the next broadcast announced from the dashboard (`GET /live/schedule`, read on the server and once in the browser) with a countdown, its time in Nazareth and on the visitor's clock, its description and "Add to calendar" (an iCalendar file made in the browser), then the others; "Starting soon" after the start (the poller then asks every 10 s for half an hour); the offline state when nothing is announced. Screen readers get the countdown as one sentence that changes once a minute (`role="timer"`, `aria-live="off"`, the ticking figures `aria-hidden`), and only the change "starting now" is announced; with less motion the seconds are left out. `<PastBroadcasts>` lists the recordings published from the dashboard first (`<RecordingList>`: Cloudflare's poster under one "Play: title" button, the player in a frame only after a press, one at a time), then the older ones (`preload="none"`) |
 | Christian calendar | `<LiturgicalCalendarSection>`, `<LiturgicalCalendar>` in `web/src/components/calendar/`; the date logic in `web/src/lib/liturgical/` (`docs/LITURGICAL-CALENDAR.md`) | On `/live`. A WAI-ARIA grid (`role="grid"`, one tab stop, arrows mirrored in RTL, Home/End, Page Up/Down), the chosen day, the month as a list of buttons, the next feasts, a filter by tradition (real radios) and "add to calendar" (an iCalendar file made in the browser). Each tradition has a shape as well as a colour (gold dot Catholic, cream diamond Orthodox, hollow ring a broadcast, a small gold cross for Nazareth's feasts) and every day's name lists its feasts. The texts (`pilgrim.calendar.title` and the rest) reach the browser through the section's own `NextIntlClientProvider`, on `/live` only. Structured data for the scheduled broadcasts only, never for feasts |
-| Pilgrim guides | `<ContactForm>`, `<PrayerForm>`, `<LikeButton>`, `<FaqList>`, `<GalleryBrowser>`, `<LegalDocument>`, `<NextSteps>`, `<Planner>`, `<WalkingTable>` in `web/src/components/pilgrim/` | The planner keeps its answers in the URL, can print and export an iCalendar file made in the browser (`web/src/data/pilgrim/ics.ts`, shared with the Christian calendar); the "Amen" counter is optimistic and corrects itself; one Amen per prayer per browser |
+| Pilgrim guides | `<ContactForm>`, `<PrayerForm>`, `<LikeButton>`, `<FaqList>`, `<GalleryBrowser>`, `<LegalDocument>`, `<NextSteps>`, `<Planner>`, `<WalkingTable>` in `web/src/components/pilgrim/` | The planner keeps its answers in the URL, can print and export an iCalendar file made in the browser (`web/src/data/pilgrim/ics.ts`, shared with the Christian calendar and the countdown of `/live`); the "Amen" counter is optimistic and corrects itself; one Amen per prayer per browser |
 | Search | `<SiteSearch>`, `<LazySiteSearch>`, `<SearchButton>` in `web/src/components/search/` | The palette code is fetched only on `Ctrl/Cmd + K` or the footer button |
 
 For every one of them the rule is the same: read the file's top comment and its test before changing behaviour;
@@ -1009,6 +1047,7 @@ the comment records the decision (why a native `<dialog>`, why `aria-disabled` a
 | Confirm something quick that happened ("Link copied") | `toast.show({ message, kind: 'success' })` | A modal |
 | A failed action the visitor can retry | `toast.show({ kind: 'error' })` for one-off actions; `<Notice role="alert">` for a form | A silent failure |
 | A choice that needs the whole page (photo viewer, filters on a phone) | A native `<dialog>` opened with `showModal()` | A hand-rolled overlay with a focus trap |
+| Telling every visitor that a broadcast has begun | `<LiveAlert>`: the single window the owner approved (1.5), live broadcasts only, once per broadcast, never on `/live` or a payment page, centred, a native modal `<dialog>` | Any other window that opens by itself: it needs the owner's explicit decision first |
 | A destructive confirmation | Admin only: `confirm()` of the feedback provider (11.4) | Public pages have no destructive actions |
 
 ### 5.5 The accessibility panel
@@ -1078,6 +1117,8 @@ photographs (both removed for reduced motion). Everything else plays once and th
 | Loading content | Skeletons shaped like the content; a page's own `loading.tsx` is **not** used on locale pages (see 13) |
 | Toasts | Bottom centre above sticky actions, polite live region, 4.5s (errors 7s), pause on hover/focus |
 | Drawers and dialogs | Native `<dialog>`: opens modal, page behind inert, Escape closes, focus returns to the opener |
+| Countdown (`/live`) | The seconds figure settles in once a second (fade and a 0.12em drop, `--dur-base`); with less motion the seconds are not shown at all, so the countdown changes once a minute (WCAG 2.2.2) |
+| The live dot | The header's red dot pulses (1.6s ring) while a broadcast is live; static under reduced motion and "Stop animations" |
 | Focus management | Skip link first; after client navigation `<RouteFocus>` focuses `<main>`; after a step change the card heading is focused (`useStepFocus`); menus return focus to their button; a hidden control is out of the tab order |
 | Smooth scroll | `scroll-behavior: smooth` on `html`, `auto` under reduced motion; programmatic scrolls use `scrollBehavior()` from `web/src/lib/motion.ts` |
 | Reduced motion | Every animation has a `prefers-reduced-motion: reduce` branch that removes it; test with the emulation (the Playwright test `ux.spec.ts` does). The panel's "Stop animations" (5.5) does the same for visitors who cannot change their system setting |
@@ -1319,7 +1360,9 @@ Full threat model: `docs/SECURITY.md`. What a UI change must respect:
 4. **Visitor text** (reviews, prayers, names) is rendered as React text only. The API stores it HTML-escaped;
    decode it once with `web/src/lib/plainText.ts` for display as text.
 5. **Storage rules.** `localStorage` holds only the cart (`nhc.cart.v1`), the wishlist, recently viewed products,
-   lit candles, liked prayers and the accessibility settings (`nhc.a11y.v1`): never a credential, a token, an e-mail address or a prayer text. Anything read
+   lit candles, liked prayers, the accessibility settings (`nhc.a11y.v1`) and the live broadcasts whose window was already
+   shown (`nhc.liveAlert.v1`: at most 20 broadcast ids, or a start time and a short hash of the title for an older API,
+   never the title itself): never a credential, a token, an e-mail address or a prayer text. Anything read
    back is validated (24-hex id, bounded quantity, text fields) because any script on the origin can edit it. The
    only cookie is `NEXT_LOCALE`. Wrap storage in `try/catch` (private mode) and render correctly without it. The
    admin keeps its session in an `httpOnly` cookie only.
@@ -1332,7 +1375,10 @@ Full threat model: `docs/SECURITY.md`. What a UI change must respect:
    the owner decides first (cost, privacy, legal text, consent), then add its hosts to `web/src/lib/csp.ts` with a line in
    `web/tests/unit/csp.test.ts`, never loosen the policy, load it lazily, and update `docs/SECURITY.md`.
 8. **Images from other origins** only from Firebase Storage (`remotePatterns` in `web/next.config.ts`); anything
-   else a visitor could put into storage is not rendered (`<CartView>` shows only local and Firebase images).
+   else a visitor could put into storage is not rendered (`<CartView>` shows only local and Firebase images). The one
+   other source is Cloudflare Stream's poster of a published recording on `/live` (a plain lazy `<img>` in
+   `<RecordingList>`, CSP `img-src https://*.cloudflarestream.com`), kept only when its address has the exact shape
+   `https://customer-<code>.cloudflarestream.com/<32 hex>/thumbnails/thumbnail.jpg` (`web/src/lib/liveRecordings.ts`).
 9. **Secrets never reach the browser.** Only `NEXT_PUBLIC_*` variables are read in client code; the PayPal client id
    is public by design. `npm run scan:bundle` checks the build.
 10. **Links to other sites** are constants in the code (social profiles, Google Maps), never built from user input.
@@ -1455,7 +1501,8 @@ owner sees it in the Audit log page (`admin/src/app/(app)/audit/page.tsx`: a tab
 Rules for new features: a new write route needs an audit action on the server; the audit page must be able to show
 it (action names are Latin text and use `.ltr`); never show an IP address, a token or a password anywhere in the UI.
 Session facts the user should see: their role, when the session ends, a sign-out button, and an idle warning dialog
-for the last two minutes of 30 (`<IdleGuard>`).
+for the last two minutes of 30 (`<IdleGuard>`). A live broadcast or a recording upload holds the session
+(`admin/src/lib/session-hold.ts`): no idle sign-out meanwhile, and a notice instead of leaving when the sign-in ends.
 
 ![The audit log](design/admin-audit.jpg)
 
@@ -1474,7 +1521,8 @@ clear "unexpected answer" error, never a broken page.
 
 `<PageHeader>`, `<Panel>`, `<Badge>` (tones `neutral`, `gold`, `success`, `warn`, `danger`, `info`), `<StateBox>`,
 `<EmptyState>`, `<ErrorState>`, `<Forbidden>`, `<DataTable>`, `<ListToolbar>`, `<Pagination>`, `<Field>` (label and
-value in a drawer), `<Ltr>` in `admin/src/components/ui/Primitives.tsx`; `<Drawer>`, `<ApiAction>`, the feedback
+value in a drawer), `<Ltr>` in `admin/src/components/ui/Primitives.tsx` (`<DataTable>` and `<Badge>` live in
+`admin/src/components/ui/DataTable.tsx`, re-exported there, so client components can use them too); `<Drawer>`, `<ApiAction>`, the feedback
 provider with toasts and confirm in `admin/src/components/ui/Feedback.tsx`; `<AppShell>`, `<IdleGuard>`,
 `<LanguageSwitcher>`, `<BrandMark>` in `admin/src/components/shell/`; `<TimeSeriesChart>` and `<QrCode>`.
 Classes (in `admin/src/styles/`): `.btn`, `.btn--gold`, `.btn--ghost`, `.btn--ghost-danger`, `.btn--danger`,
@@ -1570,7 +1618,7 @@ Each one happened (or nearly did) here. The right-hand column says what catches 
 | **`target="_blank"` without `rel="noopener noreferrer"`** | Reverse tabnabbing | `security.test.ts` |
 | **Arabic-Indic or other non-Western digits, or an invisible bidi character, in a message** | Prices and numbers read wrongly; copy-paste traps | `messages.test.ts` |
 | **Translating the brand name** | The logo is the name | Glossary: never translate or transliterate "Nazareth Holy Cross" |
-| **Adding a banner, pop-up, newsletter box or cookie notice** | Violates "nothing asks the visitor for anything they did not come for"; implies tracking we do not do | Do not; owner and legal decision if tracking is ever introduced |
+| **Adding a banner, pop-up, newsletter box or cookie notice** | Violates "nothing asks the visitor for anything they did not come for"; implies tracking we do not do | Do not; owner and legal decision if tracking is ever introduced. The only exception is the owner-approved "We are live now" window (`<LiveAlert>`, 1.5): live broadcasts only, once per broadcast, never on a payment page. Do not reuse it for anything else |
 | **Title Case sentences and ALL-CAPS in the message text itself** ("LIGHT A PRAY CANDLE", "Your Cart is Empty") | Looks shouty, breaks translation, cannot be restyled | Sentence case in the message; capitals by CSS in Latin scripts only. The legacy strings named here were fixed on 2026-10-06 (2.2) |
 | **Two gold buttons in one view; a button with only an icon and no `aria-label`; a custom pill** | Dilutes the primary action; inaccessible | One `.ui-btn--gold`; `.ui-btn--icon` with an `aria-label` |
 | **`font-style: italic` on the serif** (verse, scripture notes, reviews, the candle intention) | No italic face is loaded, so the browser slants the upright letters: a faux italic that looks cheap at display sizes | Upright serif, a step larger, with a gold rule or a quote mark (3.3) |

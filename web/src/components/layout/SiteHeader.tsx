@@ -6,8 +6,10 @@ import { openSiteSearch } from '@/components/search/events';
 import { CloseIcon, MenuIcon, SearchIcon } from '@/components/ui/icons';
 import { Link, usePathname } from '@/i18n/navigation';
 import { mainNav } from '@/lib/site';
+import type { LiveSeed } from '@/lib/useLiveStatus';
 import BrandLogo from './BrandLogo';
 import LanguageSwitcher from './LanguageSwitcher';
+import LiveNavIndicator from './LiveNavIndicator';
 import styles from './SiteHeader.module.css';
 
 /** What the open phone menu covers: it leaves the tab order and the accessibility tree until the menu closes.
@@ -21,12 +23,13 @@ const SCROLLED_AFTER = 12;
 /**
  * The site header: the logo medallion and the name, the main links, search, language and Donate. On phones and
  * tablets (1180px and below) the links open as a full-height sheet under the bar.
- * `liveNow`: a live broadcast is on (the server's last look, lib/liveStatusPeek.ts): a dot on the Live link.
+ * `live`: what the server last knew about a live broadcast (lib/liveStatusPeek.ts); the dot on the Live link
+ * (LiveNavIndicator) follows the tab's live-status poller from there, without a reload.
  *
  * The bar has three looks (`data-look`, SiteHeader.module.css): `hero` over the home page's photo before scrolling
  * (no bar, only a soft shade), `glass` on the other pages at rest, `solid` after scrolling or while the menu is open.
  */
-export default function SiteHeader({ liveNow = false }: { liveNow?: boolean }) {
+export default function SiteHeader({ live }: { live?: LiveSeed }) {
   const t = useTranslations('site');
   const ts = useTranslations('pilgrim.search');
   const pathname = usePathname();
@@ -142,12 +145,7 @@ export default function SiteHeader({ liveNow = false }: { liveNow?: boolean }) {
                   onClick={() => setOpen(false)}
                 >
                   {t(`nav.${item.key}`)}
-                  {item.key === 'live' && liveNow ? (
-                    <>
-                      <span className={styles.liveDot} aria-hidden="true" data-testid="nav-live-now" />{' '}
-                      <span className="visually-hidden">{t('nav.liveNow')}</span>
-                    </>
-                  ) : null}
+                  {item.key === 'live' ? <LiveNavIndicator seed={live} /> : null}
                 </Link>
               </li>
             ))}

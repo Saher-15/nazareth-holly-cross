@@ -7,6 +7,7 @@ import SiteHeader from '@/components/layout/SiteHeader';
 import { buildCsp } from '@/lib/csp';
 import { fetchLiveStatus, LiveStatusError, nextPollDelay, NOT_LIVE, parseLiveStatus, PLAYER_URL } from '@/lib/liveStatus';
 import { livePeekSettled, peekLiveStatus, PEEK_TTL_MS, resetLivePeek } from '@/lib/liveStatusPeek';
+import { resetLiveStatusStore } from '@/lib/liveStatusStore';
 import en from '@/messages/en.json';
 import he from '@/messages/he.json';
 
@@ -33,17 +34,28 @@ function withIntl(ui: ReactNode, locale: 'en' | 'he' = 'en') {
   );
 }
 
+beforeEach(() => resetLiveStatusStore());
+
 afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
   vi.unstubAllGlobals();
   vi.useRealTimers();
+  resetLiveStatusStore();
 });
 
 describe('the live status (lib/liveStatus.ts)', () => {
   it('reads what the API says, decoding the stored text', () => {
     expect(parseLiveStatus(LIVE)).toEqual({ live: true, title: 'Evening prayer & vespers', startedAt: Date.parse(LIVE.startedAt), playbackUrl: PLAYER });
     expect(parseLiveStatus({ live: false })).toEqual(NOT_LIVE);
+  });
+
+  it('keeps the session id of the broadcast when it is 24 hex, and still counts a status without one (an older API)', () => {
+    expect(parseLiveStatus({ ...LIVE, id: 'a'.repeat(24) })).toMatchObject({ live: true, id: 'a'.repeat(24) });
+    const odd = parseLiveStatus({ ...LIVE, id: '<script>' });
+    expect(odd.live).toBe(true);
+    expect(odd).not.toHaveProperty('id');
+    expect(parseLiveStatus({ ...LIVE, id: 42 })).not.toHaveProperty('id');
   });
 
   it('frames nothing but a Cloudflare Stream player page: anything else counts as "not live"', () => {
@@ -82,6 +94,10 @@ describe('the live status (lib/liveStatus.ts)', () => {
     expect(nextPollDelay(2)).toBe(60_000);
     expect(nextPollDelay(9)).toBe(120_000);
     expect(nextPollDelay(1, 300)).toBe(300_000);
+    // another base interval (the header's 30 s, the countdown's 10 s)
+    expect(nextPollDelay(0, null, 30_000)).toBe(30_000);
+    expect(nextPollDelay(1, null, 10_000)).toBe(20_000);
+    expect(nextPollDelay(5, null, 30_000)).toBe(120_000);
   });
 });
 
@@ -205,22 +221,43 @@ describe('<LiveNow> on the /live page', () => {
 });
 
 describe('the "live now" dot in the header', () => {
-  it('appears on the Live link only while a broadcast is live, with words for screen readers', () => {
-    const { rerender } = render(withIntl(<SiteHeader />));
-    expect(screen.queryByTestId('nav-live-now')).toBeNull();
-    rerender(withIntl(<SiteHeader liveNow />));
+  beforeEach(() => {
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'setInterval', 'clearInterval', 'Date'] });
+    vi.setSystemTime(new Date('2026-10-06T10:12:30.000Z'));
+  });
+
+  it('shows what the server knew at once, with words for screen readers', () => {
+    vi.stubGlobal('fetch', vi.fn(async () => json(LIVE)));
+    render(withIntl(<SiteHeader live={{ initial: parseLiveStatus(LIVE), checkedAt: Date.now() }} />));
     expect(screen.getByTestId('nav-live-now')).toHaveAttribute('aria-hidden', 'true');
     expect(screen.getByRole('link', { name: /^Live\s+\(broadcasting now\)$/ })).toHaveAttribute('href', '/live');
   });
+
+  it('appears and disappears without a reload, following the poller of the tab every 30 seconds', async () => {
+    const answers = [json(LIVE), json({ live: false })];
+    const fetchMock = vi.fn(async () => answers.shift() ?? json({ live: false }));
+    vi.stubGlobal('fetch', fetchMock);
+    render(withIntl(<SiteHeader live={{ initial: NOT_LIVE, checkedAt: Date.now() }} />));
+    expect(screen.queryByTestId('nav-live-now')).toBeNull();
+    await act(async () => { await vi.advanceTimersByTimeAsync(29_000); });
+    expect(fetchMock).not.toHaveBeenCalled(); // the server's answer is fresh: nothing asked for 30 s
+    await act(async () => { await vi.advanceTimersByTimeAsync(1_000); });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(screen.getByTestId('nav-live-now')).toBeInTheDocument();
+    await act(async () => { await vi.advanceTimersByTimeAsync(30_000); });
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(screen.queryByTestId('nav-live-now')).toBeNull();
+  });
 });
 
-describe('Content-Security-Policy for the player', () => {
-  it('lets Cloudflare Stream\'s player into a frame, and nothing else of it', () => {
+describe('Content-Security-Policy for the player and the recordings', () => {
+  it('lets the player of Cloudflare Stream into a frame and its posters into images, and nothing else of it', () => {
     const csp = buildCsp({ nonce: 'n', apiOrigin: 'https://api.example.com' });
     const directive = (name: string) => csp.split('; ').find((d) => d.startsWith(`${name} `)) ?? '';
     expect(directive('frame-src')).toContain('https://*.cloudflarestream.com');
+    expect(directive('img-src')).toContain('https://*.cloudflarestream.com');
     expect(directive('connect-src')).not.toContain('cloudflarestream');
     expect(directive('script-src')).not.toContain('cloudflarestream');
-    expect(directive('img-src')).not.toContain('cloudflarestream');
+    expect(directive('media-src')).not.toContain('cloudflarestream');
   });
 });

@@ -1,0 +1,121 @@
+/* Recordings of past live broadcasts (RecordingList.tsx), items of the grid of PastBroadcasts.module.css. Their posters
+   and the player are 16:9 (the older recordings below keep their 4:5 frame). */
+
+.item {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  align-self: start;
+}
+/* An odd number of recordings: the newest spans the row, so the rest stay in pairs. */
+.wide {
+  grid-column: 1 / -1;
+}
+
+.frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: var(--night-deep);
+}
+
+.play {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  inline-size: 100%;
+  block-size: 100%;
+  padding: 0;
+  border: 0;
+  background: var(--night-deep);
+  color: var(--white);
+  cursor: pointer;
+}
+.play:focus-visible {
+  outline: var(--focus-width) solid var(--focus-color);
+  outline-offset: calc(-1 * var(--focus-width) - 2px);
+}
+.poster {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  transition: transform var(--dur-base) var(--ease-out), filter var(--dur-base) ease;
+}
+/* The round play mark: night disc with a gold ring, readable over any poster. */
+.playIcon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  inline-size: 68px;
+  block-size: 68px;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+  background: color-mix(in srgb, var(--night) 72%, transparent);
+  color: var(--gold);
+  box-shadow: var(--elev-3);
+  transition: transform var(--dur-base) var(--ease-out), background var(--dur-fast) ease;
+}
+.playIcon svg {
+  margin-inline-start: 3px;
+}
+@media (hover: hover) {
+  .play:hover .poster {
+    transform: scale(1.03);
+    filter: brightness(1.08);
+  }
+  .play:hover .playIcon {
+    transform: scale(1.06);
+    background: color-mix(in srgb, var(--night) 55%, transparent);
+  }
+}
+.play:active .playIcon {
+  transform: scale(0.98);
+}
+
+.player {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  border: 0;
+}
+
+.body {
+  display: grid;
+  gap: var(--space-2);
+  padding: 18px 20px 22px;
+}
+.body h3 {
+  margin: 0;
+  overflow-wrap: break-word;
+}
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-4);
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.duration {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .poster,
+  .playIcon {
+    transition: none;
+  }
+  .play:hover .poster,
+  .play:hover .playIcon {
+    transform: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .playIcon {
+    border-color: ButtonText;
+  }
+}
