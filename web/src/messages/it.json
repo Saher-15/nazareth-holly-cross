@@ -37,7 +37,7 @@
     }
   },
   "about": {
-    "title": "Benvenuti al portale ufficiale di Nazaret",
+    "title": "Benvenuti su Nazareth Holy Cross",
     "description1": "Il cuore della fede cristiana. Sappiamo che non tutti possono visitare di persona Nazaret, la città dove è cresciuto Gesù e dove ogni visitatore può vivere esperienze spirituali. Per questo siamo lieti di offrirti la possibilità di portare Nazaret fino a te.",
     "description2": "Tramite il nostro sito web, puoi fare un tour virtuale delle principali chiese e dei luoghi sacri di Nazaret, entrare in contatto con la ricca storia e la tradizione religiosa che caratterizzano il luogo. Inoltre, ti offriamo un’opportunità unica di acquistare souvenir locali e persino accendere una candela in memoria o in onore dei tuoi cari, come se fossi qui con noi.",
     "description3": "Nel nostro negozio online puoi trovare un’ampia gamma di prodotti: croci in legno di ulivo locale, gioielli ispirati ai simboli cristiani, dipinti e mosaici che riflettono la ricchezza dell’arte religiosa e molto altro. Ora puoi anche acquistare acqua dalla leggendaria sorgente di Nazaret, sabbia di Nazaret e olive locali, tutto per sentire la grandezza della città di Nazaret e di Gesù. Puoi anche scegliere di accendere una candela virtuale, un gesto che porta preghiera e ricordo a distanza.",
@@ -53,9 +53,9 @@
     },
     "touchingTheSacred": "Toccare il sacro, sentire il battito del cuore",
     "introParagraphs": {
-      "part1": "Nazaret, la città dove si è svolto il miracolo, è il luogo in cui Gesù ha mosso i primi passi, dove la Vergine Maria ha abbracciato suo Figlio e ha pregato per la sua salvezza. Qui, nelle antiche chiese, alla sorgente sacra dove Maria ha nutrito Gesù e nel vivace mercato della città vecchia, troverai la tua fede tornare a vivere.",
+      "part1": "Nazaret, la città in cui si è compiuto il miracolo, è il luogo in cui Gesù ha mosso i primi passi, dove la Vergine Maria ha stretto a sé suo Figlio e ha pregato perché fosse protetto. Qui, nelle antiche chiese, alla sorgente sacra dove Maria ha nutrito Gesù e nel vivace mercato della Città Vecchia, sentirai la tua fede tornare a vivere.",
       "part2": "Immagina di camminare per le strette vie, seguendo le orme di Gesù verso le chiese, e di vivere momenti di riflessione al Pozzo di Maria, dove gli occhi della santa Madre hanno incontrato le antiche acque. Ogni pietra, ogni vicolo racconta una storia di fede incrollabile, di un viaggio spirituale che trascende il tempo.",
-      "part3": "Quando accendi una candela nella Basilica dell’Annunciazione, ti riconnetti con il luogo in cui Gesù ha sentito per la prima volta la sua chiamata divina. Mentre il tuo cuore anela a Nazaret, i nostri souvenir portano lo spirito santo della città, ricordandoti il tuo profondo legame con il luogo in cui tutto ha avuto inizio.",
+      "part3": "Quando accendi una candela nella Basilica dell’Annunciazione, ritrovi il luogo in cui Maria ha ascoltato la chiamata di Dio. Mentre il tuo cuore anela a Nazaret, i nostri souvenir portano con sé l’atmosfera sacra della città e ti ricordano il tuo profondo legame con il luogo in cui tutto ha avuto inizio.",
       "part4": "Permettici di portarti Nazaret, direttamente a casa tua. Con ogni ricordo, conservi un profondo legame con Nazaret, la città in cui hanno camminato Gesù e Maria, la città in cui è nata la fede. Ricorda i momenti che sono accaduti qui, i cuori che si sono aperti in preghiera e le lacrime che sono cadute silenziosamente sulle antiche pietre.",
       "part5": "Nazaret ti aspetta, abbracciandoti da lontano, portandoti la sua santità. Mantieni la fiamma accesa nel tuo cuore, fino al giorno in cui tornerai da noi, nella città dove batte la fede."
     }
@@ -107,7 +107,7 @@
     "subHeading": "GRAZIA IN OGNI CLIC",
     "lightCandle": "ACCENDI UNA CANDELA",
     "shopButton": "Negozio",
-    "tourButton": "TOUR DI NAZARETH",
+    "tourButton": "TOUR DI NAZARET",
     "shopIcon": "fa fa-shopping-cart",
     "tourIcon": "far fa-play-circle",
     "discount": "Goditi uno sconto del 10% su tutti gli articoli del nostro negozio — solo sul nostro sito!"
@@ -126,7 +126,7 @@
       "description": "Guarda l’intervista esclusiva trasmessa in streaming live da Nazaret."
     },
     "live_prayer_latin": {
-      "title": "Preghiera in diretta dalla Chiesa latina",
+      "title": "Preghiera in diretta dalla Basilica dell’Annunciazione",
       "description": "Scopri una trasmissione in diretta di preghiere sentite dalla Chiesa latina."
     }
   },
@@ -145,7 +145,7 @@
     "submitButton": "Invia",
     "successMessage": "Messaggio inviato con successo!",
     "confirmationMessage": "Il tuo messaggio apparirà sul muro una volta confermato dal team di Nazareth Holy Cross.",
-    "messagesTitle": "Clienti recensiti",
+    "messagesTitle": "Le recensioni dei nostri clienti",
     "messagesDescription": "Ecco le recensioni che sono state approvate dal nostro team. Grazie per aver condiviso il tuo feedback con noi.",
     "noMessages": "Nessun messaggio inviato ancora."
   },
@@ -185,7 +185,7 @@
     "paragraph3": "A circa 140 metri dalla chiesa si trova il Pozzo di Maria, un tempo alimentato dalla sorgente e per diversi secoli fonte d’acqua locale. La fontana è stata riparata nel 1967 e di nuovo nel 2000, ma oggi non è più in funzione."
   },
   "headerLatin": {
-    "title": "Esplora la bellezza della chiesa latina"
+    "title": "Esplora la bellezza della Basilica dell’Annunciazione"
   },
   "contentLatin": {
     "paragraph1": "La chiesa latina, nota anche come Basilica dell’Annunciazione, è un importante sito religioso di Nazaret, in Israele. È una delle chiese più grandi del Medio Oriente e ha un profondo significato religioso per i cristiani di tutto il mondo.",
@@ -267,7 +267,7 @@
     "firstName": "Nome",
     "lastName": "Cognome",
     "email": "Email",
-    "confirmEmail": "Email di conferma",
+    "confirmEmail": "Conferma l’email",
     "emailsDontMatch": "Gli indirizzi email non corrispondono",
     "city": "Città",
     "street": "Indirizzo",
@@ -588,7 +588,7 @@
     "added": "Aggiunto",
     "viewCart": "Vai al carrello",
     "inStock": "Disponibile",
-    "lowStock": "Solo {count} rimasti",
+    "lowStock": "Ne restano solo {count}",
     "outOfStock": "Esaurito",
     "maxInCart": "Hai già il massimo di {max} nel carrello.",
     "productError": "Al momento non è possibile caricare questo prodotto.",
@@ -750,7 +750,7 @@
       "bestTitle": "Più venduti",
       "bestLead": "I ricordi che i pellegrini portano a casa più spesso.",
       "favTitle": "I nostri preferiti",
-      "favLead": "Scelti con cura dal nostro negozio di Nazareth.",
+      "favLead": "Scelti con cura dal nostro negozio di Nazaret.",
       "back": "Scorri indietro",
       "forward": "Scorri avanti"
     },
@@ -827,7 +827,7 @@
     },
     "share": {
       "button": "Condividi",
-      "text": "{name}, un ricordo di Nazareth",
+      "text": "{name}, un ricordo di Nazaret",
       "copied": "Link copiato. Puoi incollarlo dove vuoi.",
       "failed": "Impossibile copiare il link. Copialo dalla barra degli indirizzi."
     },
@@ -1213,7 +1213,7 @@
       "errors": {
         "required": "Compila questo campo.",
         "tooShort": "Scrivi almeno {min} caratteri.",
-        "tooLong": "Resta sotto i {max} caratteri.",
+        "tooLong": "Non superare i {max} caratteri.",
         "noLinks": "Rimuovi link web, indirizzi e-mail e codice.",
         "rateLimited": "Da questa connessione sono state inviate troppe preghiere. Attendi qualche minuto e riprova.",
         "invalid": "Non abbiamo potuto accettare questa preghiera. Controlla ciò che hai scritto.",
@@ -1255,7 +1255,7 @@
       "errors": {
         "required": "Compila questo campo.",
         "tooShort": "Scrivi almeno {min} caratteri.",
-        "tooLong": "Resta sotto i {max} caratteri.",
+        "tooLong": "Non superare i {max} caratteri.",
         "invalidEmail": "Inserisci un indirizzo e-mail valido.",
         "invalidPhone": "Inserisci un numero di telefono valido.",
         "rateLimited": "Da questa connessione sono stati inviati troppi messaggi. Attendi qualche minuto e riprova.",
@@ -1861,7 +1861,7 @@
       "title": "Nazaret in immagini",
       "lead": "Otto luoghi, una città: la Basilica dell’Annunciazione, la chiesa di San Giuseppe, la chiesa greco-ortodossa, il Pozzo di Maria, il suq della Città Vecchia, la Chiesa della Sinagoga, il Monte del Precipizio e la città stessa. Tocca una foto per ingrandirla; il visualizzatore indica chi l’ha scattata.",
       "creditsLink": "Crediti fotografici",
-      "visitPage": "Leggi di questo luogo"
+      "visitPage": "Scopri questo luogo"
     },
     "credits": {
       "eyebrow": "Crediti fotografici",

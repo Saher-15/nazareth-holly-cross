@@ -37,7 +37,7 @@
     }
   },
   "about": {
-    "title": "Bun venit pe portalul oficial al Nazaretului",
+    "title": "Bun venit la Nazareth Holy Cross",
     "description1": "Inima credinței creștine. Înțelegem că nu oricine poate vizita Nazaretul în persoană, orașul în care a crescut Iisus și unde fiecare vizitator are parte de experiențe spirituale. De aceea suntem bucuroși să vă oferim posibilitatea de a aduce Nazaretul până la dumneavoastră.",
     "description2": "Prin site-ul nostru puteți face un tur virtual al principalelor biserici și locuri sfinte din Nazaret și vă puteți apropia de istoria bogată și de tradiția religioasă care caracterizează acest loc. În plus, vă oferim ocazia unică de a cumpăra suveniruri locale și chiar de a aprinde o lumânare în amintirea sau în cinstea celor dragi, ca și cum ați fi aici alături de noi.",
     "description3": "În magazinul nostru online găsiți o gamă largă de produse: cruci din lemn de măslin local, bijuterii inspirate de simboluri creștine, picturi și mozaicuri care reflectă bogăția artei religioase și multe altele. Acum puteți cumpăra și apă din legendarul izvor al Nazaretului, nisip din Nazaret și măsline locale — toate pentru a simți măreția orașului Nazaret și a lui Iisus. Puteți alege și să aprindeți o lumânare virtuală, un gest care poartă rugăciunea și amintirea peste distanțe.",
@@ -53,9 +53,9 @@
     },
     "touchingTheSacred": "Să atingem sfințenia, să simțim bătaia inimii",
     "introParagraphs": {
-      "part1": "Nazaretul, orașul în care s-a petrecut minunea, este locul unde Iisus a făcut primii Săi pași, unde Fecioara Maria și-a îmbrățișat Fiul și s-a rugat pentru siguranța Lui. Aici, în bisericile străvechi, la izvorul sfânt unde Maria L-a hrănit pe Iisus și în piața vie a orașului vechi, veți simți cum credința voastră prinde din nou viață.",
+      "part1": "Nazaretul, orașul în care s-a petrecut minunea, este locul unde Iisus a făcut primii Săi pași, unde Fecioara Maria și-a îmbrățișat Fiul și s-a rugat pentru siguranța Lui. Aici, în bisericile străvechi, la izvorul sfânt unde Maria L-a hrănit pe Iisus și în piața vie a orașului vechi, veți simți cum credința dumneavoastră prinde din nou viață.",
       "part2": "Închipuiți-vă că mergeți pe străduțele înguste, pe urmele lui Iisus, spre biserici, și că vă opriți pentru clipe de reculegere la Fântâna Mariei, unde ochii Sfintei Maici au întâlnit apele străvechi. Fiecare piatră, fiecare ulicioară spune povestea unei credințe de neclintit, a unei călătorii spirituale care trece dincolo de timp.",
-      "part3": "Când aprindeți o lumânare în Bazilica Buna Vestire, vă reîntâlniți cu locul în care Iisus a auzit pentru prima dată chemarea Sa dumnezeiască. Pe când inima voastră tânjește după Nazaret, suvenirurile noastre poartă duhul sfânt al orașului și vă amintesc de legătura profundă cu locul unde totul a început.",
+      "part3": "Când aprindeți o lumânare în Bazilica Buna Vestire, vă reîntâlniți cu locul în care Iisus a auzit pentru prima dată chemarea Sa dumnezeiască. Pe când inima dumneavoastră tânjește după Nazaret, suvenirurile noastre poartă ceva din sfințenia orașului și vă amintesc de legătura profundă cu locul unde totul a început.",
       "part4": "Îngăduiți-ne să vă aducem Nazaretul, direct în casa dumneavoastră. Cu fiecare amintire păstrați o legătură profundă cu Nazaretul — orașul pe unde au umblat Iisus și Maria, orașul în care s-a născut credința. Țineți minte clipele petrecute aici, inimile care s-au deschis în rugăciune și lacrimile care au căzut în tăcere pe pietrele străvechi.",
       "part5": "Nazaretul vă așteaptă, vă îmbrățișează de departe și vă aduce sfințenia sa. Păstrați flacăra aprinsă în inimă până în ziua în care veți reveni la noi — în orașul în care bate credința."
     }
@@ -93,7 +93,7 @@
       }
     },
     "toLightACandlePay": "Pentru a aprinde o lumânare, plătiți 3 $",
-    "light": "APRINDE",
+    "light": "APRINDEȚI",
     "emailMatchError": "Adresele de e-mail nu se potrivesc",
     "inputWarning": "Alegeți o biserică.",
     "firstName": "Prenume",
@@ -126,7 +126,7 @@
       "description": "Urmăriți interviul exclusiv transmis în direct din Nazaret."
     },
     "live_prayer_latin": {
-      "title": "Rugăciune în direct din Biserica Latină",
+      "title": "Rugăciune în direct din Bazilica Buna Vestire",
       "description": "Trăiți o transmisiune în direct a unor rugăciuni rostite din inimă în Biserica Latină."
     }
   },
@@ -142,7 +142,7 @@
     "placeholderFullName": "Nume complet",
     "placeholderCountry": "De unde sunteți?",
     "placeholderMessage": "Povestiți-ne despre experiența dumneavoastră cu site-ul nostru",
-    "submitButton": "Trimite",
+    "submitButton": "Trimiteți",
     "successMessage": "Mesajul a fost trimis cu succes!",
     "confirmationMessage": "Mesajul dumneavoastră va apărea pe perete după ce va fi confirmat de echipa Nazareth Holy Cross.",
     "messagesTitle": "Recenziile clienților noștri",
@@ -176,8 +176,8 @@
     "copyright": "Drepturi de autor © 2024 — Toate drepturile rezervate, NazarethHolyCross"
   },
   "headerGreek": {
-    "title": "Descoperiți frumusețea bisericii grecești",
-    "mapButton": "Vezi pe Google Maps"
+    "title": "Descoperiți frumusețea bisericii greco-ortodoxe",
+    "mapButton": "Vedeți pe Google Maps"
   },
   "contentGreek": {
     "paragraph1": "Biserica greco-ortodoxă Buna Vestire se înalță deasupra izvorului unde, potrivit creștinilor ortodocși, a avut loc Buna Vestire. Când Fecioara Maria a mers să scoată apă din izvor, arhanghelul Gavriil i s-a arătat și i-a vestit că va concepe și va naște un fiu căruia îi va pune numele Iisus. Biserica de astăzi datează din 1750, când Daher al-Omar, conducătorul beduin al Galileii, a dat comunității greco-ortodoxe încuviințarea de a o construi.",
@@ -185,7 +185,7 @@
     "paragraph3": "La aproximativ 140 de metri de biserică se află Fântâna Mariei, care odinioară era alimentată de izvor și a slujit câteva secole drept sursă locală de apă. Fântâna a fost reparată în 1967 și din nou în 2000, dar astăzi nu mai funcționează."
   },
   "headerLatin": {
-    "title": "Descoperiți frumusețea Bisericii Latine"
+    "title": "Descoperiți frumusețea Bazilicii Buna Vestire"
   },
   "contentLatin": {
     "paragraph1": "Biserica Latină, cunoscută și ca Bazilica Buna Vestire, este un important loc religios din Nazaret, Israel. Este una dintre cele mai mari biserici din Orientul Mijlociu și are o profundă însemnătate religioasă pentru creștinii din întreaga lume.",
@@ -238,10 +238,10 @@
   "headerTitleNaz": "Descoperiți frumusețea orașului Nazaret",
   "mapButton": "Deschide harta",
   "contentNaz": {
-    "introduction": "Orașul Vechi al Nazaretului este cunoscut mai ales pentru șuk (piața în aer liber), care atrage israelieni din toată țara în căutarea produselor arabe tradiționale. Este o experiență în sine și un contrast puternic cu centrele comerciale climatizate răspândite prin țară. Pentru cei interesați de creștinism, Orașul Vechi și împrejurimile sale sunt pline de locuri creștine importante, printre care Bazilica Buna Vestire.",
+    "introduction": "Orașul Vechi al Nazaretului este cunoscut mai ales pentru souk-ul său (piața în aer liber), care atrage israelieni din toată țara în căutarea produselor arabe tradiționale. Este o experiență în sine și un contrast puternic cu centrele comerciale climatizate răspândite prin țară. Pentru cei interesați de creștinism, Orașul Vechi și împrejurimile sale sunt pline de locuri creștine importante, printre care Bazilica Buna Vestire.",
     "historicalSignificance": {
       "title": "Semnificație istorică și religioasă",
-      "text": "Nazaretul este menționat în mod evident în Noul Testament. Potrivit tradiției creștine, aici îngerul Gavriil i-a vestit Mariei că îl va naște pe Iisus, eveniment comemorat de Bazilica Buna Vestire. Dovezile arheologice arată că Nazaretul era un mic sat evreiesc pe vremea lui Iisus. Este locuit neîntrerupt încă din Antichitate."
+      "text": "Nazaretul ocupă un loc de seamă în Noul Testament. Potrivit tradiției creștine, aici îngerul Gavriil i-a vestit Mariei că îl va naște pe Iisus, eveniment comemorat de Bazilica Buna Vestire. Dovezile arheologice arată că Nazaretul era un mic sat evreiesc pe vremea lui Iisus. Este locuit neîntrerupt încă din Antichitate."
     },
     "modernNazareth": {
       "title": "Nazaretul de astăzi",
@@ -291,7 +291,7 @@
   },
   "product": {
     "button": {
-      "addToCart": "Adaugă în coș"
+      "addToCart": "Adăugați în coș"
     },
     "message": {
       "productAdded": "Produsul a fost adăugat în coș!",
@@ -529,7 +529,7 @@
       },
       "next": {
         "kicker": "Următoarea transmisiune în direct",
-        "startsIn": "Începe în {time}",
+        "startsIn": "Începe peste {time}",
         "days": "{count, plural, one {# zi} few {# zile} other {# de zile}}",
         "hours": "{count, plural, one {# oră} few {# ore} other {# de ore}}",
         "minutes": "{count, plural, one {# minut} few {# minute} other {# de minute}}",
@@ -598,7 +598,7 @@
     "itemsHeading": "Articolele din coșul dumneavoastră",
     "unitPrice": "{price} bucata",
     "removeItem": "Eliminați {name}",
-    "removed": "{name} a fost eliminat din coș.",
+    "removed": "Produsul {name} a fost eliminat din coș.",
     "summaryTitle": "Rezumatul comenzii",
     "subtotal": "Subtotal",
     "discount": "Reducere 10%",
@@ -656,7 +656,7 @@
     },
     "payment": {
       "loading": "Se încarcă PayPal…",
-      "unavailable": "PayPal nu a putut fi încărcat. Verificați conexiunea sau dezactivați blocantele de conținut, apoi reîncărcați pagina.",
+      "unavailable": "PayPal nu a putut fi încărcat. Verificați conexiunea sau dezactivați extensiile care blochează conținutul, apoi reîncărcați pagina.",
       "secured": "Plată sigură prin PayPal. Nu vedem niciodată datele cardului dumneavoastră.",
       "cancelled": "Plata a fost anulată. Nu s-a retras nicio sumă.",
       "errors": {
@@ -833,7 +833,7 @@
     },
     "product": {
       "beFirst": "Nicio recenzie încă. Scrieți-o pe prima",
-      "similarTitle": "Ați putea îndrăgi și",
+      "similarTitle": "V-ar putea plăcea și",
       "recentTitle": "Vizualizate recent"
     }
   },
@@ -1043,7 +1043,7 @@
         "items": {
           "dress": {
             "title": "Ținuta vestimentară",
-            "text": "În biserici, vizitatorii sunt rugați să-și acopere umerii și genunchii, femei și bărbați deopotrivă. O eșarfă sau o șal ușoară în geantă rezolvă problema. Purtați încălțăminte comodă: străduțele vechi sunt abrupte și denivelate."
+            "text": "În biserici, vizitatorii sunt rugați să-și acopere umerii și genunchii, femei și bărbați deopotrivă. O eșarfă sau un șal ușor în geantă rezolvă problema. Purtați încălțăminte comodă: străduțele vechi sunt abrupte și denivelate."
           },
           "etiquette": {
             "title": "Bunele maniere",
@@ -1097,7 +1097,7 @@
           "a": "Haine decente, care acoperă umerii și genunchii, și încălțăminte comodă pentru străduțele abrupte. Luați un strat ușor iarna și protecție solară vara."
         },
         "days": {
-          "q": "Câte zile am nevoie?",
+          "q": "De câte zile am nevoie?",
           "a": "Cei mai mulți pelerini văd principalele locuri sfinte într-o singură zi întreagă. Două sau trei zile vă lasă timp pentru rugăciune, pentru piața din Orașul Vechi și pentru excursii prin Galileea."
         },
         "safe": {
@@ -1204,7 +1204,7 @@
         "prayer": "Rugăciunea dumneavoastră",
         "counter": "{count} / {max}",
         "public": "Rugăciunile sunt publice. Vă rugăm să nu includeți numere de telefon, adrese sau linkuri web.",
-        "submit": "Împărtășesc rugăciunea mea",
+        "submit": "Împărtășiți rugăciunea",
         "sending": "Se trimite…",
         "sent": "Vă mulțumim. Rugăciunea dumneavoastră a fost împărtășită.",
         "sentText": "Va apărea pe zid. Puteți scrie și alta.",
@@ -1343,7 +1343,7 @@
         },
         "data": {
           "q": "Ce date păstrați?",
-          "a": "Doar ceea ce are nevoie un serviciu: comenzi, cereri de lumânări, rugăciuni, recenzii și mesaje de contact. Citiți Politica de confidențialitate pentru detalii."
+          "a": "Doar datele de care are nevoie fiecare serviciu: comenzi, cereri de lumânări, rugăciuni, recenzii și mesaje de contact. Citiți Politica de confidențialitate pentru detalii."
         },
         "contact": {
           "q": "Cum vă pot contacta?",
@@ -1712,7 +1712,7 @@
         },
         "annunciation": {
           "name": "Buna Vestire a Domnului",
-          "orthodoxName": "Bunavestire",
+          "orthodoxName": "Buna Vestire",
           "description": "Îngerul Gavriil o salută pe Maria chiar aici, în Nazaret: hramul celor două biserici ale Bunei Vestiri din oraș."
         },
         "palmSunday": {
@@ -1827,7 +1827,7 @@
     "topic": {
       "basilica": "Bazilica Buna Vestire",
       "stjoseph": "Biserica Sfântul Iosif",
-      "greek": "Biserica greco-ortodoxă a Bunei Vestiri",
+      "greek": "Biserica greco-ortodoxă Buna Vestire",
       "well": "Fântâna Mariei",
       "oldcity": "Orașul Vechi și souk-ul",
       "synagogue": "Biserica Sinagogii",

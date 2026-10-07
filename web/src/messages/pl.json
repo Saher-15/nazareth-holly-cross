@@ -37,8 +37,8 @@
     }
   },
   "about": {
-    "title": "Witamy na oficjalnym portalu Nazaretu",
-    "description1": "Serce wiary chrześcijańskiej. Rozumiemy, że nie każdy może osobiście odwiedzić Nazaret, miasto, w którym dorastał Jezus i gdzie na każdego odwiedzającego czekają duchowe przeżycia. Dlatego z radością oferujemy Ci możliwość przybliżenia Nazaretu do siebie.",
+    "title": "Witamy w Nazareth Holy Cross",
+    "description1": "Serce wiary chrześcijańskiej. Rozumiemy, że nie każdy może osobiście odwiedzić Nazaret, miasto, w którym dorastał Jezus i gdzie na każdego odwiedzającego czekają duchowe przeżycia. Dlatego z radością przybliżamy Ci Nazaret.",
     "description2": "Dzięki naszej stronie internetowej możesz odbyć wirtualną wycieczkę po głównych kościołach i miejscach świętych Nazaretu oraz zbliżyć się do bogatej historii i tradycji religijnej, które charakteryzują to miejsce. Ponadto oferujemy Ci wyjątkową okazję do zakupu lokalnych pamiątek, a nawet zapalenia świecy w intencji lub ku czci Twoich bliskich, tak jakbyś był tutaj z nami.",
     "description3": "W naszym sklepie internetowym znajdziesz szeroką gamę produktów: krzyże z lokalnego drewna oliwnego, biżuterię inspirowaną symbolami chrześcijańskimi, obrazy i mozaiki odzwierciedlające bogactwo sztuki religijnej i wiele więcej. Teraz możesz również kupić wodę z legendarnego źródła w Nazarecie, piasek z Nazaretu i lokalne oliwki – wszystko po to, aby poczuć wielkość miasta Nazaret i Jezusa. Możesz też zapalić wirtualną świecę – gest, który przenosi modlitwę i pamięć przez odległości.",
     "description4": "Zapraszamy do otwarcia serc i poczucia ciepła naszej społeczności poprzez każdy produkt, który zdecydujesz się kupić. Każdy zakup wspiera lokalną społeczność i pomaga zachować bogate dziedzictwo Nazaretu dla przyszłych pokoleń. Odwiedź naszą stronę internetową i znajdź sposób na połączenie się z Nazaretem, kiedykolwiek i gdziekolwiek."
@@ -79,9 +79,9 @@
     "step1": "Wybierz kościół, w którym chcesz zapalić świecę.",
     "step2": "Napisz modlitwę lub osobistą prośbę, którą chcesz dołączyć do zapalenia świecy.",
     "step3": "Pójdziemy do kościoła, zapalimy świecę w Twojej intencji, nagramy film z Twoim imieniem i prześlemy Ci go bezpośrednio.",
-    "note": "Uwaga: Ten filmik ma charakter poglądowy i przedstawia proces zapalania świecy w greckim kościele prawosławnym.",
+    "note": "Uwaga: ten film ma charakter poglądowy i pokazuje, jak zapalamy świecę w cerkwi grecko-prawosławnej.",
     "lightAPrayCandle": "Zapal świecę modlitewną",
-    "selectChurch": "Wybierz kościół, w którym zapalisz świeczkę:",
+    "selectChurch": "Wybierz kościół, w którym mamy zapalić świecę:",
     "churches": {
       "latin": {
         "name": "Bazylika Zwiastowania",
@@ -107,7 +107,7 @@
     "subHeading": "ŁASKA W KAŻDYM KLIKNIĘCIU",
     "lightCandle": "ZAPAL ŚWIECĘ",
     "shopButton": "Sklep",
-    "tourButton": "WYCIECZKA DO NAZARETU",
+    "tourButton": "WYCIECZKA PO NAZARECIE",
     "shopIcon": "fa fa-shopping-cart",
     "tourIcon": "far fa-play-circle",
     "discount": "Skorzystaj z 10% zniżki na wszystkie produkty w naszym sklepie — wyłącznie na naszej stronie!"
@@ -126,7 +126,7 @@
       "description": "Zobacz ekskluzywny wywiad transmitowany na żywo z Nazaretu."
     },
     "live_prayer_latin": {
-      "title": "Modlitwa na żywo z Kościoła łacińskiego",
+      "title": "Modlitwa na żywo z Bazyliki Zwiastowania",
       "description": "Przeżyj transmisję na żywo szczerych modlitw Kościoła łacińskiego."
     }
   },
@@ -185,7 +185,7 @@
     "paragraph3": "Około 140 metrów od cerkwi znajduje się Studnia Maryi, która niegdyś była zasilana przez źródło i przez kilka stuleci służyła jako lokalne ujęcie wody. Fontannę naprawiono w 1967 roku i ponownie w 2000 roku, ale obecnie nie działa."
   },
   "headerLatin": {
-    "title": "Odkryj piękno Kościoła łacińskiego"
+    "title": "Odkryj piękno Bazyliki Zwiastowania"
   },
   "contentLatin": {
     "paragraph1": "Kościół łaciński, znany również jako Bazylika Zwiastowania, jest ważnym miejscem kultu religijnego w Nazarecie w Izraelu. To jeden z największych kościołów na Bliskim Wschodzie, mający głębokie znaczenie religijne dla chrześcijan na całym świecie.",
@@ -195,7 +195,7 @@
     },
     "architecture": {
       "title": "Cechy architektoniczne",
-      "text": "Obecna bazylika, zbudowana w latach 1955-1969, ma charakterystyczną dwupiętrową konstrukcję. Górny kościół jest wykorzystywany do nabożeństw, podczas gdy dolny kościół otacza Grotę Zwiastowania, uważaną za rzeczywiste miejsce Zwiastowania. Architektura bazyliki łączy w sobie nowoczesne style z tradycyjnymi elementami, a jej wnętrze zdobią mozaiki, freski i dzieła sztuki przedstawiające sceny z życia Chrystusa."
+      "text": "Obecna bazylika, zbudowana w latach 1955–1969, ma charakterystyczną dwukondygnacyjną konstrukcję. Górny kościół jest wykorzystywany do nabożeństw, podczas gdy dolny kościół otacza Grotę Zwiastowania, uważaną za rzeczywiste miejsce Zwiastowania. Architektura bazyliki łączy w sobie nowoczesne style z tradycyjnymi elementami, a jej wnętrze zdobią mozaiki, freski i dzieła sztuki przedstawiające sceny z życia Chrystusa."
     },
     "visiting": {
       "title": "Wizyta w bazylice",
@@ -214,7 +214,7 @@
       "cultural": "Znaczenie kulturowe",
       "culturalText": "Studnia jest ważnym źródłem wody dla lokalnej społeczności od wieków. Służyła jako miejsce spotkań mieszkańców Nazaretu, co czyniło ją integralną częścią codziennego życia w mieście.",
       "architecture": "Cechy architektoniczne",
-      "architectureText": "Sama studnia jest częścią większego kompleksu, który obejmuje Grecki Kościół Prawosławny Zwiastowania. Obecna struktura kościoła pochodzi z XVIII wieku, ale studnia i miejsce mają znacznie starsze korzenie."
+      "architectureText": "Sama studnia jest częścią większego kompleksu, do którego należy cerkiew grecko-prawosławna Zwiastowania. Obecny budynek cerkwi pochodzi z XVIII wieku, ale studnia i całe to miejsce mają znacznie starsze korzenie."
     },
     "modern": {
       "title": "Miejsce dzisiaj",
@@ -223,7 +223,7 @@
       "attraction": "Atrakcja turystyczna",
       "attractionText": "Studnia Maryi jest popularnym celem pielgrzymów i turystów. Odwiedzający przyjeżdżają, aby zobaczyć zabytkowe miejsce i doświadczyć miejsca, w którym według tradycji miało miejsce Zwiastowanie.",
       "surroundings": "Otoczenie",
-      "surroundingsText": "Studnia znajduje się w Starym Mieście Nazaretu, obszarze bogatym w zabytki historyczne i religijne. W pobliżu znajdują się takie atrakcje jak Bazylika Zwiastowania, Grecki Kościół Prawosławny Zwiastowania i różne inne miejsca związane z życiem Jezusa i Maryi."
+      "surroundingsText": "Studnia znajduje się na Starym Mieście w Nazarecie, w okolicy pełnej zabytków historycznych i religijnych. W pobliżu znajdują się m.in. Bazylika Zwiastowania, cerkiew grecko-prawosławna Zwiastowania i wiele innych miejsc związanych z życiem Jezusa i Maryi."
     },
     "visiting": {
       "title": "Wizyta przy Studni Maryi",
@@ -241,7 +241,7 @@
     "introduction": "Stare Miasto w Nazarecie jest najbardziej znane ze swojego szuku (targu na świeżym powietrzu), który przyciąga Izraelczyków z całego kraju poszukujących tradycyjnych produktów arabskich. To samo w sobie jest przeżyciem i wielkim kontrastem z klimatyzowanymi centrami handlowymi rozsianymi po całym kraju. Dla osób zainteresowanych chrześcijaństwem Stare Miasto i okolice są pełne ważnych miejsc chrześcijańskich, w tym Bazyliki Zwiastowania.",
     "historicalSignificance": {
       "title": "Znaczenie historyczne i religijne",
-      "text": "Nazaret jest wyraźnie wspomniany w Nowym Testamencie. Według tradycji chrześcijańskiej jest to miejsce, w którym Anioł Gabriel oznajmił Maryi, że urodzi Jezusa – wydarzenie upamiętnione przez Bazylikę Zwiastowania. Dowody archeologiczne wskazują, że w czasach Jezusa Nazaret była małą żydowską wioską. Miejsce to jest nieprzerwanie zamieszkane od czasów starożytnych."
+      "text": "Nazaret jest wyraźnie wspomniany w Nowym Testamencie. Według tradycji chrześcijańskiej jest to miejsce, w którym Anioł Gabriel oznajmił Maryi, że urodzi Jezusa – wydarzenie upamiętnione przez Bazylikę Zwiastowania. Dowody archeologiczne wskazują, że w czasach Jezusa Nazaret był małą żydowską wioską. Miejsce to jest nieprzerwanie zamieszkane od czasów starożytnych."
     },
     "modernNazareth": {
       "title": "Współczesny Nazaret",
@@ -350,7 +350,7 @@
     "candleText": "Zapal świecę w Świętym Mieście, a pomodlimy się w Twojej intencji w Nazarecie.",
     "flameBtn": "Zapal płomień",
     "flameCount": "Płomienie zapalone na tym urządzeniu: {count}",
-    "flameNote": "Symboliczny płomień. Aby zapalono prawdziwą świecę w Nazarecie, odwiedź naszą stronę ze świecami.",
+    "flameNote": "Symboliczny płomień. Jeśli chcesz, abyśmy zapalili prawdziwą świecę w Nazarecie, przejdź na naszą stronę „Zapal świecę”.",
     "verseEyebrow": "Werset dnia",
     "verseCaption": "Dzisiejsza refleksja",
     "v1": "Nie bój się, Maryjo, znalazłaś bowiem łaskę u Boga.",
@@ -372,7 +372,7 @@
     "next": "Następny",
     "explore": "Odkryj",
     "siteLatin": "Bazylika Zwiastowania",
-    "siteGreek": "Grecka cerkiew prawosławna",
+    "siteGreek": "Cerkiew grecko-prawosławna",
     "siteMary": "Studnia Maryi",
     "siteOld": "Stare Miasto",
     "siteCity": "Miasto Nazaret",
@@ -384,7 +384,7 @@
     "retry": "Spróbuj ponownie",
     "voicesEyebrow": "Głosy pielgrzymów",
     "voicesTitle": "Słowa naszych gości",
-    "voicesAll": "Czytaj więcej i podziel się swoim",
+    "voicesAll": "Czytaj więcej i podziel się swoją opinią",
     "storyEyebrow": "Historia",
     "today": {
       "title": "Dziś w Nazarecie",
@@ -424,7 +424,7 @@
   "placesPage": {
     "meta": {
       "sitesTitle": "Święte miejsca Nazaretu",
-      "sitesDescription": "Zobacz na zdjęciach Bazylikę Zwiastowania, grecką cerkiew prawosławną, Studnię Maryi, Stare Miasto i miasto Nazaret, z mapami i wskazówkami dojazdu na Twoją pielgrzymkę.",
+      "sitesDescription": "Zobacz na zdjęciach Bazylikę Zwiastowania, cerkiew grecko-prawosławną, Studnię Maryi, Stare Miasto i miasto Nazaret – z mapami i wskazówkami dojazdu na Twoją pielgrzymkę.",
       "tourTitle": "Wirtualna wycieczka po Nazarecie",
       "tourDescription": "Obejrzyj wideowycieczkę po Nazarecie, od tętniących życiem targów po zabytkowe kościoły, a potem poznaj każde święte miejsce na zdjęciach.",
       "aboutTitle": "O nas",
@@ -440,14 +440,14 @@
     "kind": {
       "latin": "Bazylika katolicka",
       "greek": "Cerkiew grecko-prawosławna",
-      "maryswell": "Dawne źródło",
+      "maryswell": "Starożytne źródło",
       "oldcity": "Zabytkowa dzielnica i targ",
       "city": "Miasto Jezusa"
     },
     "teaser": {
       "latin": "Jeden z największych kościołów Bliskiego Wschodu, wzniesiony nad grotą, w której według tradycji anioł Gabriel zwiastował Maryi narodzenie Jezusa.",
       "greek": "Zbudowana w 1750 roku nad źródłem, przy którym tradycja prawosławna umieszcza Zwiastowanie, z rzeźbionym drewnianym ikonostasem i kaplicą, do której prowadzą schody z czasów krzyżowców.",
-      "maryswell": "Dawne źródło Nazaretu, z którego według tradycji Maryja czerpała wodę: przez wieki miejsce spotkań mieszkańców.",
+      "maryswell": "Stare źródło Nazaretu, z którego według tradycji Maryja czerpała wodę: przez wieki miejsce spotkań mieszkańców.",
       "oldcity": "Wąskie uliczki, gwarny targ i jedne z najważniejszych miejsc chrześcijańskich Nazaretu, wszystko w zasięgu krótkiego spaceru.",
       "city": "Położone na wzgórzach Galilei miasto, w którym dorastał Jezus, dziś tętniące życiem centrum wiary, kultury i gościnności."
     },
@@ -656,7 +656,7 @@
     },
     "payment": {
       "loading": "Wczytywanie PayPal…",
-      "unavailable": "Nie udało się wczytać PayPal. Sprawdź połączenie lub wyłącz blokowanie treści, a następnie odśwież stronę.",
+      "unavailable": "Nie udało się wczytać płatności PayPal. Sprawdź połączenie lub wyłącz blokowanie treści, a następnie odśwież stronę.",
       "secured": "Bezpieczna płatność przez PayPal. Nigdy nie widzimy danych Twojej karty.",
       "cancelled": "Płatność anulowana. Nie pobrano żadnej opłaty.",
       "errors": {
@@ -975,7 +975,7 @@
       "tips": {
         "latin": "Zwiedzanie może być wstrzymane podczas Mszy i nabożeństw, a w dni świąteczne godziny się zmieniają. Sprawdź aktualne godziny na swój termin.",
         "greek": "Godziny zależą od nabożeństw i mogą się zmienić bez uprzedzenia. Zapytaj przy wejściu, czy kościół jest otwarty.",
-        "maryswell": "Tuż obok greckoprawosławnego kościoła, więc obie wizyty dobrze się łączą. Godziny bywają różne; sprawdź, co jest otwarte danego dnia.",
+        "maryswell": "Tuż obok cerkwi grecko-prawosławnej, więc obie wizyty dobrze się łączą. Godziny bywają różne; sprawdź, co jest otwarte danego dnia.",
         "oldcity": "Sklepy mają własne godziny, a niektóre są zamknięte w piątek lub niedzielę. Rano najlepiej zobaczyć targ w pełnym ruchu.",
         "city": "Ulice są najbardziej ożywione rano. Zostaw czas na kawę i spacer."
       },
@@ -1136,7 +1136,7 @@
           "text": "Pod Bazyliką Zwiastowania znajduje się grota, którą chrześcijanie od wieków czczą jako miejsce domu Maryi, gdzie wspomina się pozdrowienie anioła."
         },
         "luke138": {
-          "text": "Tradycja prawosławna wspomina, że anioł przemówił do Maryi po raz pierwszy, gdy szła po wodę, przy źródle obok greckoprawosławnego kościoła Zwiastowania. Jej odpowiedź jest sercem modlitwy każdego pielgrzyma."
+          "text": "Tradycja prawosławna wspomina, że anioł przemówił do Maryi po raz pierwszy, gdy szła po wodę, przy źródle obok cerkwi grecko-prawosławnej Zwiastowania. Jej odpowiedź jest sercem modlitwy każdego pielgrzyma."
         },
         "matthew223": {
           "text": "Po powrocie z Egiptu Józef osiedlił rodzinę w Nazarecie. Odtąd Jezus nazywany był „Jezusem z Nazaretu”, a nazwa miasta obiegła świat."
@@ -1155,7 +1155,7 @@
           "text": "Jezus wrócił, by nauczać w mieście, w którym dorastał. Miejsca na Starym Mieście, w tym kościół umieszczany przez tradycję w miejscu synagogi, przypominają ten dzień."
         },
         "john146": {
-          "text": "Odpowiedź Filipa dla Natanaela jest zaproszeniem każdej pielgrzymki: Chodź i zobacz. Nazaret wciąż najlepiej poznać, idąc jego ulicami."
+          "text": "Słowa Filipa do Natanaela, „Chodź i zobacz”, są zaproszeniem każdej pielgrzymki. Nazaret wciąż najlepiej poznawać, idąc jego ulicami."
         }
       }
     },
@@ -1196,7 +1196,7 @@
       },
       "form": {
         "title": "Podziel się modlitwą",
-        "intro": "Napisz intencję o pokój, uzdrowienie, podziękowanie lub za swoją rodzinę. Pojawi się na ścianie.",
+        "intro": "Napisz intencję: o pokój, o uzdrowienie, dziękczynną lub za swoją rodzinę. Pojawi się na ścianie.",
         "name": "Twoje imię",
         "country": "Skąd jesteś?",
         "countryChoose": "Wybierz swój kraj",
@@ -1212,8 +1212,8 @@
       },
       "errors": {
         "required": "Wypełnij to pole.",
-        "tooShort": "Napisz co najmniej {min} znaków.",
-        "tooLong": "Zmieść się w {max} znakach.",
+        "tooShort": "Minimalna liczba znaków: {min}.",
+        "tooLong": "Maksymalna liczba znaków: {max}.",
         "noLinks": "Usuń linki, adresy e-mail i kod.",
         "rateLimited": "Z tego połączenia wysłano zbyt wiele modlitw. Odczekaj kilka minut i spróbuj ponownie.",
         "invalid": "Nie mogliśmy przyjąć tej modlitwy. Sprawdź, co napisano.",
@@ -1254,8 +1254,8 @@
       },
       "errors": {
         "required": "Wypełnij to pole.",
-        "tooShort": "Napisz co najmniej {min} znaków.",
-        "tooLong": "Zmieść się w {max} znakach.",
+        "tooShort": "Minimalna liczba znaków: {min}.",
+        "tooLong": "Maksymalna liczba znaków: {max}.",
         "invalidEmail": "Podaj prawidłowy adres e-mail.",
         "invalidPhone": "Podaj prawidłowy numer telefonu.",
         "rateLimited": "Z tego połączenia wysłano zbyt wiele wiadomości. Odczekaj kilka minut i spróbuj ponownie.",
@@ -1274,7 +1274,7 @@
     "gallery": {
       "meta": {
         "title": "Galeria zdjęć Nazaretu",
-        "description": "Przeglądaj zdjęcia Bazyliki Zwiastowania, greckoprawosławnego kościoła, Studni Maryi, Starego Miasta i Nazaretu i otwieraj każde zdjęcie na pełnym ekranie."
+        "description": "Przeglądaj zdjęcia Bazyliki Zwiastowania, cerkwi grecko-prawosławnej, Studni Maryi, Starego Miasta i całego Nazaretu; każde zdjęcie możesz otworzyć na pełnym ekranie."
       },
       "hero": {
         "eyebrow": "Galeria",
@@ -1292,7 +1292,7 @@
       },
       "eyebrow": "Pomoc",
       "title": "Najczęstsze pytania",
-      "lead": "Szybkie odpowiedzi o zwiedzaniu, modlitwie z nami i zakupach. Nie znalazłeś swojej? Napisz do nas.",
+      "lead": "Szybkie odpowiedzi o zwiedzaniu, modlitwie z nami i zakupach. Nie ma tu Twojego pytania? Napisz do nas.",
       "groupsLabel": "Grupy pytań",
       "groups": {
         "visiting": "Zwiedzanie Nazaretu",
@@ -1331,7 +1331,7 @@
         },
         "damaged": {
           "q": "Co, jeśli zamówienie dotrze uszkodzone?",
-          "a": "Napisz do nas, podając dane zamówienia i zdjęcie. Odpowiemy i naprawimy sprawę. Szczegóły w Wysyłce i zwrotach."
+          "a": "Napisz do nas, podając dane zamówienia i załączając zdjęcie. Odpowiemy i rozwiążemy problem. Szczegóły znajdziesz na stronie „Wysyłka i zwroty”."
         },
         "donate": {
           "q": "Czy mogę przekazać darowiznę?",
@@ -1385,7 +1385,7 @@
             "items": {
               "u1": "Aby zrealizować i dostarczyć zamówienia oraz zapalić świecę i wysłać Ci film.",
               "u2": "Aby odpowiadać na Twoje wiadomości.",
-              "u3": "Aby wyświetlać na stronie modlitwy i zatwierdzone opinie, tak jak chciałeś."
+              "u3": "Aby wyświetlać na stronie modlitwy i zatwierdzone opinie – zgodnie z Twoją wolą."
             }
           },
           "share": {
@@ -1402,7 +1402,7 @@
             "p1": "Strona nie ma kont i nie używa plików cookie reklamowych ani analitycznych. Twoja przeglądarka przechowuje:",
             "items": {
               "cart": "Koszyk i listę życzeń.",
-              "liked": "Modlitwy, przy których powiedziałeś Amen, aby można to było zrobić tylko raz.",
+              "liked": "Modlitwy, przy których już powiedziano Amen – aby można to było zrobić tylko raz.",
               "language": "Wybrany język."
             }
           },
@@ -1440,7 +1440,7 @@
             "title": "Zamówienia i płatność",
             "p1": "Zamówienia opłaca się przez PayPal. Ceny są w dolarach amerykańskich i są obliczane przez nasz serwer w chwili płatności, a nie przez Twoją przeglądarkę.",
             "items": {
-              "i1": "Każde zamówienie otrzymuje rabat {discount} na produkty i ryczałtową opłatę za wysyłkę {shipping}.",
+              "i1": "Każde zamówienie jest objęte rabatem {discount} na produkty, a wysyłka kosztuje ryczałtowo {shipping}.",
               "i2": "Możemy anulować zamówienie z pełnym zwrotem pieniędzy, jeśli produkt jest niedostępny lub cena jest ewidentnie błędna.",
               "i3": "Dostawa, cło i zwroty są opisane w Wysyłce i zwrotach."
             }
@@ -1451,7 +1451,7 @@
           },
           "donations": {
             "title": "Darowizny",
-            "p1": "Darowizny są dobrowolne i wspierają działalność Nazareth Holy Cross. Jeśli wpłaciłeś darowiznę przez pomyłkę, napisz do nas jak najszybciej."
+            "p1": "Darowizny są dobrowolne i wspierają działalność Nazareth Holy Cross. Jeśli darowizna została przekazana przez pomyłkę, napisz do nas jak najszybciej."
           },
           "content": {
             "title": "Modlitwy i opinie",
@@ -1514,7 +1514,7 @@
           },
           "digital": {
             "title": "Świece i darowizny",
-            "p1": "Prośby o świece i darowizny to usługi, a nie produkty, więc nie są wysyłane. Jeśli złożyłeś je przez pomyłkę, napisz do nas."
+            "p1": "Prośby o świece i darowizny to usługi, a nie produkty, więc nie są wysyłane. Jeśli coś zostało zamówione lub wpłacone przez pomyłkę, napisz do nas."
           },
           "contact": {
             "title": "Pytania",
@@ -1773,7 +1773,7 @@
         "nativityOfMary": {
           "name": "Narodzenie Najświętszej Maryi Panny",
           "orthodoxName": "Narodzenie Przenajświętszej Bogurodzicy",
-          "description": "Urodziny Dziewicy Maryi."
+          "description": "Narodziny Maryi Dziewicy."
         },
         "holyCross": {
           "name": "Podwyższenie Krzyża Świętego",
@@ -1859,7 +1859,7 @@
     "gallery": {
       "eyebrow": "Galeria zdjęć",
       "title": "Nazaret w obrazach",
-      "lead": "Osiem miejsc, jedno miasto: Bazylika Zwiastowania, kościół św. Józefa, cerkiew grecko-prawosławna, Studnia Maryi, suk na Starym Mieście, Kościół Synagogi, Góra Skoku i samo miasto. Dotknij zdjęcia, aby je powiększyć; przeglądarka podaje autora.",
+      "lead": "Osiem miejsc, jedno miasto: Bazylika Zwiastowania, kościół św. Józefa, cerkiew grecko-prawosławna, Studnia Maryi, suk na Starym Mieście, Kościół Synagogi, Góra Skoku i samo miasto. Wybierz zdjęcie, aby je powiększyć; w podglądzie zobaczysz autora.",
       "creditsLink": "Autorzy zdjęć",
       "visitPage": "Przeczytaj o tym miejscu"
     },

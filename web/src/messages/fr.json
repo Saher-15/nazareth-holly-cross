@@ -37,7 +37,7 @@
     }
   },
   "about": {
-    "title": "Bienvenue sur le portail officiel de Nazareth",
+    "title": "Bienvenue sur Nazareth Holy Cross",
     "description1": "Le cœur de la foi chrétienne. Nous savons que tout le monde ne peut pas se rendre à Nazareth, la ville où Jésus a grandi et où des expériences spirituelles attendent chaque visiteur. C’est pourquoi nous sommes heureux de vous offrir la possibilité de faire venir Nazareth jusqu’à vous.",
     "description2": "Grâce à notre site, vous pouvez faire une visite virtuelle des principales églises et des lieux saints de Nazareth et vous relier à la riche histoire et à la tradition religieuse qui caractérisent ce lieu. Nous vous offrons aussi une occasion unique d’acheter des souvenirs locaux et même d’allumer une bougie à la mémoire ou en l’honneur de vos proches, comme si vous étiez ici avec nous.",
     "description3": "Dans notre boutique en ligne, vous trouverez un large choix de produits : des croix en bois d’olivier local, des bijoux inspirés des symboles chrétiens, des peintures et des mosaïques qui reflètent la richesse de l’art religieux, et bien plus encore. Vous pouvez désormais aussi acquérir de l’eau de la légendaire source de Nazareth, du sable de Nazareth et des olives locales – de quoi ressentir la grandeur de la ville de Nazareth et de Jésus. Vous pouvez également choisir d’allumer une bougie virtuelle, un geste qui porte la prière et le souvenir par-delà les distances.",
@@ -53,8 +53,8 @@
     },
     "touchingTheSacred": "Toucher le sacré, sentir battre le cœur",
     "introParagraphs": {
-      "part1": "Nazareth, la ville où le miraculeux s’est déroulé, est l’endroit où Jésus a fait ses premiers pas, où la Vierge Marie a embrassé son Fils et a prié pour sa sécurité. Ici, au sein des anciennes églises, à la source sacrée où Marie a nourri Jésus, et dans le marché animé de la vieille ville – vous verrez votre foi renaître.",
-      "part2": "Imaginez-vous marchant à travers les rues étroites, suivant les pas de Jésus vers les églises, partageant des moments de réflexion à la source de Marie, où les yeux de la mère sainte ont rencontré les eaux anciennes. Chaque pierre, chaque ruelle, raconte une histoire de foi indéfectible, d’un voyage spirituel qui transcende le temps.",
+      "part1": "Nazareth, la ville où s’est accompli le miracle, est le lieu où Jésus a fait ses premiers pas, où la Vierge Marie a serré son Fils dans ses bras et a prié pour qu’il soit protégé. Ici, dans les anciennes églises, à la source sacrée où Marie a nourri Jésus, et dans le marché animé de la vieille ville, vous sentirez votre foi reprendre vie.",
+      "part2": "Imaginez-vous parcourant les ruelles étroites sur les pas de Jésus jusqu’aux églises, et partageant des moments de recueillement au puits de Marie, là où les yeux de la sainte Mère se sont posés sur les eaux anciennes. Chaque pierre, chaque ruelle raconte une histoire de foi indéfectible, celle d’un voyage spirituel qui transcende le temps.",
       "part3": "Lorsque vous allumez une bougie dans la basilique de l’Annonciation, vous vous reconnectez avec l’endroit où Jésus a entendu pour la première fois son appel divin. Alors que votre cœur aspire à Nazareth, nos souvenirs portent l’esprit sacré de la ville, vous rappelant votre profonde connexion avec l’endroit où tout a commencé.",
       "part4": "Permettez-nous de vous apporter Nazareth, directement chez vous. Avec chaque souvenir, vous préservez un lien profond avec Nazareth – la ville où Jésus et Marie ont marché, la ville où la foi est née. Souvenez-vous des moments qui se sont déroulés ici, des cœurs qui se sont ouverts en prière, et des larmes qui sont tombées silencieusement sur les pierres anciennes.",
       "part5": "Nazareth vous attend, vous embrasse de loin et vous apporte sa sainteté. Gardez la flamme allumée dans votre cœur, jusqu’au jour où vous reviendrez vers nous, dans la ville où bat la foi."
@@ -126,7 +126,7 @@
       "description": "Regardez l’interview exclusive diffusée en direct de Nazareth."
     },
     "live_prayer_latin": {
-      "title": "Prière en direct de l’Église latine",
+      "title": "Prière en direct de la basilique de l’Annonciation",
       "description": "Vivez une diffusion en direct des prières sincères depuis l’Église latine."
     }
   },
@@ -143,7 +143,7 @@
     "placeholderCountry": "D’où venez-vous ?",
     "placeholderMessage": "Parlez-nous de votre expérience avec notre site web",
     "submitButton": "Envoyer",
-    "successMessage": "Message soumis avec succès !",
+    "successMessage": "Message envoyé !",
     "confirmationMessage": "Votre message apparaîtra sur le mur une fois confirmé par l’équipe de Nazareth Holy Cross.",
     "messagesTitle": "Avis de nos clients",
     "messagesDescription": "Voici les avis qui ont été approuvés par notre équipe. Merci de partager vos commentaires avec nous.",
@@ -185,7 +185,7 @@
     "paragraph3": "À environ 140 mètres de l’église se trouve le puits de Marie, autrefois alimenté par la source et qui a servi de point d’eau local pendant plusieurs siècles. La fontaine a été réparée en 1967, puis de nouveau en 2000, mais elle ne fonctionne plus aujourd’hui."
   },
   "headerLatin": {
-    "title": "Découvrez la beauté de l’église latine"
+    "title": "Découvrez la beauté de la basilique de l’Annonciation"
   },
   "contentLatin": {
     "paragraph1": "L’église latine, également connue sous le nom de basilique de l’Annonciation, est un important site religieux situé à Nazareth, en Israël. C’est l’une des plus grandes églises du Moyen-Orient et elle revêt une profonde signification religieuse pour les chrétiens du monde entier.",
@@ -217,7 +217,7 @@
       "architectureText": "Le puits lui-même fait partie d’un ensemble plus vaste qui comprend l’église grecque orthodoxe de l’Annonciation. L’église actuelle date du XVIIIe siècle, mais le puits et le site ont des racines bien plus anciennes."
     },
     "modern": {
-      "title": "Site moderne",
+      "title": "Le site aujourd’hui",
       "restoration": "Efforts de restauration",
       "restorationText": "La fontaine du puits de Marie a été restaurée à plusieurs reprises au fil des ans, notamment en 1967 et en 2000. Malgré ces efforts, le puits ne fonctionne plus aujourd’hui comme autrefois.",
       "attraction": "Attraction touristique",
@@ -241,7 +241,7 @@
     "introduction": "La vieille ville de Nazareth est surtout célèbre pour son shuk (marché en plein air), qui attire des Israéliens de tout le pays à la recherche de produits arabes traditionnels. C’est une expérience en soi, et un grand contraste avec les centres commerciaux climatisés disséminés dans le pays. Pour ceux qui s’intéressent au christianisme, la vieille ville et ses environs regorgent de sites chrétiens importants, dont la basilique de l’Annonciation.",
     "historicalSignificance": {
       "title": "Importance historique et religieuse",
-      "text": "Nazareth est mentionnée de manière proéminente dans le Nouveau Testament. Selon la tradition chrétienne, c’est le site où l’ange Gabriel a annoncé à Marie qu’elle allait avoir Jésus, un événement commémoré par la basilique de l’Annonciation. Les preuves archéologiques indiquent que Nazareth était un petit village juif à l’époque de Jésus. Il est continuellement habité depuis l’antiquité."
+      "text": "Nazareth occupe une place importante dans le Nouveau Testament. Selon la tradition chrétienne, c’est là que l’ange Gabriel a annoncé à Marie qu’elle enfanterait Jésus, événement que commémore la basilique de l’Annonciation. Les fouilles archéologiques indiquent que Nazareth était un petit village juif à l’époque de Jésus. Le site est habité sans interruption depuis l’Antiquité."
     },
     "modernNazareth": {
       "title": "Nazareth aujourd’hui",
@@ -274,7 +274,7 @@
     "postal": "Code postal",
     "state": "État / Province",
     "paymentMethod": "Méthode de paiement",
-    "pleaseFillAllDetails": "Veuillez remplir tous les détails pour continuer.",
+    "pleaseFillAllDetails": "Veuillez remplir tous les champs pour continuer.",
     "orderCancelled": "Commande annulée !",
     "thankYou": "Merci pour votre commande !",
     "summary": "Résumé de la commande",
@@ -521,7 +521,7 @@
       "videoFallback": "Votre navigateur ne peut pas lire cette vidéo.",
       "now": {
         "badge": "En direct maintenant",
-        "since": "{minutes, plural, =0 {Commencé à l’instant} one {En direct depuis # minute} other {En direct depuis # minutes}}",
+        "since": "{minutes, plural, =0 {Vient de commencer} one {En direct depuis # minute} other {En direct depuis # minutes}}",
         "playerTitle": "Diffusion en direct : {title}",
         "started": "Une diffusion en direct a commencé : {title}",
         "ended": "La diffusion en direct est terminée.",
@@ -663,7 +663,7 @@
         "start": "Impossible de lancer le paiement. Veuillez réessayer.",
         "notCompleted": "Le paiement n’a pas abouti. Vous n’avez pas été débité.",
         "paypal": "PayPal a signalé une erreur. Veuillez réessayer.",
-        "unconfirmed": "Nous n’avons pas pu confirmer votre paiement car la connexion a échoué. Ne payez pas à nouveau pour l’instant : vérifiez votre compte PayPal ou écrivez-nous."
+        "unconfirmed": "Nous n’avons pas pu confirmer votre paiement car la connexion a échoué. Ne payez pas à nouveau pour l’instant : vérifiez votre compte PayPal ou écrivez-nous."
       },
       "reference": "Référence du paiement : {id}",
       "saving": "Enregistrement de vos informations…",
@@ -1213,7 +1213,7 @@
       "errors": {
         "required": "Veuillez remplir ce champ.",
         "tooShort": "Veuillez écrire au moins {min} caractères.",
-        "tooLong": "Veuillez rester sous {max} caractères.",
+        "tooLong": "Veuillez ne pas dépasser {max} caractères.",
         "noLinks": "Veuillez retirer les liens web, les adresses e-mail et le code.",
         "rateLimited": "Trop de prières ont été envoyées depuis cette connexion. Veuillez attendre quelques minutes avant de réessayer.",
         "invalid": "Nous n’avons pas pu accepter cette prière. Vérifiez ce que vous avez écrit.",
@@ -1255,7 +1255,7 @@
       "errors": {
         "required": "Veuillez remplir ce champ.",
         "tooShort": "Veuillez écrire au moins {min} caractères.",
-        "tooLong": "Veuillez rester sous {max} caractères.",
+        "tooLong": "Veuillez ne pas dépasser {max} caractères.",
         "invalidEmail": "Veuillez saisir une adresse e-mail valide.",
         "invalidPhone": "Veuillez saisir un numéro de téléphone valide.",
         "rateLimited": "Trop de messages ont été envoyés depuis cette connexion. Veuillez attendre quelques minutes avant de réessayer.",
@@ -1319,7 +1319,7 @@
         },
         "account": {
           "q": "Ai-je besoin d’un compte ?",
-          "a": "Non. Il n’y a ni compte ni mot de passe. Votre panier et votre liste d’envies restent dans votre propre navigateur."
+          "a": "Non. Il n’y a ni compte ni mot de passe. Votre panier et vos favoris restent dans votre propre navigateur."
         },
         "shipping": {
           "q": "Combien coûte la livraison ?",
@@ -1401,7 +1401,7 @@
             "title": "Ce qui reste dans votre navigateur",
             "p1": "Le site n’a pas de comptes et n’utilise pas de cookies publicitaires ni d’analyse d’audience. Votre navigateur conserve :",
             "items": {
-              "cart": "Votre panier et votre liste d’envies.",
+              "cart": "Votre panier et vos favoris.",
               "liked": "Les prières auxquelles vous avez dit Amen, pour que vous ne puissiez le dire qu’une fois.",
               "language": "Votre choix de langue."
             }
@@ -1680,7 +1680,7 @@
         "title": "À propos des dates",
         "catholic": "Les dates catholiques suivent le calendrier grégorien, telles que les observent le Patriarcat latin de Jérusalem et la basilique de l’Annonciation. Lorsqu’une solennité tombe pendant la Semaine sainte ou un dimanche de Carême ou de l’Avent, elle est transférée au jour fixé par le calendrier romain.",
         "holyLand": "En Terre sainte, certaines paroisses catholiques, en Galilée et ailleurs, célèbrent Pâques et les fêtes qui en dépendent à la date orthodoxe, et les paroisses célèbrent généralement la fête du Saint-Sacrement le dimanche suivant. Renseignez-vous auprès de votre paroisse sur ses dates.",
-        "orthodox": "Les dates orthodoxes suivent le calendrier julien du Patriarcat grec orthodoxe de Jérusalem : les fêtes fixes tombent 13 jours plus tard dans notre calendrier (Noël le 7 janvier, l’Annonciation le 7 avril, la Croix glorieuse le 27 septembre), et Pâques suit la règle julienne. Les Églises orthodoxes qui suivent le calendrier julien révisé, comme celles de Grèce et de Roumanie, célèbrent les fêtes fixes aux dates catholiques.",
+        "orthodox": "Les dates orthodoxes suivent le calendrier julien du Patriarcat grec orthodoxe de Jérusalem : les fêtes fixes tombent 13 jours plus tard dans notre calendrier (Noël le 7 janvier, l’Annonciation le 7 avril, l’Exaltation de la Sainte-Croix le 27 septembre), et Pâques suit la règle julienne. Les Églises orthodoxes qui suivent le calendrier julien révisé, comme celles de Grèce et de Roumanie, célèbrent les fêtes fixes aux dates catholiques.",
         "computed": "Les dates sont calculées, et non reprises d’un calendrier paroissial. Veuillez vérifier les horaires des offices auprès de l’église."
       },
       "feasts": {
@@ -1859,7 +1859,7 @@
     "gallery": {
       "eyebrow": "Galerie de photos",
       "title": "Nazareth en images",
-      "lead": "Huit lieux, une ville : la basilique de l’Annonciation, l’église Saint-Joseph, l’église grecque orthodoxe, le Puits de Marie, le souk de la vieille ville, l’église de la Synagogue, le mont du Précipice et la ville elle-même. Touchez une photo pour l’agrandir ; la visionneuse nomme le photographe.",
+      "lead": "Huit lieux, une ville : la basilique de l’Annonciation, l’église Saint-Joseph, l’église grecque orthodoxe, le puits de Marie, le souk de la vieille ville, l’église de la Synagogue, le mont du Précipice et la ville elle-même. Touchez une photo pour l’agrandir ; la visionneuse nomme le photographe.",
       "creditsLink": "Crédits photo",
       "visitPage": "Découvrir ce lieu"
     },

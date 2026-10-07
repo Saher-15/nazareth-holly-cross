@@ -37,7 +37,7 @@
     }
   },
   "about": {
-    "title": "Bienvenido al portal oficial de Nazaret",
+    "title": "Te damos la bienvenida a Nazareth Holy Cross",
     "description1": "El corazón de la fe cristiana. Entendemos que no todos pueden visitar Nazaret en persona, una ciudad donde Jesús creció y donde las experiencias espirituales esperan a cada visitante. Por eso nos alegra ofrecerte la oportunidad de llevar Nazaret hasta ti.",
     "description2": "A través de nuestro sitio web puedes hacer un recorrido virtual por las principales iglesias y lugares santos de Nazaret y conectar con la rica historia y la tradición religiosa que caracterizan este lugar. Además, te ofrecemos una oportunidad única de comprar recuerdos locales e incluso encender una vela en memoria u honor de tus seres queridos, como si estuvieras aquí con nosotros.",
     "description3": "En nuestra tienda en línea encontrarás una amplia gama de productos: cruces de madera de olivo local, joyería inspirada en símbolos cristianos, pinturas y mosaicos que reflejan la riqueza del arte religioso, y mucho más. Ahora también puedes comprar agua de la legendaria fuente de Nazaret, arena de Nazaret y aceitunas locales, todo para sentir la grandeza de la ciudad de Nazaret y de Jesús. También puedes elegir encender una vela virtual, un gesto que lleva la oración y el recuerdo a través de las distancias.",
@@ -53,8 +53,8 @@
     },
     "touchingTheSacred": "Tocar lo sagrado, sentir el latido del corazón",
     "introParagraphs": {
-      "part1": "Nazaret, la ciudad donde se desarrolló lo milagroso, es el lugar donde Jesús dio sus primeros pasos, donde la Virgen María abrazó a su Hijo y oró por su seguridad. Aquí, dentro de las antiguas iglesias, en la fuente sagrada donde María alimentó a Jesús, y en el vibrante mercado de la ciudad antigua, encontrarás tu fe cobrando vida una vez más.",
-      "part2": "Imagínate caminando por las estrechas calles, siguiendo los pasos de Jesús hacia las iglesias, compartiendo momentos de reflexión en la fuente de María, donde los ojos de la madre santa encontraron las antiguas aguas. Cada piedra, cada callejón, cuenta una historia de fe inquebrantable, de un viaje espiritual que trasciende el tiempo.",
+      "part1": "Nazaret, la ciudad donde ocurrió el milagro, es el lugar donde Jesús dio sus primeros pasos, donde la Virgen María abrazó a su Hijo y rezó para que estuviera a salvo. Aquí, en sus antiguas iglesias, en la fuente sagrada donde María alimentó a Jesús y en el animado mercado de la Ciudad Vieja, sentirás que tu fe vuelve a cobrar vida.",
+      "part2": "Imagina que recorres sus calles estrechas tras los pasos de Jesús hacia las iglesias y que compartes momentos de recogimiento en el Pozo de María, donde la mirada de la santa Madre se posó sobre las antiguas aguas. Cada piedra, cada callejón cuenta una historia de fe inquebrantable, de un viaje espiritual que trasciende el tiempo.",
       "part3": "Cuando enciendes una vela en la Basílica de la Anunciación, te reconectas con el lugar donde Jesús escuchó por primera vez su llamado divino. A medida que tu corazón anhela Nazaret, nuestros recuerdos llevan el espíritu sagrado de la ciudad, recordándote tu profunda conexión con el lugar donde todo comenzó.",
       "part4": "Permítenos traerte Nazaret, directamente a tu hogar. Con cada recuerdo, preservas un vínculo profundo con Nazaret, la ciudad donde caminaron Jesús y María, la ciudad donde nació la fe. Recuerda los momentos que ocurrieron aquí, los corazones que se abrieron en oración y las lágrimas que calladamente cayeron sobre las piedras antiguas.",
       "part5": "Nazaret te espera, te abraza desde lejos y te trae su santidad. Mantén la llama ardiendo en tu corazón hasta el día en que regreses a nosotros, a la ciudad donde late la fe."
@@ -78,7 +78,7 @@
     "itsSimple": "Es simple:",
     "step1": "Elige una iglesia donde te gustaría que se encendiera la vela.",
     "step2": "Escribe una oración o una petición personal que quieras que acompañe el encendido de la vela.",
-    "step3": "Iremos a la iglesia, encenderemos la vela por ti, grabaremos un video con tu nombre y te enviaremos el video directamente.",
+    "step3": "Iremos a la iglesia, encenderemos la vela por ti, grabaremos un vídeo con tu nombre y te lo enviaremos directamente.",
     "note": "Nota: este vídeo es solo ilustrativo y muestra cómo se enciende una vela en la iglesia ortodoxa griega.",
     "lightAPrayCandle": "Encender una vela de oración",
     "selectChurch": "Selecciona la iglesia para encender la vela:",
@@ -126,7 +126,7 @@
       "description": "Mira la entrevista exclusiva transmitida en directo desde Nazaret."
     },
     "live_prayer_latin": {
-      "title": "Oración en directo desde la iglesia latina",
+      "title": "Oración en directo desde la Basílica de la Anunciación",
       "description": "Vive una transmisión en directo de oraciones sentidas desde la iglesia latina."
     }
   },
@@ -144,7 +144,7 @@
     "placeholderMessage": "Cuéntanos sobre tu experiencia con nuestro sitio web",
     "submitButton": "Enviar",
     "successMessage": "¡Mensaje enviado correctamente!",
-    "confirmationMessage": "Tu mensaje aparecerá en la pared una vez que sea confirmado por el equipo de Nazareth Holy Cross.",
+    "confirmationMessage": "Tu mensaje aparecerá en el muro cuando el equipo de Nazareth Holy Cross lo haya confirmado.",
     "messagesTitle": "Opiniones de nuestros clientes",
     "messagesDescription": "Aquí están las reseñas que han sido aprobadas por nuestro equipo. Gracias por compartir tu opinión con nosotros.",
     "noMessages": "Aún no se han enviado mensajes."
@@ -185,7 +185,7 @@
     "paragraph3": "A unos 140 metros de la iglesia se encuentra el Pozo de María, que una vez fue alimentado por el manantial y sirvió como fuente local de agua durante varios siglos. La fuente fue reparada en 1967 y nuevamente en 2000, pero no funciona hoy."
   },
   "headerLatin": {
-    "title": "Descubre la belleza de la iglesia latina"
+    "title": "Descubre la belleza de la Basílica de la Anunciación"
   },
   "contentLatin": {
     "paragraph1": "La Iglesia Latina, también conocida como la Basílica de la Anunciación, es un importante sitio religioso ubicado en Nazaret, Israel. Es una de las iglesias más grandes de Oriente Medio y tiene una profunda significación religiosa para los cristianos de todo el mundo.",
@@ -267,7 +267,7 @@
     "firstName": "Nombre",
     "lastName": "Apellido",
     "email": "Correo electrónico",
-    "confirmEmail": "Confirmación de correo electrónico",
+    "confirmEmail": "Confirma tu correo electrónico",
     "emailsDontMatch": "Los correos electrónicos no coinciden",
     "city": "Ciudad",
     "street": "Dirección",
@@ -291,7 +291,7 @@
   },
   "product": {
     "button": {
-      "addToCart": "Agregar al carrito"
+      "addToCart": "Añadir al carrito"
     },
     "message": {
       "productAdded": "¡Producto agregado al carrito!",
@@ -502,8 +502,8 @@
     "live": {
       "metaTitle": "Transmisiones en directo desde Nazaret",
       "metaDescription": "Reza con nosotros en directo desde los lugares santos de Nazaret: consulta cuándo empieza la próxima transmisión y vuelve a ver nuestras oraciones y entrevistas.",
-      "eyebrow": "En directo desde Nazaret",
-      "title": "Reza con nosotros, en directo",
+      "eyebrow": "En vivo desde Nazaret",
+      "title": "Reza con nosotros, en vivo",
       "lead": "Oraciones y celebraciones transmitidas desde los lugares santos de Nazaret, estés donde estés.",
       "status": {
         "upcoming": "Próximamente",
@@ -729,7 +729,7 @@
       "clearAll": "Borrar todo",
       "active": "Filtros activos",
       "remove": "Quitar filtro: {label}",
-      "noneText": "Pruebe a quitar un filtro o a buscar otra cosa.",
+      "noneText": "Prueba a quitar un filtro o a buscar otra cosa.",
       "category": "Categoría",
       "allCategories": "Todas las categorías",
       "material": "Material",
@@ -769,7 +769,7 @@
       "breakdown": "Desglose de valoraciones",
       "breakdownRow": "{stars, plural, one {# estrella} other {# estrellas}}: {count, plural, one {# opinión} other {# opiniones}}",
       "emptyTitle": "Todavía no hay opiniones",
-      "emptyText": "Sea el primero en contar a otros peregrinos qué le parece este recuerdo.",
+      "emptyText": "Sé el primero en contar a otros peregrinos qué te parece este recuerdo.",
       "unavailable": "No se han podido cargar las opiniones en este momento.",
       "listLabel": "Opiniones, las más recientes primero",
       "reviewBy": "Opinión de {name}",
@@ -777,63 +777,63 @@
       "showFewer": "Ver menos opiniones",
       "form": {
         "heading": "Escribir una opinión",
-        "intro": "Cuente a otros peregrinos qué le parece {name}. Su opinión aparecerá en esta página.",
+        "intro": "Cuenta a otros peregrinos qué te parece {name}. Tu opinión aparecerá en esta página.",
         "fields": {
-          "name": "Su nombre",
+          "name": "Tu nombre",
           "country": "País (opcional)",
-          "rating": "Su valoración",
+          "rating": "Tu valoración",
           "title": "Título (opcional)",
-          "comment": "Su opinión"
+          "comment": "Tu opinión"
         },
         "star": "{count, plural, one {# estrella} other {# estrellas}}",
         "counter": "{count} / {max}",
-        "website": "Sitio web (déjelo vacío)",
+        "website": "Sitio web (déjalo vacío)",
         "submit": "Publicar opinión",
         "sending": "Publicando…",
-        "success": "¡Gracias! Su opinión se ha publicado.",
+        "success": "¡Gracias! Tu opinión se ha publicado.",
         "another": "Escribir otra opinión",
         "errors": {
-          "nameRequired": "Escriba su nombre.",
-          "nameTooShort": "Su nombre necesita al menos {min} caracteres.",
-          "ratingRequired": "Elija de 1 a 5 estrellas.",
-          "commentRequired": "Escriba su opinión.",
-          "commentTooShort": "Su opinión necesita al menos {min} caracteres.",
-          "tooLong": "No supere los {max} caracteres.",
-          "invalid": "Algunos datos no se aceptaron. Revise el formulario e inténtelo de nuevo.",
-          "rateLimited": "Ha enviado varias opiniones en poco tiempo. Inténtelo de nuevo más tarde.",
-          "network": "No pudimos conectar con el servidor. Revise su conexión e inténtelo de nuevo.",
-          "server": "Algo ha fallado por nuestra parte. Inténtelo de nuevo en un momento."
+          "nameRequired": "Escribe tu nombre.",
+          "nameTooShort": "Tu nombre debe tener al menos {min} caracteres.",
+          "ratingRequired": "Elige de 1 a 5 estrellas.",
+          "commentRequired": "Escribe tu opinión.",
+          "commentTooShort": "Tu opinión debe tener al menos {min} caracteres.",
+          "tooLong": "No superes los {max} caracteres.",
+          "invalid": "Algunos datos no se aceptaron. Revisa el formulario e inténtalo de nuevo.",
+          "rateLimited": "Has enviado varias opiniones en poco tiempo. Inténtalo de nuevo más tarde.",
+          "network": "No pudimos conectar con el servidor. Revisa tu conexión e inténtalo de nuevo.",
+          "server": "Algo ha fallado por nuestra parte. Inténtalo de nuevo en un momento."
         }
       }
     },
     "wishlist": {
-      "toggle": "Guardar {name} en su lista de deseos",
-      "added": "{name} se ha añadido a su lista de deseos.",
-      "removed": "{name} se ha quitado de su lista de deseos.",
+      "toggle": "Guardar {name} en tu lista de deseos",
+      "added": "{name} se ha añadido a tu lista de deseos.",
+      "removed": "{name} se ha quitado de tu lista de deseos.",
       "save": "Guardar en la lista de deseos",
       "link": "Deseos",
       "linkAria": "Deseos: {count, plural, one {# artículo guardado} other {# artículos guardados}}",
-      "pageTitle": "Su lista de deseos",
-      "pageDescription": "Los recuerdos que ha guardado para más tarde.",
+      "pageTitle": "Tu lista de deseos",
+      "pageDescription": "Los recuerdos que has guardado para más tarde.",
       "savedHeading": "Recuerdos guardados",
-      "emptyTitle": "Su lista de deseos está vacía",
-      "emptyText": "Toque el corazón de cualquier recuerdo para guardarlo aquí.",
+      "emptyTitle": "Tu lista de deseos está vacía",
+      "emptyText": "Toca el corazón de cualquier recuerdo para guardarlo aquí.",
       "browse": "Ver la tienda",
       "count": "{count, plural, one {# recuerdo guardado} other {# recuerdos guardados}}",
       "addToCart": "Agregar al carrito",
       "chooseOptions": "Elegir opciones",
       "remove": "Quitar",
-      "addedToCart": "{name} se ha agregado a su carrito."
+      "addedToCart": "{name} se ha añadido a tu carrito."
     },
     "share": {
       "button": "Compartir",
       "text": "{name}, un recuerdo de Nazaret",
-      "copied": "Enlace copiado. Puede pegarlo donde quiera.",
-      "failed": "No se pudo copiar el enlace. Cópielo desde la barra de direcciones."
+      "copied": "Enlace copiado. Puedes pegarlo donde quieras.",
+      "failed": "No se pudo copiar el enlace. Cópialo desde la barra de direcciones."
     },
     "product": {
-      "beFirst": "Aún no hay opiniones. Escriba la primera",
-      "similarTitle": "También le puede gustar",
+      "beFirst": "Aún no hay opiniones. Escribe la primera",
+      "similarTitle": "También te puede gustar",
       "recentTitle": "Vistos recientemente"
     }
   },
@@ -1827,7 +1827,7 @@
     "topic": {
       "basilica": "Basílica de la Anunciación",
       "stjoseph": "Iglesia de San José",
-      "greek": "Iglesia greco-ortodoxa de la Anunciación",
+      "greek": "Iglesia ortodoxa griega de la Anunciación",
       "well": "Pozo de María",
       "oldcity": "Ciudad Vieja y zoco",
       "synagogue": "Iglesia de la Sinagoga",
@@ -1859,7 +1859,7 @@
     "gallery": {
       "eyebrow": "Galería de fotos",
       "title": "Nazaret en imágenes",
-      "lead": "Ocho lugares, una ciudad: la Basílica de la Anunciación, la iglesia de San José, la iglesia greco-ortodoxa, el Pozo de María, el zoco de la Ciudad Vieja, la Iglesia de la Sinagoga, el Monte del Precipicio y la propia ciudad. Toque una foto para ampliarla; el visor indica quién la tomó.",
+      "lead": "Ocho lugares, una ciudad: la Basílica de la Anunciación, la iglesia de San José, la iglesia greco-ortodoxa, el Pozo de María, el zoco de la Ciudad Vieja, la Iglesia de la Sinagoga, el Monte del Precipicio y la propia ciudad. Toca una foto para ampliarla; el visor indica quién la tomó.",
       "creditsLink": "Créditos fotográficos",
       "visitPage": "Leer sobre este lugar"
     },

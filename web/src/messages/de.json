@@ -37,7 +37,7 @@
     }
   },
   "about": {
-    "title": "Willkommen auf dem offiziellen Portal von Nazareth",
+    "title": "Willkommen bei Nazareth Holy Cross",
     "description1": "Das Herz des christlichen Glaubens. Wir verstehen, dass nicht jeder Nazareth physisch besuchen kann, eine Stadt, in der Jesus aufwuchs und wo spirituelle Erfahrungen auf jeden Besucher warten. Daher freuen wir uns, Ihnen die Möglichkeit zu bieten, Nazareth zu Ihnen zu bringen.",
     "description2": "Über unsere Website können Sie einen virtuellen Rundgang durch die wichtigsten Kirchen und heiligen Stätten von Nazareth machen und sich mit der reichen Geschichte und religiösen Tradition verbinden, die den Ort charakterisiert. Darüber hinaus bieten wir Ihnen eine einzigartige Gelegenheit, lokale Souvenirs zu kaufen und sogar eine Kerze zum Gedenken oder zu Ehren Ihrer Lieben anzuzünden, als ob Sie hier bei uns wären.",
     "description3": "In unserem Online-Shop finden Sie eine breite Produktpalette: Kreuze aus lokalem Olivenholz, von christlichen Symbolen inspirierten Schmuck, Gemälde und Mosaike, die die reiche religiöse Kunst widerspiegeln, und vieles mehr. Jetzt können Sie auch Wasser aus der legendären Quelle von Nazareth, Sand aus Nazareth und Oliven aus der Region erwerben – alles, um die Größe der Stadt Nazareth und Jesu zu spüren. Sie können auch eine virtuelle Kerze anzünden, eine Geste, die Gebet und Erinnerung über Entfernungen hinweg trägt.",
@@ -53,9 +53,9 @@
     },
     "touchingTheSacred": "Das Heilige berühren, den Herzschlag spüren",
     "introParagraphs": {
-      "part1": "Nazareth, die Stadt, in der sich das Wunder ereignete, ist der Ort, an dem Jesus seine ersten Schritte machte, wo die Jungfrau Maria ihren Sohn umarmte und für seine Sicherheit betete. Hier, in den alten Kirchen, an der heiligen Quelle, wo Maria Jesus nährte, und auf dem lebhaften Markt der Altstadt – werden Sie feststellen, dass Ihr Glaube wieder zum Leben erwacht.",
-      "part2": "Stellen Sie sich vor, Sie gehen durch die engen Gassen, folgen den Spuren Jesu zu den Kirchen und verbringen Momente der Besinnung an der Marienquelle, wo die Augen der Heiligen Mutter auf das alte Wasser trafen. Jeder Stein, jede Gasse erzählt eine Geschichte von unerschütterlichem Glauben, von einer spirituellen Reise, die die Zeit überdauert.",
-      "part3": "Wenn Sie in der Verkündigungsbasilika eine Kerze anzünden, verbinden Sie sich wieder mit dem Ort, an dem Jesus zum ersten Mal seine göttliche Berufung hörte. Während Ihr Herz sich nach Nazareth sehnt, tragen unsere Andenken den heiligen Geist der Stadt in sich und erinnern Sie an Ihre tiefe Verbindung mit dem Ort, an dem alles begann.",
+      "part1": "Nazareth, die Stadt, in der sich das Wunder ereignete, ist der Ort, an dem Jesus seine ersten Schritte machte, an dem die Jungfrau Maria ihren Sohn in die Arme schloss und um seinen Schutz betete. Hier, in den alten Kirchen, an der heiligen Quelle, an der Maria Jesus nährte, und auf dem lebhaften Markt der Altstadt erwacht Ihr Glaube zu neuem Leben.",
+      "part2": "Stellen Sie sich vor, Sie gehen durch die engen Gassen, folgen den Spuren Jesu zu den Kirchen und verweilen in Besinnung am Marienbrunnen, wo der Blick der heiligen Mutter auf dem alten Wasser ruhte. Jeder Stein, jede Gasse erzählt eine Geschichte von unerschütterlichem Glauben, von einer spirituellen Reise, die die Zeit überdauert.",
+      "part3": "Wenn Sie in der Verkündigungsbasilika eine Kerze anzünden, kehren Sie im Geist an den Ort zurück, an dem Maria Gottes Ruf vernahm. Während Ihr Herz sich nach Nazareth sehnt, tragen unsere Andenken etwas von der Heiligkeit der Stadt in sich und erinnern Sie an Ihre tiefe Verbindung mit dem Ort, an dem alles begann.",
       "part4": "Erlauben Sie uns, Nazareth zu Ihnen zu bringen, direkt in Ihr Zuhause. Mit jedem Andenken bewahren Sie eine tiefe Verbindung mit Nazareth – der Stadt, in der Jesus und Maria wandelten, der Stadt, in der der Glaube geboren wurde. Erinnern Sie sich an die Momente, die sich hier ereigneten, an die Herzen, die sich im Gebet öffneten, und an die Tränen, die leise auf die alten Steine fielen.",
       "part5": "Nazareth erwartet Sie, umarmt Sie aus der Ferne und bringt Ihnen seine Heiligkeit. Lassen Sie die Flamme in Ihrem Herzen brennen, bis zu dem Tag, an dem Sie zu uns zurückkehren – in die Stadt, in der der Glaube schlägt."
     }
@@ -123,10 +123,10 @@
   "videos": {
     "interview_nazareth": {
       "title": "Interview mit der Gemeinde von Nazareth",
-      "description": "Sehen Sie sich das exklusive Interview an, das live aus Nazareth gestreamt wird."
+      "description": "Sehen Sie sich das exklusive Interview an, das live aus Nazareth übertragen wurde."
     },
     "live_prayer_latin": {
-      "title": "Live-Gebet der lateinischen Kirche",
+      "title": "Live-Gebet aus der Verkündigungsbasilika",
       "description": "Erleben Sie eine Live-Übertragung herzlicher Gebete der lateinischen Kirche."
     }
   },
@@ -185,7 +185,7 @@
     "paragraph3": "Etwa 140 Meter von der Kirche entfernt befindet sich der Marienbrunnen, der einst von der Quelle gespeist wurde und mehrere Jahrhunderte lang als lokale Wasserquelle diente. Der Brunnen wurde 1967 und erneut im Jahr 2000 repariert, funktioniert heute aber nicht mehr."
   },
   "headerLatin": {
-    "title": "Entdecken Sie die Schönheit der Lateinischen Kirche"
+    "title": "Entdecken Sie die Schönheit der Verkündigungsbasilika"
   },
   "contentLatin": {
     "paragraph1": "Die Lateinische Kirche, auch bekannt als Verkündigungsbasilika, ist eine bedeutende religiöse Stätte in Nazareth, Israel. Sie ist eine der größten Kirchen im Nahen Osten und hat für Christen weltweit eine tiefe religiöse Bedeutung.",
@@ -217,7 +217,7 @@
       "architectureText": "Der Brunnen selbst ist Teil eines größeren Komplexes, zu dem auch die griechisch-orthodoxe Verkündigungskirche gehört. Die heutige Struktur der Kirche stammt aus dem 18. Jahrhundert, aber der Brunnen und der Standort haben viel ältere Wurzeln."
     },
     "modern": {
-      "title": "Moderner Standort",
+      "title": "Der Ort heute",
       "restoration": "Restaurierungsbemühungen",
       "restorationText": "Die Brunnenanlage des Marienbrunnens wurde im Laufe der Jahre mehrfach restauriert, insbesondere 1967 und 2000. Trotz dieser Bemühungen funktioniert der Brunnen heute nicht mehr so wie früher.",
       "attraction": "Touristenattraktion",
@@ -257,7 +257,7 @@
   "firstName": "Vorname:",
   "lastName": "Nachname:",
   "email": "E-Mail:",
-  "prayerAt": "Gebet um:",
+  "prayerAt": "Kirche:",
   "cost": "Kosten:",
   "confirmDetails": "Details bestätigen & bezahlen",
   "confirmed": "Bestätigt",
@@ -267,10 +267,10 @@
     "firstName": "Vorname",
     "lastName": "Nachname",
     "email": "E-Mail",
-    "confirmEmail": "Bestätigungs-E-Mail",
+    "confirmEmail": "E-Mail-Adresse bestätigen",
     "emailsDontMatch": "E-Mails stimmen nicht überein",
     "city": "Stadt",
-    "street": "Straßenadresse",
+    "street": "Straße und Hausnummer",
     "postal": "Postleitzahl",
     "state": "Bundesland / Provinz",
     "paymentMethod": "Zahlungsmethode",
@@ -377,10 +377,10 @@
     "siteOld": "Die Altstadt",
     "siteCity": "Die Stadt Nazareth",
     "siteTour": "Virtuelle Tour",
-    "shopEyebrow": "Souvenirs",
+    "shopEyebrow": "Andenken",
     "shopTitle": "Ausgewählt aus unserem Shop",
     "shopAll": "Zum Shop",
-    "shopError": "Die Souvenirs konnten gerade nicht geladen werden.",
+    "shopError": "Die Andenken konnten gerade nicht geladen werden.",
     "retry": "Erneut versuchen",
     "voicesEyebrow": "Stimmen der Pilger",
     "voicesTitle": "Worte unserer Besucher",
@@ -592,7 +592,7 @@
     "outOfStock": "Ausverkauft",
     "maxInCart": "Sie haben bereits die Höchstmenge von {max} im Warenkorb.",
     "productError": "Dieses Produkt konnte gerade nicht geladen werden.",
-    "notFoundText": "Dieses Andenken ist vielleicht ausverkauft oder umgezogen. Der Rest des Shops wartet auf Sie.",
+    "notFoundText": "Dieses Andenken ist vielleicht ausverkauft oder nicht mehr unter dieser Adresse zu finden. Im Shop warten viele weitere auf Sie.",
     "cartTitle": "Ihr Warenkorb",
     "cartCount": "{count, plural, one {# Artikel im Warenkorb} other {# Artikel im Warenkorb}}",
     "itemsHeading": "Artikel in Ihrem Warenkorb",
@@ -1155,7 +1155,7 @@
           "text": "Jesus kehrte zurück, um in der Stadt zu predigen, in der er aufgewachsen war. Stätten in der Altstadt, darunter eine Kirche, die der Überlieferung nach am Ort der Synagoge steht, erinnern an diesen Tag."
         },
         "john146": {
-          "text": "Philippus’ Antwort an Natanael ist die Einladung jeder Pilgerreise: Komm und sieh. Nazareth versteht man bis heute am besten, wenn man durch seine Straßen geht."
+          "text": "Philippus’ Antwort an Nathanael ist die Einladung jeder Pilgerreise: Komm und sieh. Nazareth versteht man bis heute am besten, wenn man durch seine Straßen geht."
         }
       }
     },
@@ -1573,7 +1573,7 @@
               "videos": "Videos: Die Aufzeichnungen früherer Übertragungen und die Filme auf der Seite des Rundgangs haben noch keine Untertitel oder Abschriften.",
               "translations": "Übersetzungen: Die meisten Texte wurden mit Hilfe von Software übersetzt und warten auf die Durchsicht durch Muttersprachler, daher kann manche Formulierung unklar sein.",
               "external": "Andere Dienste: der Videoplayer der Liveübertragungen und Aufzeichnungen (Cloudflare Stream, in unsere Seiten eingebettet), Karten und soziale Netzwerke, deren Barrierefreiheit wir nicht beeinflussen.",
-              "photos": "Fotos: Ihre Beschreibungen nennen den Ort und das Motiv, beschreiben aber nicht jedes Detail."
+              "photos": "Fotos: Die Bildbeschreibungen nennen Ort und Motiv, beschreiben aber nicht jedes Detail."
             }
           },
           "testing": {
@@ -1680,7 +1680,7 @@
         "title": "Zu den Daten",
         "catholic": "Die katholischen Daten folgen dem gregorianischen Kalender, so wie das Lateinische Patriarchat von Jerusalem und die Verkündigungsbasilika sie begehen. Fällt ein Hochfest in die Karwoche oder auf einen Sonntag der Fastenzeit oder des Advents, wird es auf den Tag verlegt, den der römische Kalender vorsieht.",
         "holyLand": "Im Heiligen Land feiern manche katholischen Pfarreien, in Galiläa und anderswo, Ostern und die davon abhängigen Feste nach dem orthodoxen Datum, und Fronleichnam wird in den Pfarreien meist am folgenden Sonntag gefeiert. Fragen Sie in Ihrer Pfarrei nach den Terminen.",
-        "orthodox": "Die orthodoxen Daten folgen dem julianischen Kalender des Griechisch-Orthodoxen Patriarchats von Jerusalem: Die unbeweglichen Feste fallen in unserem Kalender 13 Tage später (Weihnachten auf den 7. Januar, die Verkündigung auf den 7. April, die Kreuzerhöhung auf den 27. September), und Ostern wird nach der julianischen Regel berechnet. Orthodoxe Kirchen, die dem revidierten Kalender folgen, etwa die Kirchen Griechenlands und Rumäniens, feiern die unbeweglichen Feste an den katholischen Daten.",
+        "orthodox": "Die orthodoxen Daten folgen dem julianischen Kalender des Griechisch-Orthodoxen Patriarchats von Jerusalem: Die unbeweglichen Feste fallen in unserem Kalender 13 Tage später (Weihnachten auf den 7. Januar, die Verkündigung auf den 7. April, die Kreuzerhöhung auf den 27. September), und Ostern wird nach der julianischen Regel berechnet. Orthodoxe Kirchen, die dem neujulianischen Kalender folgen, etwa die Kirchen Griechenlands und Rumäniens, feiern die unbeweglichen Feste an den katholischen Daten.",
         "computed": "Die Daten sind berechnet, nicht aus einem Pfarrkalender übernommen. Bitte erkundigen Sie sich bei der Kirche nach den Gottesdienstzeiten."
       },
       "feasts": {
@@ -1723,7 +1723,7 @@
         "holyThursday": {
           "name": "Gründonnerstag",
           "orthodoxName": "Heiliger und Großer Donnerstag",
-          "description": "Das Letzte Abendmahl: Jesus schenkt die Eucharistie und wäscht seinen Jüngern die Füße."
+          "description": "Das Letzte Abendmahl: Jesus stiftet die Eucharistie und wäscht seinen Jüngern die Füße."
         },
         "goodFriday": {
           "name": "Karfreitag",
