@@ -7,7 +7,7 @@
 // sees the page jump. Nothing is sent anywhere and no cookie is used.
 
 export const A11Y_STORAGE_KEY = 'nhc.a11y.v1';
-/** Fired on window whenever the settings change, so motion-aware components (the hero film) can follow. */
+/** Fired on window whenever the settings change, so motion-aware components can follow. */
 export const A11Y_EVENT = 'nhc:a11y-change';
 
 /** Text size steps in percent of the browser's own size (WCAG 1.4.4 asks for 200% without loss). */
@@ -20,7 +20,7 @@ export type A11ySettings = {
   contrast: boolean;
   /** Underline every link. */
   links: boolean;
-  /** Stop animations, the Ken Burns zoom, page transitions and the hero film (the system setting is honoured anyway). */
+  /** Stop animations, the Ken Burns zoom and page transitions (the system setting is honoured anyway). */
   motion: boolean;
   /** One plain sans-serif typeface for headings and text. */
   font: boolean;
