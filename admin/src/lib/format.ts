@@ -51,6 +51,13 @@ export function formatDateTime(iso: string | null | undefined, locale: Locale = 
   return new Intl.DateTimeFormat(localeTag(locale), { dateStyle: 'medium', timeStyle: 'short', timeZone }).format(date);
 }
 
+/** "08:06": a time of day in the configured zone (24-hour clock in every language). */
+export function formatTime(iso: string | null | undefined, locale: Locale = 'en', timeZone = defaultTimeZone()): string {
+  const date = parse(iso);
+  if (!date) return '-';
+  return new Intl.DateTimeFormat(localeTag(locale), { hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZone }).format(date);
+}
+
 /** "Mar 4" style label for a chart axis from a YYYY-MM-DD string (no time zone shifting: the day is the day). */
 export function formatDay(day: string, locale: Locale = 'en'): string {
   const [y, m, d] = day.split('-').map(Number);

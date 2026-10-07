@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
 import { ApiAction } from '@/components/ui/ApiAction';
-import { Badge, DataTable, EmptyState, ErrorState, Forbidden, ListToolbar, PageHeader, Pagination, paramsOf } from '@/components/ui/Primitives';
+import { Badge, DataTable, EmptyState, ErrorState, Forbidden, ListToolbar, Ltr, PageHeader, Pagination, paramsOf } from '@/components/ui/Primitives';
 import { getI18n } from '@/i18n/server';
 import { parseListParams, usersPage, type AdminUser } from '@/lib/api';
-import { formatDateTime } from '@/lib/format';
+import { formatDateTime, formatTime } from '@/lib/format';
 import { can } from '@/lib/roles';
 import { getSession, load, serverApi } from '@/lib/server-api';
-import { CreateUser, RoleSelect } from './UserControls';
+import { CreateUser, RoleSelect, UserEmail } from './UserControls';
 
 export async function generateMetadata(): Promise<Metadata> {
   const { t } = await getI18n();
@@ -15,6 +15,9 @@ export async function generateMetadata(): Promise<Metadata> {
 
 const DEFAULT_SORT = 'username';
 
+/** The time of this request: "locked until" is compared with it (the API returns a lock that has passed too). */
+const requestTime = () => Date.now();
+
 export default async function UsersPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const { t, locale } = await getI18n();
   const { user } = await getSession();
@@ -22,6 +25,8 @@ export default async function UsersPage({ searchParams }: { searchParams: Promis
   const params = parseListParams(await searchParams, { sort: DEFAULT_SORT });
   const keep = paramsOf(params, DEFAULT_SORT);
   const list = await load(() => serverApi({ path: '/admin/users', query: { page: params.page, size: params.size, q: params.q, status: params.status, sort: params.sort }, schema: usersPage }));
+  const now = requestTime();
+  const lockedUntil = (u: AdminUser) => (u.lockedUntil && new Date(u.lockedUntil).getTime() > now ? u.lockedUntil : null);
 
   return (
     <>
@@ -59,10 +64,30 @@ export default async function UsersPage({ searchParams }: { searchParams: Promis
                   </>
                 ),
               },
+              {
+                key: 'email',
+                header: t('common.email'),
+                cell: (u) => (
+                  <>
+                    {u.email ? <Ltr>{u.email}</Ltr> : <span className="muted">{t('users.noEmail')}</span>}
+                    <UserEmail id={u.id} username={u.username} email={u.email} />
+                  </>
+                ),
+              },
               { key: 'role', header: t('users.role'), cell: (u) => <RoleSelect id={u.id} username={u.username} role={u.role} disabled={u.id === user.id} /> },
               { key: 'twofa', header: t('users.twoFactor'), cell: (u) => (u.totpEnabled ? <Badge tone="success">{t('common.on')}</Badge> : <Badge tone="neutral">{t('common.off')}</Badge>) },
               { key: 'last', header: t('users.lastLogin'), cell: (u) => (u.lastLoginAt ? formatDateTime(u.lastLoginAt, locale) : t('users.never')) },
-              { key: 'status', header: t('common.status'), cell: (u) => <Badge tone={u.disabled ? 'danger' : 'success'}>{u.disabled ? t('status.disabled') : t('status.active')}</Badge> },
+              {
+                key: 'status',
+                header: t('common.status'),
+                // A lockout (5 wrong passwords) is not "Active": it says until when, and an owner can lift it.
+                cell: (u) => {
+                  const locked = lockedUntil(u);
+                  if (u.disabled) return <Badge tone="danger">{t('status.disabled')}</Badge>;
+                  if (locked) return <Badge tone="warn"><span data-testid="user-locked">{t('users.lockedUntil', { time: formatTime(locked, locale) })}</span></Badge>;
+                  return <Badge tone="success">{t('status.active')}</Badge>;
+                },
+              },
               {
                 key: 'actions',
                 header: t('common.actions'),
@@ -71,7 +96,33 @@ export default async function UsersPage({ searchParams }: { searchParams: Promis
                   u.id === user.id ? (
                     <span className="muted">-</span>
                   ) : (
-                    <div className="row-actions">
+                    <div className="row-actions row-actions--wrap">
+                      {lockedUntil(u) && !u.disabled ? (
+                        <ApiAction
+                          label={t('users.unlock')}
+                          ariaLabel={t('users.unlockFor', { name: u.username })}
+                          icon="check"
+                          method="PATCH"
+                          path={`users/${u.id}`}
+                          body={{ unlock: true }}
+                          tone="gold"
+                          successText={t('users.unlockedToast', { name: u.username })}
+                          testId="user-unlock"
+                        />
+                      ) : null}
+                      {u.totpEnabled ? (
+                        <ApiAction
+                          label={t('users.resetTotp')}
+                          ariaLabel={t('users.resetTotpFor', { name: u.username })}
+                          icon="lock"
+                          method="PATCH"
+                          path={`users/${u.id}`}
+                          body={{ resetTotp: true }}
+                          successText={t('users.resetTotpToast', { name: u.username })}
+                          confirm={{ title: t('users.confirmResetTotpTitle', { name: u.username }), message: t('users.confirmResetTotpText', { name: u.username }), confirmLabel: t('users.resetTotp') }}
+                          testId="user-reset-totp"
+                        />
+                      ) : null}
                       <ApiAction
                         label={u.disabled ? t('users.enable') : t('users.disable')}
                         ariaLabel={u.disabled ? t('users.enableFor', { name: u.username }) : t('users.disableFor', { name: u.username })}
