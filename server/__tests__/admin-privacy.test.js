@@ -19,7 +19,8 @@ const { fakes, oid } = await import('./helpers/fakes.js');
 const { allFilters, castProblem, freshIp, sanitizeChanges, signedIn, startClient } = await import('./helpers/admin.js');
 const { createApp } = await import('../app.js');
 const { signSessionToken } = await import('../services/adminSessions.js');
-const { ERASED_EMAIL } = await import('../route/admin/privacy.js');
+const { ERASED_EMAIL, NOT_ERASED } = await import('../route/admin/privacy.js');
+const { getCatalog } = await import('../services/catalog.js');
 
 const { http, close } = startClient(createApp());
 afterAll(close);
@@ -46,7 +47,7 @@ const SOMEONE_ELSE = 'other@example.com';
 let myOrderId;
 let otherOrderId;
 beforeEach(() => {
-  for (const name of ['Payment', 'Order', 'Candle', 'Contact', 'Review', 'AuditLog']) fakes[name].reset();
+  for (const name of ['Payment', 'Order', 'Candle', 'Contact', 'Review', 'AuditLog', 'Prayer', 'ProductReview', 'Product']) fakes[name].reset();
   const [mine, other] = fakes.Order.seed([
     { firstName: 'Maria', lastName: 'Rossi', email: ME, phone: '+39 06 1234', street: 'Via Roma 1', city: 'Rome', state: 'RM', postal: '00100', country: 'Italy', totalPrice: 40, paypalOrderId: 'MARIA000000000001', paymentVerified: true, products: [{ productID: oid(), productName: 'Olive cross', quantity: 2 }] },
     { firstName: 'Other', lastName: 'Person', email: SOMEONE_ELSE, phone: '1', street: 'x', city: 'y', state: 'z', postal: '1', country: 'IL', totalPrice: 10, products: [] },
@@ -75,13 +76,16 @@ describe('POST /admin/privacy/lookup', () => {
   it('counts what is stored about an address, in every collection, without returning any of it', async () => {
     const res = await call('post', '/admin/privacy/lookup', owner, { email: '  Maria.Rossi@Example.COM ' });
     expect(res.status).toBe(200);
-    expect(res.body).toEqual({ found: { orders: 2, candles: 1, contacts: 1, reviews: 1, payments: 2 } });
+    expect(res.body).toEqual({
+      found: { orders: 2, candles: 1, contacts: 1, reviews: 1, payments: 2, prayers: 0, productReviews: 0 },
+      notSearched: ['prayersNotSearched', 'productReviewsNotSearched'], // no name was given
+    });
     expect(JSON.stringify(res.body)).not.toMatch(/Rome|Via Roma|Olive/);
   });
 
   it('says zero for an address nobody used', async () => {
     const res = await call('post', '/admin/privacy/lookup', owner, { email: 'nobody@example.com' });
-    expect(res.body.found).toEqual({ orders: 0, candles: 0, contacts: 0, reviews: 0, payments: 0 });
+    expect(res.body.found).toEqual({ orders: 0, candles: 0, contacts: 0, reviews: 0, payments: 0, prayers: 0, productReviews: 0 });
   });
 
   it('is owner only, and refuses bad input', async () => {
@@ -107,7 +111,10 @@ describe('POST /admin/privacy/erase', () => {
   it('anonymises the orders (the sale stays in the accounts) and candle requests, deletes messages and site reviews', async () => {
     const res = await erase();
     expect(res.status).toBe(200);
-    expect(res.body).toEqual({ erased: { orders: 2, candles: 1, contacts: 1, reviews: 1, payments: 3 } });
+    expect(res.body).toEqual({
+      erased: { orders: 2, candles: 1, contacts: 1, reviews: 1, payments: 3, prayers: 0, productReviews: 0 },
+      notErased: ['prayersNotSearched', 'productReviewsNotSearched', ...NOT_ERASED],
+    });
 
     const order = fakes.Order.byId(myOrderId);
     expect(order).toMatchObject({
@@ -144,9 +151,9 @@ describe('POST /admin/privacy/erase', () => {
   it('finds the person again nowhere afterwards, and a second erase does nothing', async () => {
     await erase();
     const again = await erase();
-    expect(again.body).toEqual({ erased: { orders: 0, candles: 0, contacts: 0, reviews: 0, payments: 0 } });
+    expect(again.body.erased).toEqual({ orders: 0, candles: 0, contacts: 0, reviews: 0, payments: 0, prayers: 0, productReviews: 0 });
     const lookup = await call('post', '/admin/privacy/lookup', owner, { email: ME });
-    expect(lookup.body.found).toEqual({ orders: 0, candles: 0, contacts: 0, reviews: 0, payments: 0 });
+    expect(lookup.body.found).toEqual({ orders: 0, candles: 0, contacts: 0, reviews: 0, payments: 0, prayers: 0, productReviews: 0 });
   });
 
   it('needs the address typed twice, the same way', async () => {
@@ -175,8 +182,12 @@ describe('POST /admin/privacy/erase', () => {
   it('every query it sends survives sanitizeFilter and casts against the real schemas', async () => {
     await call('post', '/admin/privacy/lookup', owner, { email: ME });
     await erase();
-    const filters = allFilters().filter((f) => ['Order', 'Candle', 'Contact', 'Review', 'Payment'].includes(f.name));
+    await call('post', '/admin/privacy/lookup', owner, { email: ME, name: 'Maria Rossi', country: 'Italy' });
+    await erase({ email: ME, confirm: ME, name: 'Maria Rossi', country: 'Italy' });
+    const filters = allFilters().filter((f) => ['Order', 'Candle', 'Contact', 'Review', 'Payment', 'Prayer', 'ProductReview'].includes(f.name));
     expect(filters.length).toBeGreaterThan(8);
+    expect(filters.some((f) => f.name === 'Prayer')).toBe(true);
+    expect(filters.some((f) => f.name === 'ProductReview')).toBe(true);
     for (const { name, op, filter } of filters) {
       expect(sanitizeChanges(filter), `${name}.${op} ${JSON.stringify(filter)}`).toBeNull();
       expect(await castProblem(name, filter), `${name}.${op} ${JSON.stringify(filter)}`).toBeNull();
@@ -188,5 +199,87 @@ describe('POST /admin/privacy/erase', () => {
     const res = await erase({ email: 'a.b@example.com', confirm: 'a.b@example.com' });
     expect(res.body.erased.contacts).toBe(1);
     expect(fakes.Contact.docs.map((c) => c.fullName)).toContain('Not dot');
+  });
+});
+
+// Security review 06, finding 7: prayers and product reviews keep no e-mail address, so the erase used to leave them
+// public. They are found by the name (and country) they were published under, only when it is EXACTLY equal.
+describe('prayers and product reviews: by the published name, exact matches only', () => {
+  let productId;
+  beforeEach(() => {
+    [{ _id: productId }] = fakes.Product.seed([{ name: 'Olive cross', price: 10, img: 'https://example.com/a.jpg' }]);
+    fakes.Prayer.seed([
+      { name: 'Maria Rossi', country: 'Italy', prayer: 'For my mother, who is ill', category: 'Health' },
+      { name: 'maria rossi', country: 'ITALY', prayer: 'Thank you', category: 'Gratitude' }, // the same, other case
+      { name: 'Maria Rossi', country: 'Brazil', prayer: 'Another Maria Rossi', category: 'Peace' }, // a stranger: other country
+      { name: 'Maria', country: 'Italy', prayer: 'Only a first name', category: 'Peace' }, // similar, not equal
+      { name: 'Maria Rossi-Bianchi', country: 'Italy', prayer: 'A longer name', category: 'Peace' },
+      { name: 'Anna &amp; Maria Rossi', country: 'Italy', prayer: 'Stored escaped', category: 'Peace' },
+    ]);
+    fakes.ProductReview.seed([
+      { product: productId, name: 'Maria Rossi', country: 'Italy', rating: 5, title: '', comment: 'Beautiful', approved: true },
+      { product: productId, name: 'Maria Rossi', country: '', rating: 4, title: '', comment: 'No country given', approved: true },
+      { product: productId, name: 'Maria Rossi', country: 'Brazil', rating: 3, title: '', comment: 'A stranger', approved: true },
+      { product: productId, name: 'Mario Rossi', country: 'Italy', rating: 2, title: '', comment: 'Not her', approved: true },
+    ]);
+  });
+  const erase = (body) => call('post', '/admin/privacy/erase', owner, body);
+  const prayersLeft = () => fakes.Prayer.docs.map((p) => `${p.name}/${p.country}`).sort();
+  const reviewsLeft = () => fakes.ProductReview.docs.map((r) => `${r.name}/${r.country}`).sort();
+
+  it('lookup counts them only when identified: name AND country (a name alone is shared by strangers)', async () => {
+    const byName = await call('post', '/admin/privacy/lookup', owner, { email: ME, name: 'Maria Rossi' });
+    expect(byName.body.found).toMatchObject({ prayers: 0, productReviews: 0 });
+    expect(byName.body.notSearched).toEqual(['prayersNotSearched', 'productReviewsNotSearched']);
+    const both = await call('post', '/admin/privacy/lookup', owner, { email: ME, name: ' maria ROSSI ', country: 'italy' });
+    expect(both.body.found).toMatchObject({ prayers: 2, productReviews: 1 });
+    expect(both.body.notSearched).toEqual([]);
+    expect((await call('post', '/admin/privacy/lookup', owner, { email: ME, country: 'Italy' })).status).toBe(400); // a country alone
+    for (const bad of [{ name: 'M' }, { name: { $ne: null } }, { name: ['Maria Rossi'] }, { name: 'x'.repeat(201) }, { name: 'Maria\nRossi' }]) {
+      expect((await call('post', '/admin/privacy/lookup', owner, { email: ME, ...bad })).status, JSON.stringify(bad)).toBe(400);
+    }
+  });
+
+  it('erase deletes exactly the equal ones, leaves similar names and strangers, and says what it did not search', async () => {
+    const res = await erase({ email: ME, confirm: ME, name: 'Maria Rossi', country: 'Italy' });
+    expect(res.status).toBe(200);
+    expect(res.body.erased).toMatchObject({ prayers: 2, productReviews: 1, orders: 2 });
+    expect(res.body.notErased).toEqual([...NOT_ERASED]);
+    expect(prayersLeft()).toEqual(['Anna &amp; Maria Rossi/Italy', 'Maria Rossi-Bianchi/Italy', 'Maria Rossi/Brazil', 'Maria/Italy']);
+    expect(reviewsLeft()).toEqual(['Maria Rossi/', 'Maria Rossi/Brazil', 'Mario Rossi/Italy']);
+  });
+
+  it('with a name only, nothing published is touched (another "Maria Rossi" may have written it)', async () => {
+    const res = await erase({ email: ME, confirm: ME, name: 'Maria Rossi' });
+    expect(res.body.erased).toMatchObject({ prayers: 0, productReviews: 0 });
+    expect(res.body.notErased).toEqual(['prayersNotSearched', 'productReviewsNotSearched', ...NOT_ERASED]);
+    expect(fakes.Prayer.docs).toHaveLength(6);
+    expect(fakes.ProductReview.docs).toHaveLength(4);
+  });
+
+  it('a name with "&" matches what the API stored escaped, and regular-expression characters match themselves', async () => {
+    const res = await erase({ email: ME, confirm: ME, name: 'Anna & Maria Rossi', country: 'Italy' });
+    expect(res.body.erased.prayers).toBe(1);
+    expect(prayersLeft()).not.toContain('Anna &amp; Maria Rossi/Italy');
+    const dot = await erase({ email: ME, confirm: ME, name: 'Maria.Rossi', country: 'Italy' }); // "." is not "any character"
+    expect(dot.body.erased.prayers).toBe(0);
+    const star = await erase({ email: ME, confirm: ME, name: 'Maria.*', country: '.*' });
+    expect(star.body.erased).toMatchObject({ prayers: 0, productReviews: 0 });
+  });
+
+  it('the storefront catalogue (product ratings) is rebuilt after a review is erased', async () => {
+    expect((await getCatalog()).find((p) => p._id === String(productId)).price).toBe(10); // now cached
+    fakes.Product.docs[0].price = 11; // a change the cache does not know about
+    await erase({ email: ME, confirm: ME, name: 'Nobody Here', country: 'Italy' }); // nothing erased: the cache stays
+    expect((await getCatalog()).find((p) => p._id === String(productId)).price).toBe(10);
+    await erase({ email: ME, confirm: ME, name: 'Maria Rossi', country: 'Italy' }); // a review erased: rebuilt
+    expect((await getCatalog()).find((p) => p._id === String(productId)).price).toBe(11);
+  });
+
+  it('the audit entry has the counts, never the name or the country', async () => {
+    await erase({ email: ME, confirm: ME, name: 'Maria Rossi', country: 'Italy' });
+    const entry = audits('privacy.erase')[0];
+    expect(entry.meta).toMatchObject({ prayers: 2, productReviews: 1 });
+    expect(JSON.stringify(fakes.AuditLog.docs).toLowerCase()).not.toMatch(/maria|rossi|italy/);
   });
 });

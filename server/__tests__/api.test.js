@@ -24,22 +24,28 @@ describe('health', () => {
   });
 });
 
-describe('requireAdmin', () => {
+describe('the admin API guard', () => {
   it('rejects a missing token', async () => {
-    const res = await request(app).get('/order/getAllOrders');
+    const res = await request(app).get('/admin/orders');
     expect(res.status).toBe(401);
   });
 
   it('rejects a token signed with another secret', async () => {
-    const token = jwt.sign({ role: 'admin' }, 'wrong-secret');
-    const res = await request(app).get('/order/getAllOrders').set('Authorization', `Bearer ${token}`);
+    const token = jwt.sign({ sub: 'x', sid: 's', role: 'owner' }, 'wrong-secret');
+    const res = await request(app).get('/admin/orders').set('Authorization', `Bearer ${token}`);
     expect(res.status).toBe(401);
   });
 
   it('rejects an expired token', async () => {
-    const token = jwt.sign({ role: 'admin' }, process.env.JWT_SECRET, { expiresIn: -10 });
-    const res = await request(app).get('/order/getAllOrders').set('Authorization', `Bearer ${token}`);
+    const token = jwt.sign({ sub: 'x', sid: 's', role: 'owner' }, process.env.JWT_SECRET, { expiresIn: -10 });
+    const res = await request(app).get('/admin/orders').set('Authorization', `Bearer ${token}`);
     expect(res.status).toBe(401);
+  });
+
+  it('rejects a legacy admin token (the shared-password sign-in was removed)', async () => {
+    const token = jwt.sign({ role: 'admin' }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    expect((await request(app).get('/admin/orders').set('Authorization', `Bearer ${token}`)).status).toBe(401);
+    expect((await request(app).get('/order/getAllOrders').set('Authorization', `Bearer ${token}`)).status).toBe(404);
   });
 });
 

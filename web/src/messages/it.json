@@ -1242,7 +1242,7 @@
         "intro": "Tutti i campi sono necessari per poterti rispondere.",
         "fullName": "Nome e cognome",
         "email": "Indirizzo email",
-        "phone": "Numero di telefono",
+        "phone": "Numero di telefono (facoltativo)",
         "phoneHint": "Includi il prefisso internazionale, per esempio +39 312 345 6789.",
         "msg": "Il tuo messaggio",
         "counter": "{count} / {max}",

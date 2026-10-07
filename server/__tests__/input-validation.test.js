@@ -193,11 +193,11 @@ describe('mail recipients', () => {
     expect(mocks.candleSaved).toHaveLength(0);
   });
 
-  it('the candle form mails exactly the one address that was typed', async () => {
+  it('an unpaid candle request with a valid address is saved, but mails nobody (payment-ledger.test.js has the paid case)', async () => {
     const res = await as(request(app).post('/candle/lightACandle')).send({ ...candle, email: ' maria.h+nhc@mail.example.co.il ' });
     expect(res.status).toBe(200);
-    expect(mocks.sendMail).toHaveBeenCalledOnce();
-    expect(mocks.sendMail.mock.calls[0][0].to).toEqual(['maria.h+nhc@mail.example.co.il']);
+    expect(mocks.candleSaved).toHaveLength(1);
+    expect(mocks.sendMail).not.toHaveBeenCalled();
   });
 
   it('the contact form uses the same strict check', async () => {

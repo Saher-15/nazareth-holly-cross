@@ -12,7 +12,6 @@ for (const key of ['DATABASEURL', 'MAIL_FROM', 'MAIL_APP_PASSWORD', 'CLIENT_ID',
 }
 process.env.NODE_ENV = process.env.HARNESS_NODE_ENV ?? 'production'; // behave like the deployed server (no stack traces)
 process.env.JWT_SECRET = crypto.randomBytes(32).toString('hex'); // throw-away: a restart signs everyone out
-process.env.ADMIN_PASSWORD = crypto.randomBytes(18).toString('hex'); // the legacy shared password, unusable by anyone
 process.env.DATABASEURL = 'mongodb://harness.invalid/none'; // never connected to
 process.env.MAIL_FROM = 'harness@example.invalid';
 process.env.MAIL_APP_PASSWORD = 'unused';

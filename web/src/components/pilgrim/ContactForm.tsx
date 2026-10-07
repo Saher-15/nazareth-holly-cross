@@ -6,6 +6,7 @@ import { postJson } from '@/lib/apiClient';
 import {
   CONTACT_FIELDS,
   CONTACT_RULES,
+  OPTIONAL_CONTACT_FIELDS,
   contactSubmitError,
   emptyContact,
   firstInvalidContactField,
@@ -24,7 +25,7 @@ type Status = 'idle' | 'sending' | 'sent';
 const AUTOCOMPLETE: Record<ContactField, string> = { fullName: 'name', email: 'email', phone: 'tel', msg: 'off' };
 const INPUT_TYPE: Partial<Record<ContactField, string>> = { email: 'email', phone: 'tel' };
 
-// Write to us: name, e-mail, phone and message, posted straight to the API from the browser
+// Write to us: name, e-mail, phone (optional) and message, posted straight to the API from the browser
 // (POST /contact/contact_us_request). Every state is announced: invalid fields, sending, sent, and a refusal
 // by the API (too many requests, rejected input, no connection, server error).
 export default function ContactForm({ titleId }: { titleId: string }) {
@@ -129,7 +130,7 @@ export default function ContactForm({ titleId }: { titleId: string }) {
               name: field,
               dir: field === 'email' || field === 'phone' ? ('ltr' as const) : ('auto' as const),
               maxLength: CONTACT_RULES[field].max,
-              required: true,
+              required: !OPTIONAL_CONTACT_FIELDS.has(field),
               value: values[field],
               onChange: onChange(field),
               'aria-invalid': errors[field] ? (true as const) : undefined,

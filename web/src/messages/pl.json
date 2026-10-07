@@ -1242,7 +1242,7 @@
         "intro": "Wszystkie pola są potrzebne, abyśmy mogli odpowiedzieć.",
         "fullName": "Imię i nazwisko",
         "email": "Adres e-mail",
-        "phone": "Numer telefonu",
+        "phone": "Numer telefonu (opcjonalnie)",
         "phoneHint": "Podaj numer kierunkowy kraju, na przykład +48 512 345 678.",
         "msg": "Twoja wiadomość",
         "counter": "{count} / {max}",

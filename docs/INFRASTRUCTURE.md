@@ -352,11 +352,12 @@ Relying on defaults is dangerous exactly where it matters: a forgotten variable 
 sandbox id. **Set all four explicitly** for the Production scope (Netlify lets a variable apply to "Production" only, so deploy
 previews keep using sandbox and the preview API).
 
-**Render** (`render.yaml`): `DATABASEURL`, `JWT_SECRET` (32+ chars), `ADMIN_PASSWORD`, `MAIL_FROM`, `MAIL_APP_PASSWORD`,
+**Render** (`render.yaml`): `DATABASEURL`, `JWT_SECRET` (32+ chars; never rotate it casually: ADMIN.md 6), `MAIL_FROM`, `MAIL_APP_PASSWORD`,
 `CLIENT_ID`, `CLIENT_SECRET` (PayPal REST), `ENVIRONMENT` (`sandbox` unless `production`), `CLIENT_URL`, `ADMIN_ORIGINS`,
 `REQUIRE_PAYMENT_PROOF`, optional `EXTRA_ORIGINS`, `TRUST_PROXY_HOPS`, and for live broadcasting `CF_ACCOUNT_ID`,
 `CF_STREAM_API_TOKEN` (Cloudflare Stream; LIVE.md section 6). `/health/deep` reports `paypalMode` so the API side can
-be read without a login.
+be read without a login. `ADMIN_PASSWORD` is **no longer used** (the legacy admin sign-in was removed on 2026-10-07):
+delete it on Render.
 
 #### Checklist: switching PayPal to Live safely (owner; an agent never presses a live pay button)
 
@@ -380,8 +381,8 @@ Sandbox**. A mix fails closed (PayPal refuses the order, nobody is charged) but 
        PayPal -> Activity: the payment, its fee, **refund it**. Check the order record shows `paymentVerified: true` and the
        e-mail arrived. If the order is missing, the payment was captured but `newOrder` failed: read the Render log for the
        PayPal order id.
-8. [ ] `REQUIRE_PAYMENT_PROOF=true` on Render (the old site that did not send `paypalOrderId` is retired): orders
-       without a verified payment are then refused.
+8. [ ] `REQUIRE_PAYMENT_PROOF=true` on Render (the public site always sends `paypalOrderId`, checked 2026-10-07; the old
+       site that did not is retired): orders and candle requests without a verified payment are then refused.
 9. [ ] Watch for a week: PayPal e-mails, the monitors (MONITORING.md), the Render log for `payment` errors.
 10. [ ] **Rollback** (any problem): Render `ENVIRONMENT=sandbox` + the sandbox `CLIENT_ID`/`CLIENT_SECRET`; Netlify variable back
         to the sandbox id (or delete it) and "Clear cache and deploy site". Nobody is charged real money in sandbox.

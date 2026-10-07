@@ -1242,7 +1242,7 @@
         "intro": "Toate câmpurile sunt necesare, pentru ca să vă putem răspunde.",
         "fullName": "Nume complet",
         "email": "Adresă de e-mail",
-        "phone": "Număr de telefon",
+        "phone": "Număr de telefon (opțional)",
         "phoneHint": "Includeți prefixul țării, de exemplu +1 555 123 4567.",
         "msg": "Mesajul dumneavoastră",
         "counter": "{count} / {max}",

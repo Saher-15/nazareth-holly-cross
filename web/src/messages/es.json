@@ -1242,7 +1242,7 @@
         "intro": "Todos los campos son necesarios para poder responderte.",
         "fullName": "Nombre completo",
         "email": "Correo electrónico",
-        "phone": "Número de teléfono",
+        "phone": "Número de teléfono (opcional)",
         "phoneHint": "Incluye el prefijo del país, por ejemplo +34 612 34 56 78.",
         "msg": "Tu mensaje",
         "counter": "{count} / {max}",

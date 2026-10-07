@@ -24,11 +24,6 @@ export const healthLimiter = limiter(300);
 // Public forms that send mail or store text (contact, candle, prayer, review): shared counter per IP.
 export const strictLimiter = limiter(10);
 
-// Authentication endpoints (brute-force protection); only failed attempts count.
-export const loginLimiter = limiter(5, 'Too many login attempts, please try again in 15 minutes.', {
-  skipSuccessfulRequests: true,
-});
-
 // Payments. Starting a PayPal order and capturing it are cheap for a shopper (a few tries when a card is
 // declined or a popup is closed) but each one is a call to PayPal for us, so they are capped per IP.
 export const paymentLimiter = limiter(30, 'Too many payment attempts, please try again later.');
@@ -130,7 +125,7 @@ const adminKey = (req) => `admin:${req.adminUser?.id}`;
 // Every authenticated admin request.
 export const adminLimiter = limiter(300, 'Too many requests, please slow down.', {
   keyGenerator: adminKey,
-  skip: (req) => !req.adminUser, // legacy tokens are handled by the legacy routes (and the per-IP layer)
+  skip: (req) => !req.adminUser, // always set after adminAuth; without it there is no account to count
 });
 
 // Password and second-factor changes: a stolen token must not be able to guess the current password.
