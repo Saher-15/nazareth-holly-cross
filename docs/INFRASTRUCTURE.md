@@ -296,38 +296,42 @@ that can last longer than a function's time limit.
 **What stays.** The Render service is **not deleted and not changed**. It keeps deploying `main` and stays connected to the
 same database, so going back is one setting (below). Both platforms run the same commit from the same repository.
 
-**Repository side (this change).** `server/railway.json` (config as code: Railpack builder, `npm ci --omit=dev`,
-`node index.js`, health check `/health`, restart on failure, region `europe-west4-drams3a`, one replica, deploys only when
-`server/**` changes). `/health/deep` now says `"host": "railway"` or `"render"` and reads the commit from either platform,
-so the monitors and `ops/smoke-live.mjs` show which one is answering.
+**Repository side (this change).** `/health/deep` now says `"host": "railway"` or `"render"` and reads the commit
+from either platform, so the monitors and `ops/smoke-live.mjs` show which one is answering. There is no Railway config
+file: Railway stopped accepting config-as-code for new services in 2026, so the settings live in the dashboard (below).
 
-#### Owner steps: create the Railway service (about 20 minutes, no visitor impact)
+#### The Railway service (created 2026-10-07)
 
-1. Railway -> **New project -> Deploy from GitHub repo** -> `Saher-15/nazareth-holly-cross`. Do not add a database.
-2. The service -> **Settings**: Root directory `/server`; Config-as-code path `/server/railway.json`; Branch `main`;
-   Region **EU West (Amsterdam)** (the config file sets it too). Networking -> **Generate domain** (a
-   `*.up.railway.app` address).
-3. The service -> **Variables -> Raw editor**: paste the same variables as in Render -> the service -> Environment:
-   `NODE_ENV=production`, `DATABASEURL`, `JWT_SECRET`, `ADMIN_PASSWORD`, `MAIL_FROM`, `MAIL_APP_PASSWORD`, `CLIENT_ID`,
-   `CLIENT_SECRET`, `CLIENT_URL`, `ADMIN_ORIGINS`, `ENVIRONMENT`, `REQUIRE_PAYMENT_PROOF`, `CF_ACCOUNT_ID`,
-   `CF_STREAM_API_TOKEN`, and any of `EXTRA_ORIGINS`, `ADMIN_APP_URL`, `ADMIN_BOOTSTRAP_EMAILS`, `TRUST_PROXY_HOPS`,
-   `AUTO_INDEX` that are set on Render. Add `RAILPACK_NODE_VERSION=22`. **Do not** set `PORT` (Railway sets it).
-   `TRUST_PROXY_HOPS` stays 1 on Railway: there is no Cloudflare in front of it (2.5).
-   The values are secrets: copy them between the two dashboards, never into a chat, a file or a commit.
-4. Atlas -> Network Access already allows `0.0.0.0/0` (6.1), which Railway needs (its outgoing addresses are not fixed
-   on the Hobby plan). Nothing to change.
-5. Wait for the deploy to turn green, then check it **before any visitor uses it** (read-only):
-   `curl https://<railway-domain>/health/deep` must answer 200 with `"host":"railway"` and a single-digit or low
-   double-digit `database.latencyMs` (it was about 100+ ms from Oregon), then
-   `node ops/smoke-live.mjs --api https://<railway-domain> --no-browser`: all API lines PASS.
+| Setting | Value |
+|---|---|
+| Project / service | `impartial-peace` / `nazareth-holly-cross` (Railway, **Trial** plan: upgrade to Hobby before the switch) |
+| Source | `Saher-15/nazareth-holly-cross`, branch `main`, **auto-deploy on**, root directory `/server` |
+| Build / start | Railpack detects them from `server/package.json` (`npm ci`, `npm start` = `node index.js`); `RAILPACK_NODE_VERSION=22` |
+| Region | **EU West (Amsterdam, `europe-west4`)**, 1 replica |
+| Health check | `/health` |
+| Public address | `https://nazareth-holly-cross-production.up.railway.app` (port 8080, the `PORT` Railway sets) |
+| Variables set | `NODE_ENV=production`, `RAILPACK_NODE_VERSION=22` |
+
+**Owner step: the secrets.** The service -> **Variables -> Raw editor**: add the same values as in Render -> the service
+-> Environment: `DATABASEURL`, `JWT_SECRET`, `ADMIN_PASSWORD`, `MAIL_FROM`, `MAIL_APP_PASSWORD`, `CLIENT_ID`,
+`CLIENT_SECRET`, `CLIENT_URL`, `ADMIN_ORIGINS`, `ENVIRONMENT`, `REQUIRE_PAYMENT_PROOF`, `CF_ACCOUNT_ID`,
+`CF_STREAM_API_TOKEN`, and any of `EXTRA_ORIGINS`, `ADMIN_APP_URL`, `ADMIN_BOOTSTRAP_EMAILS`, `AUTO_INDEX` that are set on
+Render. **Do not** set `PORT`. `TRUST_PROXY_HOPS` stays unset (1): there is no Cloudflare in front of Railway (2.5).
+The values are secrets: copy them between the two dashboards, never into a chat, a file or a commit. Atlas Network Access
+already allows `0.0.0.0/0` (6.1), which Railway needs. Then **Deploy**.
+
+**Check it before any visitor uses it** (read-only):
+`curl https://nazareth-holly-cross-production.up.railway.app/health/deep` must answer 200 with a single-digit or low
+double-digit `database.latencyMs`, then
+`node ops/smoke-live.mjs --api https://nazareth-holly-cross-production.up.railway.app --no-browser`: all API lines PASS.
 
 #### Owner steps: the switch (a rebuild, about 10 minutes; do it outside the shop's busy hours)
 
 | Where | Setting | New value |
 |---|---|---|
-| Netlify -> the public site -> Environment variables | `NEXT_PUBLIC_API_URL` | `https://<railway-domain>` |
-| Netlify -> the admin site -> Environment variables | `ADMIN_API_URL` | `https://<railway-domain>` |
-| Netlify -> the old CRA site, if still published | `REACT_APP_API_URL` | `https://<railway-domain>` |
+| Netlify -> the public site -> Environment variables | `NEXT_PUBLIC_API_URL` | `https://nazareth-holly-cross-production.up.railway.app` |
+| Netlify -> the admin site -> Environment variables | `ADMIN_API_URL` | `https://nazareth-holly-cross-production.up.railway.app` |
+| Netlify -> the old CRA site, if still published | `REACT_APP_API_URL` | `https://nazareth-holly-cross-production.up.railway.app` |
 | GitHub -> Settings -> Variables -> Actions | `API_URL` (keep-alive) | the Railway address, or delete the workflow: a paid Railway service never sleeps |
 | Uptime monitors (MONITORING.md 2) and the Hermes watchdog | API URLs | the Railway address; keep one monitor on Render's `/health` so the standby is watched too |
 
@@ -344,7 +348,8 @@ CNAME) added to **both** Railway and Render. The sites then always call `api.naz
 change. Not done now: it touches DNS, CORS and the CSP at once, and the first move is safer with addresses that are
 already known to work.
 
-**Cost.** Railway Hobby is billed by usage (a small always-on Node service with about 150 MB of memory costs a few
+**Cost.** The Railway account is on the **Trial** (limited free credit; a service stops when it runs out): choose
+the Hobby plan before the switch. Railway Hobby is billed by usage (a small always-on Node service with about 150 MB of memory costs a few
 dollars a month; check Railway -> Usage after a week). Render's paid instance keeps billing while it is the standby;
 switch it to the free plan later if a sleeping standby is good enough (a failover would then start with a 30-60 s
 cold start).
