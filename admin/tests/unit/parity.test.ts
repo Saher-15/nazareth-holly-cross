@@ -268,7 +268,23 @@ async function scenario(backend: Backend): Promise<{ steps: Step[]; replies: Rec
   add('privacy erase: editor', await E('POST', '/admin/privacy/erase', { email: 'lost.order@example.com', confirm: 'lost.order@example.com' }));
   const erased = add('privacy erase', await O('POST', '/admin/privacy/erase', { email: 'lost.order@example.com', confirm: 'LOST.order@example.com' }));
   steps.push({ label: 'privacy erase counts', status: 0, shape: (erased.json as { erased: unknown }).erased });
+  steps.push({ label: 'privacy erase: what it could not erase', status: 0, shape: (erased.json as { notErased: string[] }).notErased.join(',') });
   add('privacy lookup after erase', await O('POST', '/admin/privacy/lookup', { email: 'lost.order@example.com' }));
+  // prayers and product reviews (no address): by the name and country they were published under, exact matches only
+  add('privacy lookup: a country alone', await O('POST', '/admin/privacy/lookup', { email: 'a@b.co', country: 'Italy' }));
+  add('privacy lookup: a one-letter name', await O('POST', '/admin/privacy/lookup', { email: 'a@b.co', name: 'M' }));
+  add('privacy lookup: a name that is not text', await O('POST', '/admin/privacy/lookup', { email: 'a@b.co', name: { $ne: null } }));
+  const pvByName = add('privacy lookup: a name only', await O('POST', '/admin/privacy/lookup', { email: 'a@b.co', name: 'Nobody Of That Name' }));
+  steps.push({ label: 'privacy lookup: a name only (not searched)', status: 0, shape: (pvByName.json as { notSearched: string[] }).notSearched.join(',') });
+  const pvPrayer = ((await O('GET', '/admin/prayers?size=1')).json as { items: { name: string; country: string }[] }).items[0];
+  const pvDecode = (text: string) => text.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+  const pvPublished = { name: pvDecode(pvPrayer.name).toUpperCase(), country: pvDecode(pvPrayer.country).toLowerCase() }; // any case
+  const pvBefore = add('privacy lookup: a published name and country', await O('POST', '/admin/privacy/lookup', { email: 'a@b.co', ...pvPublished }));
+  steps.push({ label: 'privacy lookup: a published name and country (found a prayer)', status: 0, shape: (pvBefore.json as { found: { prayers: number } }).found.prayers > 0 });
+  const pvByPublished = add('privacy erase: a published name and country', await O('POST', '/admin/privacy/erase', { email: 'a@b.co', confirm: 'a@b.co', ...pvPublished }));
+  steps.push({ label: 'privacy erase: a published name and country (not erased)', status: 0, shape: (pvByPublished.json as { notErased: string[] }).notErased.join(',') });
+  const pvAfter = await O('POST', '/admin/privacy/lookup', { email: 'a@b.co', ...pvPublished });
+  steps.push({ label: 'privacy lookup after the name erase: no prayer left', status: 0, shape: (pvAfter.json as { found: { prayers: number } }).found.prayers });
   add('privacy lookup is audited (GET audit)', await O('GET', '/admin/audit?action=privacy.&size=1'));
   add('privacy GET is not a route', await O('GET', '/admin/privacy/lookup'));
 
@@ -463,8 +479,11 @@ async function scenario(backend: Backend): Promise<{ steps: Step[]; replies: Rec
 
   const ts = await signIn(backend, 'totpsetup', 'Totpsetup-Mock-Pass-1');
   const T = client(backend, ts.token);
-  const setup = add('totp setup', await T('POST', '/admin/auth/totp/setup'));
-  add('totp setup twice', await T('POST', '/admin/auth/totp/setup'));
+  add('totp setup without the password', await T('POST', '/admin/auth/totp/setup'));
+  add('totp setup with a wrong password', await T('POST', '/admin/auth/totp/setup', { currentPassword: 'not-my-password-1' }));
+  add('totp setup with an extra field', await T('POST', '/admin/auth/totp/setup', { currentPassword: 'Totpsetup-Mock-Pass-1', secret: 'AAAA' }));
+  const setup = add('totp setup', await T('POST', '/admin/auth/totp/setup', { currentPassword: 'Totpsetup-Mock-Pass-1' }));
+  add('totp setup twice', await T('POST', '/admin/auth/totp/setup', { currentPassword: 'Totpsetup-Mock-Pass-1' }));
   const secret = (setup.json as { secret: string }).secret;
   add('totp enable wrong code', await T('POST', '/admin/auth/totp/enable', { code: '000000' }));
   add('totp enable', await T('POST', '/admin/auth/totp/enable', { code: totpCode(secret, Date.now() - 30_000) }));

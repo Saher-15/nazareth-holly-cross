@@ -1250,7 +1250,7 @@
         "intro": "Alle velden zijn nodig zodat wij kunnen antwoorden.",
         "fullName": "Volledige naam",
         "email": "E-mailadres",
-        "phone": "Telefoonnummer",
+        "phone": "Telefoonnummer (optioneel)",
         "phoneHint": "Vermeld de landcode, bijvoorbeeld +1 555 123 4567.",
         "msg": "Uw bericht",
         "counter": "{count} / {max}",

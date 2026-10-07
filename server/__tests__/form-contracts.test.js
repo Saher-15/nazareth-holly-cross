@@ -58,10 +58,33 @@ describe('e-mail addresses: the API refuses what a looser pattern accepts (the f
     expect((await contact('anna@example.com')).status).toBe(201);
   });
 
-  it('the contact route requires the phone (the model alone would not)', async () => {
+  // Data minimisation (security review 06, finding 8): the phone number is optional on the form, the route and the model.
+  it.each([
+    ['no phone', {}],
+    ['an empty phone', { phone: '' }],
+    ['a null phone', { phone: null }],
+  ])('the contact route accepts a message with %s and stores it as not given', async (_label, extra) => {
+    fakes.Contact.reset();
     const res = await http.post('/contact/contact_us_request').set('X-Forwarded-For', freshIp())
-      .send({ fullName: 'Anna Rossi', email: 'anna@example.com', msg: 'A question' });
-    expect(res.status).toBe(422);
+      .send({ fullName: 'Anna Rossi', email: 'anna@example.com', msg: 'A question', ...extra });
+    expect(res.status).toBe(201);
+    expect(fakes.Contact.docs).toHaveLength(1);
+    expect(fakes.Contact.docs[0].phone).toBe('');
+  });
+
+  it('a phone that is given is stored trimmed; one that is not text is refused', async () => {
+    fakes.Contact.reset();
+    const send = (phone) => http.post('/contact/contact_us_request').set('X-Forwarded-For', freshIp())
+      .send({ fullName: 'Anna Rossi', email: 'anna@example.com', msg: 'A question', phone });
+    expect((await send('  +39 06 0000 0000 ')).status).toBe(201);
+    expect(fakes.Contact.docs[0].phone).toBe('+39 06 0000 0000');
+    for (const bad of [{ $ne: null }, ['1'], 5]) expect((await send(bad)).status, JSON.stringify(bad)).toBe(422);
+    expect(fakes.Contact.docs).toHaveLength(1);
+  });
+
+  it('the model does not require the phone either', async () => {
+    const RealContact = (await vi.importActual('../model/contact.js')).default;
+    expect(new RealContact({ fullName: 'Anna Rossi', email: 'anna@example.com', msg: 'A question' }).validateSync()).toBeUndefined();
   });
 });
 

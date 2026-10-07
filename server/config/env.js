@@ -5,8 +5,9 @@ dotenv.config();
 const env = process.env;
 
 // Variables the server cannot run without; index.js refuses to start if any is missing.
+// (ADMIN_PASSWORD is no longer one of them: the shared-password sign-in it served was removed on 2026-10-07.)
 export const REQUIRED_ENV = [
-  'DATABASEURL', 'JWT_SECRET', 'ADMIN_PASSWORD',
+  'DATABASEURL', 'JWT_SECRET',
   'MAIL_FROM', 'MAIL_APP_PASSWORD', 'CLIENT_ID', 'CLIENT_SECRET',
 ];
 
@@ -15,7 +16,6 @@ export const missingEnv = () => REQUIRED_ENV.filter((k) => !env[k]);
 // Values copied from .env.example must never be used for real.
 const PLACEHOLDERS = new Set([
   'your-very-long-random-secret-key-here',
-  'your-secure-admin-password',
   'changeme',
   'secret',
   'password',
@@ -25,12 +25,10 @@ const PLACEHOLDERS = new Set([
 export function secretProblems() {
   const problems = [];
   const jwt = env.JWT_SECRET || '';
-  const pass = env.ADMIN_PASSWORD || '';
   if (PLACEHOLDERS.has(jwt.toLowerCase())) problems.push({ fatal: true, message: 'JWT_SECRET is a placeholder value' });
   else if (jwt && jwt.length < 32) problems.push({ fatal: false, message: 'JWT_SECRET is shorter than 32 characters' });
-  if (PLACEHOLDERS.has(pass.toLowerCase())) problems.push({ fatal: true, message: 'ADMIN_PASSWORD is a placeholder value' });
-  else if (pass && pass.length < 12) problems.push({ fatal: false, message: 'ADMIN_PASSWORD is shorter than 12 characters' });
-  if (jwt && pass && jwt === pass) problems.push({ fatal: true, message: 'JWT_SECRET and ADMIN_PASSWORD must not be the same value' });
+  // Nothing reads it any more; a leftover value is only a secret lying around (the owner deletes it on Render).
+  if (env.ADMIN_PASSWORD) problems.push({ fatal: false, message: 'ADMIN_PASSWORD is set but no longer used: delete it from the environment' });
   return problems;
 }
 
@@ -51,10 +49,9 @@ export const config = {
   trustProxyHops,
   databaseUrl: env.DATABASEURL,
   jwtSecret: env.JWT_SECRET,
-  adminPassword: env.ADMIN_PASSWORD,
   clientUrl: env.CLIENT_URL,
-  // When "true", /order/newOrder refuses an order that does not carry a paypalOrderId PayPal confirmed.
-  // Off until every client sends it (the current CRA site does not); then switch it on.
+  // When "true", /order/newOrder and /candle/lightACandle refuse a request that does not carry a paypalOrderId PayPal
+  // confirmed. The public site (web/) always sends it (docs/SECURITY.md section 5), so it can be switched on.
   requirePaymentProof: env.REQUIRE_PAYMENT_PROOF === 'true',
   // Comma-separated extra origins allowed by CORS (e.g. a new admin domain)
   extraOrigins: (env.EXTRA_ORIGINS || '').split(',').map((o) => o.trim()).filter(Boolean),

@@ -210,10 +210,19 @@ export const paymentSchema = doc({
 });
 export type Payment = z.infer<typeof paymentSchema>;
 
-// POST /admin/privacy/lookup and /erase (owner): counts per collection, never the data itself.
-const privacyCounts = z.looseObject({ orders: z.number(), candles: z.number(), contacts: z.number(), reviews: z.number(), payments: z.number() });
-export const privacyLookupSchema = z.looseObject({ found: privacyCounts });
-export const privacyEraseSchema = z.looseObject({ erased: privacyCounts });
+// POST /admin/privacy/lookup and /erase (owner): counts per collection, never the data itself. Prayers and product
+// reviews are counted only when the request gave the published name (and country); `notSearched` says which were not.
+// The answer to erase also lists what it could NOT erase (`notErased`: what was not searched, then what lives outside the
+// database), for the owner to finish by hand. Defaults keep an older API (without these fields) readable.
+const privacyCounts = z.looseObject({
+  orders: z.number(), candles: z.number(), contacts: z.number(), reviews: z.number(), payments: z.number(),
+  prayers: z.number().default(0), productReviews: z.number().default(0),
+});
+export const PRIVACY_NOT_ERASED = ['prayersNotSearched', 'productReviewsNotSearched', 'gmailSent', 'backups', 'recordings', 'paypal', 'hostLogs'] as const;
+export type PrivacyNotErased = (typeof PRIVACY_NOT_ERASED)[number];
+const notErasedList = z.array(z.string()).default([]).transform((codes) => codes.filter((c): c is PrivacyNotErased => (PRIVACY_NOT_ERASED as readonly string[]).includes(c)));
+export const privacyLookupSchema = z.looseObject({ found: privacyCounts, notSearched: notErasedList });
+export const privacyEraseSchema = z.looseObject({ erased: privacyCounts, notErased: notErasedList });
 export type PrivacyCounts = z.infer<typeof privacyCounts>;
 
 export const userSchema = doc({

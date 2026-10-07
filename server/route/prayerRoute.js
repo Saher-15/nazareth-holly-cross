@@ -1,6 +1,5 @@
 import express from 'express';
 import Prayer from '../model/prayer.js';
-import { requireAdmin } from '../middleware/auth.js';
 import { asyncHandler } from '../middleware/asyncHandler.js';
 import { likeLimiter, strictLimiter } from '../utils/security.js';
 import { isObjectId, isText } from '../utils/validate.js';
@@ -35,11 +34,6 @@ routerPrayer.post('/like/:id', likeLimiter, asyncHandler(async (req, res) => {
   const p = await Prayer.findByIdAndUpdate(req.params.id, { $inc: { likes: 1 } }, { new: true });
   if (!p) return res.status(404).json({ error: 'Prayer not found' });
   res.json({ likes: p.likes });
-}));
-
-routerPrayer.delete('/:id', requireAdmin, asyncHandler(async (req, res) => {
-  await Prayer.findByIdAndDelete(req.params.id);
-  res.json({ message: 'Prayer deleted' });
 }));
 
 export default routerPrayer;

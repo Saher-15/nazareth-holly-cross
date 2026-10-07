@@ -13,13 +13,13 @@ import { isRole } from './roles.js';
 //          takes effect on the very next request. The role inside the token is informational: the guard
 //          (middleware/adminGuard.js) always reads the current role from the account.
 //
-// The older shared-password / account tokens (services/adminAuth.js: role "admin", 8 hours, no sid) are still
-// recognised here only so the guard can tell them apart and hand them to the legacy routes.
+// Only session tokens exist. The older shared-password / account tokens (role "admin", 8 hours, no sid) were issued
+// by the legacy sign-ins removed on 2026-10-07; one that is still within its 8 hours is refused like any other
+// token that is not a session token (verifySessionToken throws), so none of them works anywhere any more.
 
 export const SESSION_SECONDS = 60 * 60;
 const ALGORITHM = 'HS256';
 const CLOCK_TOLERANCE_SECONDS = 5;
-const LEGACY_MAX_AGE = '8h';
 
 export async function createSession(adminId) {
   const sid = crypto.randomBytes(24).toString('base64url');
@@ -32,23 +32,22 @@ export function signSessionToken({ id, role }, sid) {
   return jwt.sign({ sub: String(id), role, sid }, config.jwtSecret, { algorithm: ALGORITHM, expiresIn: SESSION_SECONDS });
 }
 
-// Verifies signature (HS256 only), expiry and age, and says which family the token belongs to.
-// Returns { kind: 'session', payload } or { kind: 'legacy', payload }; throws for anything else.
-export function verifyAnyToken(token) {
+// Verifies signature (HS256 only), expiry and age, and that the token is a dashboard session token
+// ({ sub, sid, role } with a lifetime of at most SESSION_SECONDS). Returns the payload; throws for anything else,
+// including the legacy 8-hour tokens ({ role: 'admin' } or { id, username }, no sid).
+export function verifySessionToken(token) {
   const payload = jwt.verify(token, config.jwtSecret, {
     algorithms: [ALGORITHM], // never trust the token's own "alg"
     clockTolerance: CLOCK_TOLERANCE_SECONDS,
-    maxAge: LEGACY_MAX_AGE, // also rejects a token without an issue time
+    maxAge: SESSION_SECONDS + CLOCK_TOLERANCE_SECONDS, // also rejects a token without an issue time
   });
-  if (typeof payload.sid === 'string' && typeof payload.sub === 'string' && isRole(payload.role)) {
-    if (!payload.exp || payload.exp - payload.iat > SESSION_SECONDS + CLOCK_TOLERANCE_SECONDS) {
-      throw new jwt.JsonWebTokenError('session token lives too long');
-    }
-    return { kind: 'session', payload };
+  if (typeof payload.sid !== 'string' || typeof payload.sub !== 'string' || !isRole(payload.role)) {
+    throw new jwt.JsonWebTokenError('not a session token');
   }
-  const legacyAccount = payload.id && payload.username;
-  if (payload.role === 'admin' || legacyAccount) return { kind: 'legacy', payload };
-  throw new jwt.JsonWebTokenError('not an admin token');
+  if (!payload.exp || payload.exp - payload.iat > SESSION_SECONDS + CLOCK_TOLERANCE_SECONDS) {
+    throw new jwt.JsonWebTokenError('session token lives too long');
+  }
+  return payload;
 }
 
 // True while the session exists, belongs to this account, is not revoked and has not expired.

@@ -1250,7 +1250,7 @@
         "intro": "Todos os campos são necessários para podermos responder.",
         "fullName": "Nome completo",
         "email": "Endereço de e-mail",
-        "phone": "Número de telefone",
+        "phone": "Número de telefone (opcional)",
         "phoneHint": "Inclua o indicativo do país, por exemplo +351 912 345 678.",
         "msg": "A sua mensagem",
         "counter": "{count} / {max}",

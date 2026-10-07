@@ -1,6 +1,5 @@
 import express from "express"
 import Product from "../model/product.js";
-import { requireAdmin } from '../middleware/auth.js';
 import { asyncHandler } from "../middleware/asyncHandler.js"
 import crypto from 'node:crypto';
 import mongoose from 'mongoose';
@@ -57,89 +56,6 @@ routerProduct.get('/getProduct/:id', asyncHandler(async (req, res) => {
         return res.status(404).send("Product not found");
     }
     res.status(200).send(product);
-}))
-
-routerProduct.delete('/deleteProduct/:id', requireAdmin, asyncHandler(async (req, res) => {
-    await Product.findByIdAndDelete(req.params.id);
-    res.status(200).send("Success");
-}))
-
-routerProduct.post('/addProduct', requireAdmin, asyncHandler(async (req, res) => {
-    const { name, price, img, additionalImgsURL, description, uuidv4_ } = req.body;
-
-    if (name === null || name === undefined || name === "") {
-        return res.status(422).json({ error: "Bad input" })
-    }
-
-    if (price === null || price === undefined || price === "") {
-        return res.status(422).json({ error: "Bad input" })
-    }
-
-    if (img === null || img === undefined || img === "") {
-        return res.status(422).json({ error: "Bad input" })
-    }
-
-    if (additionalImgsURL === null || additionalImgsURL === undefined || additionalImgsURL === "") {
-        return res.status(422).json({ error: "Bad input" })
-    }
-
-    if (description === null || description === undefined || description === "") {
-        return res.status(422).json({ error: "Bad input" })
-    }
-
-    if (uuidv4_ === null || uuidv4_ === undefined || uuidv4_ === "") {
-        return res.status(422).json({ error: "Bad input" })
-    }
-
-    const newProduct = new Product({
-        name: name,
-        price: price,
-        img: img,
-        additionalImageUrls: additionalImgsURL,
-        description: description,
-        uuidv4_: uuidv4_
-    });
-
-    await newProduct.save();
-    res.status(200).send("Success");
-}))
-
-routerProduct.put('/updateProduct/:id', requireAdmin, asyncHandler(async (req, res) => {
-    const productId = req.params.id;
-    const { name, price, img, additionalImageUrls, description, uuidv4_ } = req.body;
-
-    const existingProduct = await Product.findById(productId);
-
-    if (!existingProduct) {
-        return res.status(404).send("Error: Product not found")
-    }
-
-    if (name !== undefined) {
-        existingProduct.name = name;
-    }
-    if (price !== undefined) {
-        existingProduct.price = price;
-    }
-
-    if (img !== undefined) {
-        existingProduct.img = img;
-    }
-
-    if (additionalImageUrls !== undefined) {
-        existingProduct.additionalImageUrls = additionalImageUrls;
-    }
-
-    if (description !== undefined) {
-        existingProduct.description = description;
-    }
-
-    if (uuidv4_ !== undefined) {
-        existingProduct.uuidv4_ = uuidv4_;
-    }
-
-    const updatedProduct = await existingProduct.save()
-
-    res.status(200).json(updatedProduct)
 }))
 
 // ---------------------------------------------------------------------------------------------

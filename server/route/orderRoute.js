@@ -4,34 +4,15 @@ import { sendMail } from '../services/emailService.js';
 import { createOrder as createPayPalOrder, captureOrder as capturePayPalOrder, getOrder as getPayPalOrder, assertPaid } from '../services/paypalService.js';
 import { capturedPayment, linkPayment, paymentFor, recordCaptured, recordCreated, recordFailed } from '../services/payments.js';
 import { priceFor, quoteShopOrder } from '../services/pricing.js';
-import { requireAdmin } from '../middleware/auth.js';
 import { asyncHandler } from "../middleware/asyncHandler.js"
 import { config } from '../config/env.js';
 import { HttpError } from '../utils/httpError.js';
 import { orderNumber } from '../utils/orderNumber.js';
 import { paymentLimiter, newOrderLimiter } from '../utils/security.js';
 import { clip, isEmail, isPayPalOrderId } from '../utils/validate.js';
-import { LEGACY_LIST_CAP, sendCapped } from '../utils/pagination.js';
 
 
 const routerOrder = express.Router();
-
-routerOrder.get('/getAllOrders', requireAdmin, asyncHandler(async (req, res) => {
-    // The old admin site wants a plain array. It is newest first and capped (docs/DATABASE.md): the dashboard's
-    // /admin/orders is the paginated way to read all of them.
-    const orders = await Order.find().sort({ createdAt: -1 }).limit(LEGACY_LIST_CAP).lean();
-    sendCapped(res, orders);
-}))
-
-routerOrder.get('/getOrder/:id', requireAdmin, asyncHandler(async (req, res) => {
-    const order = await Order.findById(req.params.id)
-
-    if (!order) {
-        return res.status(204).send("No Content");
-    }
-
-    res.status(200).send(order);
-}))
 
 const REQUIRED_ORDER_FIELDS = ['firstName', 'lastName', 'phone', 'email', 'street', 'city', 'state', 'postal', 'country'];
 
@@ -92,43 +73,18 @@ routerOrder.post('/newOrder', newOrderLimiter, asyncHandler(async (req, res) => 
         ...(paypalOrderId ? { paypalOrderId, paymentVerified: true } : {}),
     });
 
-    if (paypalOrderId) await linkPayment(paypalOrderId, { kind: 'order', id: order._id, amount: totalPrice });
-
-    // The order is already saved, so a mail failure must not fail the request; sendMail logs it.
-    sendMail({
-        to: [fields.email],
-        subject: 'We Got Your Order: Thanks for ordering',
-        text: `Order number ${orderNumber(order._id)} (reference ${order._id}), we will let you know when your order ships :)`,
-    });
+    if (paypalOrderId) {
+        await linkPayment(paypalOrderId, { kind: 'order', id: order._id, amount: totalPrice });
+        // The order is already saved, so a mail failure must not fail the request; sendMail logs it. Only a PAID order
+        // is confirmed by mail (security review 06, finding 5): an unpaid one (possible while REQUIRE_PAYMENT_PROOF is
+        // off) must not make the church's Gmail write to an address a stranger typed. Plain text, server-made values only.
+        sendMail({
+            to: [fields.email],
+            subject: 'We Got Your Order: Thanks for ordering',
+            text: `Order number ${orderNumber(order._id)} (reference ${order._id}), we will let you know when your order ships :)`,
+        });
+    }
     res.status(201).send("Created");
-}))
-
-routerOrder.patch('/orderSent/:id', requireAdmin, asyncHandler(async (req, res) => {
-    const orderId = req.params.id;
-
-    const updatedOrder = await Order.findByIdAndUpdate(orderId, { done: true }, { new: true });
-
-    if (!updatedOrder) {
-        return res.status(204).send("No Content");
-    }
-
-    const email = updatedOrder.email;
-
-    const emailMsg = {
-        to: [email],
-        subject: 'Your order was shipped',
-        text: `Your order number ${orderId} was shipped :)`,
-    };
-
-    if (!(await sendMail(emailMsg))) {
-        return res.status(500).send("Error: Couldn't send email")
-    }
-    res.status(200).send("Success")
-}))
-
-routerOrder.delete('/deleteOrder/:id', requireAdmin, asyncHandler(async (req, res) => {
-    await Order.findByIdAndDelete(req.params.id);
-    res.status(200).send("Success");
 }))
 
 routerOrder.post('/create_order', paymentLimiter, asyncHandler(async (req, res) => {

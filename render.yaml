@@ -19,16 +19,17 @@ services:
       - key: ENVIRONMENT
         sync: false
       # 'true' = /order/newOrder and /candle/lightACandle refuse requests without a PayPal-verified payment (docs/SECURITY.md).
-      # Switch on once every client sends paypalOrderId (the new site does; the old CRA site does not).
+      # The public site (web/) always sends paypalOrderId and the old CRA site is retired: set it to 'true' in the Render
+      # dashboard (the value here only applies when the service is synced from this blueprint).
       - key: REQUIRE_PAYMENT_PROOF
         value: 'false'
       # The server builds the indexes its models declare when it starts (docs/DATABASE.md section 5): the payment ledger depends on them.
       # AUTO_INDEX=false turns that off (large database only: then run server/scripts/ensure-indexes.js --apply).
       - key: DATABASEURL
         sync: false
+      # Signs the dashboard's sessions and derives the TOTP-encryption and audit-hash keys: never rotate it casually
+      # (docs/ADMIN.md). ADMIN_PASSWORD is no longer used (the legacy sign-in was removed): delete it in the dashboard.
       - key: JWT_SECRET
-        sync: false
-      - key: ADMIN_PASSWORD
         sync: false
       - key: MAIL_FROM
         sync: false

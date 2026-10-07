@@ -1250,7 +1250,7 @@
         "intro": "Alle Felder werden benötigt, damit wir antworten können.",
         "fullName": "Vollständiger Name",
         "email": "E-Mail-Adresse",
-        "phone": "Telefonnummer",
+        "phone": "Telefonnummer (optional)",
         "phoneHint": "Mit Ländervorwahl, zum Beispiel +49 151 2345 6789.",
         "msg": "Ihre Nachricht",
         "counter": "{count} / {max}",

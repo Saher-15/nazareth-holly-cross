@@ -1,6 +1,5 @@
 import express from 'express';
 import Review from '../model/review.js';
-import { requireAdmin } from '../middleware/auth.js';
 import { asyncHandler } from '../middleware/asyncHandler.js';
 import { strictLimiter } from '../utils/security.js';
 import { isText } from '../utils/validate.js';
@@ -47,12 +46,6 @@ routerReview.post('/addReview', strictLimiter, asyncHandler(async (req, res) => 
   const review = new Review({ fullName, email, place, phone, msg });
   await review.save(); // a ValidationError here becomes a 400 in the error handler
   res.status(201).json(publicReview(review));
-}));
-
-// Admin: delete a review
-routerReview.delete('/:id', requireAdmin, asyncHandler(async (req, res) => {
-  await Review.findByIdAndDelete(req.params.id);
-  res.json({ message: 'Review deleted' });
 }));
 
 export default routerReview;

@@ -87,8 +87,8 @@ If the only owner loses the authenticator: ADMIN.md section 6 (`db.admins.update
 |---|---|
 | `JWT_SECRET` | already set (32+ random characters). Signs the dashboard tokens and encrypts the TOTP secrets: rotating it signs everyone out and makes stored second-factor secrets unreadable (ADMIN.md 6). |
 | `DATABASEURL` | already set. New collections `adminSession`, `auditLog` appear on first use; check in Atlas that both have their TTL index. |
-| `ADMIN_ORIGINS` | optional here: the exact origin of the dashboard, e.g. `https://nazaretholycrossadmin.netlify.app` or its own domain, no trailing slash. The dashboard calls the API from its server, so CORS is not involved; this only matters if a browser ever calls the API directly. (`https://nazaretholycrossadmin.netlify.app` and its deploy previews are allowed already.) Set it to the final domain anyway, so it is right the day it is needed. |
-| `ADMIN_PASSWORD` | still required by the server's start-up check until the old admin is retired (ADMIN.md 7). |
+| `ADMIN_ORIGINS` | optional here: the exact origin of the dashboard, e.g. `https://admin.nazarethholycross.com`, no trailing slash. The dashboard calls the API from its server, so CORS is not involved; this only matters if a browser ever calls the API directly. (The old `nazaretholycrossadmin.netlify.app` addresses are no longer trusted.) Set it to the final domain anyway, so it is right the day it is needed. |
+| `ADMIN_PASSWORD` | **no longer used: delete it.** The legacy shared-password sign-in was removed on 2026-10-07 (ADMIN.md 7); the server neither requires nor reads it, and while it is still set the start-up log says "ADMIN_PASSWORD is set but no longer used". Render -> the service -> **Environment** -> delete `ADMIN_PASSWORD` -> Save (a redeploy follows; nothing else changes). **Do not touch `JWT_SECRET`.** |
 | `ADMIN_APP_URL` | optional: the dashboard's address, used in the password-reset e-mail (`<ADMIN_APP_URL>/reset-password?token=...`). Default `https://admin.nazarethholycross.com`; set it when the dashboard gets its own domain. |
 | `ADMIN_BOOTSTRAP_EMAILS` | optional: who may create the first owner by e-mail while no account exists (section 2). Default `nazarethholycross@gmail.com`; empty turns it off. |
 | `MAIL_FROM`, `MAIL_APP_PASSWORD` | already set: the password-reset mails use them. |
@@ -154,7 +154,9 @@ Then in a browser on the preview: sign in with the real owner (section 2), check
 
 7. Merge (with the owner's approval) -> production deploys. Add the custom domain (HTTPS) under **Domain
    management**, then put that exact origin into Render's `ADMIN_ORIGINS`.
-8. When the old admin site is no longer used: retire the shared-password routes of the API (ADMIN.md 7).
+8. The API's legacy sign-ins and routes are already removed (ADMIN.md 7). What is left for the owner: delete
+   `ADMIN_PASSWORD` on Render (section 3), and unpublish the old Netlify site `nazaretholycrossadmin` or make it redirect
+   to the dashboard (it still serves the 2024 page, wired to a Heroku app that no longer exists).
 
 ## 5. Roll back
 
@@ -162,8 +164,9 @@ Then in a browser on the preview: sign in with the real owner (section 2), check
   `main` with a pull request. To go back to the old admin repository entirely: Continuous deployment -> Link to a
   different repository -> the old one, and restore its old base directory and build command (write them down before
   step 2 of section 4: Netlify shows them on that page).
-* **API**: Render -> the service -> Rollback to the previous deploy. The new routes are additive; the old admin site keeps
-  working on the legacy routes either way (ADMIN.md 7).
+* **API**: Render -> the service -> Rollback to the previous deploy. Rolling back past 2026-10-07 brings the removed
+  legacy sign-ins back (and, while `ADMIN_PASSWORD` is deleted, that older API refuses to start: put it back first). Prefer
+  fixing forward with a pull request.
 * **A suspected stolen session**: change the password or disable and re-enable the account (all its sessions end at
   once); for everyone, rotate `JWT_SECRET` (ADMIN.md 6).
 
@@ -175,13 +178,13 @@ Then in a browser on the preview: sign in with the real owner (section 2), check
 - [ ] The first owner created by the owner himself (section 2: the e-mail link, or the terminal on his own machine);
       two-factor on for every account; no shared accounts.
 - [ ] Atlas: `adminSession` and `auditLog` have their TTL indexes; the `admins` collection holds only real people.
-- [ ] Render: `JWT_SECRET` is 32+ random characters and is not `ADMIN_PASSWORD`; `ADMIN_ORIGINS` set to the final domain.
+- [ ] Render: `JWT_SECRET` is 32+ random characters; `ADMIN_PASSWORD` deleted; `ADMIN_ORIGINS` set to the final domain.
 - [ ] Netlify: `ADMIN_API_URL` set; the deploy preview answered 200 on `/login` and `/robots.txt`; CSP and cookie flags
       checked (section 4).
 - [ ] Firebase Storage rules: the old admin wrote to the bucket without signing in. Restrict writes (signed-in only, image
       types, a size limit) before enabling upload, or leave the upload variables empty and paste image addresses.
 - [ ] A phone and a desktop look at every page (and Hebrew, Arabic once).
-- [ ] The old admin site stays up only until the owner has used the new one for a few days; then retire its routes.
+- [x] The old admin site's API routes and sign-ins are removed (2026-10-07). - [ ] Unpublish the old Netlify site itself.
 
 ## 7. Day to day
 
@@ -206,7 +209,10 @@ broadcast. To print a parcel's address: the order's drawer -> **Packing slip** (
   report for a terminal, plus payments that were started and never captured (check PayPal for those).
 * **Every day, automatically**: the backup (docs/BACKUP.md). Look at `LAST_OK.txt` in the backup folder once a week. Test a restore once now and every few months.
 * **Every month**: `node scripts/check-data.js` (structural check, read-only) and `node scripts/ensure-indexes.js` (dry run: must say every index exists).
-* **A person asks for their data to be erased**: dashboard -> Privacy requests (owner), docs/DATABASE.md section 8.
+* **A person asks for their data to be erased**: dashboard -> Privacy requests (owner), docs/DATABASE.md section 8. Type
+  their e-mail address and, to include prayers and product reviews, the name and the country exactly as
+  published. After the erase the page lists what it could **not** erase: delete their mails in Gmail's Sent folder, note
+  when the last backup with their data expires (30 days), check recordings, and tell them what remains.
 * **Deploying the release that added the ledger**, in this order: backup; `check-data.js`; `ensure-indexes.js --apply` (creates the unique `payment.paypalOrderId` index, because the production server no longer builds indexes by itself);
   merge (the API first, then the website, then the dashboard: old clients keep working at every step); look at Payments the next day. Details: docs/DATABASE.md section 10.
 
@@ -240,7 +246,7 @@ is ignored); cookie flags (`HttpOnly`, `SameSite=Strict`, `__Host-` + `Secure` o
 logout and every proxied verb (cross-site, missing, `null`, look-alike and userinfo origins; `Sec-Fetch-Site`); the
 proxy allow-list (path traversal, encoded slashes, absolute URLs, other auth routes, bodies over 64 KB, non-JSON); no
 SSRF (the proxy only builds `ADMIN_API_URL + a fixed allow-listed path`, redirects are errors); open redirects after
-sign-in (`?next=` is same-site relative only); header injection (Node refuses CR/LF in forwarded headers); user
+sign-in (`?next=` is same-site relative only; a tab hidden in it was found and fixed on 2026-10-07, see below); header injection (Node refuses CR/LF in forwarded headers); user
 enumeration (one generic 401, same work and the same timing for unknown users); lockout bypass by case, full-width
 or zero-width characters (the name must match exactly, so a variant is just an unknown user); TOTP replay (a code
 works once, older steps are refused); role escalation (`PATCH` own role is refused, a role is read from the database on
@@ -260,6 +266,10 @@ and in `server`.
 | `mailto:` links built from visitor-typed addresses: the public forms allow `?` and `&` in the local part, so `a?cc=x&bcc=y@host` would pre-fill Cc/Bcc in the admin's mail client | address is URL-encoded and checked; unit tests |
 | Product photo upload trusted the browser's file type (taken from the file name) | the first bytes must be a JPEG, PNG, GIF, WebP or AVIF image and match the claimed type; the upload is sent with the detected type; unit tests |
 | The API's text sanitizer is described as "escapes & < >" but keeps `<b>`, `<i>` and `<a href>` | documented (ADMIN.md 4.2); the dashboard never renders stored text as HTML (React escapes it, no `dangerouslySetInnerHTML` anywhere) |
+| 2026-10-07 review: the legacy `POST /auth/login` and `/admin/login` gave any account (viewer, disabled, locked, TOTP on) an 8-hour, unrevocable, unaudited token for every order and message | both sign-ins, `requireAdmin` and every legacy route removed; a legacy token is refused everywhere (ADMIN.md 7; `server/__tests__/auth.test.js`) |
+| 2026-10-07 review: `?next=/%09/evil.example` passed `safeNextPath` (browsers drop the tab and go to `//evil.example`) | strict check after decoding and URL normalisation (`admin/src/lib/session.ts`; 60 cases in `tests/unit/session.test.ts`) |
+| 2026-10-07 review: a stolen session could enrol its own authenticator | `POST /admin/auth/totp/setup` needs the current password; Settings asks for it |
+| 2026-10-07 review: CORS trusted every `*--nazarethholycross.netlify.app` and the old admin site | only `deploy-preview-<digits>--nazarethholycross.netlify.app` and the production origins |
 
 **Open (not fixed; decide before or soon after launch)**:
 
