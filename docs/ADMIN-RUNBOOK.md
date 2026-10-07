@@ -98,7 +98,7 @@ If the only owner loses the authenticator: ADMIN.md section 6 (`db.admins.update
 
 | Variable | Value |
 |---|---|
-| `ADMIN_API_URL` | `https://nazareth-holy-cross-api.onrender.com` (the API origin, no trailing slash). Server-side only; never prefixed `NEXT_PUBLIC_`. |
+| `ADMIN_API_URL` | `https://nazareth-holy-cross-api-production.up.railway.app` (the API origin, no trailing slash). Server-side only; never prefixed `NEXT_PUBLIC_`. |
 | `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET` (+ the other `NEXT_PUBLIC_FIREBASE_*` in `admin/.env.example`) | optional: turns on product-photo upload. Public values, not secrets. Empty = the form asks for pasted https image addresses. |
 | `ADMIN_IMG_SRC` | optional: extra https image hosts for the Content-Security-Policy. |
 | `ADMIN_TIMEZONE` | optional, default `Asia/Jerusalem`. |

@@ -9,7 +9,7 @@ const test = base.extend<{ apiGuard: string[] }>({
   apiGuard: [
     async ({ page }, use) => {
       const writes: string[] = [];
-      await page.route(/nazareth-holy-cross-api\.onrender\.com/, (route) => {
+      await page.route(/nazareth-holy-cross-api-production\.up\.railway\.app/, (route) => {
         const request = route.request();
         if (request.method() === 'GET' || request.method() === 'HEAD') return route.continue();
         writes.push(`${request.method()} ${request.url()}`);
