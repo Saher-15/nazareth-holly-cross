@@ -372,6 +372,8 @@ describe('the hero film', () => {
     expect(filmAllowed({ ...good, saveData: true, effectiveType: '4g' })).toBe(false);
     expect(filmAllowed({ ...good, reducedMotion: true })).toBe(false);
     expect(filmAllowed({ ...good, wide: false })).toBe(false);
+    expect(filmAllowed({ ...good, connectionType: 'cellular' })).toBe(false);
+    expect(filmAllowed({ ...good, connectionType: 'wifi' })).toBe(true);
   });
 
   it('plays the whole tour in parts where the browser plays H.264, and the short loop otherwise', () => {

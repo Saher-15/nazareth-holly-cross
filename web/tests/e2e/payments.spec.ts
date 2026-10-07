@@ -159,12 +159,45 @@ test.describe('checkout', () => {
     await mockNetwork(page);
     await seedCart(page);
     await page.goto('/en/checkout');
+    // Reading the form with the keyboard first (Tab through, nothing typed) flags nothing.
+    await page.getByLabel('First name').focus();
+    for (let i = 0; i < 11; i += 1) await page.keyboard.press('Tab');
+    await expect(page.getByText('This field is required.')).toHaveCount(0);
+    // Typed in and left: that field is checked.
+    await page.getByLabel('City').fill('x');
+    await page.getByLabel('City').fill('');
+    await page.getByLabel('City').blur();
+    await expect(page.getByText('This field is required.')).toHaveCount(1);
+
+    // The field is already marked invalid, with its error linked, at the moment it gets the focus (a screen reader
+    // reads it once, then): recorded by a listener that runs before anything else can change the page.
+    await page.evaluate(() => {
+      document.addEventListener(
+        'focusin',
+        (e) => {
+          const el = e.target as HTMLElement;
+          const ids = (el.getAttribute('aria-describedby') ?? '').split(' ').filter(Boolean);
+          (window as unknown as { atFocus: unknown }).atFocus = {
+            invalid: el.getAttribute('aria-invalid'),
+            description: ids.map((id) => document.getElementById(id)?.textContent ?? '').join(' '),
+          };
+        },
+        { once: true, capture: true },
+      );
+    });
     await page.getByRole('button', { name: 'Continue to payment' }).click();
 
-    await expect(page.locator('main').getByRole('alert')).toHaveText('Please correct the highlighted fields.');
+    // One alert that names the fields, in screen order.
+    await expect(page.locator('main').getByRole('alert')).toHaveText(
+      'Please check these fields: First name, Last name, Email, Confirmation email, Phone, Country, Street address, City, State / province, and Postal / ZIP code.',
+    );
     await expect(page.getByText('This field is required.')).toHaveCount(10);
     await expect(page.getByLabel('First name')).toBeFocused();
     await expect(page.getByLabel('First name')).toHaveAttribute('aria-invalid', 'true');
+    expect(await page.evaluate(() => (window as unknown as { atFocus: unknown }).atFocus)).toEqual({
+      invalid: 'true',
+      description: 'This field is required.',
+    });
 
     await page.getByLabel('Email', { exact: true }).fill('maria@example');
     await page.getByLabel('Confirmation email').fill('someone@else.com');

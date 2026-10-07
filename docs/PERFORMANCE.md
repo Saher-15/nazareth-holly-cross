@@ -314,3 +314,143 @@ above improve. Lighthouse itself is not a CI step (it needs a browser path and t
   connection; a "load more" button or smaller tiles would help.
 * `/product/catalog` and the other storefront routes are not in `web/integrated`'s `server/` (section 6).
 
+## 10. Review 05 fixes (2026-10-07, branch `fix/perf-seo-a11y`)
+
+The production review of 2026-10-07 (`review/05-performance-seo.md`, outside the repository) measured the live site.
+This section says what changed in the code, with numbers from the same probe before and after, both on the local
+production build (`next build` + `next start`, Microsoft Edge, unthrottled, cold cache, 5 s after `load`; JavaScript
+sizes are the files' Brotli size at quality 11, so they compare with each other, not with Netlify's transfer sizes).
+`tests/qa/measure-perf.mjs` gives the throttled numbers.
+
+### 10.1 Before and after (local build)
+
+| Page | JavaScript (br) | Zod in it | Fonts | `?_rsc` prefetches desktop / phone |
+|---|---|---|---|---|
+| `/en` | 249 -> **194 kB** | 71 -> 20 kB | 90 kB | 15 / 15 -> **6 / 6** |
+| `/en/sites/latin` | 247 -> **177 kB** | 71 -> 20 kB | 90 kB | 16 / 16 -> 4 / 2 |
+| `/en/shop` | 258 -> **195 kB** | 71 -> 20 kB | 90 kB | 27 / 23 -> 12 / 8 |
+| `/en/shop/<id>` | 254 -> **193 kB** | 71 -> 20 kB | 90 kB | 20 / 22 -> 8 / 8 |
+| `/en/live` | 254 -> **183 kB** | 71 -> 20 kB | 90 kB | 15 / 15 -> 0 / 0 |
+| `/en/prayers` | 240 -> **170 kB** | 71 -> 20 kB | 90 kB | 20 / 16 -> 5 / 2 |
+| `/en/checkout` | 249 -> **194 kB** | 71 -> 20 kB | 90 kB | 42 / 16 -> 2 / 2 |
+| `/he` | 249 -> 194 kB | 71 -> 20 kB | 193 -> **121 kB** (6 -> 4 files) | 15 -> 6 |
+| `/ar` | 249 -> 194 kB | 71 -> 20 kB | 328 -> **262 kB** (9 -> 5 files) | 15 -> 6 |
+
+| Check | Before | After |
+|---|---|---|
+| Empty-cart checkout, CLS, phone (CPU x4, 1.6 Mbit/s) / desktop | 0.135 / 0.053 | **0.019 / 0.009** |
+| Hero film on a phone held sideways (823 x 412) / a tablet (820 x 1180) | 2,805 kB / 2,805 kB in 8 s | **0 / 0** |
+| Hero film on a desktop (1440 x 900) | first part (as designed) | unchanged |
+| Product page: title, description, canonical, Open Graph in `<head>` (curl, Googlebot and a browser UA) | in `<body>` whenever the catalogue read was slower than the shell (always on production) | **always in `<head>`** |
+| `/en/shop/000000000000000000000000`, `/en/shop/abc` | 200 (soft 404) | **404** |
+| `/latin`, `/product/<id>`, `/checkoutcandle`, `/checkoutdonation` | 307 then 308 (production) | **one 308** to `/<language>/...` |
+| `http://www.nazarethholycross.com/...` | 301 + 301 | one 301 (`netlify.toml`; check after the deploy) |
+| Product URLs in the sitemap | 868 (62 x 14) | **62** (English only, see 10.3) |
+
+Not re-measured: Lighthouse and the throttled probe against production (they need a deploy). Expected there: JavaScript
+272-293 kB -> about 210-225 kB transfer, about 70 % fewer server renders per page view (prefetches), `/ar` fonts
+330 -> about 262 kB.
+
+### 10.2 What changed
+
+* **Zod in the browser** (finding 4): browser modules (`lib/liveStatus.ts`, behind the header's live dot on every page;
+  `lib/paypal.ts`, `lib/apiClient.ts`; the product review form through the new `lib/postedReview.ts`) use `zod/mini`;
+  full `zod` stays on the server (`lib/api.ts`, `lib/broadcastSchedule.ts`). Three client imports had pulled `lib/api.ts`
+  (and with it the whole library and its 40 locales) into pages: the shop filter's category list and the shop query
+  helpers (both now read `lib/shop/terms.ts`), and the calendar's broadcast length (now in `lib/time.ts`).
+  `lib/zodConfig.ts` imports `config` from `zod/mini` (the jitless setting lives in Zod's shared core, so it still
+  applies to the server's full schemas). `npm run scan:bundle` now fails when the full library reaches a browser chunk.
+* **Prefetches** (finding 7): the header and footer links (`<IntentLink>`, `components/layout/IntentLink.tsx`) prefetch
+  only when the pointer rests on one, it gets keyboard focus or a finger touches it, so the click still finds the page
+  warm; links in the page itself (hero buttons, product cards) keep Next's prefetch on entering the screen. The "same
+  route twice" of the review is Next 16's two requests per route (the route tree and the segment), not two menus.
+* **Hero film** (finding 6): `WIDE_QUERY` in `HeroVideo.tsx` is now
+  `(min-width: 768px) and (min-height: 500px) and (hover: hover) and (pointer: fine)`, and `navigator.connection.type`
+  `cellular` (Chrome on Android) also stops it. Decision: **tablets do not get the film** (touch screens, often on mobile
+  data); a laptop with a touch screen still does (its main pointer is the trackpad). Tested in `performance.spec.ts`
+  (phone in landscape, tablet) and `home-today.test.tsx`.
+* **Fonts** (finding 9): Next 16 decides font preloads per route module, not per language, so the two Latin files cannot
+  be left out on `/he` and `/ar` without a second layout. Instead they are now **used** there: the Hebrew and Arabic
+  stacks put the Latin face first (`tokens.css`), so digits, spaces, punctuation and Latin words come from the
+  already-preloaded file and the Hebrew/Arabic faces' own Latin files (74 kB on `/he`, 68 kB on `/ar`) are never
+  fetched. IBM Plex Sans Arabic is loaded in 400 and 700 only (500 dropped: one 34 kB file less on Arabic form pages).
+  Trap avoided: the stacks name `'Inter'` and `'EB Garamond'` directly, because `var(--font-sans)` ends in next/font's
+  size-adjusted fallback, a local Arial that has Hebrew and Arabic letters and would draw them instead of Heebo
+  (`perf-assets.test.ts` checks the names). Still open: Amiri's Arabic file (106 kB) keeps `/ar` at 262 kB, over the
+  250 kB budget (the budget test visits English pages only, so it does not fail); next/font cannot subset Google fonts
+  by text. Options for the owner and the designer: a lighter Arabic serif for headings, or a self-hosted subset of
+  Amiri (`next/font/local`).
+* **Product pages** (findings 1 and 13): `shop/[id]/loading.tsx` is gone (its Suspense boundary sent the shell, and with
+  it status 200, before the product was known) and `htmlLimitedBots: /.*/` in `next.config.ts` makes Next put metadata
+  in `<head>` for every user agent (by default Googlebot got it streamed into `<body>`). Every `generateMetadata` reads
+  cached translations or the catalogue read the page awaits anyway, so the blocking costs no measurable time (local
+  TTFB of a product page 22-30 ms before and after). A slow navigation still shows the branded `<LoadingScreen>` after
+  0.9 s (DESIGN-GUIDE section 6). `shop.spec.ts` checks both (head for Googlebot and a browser, 404 for unknown ids).
+* **Legacy redirects** (finding 12): see `docs/INFRASTRUCTURE.md` 1.4.
+* **Empty-cart checkout** (finding 11): the empty state keeps the placeholder's height (`min-height: 460px`, the
+  negative top margin paid back below), so the footer does not move when the browser finds the cart empty.
+
+### 10.3 Product pages and languages (finding 5): the SEO decision
+
+A product's name and description exist only in English (the API and the dashboard have no per-language fields), so
+`/fr/shop/<id>` ... `/ar/shop/<id>` were 13 copies of English text labelled French ... Arabic (`lang`, `og:locale`,
+hreflang, sitemap): 806 duplicate URLs, 65 % of the sitemap. Chosen: **one indexed page per product, the English one.**
+Every language version of a product page names `/en/shop/<id>` as its canonical URL and carries no hreflang set, the
+sitemap lists only the 62 English product URLs (without alternates), and the Product structured data and the shop's
+`ItemList` point to the English URL (`PRODUCT_CONTENT_LOCALE` in `components/shop/seo.ts`). The translated pages stay
+for visitors (the frame, the price, the buttons, the reviews are in their language), and their product name and
+description are marked `lang="en"` so screen readers pronounce them as English (WCAG 3.1.2, review 03 finding 12).
+Not `noindex` on the other languages: Google advises against combining `noindex` with a canonical that points elsewhere.
+Why not "keep all 14 and mark the text `lang="en"`": it leaves 806 thin duplicates competing with the English page
+under a language label they are not written in. **When the catalogue gets translated names and descriptions**, switch
+products back to `localeAlternates()` and list every language in the sitemap.
+
+### 10.4 Product photos: the Firebase cache metadata (owner step, finding 2)
+
+Netlify's Image CDN serves `/_next/image` with the caching of the original photo, and Firebase serves the originals with
+`private, max-age=0`, so every product photo is re-optimised on every view (1.4-1.9 s each on production). Nothing in
+this repository can override that: the `netlify.toml` rule for `/_next/image*` was ignored (removed now,
+`INFRASTRUCTURE.md` 3.4), `images.minimumCacheTTL` does not apply on Netlify, and loading the originals directly
+(`unoptimized`) would send 74-897 kB files without resizing or AVIF, and they are uncached too. The fix is metadata on
+the files, once, by the owner:
+
+1. Install the Google Cloud CLI (<https://cloud.google.com/sdk/docs/install>) and run `gcloud auth login` with the Google
+   account that owns the Firebase project `nazareth-holy-cross`.
+2. Look first (read only): `gcloud storage ls gs://nazareth-holy-cross.appspot.com/images/` and
+   `gcloud storage objects describe "gs://nazareth-holy-cross.appspot.com/images/<one folder>/<one file>" --format="value(cache_control)"`
+   (empty today).
+3. Set a year of public caching on every product photo (a photo never changes in place: a new upload gets a new name
+   and a new download token):
+   `gcloud storage objects update "gs://nazareth-holy-cross.appspot.com/images/**" --cache-control="public, max-age=31536000, immutable"`
+   (with the older tool: `gsutil -m setmeta -h "Cache-Control:public, max-age=31536000, immutable" "gs://nazareth-holy-cross.appspot.com/images/**"`).
+   Only `images/`: not `videos/` (a video re-uploaded under the same name would stay stale in browsers for a year).
+   Firebase's download URLs (`firebasestorage.googleapis.com/...?alt=media&token=...`) then answer with that header.
+4. Check, no deploy needed: request one product photo through the site three times in a row
+   (`curl -s -o /dev/null -D - "https://nazarethholycross.com/_next/image?url=<encoded firebase url>&w=828&q=75" -H "accept: image/avif,image/webp"`,
+   the address is in any product page's HTML). Expected from the second request on: `Cache-Control: public, max-age=...`,
+   a `Cache-Status` hit and well under 0.3 s instead of 1.4 s. If Netlify still answers `private`, the fallback is a
+   custom `loader` that asks for fixed widths of pre-generated copies (a code change with its own review).
+5. **New uploads.** The dashboard's uploader (`admin/src/lib/firebase-upload.ts`) sends the file without metadata, so a
+   new photo would again be `private, max-age=0`. Follow-up for the dashboard (not changed here): send
+   `cacheControl: 'public, max-age=31536000, immutable'` with the upload (Firebase's multipart upload, or a metadata
+   `PATCH` of the object right after it), or repeat step 3 after adding products.
+
+### 10.5 HTML caching and the CSP nonce (finding 3): evaluated, not changed
+
+Every page is rendered per request because `src/proxy.ts` gives each response a fresh CSP nonce and the layout reads it
+(section 4). The review proposed hashes instead of nonces on the pages without PayPal. Evaluated and **not done**,
+because the policy would not stay strict:
+
+* Next.js writes each page's React Server Component payload as **inline** scripts (`self.__next_f.push(...)`), different
+  on every page and every deploy. Without a nonce they need a `sha256-...` per script in each page's header; Next 16
+  cannot produce such per-page hash lists, and `experimental.sri` only adds `integrity` to the external chunk files.
+  The other way out, `'unsafe-inline'`, is exactly what the strict policy exists to avoid.
+* The pre-paint accessibility script (`A11Y_PREPAINT`, a constant hash) and the JSON-LD blocks (data, never executed)
+  would be fine; they are not the obstacle.
+* Static pages would also need their policy in `next.config.ts` headers and a second, nonce-based one for checkout,
+  candle and donate: two models to keep in step, and a security review (`docs/SECURITY.md`).
+
+So the trade-off stays: per-request HTML (no CDN cache, TTFB 280-600 ms on production) for a nonce-strict CSP. This
+branch lowers the cost instead: about 70 % fewer server renders per page view (10.2) and about 55-70 kB less
+JavaScript. Cached HTML later means Next's Partial Prerendering / Cache Components once Next can nonce a cached shell,
+or a post-build step that writes per-page hash policies, each with its own security review.

@@ -1,4 +1,4 @@
-import type { z } from 'zod';
+import { safeParse, type output, type ZodMiniType } from 'zod/mini';
 import { API_URL } from './config';
 
 // Browser-side calls to the API (forms, payments). Pages that only read data
@@ -17,15 +17,15 @@ type PostOptions = {
  * typed; one that does not match is reported as a 502 instead of being trusted.
  */
 export function postJson(path: string, body: unknown, options?: PostOptions): Promise<PostResult<unknown>>;
-export function postJson<S extends z.ZodType>(
+export function postJson<S extends ZodMiniType>(
   path: string,
   body: unknown,
   options: PostOptions & { schema: S },
-): Promise<PostResult<z.output<S>>>;
+): Promise<PostResult<output<S>>>;
 export async function postJson(
   path: string,
   body: unknown,
-  { schema, timeoutMs }: PostOptions & { schema?: z.ZodType } = {},
+  { schema, timeoutMs }: PostOptions & { schema?: ZodMiniType } = {},
 ): Promise<PostResult<unknown>> {
   let res: Response;
   let text: string;
@@ -55,7 +55,7 @@ export async function postJson(
   }
   if (!schema) return { ok: true, data };
 
-  const parsed = schema.safeParse(data);
+  const parsed = safeParse(schema, data);
   if (!parsed.success) return { ok: false, status: 502, error: 'unexpected response' };
   return { ok: true, data: parsed.data };
 }

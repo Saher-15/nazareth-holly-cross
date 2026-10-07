@@ -583,6 +583,7 @@
     "galleryLabel": "Foto di {name}",
     "enlarge": "Ingrandisci l’immagine: {name}",
     "zoomHint": "Passa sopra l’immagine per ingrandirla.",
+    "zoomKeys": "Da tastiera: Invio o + ingrandisce, le frecce spostano l’immagine, Invio o - riduce.",
     "close": "Chiudi",
     "showImage": "Mostra l’immagine {n} di {total}",
     "colour": "Colore",
@@ -646,6 +647,7 @@
       "continue": "Continua al pagamento",
       "edit": "Modifica i dati",
       "fixErrors": "Correggi i campi evidenziati.",
+      "errorSummary": "Controlla questi campi: {fields}.",
       "errors": {
         "required": "Questo campo è obbligatorio.",
         "tooLong": "Usa al massimo {max} caratteri.",

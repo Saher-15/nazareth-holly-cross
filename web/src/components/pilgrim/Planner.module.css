@@ -1,5 +1,8 @@
 .layout {
   display: grid;
+  /* One column that never grows past the page (an `auto` track grew to the widest chip or pace card: at 320 px with
+     200% text the form was 343 px wide and cut off at the end, in Hebrew at the start). */
+  grid-template-columns: minmax(0, 1fr);
   gap: clamp(20px, 3vw, 32px);
   align-items: start;
 }
@@ -15,6 +18,8 @@
 
 /* ---- the three questions ---- */
 .form {
+  min-width: 0;
+  max-width: 100%;
   padding: clamp(18px, 3vw, 28px);
 }
 .formTitle {
@@ -56,6 +61,8 @@
 .pace {
   position: relative;
   display: inline-flex;
+  max-width: 100%;
+  min-width: 0;
   cursor: pointer;
 }
 .segment input,
@@ -83,6 +90,8 @@
 }
 .chip > span {
   display: inline-flex;
+  min-width: 0;
+  overflow-wrap: anywhere;
   align-items: center;
   min-height: 44px;
   padding: 8px 16px;
@@ -112,10 +121,12 @@
 }
 .paces {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 8px;
 }
 .pace {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 2px;
   padding: 10px 14px;
   border-radius: var(--radius-sm);
@@ -128,6 +139,7 @@
   background: var(--gold-soft);
 }
 .paceName {
+  overflow-wrap: anywhere;
   font-weight: 700;
   color: var(--white);
 }

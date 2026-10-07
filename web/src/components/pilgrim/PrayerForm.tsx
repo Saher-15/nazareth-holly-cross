@@ -1,10 +1,12 @@
 'use client';
 
 import { useEffect, useId, useRef, useState, useTransition, type ChangeEvent, type FormEvent } from 'react';
+import { flushSync } from 'react-dom';
 import { useLocale, useTranslations } from 'next-intl';
 import { useCountryOptions } from '@/components/checkout/useCountryOptions';
 import { useRouter } from '@/i18n/navigation';
 import { postJson } from '@/lib/apiClient';
+import { moveFocus } from '@/lib/motion';
 import {
   categoryKey,
   emptyPrayer,
@@ -45,13 +47,14 @@ export default function PrayerForm({ titleId }: { titleId: string }) {
   const countryRef = useRef<HTMLSelectElement>(null);
   const prayerRef = useRef<HTMLTextAreaElement>(null);
   const doneRef = useRef<HTMLHeadingElement>(null);
+  const alertRef = useRef<HTMLParagraphElement>(null);
   const focusFirst = useRef(false);
 
   useEffect(() => {
-    if (status === 'sent') doneRef.current?.focus();
+    if (status === 'sent') moveFocus(doneRef.current);
     if (status === 'idle' && focusFirst.current) {
       focusFirst.current = false;
-      nameRef.current?.focus();
+      moveFocus(nameRef.current);
     }
   }, [status]);
 
@@ -69,10 +72,12 @@ export default function PrayerForm({ titleId }: { titleId: string }) {
     e.preventDefault();
     if (status === 'sending') return;
     const found = validatePrayer(values);
-    setErrors(found);
+    // Rendered first (aria-invalid and the linked error text), then focused: a screen reader reads the field once, on
+    // focus, so the error must already be there (WCAG 3.3.1, 4.1.3).
+    flushSync(() => setErrors(found));
     const invalid = firstInvalidPrayerField(found);
     if (invalid) {
-      ({ name: nameRef, country: countryRef, prayer: prayerRef })[invalid].current?.focus();
+      moveFocus(({ name: nameRef, country: countryRef, prayer: prayerRef })[invalid].current);
       return;
     }
 
@@ -80,8 +85,12 @@ export default function PrayerForm({ titleId }: { titleId: string }) {
     setSubmitError(null);
     const result = await postJson('/prayer/create', toPrayerPayload(values));
     if (!result.ok) {
-      setStatus('idle');
-      setSubmitError(prayerSubmitError(result.status));
+      flushSync(() => {
+        setStatus('idle');
+        setSubmitError(prayerSubmitError(result.status));
+      });
+      // The button kept the focus while sending; the refusal is where the visitor goes next.
+      moveFocus(alertRef.current);
       return;
     }
     setValues((prev) => ({ ...emptyPrayer, name: prev.name, country: prev.country }));
@@ -234,7 +243,7 @@ export default function PrayerForm({ titleId }: { titleId: string }) {
           <p className={styles.public}>{t('form.public')}</p>
 
           {submitError && (
-            <p className={styles.alert} role="alert">
+            <p ref={alertRef} tabIndex={-1} className={styles.alert} role="alert">
               {t(`errors.${submitError}`)}
             </p>
           )}
@@ -242,7 +251,8 @@ export default function PrayerForm({ titleId }: { titleId: string }) {
           <button
             type="submit"
             className={`ui-btn ui-btn--gold ${styles.submit}`}
-            disabled={status === 'sending'}
+            // aria-disabled, not disabled: a disabled button drops the keyboard focus to <body> while sending.
+            aria-disabled={status === 'sending' || undefined}
             aria-busy={status === 'sending' || undefined}
           >
             {status === 'sending' ? t('form.sending') : t('form.submit')}

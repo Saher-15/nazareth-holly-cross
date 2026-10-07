@@ -232,6 +232,36 @@ test.describe('product page', () => {
     await expectNoSidewaysScroll(page);
   });
 
+  test('puts title, description, canonical and Open Graph in <head> for browsers and for Googlebot', async ({ request, isMobile }) => {
+    test.skip(isMobile, 'markup is the same on every device');
+    const shop = await (await request.get('/en/shop')).text();
+    const id = /href="\/en\/shop\/([a-f\d]{24})"/.exec(shop)?.[1];
+    expect(id, 'a product link on /en/shop').toBeTruthy();
+    const agents = {
+      googlebot: 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
+      browser: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0 Safari/537.36',
+    };
+    for (const [who, ua] of Object.entries(agents)) {
+      for (const locale of ['en', 'he']) {
+        const html = await (await request.get(`/${locale}/shop/${id}`, { headers: { 'user-agent': ua } })).text();
+        const head = html.slice(0, html.indexOf('</head>'));
+        const where = `${who} /${locale}`;
+        expect(head, `${where} title`).toMatch(/<title>[^<]+<\/title>/);
+        expect(head, `${where} description`).toMatch(/<meta name="description" content="[^"]+"/);
+        // One indexed page per product: the English one (components/shop/seo.ts), and no hreflang set.
+        expect(head, `${where} canonical`).toMatch(new RegExp(`<link rel="canonical" href="[^"]+/en/shop/${id}"`));
+        expect(head, `${where} hreflang`).not.toContain('hrefLang=');
+        expect(head, `${where} og:title`).toMatch(/<meta property="og:title" content="[^"]+"/);
+      }
+    }
+  });
+
+  test('an unknown or malformed id answers 404, not 200', async ({ request }) => {
+    for (const id of ['000000000000000000000000', 'not-a-product']) {
+      expect((await request.get(`/en/shop/${id}`)).status(), id).toBe(404);
+    }
+  });
+
   test('an unknown or malformed id shows "Product not found"', async ({ page }) => {
     for (const id of ['000000000000000000000000', 'not-a-product']) {
       await page.goto(`/en/shop/${id}`);

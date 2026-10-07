@@ -1,8 +1,10 @@
 'use client';
 
 import { useEffect, useId, useRef, useState, type ChangeEvent, type FormEvent } from 'react';
+import { flushSync } from 'react-dom';
 import { useTranslations } from 'next-intl';
 import { postJson } from '@/lib/apiClient';
+import { moveFocus } from '@/lib/motion';
 import {
   CONTACT_FIELDS,
   CONTACT_RULES,
@@ -41,13 +43,14 @@ export default function ContactForm({ titleId }: { titleId: string }) {
     msg: null,
   });
   const doneRef = useRef<HTMLHeadingElement>(null);
+  const alertRef = useRef<HTMLParagraphElement>(null);
   const focusFirst = useRef(false);
 
   useEffect(() => {
-    if (status === 'sent') doneRef.current?.focus();
+    if (status === 'sent') moveFocus(doneRef.current);
     if (status === 'idle' && focusFirst.current) {
       focusFirst.current = false;
-      refs.current.fullName?.focus();
+      moveFocus(refs.current.fullName);
     }
   }, [status]);
 
@@ -65,18 +68,24 @@ export default function ContactForm({ titleId }: { titleId: string }) {
     e.preventDefault();
     if (status === 'sending') return;
     const found = validateContact(values);
-    setErrors(found);
+    // Rendered first (aria-invalid and the linked error text), then focused: a screen reader reads the field once, on
+    // focus, so the error must already be there (WCAG 3.3.1, 4.1.3).
+    flushSync(() => setErrors(found));
     const invalid = firstInvalidContactField(found);
     if (invalid) {
-      refs.current[invalid]?.focus();
+      moveFocus(refs.current[invalid]);
       return;
     }
     setStatus('sending');
     setSubmitError(null);
     const result = await postJson('/contact/contact_us_request', toContactPayload(values));
     if (!result.ok) {
-      setStatus('idle');
-      setSubmitError(contactSubmitError(result.status));
+      flushSync(() => {
+        setStatus('idle');
+        setSubmitError(contactSubmitError(result.status));
+      });
+      // The button kept the focus while sending; the refusal is where the visitor goes next.
+      moveFocus(alertRef.current);
       return;
     }
     setValues(emptyContact);
@@ -176,7 +185,7 @@ export default function ContactForm({ titleId }: { titleId: string }) {
           })}
 
           {submitError && (
-            <p className={styles.alert} role="alert">
+            <p ref={alertRef} tabIndex={-1} className={styles.alert} role="alert">
               {t(`errors.${submitError}`)}
             </p>
           )}
@@ -184,7 +193,8 @@ export default function ContactForm({ titleId }: { titleId: string }) {
           <button
             type="submit"
             className={`ui-btn ui-btn--gold ${styles.submit}`}
-            disabled={status === 'sending'}
+            // aria-disabled, not disabled: a disabled button drops the keyboard focus to <body> while sending.
+            aria-disabled={status === 'sending' || undefined}
             aria-busy={status === 'sending' || undefined}
           >
             {status === 'sending' ? t('form.sending') : t('form.submit')}

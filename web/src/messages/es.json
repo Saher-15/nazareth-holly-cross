@@ -583,6 +583,7 @@
     "galleryLabel": "Fotos de {name}",
     "enlarge": "Ampliar imagen: {name}",
     "zoomHint": "Pasa el cursor sobre la imagen para ampliarla.",
+    "zoomKeys": "Con el teclado: Intro o + amplía, las flechas mueven la imagen, Intro o - la reduce.",
     "close": "Cerrar",
     "showImage": "Mostrar imagen {n} de {total}",
     "colour": "Color",
@@ -646,6 +647,7 @@
       "continue": "Continuar al pago",
       "edit": "Editar datos",
       "fixErrors": "Corrige los campos marcados.",
+      "errorSummary": "Revisa estos campos: {fields}.",
       "errors": {
         "required": "Este campo es obligatorio.",
         "tooLong": "Usa como máximo {max} caracteres.",

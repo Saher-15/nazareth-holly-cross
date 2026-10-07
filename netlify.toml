@@ -50,19 +50,25 @@
     [headers.values]
     Cache-Control = "public, max-age=86400, stale-while-revalidate=604800"
 
-# EXPERIMENT (check on a deploy preview, docs/INFRASTRUCTURE.md section 3.4): the optimised photos of /_next/image come
-# back with `private,max-age=0`, so the browser asks again for each of them on every page view (about 1.1 s each,
-# measured). If Netlify applies this rule to them the answer becomes cacheable for a day. If it does not, nothing changes.
-[[headers]]
-  for = "/_next/image*"
-    [headers.values]
-    Cache-Control = "public, max-age=86400, stale-while-revalidate=604800"
+# Optimised product photos (/_next/image): no rule here. A [[headers]] rule for /_next/image* was tried (2026-10-06)
+# and measured on production on 2026-10-07: Netlify's Image CDN ignores it and keeps `private,max-age=0`, because it
+# follows the Cache-Control of the original file, and Firebase serves the originals with `private, max-age=0`. The fix
+# is the Firebase metadata (owner step: docs/PERFORMANCE.md, "Product photos").
 
 # One address for the site: the free *.netlify.app name answers the same pages as the real domain (measured: HTTP 200),
 # which splits search engines and links between two hosts. Only this exact host is redirected; deploy previews
 # (deploy-preview-N--nazarethholycross.netlify.app) and branch deploys keep working.
 [[redirects]]
   from = "https://nazarethholycross.netlify.app/*"
+  to = "https://nazarethholycross.com/:splat"
+  status = 301
+  force = true
+
+# http://www.… took two hops (301 to https://www.…, then 301 to the apex). One hop to the canonical address instead.
+# (https://www.… -> apex is Netlify's primary-domain redirect and is already one hop.) Check on the live site after the
+# deploy: curl -sI http://www.nazarethholycross.com/en/shop must answer 301 with location https://nazarethholycross.com/en/shop.
+[[redirects]]
+  from = "http://www.nazarethholycross.com/*"
   to = "https://nazarethholycross.com/:splat"
   status = 301
   force = true

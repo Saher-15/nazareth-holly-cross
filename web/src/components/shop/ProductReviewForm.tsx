@@ -1,9 +1,12 @@
 'use client';
 
 import { useEffect, useId, useRef, useState, type ChangeEvent, type FormEvent } from 'react';
+import { flushSync } from 'react-dom';
 import { useTranslations } from 'next-intl';
-import { productReviewSchema, type ProductReview } from '@/lib/api';
+import type { ProductReview } from '@/lib/api';
 import { postJson } from '@/lib/apiClient';
+import { moveFocus } from '@/lib/motion';
+import { parsePostedReview } from '@/lib/postedReview';
 import {
   emptyReview,
   firstInvalidField,
@@ -45,16 +48,17 @@ export default function ProductReviewForm({ productId, productName, onPosted }: 
   const [hover, setHover] = useState<number | null>(null);
 
   const doneRef = useRef<HTMLParagraphElement>(null);
+  const alertRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
-    if (status === 'sent') doneRef.current?.focus();
+    if (status === 'sent') moveFocus(doneRef.current);
   }, [status]);
 
   // The rating's id is its first star, so focusing "the rating" lands on the radio group.
   const fieldId = (field: ReviewField) => (field === 'rating' ? `${id}-rating-1` : `${id}-${field}`);
   const errorId = (field: ReviewField) => `${id}-${field}-error`;
   const counterId = `${id}-counter`;
-  const focusField = (field: ReviewField) => document.getElementById(fieldId(field))?.focus();
+  const focusField = (field: ReviewField) => moveFocus(document.getElementById(fieldId(field)));
 
   const update = (next: ReviewValues, field: ReviewField) => {
     setValues(next);
@@ -69,7 +73,9 @@ export default function ProductReviewForm({ productId, productName, onPosted }: 
     if (status === 'sending') return;
 
     const found = validateReview(values);
-    setErrors(found);
+    // Rendered first (aria-invalid and the linked error text), then focused: a screen reader reads the field once, on
+    // focus, so the error must already be there (WCAG 3.3.1, 4.1.3).
+    flushSync(() => setErrors(found));
     const invalid = firstInvalidField(found);
     if (invalid) {
       focusField(invalid);
@@ -81,16 +87,20 @@ export default function ProductReviewForm({ productId, productName, onPosted }: 
     const payload = toReviewPayload(values, website);
     const result = await postJson(`/product/${encodeURIComponent(productId)}/reviews`, payload);
     if (!result.ok) {
-      setStatus('idle');
-      setSubmitError(submitErrorKey(result.status));
+      flushSync(() => {
+        setStatus('idle');
+        setSubmitError(submitErrorKey(result.status));
+      });
+      // The button kept the focus while sending; the refusal is where the visitor goes next.
+      moveFocus(alertRef.current);
       return;
     }
 
     // Show the review at once: the API's copy when it sent one back, else what was typed.
-    const parsed = productReviewSchema.safeParse(result.data);
+    const parsed = parsePostedReview(result.data);
     onPosted(
-      parsed.success
-        ? parsed.data
+      parsed
+        ? parsed
         : {
             name: payload.name,
             country: payload.country,
@@ -261,7 +271,7 @@ export default function ProductReviewForm({ productId, productName, onPosted }: 
           </div>
 
           {submitError && (
-            <p className={styles.alert} role="alert" data-testid="review-error">
+            <p ref={alertRef} tabIndex={-1} className={styles.alert} role="alert" data-testid="review-error">
               <ShopIcon name="alert" className={styles.alertIcon} />
               <span>{t(`errors.${submitError}`)}</span>
             </p>
@@ -270,7 +280,8 @@ export default function ProductReviewForm({ productId, productName, onPosted }: 
           <button
             type="submit"
             className={`ui-btn ui-btn--gold ${styles.submit}`}
-            disabled={status === 'sending'}
+            // aria-disabled, not disabled: a disabled button drops the keyboard focus to <body> while sending.
+            aria-disabled={status === 'sending' || undefined}
             aria-busy={status === 'sending' || undefined}
           >
             <ShopIcon name="pen" />

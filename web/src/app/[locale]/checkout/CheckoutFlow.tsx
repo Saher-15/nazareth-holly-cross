@@ -15,13 +15,13 @@ import Field, { invalidProps, TextField } from '@/components/checkout/Field';
 import PayPalPanel from '@/components/checkout/LazyPayPalPanel';
 import StepIndicator, { type FlowStep } from '@/components/checkout/StepIndicator';
 import CurrencyNote from '@/components/intl/CurrencyNote';
+import ErrorSummary from '@/components/checkout/ErrorSummary';
 import { countryName, countryOptions } from '@/components/checkout/countries';
 import { fieldOrder, useErrorText, usePendingPayments, useSaveAfterPayment, useStepFocus, useValidatedForm } from '@/components/checkout/hooks';
 import { BasketIcon } from '@/components/checkout/icons';
 import {
   buildOrderBody,
   emptyContact,
-  hasErrors,
   LIMITS,
   validateContact,
   type ContactForm,
@@ -143,6 +143,19 @@ export default function CheckoutFlow() {
     );
   }
 
+  // The fields' names, for their labels and for the error summary.
+  const labels: Record<Key, string> = {
+    firstName: tr('paypalComponent.firstName'),
+    lastName: tr('paypalComponent.lastName'),
+    email: tr('paypalComponent.email'),
+    confirmEmail: tr('paypalComponent.confirmEmail'),
+    phone: t('form.phone'),
+    country: t('form.country'),
+    street: tr('paypalComponent.street'),
+    city: tr('paypalComponent.city'),
+    state: tr('paypalComponent.state'),
+    postal: tr('paypalComponent.postal'),
+  };
   const text = (key: Key, label: string, extra: InputHTMLAttributes<HTMLInputElement> = {}) => (
     <TextField
       id={id(key)}
@@ -174,34 +187,34 @@ export default function CheckoutFlow() {
           {step === 'details' ? (
             <form className={shared.form} onSubmit={onSubmit} noValidate>
               <div className={shared.fields}>
-                {text('firstName', tr('paypalComponent.firstName'), {
+                {text('firstName', labels.firstName, {
                   autoComplete: 'given-name',
                   maxLength: LIMITS.name,
                 })}
-                {text('lastName', tr('paypalComponent.lastName'), {
+                {text('lastName', labels.lastName, {
                   autoComplete: 'family-name',
                   maxLength: LIMITS.name,
                 })}
-                {text('email', tr('paypalComponent.email'), {
+                {text('email', labels.email, {
                   type: 'email',
                   autoComplete: 'email',
                   dir: 'ltr',
                   maxLength: LIMITS.email,
                 })}
-                {text('confirmEmail', tr('paypalComponent.confirmEmail'), {
+                {text('confirmEmail', labels.confirmEmail, {
                   type: 'email',
                   autoComplete: 'email',
                   dir: 'ltr',
                   maxLength: LIMITS.email,
                 })}
-                {text('phone', t('form.phone'), {
+                {text('phone', labels.phone, {
                   type: 'tel',
                   autoComplete: 'tel',
                   inputMode: 'tel',
                   dir: 'ltr',
                   maxLength: LIMITS.phone,
                 })}
-                <Field id={id('country')} label={t('form.country')} error={countryError}>
+                <Field id={id('country')} label={labels.country} error={countryError}>
                   <select
                     id={id('country')}
                     name="country"
@@ -224,23 +237,21 @@ export default function CheckoutFlow() {
                   </select>
                 </Field>
                 <div className={shared.wide}>
-                  {text('street', tr('paypalComponent.street'), {
+                  {text('street', labels.street, {
                     autoComplete: 'street-address',
                     maxLength: LIMITS.street,
                   })}
                 </div>
-                {text('city', tr('paypalComponent.city'), { autoComplete: 'address-level2', maxLength: LIMITS.city })}
-                {text('state', tr('paypalComponent.state'), { autoComplete: 'address-level1', maxLength: LIMITS.state })}
-                {text('postal', tr('paypalComponent.postal'), {
+                {text('city', labels.city, { autoComplete: 'address-level2', maxLength: LIMITS.city })}
+                {text('state', labels.state, { autoComplete: 'address-level1', maxLength: LIMITS.state })}
+                {text('postal', labels.postal, {
                   autoComplete: 'postal-code',
                   dir: 'ltr',
                   maxLength: LIMITS.postal,
                 })}
               </div>
 
-              {form.submitted && hasErrors(form.errors) && (
-                <Notice role="alert">{t('form.fixErrors')}</Notice>
-              )}
+              <ErrorSummary fields={form.invalid(ORDER).map((key) => labels[key])} />
               <div className={shared.actions}>
                 <button type="submit" className={`ui-btn ui-btn--gold ${shared.btnLg} ${shared.btnBlock}`}>
                   {t('form.continue')}

@@ -1,8 +1,9 @@
 'use client';
 
 import { useCallback, useState } from 'react';
-import { z } from 'zod';
 import './zodConfig';
+// zod/mini, not zod: browser code (see zodConfig.ts).
+import * as z from 'zod/mini';
 import { postJson } from './apiClient';
 
 // What is being paid for. The API decides the amount; the browser only says what.
@@ -15,7 +16,7 @@ export type PaymentPayload =
 // paid, so the page must not say "you have not been charged" and must not invite a second payment.
 export type PaymentErrorCode = 'start' | 'notCompleted' | 'unconfirmed' | 'paypal';
 
-const createdSchema = z.object({ id: z.string().min(1) });
+const createdSchema = z.object({ id: z.string().check(z.minLength(1)) });
 const captureSchema = z.object({ id: z.string(), status: z.string() });
 type Capture = z.output<typeof captureSchema>;
 

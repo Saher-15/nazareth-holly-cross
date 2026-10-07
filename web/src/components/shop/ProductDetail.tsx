@@ -230,6 +230,7 @@ export default function ProductDetail({ product, header, footer }: Props) {
         alt={product.name}
         closeLabel={t('close')}
         hint={t('zoomHint')}
+        keysHint={t('zoomKeys')}
         onClose={() => setZoomOpen(false)}
       />
     </div>

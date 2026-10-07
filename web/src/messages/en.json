@@ -583,6 +583,7 @@
     "galleryLabel": "Photos of {name}",
     "enlarge": "Enlarge image: {name}",
     "zoomHint": "Move over the picture to zoom in.",
+    "zoomKeys": "Keyboard: Enter or + zooms in, the arrow keys move around the picture, Enter or - zooms out.",
     "close": "Close",
     "showImage": "Show image {n} of {total}",
     "colour": "Colour",
@@ -646,6 +647,7 @@
       "continue": "Continue to payment",
       "edit": "Edit details",
       "fixErrors": "Please correct the highlighted fields.",
+      "errorSummary": "Please check these fields: {fields}.",
       "errors": {
         "required": "This field is required.",
         "tooLong": "Please use at most {max} characters.",

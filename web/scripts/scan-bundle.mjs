@@ -1,4 +1,5 @@
-// Fails when a server-side secret could have ended up in what the browser downloads.
+// Fails when a server-side secret could have ended up in what the browser downloads, or when the full zod
+// library (server-only, ~70 kB compressed) reached a browser chunk.
 //
 //   npm run build && npm run scan:bundle
 //
@@ -55,9 +56,23 @@ for (const sub of DIRS) {
   }
 }
 
+// Weight check (docs/PERFORMANCE.md): the full Zod library, with the error texts of all its languages, is about
+// 70 kB compressed. It belongs on the server; browser code uses `zod/mini` (src/lib/zodConfig.ts). The classic API
+// registers its schema classes under these names (zod/mini's are "ZodMiniString" ...), and its Polish error text
+// stands for the bundled locales.
+const FULL_ZOD = [/["']ZodString["']/, /["']ZodObject["']/, /Nieprawidłow/];
+const chunksDir = path.join(ROOT, 'static', 'chunks');
+for (const file of files(chunksDir)) {
+  if (!file.endsWith('.js')) continue;
+  const text = readFileSync(file, 'utf8');
+  if (FULL_ZOD.some((pattern) => pattern.test(text))) {
+    findings.push(`full zod library in a browser chunk (use zod/mini): ${path.relative(ROOT, file)}`);
+  }
+}
+
 console.log(`Scanned ${scanned} build files.`);
 if (findings.length) {
-  console.error(`\nPossible secrets in the build output (${findings.length}):\n${findings.map((f) => `  - ${f}`).join('\n')}`);
+  console.error(`\nPossible secrets or oversized libraries in the build output (${findings.length}):\n${findings.map((f) => `  - ${f}`).join('\n')}`);
   process.exit(1);
 }
-console.log('No secrets found in the build output.');
+console.log('No secrets and no full zod library found in the build output.');

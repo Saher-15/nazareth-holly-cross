@@ -231,3 +231,31 @@ describe('Strict-Transport-Security on the proxy\'s own redirects', () => {
     expect(ask({ path: '/en/shop', acceptLanguage: 'en' }).headers.get('strict-transport-security')).toBeNull();
   });
 });
+
+describe('addresses of the previous site', () => {
+  it.each([
+    ['/latin', 'he', '/he/sites/latin'],
+    ['/maryswell', 'fr', '/fr/sites/maryswell'],
+    ['/product/66c7060187e696939c4ab0f8', 'de', '/de/shop/66c7060187e696939c4ab0f8'],
+    ['/checkoutcandle', 'en', '/en/candle'],
+    ['/checkoutdonation', 'ar', '/ar/donate'],
+  ])('%s goes in one permanent hop to the page in the visitor\'s language', (path, language, target) => {
+    const response = ask({ path, acceptLanguage: language });
+    expect(response.status).toBe(308);
+    expect(redirectTo(response)).toBe(target);
+    // The target depends on the language: never cached as it is.
+    expect(response.headers.get('cache-control')).toMatch(/no-store/);
+    expect(response.headers.get('vary')).toMatch(/Accept-Language/);
+  });
+
+  it('sends a crawler to English, so the answer is stable for search engines', () => {
+    const response = ask({ path: '/greek', userAgent: GOOGLEBOT, acceptLanguage: 'ru' });
+    expect(response.status).toBe(308);
+    expect(redirectTo(response)).toBe('/en/sites/greek');
+  });
+
+  it('leaves new addresses with the usual temporary language redirect', () => {
+    expect(ask({ path: '/shop', acceptLanguage: 'it' }).status).toBe(307);
+    expect(ask({ path: '/sites/latin', acceptLanguage: 'it' }).status).toBe(307);
+  });
+});

@@ -583,6 +583,7 @@
     "galleryLabel": "Foto’s van {name}",
     "enlarge": "Afbeelding vergroten: {name}",
     "zoomHint": "Beweeg de muis over de afbeelding om in te zoomen.",
+    "zoomKeys": "Met het toetsenbord: Enter of + zoomt in, de pijltjestoetsen verschuiven de foto, Enter of - zoomt uit.",
     "close": "Sluiten",
     "showImage": "Afbeelding {n} van {total} tonen",
     "colour": "Kleur",
@@ -646,6 +647,7 @@
       "continue": "Verder naar betalen",
       "edit": "Gegevens wijzigen",
       "fixErrors": "Corrigeer de gemarkeerde velden.",
+      "errorSummary": "Controleer deze velden: {fields}.",
       "errors": {
         "required": "Dit veld is verplicht.",
         "tooLong": "Maximaal aantal tekens: {max}.",

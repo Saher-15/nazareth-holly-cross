@@ -1,4 +1,6 @@
-import { CATEGORIES, MATERIALS, type CatalogProduct, type Category, type Material } from '@/lib/api';
+import type { CatalogProduct } from '@/lib/api';
+// Plain constants, not from lib/api: this module runs in the browser (the shop's grid), see lib/shop/terms.ts.
+import { CATEGORIES, MATERIALS, type Category, type Material } from './terms';
 
 // Shop filtering, sorting and paging as pure functions, so the URL is the single source of
 // truth (/shop?category=rosaries&material=gold&sort=bestselling) and every view is shareable.

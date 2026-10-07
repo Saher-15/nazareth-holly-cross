@@ -60,6 +60,13 @@ describe('netlify.toml', () => {
     // not a catch-all: previews live on other host names and must keep working
     expect(toml).not.toMatch(/from\s*=\s*"\/\*"/);
   });
+
+  it('sends http://www straight to the https apex in one hop', () => {
+    const block = /\[\[redirects\]\][^[]*http:\/\/www\.nazarethholycross\.com[^[]*/.exec(toml)?.[0] ?? '';
+    expect(block).toMatch(/to\s*=\s*"https:\/\/nazarethholycross\.com\/:splat"/);
+    expect(block).toMatch(/status\s*=\s*301/);
+    expect(block).toMatch(/force\s*=\s*true/);
+  });
 });
 
 describe('public/.well-known/security.txt', () => {

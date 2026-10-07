@@ -324,8 +324,11 @@ name the colours without backticks, so the table test above does not read them a
 | Hebrew | Frank Ruhl Libre | Heebo | `--font-he-serif`, `--font-he-sans` |
 | Arabic | Amiri | IBM Plex Sans Arabic | `--font-ar-serif`, `--font-ar-sans` |
 
-`--serif` and `--sans` (in `tokens.css`) switch to the Hebrew or Arabic pair under `:root:lang(he)` and
-`:root:lang(ar)`, falling back to the Latin pair, then to system fonts. `--symbols` is for glyphs a page font may
+`--serif` and `--sans` (in `tokens.css`) add the Hebrew or Arabic pair under `:root:lang(he)` and
+`:root:lang(ar)`, **after** the Latin pair: the Latin faces have no Hebrew or Arabic letters, so those come from the
+script's face, while digits, spaces, punctuation and Latin words use the Latin file that is already preloaded (the
+script faces' own Latin files are then never downloaded: 74 kB less on a Hebrew page, 68 kB on an Arabic one). IBM
+Plex Sans Arabic is loaded in 400 and 700 only (a 500 label shows in 400 in Arabic). `--symbols` is for glyphs a page font may
 lack (the 14 language names in the menu, rating glyphs). Only the two Latin files are preloaded; the other
 scripts download by unicode-range only on pages that show them. Never add a second instance of the same family
 (duplicate downloads), never name a typeface in a component stylesheet (`font-family` must be `var(--serif)`,

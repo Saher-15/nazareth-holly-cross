@@ -11,12 +11,12 @@ import Field, { invalidProps, TextField } from '@/components/checkout/Field';
 import PayPalPanel from '@/components/checkout/LazyPayPalPanel';
 import StepIndicator, { type FlowStep } from '@/components/checkout/StepIndicator';
 import CurrencyNote from '@/components/intl/CurrencyNote';
+import ErrorSummary from '@/components/checkout/ErrorSummary';
 import { fieldOrder, useErrorText, useSaveAfterPayment, useStepFocus, useValidatedForm } from '@/components/checkout/hooks';
 import { LockIcon } from '@/components/checkout/icons';
 import {
   buildCandleBody,
   emptyCandle,
-  hasErrors,
   LIMITS,
   validateCandle,
   type CandleForm,
@@ -25,7 +25,6 @@ import {
 import shared from '@/components/checkout/checkout.module.css';
 import Flame from '@/components/ui/Flame';
 import { AlertIcon, CheckIcon } from '@/components/ui/icons';
-import Notice from '@/components/ui/Notice';
 import styles from './candle.module.css';
 
 type Key = keyof CandleForm;
@@ -81,6 +80,15 @@ export default function CandleFlow() {
     if (form.submit(ORDER)) setStep('payment');
   };
 
+  // The fields' names, for the error summary (the same texts as their labels and the church legend).
+  const labels: Record<Key, string> = {
+    church: tr('candle.selectChurch'),
+    firstName: tr('candle.firstName'),
+    lastName: tr('candle.lastName'),
+    email: tr('candle.yourEmail'),
+    confirmEmail: tr('candle.confirmEmail'),
+    prayer: tr('candle.yourPrayer'),
+  };
   const text = (key: Key, label: string, extra: InputHTMLAttributes<HTMLInputElement> = {}) => (
     <TextField
       id={id(key)}
@@ -108,7 +116,7 @@ export default function CandleFlow() {
           </h2>
 
           <fieldset className={styles.churches}>
-            <legend className={styles.legend}>{tr('candle.selectChurch')}</legend>
+            <legend className={styles.legend}>{labels.church}</legend>
             <div className={styles.churchGrid}>
               {CHURCH_CARDS.map((card, i) => {
                 const selected = values.church === card.value;
@@ -151,15 +159,15 @@ export default function CandleFlow() {
           </fieldset>
 
           <div className={shared.fields}>
-            {text('firstName', tr('candle.firstName'), { autoComplete: 'given-name', maxLength: LIMITS.name })}
-            {text('lastName', tr('candle.lastName'), { autoComplete: 'family-name', maxLength: LIMITS.name })}
-            {text('email', tr('candle.yourEmail'), {
+            {text('firstName', labels.firstName, { autoComplete: 'given-name', maxLength: LIMITS.name })}
+            {text('lastName', labels.lastName, { autoComplete: 'family-name', maxLength: LIMITS.name })}
+            {text('email', labels.email, {
               type: 'email',
               autoComplete: 'email',
               dir: 'ltr',
               maxLength: LIMITS.email,
             })}
-            {text('confirmEmail', tr('candle.confirmEmail'), {
+            {text('confirmEmail', labels.confirmEmail, {
               type: 'email',
               autoComplete: 'email',
               dir: 'ltr',
@@ -167,7 +175,7 @@ export default function CandleFlow() {
             })}
           </div>
 
-          <Field id={id('prayer')} label={tr('candle.yourPrayer')} error={prayerError}>
+          <Field id={id('prayer')} label={labels.prayer} error={prayerError}>
             <textarea
               id={id('prayer')}
               name="prayer"
@@ -182,9 +190,7 @@ export default function CandleFlow() {
             />
           </Field>
 
-          {form.submitted && hasErrors(form.errors) && (
-            <Notice role="alert">{t('form.fixErrors')}</Notice>
-          )}
+          <ErrorSummary fields={form.invalid(ORDER).map((key) => labels[key])} />
 
           <div className={styles.pay}>
             <p className={styles.price}>{t('candle.price', { price })}</p>

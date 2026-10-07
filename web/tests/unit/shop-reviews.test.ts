@@ -104,3 +104,20 @@ describe('mergeReviews', () => {
     expect(mergeReviews(null, []).summary).toMatchObject({ avg: 0, count: 0 });
   });
 });
+
+describe('the posted review (browser, zod/mini) reads answers exactly like the server schema', () => {
+  it('decodes the same text and fills the same defaults', async () => {
+    const { productReviewSchema } = await import('@/lib/api');
+    const { parsePostedReview } = await import('@/lib/postedReview');
+    const answers: unknown[] = [
+      { name: 'Tom &amp; Ann', country: 'Trinidad &amp; Tobago', rating: 5, title: 'Lovely &lt;3', comment: 'Wood &amp; glass' },
+      { _id: 'a1', name: 'Mia', country: null, rating: 4, title: undefined, comment: 'Good', createdAt: '2026-10-01T10:00:00Z' },
+      { name: 'Mia', rating: 4, comment: 'Good', createdAt: null },
+    ];
+    for (const answer of answers) expect(parsePostedReview(answer)).toEqual(productReviewSchema.parse(answer));
+    for (const bad of [null, 'Created', { name: 'x', rating: '5', comment: 'y' }, { rating: 5, comment: 'y' }]) {
+      expect(parsePostedReview(bad)).toBeNull();
+      expect(productReviewSchema.safeParse(bad).success).toBe(false);
+    }
+  });
+});

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { productSchema } from '@/lib/api';
-import { jsonLdHtml, localeAlternates, productJsonLd, shopJsonLd, summarize } from '@/components/shop/seo';
+import { jsonLdHtml, localeAlternates, productAlternates, productJsonLd, shopJsonLd, summarize } from '@/components/shop/seo';
 
 const product = productSchema.parse({
   _id: '66eb4665c7e03262956c8d1d',
@@ -12,14 +12,14 @@ const product = productSchema.parse({
 });
 
 describe('productJsonLd', () => {
-  it('describes the product with a USD offer and its page URL', () => {
+  it('describes the product with a USD offer and its canonical (English) page URL, in any language', () => {
     const ld = productJsonLd(product, 'he');
     expect(ld).toMatchObject({
       '@type': 'Product',
       name: 'Olive oil',
       sku: product._id,
       image: [product.img, product.additionalImageUrls[0]],
-      url: expect.stringMatching(/\/he\/shop\/66eb4665c7e03262956c8d1d$/),
+      url: expect.stringMatching(/\/en\/shop\/66eb4665c7e03262956c8d1d$/),
       offers: { price: '10.00', priceCurrency: 'USD', availability: 'https://schema.org/InStock' },
     });
   });
@@ -100,5 +100,18 @@ describe('localeAlternates', () => {
     const alt = localeAlternates('fr', '/shop');
     expect(alt?.canonical).toBe('/fr/shop');
     expect(alt?.languages).toMatchObject({ he: '/he/shop', ar: '/ar/shop', 'x-default': '/en/shop' });
+  });
+});
+
+describe('productAlternates', () => {
+  it('names the English page as canonical and lists no language versions (the product text is English only)', () => {
+    const alt = productAlternates('66eb4665c7e03262956c8d1d');
+    expect(alt?.canonical).toBe('/en/shop/66eb4665c7e03262956c8d1d');
+    expect(alt).not.toHaveProperty('languages');
+  });
+
+  it('the shop list links every product by its canonical page', () => {
+    const ld = shopJsonLd([product], 'he', { title: 't', description: 'd' });
+    expect(ld.mainEntity.itemListElement[0].url).toMatch(/\/en\/shop\/66eb4665c7e03262956c8d1d$/);
   });
 });

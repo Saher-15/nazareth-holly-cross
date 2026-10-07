@@ -48,6 +48,10 @@
 .frame[data-zoomed='true'] {
   cursor: crosshair;
 }
+.frame:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 3px;
+}
 .frame[data-zoomed='true'] .img {
   transform: scale(2.2);
 }
@@ -86,6 +90,21 @@
   .hint {
     display: none;
   }
+}
+/* The keyboard's way to zoom: read with the photo (aria-describedby), shown while the photo has keyboard focus. */
+.keysHint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  text-align: center;
+}
+.dialog:not(:has(.frame:focus-visible)) .keysHint {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 @keyframes fade {

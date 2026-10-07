@@ -1,9 +1,11 @@
 'use client';
 
 import { useEffect, useId, useRef, useState, useTransition, type ChangeEvent, type FormEvent } from 'react';
+import { flushSync } from 'react-dom';
 import { useLocale, useTranslations } from 'next-intl';
 import { useCountryOptions } from '@/components/checkout/useCountryOptions';
 import { postJson } from '@/lib/apiClient';
+import { moveFocus } from '@/lib/motion';
 import Notice from '@/components/ui/Notice';
 import { revalidateReviews } from './actions';
 import Icon from './Icon';
@@ -44,14 +46,15 @@ export default function ReviewForm({ titleId }: { titleId: string }) {
   const placeRef = useRef<HTMLSelectElement>(null);
   const msgRef = useRef<HTMLTextAreaElement>(null);
   const doneRef = useRef<HTMLHeadingElement>(null);
+  const alertRef = useRef<HTMLDivElement>(null);
   const firstFieldAfterReset = useRef(false);
   const posting = useRef(false); // state would still read "idle" when a second submit arrives in the same tick
 
   useEffect(() => {
-    if (status === 'sent') doneRef.current?.focus();
+    if (status === 'sent') moveFocus(doneRef.current);
     if (status === 'idle' && firstFieldAfterReset.current) {
       firstFieldAfterReset.current = false;
-      nameRef.current?.focus();
+      moveFocus(nameRef.current);
     }
   }, [status]);
 
@@ -61,7 +64,7 @@ export default function ReviewForm({ titleId }: { titleId: string }) {
 
   const focusField = (field: ReviewField) => {
     const refs = { fullName: nameRef, place: placeRef, msg: msgRef };
-    refs[field].current?.focus();
+    moveFocus(refs[field].current);
   };
 
   const onChange = (field: ReviewField) => (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -76,7 +79,9 @@ export default function ReviewForm({ titleId }: { titleId: string }) {
     if (posting.current) return;
 
     const found = validateReview(values);
-    setErrors(found);
+    // Rendered first (aria-invalid and the linked error text), then focused: a screen reader reads the field once, on
+    // focus, so the error must already be there (WCAG 3.3.1, 4.1.3).
+    flushSync(() => setErrors(found));
     const invalid = firstInvalidField(found);
     if (invalid) {
       focusField(invalid);
@@ -89,8 +94,12 @@ export default function ReviewForm({ titleId }: { titleId: string }) {
     const result = await postJson('/review/addReview', toReviewPayload(values));
     posting.current = false;
     if (!result.ok) {
-      setStatus('idle');
-      setSubmitError(submitErrorKey(result.status));
+      flushSync(() => {
+        setStatus('idle');
+        setSubmitError(submitErrorKey(result.status));
+      });
+      // The button kept the focus while sending; the refusal is where the visitor goes next.
+      moveFocus(alertRef.current);
       return;
     }
 
@@ -228,13 +237,16 @@ export default function ReviewForm({ titleId }: { titleId: string }) {
           </div>
 
           {submitError && (
-            <Notice role="alert">{tf(`errors.${submitError}`)}</Notice>
+            <Notice ref={alertRef} role="alert">
+              {tf(`errors.${submitError}`)}
+            </Notice>
           )}
 
           <button
             type="submit"
             className={`ui-btn ui-btn--gold ${styles.submit}`}
-            disabled={status === 'sending'}
+            // aria-disabled, not disabled: a disabled button drops the keyboard focus to <body> while sending.
+            aria-disabled={status === 'sending' || undefined}
             aria-busy={status === 'sending' || undefined}
           >
             <Icon name="feather" />

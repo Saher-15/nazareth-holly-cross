@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next';
 import { PLACE_SLUGS, placeHref } from '@/data/places/places';
 import { locales } from '@/i18n/routing';
 import { SITE_URL } from '@/lib/config';
+import { PRODUCT_CONTENT_LOCALE } from '@/components/shop/seo';
 import { loadCatalog } from '@/lib/shop/load';
 import { creditsPage, footerNav, legalNav, pilgrimNav } from '@/lib/site';
 
@@ -26,7 +27,7 @@ function sitemapEntries(entries: Entry[]): MetadataRoute.Sitemap {
   });
 }
 
-// Every page, the holy places and every product in the shop. The cart and the checkout are personal and
+// Every page in every language, the holy places, and every product in the shop (in English only, see below). The cart and the checkout are personal and
 // carry noindex, so they are left out. If the API cannot be reached, the sitemap still lists every other page.
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const pages: Entry[] = ['/', ...footerNav.map((item) => item.href), ...pilgrimNav.map((item) => item.href)].map((path) => ({
@@ -38,10 +39,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const legal: Entry[] = [...legalNav, creditsPage].map((item) => ({ path: item.href, priority: 0.4, changeFrequency: 'monthly' }));
   const places: Entry[] = PLACE_SLUGS.map((slug) => ({ path: placeHref(slug), priority: 0.6, changeFrequency: 'monthly' }));
   const catalog = await loadCatalog().catch(() => null);
-  const products: Entry[] = (catalog?.products ?? []).map((p) => ({
-    path: `/shop/${p._id}`,
-    priority: 0.5,
+  // A product only in its one indexed language, without alternates: its name and description are English in every
+  // language, and the other languages' pages name the English one as canonical (components/shop/seo.ts).
+  const products: MetadataRoute.Sitemap = (catalog?.products ?? []).map((p) => ({
+    url: urlFor(PRODUCT_CONTENT_LOCALE, `/shop/${p._id}`),
     changeFrequency: 'weekly',
+    priority: 0.5,
   }));
-  return sitemapEntries([...pages, ...places, ...legal, ...products]);
+  return [...sitemapEntries([...pages, ...places, ...legal]), ...products];
 }

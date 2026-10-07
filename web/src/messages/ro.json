@@ -583,6 +583,7 @@
     "galleryLabel": "Fotografii: {name}",
     "enlarge": "Măriți imaginea: {name}",
     "zoomHint": "Treceți cu cursorul peste imagine pentru a o mări.",
+    "zoomKeys": "De la tastatură: Enter sau + mărește, săgețile mută imaginea, Enter sau - micșorează.",
     "close": "Închideți",
     "showImage": "Afișați imaginea {n} din {total}",
     "colour": "Culoare",
@@ -646,6 +647,7 @@
       "continue": "Continuați spre plată",
       "edit": "Modificați datele",
       "fixErrors": "Corectați câmpurile evidențiate.",
+      "errorSummary": "Verificați aceste câmpuri: {fields}.",
       "errors": {
         "required": "Acest câmp este obligatoriu.",
         "tooLong": "Număr maxim de caractere: {max}.",

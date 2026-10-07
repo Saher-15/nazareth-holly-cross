@@ -6,10 +6,15 @@ import { prefersReducedMotion, subscribeMotion } from '@/lib/motion';
 import { HERO_TOUR_PARTS, HERO_TOUR_TYPE, HERO_VIDEO } from '@/lib/videos';
 import styles from './HomeHero.module.css';
 
-type NetworkInformationLike = EventTarget & { saveData?: boolean; effectiveType?: string };
+type NetworkInformationLike = EventTarget & { saveData?: boolean; effectiveType?: string; type?: string };
 
-/** The hero film is a wide, silent background: a phone-sized screen only gets the photo. */
-export const WIDE_QUERY = '(min-width: 768px)';
+/**
+ * The hero film is a wide, silent background for a desktop or laptop screen. Width alone is not enough: a phone held
+ * sideways is 800+ px wide (it downloaded 2.8 MB in 15 s), so the screen must also be at least 500 px tall (no phone
+ * in landscape is) and the main pointer a mouse or trackpad (`hover: hover` and `pointer: fine`), which leaves out
+ * phones and tablets, whatever way they are held: they are often on mobile data and get the photo only.
+ */
+export const WIDE_QUERY = '(min-width: 768px) and (min-height: 500px) and (hover: hover) and (pointer: fine)';
 
 /** How long before the end of a part the next one starts to load. */
 export const PRELOAD_NEXT_SECONDS = 8;
@@ -20,16 +25,18 @@ export type FilmConditions = {
   /** navigator.connection, where the browser has it (Chromium); Safari and Firefox do not tell. */
   saveData?: boolean;
   effectiveType?: string;
+  /** navigator.connection.type where the browser reports it (Chrome on Android): "cellular" means mobile data. */
+  connectionType?: string;
 };
 
 /**
  * Whether the hero film may play. Never for visitors who asked for less motion (system setting or the accessibility
- * panel's "Stop animations"), never on a screen narrower than 768 px, never when the browser says the visitor wants to
- * save data, and only on a connection the browser rates as good (effectiveType "4g"). A browser that does not report
- * its connection (Safari, Firefox) is treated as a good desktop connection.
+ * panel's "Stop animations"), only on a desktop-like screen (WIDE_QUERY: 768 px wide, 500 px tall, a mouse), never when the browser says the visitor wants to
+ * save data or is on mobile data, and only on a connection the browser rates as good (effectiveType "4g"). A browser
+ * that does not report its connection (Safari, Firefox) is treated as a good desktop connection.
  */
-export function filmAllowed({ reducedMotion, wide, saveData, effectiveType }: FilmConditions): boolean {
-  if (reducedMotion || !wide || saveData) return false;
+export function filmAllowed({ reducedMotion, wide, saveData, effectiveType, connectionType }: FilmConditions): boolean {
+  if (reducedMotion || !wide || saveData || connectionType === 'cellular') return false;
   return effectiveType === undefined || effectiveType === '4g';
 }
 
@@ -56,6 +63,7 @@ function videoAllowed() {
     wide: window.matchMedia?.(WIDE_QUERY).matches ?? true,
     saveData: info?.saveData,
     effectiveType: info?.effectiveType,
+    connectionType: info?.type,
   });
 }
 

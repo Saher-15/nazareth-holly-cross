@@ -80,6 +80,14 @@ Fixes in this change (`netlify.toml`): the `netlify.app` address now redirects (
 chain of three is rare (typed by hand, old links) and each redirect is 70-150 ms; HSTS preload (below) removes the `http`
 hops for returning visitors. The `/` -> `/en` redirect is deliberate (language negotiation) and cannot be cached.
 
+**2026-10-07 (branch `fix/perf-seo-a11y`, review 05 finding 12):** `netlify.toml` now sends `http://www.…/*` straight to
+`https://nazarethholycross.com/:splat` (301, one hop instead of two; check after the deploy with
+`curl -sI http://www.nazarethholycross.com/en/shop`: one 301 whose `location` is the apex). The old site's addresses
+(`/latin`, `/product/<id>`, `/checkoutcandle`, `/checkoutdonation`) used to take a temporary hop first (307 `/latin` ->
+`/en/latin`, then 308 -> `/en/sites/latin`): `src/proxy.ts` now answers them with **one 308** straight to the page in the
+visitor's language (`src/lib/legacyPaths.ts`; English for crawlers, `no-store` and `Vary: Accept-Language, Cookie`
+because the target depends on the language). `next.config.ts` keeps only the language-prefixed forms (`/en/latin`, 308).
+
 ### 1.5 HSTS and security headers
 
 On a page (`/en`): `Strict-Transport-Security: max-age=63072000; includeSubDomains; preload`, a nonce-based
@@ -226,6 +234,26 @@ and payments (CORS allows only the real origins, checked live: apex, `www`, the 
 
 ### 2.4 Region advice (Render vs Atlas vs visitors)
 
+**Update 2026-10-07 (review 05, owner decision, nothing changed in the repository):** the unknowns below are now known.
+Atlas is in **AWS Frankfurt** (section 6.1) and the API on Render in **Oregon** (`render.yaml`): production's
+`/health/deep` reported `database.latencyMs` **143-144 ms** for a single ping, i.e. every database call of every API
+request crosses the Atlantic and the United States. Measured API answers (warm, from Israel): `/product/getNProducts`
+0.55-1.05 s, `/live/status` 0.27-0.56 s, `/live/schedule` 0.24-0.47 s. Every JSON answer is `cf-cache-status: DYNAMIC`
+although it sends `s-maxage` (Cloudflare does not cache JSON by default). The service is still on Render's **free plan**
+(`plan: free` in `render.yaml`) while PayPal is **live**. What the owner should decide, in this order:
+
+1. **Render Starter (about US$7 a month) before relying on live payments.** The free plan sleeps after 15 minutes
+   without traffic (30-60 s to wake, section 2.1); the keep-alive job hides it most of the time, but a customer who meets
+   a sleeping API at "Pay" is a lost sale, and the free plan has no guarantee.
+2. **Put the API next to the database: a new Render service in Frankfurt** (Render cannot move a service; steps in
+   point 3 below), then the Netlify function region to `eu-central-1` (Netlify -> Site configuration -> Functions ->
+   Region) so the site's server, the API and the database are on one continent. Expected: the 143 ms per database call
+   drops to a few ms, and an API answer to roughly the 60-80 ms of the network from Israel or Europe. US visitors pay
+   about 90-100 ms more per uncached API call, which the site's data cache hides for page views.
+3. Optional, once 1-2 are done: if API answers should be cached at the edge, give the API its own domain behind a CDN with a
+   cache rule for `catalog`, `getNProducts` and `live/schedule` (they already send `s-maxage`). The website itself
+   caches the catalogue for 10 minutes in Next's data cache, so this mainly helps the browser's own calls.
+
 | Part | Region today | Evidence |
 |---|---|---|
 | Render API | **Oregon** (US West) | `render.yaml` (`region: oregon`) |
@@ -294,10 +322,10 @@ Never set it higher than the real number of proxies: too high lets a visitor cho
 | `base`, `command`, `publish` | `web`, `npm ci && npm run build`, `.next` | correct for Next on Netlify |
 | `NODE_VERSION` | 22 | matches CI |
 | Plugin | `@netlify/plugin-nextjs`, named explicitly | **essential** (section 5.1 of MONITORING.md; a test guards it). Unpinned: Netlify uses its current version, which is how it stays compatible with Next 16 |
-| Headers | `/_next/static/*` immutable; `/sw.js` no-store; **new:** `/images/*`, `/images/nazareth-media/*`, `/videos/*`, `/sounds/*`, experiment on `/_next/image*` | see 1.6 |
-| Redirects | **new:** `nazarethholycross.netlify.app/*` -> the real domain, 301, that exact host only | previews and branch deploys keep working |
+| Headers | `/_next/static/*` immutable; `/sw.js` no-store; **new:** `/images/*`, `/images/nazareth-media/*`, `/videos/*`, `/sounds/*` (the `/_next/image*` experiment was removed on 2026-10-07: Netlify ignored it, 3.4) | see 1.6 |
+| Redirects | **new:** `nazarethholycross.netlify.app/*` -> the real domain, 301, that exact host only; since 2026-10-07 also `http://www.nazarethholycross.com/*` -> `https://nazarethholycross.com/:splat`, 301, one hop | previews and branch deploys keep working |
 | 404 | handled by Next (`not-found`), `noindex`, not cacheable | good |
-| Legacy URLs of the old site (`/latin`, `/product/:id`, `/checkoutcandle`, `/checkoutdonation`) | `redirects()` in `next.config.ts`, also with a language prefix, 308 | proven by `tests/unit/legacy-redirects.test.ts`; `smoke-live` follows `/latin` and `/checkoutcandle` live |
+| Legacy URLs of the old site (`/latin`, `/product/:id`, `/checkoutcandle`, `/checkoutdonation`) | since 2026-10-07 one 308 from `src/proxy.ts` to `/<language>/…`; the language-prefixed forms (`/en/latin`) by `redirects()` in `next.config.ts`, 308 | proven by `tests/unit/legacy-redirects.test.ts`; `smoke-live` follows `/latin` and `/checkoutcandle` live |
 | Headers and redirects handled by whom | **Netlify:** TLS, http->https and www->apex, static-file headers, the `netlify.app` redirect. **Next:** every security header, the CSP nonce, the language redirect, legacy redirects, `trailing slash` (308) | split is sensible; the only gap was HSTS on Netlify's redirects (1.5) |
 
 ### 3.2 Build time
@@ -322,6 +350,13 @@ private,max-age=0`, `Cache-Status: "Netlify Edge"; fwd=miss`, and a conditional 
 also takes 1.1 s. So an image is neither kept by the browser nor served from the edge; a product page with ten photos
 asks ten times. The pre-built photos in `public/images/nazareth-media` (AVIF/WebP written by `scripts/media`) do not have
 this problem once the headers of 1.6 are live: they are plain files.
+
+**Result (2026-10-07): the experiment failed.** Measured on production by review 05: the same `/_next/image` photo three
+times in a row, 200 each, 1.41 / 1.93 / 1.41 s, still `Cache-Control: private,max-age=0`, `Cache-Status: "Netlify Edge";
+fwd=miss` then `fwd=stale`, and WebP although the browser accepts AVIF. Netlify's Image CDN follows the caching of the
+**original** (Firebase serves the product photos with `private, max-age=0`) and ignores a `[[headers]]` rule for
+`/_next/image`. The rule was removed from `netlify.toml` (branch `fix/perf-seo-a11y`); the fix is fix (a) below, an owner
+step written out in `docs/PERFORMANCE.md` section 10.4. The text that follows is the original plan, kept for the record.
 
 Done: the rule for `/_next/image*` in `netlify.toml` (1 day + stale-while-revalidate). **It is an experiment**: Netlify may
 apply it or may ignore it for image requests. **How to check on a deploy preview** (the pull request of this change):
@@ -421,7 +456,8 @@ effect only after the owner merges and deploys, and all of it is guarded by test
 | 7 | Set the four `NEXT_PUBLIC_*` variables explicitly (3.5) | Netlify | low |
 | 8 | Netlify DNS: SPF `-all` and DMARC (1.8 #4-5) | Netlify DNS | low |
 | 9 | GitHub settings of REPOSITORIES.md section 4 | GitHub | low |
-| 10 | Decide region (2.4) and, with real orders coming, a paid Render instance | Render | medium |
+| 10 | Decide region (2.4: Atlas is in Frankfurt, the API in Oregon, 143 ms per database call) and, since PayPal is live, a paid Render instance (Starter) | Render, Netlify | medium |
+| 12 | Set long `Cache-Control` on the product photos in Firebase (`docs/PERFORMANCE.md` 10.4) | Firebase / Google Cloud | low |
 | 11 | PayPal Live checklist (3.5) | PayPal, Render, Netlify | medium |
 
 ## 6. Database, backups, Firebase
