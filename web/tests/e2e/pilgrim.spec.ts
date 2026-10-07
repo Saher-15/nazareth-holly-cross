@@ -238,6 +238,8 @@ test.describe('contact', () => {
     await form.getByLabel(t.contact.form.email).fill('nope');
     await form.getByLabel(t.contact.form.phone).fill('abc');
     await expect(form.getByText(t.contact.errors.invalidEmail)).toBeVisible();
+    // the optional phone had no error yet, so it is checked on the next submit: a typed phone must still be valid
+    await form.getByRole('button', { name: t.contact.form.submit }).click();
     await expect(form.getByText(t.contact.errors.invalidPhone)).toBeVisible();
     expect(posted).toHaveLength(0);
   });

@@ -45,7 +45,7 @@ Client: `web/src/data/pilgrim/contact.ts`, `web/src/components/pilgrim/ContactFo
 |---|---|---|---|---|---|---|---|
 | Full name | `fullName` | `fullName` | `fullName` | yes / yes / yes | 2-200 stored / 2-200 | - | FIXED (stored length) |
 | E-mail | `email` | `email` | `email` | yes / yes / yes | 254 / 500 | API `isEmail` | FIXED (was the loose pattern) |
-| Phone | `phone` | `phone` | `phone` | yes / **yes** / no (default `''`) | 50 / 50 | 5+ digits, `+ ( ) - .` and spaces | OK; DOCUMENTED (route stricter than model) |
+| Phone | `phone` (sent only when typed) | `phone` (absent, `null` or `''` = not given; not text = 422) | `phone` | **no / no / no** (default `''`) | 50 / 50 | when given: 5+ digits, `+ ( ) - .` and spaces | OK: optional everywhere since 2026-10-07 (data minimisation, security review 06 finding 8) |
 | Message | `msg` | `msg` | `msg` | yes / yes / yes | 3-2000 stored / 3-2000 | - | FIXED (stored length) |
 
 ### 2.2 Shop checkout (`/checkout`)
@@ -246,7 +246,7 @@ Stored MongoDB fields are never renamed here (that needs a data migration, `docs
 | `order.totalPrice`, `order.products[].productName` | computed by the API from the database | the values the site sends are ignored |
 | `product.rate` | a featuring weight 0-5, not stars (`featured` in the catalogue) | misleading name |
 | `product.uuidv4_` | the Firebase Storage folder of the product's photos | misleading name |
-| `contact.phone` | required by the route, optional in the model | both forms require it |
+| `contact.phone` | optional on the form, the route and the model (`''` = not given) | label "(optional)" in every language |
 | `admin.email` | set only by the owner bootstrap and `server/scripts/create-admin.js`; no dashboard form edits it | no UI |
 | `productReview.country` | free text | prayers and site reviews choose from a list since PR #36 |
 

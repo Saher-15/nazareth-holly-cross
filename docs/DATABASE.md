@@ -113,8 +113,8 @@ had no record at all. Now:
 
 Two facts the design relies on, both tested: (1) the ledger row exists before the customer can pay, so the worst case is a
 captured, unlinked row, which is *listed*, not lost; (2) every step is safe to repeat. An old client that does not send
-`paypalOrderId` keeps working exactly as before (its order is saved as "unverified"); `REQUIRE_PAYMENT_PROOF=true` makes it
-mandatory for orders **and** candles once every client sends it (the new site does).
+`paypalOrderId` is still saved (as "unverified", and no confirmation mail goes out for it); `REQUIRE_PAYMENT_PROOF=true` makes it
+mandatory for orders **and** candles. The public site always sends it (docs/SECURITY.md section 5), so it can be switched on.
 
 Not covered, and what covers it: a capture whose answer was lost *and* whose ledger write also failed leaves the row at
 `created` while PayPal holds the money. `reconcile-payments.js` lists rows still `created` after 24 h ("check PayPal"); PayPal's own
@@ -199,8 +199,9 @@ the dashboard's totals and "top products" and the catalogue's "units sold" aggre
 
 The whole database (about 84 KB on 2026-10-06, on an M10 cluster with Cloud Backup: INFRASTRUCTURE.md 6.1) stays tiny for
 many years; size is not the limit that matters. Everything that reads "all" documents is capped:
-the old admin routes `getAllOrders`, `getAllCandleRequests`, `get_all_contact_us`, `getAllProducts` and `/admin/{prayers,candles,products}` now return at most
-5,000 documents, newest first, as the same plain array, with an `X-Result-Capped: 5000` header when the cap was reached (`utils/pagination.js`). The
+the one old "read everything" route left, the public `/product/getAllProducts`, returns at most 5,000 documents, newest first, as a plain array,
+with an `X-Result-Capped: 5000` header when the cap was reached (`utils/pagination.js`). (The private ones, `getAllOrders`, `getAllCandleRequests`,
+`get_all_contact_us` and the legacy `/admin/{prayers,candles,products}` arrays, were removed with the legacy admin sign-in on 2026-10-07.) The
 dashboard's lists are paginated (at most 100 a page, 10,000 for a CSV export), and hot reads use `.lean()` and field lists
 (the catalogue reads only the product fields it shows).
 
@@ -210,7 +211,7 @@ dashboard's lists are paginated (at most 100 a page, 10,000 for a CSV export), a
 |---|---|---|
 | `order` | name, e-mail, phone, postal address | ship the order, tell the customer |
 | `candle` | name, e-mail, **prayer text (religious belief: sensitive)** | light the candle, send the video |
-| `contact` | name, e-mail, phone, message | answer the message |
+| `contact` | name, e-mail, phone (**optional** since 2026-10-07: `''` when not given), message | answer the message |
 | `review` | name, optional e-mail, phone (default `000`), review text | publish the review (name and text are shown publicly once approved) |
 | `productReview` | a first name, country, text; a salted hash of the IP address | publish the review; spot abuse |
 | `prayers` | a name, country, **prayer text (sensitive)** | the public prayer wall (public by design) |
@@ -242,14 +243,27 @@ owner has decided the periods; until then, section 8 is the tool.
 
 Dashboard -> **Privacy requests** (owners only; API `POST /admin/privacy/lookup` and `/erase`):
 
-1. Type the person's e-mail address -> **Find**: counts of what is stored (orders, candle requests, messages, site reviews, payments). No personal data is shown.
+1. Type the person's e-mail address and, to include their **prayers and product reviews** (which keep no e-mail address), the
+   **name** they were published under and, for prayers, the **country**, exactly as published -> **Find**: counts of what is stored
+   (orders, candle requests, messages, site reviews, payments, prayers, product reviews). No personal data is shown. If the name
+   or country was left out, the page says which kinds were **not searched**.
 2. **Erase this data** -> type the address again to confirm. Then:
    * **orders and candle requests** are *anonymised*, not deleted: the sale stays in the shop's accounts, but name, address, phone, e-mail (and a candle's prayer text) are replaced by "Erased", and `erasedAt` is set;
    * **messages** and **site reviews** with that address are deleted;
    * **payments**: the payer's e-mail and names (and the donor name) are removed; the amount and PayPal number stay (accounts);
-   * product reviews and prayers hold no e-mail address, so they cannot be found by one: if the person wants a prayer or product review removed, find it in Prayers / Reviews by its text and delete it.
-3. Every look-up and erasure is written to the audit log (`privacy.lookup`, `privacy.erase`) with the counts and a **keyed hash** of the address, never the
-   address itself (that would keep the data for another 180 days). The log entry shows *that* a request was handled and by whom.
+   * **prayers** whose name **and** country equal what was typed, and **product reviews** whose name equals it (and the country, when one was typed),
+     are deleted; any case, but nothing more or less (a "." is a dot, not a wildcard). A name alone never deletes a prayer: "Maria" is many people.
+     Similar spellings, nicknames and the same name from another country are **not** touched: check them on the Prayers / Reviews pages and delete
+     them there by hand. The storefront's ratings are rebuilt after a product review is erased.
+3. The page then shows a **report**: what was erased, and what it could **not** erase, as a to-do list for the owner:
+   * prayers or product reviews that were **not searched** (no name, or no country for prayers);
+   * **Gmail**: copies of the confirmation mails in the Sent folder (name, order or candle number): search Gmail for the address and delete them;
+   * **backups**: they keep the old data until they are rotated out (at most 30 days): note the date and tell the person;
+   * **recordings** of broadcasts at Cloudflare Stream: not linked to a person; if the person appears in one, unpublish or delete it on the Live page;
+   * **PayPal** keeps its own record of the payment (only PayPal can remove it);
+   * **host logs** at Cloudflare, Render and Netlify keep network addresses for a short time and expire by themselves.
+4. Every look-up and erasure is written to the audit log (`privacy.lookup`, `privacy.erase`) with the counts and a **keyed hash** of the address, never the
+   address, the name or the country (that would keep the data for another 180 days). The log entry shows *that* a request was handled and by whom.
 
 After a **restore** from a backup, erasures made since the backup are undone (the backup still holds the data). Keep your own
 list of requests (date, who, what was done: *not* the personal data) and repeat each one on the restored database.
@@ -298,3 +312,5 @@ All of them take the address from `DATABASEURL` (environment or a hidden prompt,
   documents). The comparison of declared and actual indexes was tested against a stand-in that mimics what MongoDB reports; the first real dry run is the real test.
 * The estimates in section 6 are not measurements.
 * The retention periods in section 7 are proposals.
+* The erasure of prayers and product reviews by name was tested on the in-memory fakes and the harness (case-insensitive, anchored, escaped regular
+  expressions); MongoDB's case folding of non-Latin letters under the `i` option was not tried on a real database.
