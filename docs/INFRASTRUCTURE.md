@@ -464,9 +464,16 @@ The bullets below were written before this check, from outside:
 ### 6.2 Firebase Storage
 
 Holds the product photos and the long videos (bucket `nazareth-holy-cross.appspot.com`). The rules and CORS file lived only
-in the old public client repository; copies are in `ops/firebase/` with their README. The copy says: **anyone reads,
-any signed-in Firebase user writes**. Safe only if **no sign-in method** is enabled in Firebase Authentication (Console ->
-Authentication -> Sign-in method: all disabled, Anonymous too). Otherwise a stranger can create a user and fill the bucket.
-The deployed rules were not seen; compare them with the copy and tighten as `ops/firebase/README.md` describes. Set long
+in the old public client repository; copies are in `ops/firebase/` with their README.
+
+**Rules since 2026-10-07** (`ops/firebase/storage.rules`, deployed with `firebase deploy --only storage`): anyone may
+read a file by its address; nobody may list the bucket; the only anonymous write is **creating a new image** (JPEG, PNG,
+WebP, AVIF or GIF, under 8 MB) under `images/<folder>/<file>`, which is how the admin dashboard uploads product photos
+(it does not sign in: `admin/src/lib/firebase-upload.ts`). Overwriting and deleting are refused through the API; the
+Firebase console still can. The audit of 2026-10-07 found the previous live rules allowed **anonymous upload, overwrite,
+delete and listing** of every file. The rules were checked with the Firebase rules simulator (8 cases). Still to do:
+upload through the API with a server credential, so no anonymous write is needed at all. The bucket keeps deleted and
+overwritten files for 7 days (soft delete): restore one with the Cloud Storage console or
+`POST .../o/<object>/restore?generation=<old generation>`. Set long
 `Cache-Control` metadata on photos (section 3.4). Firebase's free tier has download quotas: watch Usage if the video
 traffic grows (videos over 8 MB are served from here by design).
