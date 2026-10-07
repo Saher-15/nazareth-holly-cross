@@ -327,4 +327,6 @@ html[dir='rtl'] .switch[aria-checked='true'] .switch__thumb { transform: transla
   /* dates and lengths stay on one line in a wide table; a long action row may wrap instead of pushing the table sideways */
   .table td.cell-nowrap { white-space: nowrap; }
   .table .row-actions.row-actions--wrap { flex-wrap: wrap; min-inline-size: 200px; }
+  /* the recordings' three icon buttons: two per line, so the seven columns fit a 1366px screen beside the menu */
+  .table .row-actions.row-actions--fit { flex-wrap: wrap; max-inline-size: 100px; margin-inline-start: auto; }
 }

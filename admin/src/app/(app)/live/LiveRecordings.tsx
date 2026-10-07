@@ -252,7 +252,7 @@ export function LiveRecordings({ initial, timeZone }: Props) {
             {
               key: 'actions', header: t('live.rec.colActions'),
               cell: (r) => (
-                <div className="row-actions">
+                <div className="row-actions row-actions--fit">
                   <button type="button" className="icon-btn" onClick={() => startRename(r)} aria-label={t('live.rec.renameLabel', { title: r.title })} title={t('live.rec.rename')} data-testid="rec-rename">
                     <Icon name="edit" size={18} />
                   </button>
