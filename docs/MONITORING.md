@@ -192,6 +192,10 @@ with role **viewer**, a long random password and two-factor sign-in **off** (the
 `NHC_VIEWER_USER` and `NHC_VIEWER_PASSWORD` as Railway variables of the `hermes` service (or in `/opt/data/.env`).
 To turn it off, disable that account.
 
+If a part of the report reads `⚪ … not available (<reason>)`, that part failed on its own and the rest of the
+report is still valid: the reason in brackets says why (a GitHub or catalog HTTP status, a refused sign-in, or a
+Python error name, which means the script itself has a bug: run it by hand as below and fix it on a branch).
+
 To update the scripts on Hermes after a merge: download both files from `main` into `/opt/data/scripts/` (`railway ssh`
 into the `hermes` service). The script watches Railway only: the API left Render on 2026-10-07 and its Render checks
 were removed; deploy failures show in the report as the Railway status on `main`. Hermes itself runs on Railway: a Railway-wide outage silences it, so keep an outside monitor (section 2)
