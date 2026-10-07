@@ -567,7 +567,7 @@ add({
 
 add({ method: 'GET', path: '/admin/auth/me', min: 'viewer', run: (ctx) => ({ ...publicUser(ctx.req.auth.user), lastLoginAt: ctx.req.auth.user.lastLoginAt }) });
 
-// 5 wrong tries per 15 minutes per account on the sensitive routes (password, totp enable/disable), then 429
+// 5 wrong tries per 15 minutes per account on the sensitive routes (password, totp setup/enable/disable), then 429
 const sensitive = new Map();
 function sensitiveBudget(userId) {
   const now = Date.now();
@@ -597,11 +597,26 @@ add({
   },
 });
 
+// setup asks for the current password (server/route/admin/auth.js, security review 06 finding 9); wrong ones count
+// against the account's sensitive-attempt budget like the password change.
 add({
   method: 'POST', path: '/admin/auth/totp/setup', min: 'viewer',
   run: (ctx) => {
     const u = ctx.req.auth.user;
-    if (u.totpSecret) throw new HttpError(409, 'TOTP is already enabled; disable it first');
+    const budget = sensitiveBudget(u._id);
+    let currentPassword;
+    try {
+      ({ currentPassword } = parseBody(ctx.body, { currentPassword: secret() }));
+    } catch (error) {
+      budget();
+      throw error;
+    }
+    if (!checkPassword(u, currentPassword)) {
+      budget();
+      record(ctx.req, 'auth.totp_setup_failed', { type: 'admin', id: u._id }, { reason: 'wrong_current_password' });
+      throw new HttpError(403, 'Current password is incorrect');
+    }
+    if (u.totpSecret) { budget(); throw new HttpError(409, 'TOTP is already enabled; disable it first'); }
     u.pendingTotp = generateSecret();
     record(ctx.req, 'auth.totp_setup', { type: 'admin', id: u._id });
     return { secret: u.pendingTotp, otpauthUrl: otpauthUrl(u.pendingTotp, u.username) };

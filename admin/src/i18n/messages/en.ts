@@ -427,6 +427,7 @@ export const en = {
   'totp.isOn': 'Two-factor sign-in is on.',
   'totp.isOff': 'Two-factor sign-in is off.',
   'totp.intro': 'Use an authenticator app (such as Google Authenticator, Microsoft Authenticator or Aegis) to get a code at each sign-in.',
+  'totp.setupHint': 'To set it up, confirm with your current password.',
   'totp.setup': 'Set up two-factor sign-in',
   'totp.qrLabel': 'QR code for your authenticator app',
   'totp.step1': 'Open your authenticator app and add an account.',

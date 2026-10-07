@@ -437,8 +437,11 @@ async function scenario(backend: Backend): Promise<{ steps: Step[]; replies: Rec
 
   const ts = await signIn(backend, 'totpsetup', 'Totpsetup-Mock-Pass-1');
   const T = client(backend, ts.token);
-  const setup = add('totp setup', await T('POST', '/admin/auth/totp/setup'));
-  add('totp setup twice', await T('POST', '/admin/auth/totp/setup'));
+  add('totp setup without the password', await T('POST', '/admin/auth/totp/setup'));
+  add('totp setup with a wrong password', await T('POST', '/admin/auth/totp/setup', { currentPassword: 'not-my-password-1' }));
+  add('totp setup with an extra field', await T('POST', '/admin/auth/totp/setup', { currentPassword: 'Totpsetup-Mock-Pass-1', secret: 'AAAA' }));
+  const setup = add('totp setup', await T('POST', '/admin/auth/totp/setup', { currentPassword: 'Totpsetup-Mock-Pass-1' }));
+  add('totp setup twice', await T('POST', '/admin/auth/totp/setup', { currentPassword: 'Totpsetup-Mock-Pass-1' }));
   const secret = (setup.json as { secret: string }).secret;
   add('totp enable wrong code', await T('POST', '/admin/auth/totp/enable', { code: '000000' }));
   add('totp enable', await T('POST', '/admin/auth/totp/enable', { code: totpCode(secret, Date.now() - 30_000) }));

@@ -410,6 +410,7 @@ export const he: Partial<Record<MessageKey, string>> = {
   'totp.isOn': 'האימות הדו-שלבי פעיל.',
   'totp.isOff': 'האימות הדו-שלבי כבוי.',
   'totp.intro': 'השתמשו באפליקציית אימות (כגון Google Authenticator, Microsoft Authenticator או Aegis) כדי לקבל קוד בכל התחברות.',
+  'totp.setupHint': 'כדי להפעיל, אשרו עם הסיסמה הנוכחית.',
   'totp.setup': 'הגדרת אימות דו-שלבי',
   'totp.qrLabel': 'קוד QR לאפליקציית האימות',
   'totp.step1': 'פתחו את אפליקציית האימות והוסיפו חשבון.',

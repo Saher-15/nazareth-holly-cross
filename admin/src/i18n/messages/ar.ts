@@ -410,6 +410,7 @@ export const ar: Partial<Record<MessageKey, string>> = {
   'totp.isOn': 'التحقق بخطوتين مفعّل.',
   'totp.isOff': 'التحقق بخطوتين متوقف.',
   'totp.intro': 'استخدم تطبيق مصادقة (مثل Google Authenticator أو Microsoft Authenticator أو Aegis) للحصول على رمز عند كل تسجيل دخول.',
+  'totp.setupHint': 'للتفعيل، أكّد بكلمة المرور الحالية.',
   'totp.setup': 'إعداد التحقق بخطوتين',
   'totp.qrLabel': 'رمز QR لتطبيق المصادقة',
   'totp.step1': 'افتح تطبيق المصادقة وأضف حساباً.',

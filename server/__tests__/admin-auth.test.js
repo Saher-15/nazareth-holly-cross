@@ -442,7 +442,7 @@ describe('two-factor setup, enable and disable', () => {
   it('full cycle: setup -> enable -> sign-in needs a code -> disable', async () => {
     const a = await signedIn(signSessionToken, { username: 'cycle' });
 
-    const setup = await post('/admin/auth/totp/setup', a.auth);
+    const setup = await post('/admin/auth/totp/setup', a.auth, { currentPassword: PASSWORD });
     expect(setup.status).toBe(200);
     expect(setup.body.secret).toMatch(/^[A-Z2-7]{32}$/);
     expect(setup.body.otpauthUrl).toContain('otpauth://totp/');
@@ -476,6 +476,40 @@ describe('two-factor setup, enable and disable', () => {
     expect(audits().map((e) => e.action)).toEqual(expect.arrayContaining(['auth.totp_setup', 'auth.totp_enable', 'auth.totp_disable', 'auth.totp_disable_failed']));
   });
 
+  // Security review 06, finding 9: a stolen session or an unlocked computer must not be able to enrol a stranger's
+  // authenticator (which would lock the owner out once enabled): setting up asks for the current password.
+  it('setup needs the current password: a missing, wrong or non-text one is refused and creates no secret', async () => {
+    const a = await signedIn(signSessionToken, { username: 'reauth' });
+    // (Each refusal counts against the account's 5 sensitive attempts per 15 minutes, so they are spread over two accounts.)
+    const b = await signedIn(signSessionToken, { username: 'reauth2' });
+    for (const [who, body, status] of [[b, undefined, 400], [b, {}, 400], [b, { currentPassword: '' }, 400], [b, { currentPassword: { $ne: null } }, 400], [a, { currentPassword: PASSWORD, extra: 1 }, 400], [a, { currentPassword: 'not my password' }, 403]]) {
+      const res = await post('/admin/auth/totp/setup', who.auth, body);
+      expect(res.status, JSON.stringify(body)).toBe(status);
+      expect(res.body.secret).toBeUndefined();
+      expect(res.body.otpauthUrl).toBeUndefined();
+    }
+    for (const who of [a, b]) expect(fakes.Admin.byId(who.admin._id).totpSecretEnc ?? null).toBeNull();
+    expect(audits('auth.totp_setup_failed')).toHaveLength(1);
+    expect(audits('auth.totp_setup')).toHaveLength(0);
+    // ...and with it, the secret is shown once.
+    const ok = await post('/admin/auth/totp/setup', a.auth, { currentPassword: PASSWORD });
+    expect(ok.status).toBe(200);
+    expect(ok.body.secret).toMatch(/^[A-Z2-7]{32}$/);
+    expect(audits('auth.totp_setup')).toHaveLength(1);
+  });
+
+  it('a stolen session cannot guess the password through setup: 5 failures, then 429', async () => {
+    const a = await signedIn(signSessionToken);
+    for (let i = 0; i < 5; i += 1) expect((await post('/admin/auth/totp/setup', a.auth, { currentPassword: `guess ${i}` })).status).toBe(403);
+    expect((await post('/admin/auth/totp/setup', a.auth, { currentPassword: PASSWORD })).status).toBe(429);
+  });
+
+  it('a password with & < > (sent raw, not HTML-escaped) is accepted', async () => {
+    const tricky = 'A&B<c>"d' + "'e-1234";
+    const a = await signedIn(signSessionToken, { username: 'tricky.totp', password: quickHash(tricky) });
+    expect((await post('/admin/auth/totp/setup', a.auth, { currentPassword: tricky })).status).toBe(200);
+  });
+
   it('setup refuses while TOTP is on; enable refuses without a setup, with a bad format, or twice', async () => {
     const a = await signedIn(signSessionToken);
     expect((await post('/admin/auth/totp/enable', a.auth, { code: '123456' })).status).toBe(409); // no setup yet
@@ -483,9 +517,12 @@ describe('two-factor setup, enable and disable', () => {
     expect((await post('/admin/auth/totp/enable', a.auth, { code: 123456 })).status).toBe(400);
     expect((await post('/admin/auth/totp/enable', a.auth, {})).status).toBe(400);
 
-    const { body } = await post('/admin/auth/totp/setup', a.auth);
+    // (A fresh account for the rest: the four refusals above used up most of the account's sensitive attempts.)
+    const fresh = await signedIn(signSessionToken);
+    a.auth = fresh.auth;
+    const { body } = await post('/admin/auth/totp/setup', a.auth, { currentPassword: PASSWORD });
     expect((await post('/admin/auth/totp/enable', a.auth, { code: currentCode(body.secret) })).status).toBe(204);
-    expect((await post('/admin/auth/totp/setup', a.auth)).status).toBe(409);
+    expect((await post('/admin/auth/totp/setup', a.auth, { currentPassword: PASSWORD })).status).toBe(409);
     expect((await post('/admin/auth/totp/enable', a.auth, { code: totp(body.secret, Date.now() + 30_000) })).status).toBe(409);
   });
 
@@ -500,7 +537,7 @@ describe('two-factor setup, enable and disable', () => {
     const a = await signedIn(signSessionToken, { username: 'two-sessions' });
     fakes.AdminSession.seed([{ sid: 'sid-b', admin: a.admin._id, expiresAt: new Date(Date.now() + 3600_000), revokedAt: null }]);
     const tokenB = signSessionToken({ id: a.admin._id, role: 'owner' }, 'sid-b');
-    const { body } = await post('/admin/auth/totp/setup', a.auth);
+    const { body } = await post('/admin/auth/totp/setup', a.auth, { currentPassword: PASSWORD });
     await post('/admin/auth/totp/enable', a.auth, { code: currentCode(body.secret) });
     expect((await get('/admin/auth/me', tokenB)).status).toBe(401);
     expect((await get('/admin/auth/me', a.token)).status).toBe(200);
@@ -508,7 +545,7 @@ describe('two-factor setup, enable and disable', () => {
 
   it('wrong enable codes are rate limited per account', async () => {
     const a = await signedIn(signSessionToken);
-    await post('/admin/auth/totp/setup', a.auth);
+    await post('/admin/auth/totp/setup', a.auth, { currentPassword: PASSWORD });
     let last;
     for (let i = 0; i < 6; i += 1) last = await post('/admin/auth/totp/enable', a.auth, { code: '000000' });
     expect(last.status).toBe(429);
