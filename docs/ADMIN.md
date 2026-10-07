@@ -435,7 +435,7 @@ A failed sign-in is recorded with the name that was typed (no account was proven
 text replaced by "Erased"; the sale and its total stay), contact messages and site reviews are **deleted**, the payer's e-mail and names are removed from payments (amount and PayPal id stay).
 
 Prayers and product reviews keep no e-mail address. They are found by what they were **published** under, and only when it is **exactly equal** (any case; the HTML-escaped form the API stores counts
-as equal; no wildcard, a "." is a dot): **prayers** need `name` **and** `country`, **product reviews** need `name` (and also match `country` when it is given). Both are **deleted**; erasing a product
+as equal; no wildcard, a "." is a dot): both need `name` **and** `country` (a name alone is shared by strangers; a product review published without a country is not found this way). Both are **deleted**; erasing a product
 review rebuilds the storefront's ratings. A `country` without a `name` is `400`; `name` is 2-200 characters, `country` 1-100. Anything similar but not equal (a nickname, another spelling, the same
 name from another country) is **not** touched: the owner checks it on the Prayers or Reviews page and deletes it there. `notSearched` lists `prayersNotSearched` / `productReviewsNotSearched` when the
 request did not identify them.

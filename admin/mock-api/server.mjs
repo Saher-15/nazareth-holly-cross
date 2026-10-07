@@ -1016,7 +1016,7 @@ function privacyLimit(user) {
 }
 const sameAddress = (stored, address) => String(stored ?? '').toLowerCase() === address; // contact messages and site reviews: any case
 // Prayers and product reviews keep no address: they are found by the name (and country) they were published under, only
-// when it is EXACTLY equal (any case); prayers need both, product reviews a name (server/route/admin/privacy.js).
+// when it is EXACTLY equal (any case); both need the name and the country (server/route/admin/privacy.js).
 const NOT_ERASED = ['gmailSent', 'backups', 'recordings', 'paypal', 'hostLogs'];
 const sameText = (stored, wanted) => {
   const forms = new Set([wanted, decodeEntities(wanted)].map((t) => t.toLowerCase()));
@@ -1027,7 +1027,7 @@ function published({ name, country }) {
   if (country && !name) throw new HttpError(400, 'A country is used only together with a name');
   return {
     prayers: name && country ? (p) => sameText(p.name, name) && sameText(p.country, country) : null,
-    productReviews: name ? (r) => sameText(r.name, name) && (!country || sameText(r.country, country)) : null,
+    productReviews: name && country ? (r) => sameText(r.name, name) && sameText(r.country, country) : null,
   };
 }
 const notSearched = (match) => [...(match.prayers ? [] : ['prayersNotSearched']), ...(match.productReviews ? [] : ['productReviewsNotSearched'])];

@@ -195,7 +195,7 @@ retention of sessions: ADMIN.md 6.
 * **Every day, automatically**: the backup (docs/BACKUP.md). Look at `LAST_OK.txt` in the backup folder once a week. Test a restore once now and every few months.
 * **Every month**: `node scripts/check-data.js` (structural check, read-only) and `node scripts/ensure-indexes.js` (dry run: must say every index exists).
 * **A person asks for their data to be erased**: dashboard -> Privacy requests (owner), docs/DATABASE.md section 8. Type
-  their e-mail address and, to include prayers and product reviews, the name (and for prayers the country) exactly as
+  their e-mail address and, to include prayers and product reviews, the name and the country exactly as
   published. After the erase the page lists what it could **not** erase: delete their mails in Gmail's Sent folder, note
   when the last backup with their data expires (30 days), check recordings, and tell them what remains.
 * **Deploying the release that added the ledger**, in this order: backup; `check-data.js`; `ensure-indexes.js --apply` (creates the unique `payment.paypalOrderId` index, because the production server no longer builds indexes by itself);

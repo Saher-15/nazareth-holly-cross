@@ -129,6 +129,8 @@ describe('safeNextPath', () => {
     ['a malformed escape later', '/orders?q=%E0%A4%A'],
     ['the sign-in page', '/login'],
     ['the sign-in page with a query', '/login?next=/orders'],
+    ['the sign-in page with a path parameter', '/login;x'],
+    ['an API route with a path parameter', '/api;x/session/logout'],
     ['the sign-in page via dot segments', '/orders/../login'],
     ['an API route', '/api/session/logout'],
     ['an API route via dot segments', '/orders/../api/session/logout'],

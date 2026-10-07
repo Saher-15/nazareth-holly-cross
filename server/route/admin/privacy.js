@@ -29,7 +29,8 @@ import { opt, parseBody, str } from '../../utils/schema.js';
 //   payment          the payer's e-mail and names are removed; the amount and PayPal id stay (accounts).
 //   prayer           DELETED, but only when `name` AND `country` are given and both equal what was published (any case,
 //                    nothing more or less): prayers keep no e-mail, and a name alone ("Maria") is shared by strangers.
-//   product review   DELETED when `name` is given and equals the published name (and `country`, when given, the country).
+//   product review   DELETED on the same rule (name AND country equal what was published). A review published without a
+//                    country is not found this way: the owner deletes it from the Reviews page after checking it.
 // Anything similar but not equal (another spelling, a nickname) is not touched: the owner removes it by hand from the
 // Prayers or Product reviews page after checking it. The answer to erase says what was not searched and what lives
 // outside the database (NOT_ERASED below), so the owner can finish by hand and tell the person.
@@ -74,11 +75,11 @@ function publishedFilters({ name, country }) {
   if (country && !name) throw new HttpError(400, 'A country is used only together with a name');
   return {
     prayers: name && country ? { name: exactly(name), country: exactly(country) } : null,
-    productReviews: name ? { name: exactly(name), ...(country ? { country: exactly(country) } : {}) } : null,
+    productReviews: name && country ? { name: exactly(name), country: exactly(country) } : null,
   };
 }
 
-/** The kinds the request did not identify well enough to search (prayers need name and country, reviews a name). */
+/** The kinds the request did not identify well enough to search (both need the name and the country). */
 const notSearched = (published) => [
   ...(published.prayers ? [] : ['prayersNotSearched']),
   ...(published.productReviews ? [] : ['productReviewsNotSearched']),

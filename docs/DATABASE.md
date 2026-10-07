@@ -244,19 +244,19 @@ owner has decided the periods; until then, section 8 is the tool.
 Dashboard -> **Privacy requests** (owners only; API `POST /admin/privacy/lookup` and `/erase`):
 
 1. Type the person's e-mail address and, to include their **prayers and product reviews** (which keep no e-mail address), the
-   **name** they were published under and, for prayers, the **country**, exactly as published -> **Find**: counts of what is stored
+   **name** and **country** they were published under, exactly as published -> **Find**: counts of what is stored
    (orders, candle requests, messages, site reviews, payments, prayers, product reviews). No personal data is shown. If the name
    or country was left out, the page says which kinds were **not searched**.
 2. **Erase this data** -> type the address again to confirm. Then:
    * **orders and candle requests** are *anonymised*, not deleted: the sale stays in the shop's accounts, but name, address, phone, e-mail (and a candle's prayer text) are replaced by "Erased", and `erasedAt` is set;
    * **messages** and **site reviews** with that address are deleted;
    * **payments**: the payer's e-mail and names (and the donor name) are removed; the amount and PayPal number stay (accounts);
-   * **prayers** whose name **and** country equal what was typed, and **product reviews** whose name equals it (and the country, when one was typed),
-     are deleted; any case, but nothing more or less (a "." is a dot, not a wildcard). A name alone never deletes a prayer: "Maria" is many people.
+   * **prayers** and **product reviews** whose name **and** country equal what was typed are deleted; any case, but nothing more or less (a "." is a
+     dot, not a wildcard). A name alone never deletes anything: "Maria" is many people. A product review published without a country is not found this way.
      Similar spellings, nicknames and the same name from another country are **not** touched: check them on the Prayers / Reviews pages and delete
      them there by hand. The storefront's ratings are rebuilt after a product review is erased.
 3. The page then shows a **report**: what was erased, and what it could **not** erase, as a to-do list for the owner:
-   * prayers or product reviews that were **not searched** (no name, or no country for prayers);
+   * prayers or product reviews that were **not searched** (no name or no country);
    * **Gmail**: copies of the confirmation mails in the Sent folder (name, order or candle number): search Gmail for the address and delete them;
    * **backups**: they keep the old data until they are rotated out (at most 30 days): note the date and tell the person;
    * **recordings** of broadcasts at Cloudflare Stream: not linked to a person; if the person appears in one, unpublish or delete it on the Live page;

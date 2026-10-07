@@ -227,10 +227,10 @@ describe('prayers and product reviews: by the published name, exact matches only
   const prayersLeft = () => fakes.Prayer.docs.map((p) => `${p.name}/${p.country}`).sort();
   const reviewsLeft = () => fakes.ProductReview.docs.map((r) => `${r.name}/${r.country}`).sort();
 
-  it('lookup counts them only when identified: prayers need name AND country, product reviews a name', async () => {
+  it('lookup counts them only when identified: name AND country (a name alone is shared by strangers)', async () => {
     const byName = await call('post', '/admin/privacy/lookup', owner, { email: ME, name: 'Maria Rossi' });
-    expect(byName.body.found).toMatchObject({ prayers: 0, productReviews: 3 });
-    expect(byName.body.notSearched).toEqual(['prayersNotSearched']);
+    expect(byName.body.found).toMatchObject({ prayers: 0, productReviews: 0 });
+    expect(byName.body.notSearched).toEqual(['prayersNotSearched', 'productReviewsNotSearched']);
     const both = await call('post', '/admin/privacy/lookup', owner, { email: ME, name: ' maria ROSSI ', country: 'italy' });
     expect(both.body.found).toMatchObject({ prayers: 2, productReviews: 1 });
     expect(both.body.notSearched).toEqual([]);
@@ -249,12 +249,12 @@ describe('prayers and product reviews: by the published name, exact matches only
     expect(reviewsLeft()).toEqual(['Maria Rossi/', 'Maria Rossi/Brazil', 'Mario Rossi/Italy']);
   });
 
-  it('with a name only, product reviews of that name go (any country) and prayers are not touched', async () => {
+  it('with a name only, nothing published is touched (another "Maria Rossi" may have written it)', async () => {
     const res = await erase({ email: ME, confirm: ME, name: 'Maria Rossi' });
-    expect(res.body.erased).toMatchObject({ prayers: 0, productReviews: 3 });
-    expect(res.body.notErased).toEqual(['prayersNotSearched', ...NOT_ERASED]);
+    expect(res.body.erased).toMatchObject({ prayers: 0, productReviews: 0 });
+    expect(res.body.notErased).toEqual(['prayersNotSearched', 'productReviewsNotSearched', ...NOT_ERASED]);
     expect(fakes.Prayer.docs).toHaveLength(6);
-    expect(reviewsLeft()).toEqual(['Mario Rossi/Italy']);
+    expect(fakes.ProductReview.docs).toHaveLength(4);
   });
 
   it('a name with "&" matches what the API stored escaped, and regular-expression characters match themselves', async () => {
@@ -270,7 +270,7 @@ describe('prayers and product reviews: by the published name, exact matches only
   it('the storefront catalogue (product ratings) is rebuilt after a review is erased', async () => {
     expect((await getCatalog()).find((p) => p._id === String(productId)).price).toBe(10); // now cached
     fakes.Product.docs[0].price = 11; // a change the cache does not know about
-    await erase({ email: ME, confirm: ME, name: 'Nobody Here' }); // nothing erased: the cache stays
+    await erase({ email: ME, confirm: ME, name: 'Nobody Here', country: 'Italy' }); // nothing erased: the cache stays
     expect((await getCatalog()).find((p) => p._id === String(productId)).price).toBe(10);
     await erase({ email: ME, confirm: ME, name: 'Maria Rossi', country: 'Italy' }); // a review erased: rebuilt
     expect((await getCatalog()).find((p) => p._id === String(productId)).price).toBe(11);

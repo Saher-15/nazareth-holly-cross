@@ -250,8 +250,8 @@ test.describe('privacy requests (owner)', () => {
     await page.getByTestId('privacy-country').fill('');
     await page.getByTestId('privacy-find').click();
     const notes = page.getByTestId('privacy-not-searched');
-    await expect(notes).toContainText('Prayers were not searched'); // a name alone is not enough for prayers
-    await expect(notes).not.toContainText('Product reviews were not searched');
+    await expect(notes).toContainText('Prayers were not searched'); // a name alone is not enough
+    await expect(notes).toContainText('Product reviews were not searched');
 
     await page.getByTestId('privacy-country').fill('Italy');
     await page.getByTestId('privacy-find').click();

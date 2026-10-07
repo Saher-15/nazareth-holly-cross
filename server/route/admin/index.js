@@ -13,9 +13,8 @@ import { adminAccess, requireRole } from '../../middleware/adminGuard.js';
 import { asyncHandler } from '../../middleware/asyncHandler.js';
 import { getDashboard } from '../../services/dashboard.js';
 
-// The admin dashboard API (docs/ADMIN.md). Mounted at /admin BEFORE the legacy admin router (route/adminRoute.js),
-// which keeps serving the old admin site: where an address exists in both, a legacy token is handed on to the
-// legacy route (middleware/adminGuard.js) and a dashboard token is served here.
+// The admin dashboard API (docs/ADMIN.md), mounted at /admin. It is the only way into private data: the legacy admin
+// router, its sign-ins and its 8-hour tokens were removed on 2026-10-07 (docs/ADMIN.md section 7).
 //
 // Every route below is behind adminAccess (Bearer token + live session + per-admin rate limit) and a role check:
 //   viewer  GET lists and details         editor  change and delete, export

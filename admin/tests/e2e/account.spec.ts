@@ -10,7 +10,7 @@ test.describe('security settings', () => {
   test('change password: policy hints, then the new password works and the old one does not', async ({ page, browser }) => {
     await signIn(page, USERS.passchange);
     await page.goto('/settings');
-    await page.getByLabel('Current password').fill(USERS.passchange.password);
+    await page.getByLabel('Current password').first().fill(USERS.passchange.password); // the first form (the second sets up two-factor)
     await page.getByLabel('New password', { exact: true }).fill('short');
     await page.getByLabel('Repeat the new password').fill('short');
     await page.getByRole('button', { name: 'Change password' }).click();

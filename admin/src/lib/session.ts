@@ -134,7 +134,7 @@ export function safeNextPath(value: string | null | undefined): string {
   // The sign-in page and the API routes are never a target, however they are spelled (/%61pi/... is /api/...).
   for (const form of decodedForms(path) ?? [path]) {
     const lower = form.toLowerCase();
-    if (lower === '/api' || lower.startsWith('/api/') || lower === '/login' || lower.startsWith('/login/')) return '/';
+    if (/^\/(api|login)(?:[/;?#]|$)/.test(lower)) return '/';
   }
   const target = `${path}${url.search}`;
   return target.startsWith('//') ? '/' : target;
