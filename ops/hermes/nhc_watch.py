@@ -107,6 +107,16 @@ def http_get(url: str, timeout: float, ctx: ssl.SSLContext | None, headers: dict
         return 0, f"{type(reason).__name__}: {reason}", int((time.monotonic() - started) * 1000)
 
 
+def iso_to_ts(value) -> float | None:
+    """A GitHub-style ISO time ("2026-10-07T18:30:14Z") as a Unix timestamp, or None."""
+    if not isinstance(value, str) or not value:
+        return None
+    try:
+        return datetime.fromisoformat(value.replace("Z", "+00:00")).timestamp()
+    except ValueError:
+        return None
+
+
 def cert_days_left(host: str, port: int, timeout: float, ctx: ssl.SSLContext) -> float:
     with socket.create_connection((host, port), timeout=timeout) as sock:
         with ctx.wrap_socket(sock, server_hostname=host) as tls:
