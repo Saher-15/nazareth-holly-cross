@@ -448,8 +448,11 @@ def evaluate(results: dict, state: dict, now: float, confirm: int, remind_s: flo
     uptime, last_uptime, last_run = api.get("uptimeSeconds"), state.get("apiUptime"), state.get("lastRun")
     if isinstance(uptime, (int, float)):
         if isinstance(last_uptime, (int, float)) and last_run and uptime + 30 < last_uptime + (now - last_run):
-            if state.get("apiCommit") == api.get("commit"):
-                notes.append(f"ℹ️ The API restarted {fmt_duration(uptime)} ago without a new deploy (crash or sleep): Render -> Logs.")
+            before, after = state.get("apiCommit"), api.get("commit")
+            if before and after and before == after:  # same known commit: not a deploy
+                notes.append(f"ℹ️ The API restarted {fmt_duration(uptime)} ago without a new deploy (crash, or a restart in Railway): Railway -> the API service -> Deployments and Logs.")
+            elif not (before and after):  # the API does not report its commit: a deploy cannot be told apart from a crash
+                notes.append(f"ℹ️ The API restarted {fmt_duration(uptime)} ago (a deploy or a crash): Railway -> the API service -> Deployments.")
         state["apiUptime"], state["apiCommit"] = uptime, api.get("commit")
     db_ms = api.get("dbLatencyMs")
     if isinstance(db_ms, (int, float)) and db_ms > DB_LATENCY_WARN_MS:
