@@ -25,7 +25,7 @@ const option = (name, fallback) => {
 };
 
 const SITE = option('site', 'https://nazarethholycross.com').replace(/\/+$/, '');
-const API = option('api', 'https://nazareth-holy-cross-api.onrender.com').replace(/\/+$/, '');
+const API = option('api', 'https://nazareth-holy-cross-api-production.up.railway.app').replace(/\/+$/, '');
 const NO_BROWSER = flag('no-browser');
 const PAGE_BUDGET_MS = Number(process.env.SMOKE_PAGE_BUDGET_MS || 8000);
 const isLive = new URL(SITE).hostname === 'nazarethholycross.com';

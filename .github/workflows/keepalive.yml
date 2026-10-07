@@ -31,7 +31,7 @@ jobs:
       # --retry covers a cold start (30-60 s): the first attempt may time out while the service wakes up.
       - name: GET /health
         env:
-          API_URL: ${{ vars.API_URL || 'https://nazareth-holy-cross-api.onrender.com' }}
+          API_URL: ${{ vars.API_URL || 'https://nazareth-holy-cross-api-production.up.railway.app' }}
         run: |
           curl --fail --silent --show-error --location \
             --max-time 90 --retry 3 --retry-delay 15 --retry-all-errors \

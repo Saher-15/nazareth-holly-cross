@@ -12,7 +12,7 @@ What was measured, what was changed, what is left, and how to measure again.
 | Smoke test with budgets | fails the build on a regression (see section 7) | `E2E_PORT=3802 PW_CHANNEL=msedge npx playwright test tests/e2e/performance.spec.ts` |
 | Image audit | every older photo: pixels, weight, "soft as a wide picture" flag | `node scripts/media/audit.mjs` |
 
-Run `next build` only while the API's `RateLimit` header (`curl -sI https://nazareth-holy-cross-api.onrender.com/health`)
+Run `next build` only while the API's `RateLimit` header (`curl -sI https://nazareth-holy-cross-api-production.up.railway.app/health`)
 shows plenty of requests left (200 per 15 minutes per address, shared by everything on the machine); a build or test
 that is throttled shows error states.
 

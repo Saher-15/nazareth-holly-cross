@@ -269,7 +269,7 @@ people. Today's traffic is low enough not to notice; it grows with the site.
 **Fix (code is in; default behaviour unchanged):** the environment variable `TRUST_PROXY_HOPS` (whole number 1-5, default 1)
 now sets `trust proxy`. Procedure for the owner, any quiet time, 10 minutes:
 1. Render -> `nazareth-holy-cross-api` -> Environment -> add `TRUST_PROXY_HOPS` = `2` -> save (the service redeploys).
-2. Test from your own PC: run `curl -s -D - -o /dev/null https://nazareth-holy-cross-api.onrender.com/health | findstr /i ratelimit`
+2. Test from your own PC: run `curl -s -D - -o /dev/null https://nazareth-holy-cross-api-production.up.railway.app/health | findstr /i ratelimit`
    six times. **Good:** `remaining` goes 199, 198, 197... and `reset` is nearly the same in every answer (one bucket).
    **Then** run it with `-H "X-Forwarded-For: 203.0.113.9"`: still the same bucket (a forged header must not matter).
 3. If the numbers are still scattered, or `remaining` jumps, set the variable back to `1` (or delete it) and tell the
@@ -344,7 +344,7 @@ JavaScript at build time**: changing a value changes nothing until a new deploy.
 | Variable | Used by | Default in `web/src/lib/config.ts` | Production today |
 |---|---|---|---|
 | `NEXT_PUBLIC_SITE_URL` | canonical URLs, sitemap, Open Graph | `https://nazarethholycross.com` | relies on the default (correct) |
-| `NEXT_PUBLIC_API_URL` | every API call, CSP `connect-src` | `https://nazareth-holy-cross-api.onrender.com` | relies on the default (correct: the CSP of the live site names it) |
+| `NEXT_PUBLIC_API_URL` | every API call, CSP `connect-src` | `https://nazareth-holy-cross-api-production.up.railway.app` | relies on the default (correct: the CSP of the live site names it) |
 | `NEXT_PUBLIC_PAYPAL_CLIENT_ID` | the PayPal button | **the sandbox client id** | **relies on the default: the live bundle contains the sandbox id** (found by reading the live JavaScript; first 8 characters `AfhOc9To`). The shop's payments are therefore **PayPal sandbox payments, not real money** |
 | `NEXT_PUBLIC_WHATSAPP` | contact page link | empty (link hidden) | not set |
 
@@ -373,7 +373,7 @@ Sandbox**. A mix fails closed (PayPal refuses the order, nobody is charged) but 
        is saved leaves a payment without an order. Either build the webhook first, or accept manual reconciliation: **every
        day, compare PayPal -> Activity with the orders in the dashboard** until it exists.
 4. [ ] Pick a quiet hour. Render: set `ENVIRONMENT=production`, `CLIENT_ID=<Live client id>`, `CLIENT_SECRET=<Live secret>`
-       together, save (redeploy). Check `https://nazareth-holy-cross-api.onrender.com/health/deep` says `"paypalMode":"live"`.
+       together, save (redeploy). Check `https://nazareth-holy-cross-api-production.up.railway.app/health/deep` says `"paypalMode":"live"`.
 5. [ ] Netlify (Production scope): `NEXT_PUBLIC_PAYPAL_CLIENT_ID=<Live client id>`; then **Deploys -> Trigger deploy -> Clear cache
        and deploy site** (the value is read at build time). Do 4 and 5 within a few minutes of each other.
 6. [ ] `node ops/smoke-live.mjs`: the line "API PayPal mode" must be a PASS with `live` (it is a WARN while `sandbox`).

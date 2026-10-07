@@ -4,7 +4,7 @@ The API behind the new admin dashboard (`server/route/admin/*`). It replaces the
 personal accounts, roles, optional two-factor sign-in, sessions that can be ended at once, and an audit log.
 Threat model and the rest of the API's protections: [SECURITY.md](SECURITY.md) (section 4.1).
 
-Everything below is under the API origin (Render: `https://nazareth-holy-cross-api.onrender.com`). Bodies are JSON.
+Everything below is under the API origin (Render: `https://nazareth-holy-cross-api-production.up.railway.app`). Bodies are JSON.
 Every error is `{ "error": "text" }`; every answer under `/admin` carries `Cache-Control: no-store`.
 
 ## 1. Setting it up
