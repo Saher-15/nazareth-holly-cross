@@ -12,8 +12,10 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import {
   auditPage, candlesPage, contactsPage, dashboardSchema, loginResponseSchema, meSchema, ordersPage, prayersPage, productReviewsPage,
   liveStartSchema, liveStateSchema, liveStopSchema, paymentsPage, privacyEraseSchema, privacyLookupSchema, productSchema, productsPage,
-  siteReviewsPage, totpSetupSchema, usersPage, WHIP_URL,
+  recordingAnswerSchema, recordingDeleteSchema, recordingsStateSchema, recordingUploadSchema, scheduleDeleteSchema, scheduleItemSchema,
+  scheduleListSchema, siteReviewsPage, totpSetupSchema, UPLOAD_URL, usersPage, WHIP_URL,
 } from '@/lib/api';
+import { utcToNazarethLocal } from '@/lib/schedule';
 import { totpCode } from '../../mock-api/totp.mjs';
 
 const root = path.resolve(__dirname, '../..');
@@ -21,7 +23,8 @@ const serverDir = path.resolve(root, '../server');
 const haveServer = fs.existsSync(path.join(serverDir, 'node_modules', 'express'));
 
 type Reply = { status: number; json: unknown; text: string; headers: Headers };
-type Backend = { name: string; base: string; process?: ChildProcess; reset(options?: { accounts?: boolean }): Promise<void>; emails(): Promise<{ subject: string; to: string[]; text: string }[]>; mail(fail: boolean): Promise<void>; live(options: { configured?: boolean; failCreate?: boolean }): Promise<void> };
+type LiveControl = { configured?: boolean; failCreate?: boolean; failUpload?: boolean; videoState?: string; videoUid?: string; durationSeconds?: number };
+type Backend = { name: string; base: string; process?: ChildProcess; reset(options?: { accounts?: boolean }): Promise<void>; emails(): Promise<{ subject: string; to: string[]; text: string }[]>; mail(fail: boolean): Promise<void>; live(options: LiveControl): Promise<void> };
 
 const freePort = () => new Promise<number>((resolve) => {
   const server = net.createServer();
@@ -279,6 +282,122 @@ async function scenario(backend: Backend): Promise<{ steps: Step[]; replies: Rec
   add('live start: not configured', await E('POST', '/admin/live/start', { title: 'Nothing' }));
   await backend.live({ configured: true });
 
+  // recordings of broadcasts (docs/LIVE.md "Recordings"): the upload address in two answers only, never the video
+  const NO_ID = `${'0'.repeat(23)}9`;
+  const sessionOf = (r: Reply) => (r.json as { session: { _id: string } }).session._id;
+  const broadcast = async (as: typeof E, title: string) => {
+    const id = sessionOf(await as('POST', '/admin/live/start', { title }));
+    await as('POST', '/admin/live/stop', { sessionId: id });
+    return id;
+  };
+  const editorSession = await broadcast(E, 'Recorded vespers');
+  const ownerSession = await broadcast(O, 'Owner broadcast');
+  const editorSession2 = await broadcast(E, 'Second recorded broadcast');
+  const recBody = { sessionId: editorSession, sizeBytes: 12_345_678, durationSeconds: 75, mimeType: 'video/webm;codecs=vp9,opus', title: 'Vespers & psalms' };
+  const recordingReplies: Reply[] = [];
+  const rec = (label: string, r: Reply) => { recordingReplies.push(r); return add(label, r); };
+  rec('rec list (nothing yet)', await E('GET', '/admin/live/recordings'));
+  rec('rec list: viewer', await V('GET', '/admin/live/recordings'));
+  rec('rec create: viewer', await V('POST', '/admin/live/recordings', recBody));
+  rec('rec create: no size', await E('POST', '/admin/live/recordings', { ...recBody, sizeBytes: undefined }));
+  rec('rec create: size 0', await E('POST', '/admin/live/recordings', { ...recBody, sizeBytes: 0 }));
+  rec('rec create: a fraction of a second', await E('POST', '/admin/live/recordings', { ...recBody, durationSeconds: 1.5 }));
+  rec('rec create: longer than six hours', await E('POST', '/admin/live/recordings', { ...recBody, durationSeconds: 21_601 }));
+  rec('rec create: not a video type', await E('POST', '/admin/live/recordings', { ...recBody, mimeType: 'application/pdf' }));
+  rec('rec create: Safari mp4', await E('POST', '/admin/live/recordings', { ...recBody, sessionId: NO_ID, mimeType: 'video/mp4;codecs=avc1,mp4a.40.2' }));
+  rec('rec create: extra field', await E('POST', '/admin/live/recordings', { ...recBody, uploadUrl: 'https://upload.videodelivery.net/tus/x' }));
+  rec('rec create: bad session id', await E('POST', '/admin/live/recordings', { ...recBody, sessionId: 'nope' }));
+  rec('rec create: unknown session', await E('POST', '/admin/live/recordings', { ...recBody, sessionId: NO_ID }));
+  rec('rec create: someone else\'s broadcast (editor)', await E('POST', '/admin/live/recordings', { ...recBody, sessionId: ownerSession }));
+  const recCreated = add('rec create', await E('POST', '/admin/live/recordings', recBody));
+  const recording = recCreated.json as { recordingId: string; uploadUrl: string; recording: { _id: string } };
+  steps.push({ label: 'rec create: the upload address is Cloudflare\'s tus address', status: 0, shape: UPLOAD_URL.test(recording.uploadUrl) });
+  const recPath = `/admin/live/recordings/${recording.recordingId}`;
+  rec('rec create again: 409 with the recording', await E('POST', '/admin/live/recordings', recBody));
+  rec('rec list (uploading)', await E('GET', '/admin/live/recordings'));
+  rec('rec publish while uploading: 409', await E('PATCH', recPath, { published: true }));
+  const renewed = add('rec renew', await E('POST', `${recPath}/upload-url`, { sizeBytes: 12_345_679, durationSeconds: 76 }));
+  steps.push({ label: 'rec renew: a new address', status: 0, shape: UPLOAD_URL.test((renewed.json as { uploadUrl: string }).uploadUrl) && (renewed.json as { uploadUrl: string }).uploadUrl !== recording.uploadUrl });
+  rec('rec renew: bad id', await E('POST', '/admin/live/recordings/nope/upload-url', { sizeBytes: 1 }));
+  rec('rec renew: unknown id', await E('POST', `/admin/live/recordings/${NO_ID}/upload-url`, { sizeBytes: 1 }));
+  rec('rec renew: no size', await E('POST', `${recPath}/upload-url`, {}));
+  rec('rec uploaded: with a body', await E('POST', `${recPath}/uploaded`, { done: true }));
+  rec('rec uploaded', await E('POST', `${recPath}/uploaded`));
+  rec('rec uploaded again', await E('POST', `${recPath}/uploaded`));
+  rec('rec renew after the upload: 409', await E('POST', `${recPath}/upload-url`, { sizeBytes: 5 }));
+  await backend.live({ videoState: 'ready', durationSeconds: 80 });
+  const published = rec('rec publish (Cloudflare finished)', await E('PATCH', recPath, { published: true }));
+  const pub = (published.json as { recording?: { status: string; published: boolean; durationSeconds: number } }).recording;
+  steps.push({ label: 'rec publish: status, published, Cloudflare\'s duration', status: 0, shape: [pub?.status, pub?.published, pub?.durationSeconds] });
+  rec('rec rename', await E('PATCH', recPath, { title: 'Evening & psalms' }));
+  rec('rec patch: nothing', await E('PATCH', recPath, {}));
+  rec('rec patch: extra field', await E('PATCH', recPath, { status: 'ready' }));
+  rec('rec patch: title too long', await E('PATCH', recPath, { title: 'x'.repeat(121) }));
+  rec('rec patch: bad id', await E('PATCH', '/admin/live/recordings/nope', { title: 'x' }));
+  rec('rec list (ready)', await O('GET', '/admin/live/recordings'));
+  rec('rec public list', await client(backend)('GET', '/live/recordings'));
+  await backend.live({ failUpload: true });
+  rec('rec create: Cloudflare refuses', await O('POST', '/admin/live/recordings', { ...recBody, sessionId: ownerSession }));
+  await backend.live({ failUpload: false });
+  add('rec create: an owner, for an editor\'s broadcast', await O('POST', '/admin/live/recordings', { ...recBody, sessionId: editorSession2 }));
+  rec('rec unpublish', await E('PATCH', recPath, { published: false }));
+  rec('rec delete: viewer', await V('DELETE', recPath));
+  rec('rec delete', await E('DELETE', recPath));
+  rec('rec delete again', await E('DELETE', recPath));
+  await backend.live({ configured: false });
+  rec('rec list: not configured', await E('GET', '/admin/live/recordings'));
+  rec('rec create: not configured', await E('POST', '/admin/live/recordings', { ...recBody, sessionId: ownerSession }));
+  await backend.live({ configured: true });
+  const recAudit = add('rec audit', await O('GET', '/admin/audit?action=live.&size=60'));
+  steps.push({ label: 'rec audit actions', status: 0, shape: (recAudit.json as { items: { action: string }[] }).items.map((e) => e.action).filter((a) => a.startsWith('live.recording_')) });
+  steps.push({ label: 'rec: no other answer carries an upload address', status: 0, shape: recordingReplies.every((r) => !/upload\.(videodelivery\.net|cloudflarestream\.com)/.test(r.text)) });
+
+  // scheduled broadcasts (docs/LIVE.md "Scheduled broadcasts"): typed in Nazareth time, stored in UTC
+  const inDays = (days: number, hhmm = '19:30') => `${utcToNazarethLocal(Date.now() + days * 86_400_000).slice(0, 10)}T${hhmm}`;
+  const sched = { title: 'Feast & vespers', description: 'With the choir <b>', startsAtLocal: inDays(3), published: true };
+  add('sched list (nothing yet)', await E('GET', '/admin/live/schedule'));
+  add('sched list: viewer', await V('GET', '/admin/live/schedule'));
+  add('sched create: viewer', await V('POST', '/admin/live/schedule', sched));
+  add('sched create: in the past', await E('POST', '/admin/live/schedule', { ...sched, startsAtLocal: inDays(-1) }));
+  add('sched create: two years ahead', await E('POST', '/admin/live/schedule', { ...sched, startsAtLocal: inDays(730) }));
+  add('sched create: not a real date', await E('POST', '/admin/live/schedule', { ...sched, startsAtLocal: '2027-02-30T10:00' }));
+  add('sched create: wrong format', await E('POST', '/admin/live/schedule', { ...sched, startsAtLocal: inDays(3).replace('T', ' ') }));
+  add('sched create: no title', await E('POST', '/admin/live/schedule', { ...sched, title: '' }));
+  add('sched create: description too long', await E('POST', '/admin/live/schedule', { ...sched, description: 'x'.repeat(501) }));
+  add('sched create: extra field', await E('POST', '/admin/live/schedule', { ...sched, status: 'live' }));
+  const schedMade = add('sched create', await E('POST', '/admin/live/schedule', sched));
+  const item = (schedMade.json as { item: { _id: string; startsAtLocal: string } }).item;
+  steps.push({ label: 'sched create: the Nazareth time is kept', status: 0, shape: item.startsAtLocal === sched.startsAtLocal });
+  const schedPath = `/admin/live/schedule/${item._id}`;
+  const draft = add('sched create: a draft', await O('POST', '/admin/live/schedule', { title: 'Draft', startsAtLocal: inDays(5, '08:00') }));
+  const draftPath = `/admin/live/schedule/${(draft.json as { item: { _id: string } }).item._id}`;
+  add('sched update', await E('PATCH', schedPath, { title: 'Feast vespers', startsAtLocal: inDays(4, '18:00'), description: '' }));
+  add('sched update: nothing', await E('PATCH', schedPath, {}));
+  add('sched update: status live', await E('PATCH', schedPath, { status: 'live' }));
+  add('sched update: in the past', await E('PATCH', schedPath, { startsAtLocal: inDays(-2) }));
+  add('sched update: bad id', await E('PATCH', '/admin/live/schedule/nope', { title: 'x' }));
+  add('sched update: unknown id', await E('PATCH', `/admin/live/schedule/${NO_ID}`, { title: 'x' }));
+  add('sched cancel', await E('PATCH', schedPath, { status: 'cancelled' }));
+  add('live start: a cancelled scheduled broadcast', await E('POST', '/admin/live/start', { title: 'x', scheduleId: item._id }));
+  add('sched restore', await E('PATCH', schedPath, { status: 'scheduled' }));
+  add('live start: unknown scheduled broadcast', await E('POST', '/admin/live/start', { title: 'x', scheduleId: NO_ID }));
+  add('live start: bad schedule id', await E('POST', '/admin/live/start', { title: 'x', scheduleId: 'nope' }));
+  const fromSchedule = add('live start: from a scheduled broadcast', await E('POST', '/admin/live/start', { title: 'Feast vespers', scheduleId: item._id }));
+  add('sched list (live)', await E('GET', '/admin/live/schedule'));
+  add('sched delete while live: 409', await E('DELETE', schedPath));
+  add('sched change the time while live: 409', await E('PATCH', schedPath, { startsAtLocal: inDays(6) }));
+  add('sched rename while live', await E('PATCH', schedPath, { title: 'Feast vespers, live' }));
+  add('sched public list (live)', await client(backend)('GET', '/live/schedule'));
+  add('live stop (scheduled)', await E('POST', '/admin/live/stop', { sessionId: sessionOf(fromSchedule) }));
+  const after = add('sched list (done)', await E('GET', '/admin/live/schedule'));
+  steps.push({ label: 'sched: titles, statuses and published after the broadcast', status: 0, shape: (after.json as { items: { title: string; status: string; published: boolean }[] }).items.map((i) => [i.title, i.status, i.published]) });
+  add('live start: a scheduled broadcast that is done', await E('POST', '/admin/live/start', { title: 'x', scheduleId: item._id }));
+  add('sched delete: viewer', await V('DELETE', draftPath));
+  add('sched delete', await E('DELETE', draftPath));
+  add('sched delete again', await E('DELETE', draftPath));
+  const schedAudit = add('sched audit', await O('GET', '/admin/audit?action=live.&size=60'));
+  steps.push({ label: 'sched audit actions', status: 0, shape: (schedAudit.json as { items: { action: string }[] }).items.map((e) => e.action).filter((a) => a.startsWith('live.schedule_') || a === 'live.start' || a === 'live.stop') });
+
   // users
   const me = (owner.res.json as { user: { id: string } }).user.id;
   const made = add('user create', await O('POST', '/admin/users', { username: 'Casey.Test', password: 'Casey-Test-Pass-77', role: 'viewer' }));
@@ -479,11 +598,26 @@ describe.skipIf(!haveServer)('the mock and the real API agree (status codes and 
     parse('live start', liveStartSchema);
     parse('live stop', liveStopSchema);
     parse('live stop again', liveStopSchema);
+    parse('rec list (nothing yet)', recordingsStateSchema);
+    parse('rec list (uploading)', recordingsStateSchema);
+    parse('rec list (ready)', recordingsStateSchema);
+    parse('rec list: not configured', recordingsStateSchema);
+    parse('rec create', recordingUploadSchema);
+    parse('rec renew', recordingUploadSchema);
+    parse('rec uploaded', recordingAnswerSchema);
+    parse('rec publish (Cloudflare finished)', recordingAnswerSchema);
+    parse('rec rename', recordingAnswerSchema);
+    parse('rec delete', recordingDeleteSchema);
+    parse('sched list (live)', scheduleListSchema);
+    parse('sched list (done)', scheduleListSchema);
+    parse('sched create', scheduleItemSchema);
+    parse('sched update', scheduleItemSchema);
+    parse('sched delete', scheduleDeleteSchema);
   });
 
   it('and so do the mock\'s answers (the mock is what the dashboard\'s own end-to-end run sees)', () => {
     const r = a.replies;
-    for (const [label, schema] of Object.entries({ login: loginResponseSchema, me: meSchema, dashboard: dashboardSchema, 'list orders': ordersPage, 'list users': usersPage, 'list audit': auditPage, 'list products': productsPage, 'list payments': paymentsPage })) {
+    for (const [label, schema] of Object.entries({ login: loginResponseSchema, me: meSchema, dashboard: dashboardSchema, 'list orders': ordersPage, 'list users': usersPage, 'list audit': auditPage, 'list products': productsPage, 'list payments': paymentsPage, 'rec list (ready)': recordingsStateSchema, 'rec create': recordingUploadSchema, 'rec uploaded': recordingAnswerSchema, 'sched list (live)': scheduleListSchema, 'sched create': scheduleItemSchema })) {
       expect(schema.safeParse(r[label].json).success, label).toBe(true);
     }
   });

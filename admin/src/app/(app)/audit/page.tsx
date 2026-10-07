@@ -14,11 +14,13 @@ export async function generateMetadata(): Promise<Metadata> {
   return { title: t('nav.audit') };
 }
 
+// Action names are shown as they are (Latin, .ltr); only their tone is chosen. The live actions use "_" inside the
+// name (live.recording_delete, live.schedule_create, live.recording_failed): they get the same tones.
 function toneOf(action: string): Tone {
   if (action.includes('failed')) return 'danger';
-  if (action.endsWith('.delete') || action.includes('disable')) return 'warn';
+  if (/[._]delete$/.test(action) || action.includes('disable')) return 'warn';
   if (action.startsWith('auth.') || action.startsWith('totp')) return 'info';
-  if (action.endsWith('.create')) return 'success';
+  if (/[._]create$/.test(action)) return 'success';
   return 'neutral';
 }
 

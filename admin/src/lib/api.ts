@@ -17,13 +17,16 @@ export class ApiError extends Error {
   readonly status: number;
   readonly code?: string;
   readonly retryAfterSeconds?: number;
+  /** The parsed JSON of an error answer (e.g. the `recording` of a 409), for the few callers that need more than the text. */
+  readonly body?: unknown;
 
-  constructor(status: number, message: string, options: { code?: string; retryAfterSeconds?: number } = {}) {
+  constructor(status: number, message: string, options: { code?: string; retryAfterSeconds?: number; body?: unknown } = {}) {
     super(message);
     this.name = 'ApiError';
     this.status = status;
     this.code = options.code;
     this.retryAfterSeconds = options.retryAfterSeconds;
+    this.body = options.body;
   }
 
   get unauthorized() {
@@ -330,6 +333,81 @@ export const WHIP_URL = /^https:\/\/customer-[a-z0-9]{1,64}\.cloudflarestream\.c
 export const liveStartSchema = z.looseObject({ session: liveSessionSchema, whipUrl: z.string().regex(WHIP_URL) });
 export const liveStopSchema = z.looseObject({ stopped: z.boolean(), session: liveSessionSchema.nullable() });
 
+// Recordings of broadcasts (server/route/admin/liveRecordings.js, docs/LIVE.md "Recordings"). The browser records the
+// broadcast and uploads the file straight to Cloudflare (tus) with a one-time address that is only in the answers to
+// "create" and "renew" (recordingUploadSchema): never stored, never in a list.
+export const RECORDING_STATUSES = ['uploading', 'processing', 'ready', 'failed'] as const;
+export type RecordingStatus = (typeof RECORDING_STATUSES)[number];
+/** What MediaRecorder writes (mp4 in Safari, webm in Chrome/Edge/Firefox), with optional codecs: the API's own rule. */
+export const RECORDING_MIME = /^video\/(mp4|webm|x-matroska)(;[ a-z0-9=.,"-]{0,80})?$/i;
+/** Cloudflare's tus upload hosts (Direct Creator Upload); the CSP of /live allows exactly these (lib/csp.ts). */
+export const UPLOAD_HOSTS = ['upload.videodelivery.net', 'upload.cloudflarestream.com'] as const;
+export const UPLOAD_URL = /^https:\/\/upload\.(videodelivery\.net|cloudflarestream\.com)\/[A-Za-z0-9_\-/]{1,600}(\?[A-Za-z0-9_=&-]{0,200})?$/;
+/** Cloudflare's player page and poster of a stored video. */
+const STREAM_VIDEO_URL = /^https:\/\/customer-[a-z0-9]{1,64}\.cloudflarestream\.com\/[a-f0-9]{32}\/(iframe|thumbnails\/thumbnail\.jpg)$/;
+
+export const recordingSchema = doc({
+  session: z.string().nullish(),
+  title: z.string(),
+  liveStartedAt: isoDate.nullish(),
+  liveEndedAt: isoDate.nullish(),
+  durationSeconds: z.number().nonnegative(),
+  sizeBytes: z.number().nonnegative(),
+  mimeType: z.string().nullish(),
+  status: z.enum(RECORDING_STATUSES),
+  failReason: z.string().nullish(),
+  published: z.boolean(),
+  publishedAt: isoDate.nullish(),
+  // Anything that is not Cloudflare's own address is dropped (never framed or loaded).
+  thumbnailUrl: z.string().nullish().transform((v) => (v && STREAM_VIDEO_URL.test(v) ? v : null)),
+  playbackUrl: z.string().nullish().transform((v) => (v && STREAM_VIDEO_URL.test(v) ? v : null)),
+  createdBy: actorSchema.nullish(),
+  createdAt: isoDate.nullish(),
+});
+export type Recording = z.infer<typeof recordingSchema>;
+
+export const recordingStorageSchema = z.looseObject({
+  usedMinutes: z.number().nonnegative(),
+  limitMinutes: z.number().nonnegative(),
+  videos: z.number().nullable(),
+  source: z.enum(['cloudflare', 'estimate']),
+  pricePer1000Minutes: z.number().nonnegative(),
+});
+export type RecordingStorage = z.infer<typeof recordingStorageSchema>;
+
+export const recordingsStateSchema = z.looseObject({
+  configured: z.boolean(),
+  items: z.array(recordingSchema),
+  storage: recordingStorageSchema,
+});
+export type RecordingsState = z.infer<typeof recordingsStateSchema>;
+
+/** The answer to "create" and "renew": the one-time tus address (checked: Cloudflare's upload hosts only). */
+export const recordingUploadSchema = z.looseObject({ recordingId: z.string().min(1), uploadUrl: z.string().regex(UPLOAD_URL), recording: recordingSchema });
+export const recordingAnswerSchema = z.looseObject({ recording: recordingSchema });
+export const recordingDeleteSchema = z.looseObject({ deleted: z.boolean(), cloudflareDeleted: z.boolean() });
+
+// Scheduled broadcasts (server/route/admin/liveSchedule.js): typed and shown in Nazareth time, stored in UTC.
+export const SCHEDULE_STATUSES = ['scheduled', 'live', 'done', 'cancelled'] as const;
+export type ScheduleStatus = (typeof SCHEDULE_STATUSES)[number];
+export const scheduledSchema = doc({
+  title: z.string(),
+  description: z.string().nullish().transform((v) => v ?? ''),
+  startsAt: isoDate,
+  startsAtLocal: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/),
+  timeZone: z.string().nullish(),
+  published: z.boolean(),
+  status: z.enum(SCHEDULE_STATUSES),
+  liveSession: z.string().nullish(),
+  createdBy: actorSchema.nullish(),
+  updatedAt: isoDate.nullish(),
+});
+export type ScheduledBroadcast = z.infer<typeof scheduledSchema>;
+export const scheduleListSchema = z.looseObject({ timeZone: z.string(), items: z.array(scheduledSchema) });
+export type ScheduleList = z.infer<typeof scheduleListSchema>;
+export const scheduleItemSchema = z.looseObject({ item: scheduledSchema });
+export const scheduleDeleteSchema = z.looseObject({ deleted: z.boolean() });
+
 export const errorBodySchema = z.looseObject({ error: z.string() });
 
 // ---------------------------------------------------------------- request helper
@@ -409,7 +487,7 @@ export async function apiRequest<T = void>(options: RequestOptions<T>): Promise<
   if (!res.ok) {
     const parsed = errorBodySchema.safeParse(payload);
     const message = parsed.success ? parsed.data.error : `Request failed (${res.status})`;
-    throw new ApiError(res.status, message, { code: parsed.success ? parsed.data.error : undefined, retryAfterSeconds: retryAfter(res) });
+    throw new ApiError(res.status, message, { code: parsed.success ? parsed.data.error : undefined, retryAfterSeconds: retryAfter(res), body: decodeDeep(payload) });
   }
 
   if (!schema) return payload as T;

@@ -49,8 +49,9 @@ let resetBuckets; // forgot-password: 3 per address and e-mail, 10 per address; 
 let failMail = false;
 // Test control: the next N calls to GET /admin/auth/me answer 429, as a busy API would (POST /__mock/busy { count }).
 let busyMe = 0;
-// Live broadcasting (server/route/admin/live.js): the sessions, and a fake Cloudflare Stream (inputs by uid).
-let live; // { sessions: [], inputs: Map, configured: boolean, failCreate: boolean }
+// Live broadcasting (server/route/admin/live.js): the sessions, and a fake Cloudflare Stream (inputs by uid), the
+// recordings (route/admin/liveRecordings.js) with the fake's stored videos, and the scheduled broadcasts.
+let live; // { sessions, inputs: Map, videos: Map, recordings, schedule, configured, failCreate, failUpload, storageCache }
 
 function reset({ accounts = true } = {}) {
   const seed = buildSeed(Date.now(), ASSET_BASE);
@@ -87,7 +88,7 @@ function reset({ accounts = true } = {}) {
   privacyBuckets = new Map();
   resetBuckets = new Map();
   failMail = false;
-  live = { sessions: [], inputs: new Map(), configured: true, failCreate: false };
+  live = { sessions: [], inputs: new Map(), videos: new Map(), recordings: [], schedule: [], configured: true, failCreate: false, failUpload: false, storageCache: null };
 }
 reset();
 
@@ -1060,6 +1061,8 @@ function endLive(req, session, reason, user) {
   Object.assign(session, { status: 'ended', endedAt: new Date(now).toISOString(), endReason: reason, endedBy: user ? { id: user._id, name: user.username } : { id: null, name: 'system' } });
   session.inputDeleted = live.inputs.delete(session.inputUid);
   const minutes = Math.max(0, Math.round((now - new Date(session.startedAt).getTime()) / 60_000));
+  // The scheduled broadcast it fulfilled is done (server/services/liveSchedule.js finishScheduledFor).
+  for (const item of live.schedule) if (item.liveSession === session._id && item.status === 'live') Object.assign(item, { status: 'done', updatedAt: new Date(now).toISOString() });
   record(req, reason === 'auto' ? 'live.auto_end' : 'live.stop', { type: 'live', id: session._id }, { reason, minutes, inputDeleted: session.inputDeleted }, user ?? { username: 'system', role: 'system' });
   return session;
 }
@@ -1079,11 +1082,15 @@ add({
 add({
   method: 'POST', path: '/admin/live/start', min: 'editor',
   run: (ctx) => {
-    const { title } = parseBody(ctx.body, { title: str({ min: 1, max: 120 }) });
+    const { title, scheduleId } = parseBody(ctx.body, { title: str({ min: 1, max: 120 }), scheduleId: opt(str({ min: 24, max: 24, pattern: /^[a-f0-9]{24}$/i, escape: false })) });
     if (!live.configured) return { status: 503, body: { error: 'Live broadcasting is not configured yet (CF_ACCOUNT_ID and CF_STREAM_API_TOKEN, docs/LIVE.md)' } };
     endStaleLive(ctx.req);
     const current = liveNow();
     if (current) return { status: 409, body: { error: 'A broadcast is already live', current: liveView(current) } };
+    // The scheduled broadcast this one fulfils, checked before Cloudflare is asked for anything.
+    const planned = scheduleId ? live.schedule.find((s) => s._id === scheduleId.toLowerCase()) : null;
+    if (scheduleId && !planned) return { status: 404, body: { error: 'Scheduled broadcast not found' } };
+    if (planned && planned.status !== 'scheduled') return { status: 409, body: { error: 'That scheduled broadcast is not waiting to start (it is live, done or cancelled)' } };
     if (live.failCreate) {
       record(ctx.req, 'live.start_failed', { type: 'live', id: '' }, { stage: 'cloudflare' });
       return { status: 502, body: { error: 'Cloudflare Stream could not prepare the broadcast. Try again in a moment.' } };
@@ -1097,7 +1104,9 @@ add({
       endedAt: null, endReason: null, startedBy: { id: user._id, name: user.username }, endedBy: null, inputDeleted: false,
     };
     live.sessions.push(session);
-    record(ctx.req, 'live.start', { type: 'live', id: session._id }, { title, inputUid });
+    const linked = Boolean(planned && planned.status === 'scheduled');
+    if (linked) Object.assign(planned, { status: 'live', liveSession: session._id, updatedAt: new Date().toISOString() });
+    record(ctx.req, 'live.start', { type: 'live', id: session._id }, { title, inputUid, ...(scheduleId ? { scheduleId: scheduleId.toLowerCase(), scheduleLinked: linked } : {}) });
     return { status: 201, body: { session: liveView(session), whipUrl } };
   },
 });
@@ -1124,9 +1133,335 @@ add({
     endStaleLive(ctx.req);
     const current = liveNow();
     return current
-      ? { live: true, title: current.title, startedAt: current.startedAt, playbackUrl: `${STREAM_HOST}/${current.inputUid}/iframe` }
+      ? { live: true, id: current._id, title: current.title, startedAt: current.startedAt, playbackUrl: `${STREAM_HOST}/${current.inputUid}/iframe` }
       : { live: false };
   },
+});
+
+// --- recordings of broadcasts (editor and owner), server/route/admin/liveRecordings.js over the fake Cloudflare's stored
+// videos: the browser uploads straight to Cloudflare (tus), the API never sees the file and never keeps the upload address.
+const NOT_CONFIGURED = 'Live broadcasting is not configured yet (CF_ACCOUNT_ID and CF_STREAM_API_TOKEN, docs/LIVE.md)';
+const MAX_VIDEO_SECONDS = 21_600;
+const MAX_UPLOAD_BYTES = 30 * 1024 ** 3;
+const UPLOAD_WINDOW_MS = 4 * 3600_000;
+const CHECK_EVERY_MS = 10_000;
+const UPLOAD_GIVE_UP_MS = 48 * 3600_000;
+const OBJECT_ID = /^[a-f0-9]{24}$/i;
+const MIME = /^video\/(mp4|webm|x-matroska)(;[ a-z0-9=.,"-]{0,80})?$/i;
+const SYSTEM_ACTOR = { username: 'system', role: 'system' };
+const mimeRule = str({ min: 7, max: 100, pattern: MIME, escape: false });
+const sizeRule = int({ min: 1, max: MAX_UPLOAD_BYTES });
+const durationRule = int({ min: 0, max: MAX_VIDEO_SECONDS });
+const idParam = (ctx) => (OBJECT_ID.test(ctx.params.id ?? '') ? ctx.params.id.toLowerCase() : null);
+const customerCodeOf = (address) => /^https:\/\/customer-([a-z0-9]{1,64})\.cloudflarestream\.com\//.exec(String(address ?? ''))?.[1] ?? null;
+const videoUrl = (code, uid, path) => (/^[a-z0-9]{1,64}$/.test(code ?? '') && /^[a-f0-9]{32}$/.test(uid ?? '') ? `https://customer-${code}.cloudflarestream.com/${uid}/${path}` : null);
+const mayUpload = (user, startedById) => user.role === 'owner' || String(startedById ?? '') === user._id;
+const maxDurationFor = (seconds) => Math.min(MAX_VIDEO_SECONDS, Math.max(300, Math.ceil((seconds || 0) * 1.2) + 300));
+
+const recordingView = (r) => r && ({
+  _id: r._id, session: r.session, title: r.title, liveStartedAt: r.liveStartedAt, liveEndedAt: r.liveEndedAt ?? null,
+  durationSeconds: Math.max(0, Math.round(r.durationSeconds || 0)), sizeBytes: r.sizeBytes, mimeType: r.mimeType, cfVideoUid: r.cfVideoUid,
+  status: r.status, failReason: r.failReason ?? null, published: Boolean(r.published), publishedAt: r.publishedAt ?? null,
+  thumbnailUrl: videoUrl(r.customerCode, r.cfVideoUid, 'thumbnails/thumbnail.jpg'), playbackUrl: videoUrl(r.customerCode, r.cfVideoUid, 'iframe'),
+  createdBy: { ...r.createdBy }, createdAt: r.createdAt,
+});
+
+// The fake Cloudflare (server/test-harness/fake-cloudflare.js): one-time upload addresses and stored videos.
+function createUpload(sizeBytes, maxDurationSeconds) {
+  if (live.failUpload) throw new HttpError(502, 'Cloudflare Stream could not prepare the upload. Try again in a moment.');
+  const uid = hex(16);
+  live.videos.set(uid, { sizeBytes, maxDurationSeconds, state: 'pendingupload', readyToStream: false, durationSeconds: null });
+  return { uid, uploadUrl: `https://upload.videodelivery.net/tus/${uid}?tusv2=true` };
+}
+const deleteVideo = (uid) => { if (!live.configured || !uid) return false; live.videos.delete(uid); return true; };
+function setVideoState(uid, state, durationSeconds) {
+  const video = live.videos.get(uid);
+  if (!video) return;
+  video.state = state;
+  video.readyToStream = state === 'ready';
+  if (durationSeconds !== undefined) video.durationSeconds = durationSeconds;
+  else if (state === 'ready' && video.durationSeconds === null) video.durationSeconds = Math.min(video.maxDurationSeconds ?? 60, 60);
+}
+
+/** Asks the fake Cloudflare how far a video is (services/liveRecordings.js refreshRecording): never backwards. */
+function refreshRecording(r, now = Date.now()) {
+  if (!live.configured || !['uploading', 'processing'].includes(r.status)) return r;
+  const video = live.videos.get(r.cfVideoUid);
+  const before = r.status;
+  let next = r.status;
+  r.checkedAt = now;
+  if (!video) {
+    if (r.status === 'processing' || now - new Date(r.createdAt).getTime() > UPLOAD_GIVE_UP_MS) { next = 'failed'; r.failReason = 'missing at Cloudflare'; }
+  } else {
+    if (video.state === 'error') { next = 'failed'; r.failReason = 'Cloudflare could not encode it (ERR_NON_VIDEO)'; }
+    else if (video.state === 'ready' && video.readyToStream) next = 'ready';
+    else if (['downloading', 'queued', 'inprogress', 'ready'].includes(video.state)) next = 'processing';
+    if (video.durationSeconds !== null && video.durationSeconds > 0) r.durationSeconds = video.durationSeconds;
+  }
+  if (next === 'failed') r.published = false;
+  if (next !== before) {
+    r.status = next;
+    r.updatedAt = new Date(now).toISOString();
+    record({ headers: {}, socket: {} }, 'live.recording_status', { type: 'liveRecording', id: r._id }, { from: before, to: next, videoUid: r.cfVideoUid }, SYSTEM_ACTOR);
+  }
+  return r;
+}
+
+/** Minutes stored (the fake's own figure when configured, else our estimate), cached a minute like the real API. */
+function storageSummary(now = Date.now()) {
+  if (live.storageCache && now - live.storageCache.at < 60_000) return live.storageCache.body;
+  let body;
+  if (live.configured) {
+    const seconds = [...live.videos.values()].reduce((sum, v) => sum + (v.durationSeconds ?? 0), 0);
+    body = { usedMinutes: Math.round(seconds / 60), limitMinutes: 1000, videos: live.videos.size, source: 'cloudflare' };
+  } else {
+    const kept = live.recordings.filter((r) => ['processing', 'ready'].includes(r.status));
+    body = { usedMinutes: Math.round(kept.reduce((s, r) => s + (r.durationSeconds || 0), 0) / 60), limitMinutes: 1000, videos: kept.length, source: 'estimate' };
+  }
+  body.pricePer1000Minutes = 5;
+  live.storageCache = { at: now, body };
+  return body;
+}
+
+function newUpload(req, { title, sizeBytes, durationSeconds }) {
+  try {
+    return { ...createUpload(sizeBytes, maxDurationFor(durationSeconds)), expiresAt: new Date(Date.now() + UPLOAD_WINDOW_MS).toISOString(), name: `Nazareth Holy Cross: ${title}`.slice(0, 100) };
+  } catch (error) {
+    record(req, 'live.recording_failed', { type: 'liveRecording', id: '' }, { stage: 'cloudflare' });
+    throw error;
+  }
+}
+const recordingById = (id) => found(live.recordings.find((r) => r._id === id), 'Recording');
+const forbiddenUpload = () => new HttpError(403, 'Only the person who made this broadcast, or an owner, can upload its recording');
+const notFoundRecording = () => new HttpError(404, 'Recording not found');
+
+add({
+  method: 'GET', path: '/admin/live/recordings', min: 'editor',
+  run: () => {
+    const now = Date.now();
+    const items = [...live.recordings].sort((a, b) => b.liveStartedAt.localeCompare(a.liveStartedAt) || b._id.localeCompare(a._id)).slice(0, 100);
+    items.filter((r) => ['uploading', 'processing'].includes(r.status) && (!r.checkedAt || now - r.checkedAt >= CHECK_EVERY_MS)).slice(0, 10).forEach((r) => refreshRecording(r, now));
+    return { configured: live.configured, items: items.map(recordingView), storage: storageSummary(now) };
+  },
+});
+add({
+  method: 'POST', path: '/admin/live/recordings', min: 'editor',
+  run: (ctx) => {
+    const body = parseBody(ctx.body, { sessionId: str({ min: 24, max: 24, pattern: OBJECT_ID, escape: false }), sizeBytes: sizeRule, durationSeconds: durationRule, mimeType: mimeRule, title: opt(str({ min: 1, max: 120 })) });
+    if (!live.configured) return { status: 503, body: { error: NOT_CONFIGURED } };
+    const session = live.sessions.find((s) => s._id === body.sessionId.toLowerCase());
+    if (!session) return { status: 404, body: { error: 'Broadcast not found' } };
+    const user = ctx.req.auth.user;
+    if (!mayUpload(user, session.startedBy.id)) throw new HttpError(403, 'Only the person who made this broadcast, or an owner, can upload its recording');
+    const existing = live.recordings.find((r) => r.session === session._id);
+    if (existing) return { status: 409, body: { error: 'This broadcast already has a recording', recording: recordingView(existing) } };
+    const title = body.title ?? session.title;
+    const upload = newUpload(ctx.req, { title, sizeBytes: body.sizeBytes, durationSeconds: body.durationSeconds });
+    const now = new Date().toISOString();
+    const r = {
+      _id: newId('4'), session: session._id, title, liveStartedAt: session.startedAt, liveEndedAt: session.endedAt ?? null, durationSeconds: body.durationSeconds,
+      sizeBytes: body.sizeBytes, mimeType: body.mimeType, cfVideoUid: upload.uid, customerCode: customerCodeOf(session.whepUrl) ?? '', status: 'uploading',
+      failReason: null, published: false, publishedAt: null, uploadExpiresAt: upload.expiresAt, checkedAt: null, createdBy: { id: user._id, name: user.username },
+      createdAt: now, updatedAt: now,
+    };
+    live.recordings.push(r);
+    record(ctx.req, 'live.recording_create', { type: 'liveRecording', id: r._id }, { session: session._id, videoUid: upload.uid, sizeMb: Math.round(body.sizeBytes / 1048576), durationSeconds: body.durationSeconds });
+    return { status: 201, body: { recordingId: r._id, uploadUrl: upload.uploadUrl, recording: recordingView(r) } };
+  },
+});
+add({
+  method: 'POST', path: '/admin/live/recordings/:id/upload-url', min: 'editor',
+  run: (ctx) => {
+    const id = idParam(ctx);
+    if (!id) throw notFoundRecording();
+    const body = parseBody(ctx.body ?? {}, { sizeBytes: sizeRule, durationSeconds: opt(durationRule), mimeType: opt(mimeRule) });
+    if (!live.configured) return { status: 503, body: { error: NOT_CONFIGURED } };
+    const r = recordingById(id);
+    const session = live.sessions.find((s) => s._id === r.session);
+    if (!mayUpload(ctx.req.auth.user, session?.startedBy?.id ?? r.createdBy?.id)) throw forbiddenUpload();
+    if (!['uploading', 'failed'].includes(r.status)) return { status: 409, body: { error: 'This recording has already been uploaded', recording: recordingView(r) } };
+    const durationSeconds = body.durationSeconds ?? r.durationSeconds;
+    const upload = newUpload(ctx.req, { title: r.title, sizeBytes: body.sizeBytes, durationSeconds });
+    const oldUid = r.cfVideoUid;
+    Object.assign(r, {
+      cfVideoUid: upload.uid, status: 'uploading', failReason: null, published: false, publishedAt: null, sizeBytes: body.sizeBytes, durationSeconds,
+      ...(body.mimeType ? { mimeType: body.mimeType } : {}), uploadExpiresAt: upload.expiresAt, checkedAt: null, updatedAt: new Date().toISOString(),
+    });
+    const oldDeleted = deleteVideo(oldUid);
+    record(ctx.req, 'live.recording_renew', { type: 'liveRecording', id: r._id }, { videoUid: upload.uid, oldVideoUid: oldUid, oldDeleted });
+    return { recordingId: r._id, uploadUrl: upload.uploadUrl, recording: recordingView(r) };
+  },
+});
+add({
+  method: 'POST', path: '/admin/live/recordings/:id/uploaded', min: 'editor',
+  run: (ctx) => {
+    const id = idParam(ctx);
+    if (!id) throw notFoundRecording();
+    parseBody(ctx.body ?? {}, {});
+    const r = recordingById(id);
+    const session = live.sessions.find((s) => s._id === r.session);
+    if (!mayUpload(ctx.req.auth.user, session?.startedBy?.id ?? r.createdBy?.id)) throw forbiddenUpload();
+    if (r.status !== 'uploading') {
+      if (r.status === 'failed') return { status: 409, body: { error: 'This recording failed. Upload it again.', recording: recordingView(r) } };
+      return { recording: recordingView(r) };
+    }
+    Object.assign(r, { status: 'processing', checkedAt: null, updatedAt: new Date().toISOString() });
+    record(ctx.req, 'live.recording_uploaded', { type: 'liveRecording', id: r._id }, { videoUid: r.cfVideoUid });
+    return { recording: recordingView(refreshRecording(r)) };
+  },
+});
+add({
+  method: 'PATCH', path: '/admin/live/recordings/:id', min: 'editor',
+  run: (ctx) => {
+    const id = idParam(ctx);
+    if (!id) throw notFoundRecording();
+    const body = parseBody(ctx.body, { title: opt(str({ min: 1, max: 120 })), published: opt(bool()) });
+    if (body.title === undefined && body.published === undefined) throw new HttpError(400, 'Nothing to change');
+    const r = recordingById(id);
+    if (body.published === true && r.status !== 'ready') {
+      refreshRecording(r);
+      if (r.status !== 'ready') return { status: 409, body: { error: 'The recording is not ready yet: it can be published once Cloudflare has processed it', recording: recordingView(r) } };
+    }
+    if (body.title !== undefined) r.title = body.title;
+    if (body.published !== undefined && body.published !== r.published) Object.assign(r, { published: body.published, publishedAt: body.published ? new Date().toISOString() : null });
+    r.updatedAt = new Date().toISOString();
+    record(ctx.req, 'live.recording_update', { type: 'liveRecording', id: r._id }, { ...(body.title !== undefined ? { title: body.title } : {}), ...(body.published !== undefined ? { published: body.published } : {}) });
+    return { recording: recordingView(r) };
+  },
+});
+add({
+  method: 'DELETE', path: '/admin/live/recordings/:id', min: 'editor',
+  run: (ctx) => {
+    const id = idParam(ctx);
+    if (!id) throw notFoundRecording();
+    const r = recordingById(id);
+    live.recordings = live.recordings.filter((x) => x !== r);
+    const cloudflareDeleted = deleteVideo(r.cfVideoUid);
+    record(ctx.req, 'live.recording_delete', { type: 'liveRecording', id: r._id }, { title: r.title, videoUid: r.cfVideoUid, published: Boolean(r.published), cloudflareDeleted });
+    return { deleted: true, cloudflareDeleted };
+  },
+});
+// The website's past broadcasts (server/route/liveRoute.js): published and ready, newest first.
+add({
+  method: 'GET', path: '/live/recordings', public: true,
+  run: () => ({
+    items: [...live.recordings].filter((r) => r.published && r.status === 'ready').sort((a, b) => b.liveStartedAt.localeCompare(a.liveStartedAt)).slice(0, 50)
+      .map((r) => ({ id: r._id, title: r.title, date: r.liveStartedAt, durationSeconds: Math.round(r.durationSeconds || 0), thumbnailUrl: videoUrl(r.customerCode, r.cfVideoUid, 'thumbnails/thumbnail.jpg'), playbackUrl: videoUrl(r.customerCode, r.cfVideoUid, 'iframe') }))
+      .filter((r) => r.thumbnailUrl && r.playbackUrl),
+  }),
+});
+
+// --- scheduled broadcasts (editor and owner), server/route/admin/liveSchedule.js: typed in Nazareth time, stored in UTC
+const HOUR_MS = 3600_000;
+const nazarethWall = new Intl.DateTimeFormat('en-US', { timeZone: TIME_ZONE, hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+const wallClockAt = (ms) => {
+  const p = Object.fromEntries(nazarethWall.formatToParts(new Date(ms)).filter((x) => x.type !== 'literal').map((x) => [x.type, Number(x.value)]));
+  return Date.UTC(p.year, p.month - 1, p.day, p.hour % 24, p.minute, p.second);
+};
+const nazarethOffsetAt = (ms) => wallClockAt(ms) - Math.floor(ms / 1000) * 1000;
+// services/liveSchedule.js nazarethToUtc: a skipped time moves forward by the gap, a repeated one is the first.
+function nazarethToUtc(local) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})$/.exec(String(local ?? ''));
+  if (!m) return null;
+  const [year, month, day, hour, minute] = m.slice(1).map(Number);
+  const wall = Date.UTC(year, month - 1, day, hour, minute);
+  const check = new Date(wall);
+  if (check.getUTCFullYear() !== year || check.getUTCMonth() !== month - 1 || check.getUTCDate() !== day || hour > 23 || minute > 59) return null;
+  const candidates = [...new Set([nazarethOffsetAt(wall - 24 * HOUR_MS), nazarethOffsetAt(wall + 24 * HOUR_MS)])].map((o) => wall - o).filter((t) => wallClockAt(t) === wall).sort((a, b) => a - b);
+  if (candidates.length) return new Date(candidates[0]);
+  return new Date(wall - nazarethOffsetAt(wall - 24 * HOUR_MS));
+}
+const utcToNazarethLocal = (value) => new Date(wallClockAt(new Date(value).getTime())).toISOString().slice(0, 16);
+const SCHEDULE_PAST_MS = 5 * 60_000; // the time it takes to fill in the form
+const SCHEDULE_AHEAD_MS = 400 * 24 * HOUR_MS;
+function startsAtFrom(local, now = Date.now()) {
+  const date = nazarethToUtc(local);
+  if (!date) throw new HttpError(400, 'Invalid startsAtLocal: a date and time like 2026-10-20T19:30 (Nazareth time)');
+  if (date.getTime() < now - SCHEDULE_PAST_MS) throw new HttpError(400, 'Invalid startsAtLocal: the time has already passed');
+  if (date.getTime() > now + SCHEDULE_AHEAD_MS) throw new HttpError(400, 'Invalid startsAtLocal: at most a year ahead');
+  return date;
+}
+const scheduleView = (s) => s && ({
+  _id: s._id, title: s.title, description: s.description ?? '', startsAt: s.startsAt, startsAtLocal: utcToNazarethLocal(s.startsAt), timeZone: TIME_ZONE,
+  published: Boolean(s.published), status: s.status, liveSession: s.liveSession ?? null, createdBy: { ...s.createdBy }, updatedAt: s.updatedAt,
+});
+const localRule = str({ min: 16, max: 16, pattern: /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/, escape: false });
+const descriptionRule = str({ min: 0, max: 500, multiline: true });
+const notFoundSchedule = () => new HttpError(404, 'Scheduled broadcast not found');
+
+add({
+  method: 'GET', path: '/admin/live/schedule', min: 'editor',
+  run: () => {
+    const from = Date.now() - 7 * 24 * HOUR_MS;
+    const items = live.schedule.filter((s) => s.status === 'live' || new Date(s.startsAt).getTime() >= from)
+      .sort((a, b) => a.startsAt.localeCompare(b.startsAt) || a._id.localeCompare(b._id)).slice(0, 100);
+    return { timeZone: TIME_ZONE, items: items.map(scheduleView) };
+  },
+});
+add({
+  method: 'POST', path: '/admin/live/schedule', min: 'editor',
+  run: (ctx) => {
+    const body = parseBody(ctx.body, { title: str({ min: 1, max: 120 }), description: opt(descriptionRule), startsAtLocal: localRule, published: opt(bool()) });
+    const startsAt = startsAtFrom(body.startsAtLocal).toISOString();
+    const user = ctx.req.auth.user;
+    const who = { id: user._id, name: user.username };
+    const now = new Date().toISOString();
+    const s = { _id: newId('3'), title: body.title, description: body.description ?? '', startsAt, published: body.published ?? false, status: 'scheduled', liveSession: null, createdBy: who, updatedBy: who, createdAt: now, updatedAt: now };
+    live.schedule.push(s);
+    record(ctx.req, 'live.schedule_create', { type: 'scheduledBroadcast', id: s._id }, { title: s.title, startsAt, published: s.published });
+    return { status: 201, body: { item: scheduleView(s) } };
+  },
+});
+add({
+  method: 'PATCH', path: '/admin/live/schedule/:id', min: 'editor',
+  run: (ctx) => {
+    const id = idParam(ctx);
+    if (!id) throw notFoundSchedule();
+    const body = parseBody(ctx.body, { title: opt(str({ min: 1, max: 120 })), description: opt(descriptionRule), startsAtLocal: opt(localRule), published: opt(bool()), status: opt(oneOf(['scheduled', 'cancelled'])) });
+    if (Object.keys(body).length === 0) throw new HttpError(400, 'Nothing to change');
+    const s = live.schedule.find((x) => x._id === id);
+    if (!s) throw notFoundSchedule();
+    const set = {};
+    if (body.title !== undefined) set.title = body.title;
+    if (body.description !== undefined) set.description = body.description;
+    if (body.published !== undefined) set.published = body.published;
+    if (body.startsAtLocal !== undefined || body.status !== undefined) {
+      if (!['scheduled', 'cancelled'].includes(s.status)) return { status: 409, body: { error: 'This broadcast has already started: its time and status can no longer be changed', item: scheduleView(s) } };
+      if (body.startsAtLocal !== undefined) set.startsAt = startsAtFrom(body.startsAtLocal).toISOString();
+      if (body.status !== undefined) set.status = body.status;
+    }
+    const user = ctx.req.auth.user;
+    Object.assign(s, set, { updatedBy: { id: user._id, name: user.username }, updatedAt: new Date().toISOString() });
+    const meta = {};
+    for (const key of ['title', 'published', 'status']) if (set[key] !== undefined) meta[key] = set[key];
+    if (set.description !== undefined) meta.description = true;
+    if (set.startsAt) meta.startsAt = set.startsAt;
+    record(ctx.req, 'live.schedule_update', { type: 'scheduledBroadcast', id: s._id }, meta);
+    return { item: scheduleView(s) };
+  },
+});
+add({
+  method: 'DELETE', path: '/admin/live/schedule/:id', min: 'editor',
+  run: (ctx) => {
+    const id = idParam(ctx);
+    if (!id) throw notFoundSchedule();
+    const s = live.schedule.find((x) => x._id === id);
+    if (!s) throw notFoundSchedule();
+    if (s.status === 'live') return { status: 409, body: { error: 'This broadcast is live now. End it first.' } };
+    live.schedule = live.schedule.filter((x) => x !== s);
+    record(ctx.req, 'live.schedule_delete', { type: 'scheduledBroadcast', id: s._id }, { title: s.title, startsAt: s.startsAt, status: s.status });
+    return { deleted: true };
+  },
+});
+// The website's upcoming broadcasts: published, still to come (or started less than two hours ago, or live).
+add({
+  method: 'GET', path: '/live/schedule', public: true,
+  run: () => ({
+    timeZone: TIME_ZONE,
+    items: live.schedule.filter((s) => s.published && ['scheduled', 'live'].includes(s.status) && new Date(s.startsAt).getTime() > Date.now() - 2 * HOUR_MS)
+      .sort((a, b) => a.startsAt.localeCompare(b.startsAt)).slice(0, 10)
+      .map((s) => ({ id: s._id, title: s.title, description: s.description ?? '', startsAt: s.startsAt, status: s.status })),
+  }),
 });
 
 // --- test controls (never part of the real API)
@@ -1153,12 +1488,23 @@ export const server = http.createServer(async (req, res) => {
       if (req.method === 'POST' && url.pathname === '/__mock/mail') { const b = await readBody(req); failMail = b.fail === true; return send(req, res, 200, { ok: true, fail: failMail }); }
       if (req.method === 'GET' && url.pathname === '/__mock/health') return send(req, res, 200, { ok: true });
       if (req.method === 'POST' && url.pathname === '/__mock/busy') { const b = await readBody(req); busyMe = Number.isInteger(b.count) ? b.count : 0; return send(req, res, 200, { ok: true, busy: busyMe }); }
-      // Live broadcasting: { configured: false } = no Cloudflare credentials on the server; { failCreate: true } = Cloudflare refuses.
+      // Live broadcasting, like the harness (server/test-harness/control.js): { configured: false } = no Cloudflare
+      // credentials on the server; { failCreate: true } = Cloudflare refuses an input, { failUpload: true } an upload
+      // address; { videoState: 'queued' | 'inprogress' | 'ready' | 'error', videoUid?, durationSeconds? } moves a stored
+      // video (every one when no uid is given) through Cloudflare's processing, as if it had been uploaded.
+      const liveState = () => ({ ok: true, inputs: live.inputs.size, videos: [...live.videos.entries()].map(([uid, v]) => ({ uid, state: v.state, sizeBytes: v.sizeBytes })) });
+      if (req.method === 'GET' && url.pathname === '/__mock/live') return send(req, res, 200, liveState());
       if (req.method === 'POST' && url.pathname === '/__mock/live') {
         const b = await readBody(req);
         if (typeof b.configured === 'boolean') live.configured = b.configured;
         if (typeof b.failCreate === 'boolean') live.failCreate = b.failCreate;
-        return send(req, res, 200, { ok: true, inputs: live.inputs.size });
+        if (typeof b.failUpload === 'boolean') live.failUpload = b.failUpload;
+        if (['pendingupload', 'queued', 'inprogress', 'ready', 'error'].includes(b.videoState)) {
+          const duration = Number.isInteger(b.durationSeconds) && b.durationSeconds >= 0 ? b.durationSeconds : undefined;
+          for (const uid of typeof b.videoUid === 'string' ? [b.videoUid] : [...live.videos.keys()]) setVideoState(uid, b.videoState, duration);
+        }
+        live.storageCache = null;
+        return send(req, res, 200, liveState());
       }
       return send(req, res, 404, { error: 'Not found' });
     }

@@ -1454,7 +1454,8 @@ owner sees it in the Audit log page (`admin/src/app/(app)/audit/page.tsx`: a tab
 Rules for new features: a new write route needs an audit action on the server; the audit page must be able to show
 it (action names are Latin text and use `.ltr`); never show an IP address, a token or a password anywhere in the UI.
 Session facts the user should see: their role, when the session ends, a sign-out button, and an idle warning dialog
-for the last two minutes of 30 (`<IdleGuard>`).
+for the last two minutes of 30 (`<IdleGuard>`). A live broadcast or a recording upload holds the session
+(`admin/src/lib/session-hold.ts`): no idle sign-out meanwhile, and a notice instead of leaving when the sign-in ends.
 
 ![The audit log](design/admin-audit.jpg)
 
@@ -1473,7 +1474,8 @@ clear "unexpected answer" error, never a broken page.
 
 `<PageHeader>`, `<Panel>`, `<Badge>` (tones `neutral`, `gold`, `success`, `warn`, `danger`, `info`), `<StateBox>`,
 `<EmptyState>`, `<ErrorState>`, `<Forbidden>`, `<DataTable>`, `<ListToolbar>`, `<Pagination>`, `<Field>` (label and
-value in a drawer), `<Ltr>` in `admin/src/components/ui/Primitives.tsx`; `<Drawer>`, `<ApiAction>`, the feedback
+value in a drawer), `<Ltr>` in `admin/src/components/ui/Primitives.tsx` (`<DataTable>` and `<Badge>` live in
+`admin/src/components/ui/DataTable.tsx`, re-exported there, so client components can use them too); `<Drawer>`, `<ApiAction>`, the feedback
 provider with toasts and confirm in `admin/src/components/ui/Feedback.tsx`; `<AppShell>`, `<IdleGuard>`,
 `<LanguageSwitcher>`, `<BrandMark>` in `admin/src/components/shell/`; `<TimeSeriesChart>` and `<QrCode>`.
 Classes (in `admin/src/styles/`): `.btn`, `.btn--gold`, `.btn--ghost`, `.btn--ghost-danger`, `.btn--danger`,

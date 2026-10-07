@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
-import { Badge, DataTable, ErrorState, Forbidden, PageHeader, Panel } from '@/components/ui/Primitives';
+import { Badge, DataTable, ErrorState, Forbidden, PageHeader, Panel, StateBox } from '@/components/ui/Primitives';
 import { getI18n } from '@/i18n/server';
-import { liveStateSchema, type LiveSession } from '@/lib/api';
-import { formatDateTime } from '@/lib/format';
+import { liveStateSchema, recordingsStateSchema, scheduleListSchema, type LiveSession } from '@/lib/api';
+import { defaultTimeZone, formatDateTime } from '@/lib/format';
 import { can } from '@/lib/roles';
 import { getSession, load, serverApi } from '@/lib/server-api';
+import { LiveRecordings } from './LiveRecordings';
+import { LiveSchedule } from './LiveSchedule';
 import { LiveStudio } from './LiveStudio';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -19,16 +21,25 @@ function durationMinutes(s: LiveSession, until = Date.now()): number {
   return Math.max(0, Math.round(((s.endedAt ? new Date(s.endedAt).getTime() : until) - new Date(s.startedAt).getTime()) / 60_000));
 }
 
+/** The time of this request: the schedule's "Missed" badge is computed from it on the first render. */
+const requestTime = () => Date.now();
+
 // Live broadcasting (editor and owner): the camera of this phone or computer, published to Cloudflare Stream from the
 // browser, shown on the website's /live page. docs/LIVE.md; the API is server/route/admin/live.js.
 // This page has its own Permissions-Policy (camera and microphone allowed, next.config.ts) and Content-Security-Policy
-// (connect-src to Cloudflare Stream, src/proxy.ts); the navigation opens it with a full page load for that reason.
+// (Cloudflare Stream for WHIP, the recording upload, the preview player and thumbnails: src/proxy.ts); the navigation
+// opens it with a full page load for that reason.
+// Below the studio: the recordings of past broadcasts (LiveRecordings) and the scheduled broadcasts (LiveSchedule).
 export default async function LivePage() {
   const { t, locale } = await getI18n();
   const { user } = await getSession();
   if (!can(user.role, 'broadcast')) return <Forbidden />;
 
-  const state = await load(() => serverApi({ path: '/admin/live', schema: liveStateSchema }));
+  const [state, recordings, schedule] = await Promise.all([
+    load(() => serverApi({ path: '/admin/live', schema: liveStateSchema })),
+    load(() => serverApi({ path: '/admin/live/recordings', schema: recordingsStateSchema })),
+    load(() => serverApi({ path: '/admin/live/schedule', schema: scheduleListSchema })),
+  ]);
   if (!state.ok) {
     return (
       <>
@@ -38,6 +49,7 @@ export default async function LivePage() {
     );
   }
   const { configured, current, history, maxMinutes } = state.data;
+  const timeZone = defaultTimeZone();
   const ending = (s: LiveSession) =>
     s.status === 'live'
       ? <Badge tone="danger">{t('live.end.live')}</Badge>
@@ -46,7 +58,30 @@ export default async function LivePage() {
   return (
     <>
       <PageHeader title={t('nav.live')} description={t('live.lead')} />
-      <LiveStudio configured={configured} current={current} maxMinutes={maxMinutes} me={{ id: user.id, role: user.role }} />
+      <LiveStudio
+        configured={configured}
+        current={current}
+        maxMinutes={maxMinutes}
+        me={{ id: user.id, role: user.role }}
+        scheduled={schedule.ok ? schedule.data.items.filter((s) => s.status === 'scheduled') : []}
+        timeZone={timeZone}
+      />
+      <div className="section-stack">
+        {recordings.ok ? (
+          <LiveRecordings initial={recordings.data} timeZone={timeZone} />
+        ) : (
+          <Panel title={t('live.rec.title')}>
+            <StateBox icon="alert" tone="error" title={t('live.rec.errLoad')} text={recordings.error.status === 429 ? t('state.rateLimited') : t('state.errorText')} />
+          </Panel>
+        )}
+        {schedule.ok ? (
+          <LiveSchedule initial={schedule.data} renderedAt={requestTime()} />
+        ) : (
+          <Panel title={t('live.sched.title')}>
+            <ErrorState error={schedule.error} />
+          </Panel>
+        )}
+      </div>
       <div className="grid">
         <Panel title={t('live.historyTitle')}>
           {history.length === 0 ? (

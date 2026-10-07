@@ -36,6 +36,8 @@ and the second factor are set the way the dashboard's own routes do it.
 | `passchange` | `Passchange-Mock-Pass-1` | editor | spare: for password-change tests |
 | `totpsetup` | `Totpsetup-Mock-Pass-1` | editor | spare: for two-factor set-up tests |
 | `resetpass` | `Resetpass-Mock-Pass-1` | editor | spare, with the invented address `resetpass@example.com`: for forgotten-password tests |
+| `liveeditor` | `Liveeditor-Mock-Pass-1` | editor | spare: the dashboard's live specs (their own share of the per-admin request limit) |
+| `liveowner` | `Liveowner-Mock-Pass-1` | owner | spare: the owner of the dashboard's live specs (same reason) |
 
 They are the same names and passwords as the mock API (`admin/mock-api`), so the end-to-end suite runs unchanged
 against either. They are public: never use them anywhere real.

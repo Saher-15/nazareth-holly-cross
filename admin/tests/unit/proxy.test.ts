@@ -1,5 +1,6 @@
 import { NextRequest } from 'next/server';
 import { describe, expect, it } from 'vitest';
+import { resolveProxyPath } from '@/lib/proxy-allow';
 import { proxy } from '@/proxy';
 
 // The request gate (src/proxy.ts): CSRF, sign-in redirect, CSP, no-store, noindex.
@@ -80,6 +81,26 @@ describe('proxy.ts', () => {
     for (const path of ['/api/session/forgot', '/api/session/reset']) {
       expect(proxy(req(path, { method: 'POST', headers: { origin: 'https://evil.example' } })).status, path).toBe(403);
     }
+  });
+
+  it('/live (only) gets the recording upload hosts, Cloudflare\'s player frame and its thumbnails', () => {
+    const csp = (path: string) => proxy(req(path, { cookie: `nhc_admin=${LIVE}` })).headers.get('content-security-policy')!;
+    const live = csp('/live');
+    expect(live).toMatch(/connect-src [^;]*https:\/\/upload\.videodelivery\.net https:\/\/upload\.cloudflarestream\.com/);
+    expect(live).toContain('frame-src https://*.cloudflarestream.com');
+    expect(live).toMatch(/img-src [^;]*https:\/\/\*\.cloudflarestream\.com/);
+    for (const path of ['/', '/orders', '/settings', '/live/other']) expect(csp(path), path).not.toMatch(/videodelivery|cloudflarestream|frame-src/);
+  });
+
+  it('the proxy allows four path segments only for the two recording routes that need them', () => {
+    const id = 'a'.repeat(24);
+    expect(resolveProxyPath(['live', 'recordings', id, 'uploaded'], 'POST')).toBe(`/admin/live/recordings/${id}/uploaded`);
+    expect(resolveProxyPath(['live', 'recordings', id, 'upload-url'], 'POST')).toBe(`/admin/live/recordings/${id}/upload-url`);
+    for (const segments of [['orders', id, 'a', 'b'], ['live', 'schedule', id, 'x'], ['live', 'recordings', id, 'uploaded', 'x'], ['users', id, 'role', 'x']]) {
+      for (const method of ['GET', 'POST', 'PATCH', 'DELETE']) expect(resolveProxyPath(segments, method), `${method} ${segments.join('/')}`).toBeNull();
+    }
+    expect(resolveProxyPath(['live', 'recordings', id, 'uploaded'], 'GET')).toBeNull();
+    expect(resolveProxyPath(['live', 'recordings', 'x'.repeat(24), 'uploaded'], 'POST')).toBeNull();
   });
 
   it('refuses a cross-site state-changing request before anything else', async () => {

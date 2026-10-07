@@ -16,10 +16,14 @@ of our own) is needed, and the API never sees a byte of video.
 Code: `server/services/cloudflareStream.js`, `server/services/live.js`, `server/services/liveRecordings.js`,
 `server/services/liveSchedule.js`, `server/route/admin/live.js`, `server/route/admin/liveRecordings.js`,
 `server/route/admin/liveSchedule.js`, `server/route/liveRoute.js`, `server/model/{liveSession,liveRecording,scheduledBroadcast}.js`;
-`admin/src/app/(app)/live/`, `admin/src/lib/whip.ts`, `admin/src/lib/media.ts` and the recording and upload helpers next to
-them (section 9); `web/src/components/community/LiveNow.tsx` and the other live components of `web/src/components/community/`,
-`web/src/lib/liveStatus.ts`, `web/src/lib/liveStatusPeek.ts` and the shared status poller (section 8). Cloudflare's
-documentation: [WebRTC (beta)](https://developers.cloudflare.com/stream/webrtc-beta/),
+`admin/src/app/(app)/live/` (`LiveStudio.tsx`, `RecordingUploads.tsx`, `LiveRecordings.tsx`, `LiveSchedule.tsx`),
+`admin/src/lib/whip.ts`, `admin/src/lib/media.ts`, `admin/src/lib/recorder.ts`, `admin/src/lib/recording-store.ts` (IndexedDB),
+`admin/src/lib/recording-upload.ts`, `admin/src/lib/tus.ts`, `admin/src/lib/schedule.ts`; on the website
+`web/src/lib/liveStatusStore.ts` + `web/src/lib/useLiveStatus.ts` (the shared poller), `web/src/lib/liveStatus.ts`,
+`web/src/lib/liveStatusPeek.ts`, `web/src/lib/liveAlert.ts`, `web/src/lib/liveSchedule.ts`, `web/src/lib/liveRecordings.ts`,
+`web/src/components/layout/LiveNavIndicator.tsx` (the header's dot), `web/src/components/layout/LiveAlert.tsx` (the window),
+`web/src/components/community/LiveNow.tsx`, `BroadcastStage.tsx` (countdown and upcoming list) and `RecordingList.tsx`.
+Cloudflare's documentation: [WebRTC (beta)](https://developers.cloudflare.com/stream/webrtc-beta/),
 [live inputs](https://developers.cloudflare.com/stream/stream-live/),
 [direct creator uploads](https://developers.cloudflare.com/stream/uploading-videos/direct-creator-uploads/) and
 [resumable (tus) uploads](https://developers.cloudflare.com/stream/uploading-videos/resumable-uploads/).
@@ -145,6 +149,13 @@ Audit: `live.start` (with `scheduleId`), `live.stop` (with `reason`: `stopped` o
   30 GB).
 * The admin's browser must stay on the page: leaving it ends the broadcast. On a phone the screen is kept on (Wake
   Lock) where the browser allows it; a phone call or a locked screen interrupts the camera, and the recording.
+* **The dashboard's sign-out rules give way to a broadcast** (`admin/src/lib/session-hold.ts`): while a broadcast is on
+  air or a recording is uploading, 30 minutes without a touch never sign the admin out (that would leave the page and end
+  the broadcast; a phone on a tripod is never touched during a Mass). The 60-minute sign-in itself cannot be extended:
+  if it ends during a long broadcast, the page stays on air and shows a notice: sign in again **in a new tab** (the new
+  sign-in serves the broadcasting tab too), then come back and end the broadcast; the upload then works as usual. Ending
+  without signing in again leaves the website showing an empty player until the broadcast ends by itself (6 hours) or
+  someone ends it; the recording stays on the device and is offered for upload after the next sign-in.
 * Up to about 2.5 Mbit/s of video upload (720p, 30 frames): Wi-Fi recommended.
 
 ### Recording through Cloudflare instead (not used)
@@ -209,9 +220,11 @@ then reload. On iPhone: Settings > Safari > Camera / Microphone > Ask or Allow.
   (system setting or the accessibility panel's "Stop animations"). Screen readers hear "(live now)" after "Live".
 * **The "We are live now" window** (a native modal `<dialog>`: the heading, the broadcast's title, **Watch now** and
   **Not now**; Escape and a click outside close it; the focus starts on Watch now and goes back where it was) opens on
-  any page except `/live` and the payment pages (checkout, cart, candle, donate: a payment is never interrupted), not in
-  the first seconds of a visit, and **once per broadcast** per browser (the broadcast's id is remembered in
-  `localStorage`; without storage, once per page life). It is the one pop-up of the site, asked for by the owner
+  any page except `/live` and the payment pages (`/cart`, `/checkout`, `/candle`, `/donate` and their sub-pages: a
+  payment is never interrupted), only after 4 seconds on a page, only on a status read less than a minute old, not while
+  another dialog or the menu is open or the visitor is typing in a field, and **once per broadcast** per browser (the
+  broadcast's id is remembered in `localStorage` under `nhc.liveAlert.v1`, the last 20; without storage, once while the
+  tab lives). It is the one pop-up of the site, asked for by the owner
   (docs/DESIGN-GUIDE.md section 1.5).
 * **The countdown.** When nothing is live, `/live` shows the next published scheduled broadcast (section 10) in a glass
   card: days, hours, minutes and seconds (minutes only for visitors who asked for less motion), the title, the date and
