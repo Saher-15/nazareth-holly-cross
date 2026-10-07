@@ -58,7 +58,7 @@ test.describe('the Live page renders (desktop and phone)', () => {
 test.describe('broadcasting', () => {
   // The whole flow also runs on the phone (Pixel 7 emulation): that is how most broadcasts will be made.
   test.beforeEach(({}, testInfo) => {
-    test.skip(testInfo.project.name !== 'desktop' && !testInfo.title.startsWith('camera on, go live'), 'state-changing flow: run once');
+    test.skip(testInfo.project.name !== 'desktop' && !/^(camera on, go live|opening another dashboard page)/.test(testInfo.title), 'state-changing flow: run once');
   });
 
   test('camera on, go live, the website says live, mute, end: the whole flow', async ({ page }, testInfo) => {
@@ -109,6 +109,77 @@ test.describe('broadcasting', () => {
     expect(cloudflare.deletes).toBe(1); // the WHIP session was ended too
     await expect(page.getByRole('region', { name: 'Recent broadcasts' })).toContainText('Evening prayer at the Basilica');
     expect(problems).toEqual([]);
+  });
+
+  test('opening another dashboard page while live keeps the broadcast on, with a bar to come back or end it', async ({ page }, testInfo) => {
+    const problems = watchProblems(page);
+    const cloudflare = await fakeCloudflare(page);
+    await page.goto('/live');
+    await page.getByRole('button', { name: 'Turn on camera and microphone' }).click();
+    await studioTitle(page).fill('Stays on air');
+    await page.getByRole('button', { name: 'Go live' }).click();
+    await expect(page.getByTestId('live-status')).toHaveText(/You are live/, { timeout: 15_000 });
+
+    // The menu: Orders. No reload, no question, the broadcast goes on and a bar shows it.
+    if (testInfo.project.name === 'mobile') await page.getByRole('button', { name: 'Menu' }).click();
+    await page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Orders' }).click();
+    await expect(page.getByRole('heading', { level: 1, name: 'Orders' })).toBeVisible();
+    const bar = page.getByTestId('live-bar');
+    await expect(bar).toBeVisible();
+    await expect(bar).toContainText('Stays on air');
+    await expect(page.getByTestId('live-bar-elapsed')).toHaveText(/^\d+:\d\d$/);
+    await page.waitForTimeout(1500);
+    expect((await publicStatus()).live).toBe(true);
+    expect(cloudflare.deletes).toBe(0);
+    // The recording keeps being fed: its <video> plays inside the bar now.
+    expect(await bar.locator('video').evaluate((v: HTMLVideoElement) => !v.paused && v.videoWidth > 0)).toBe(true);
+    await noHorizontalScroll(page);
+    await expectNoAxeViolations(page);
+
+    // A search on the list navigates inside the tab too.
+    await page.getByRole('searchbox', { name: 'Search orders' }).fill('zzz');
+    await page.getByRole('button', { name: 'Apply' }).click();
+    await expect(page).toHaveURL(/q=zzz/);
+    await expect(bar).toBeVisible();
+
+    // Back to the studio from the bar: still live, the clock still running.
+    await page.getByTestId('live-bar-studio').click();
+    await expect(page.getByRole('heading', { level: 1, name: 'Live broadcast' })).toBeVisible();
+    await expect(page.getByTestId('live-badge')).toBeVisible();
+    await expect(bar).toHaveCount(0);
+    expect(await page.getByTestId('live-preview').evaluate((v: HTMLVideoElement) => !v.paused)).toBe(true);
+
+    await page.getByRole('button', { name: 'End broadcast' }).click();
+    await page.getByRole('dialog', { name: 'End the broadcast?' }).getByRole('button', { name: 'End broadcast' }).click();
+    await expect.poll(async () => (await publicStatus()).live).toBe(false);
+    expect(cloudflare.deletes).toBe(1);
+    expect(problems).toEqual([]);
+  });
+
+  test('ending the broadcast from the bar on another page, and signing out while live asks first', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'desktop', 'run once');
+    await fakeCloudflare(page);
+    await page.goto('/live');
+    await page.getByRole('button', { name: 'Turn on camera and microphone' }).click();
+    await studioTitle(page).fill('Ends from the bar');
+    await page.getByRole('button', { name: 'Go live' }).click();
+    await expect(page.getByTestId('live-status')).toHaveText(/You are live/, { timeout: 15_000 });
+    await page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Products' }).click();
+    await expect(page.getByRole('heading', { level: 1, name: 'Products' })).toBeVisible();
+
+    // Sign out: a question first; staying keeps the broadcast.
+    await page.getByTestId('sign-out').click();
+    const ask = page.getByRole('dialog', { name: 'You are live. Sign out?' });
+    await expect(ask).toBeVisible();
+    await ask.getByRole('button', { name: 'Cancel' }).click();
+    expect((await publicStatus()).live).toBe(true);
+
+    await page.getByTestId('live-bar-stop').click();
+    await page.getByRole('dialog', { name: 'End the broadcast?' }).getByRole('button', { name: 'End broadcast' }).click();
+    await expect.poll(async () => (await publicStatus()).live).toBe(false);
+    // The camera is off once the broadcast ended away from the studio; the recording uploads (the bar says so) or is done.
+    await expect(page.getByTestId('live-bar').filter({ has: page.getByTestId('live-bar-stop') })).toHaveCount(0);
+    await expect.poll(() => page.evaluate(() => [...document.querySelectorAll('video')].some((v) => (v.srcObject as MediaStream | null)?.active))).toBe(false);
   });
 
   test('closing the page while live ends the broadcast (keepalive stop)', async ({ page }) => {

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Form from 'next/form';
 import Link from 'next/link';
 import { Badge, DataTable, EmptyState, ErrorState, Forbidden, PageHeader, Pagination, type Tone } from '@/components/ui/Primitives';
 import { Icon } from '@/components/ui/Icon';
@@ -38,7 +39,7 @@ export default async function AuditPage({ searchParams }: { searchParams: Promis
   return (
     <>
       <PageHeader title={t('nav.audit')} description={t('audit.lead')} />
-      <form className="toolbar" method="get" action="/audit" role="search" aria-label={t('audit.filters')}>
+      <Form className="toolbar" action="/audit" prefetch={false} role="search" aria-label={t('audit.filters')}>
         {params.size !== 25 ? <input type="hidden" name="size" value={params.size} /> : null}
         <div className="toolbar__search">
           <label className="visually-hidden" htmlFor="actor">{t('audit.actor')}</label>
@@ -52,7 +53,7 @@ export default async function AuditPage({ searchParams }: { searchParams: Promis
         </div>
         <button type="submit" className="btn btn--gold btn--sm">{t('common.apply')}</button>
         {actor || action ? <Link className="btn btn--ghost btn--sm" href="/audit">{t('common.reset')}</Link> : null}
-      </form>
+      </Form>
 
       {!list.ok ? (
         <ErrorState error={list.error} />

@@ -1,3 +1,4 @@
+import Form from 'next/form';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { getI18n } from '@/i18n/server';
@@ -132,7 +133,8 @@ export async function ListToolbar({
   const { t } = await getI18n();
   const filtered = Boolean(q || status || (sort && sorts && sort !== sorts[0]?.value));
   return (
-    <form className="toolbar" method="get" action={action} role="search" aria-label={searchLabel ?? t('common.search')}>
+    // next/form: a GET form that navigates inside the tab (no page reload: a live broadcast of this tab goes on).
+    <Form className="toolbar" action={action} prefetch={false} role="search" aria-label={searchLabel ?? t('common.search')}>
       {Object.entries(hidden).map(([k, v]) => (v !== undefined && v !== '' ? <input key={k} type="hidden" name={k} value={String(v)} /> : null))}
       <div className="toolbar__search">
         <label className="visually-hidden" htmlFor="q">{searchLabel ?? t('common.search')}</label>
@@ -170,7 +172,7 @@ export async function ListToolbar({
           <span>{t('common.exportCsv')}</span>
         </a>
       ) : null}
-    </form>
+    </Form>
   );
 }
 
