@@ -4,7 +4,7 @@ import en from '../../src/messages/en.json';
 import he from '../../src/messages/he.json';
 import { nazarethDate, verseNumberFor } from '../../src/components/home/verse';
 
-const API = 'https://nazareth-holy-cross-api.onrender.com';
+const API = 'https://nazareth-holy-cross-api-production.up.railway.app';
 let apiWrites: string[] = [];
 
 // The home page only reads data (on the server). Anything the browser tries to send

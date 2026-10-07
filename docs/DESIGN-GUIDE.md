@@ -1335,7 +1335,7 @@ node scripts/media/audit.mjs                                        # soft or sm
 ```
 
 Check the live API's rate limit before builds and end-to-end runs (200 requests per 15 minutes per address, shared
-by everything on the machine): `curl -sI https://nazareth-holy-cross-api.onrender.com/health` and read the
+by everything on the machine): `curl -sI https://nazareth-holy-cross-api-production.up.railway.app/health` and read the
 `ratelimit` header; throttled runs show error states that are not bugs.
 
 ## 10. Security and privacy rules for UI work
@@ -1559,7 +1559,7 @@ npm run test:e2e
 ```
 
 Before a build or an end-to-end run, check that the live API still has requests left (it allows 200 per 15
-minutes per address, shared by everything on the machine): `curl -sI https://nazareth-holy-cross-api.onrender.com/health`
+minutes per address, shared by everything on the machine): `curl -sI https://nazareth-holy-cross-api-production.up.railway.app/health`
 and read `ratelimit`. CI (`.github/workflows/ci.yml`) runs the same steps; a green local run is expected before a
 pull request is opened.
 

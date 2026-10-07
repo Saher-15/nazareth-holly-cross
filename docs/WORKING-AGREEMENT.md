@@ -87,7 +87,7 @@ the keyboard (`docs/DESIGN-GUIDE.md` section 12.2).
 
 **The live API's rate limit.** The production API allows 200 requests per 15 minutes per address, and everything on
 this machine shares it (builds render hundreds of pages that read it). Check before a build or an end-to-end run:
-`curl -sI https://nazareth-holy-cross-api.onrender.com/health` and read the `ratelimit` header. A throttled run
+`curl -sI https://nazareth-holy-cross-api-production.up.railway.app/health` and read the `ratelimit` header. A throttled run
 shows error states that are not bugs; wait for the window to reset.
 
 ## 5. Deploy previews and the Netlify rule
@@ -124,7 +124,7 @@ for p in /en /he /ar /en/shop /en/sites /en/sites/latin /en/candle /en/donate /e
 done
 curl -s -o /dev/null -w "%{http_code}\n" "$SITE/en/does-not-exist"               # 404, not 200
 curl -sI "$SITE/en" | grep -i -E "content-security-policy|strict-transport"      # present
-curl -sI https://nazareth-holy-cross-api.onrender.com/health | head -1           # 200
+curl -sI https://nazareth-holy-cross-api-production.up.railway.app/health | head -1           # 200
 ```
 
 Then in a browser: the home page, the shop with products visible, a product page, a holy-site page, the candle form
