@@ -1,47 +1,87 @@
-/* The accessibility settings in the site header (A11yPanel.tsx). The panel hangs below the header at the reading
-   end, like the language menu, and scrolls inside itself when the text is large or the screen is short. */
+/* The accessibility settings (A11yPanel.tsx): a round button floating in the bottom corner at the start of the line
+   (left in LTR, right in RTL; BackToTop has the end corner), and the panel that opens above it, anchored to the
+   corner, scrolling inside itself when the text is large or the screen is short.
+   --a11y-corner: the button's distance from the bottom edge (safe area included);
+   --a11y-lift: how far it moves up to clear the home page's "light a candle" pill on phones. */
 .root {
-  display: contents;
+  --a11y-corner: calc(var(--space-4) + env(safe-area-inset-bottom, 0px));
+  --a11y-lift: 0px;
+  position: fixed;
+  inset-inline-start: max(var(--space-4), env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
+  inset-block-end: var(--a11y-corner);
+  z-index: var(--z-sticky); /* over the page and the back-to-top button, under the header, its menus and the toasts */
+  inline-size: 48px;
+  block-size: 48px;
+  transform: translateY(calc(-1 * var(--a11y-lift)));
+  transition: transform var(--dur-base) var(--ease-out);
+}
+/* Phones: the home page's sticky "light a candle" pill spans the whole width at the bottom once the hero has
+   scrolled away (components/home/StickyCta.module.css); the button steps up above it, like the back-to-top button.
+   With large text the pill is left out, so nothing moves. */
+@media (max-width: 560px) {
+  :global(:root:not([data-a11y-text='150'], [data-a11y-text='175'], [data-a11y-text='200']) body:has([data-shown='true'].ui-btn)) .root {
+    --a11y-lift: calc(48px + var(--space-3));
+  }
 }
 
 .trigger {
+  position: relative;
   display: grid;
   place-items: center;
-  flex: none;
-  width: var(--tap);
-  height: var(--tap);
+  inline-size: 48px;
+  block-size: 48px;
   padding: 0;
   border-radius: 50%;
-  border: 1px solid var(--glass-line);
-  background: var(--glass);
-  color: var(--cream);
-  cursor: pointer;
-  transition: background var(--dur-fast) ease, border-color var(--dur-fast) ease;
-}
-.trigger:hover {
-  background: var(--glass-strong);
-}
-/* A setting is on: a gold edge says the page is not in its original look. */
-.trigger[data-a11y-active='true'] {
-  border-color: var(--gold);
+  border: 1px solid color-mix(in srgb, var(--gold) 55%, transparent);
+  background: color-mix(in srgb, var(--night-2) 92%, transparent);
+  backdrop-filter: blur(10px);
   color: var(--gold);
+  box-shadow: var(--elev-3);
+  cursor: pointer;
+  transition: background var(--dur-fast) ease, color var(--dur-fast) ease, transform var(--dur-base) var(--ease-out);
+}
+@media (hover: hover) {
+  .trigger:hover {
+    background: var(--gold);
+    color: var(--on-gold);
+  }
+}
+.trigger:active {
+  transform: scale(0.94);
 }
 .trigger[aria-expanded='true'] {
-  border-color: color-mix(in srgb, var(--gold) 60%, transparent);
-  background: var(--gold-soft);
-  color: var(--gold);
+  border-color: var(--gold);
+  background: var(--gold);
+  color: var(--on-gold);
+}
+/* A setting is on: a small gold dot on the button's edge says the page is not in its original look. */
+.trigger[data-a11y-active='true']::after {
+  content: '';
+  position: absolute;
+  inset-block-start: 1px;
+  inset-inline-end: 1px;
+  inline-size: 12px;
+  block-size: 12px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 0 2px var(--night);
 }
 .trigger:focus-visible {
   border-radius: 50%;
 }
+/* On the gold (open) button the ring is cream, as on every gold button. */
+.trigger[aria-expanded='true']:focus-visible {
+  outline-color: var(--cream);
+}
 
 .panel {
   position: absolute;
-  inset-block-start: calc(100% + 4px);
-  inset-inline-end: max(16px, (100% - var(--container)) / 2);
-  z-index: var(--z-menu);
-  inline-size: min(380px, 100% - 32px);
-  max-block-size: calc(100dvh - var(--header-h) - 24px);
+  inset-block-end: calc(100% + var(--space-3));
+  inset-inline-start: 0;
+  inline-size: min(380px, 100vw - 2 * var(--space-4));
+  max-block-size: calc(
+    100dvh - var(--header-h) - 48px - var(--a11y-corner) - var(--a11y-lift) - var(--space-3) - var(--space-4)
+  );
   overflow-y: auto;
   overscroll-behavior: contain;
   padding: var(--space-4) var(--space-5) var(--space-5);
@@ -56,7 +96,7 @@
 @keyframes panel-in {
   from {
     opacity: 0;
-    transform: translateY(-6px);
+    transform: translateY(8px);
   }
 }
 
@@ -241,6 +281,10 @@
 
 /* Windows high contrast: the drawn controls need system colours to show their state. */
 @media (forced-colors: active) {
+  .trigger[data-a11y-active='true']::after {
+    forced-color-adjust: none;
+    background: Highlight;
+  }
   .size input:checked + span,
   .switch input:checked + .track {
     background: Highlight;
@@ -252,6 +296,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .root,
+  .trigger {
+    transition: none;
+  }
   .panel {
     animation: none;
   }

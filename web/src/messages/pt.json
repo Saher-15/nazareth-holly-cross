@@ -1493,7 +1493,7 @@
           },
           "settings": {
             "title": "Configurações de acessibilidade",
-            "p1": "O botão com o símbolo de acessibilidade, no alto de cada página, abre configurações que valem para todo o site e ficam salvas neste navegador. O botão de redefinir devolve a aparência original.",
+            "p1": "O botão com o símbolo de acessibilidade, no canto inferior de cada página, abre configurações que valem para todo o site e ficam salvas neste navegador. O botão de redefinir devolve a aparência original.",
             "items": {
               "text": "Tamanho do texto de 100 a 200 por cento.",
               "contrast": "Alto contraste: fundo preto, texto branco e dourado mais claro.",

@@ -123,7 +123,7 @@ test.describe('gallery page', () => {
 test.describe('licensed photos on the holy-site pages', () => {
   test('the hero is a licensed AVIF with a social card, and the old photos are still there', async ({ page }) => {
     await page.goto('/en/sites/latin');
-    const hero = page.locator('header picture').first();
+    const hero = page.locator('main header picture').first(); // main: the site header has a picture too (the logo)
     await expect(hero.locator('source[type="image/avif"]')).toHaveAttribute('srcset', /basilica-facade\/640\.avif 640w/);
     await expect(hero.locator('source[type="image/webp"]')).toHaveAttribute('srcset', /basilica-facade\/1280\.webp 1280w/);
     await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', /basilica-facade\/og\.jpg$/);

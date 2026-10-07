@@ -356,7 +356,7 @@ Roles:
 | Hint | `.ui-hint`: 0.85rem, `--muted` (so a label and a hint never look alike) |
 | Price, amount, total | sans 700, gold, `font-variant-numeric: tabular-nums`; the order total `clamp(1.4rem, 3vw, 1.6rem)` in the cart and the checkout alike. Never the serif for figures (its old-style 1 reads as an I) |
 | Quotation (verse, scripture note, review) | serif 400, upright, a step larger than the text around it, marked by a gold rule or a quote mark |
-| Brand name in the header | serif 600, 1.2rem, `letter-spacing: 0.04em`, white |
+| Brand name in the header | serif 600, 1.2rem (1rem on phones), `letter-spacing: 0.04em`, white, beside the round logo (`<BrandLogo>`, 46px; 40px on phones) |
 
 Line height tokens: `--leading-tight` 1.15 (1.3 in he and ar), `--leading-body` 1.65 (1.8 in he and ar).
 
@@ -391,13 +391,16 @@ back on these values. Drawn objects (the candle's wax, a progress bar) are not s
 `--shadow` is the same value), `--elev-4` (menus, toasts, hover, with a 1px glass ring). Helpers `.ui-elev-1`
 to `.ui-elev-4` apply a shadow only. `--glow-gold` is for gold buttons.
 
-**Layers (z-index tokens):** `--z-sticky` 40 (sticky actions), `--z-header` 50, `--z-menu` 60, `--z-toast` 80,
+**Layers (z-index tokens):** `--z-sticky` 40 (sticky actions and the floating accessibility button), `--z-header` 50, `--z-menu` 60, `--z-toast` 80,
 `--z-skip` 100. The reading-progress line is `--z-header` + 1 (51). The admin adds `--z-dialog` 70. Never write a
 raw `z-index` number in a component.
 
 **Header offset:** `--header-h` 68px and `--scroll-offset` (header + 16px). `html { scroll-padding-top }` keeps
 in-page jumps and keyboard focus from hiding under the sticky header; do not add your own `scroll-margin-top` for
-that.
+that. `html { scroll-padding-bottom }` does the same for the two floating corner buttons (accessibility settings at
+the start, back to top at the end: 48px, 16px from the bottom), and twice that on a phone while the home page's
+candle pill lifts them; the footer's last line keeps the same band free, so at the end of a page nothing sits under
+them.
 
 **Touch target:** `--tap` 44px for everything pressable in the header, footer and shared components (WCAG 2.2
 asks 24px; we hold 44).
@@ -445,6 +448,12 @@ Photographs are the point of the site. The rules:
   when the browser is idle (`web/src/components/home/HeroVideo.tsx`). Other videos use `preload="none"` and a
   licensed poster. A video over 8 MB does not go in the repository (upload it to Firebase Storage). Videos that carry
   speech need captions (WCAG 1.2.2: still an open content task, `docs/QA.md`).
+- **The logo.** The master is `web/public/images/logo.webp` (1024 x 1024, the emblem on its own navy ground, no
+  transparency; it is also the app icon and the `Organization` logo in structured data). The header shows it round,
+  as a medallion with a fine gold ring (`<BrandLogo>`), from pre-sized files in `web/public/images/brand/` (48, 96 and
+  144 px, AVIF and WebP, 1 to 6 kB each) made by `node scripts/media/logo.mjs` from `web/`: it crops the square around
+  the emblem and never upscales. If the master changes, run the script again; never hand-edit the files. The logo is
+  decorative next to the name (`alt=""`); its colours are the logo's own and are not themed.
 - **Photo of a person:** only where incidental. Never a minor as the subject, never someone praying who could be
   identified, never a face in a thumbnail.
 
@@ -456,7 +465,9 @@ One inline-SVG set, `web/src/components/ui/icons.tsx` (24px grid, 2px round stro
 `aria-hidden`), built on `<SvgIcon>` (`web/src/components/ui/SvgIcon.tsx`). Size with the `size` prop or
 `--icon-size`; colour follows the text. Icons that point along the reading direction (`ArrowEndIcon`,
 `ArrowStartIcon`, `ChevronEndIcon`, `ChevronStartIcon`) take `flip` and mirror in right-to-left; `.ui-flip-rtl`
-does the same for any element. `<CrossMark>` is the brand mark. Older icon files (`web/src/components/home/icons.tsx`,
+does the same for any element. `<CrossMark>` is the drawn brand mark (footer, loading screen); the header shows the
+logo itself (`<BrandLogo>`, 3.5). `AccessibilityIcon` is the international accessibility sign (the United Nations
+figure with open arms in a circle, the head drawn solid); `SearchIcon` is the magnifier. Older icon files (`web/src/components/home/icons.tsx`,
 `web/src/components/places/icons.tsx`, `web/src/components/community/Icon.tsx`, `web/src/components/shop/ShopIcon.tsx`,
 `web/src/components/checkout/icons.tsx`) share the look. Never use an icon font, an emoji, or a text glyph. An icon
 never carries meaning alone: the text or `aria-label` beside it does. A new icon is drawn on the 24px grid with the
@@ -476,6 +487,7 @@ Every localized page is rendered by `web/src/app/[locale]/layout.tsx`:
   <body>
     <ReadingProgress/>     3px gold line at the very top (long pages only)
     <SiteHeader/>          sticky, 68px (--header-h), skip link first
+    <A11yPanel/>           the accessibility settings: a floating button in the bottom corner at the start of the line
     <main id="main" tabIndex=-1>   focus target of the skip link and of RouteFocus
       <div class="ui-page">...</div>   the page: night background + gold glow
     </main>
@@ -506,7 +518,7 @@ holding `<div className="ui-container">`.
 |---|---|
 | 400 px | Very small phones: the cart and wishlist pills show icon and count only, the header gap shrinks, the checkout step labels lose most of their letter-spacing |
 | 476 px | Footer: the auto-fit grid gets its second column, so the contact column spans two (the e-mail address is one long word and must not break). Narrower, the footer is one column and each group's links sit two to a row (one per row again with the panel's text at 150% or more) |
-| 480 / 560 px | Header on phones (480): the brand name may wrap onto two lines and the language button drops its caret, so the brand and the three round buttons fit down to 320 px. Phone adjustments inside single components: the hero title shrinks for long Russian, German, Greek and Polish words (480), the language list becomes a full-width panel under the header (480), the shop toolbar reflows (559), candle church cards grow taller (560), the verse of the day puts its date on its own line and the home candle strip's two buttons stack full width (560) |
+| 480 / 560 px | Header on phones (480): the logo is 40px, the brand name may wrap onto two lines, the language button drops its caret and the search button moves into the menu, so the brand, the language and the menu buttons fit down to 320 px. The floating accessibility and back-to-top buttons step up above the home page's candle pill, which spans the width (560). Phone adjustments inside single components: the hero title shrinks for long Russian, German, Greek and Polish words (480), the language list becomes a full-width panel under the header (480), the shop toolbar reflows (559), candle church cards grow taller (560), the verse of the day puts its date on its own line and the home candle strip's two buttons stack full width (560) |
 | 600 / 1100 px | Sets of exactly four cards (`.cardsFour` in `web/src/components/pilgrim/shared.module.css`, the "getting there" cards of `/visit`): two by two from 600, one row of four from 1100, never three and one alone |
 | 560-859 px | Product page in one column on a tablet: the photo frame is 4:3, not square, so the price and the cart button stay in view |
 | 640 / 700 px | Holy-site gallery 3 columns (640); shop product grid 3 columns (700) |
@@ -514,8 +526,8 @@ holding `<div className="ui-container">`.
 | 860 / 900 / 920 px | Two-column layouts begin: contact, product, cart, story + visit card, checkout |
 | 960 / 1000 px | Candle page two columns; footer five columns; gallery 4 columns |
 | 1040 px | Shop: filter sidebar (250px) replaces the filter drawer |
-| 1180 px | Header: at and below it the links become a drawer behind the menu button (at every width when the accessibility panel enlarges the text) |
-| 1240 px | Header: the gold "Donate" button joins the bar, except in Polish, Russian, Greek, Ukrainian and Dutch, whose longer labels leave no room for it next to the accessibility button (`web/tests/e2e/a11y.spec.ts` checks that the bar never overflows in any language) |
+| 1180 px | Header: at and below it the links become a full-height sheet behind the menu button (at every width when the accessibility panel enlarges the text) |
+| 1240 px | Header: the gold "Donate" button joins the bar, except in Polish, Russian, Greek, Ukrainian and Dutch, whose longer labels leave no room for it next to the search and language buttons (`web/tests/e2e/a11y.spec.ts` checks that the bar never overflows in any language; French at 1240 px is the tightest) |
 
 - **Height queries** (`min-height: 760px` / `820px`) decide whether a sticky side column is used, so it never
   becomes taller than the window.
@@ -573,7 +585,7 @@ region, `( )` a button, `{ }` a card on `.ui-glass`.
 
 ```
 +-----------------------------------------------------------------+
-| header (sticky, translucent over the photo)                     |
+| header (sticky; open over the photo, solid after scrolling)     |
 +-----------------------------------------------------------------+
 |                 HomeHero: full-bleed photo (+ silent film >= 768)|
 |                 eyebrow   (gold, uppercase)                      |
@@ -594,8 +606,8 @@ region, `( )` a button, `{ }` a card on `.ui-glass`.
 | footer                                                          |
 ```
 
-Phone: the three hero buttons stack full width; the carousel is swiped; the sticky candle button sits above the
-back-to-top button. The top 2600 px of the page on a phone (the strip is shown at 77% of its real width):
+Phone: the three hero buttons stack full width; the carousel is swiped; the sticky candle button spans the bottom
+edge and the floating accessibility and back-to-top buttons step up above it. The top 2600 px of the page on a phone (the strip is shown at 77% of its real width):
 
 ![The home page on a phone, scrolled through the first sections](design/site-home-phone-strip.jpg)
 
@@ -936,8 +948,9 @@ shop has full skeleton sets (`web/src/components/shop/Skeletons.tsx`). Shop page
 | `<LoadingScreen>` `web/src/components/ui/LoadingScreen.tsx` | Cross mark with a slow gold halo, "Loading..." | none | `role="status"`; fades in after 250ms so quick pages never flash it |
 | `<JsonLd>` `web/src/components/ui/JsonLd.tsx` | Structured data script | `data` built with `web/src/lib/jsonLd.ts` | The only allowed `dangerouslySetInnerHTML` (escaped) |
 | `<SvgIcon>`, icons `web/src/components/ui/icons.tsx` | The icon set (3.6) | `size`, `flip` on directional icons | Decorative |
-| `<SiteHeader>` `web/src/components/layout/SiteHeader.tsx` | Sticky frosted header: brand, nav, Donate, accessibility settings, language menu, drawer | Reads `mainNav` from `web/src/lib/site.ts` | Skip link first; drawer returns focus; `aria-current="page"` |
-| `<A11yPanel>` `web/src/components/layout/A11yPanel.tsx` | The accessibility settings: a round button in the header that opens a small non-modal dialog (section 5.5) | `onOpen` (the header closes its drawer) | `aria-expanded`, `aria-controls`, `aria-haspopup="dialog"`; real radio buttons and switches; Escape and the close button return the focus |
+| `<SiteHeader>` `web/src/components/layout/SiteHeader.tsx` | Sticky header: the logo and the name, the main links (centred, a short gold line under the current page), a round search button (opens the search palette), the language menu, Donate, and below 1180px the full-height phone sheet. Three looks in `data-look`: `hero` (open over the home photo, a soft shade from the top edge and a halo on the text), `glass` (other pages at rest), `solid` (after 12px of scrolling or while the sheet is open, with a gold hairline). The Live link's dot is its indicator slot. | Reads `mainNav` from `web/src/lib/site.ts`; `liveNow` | Skip link first; the sheet takes the focus, returns it to the menu button, locks the page and makes it inert; `aria-current="page"`; the search button has `aria-keyshortcuts` |
+| `<BrandLogo>` `web/src/components/layout/BrandLogo.tsx` | The round logo medallion of the header (section 3.5) | `sizes`, `size`, `className` | Decorative (`alt=""`); width and height set, so nothing shifts |
+| `<A11yPanel>` `web/src/components/layout/A11yPanel.tsx` | The accessibility settings: a round button with the international accessibility sign floating in the bottom corner at the start of the line, that opens a small non-modal dialog above itself (section 5.5) | none | Its own landmark (`<aside>` named `ux.a11y.title`), early in the tab order; `aria-expanded`, `aria-controls`, `aria-haspopup="dialog"`; real radio buttons and switches; Escape and the close button return the focus |
 | `<MotionToggle>` `web/src/components/ui/MotionToggle.tsx` | Pause / play button for a moving background (WCAG 2.2.2) | `className`; pauses the CSS animations inside the nearest `data-motion-scope` element and tells `<HeroVideo>` | The label follows the state (`ux.motion.pause`, `ux.motion.play`); not shown when the visitor asked for less motion |
 | `<LanguageSwitcher>` `web/src/components/layout/LanguageSwitcher.tsx` | Menu of all 14 languages, each in its own script, two columns | Real links with `hreflang` | Arrow keys mirror in RTL; Escape returns focus |
 | `<SiteFooter>` `web/src/components/layout/SiteFooter.tsx` | Four quiet columns plus languages; no newsletter, no cookie banner | Reads `footerNav`, `pilgrimNav`, `legalNav`, `socialLinks` | Social buttons 44px; the copyright line is one LTR unit |
@@ -974,10 +987,15 @@ the comment records the decision (why a native `<dialog>`, why `aria-disabled` a
 
 ### 5.5 The accessibility panel
 
-Every page has a round button with the accessibility sign in the header, between the Donate button and the language
-menu (`<A11yPanel>`, label `ux.a11y.open`, the other texts in `ux.a11y`). It opens a small non-modal dialog below
-the header at the reading end (mirrored in Hebrew and Arabic; nearly as wide as the screen on a phone, scrolling
-inside itself) with:
+Every page has a round button with the international accessibility sign (the United Nations figure with open arms in
+a circle, `AccessibilityIcon`) floating in the bottom corner at the start of the line: bottom left in left-to-right
+languages, bottom right in Hebrew and Arabic, because the back-to-top button has the other corner (`<A11yPanel>`,
+label `ux.a11y.open`, the other texts in `ux.a11y`). It is 48px, 16px from the edges (plus the safe areas of the
+screen), stays in place while the page scrolls, has a gold dot on its edge while any setting is on, and steps up
+above the home page's "light a candle" pill on phones, where that pill spans the bottom edge. It is rendered right
+after the header, in its own landmark (`<aside>` named `ux.a11y.title`), so the keyboard reaches it early. The open
+phone menu covers it and makes it inert. It opens a small non-modal dialog anchored to the same corner, above the
+button (nearly as wide as the screen on a phone, never under the header, scrolling inside itself) with:
 
 | Control | What it does | Attribute on `<html>` | CSS |
 |---|---|---|---|
@@ -1004,7 +1022,7 @@ Rules:
   no other place to be read (product, cart and photo names wrap instead: `<ProductCard>`, the checkout summary,
   `<Lightbox>`), and a `prefers-reduced-motion` branch for any animation (the stop-animations mode covers the rest).
 - **Large text changes some layouts** (150% and more; the selectors are `:root:is([data-a11y-text='150'], ...)` in
-  the component's own stylesheet): the header uses its drawer and, on phones, shows only the cross; the shop's search
+  the component's own stylesheet): the header uses its sheet, moves search into it and, on phones, shows only the logo; the shop's search
   bar stacks and stops sticking; the floating "Light a candle" pill is left out; the candle form shows one church per
   row and the donation form two amounts per row; photo cards grow with their text on a dark panel; and under any text
   size or spacing mode words may break anywhere (`overflow-wrap: anywhere` on `body`). Circles and pills that hold
@@ -1037,6 +1055,7 @@ photographs (both removed for reduced motion). Everything else plays once and th
 | Focus management | Skip link first; after client navigation `<RouteFocus>` focuses `<main>`; after a step change the card heading is focused (`useStepFocus`); menus return focus to their button; a hidden control is out of the tab order |
 | Smooth scroll | `scroll-behavior: smooth` on `html`, `auto` under reduced motion; programmatic scrolls use `scrollBehavior()` from `web/src/lib/motion.ts` |
 | Reduced motion | Every animation has a `prefers-reduced-motion: reduce` branch that removes it; test with the emulation (the Playwright test `ux.spec.ts` does). The panel's "Stop animations" (5.5) does the same for visitors who cannot change their system setting |
+| Header | The bar's looks (`hero`, `glass`, `solid`) cross-fade in 250ms; the phone sheet fades in and its entries rise 10px one after the other (25ms apart); the logo grows 6% on hover. All off under reduced motion |
 | Pause | A background that keeps moving (the home hero film and Ken Burns zoom, the holy-site Ken Burns) has a `<MotionToggle>` pause button in its bottom corner at the reading end (WCAG 2.2.2) |
 
 ![Reading progress and back to top](design/shell-progress-back-to-top.jpg)
@@ -1075,7 +1094,8 @@ Check every item for each new page or component:
 - [ ] The skip link is the first tab stop and moves focus to `<main>`.
 - [ ] The focus ring (`--focus-ring`, 3px gold, offset 3px) is visible on every focusable element and never removed.
       On a gold button the ring is cream (`.ui-btn--gold:focus-visible`).
-- [ ] Focus is never hidden behind the sticky header (2.4.11): `scroll-padding-top` handles it; do not add your own.
+- [ ] Focus is never hidden behind the sticky header or the floating corner buttons (2.4.11): `scroll-padding-top` and
+      `scroll-padding-bottom` handle it; do not add your own. A new floating control keeps to those corners.
 - [ ] Menus and dialogs: Escape closes, focus returns to the opener, focus is trapped in modals (native `<dialog>`).
 - [ ] A hidden control is out of the tab order (`hidden`, `inert`, `visibility`), e.g. the closed drawer, the
       back-to-top button.
@@ -1516,6 +1536,7 @@ Each one happened (or nearly did) here. The right-hand column says what catches 
 | **An `auto` grid track sized by its content** (a photo's natural width, a `nowrap` product name) | The card or list grows past its box: the stock badge was cut off in the admin's product cards, a 320 px Hebrew dashboard scrolled sideways | `grid-template-columns: minmax(0, 1fr)`; `web/tests/e2e/responsive-audit.ts` (section 4.2.1) |
 | **An RTL rule that outranks a state rule** (`html[dir='rtl'] .sidebar` vs `.sidebar[data-open='true']`) | The admin's phone menu stayed off the screen in Hebrew and Arabic | Repeat the RTL selector on the state rule; `admin/tests/e2e/responsive.spec.ts` opens the menu in Hebrew |
 | **A fixed-width popover hung from a button's edge on a phone** | The language list started 36 px off a 320 px screen | A full-width fixed panel below 480 px; the overlay test in `web/tests/e2e/responsive.spec.ts` |
+| **A test selector without a scope** (`button[aria-haspopup="dialog"]` with `.first()` to open the photo viewer) | It clicked the header's accessibility button instead and checked the wrong dialog, and still passed; `header picture` found the logo instead of a holy-site hero | Scope it to the region (`main button[...]`, `main header picture`): the header's search and the floating accessibility button open dialogs too, and the site header holds a `<picture>` |
 | **Per-page `scroll-margin-top` for the sticky header** | Double offsets, inconsistent jumps | `html { scroll-padding-top }` already does it |
 | **Disabling a stepper button at its limit** | Keyboard focus jumps to the top of the page | `aria-disabled` and keep focus |
 | **Trusting data read from `localStorage` or the API** | A tampered cart or an API change breaks or exploits the page | Validate on read (zod in `web/src/lib/api.ts`, cart validators) |

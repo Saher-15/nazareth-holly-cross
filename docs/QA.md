@@ -37,6 +37,11 @@ and phone width, and in these states: language menu open, phone menu open, photo
 donation / review form showing validation errors, cart filled and empty. Colour contrast of every design-token pair
 is computed in `tests/qa/contrast.mjs`.
 
+Finding of 2026-10-07 (branch `feat/navbar-logo`): the "photo viewer open" state in `tests/qa/axe.mjs` and
+`tests/e2e/qa-site.spec.ts` clicked the first `button[aria-haspopup="dialog"]` of the page, which was the header's
+accessibility button, so it scanned the accessibility panel instead of the photo viewer and still passed. Both now
+look inside `main`; the header's search button and the floating accessibility button also open dialogs.
+
 ### How to run it
 
 ```bash
