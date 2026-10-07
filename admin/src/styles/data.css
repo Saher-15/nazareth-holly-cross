@@ -54,6 +54,9 @@ html:lang(he) .table th, html:lang(ar) .table th { letter-spacing: 0; text-trans
   .table:not(.table--plain) td.cell-actions .row-actions { justify-content: flex-start; }
   .table:not(.table--plain) td > .cell-sub, .table:not(.table--plain) td.is-primary .cell-sub { text-align: start; }
   .table:not(.table--plain) td .cell-sub { display: block; }
+  /* A badge that holds a phrase ("Account locked (wrong passwords)" in the audit log) wraps inside a phone card
+     instead of pushing the page sideways; short status badges still fit on one line. */
+  .table:not(.table--plain) td .badge { white-space: normal; max-width: 100%; text-align: start; }
   .table:not(.table--plain) td.cell-wide { text-align: start; display: block; }
   .table:not(.table--plain) td.cell-wide::before { display: block; max-width: none; margin-bottom: 2px; }
   .table:not(.table--plain) tbody tr:hover { background: var(--glass); }
