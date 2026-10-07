@@ -108,7 +108,7 @@ These come from `docs/DESIGN.md` section 1 and are enforced by tests or review:
 - No light theme, no theme switch (`color-scheme: dark`).
 - No emoji or text glyphs used as icons.
 - No colour as the only signal (errors and success always carry an icon or words).
-- No autoplaying sound. The hero film is silent and the music toggle is off until the visitor turns it on.
+- No autoplaying sound. The home hero shows a licensed photo; the music toggle is off until the visitor turns it on.
 - No dark patterns: no pre-ticked boxes, no fake scarcity, no hidden shipping cost.
 
 ## 2. Voice, content and translation rules
@@ -451,21 +451,9 @@ Photographs are the point of the site. The rules:
   preloaded). Everything else is lazy. Never put `priority` on more than one image per page.
 - **Weight:** the home hero uses lean copies (`<MediaPicture lean />`, AVIF quality 38) because it sits under a
   dark gradient. Photos that are looked at (gallery, viewer) stay at full quality.
-- **Video:** the home hero film is the whole virtual tour as a silent background (960x540 H.264, 1.5x faster,
-  subtitles and logo cropped out, 20.1 MB, served by the site itself, no video service), in twelve 30-second parts
-  (`web/public/videos/hero-tour-00.mp4` to `web/public/videos/hero-tour-11.mp4`) that play one after the other on two
-  stacked players, so a browser never buffers more than the part on screen and the next; the 16 s loop
-  (`web/public/videos/hero-loop.webm`, `web/public/videos/hero-loop.mp4`) is the fallback when the tour cannot be
-  loaded. It is mounted only on screens 768 px or wider with a good connection (`navigator.connection.effectiveType`
-  "4g" where the browser reports it, never with `Save-Data`), never under `prefers-reduced-motion` or the panel's "Stop
-  animations", only after the `load` event and when the browser is idle, with `preload="none"`; it plays only while
-  the hero is on screen and the tab is visible, and the hero's `<MotionToggle>` pauses it
-  (`web/src/components/home/HeroVideo.tsx`). The tour's burned-in place-name cards are painted out in the encode
-  (the crop would have cut them in half). Other videos use
-  `preload="none"` and a licensed poster. A video over 8 MB does not go in the repository (upload it to Firebase
-  Storage); the hero tour is the one exception the owner decided (no per-minute bill): no part over 3 MB and the
-  whole film under 25 MB (`web/tests/unit/perf-assets.test.ts`). Videos that carry speech need captions (WCAG 1.2.2: still an open content
-  task, `docs/QA.md`); the hero film is silent and has none.
+- **Video:** the home hero mounts no video on any screen. The previously encoded tour parts and loop remain in
+  `web/public/videos/` but are not requested by the home page; `/tour` and `/live` keep their own videos. Other
+  videos use `preload="none"` and a licensed poster. Videos with speech need captions (WCAG 1.2.2; see `docs/QA.md`).
 - **The logo.** The master is `web/public/images/logo.webp` (1024 x 1024, the emblem on its own navy ground, no
   transparency; it is also the app icon and the `Organization` logo in structured data). The header shows it round,
   as a medallion with a fine gold ring (`<BrandLogo>`), from pre-sized files in `web/public/images/brand/` (48, 96 and
@@ -540,7 +528,7 @@ holding `<div className="ui-container">`.
 | 600 / 1100 px | Sets of exactly four cards (`.cardsFour` in `web/src/components/pilgrim/shared.module.css`, the "getting there" cards of `/visit`): two by two from 600, one row of four from 1100, never three and one alone |
 | 560-859 px | Product page in one column on a tablet: the photo frame is 4:3, not square, so the price and the cart button stay in view |
 | 640 / 700 px | Holy-site gallery 3 columns (640); shop product grid 3 columns (700) |
-| 768 px | The home hero film may mount (JavaScript check in `HeroVideo`, which also needs a good connection); the hero photo size hint changes |
+| 768 px | The home hero photo size hint changes; no video is mounted |
 | 860 / 900 / 920 px | Two-column layouts begin: contact, product, cart, story + visit card, checkout |
 | 960 / 1000 px | Candle page two columns; footer five columns; gallery 4 columns |
 | 1040 px | Shop: filter sidebar (250px) replaces the filter drawer |
@@ -605,7 +593,7 @@ region, `( )` a button, `{ }` a card on `.ui-glass`.
 +-----------------------------------------------------------------+
 | header (sticky; open over the photo, solid after scrolling)     |
 +-----------------------------------------------------------------+
-|     HomeHero: full-bleed photo (+ silent tour film >= 768, 4g)  |
+|     HomeHero: full-bleed licensed photo at every width          |
 |                 eyebrow   (gold, uppercase)                      |
 |                 H1 "Walk where Jesus walked"  (serif, 4xl)       |
 |                 lead (cream)                                     |
@@ -1015,7 +1003,7 @@ shop has full skeleton sets (`web/src/components/shop/Skeletons.tsx`). Shop page
 | `<LiveNavIndicator>` `web/src/components/layout/LiveNavIndicator.tsx` | Inside the header's Live link (bar and drawer): a red dot (`--live`) that pulses while a broadcast is live | `seed`; follows the tab's one live-status poller (`web/src/lib/liveStatusStore.ts`, every 30 s while the tab is visible), so it comes and goes without a reload | The dot is `aria-hidden`; visually hidden words `site.nav.liveNow` follow it; static under reduced motion and "Stop animations" |
 | `<LiveAlert>` `web/src/components/layout/LiveAlert.tsx` | "We are live now": the one pop-up the owner approved (1.5), a small centred window, never in a corner (the accessibility button floats in the bottom corner at the start of the line) | `seed`; rules in `web/src/lib/liveAlert.ts` (only live, once per broadcast in `nhc.liveAlert.v1`, never on `/live` or a payment page, after 4 s on a page, not while the visitor types or another dialog is open, only on a status read in the last minute) | Native modal `<dialog>` with `showModal()`: heading `ux.liveAlert.title`, the title of the broadcast (`dir="auto"`), "Watch now" (the gold link, focused), "Not now" (ghost); Tab stays inside, Escape and a click on the dimmed page close it, the focus goes back where it was; fades in (and rises 12px unless the visitor asked for less motion) |
 | `<A11yPanel>` `web/src/components/layout/A11yPanel.tsx` | The accessibility settings: a round button with the international accessibility sign floating in the bottom corner at the start of the line, that opens a small non-modal dialog above itself (section 5.5) | none | Its own landmark (`<aside>` named `ux.a11y.title`), early in the tab order; `aria-expanded`, `aria-controls`, `aria-haspopup="dialog"`; real radio buttons and switches; Escape and the close button return the focus |
-| `<MotionToggle>` `web/src/components/ui/MotionToggle.tsx` | Pause / play button for a moving background (WCAG 2.2.2) | `className`; pauses the CSS animations inside the nearest `data-motion-scope` element and tells `<HeroVideo>` | The label follows the state (`ux.motion.pause`, `ux.motion.play`); not shown when the visitor asked for less motion |
+| `<MotionToggle>` `web/src/components/ui/MotionToggle.tsx` | Pause / play button for a moving background (WCAG 2.2.2) | `className`; pauses the CSS animations inside the nearest `data-motion-scope` element | The label follows the state (`ux.motion.pause`, `ux.motion.play`); not shown when the visitor asked for less motion |
 | `<LanguageSwitcher>` `web/src/components/layout/LanguageSwitcher.tsx` | Menu of all 14 languages, each in its own script, two columns | Real links with `hreflang` | Arrow keys mirror in RTL; Escape returns focus |
 | `<SiteFooter>` `web/src/components/layout/SiteFooter.tsx` | Four quiet columns plus languages; no newsletter, no cookie banner | Reads `footerNav`, `pilgrimNav`, `legalNav`, `socialLinks` | Social buttons 44px; the copyright line is one LTR unit |
 | `<BackToTop>` `web/src/components/layout/BackToTop.tsx` | Round button after 1.4 screens of scrolling | none | Out of the tab order while hidden; hands focus to `<main>` |
@@ -1028,7 +1016,7 @@ shop has full skeleton sets (`web/src/components/shop/Skeletons.tsx`). Shop page
 
 | Area | Components (all under `web/src/components/`) | Notes |
 |---|---|---|
-| Home | `<HomeHero>`, `<HeroVideo>`, `<SoundToggle>`, `<TodayInNazareth>` (with `<NazarethClock>` and `<StartsIn>`), `<CandleStrip>`, `<SitesCarousel>`, `<SitesMap>`, `<VerseOfDay>`, `<Souvenirs>`, `<NewestPrayers>`, `<Voices>`, `<FollowUs>`, `<Story>`, `<StickyCta>` in `web/src/components/home/` | Sections render on the server; each is left out or replaced by a friendly note when its data cannot be loaded. Every section uses `--section-space`. The carousel works with touch, mouse drag, arrow buttons and keyboard (arrows, Home, End) in both directions. The candle strip draws a rack of candles (wicks, a few heights, a gold ledge; lit ones glow) above a quiet cream count; the souvenir cards share the look of `<ProductCard>` (serif name, gold price at the foot) |
+| Home | `<HomeHero>`, `<SoundToggle>`, `<TodayInNazareth>` (with `<NazarethClock>` and `<StartsIn>`), `<CandleStrip>`, `<SitesCarousel>`, `<SitesMap>`, `<VerseOfDay>`, `<Souvenirs>`, `<NewestPrayers>`, `<Voices>`, `<FollowUs>`, `<Story>`, `<StickyCta>` in `web/src/components/home/` | Sections render on the server; each is left out or replaced by a friendly note when its data cannot be loaded. Every section uses `--section-space`. The carousel works with touch, mouse drag, arrow buttons and keyboard (arrows, Home, End) in both directions. The candle strip draws a rack of candles (wicks, a few heights, a gold ledge; lit ones glow) above a quiet cream count; the souvenir cards share the look of `<ProductCard>` (serif name, gold price at the foot) |
 | Holy sites | `<SiteList>`, `<PlaceCards>`, `<PlaceStory>`, `<VisitCard>`, `<PlaceGallery>`, `<Lightbox>`, `<PhotoImage>`, `<ExternalLink>` in `web/src/components/places/` | The `<Lightbox>` is a native modal `<dialog>` (focus trapped, Escape closes, arrows and swipes change photo, mirrored in RTL, focus returns to the tile). Its code loads on the first click |
 | Shop | `<ShopBrowser>`, `<FilterPanel>`, `<FilterDrawer>`, `<ProductCard>`, `<ProductStrip>`, `<ProductRow>`, `<ProductDetail>`, `<ImageZoom>`, `<QuantityStepper>`, `<CartView>`, `<CartPill>`, `<WishlistButton>`, `<WishlistLink>`, `<WishlistView>`, `<ShareButton>`, `<ProductReviews>`, `<ProductReviewForm>`, `<RecentlyViewed>`, `<RetryButton>`, `<StateCard>`, `<GridSkeleton>`, `<ProductSkeleton>`, `<CartSkeleton>`, `<ShopBarSkeleton>` in `web/src/components/shop/` | State in the URL; the product photo is contained on a soft night backdrop (`--night-3` to `--night-2`, like the photo viewer), never a cream mat; `<ProductStrip>` fades out at an edge where more cards wait (a mask, off while the keyboard is inside the row); the heart is a toggle with `aria-pressed` and a polite status line; a stepper button at its limit is `aria-disabled` (focus stays); cart and wishlist live in `localStorage` and are validated on read |
 | Checkout and payments | `<StepIndicator>`, `<Field>`, `<TextField>`, `<DonePanel>`, `<PayPalPanel>`, `<LazyPayPalPanel>` in `web/src/components/checkout/` | PayPal loads lazily at the payment step; the server decides every amount; the PayPal SDK gets the CSP nonce (`useCspNonce`) |
@@ -1067,7 +1055,7 @@ button (nearly as wide as the screen on a phone, never under the header, scrolli
 | Text size: 100, 125, 150, 175, 200% (radio buttons in a `fieldset`) | Root font size; every font size is in rem, so all text scales (WCAG 1.4.4). The header switches to its drawer and grows a little (`--header-h`) | `data-a11y-text` = `125` ... `200` | `web/src/styles/globals.css`, `web/src/components/layout/SiteHeader.module.css` |
 | High contrast | Redefines the colour tokens (section 3.2) | `data-a11y-contrast="high"` | `web/src/styles/tokens.css` |
 | Underline links | Every `a[href]` underlined | `data-a11y-links="underline"` | `web/src/styles/globals.css` |
-| Stop animations | Animations and transitions jump to their end, the hero film is not started, page transitions and smooth scrolling are off; `prefersReducedMotion()` in `web/src/lib/motion.ts` reports it too. The system setting `prefers-reduced-motion` is always honoured as well, and the panel says so | `data-a11y-motion="reduce"` | `web/src/styles/globals.css` |
+| Stop animations | Animations and transitions jump to their end, the photo zoom stops, page transitions and smooth scrolling are off; `prefersReducedMotion()` in `web/src/lib/motion.ts` reports it too. The system setting `prefers-reduced-motion` is always honoured as well, and the panel says so | `data-a11y-motion="reduce"` | `web/src/styles/globals.css` |
 | Readable font | `--serif` becomes `--sans`: one plain typeface per script, no italics | `data-a11y-font="readable"` | `web/src/styles/tokens.css`, `web/src/styles/globals.css` |
 | More text spacing | The WCAG 1.4.12 values: line height 1.8, words 0.16em, paragraphs apart; letters 0.12em except in Hebrew and Arabic | `data-a11y-spacing="wide"` | `web/src/styles/globals.css` |
 | Strong focus ring | 4px gold ring with a dark gap and a cream halo | `data-a11y-focus="strong"` | `web/src/styles/globals.css` |
@@ -1094,7 +1082,7 @@ Rules:
   digits use `min-height` or `max(…px, …em)`, never a fixed height, so the digits never spill out.
 - **Moving backgrounds** get a `<MotionToggle>` inside an element marked `data-motion-scope` (the home hero and
   `<PlaceHero>` have one): it pauses the CSS animations in the scope (`[data-motion-paused]` in
-  `web/src/styles/globals.css`) and the hero film.
+  `web/src/styles/globals.css`).
 - **No overlay widget.** Do not add a third-party "accessibility overlay" script: it would break the CSP, add a
   tracker-like dependency and does not make a site conform. The panel is plain CSS on tokens.
 - Tests: `web/tests/unit/a11y.test.tsx` (storage, attributes, the pre-paint script, the dialog's keyboard
@@ -1123,7 +1111,7 @@ photographs (both removed for reduced motion). Everything else plays once and th
 | Smooth scroll | `scroll-behavior: smooth` on `html`, `auto` under reduced motion; programmatic scrolls use `scrollBehavior()` from `web/src/lib/motion.ts` |
 | Reduced motion | Every animation has a `prefers-reduced-motion: reduce` branch that removes it; test with the emulation (the Playwright test `ux.spec.ts` does). The panel's "Stop animations" (5.5) does the same for visitors who cannot change their system setting |
 | Header | The bar's looks (`hero`, `glass`, `solid`) cross-fade in 250ms; the phone sheet fades in and its entries rise 10px one after the other (25ms apart); the logo grows 6% on hover. All off under reduced motion |
-| Pause | A background that keeps moving (the home hero film and Ken Burns zoom, the holy-site Ken Burns) has a `<MotionToggle>` pause button in its bottom corner at the reading end (WCAG 2.2.2) |
+| Pause | A background that keeps moving (the home hero photo zoom, the holy-site Ken Burns) has a `<MotionToggle>` pause button in its bottom corner at the reading end (WCAG 2.2.2) |
 
 ![Reading progress and back to top](design/shell-progress-back-to-top.jpg)
 
@@ -1203,7 +1191,7 @@ Check every item for each new page or component:
 - [ ] Nothing times out silently; a session that ends says so (admin: idle warning dialog with a countdown).
 
 **Media**
-- [ ] Autoplaying motion that lasts more than five seconds can be stopped (2.2.2): the home hero film and the Ken
+- [ ] Autoplaying motion that lasts more than five seconds can be stopped (2.2.2): the home hero photo and the Ken
       Burns zooms have a `<MotionToggle>` pause button, and the accessibility panel can stop all motion. If you add
       moving content, put it in a `data-motion-scope` with a `<MotionToggle>`.
 - [ ] Videos with speech have captions and a transcript (1.2.2). Known gap: none of the site's videos has captions yet.
@@ -1304,7 +1292,7 @@ Visitors are on phones and slow networks. Performance is part of "done".
 | Images loaded before scrolling | under 1 MB per page | the same test | 109-698 kB |
 | JavaScript, all of it, compressed | under 350 kB per page | the same test | 195-295 kB (React, Next, next-intl, the layout) |
 | Fonts | under 250 kB per page | the same test | 90 kB (two Latin files preloaded) |
-| Hero film | under 3 MB downloaded in its first seconds, never on a phone; each part under 3 MB, the whole tour under 25 MB | the same test, and `web/tests/unit/perf-assets.test.ts` for the files | the tour: 12 parts of 1.0-2.8 MB, 20.1 MB in all (460 kbit/s, about 3.4 MB per minute watched; 1.4 MB in the first seconds); the fallback loop 1.4 MB WebM, 2.0 MB MP4 |
+| Home hero video | 0 bytes downloaded on every screen | `web/tests/e2e/hero-film.spec.ts` and `web/tests/e2e/performance.spec.ts` | the home hero uses only the licensed photo; unused tour files remain in the repository |
 | Cache | photos and videos one month; other images one day; `/_next/static` immutable; an anonymous request gets no `Set-Cookie` | the same test | |
 
 Guidelines for new work (not enforced by a test, but reviewers will ask):
