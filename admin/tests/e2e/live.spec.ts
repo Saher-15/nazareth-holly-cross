@@ -12,6 +12,9 @@ import { apiAs, cleanRecordingsAndSchedule, control, endEverything, fakeCloudfla
 
 test.use({
   storageState: stateFile('liveeditor'),
+  // Its own client address (the app forwards it with ADMIN_TRUST_XFF=1): the Live page asks the API often, and the
+  // API's per-address limit (1000 per 15 minutes on /admin) is shared by the whole suite otherwise.
+  extraHTTPHeaders: { 'X-Forwarded-For': '10.78.0.1' },
   permissions: ['camera', 'microphone'],
   launchOptions: { args: ['--use-fake-ui-for-media-stream', '--use-fake-device-for-media-stream'] },
 });

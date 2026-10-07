@@ -11,6 +11,8 @@ import {
 
 test.use({
   storageState: stateFile('liveeditor'),
+  // Its own client address (as in live.spec.ts): the API's per-address limit is shared by the whole suite otherwise.
+  extraHTTPHeaders: { 'X-Forwarded-For': '10.78.0.2' },
   permissions: ['camera', 'microphone'],
   launchOptions: { args: ['--use-fake-ui-for-media-stream', '--use-fake-device-for-media-stream'] },
 });
