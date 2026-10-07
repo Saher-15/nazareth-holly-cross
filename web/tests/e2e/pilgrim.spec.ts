@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
 import { MEDIA } from '../../src/data/media';
+import { locales } from '../../src/i18n/routing';
 import { PLACE_OF_TOPIC } from '../../src/data/places/places';
 import en from '../../src/messages/en.json';
 import he from '../../src/messages/he.json';
@@ -315,6 +316,23 @@ test.describe('FAQ and legal pages', () => {
     await expect(page.locator('#shop-discount')).toContainText('10%');
     await expect(page.locator('#prayer-candle')).toContainText('$3.00');
     await expect(page.locator('article h3')).toHaveCount(17);
+  });
+
+  test('the FAQ and its structured data name every language of the site', async ({ page }) => {
+    for (const locale of ['en', 'he'] as const) {
+      await page.goto(`/${locale}/faq`);
+      const names = new Intl.DisplayNames([locale], { type: 'language' });
+      const answer = page.locator('#site-languages');
+      for (const code of locales) await expect(answer).toContainText(names.of(code)!);
+      const blocks = await page.locator('script[type="application/ld+json"]').allTextContents();
+      const items = blocks.flatMap((text) => {
+        const data = JSON.parse(text) as { '@type': string; mainEntity?: { name: string; acceptedAnswer: { text: string } }[] };
+        return (Array.isArray(data) ? data : [data]).filter((d) => d['@type'] === 'FAQPage').flatMap((d) => d.mainEntity ?? []);
+      });
+      const question = (locale === 'en' ? en : he).pilgrim.faq.items.languages.q;
+      const ld = items.find((item) => item.name === question);
+      for (const code of locales) expect(ld?.acceptedAnswer.text).toContain(names.of(code));
+    }
   });
 
   test('privacy lists the data kept and the browser storage; shipping and terms quote the same figures', async ({ page }) => {

@@ -37,31 +37,31 @@
     }
   },
   "about": {
-    "title": "Bem-vindo ao Nazareth Holy Cross",
-    "description1": "O coração da fé cristã. Entendemos que nem todos podem visitar fisicamente Nazaré, uma cidade onde Jesus cresceu e onde experiências espirituais aguardam cada visitante. Portanto, temos o prazer de oferecer a você a oportunidade de trazer Nazaré até você.",
+    "title": "Bem-vindo à Nazareth Holy Cross",
+    "description1": "Nazaré está no coração da fé cristã. Nem todos podem viajar até Nazaré, a cidade onde Jesus cresceu e onde experiências espirituais aguardam cada visitante; por isso, temos a alegria de levar Nazaré até você.",
     "description2": "Por meio do nosso site, você pode fazer um tour virtual pelas principais igrejas e lugares sagrados de Nazaré e se conectar com a rica história e a tradição religiosa que caracterizam o lugar. Além disso, oferecemos a você uma oportunidade única de comprar lembranças locais e até acender uma vela em memória ou em homenagem aos seus entes queridos, como se estivesse aqui conosco.",
-    "description3": "Em nossa loja online, você encontra uma ampla variedade de produtos: cruzes feitas de madeira de oliveira local, joias inspiradas em símbolos cristãos, pinturas e mosaicos que refletem a riqueza da arte religiosa e muito mais. Agora você também pode comprar água da lendária fonte de Nazaré, areia de Nazaré e azeitonas locais – tudo para sentir a grandeza da cidade de Nazaré e de Jesus. Você também pode escolher acender uma vela virtual, um gesto que leva oração e lembrança através das distâncias.",
+    "description3": "Em nossa loja online, você encontra cruzes de madeira de oliveira local, terços, joias inspiradas em símbolos cristãos, vitrais e um kit de lembrança com água, terra, oliva e incenso de Nazaré. Você também pode acender uma vela, um gesto de oração e de lembrança que atravessa a distância.",
     "description4": "Nós convidamos você a abrir seu coração e sentir o calor da nossa comunidade através de cada produto que você escolher comprar. Cada compra apoia a comunidade local e ajuda a preservar a rica herança de Nazaré para as gerações futuras. Visite nosso site e encontre sua maneira de se conectar com Nazaré, a qualquer hora e em qualquer lugar."
   },
   "whatIsNew": {
-    "title": "Referências bíblicas a Nazaré",
+    "title": "Nazaré na Bíblia",
     "scriptureNotes": {
-      "matthew": "Mateus 2:23: «E foi habitar numa cidade chamada Nazaré, para que se cumprisse o que fora dito pelos profetas: Será chamado Nazareno».",
-      "luke1": "Lucas 1:26-27: «No sexto mês, o anjo Gabriel foi enviado por Deus a uma cidade da Galileia chamada Nazaré, a uma virgem desposada com um homem chamado José, da casa de Davi. O nome da virgem era Maria».",
-      "john": "João 1:46: «Disse-lhe Natanael: De Nazaré pode sair alguma coisa boa? Disse-lhe Filipe: Vem e vê».",
-      "luke4": "Lucas 4:16: «Foi a Nazaré, onde se tinha criado; e, segundo o seu costume, entrou no sábado na sinagoga e levantou-se para ler»."
+      "matthew": "Mateus 2:23: “E foi morar numa cidade chamada Nazaré, para que se cumprisse o que fora dito pelos profetas: ‘Será chamado Nazareno’.”",
+      "luke1": "Lucas 1:26-27: “No sexto mês, o anjo Gabriel foi enviado por Deus a uma cidade da Galileia chamada Nazaré, a uma virgem prometida em casamento a um homem chamado José, da casa de Davi. O nome da virgem era Maria.”",
+      "john": "João 1:46: “Disse-lhe Natanael: ‘De Nazaré pode sair alguma coisa boa?’ Disse-lhe Filipe: ‘Vem e vê’.”",
+      "luke4": "Lucas 4:16: “Veio a Nazaré, onde se tinha criado, e, segundo o seu costume, entrou no sábado na sinagoga e levantou-se para ler.”"
     },
     "touchingTheSacred": "Tocar o sagrado, sentir o coração bater",
     "introParagraphs": {
-      "part1": "Nazaré, a cidade onde o milagre aconteceu, é o lugar onde Jesus deu seus primeiros passos, onde a Virgem Maria abraçou seu Filho e orou por sua segurança. Aqui, dentro das igrejas antigas, na fonte sagrada onde Maria alimentou Jesus e no vibrante mercado da cidade velha, você verá sua fé ganhando vida mais uma vez.",
-      "part2": "Imagine-se caminhando pelas ruas estreitas, seguindo os passos de Jesus até as igrejas, compartilhando momentos de reflexão no Poço de Maria, onde os olhos da santa mãe encontraram as águas antigas. Cada pedra, cada beco conta uma história de fé inabalável, de uma jornada espiritual que transcende o tempo.",
-      "part3": "Quando você acende uma vela na Basílica da Anunciação, reencontra o lugar onde Jesus ouviu pela primeira vez o seu chamado divino. Enquanto seu coração anseia por Nazaré, nossas lembranças carregam o espírito sagrado da cidade e recordam a você a sua profunda conexão com o lugar onde tudo começou.",
+      "part1": "Nazaré, a cidade onde o milagre aconteceu, é o lugar onde Jesus deu seus primeiros passos e cresceu na casa de Maria e José. Aqui, dentro das igrejas antigas, na fonte onde Maria buscava água e no vibrante mercado da Cidade Velha, você verá sua fé ganhando vida mais uma vez.",
+      "part2": "Imagine-se caminhando pelas ruas estreitas, seguindo os passos de Jesus até as igrejas, compartilhando momentos de reflexão no Poço de Maria, onde a santa mãe tirava água da antiga fonte. Cada pedra, cada beco conta uma história de fé inabalável, de uma jornada espiritual que transcende o tempo.",
+      "part3": "Quando você acende uma vela na Basílica da Anunciação, une a sua oração ao lugar onde Maria disse sim a Deus. E quando seu coração anseia por Nazaré, nossas lembranças trazem algo da santidade da cidade e recordam a você a sua profunda conexão com o lugar onde tudo começou.",
       "part4": "Permita-nos trazer Nazaré até você, direto para sua casa. Com cada lembrança, você preserva um vínculo profundo com Nazaré, a cidade onde Jesus e Maria caminharam, a cidade onde a fé nasceu. Lembre-se dos momentos que aconteceram aqui, dos corações que se abriram em oração e das lágrimas que caíram silenciosamente sobre as pedras antigas.",
       "part5": "Nazaré espera por você, abraça você de longe e leva até você a sua santidade. Mantenha a chama acesa em seu coração, até o dia em que você voltar para nós – para a cidade onde a fé pulsa."
     }
   },
   "live": {
-    "no_upcoming_events": "Nenhum evento futuro disponível.",
+    "no_upcoming_events": "Nenhuma transmissão programada no momento.",
     "past_live_events": "Eventos ao vivo anteriores",
     "refresh_note": "Observação: atualize a página antes de clicar no botão “Participe ao vivo”."
   },
@@ -74,14 +74,14 @@
     "reviews": "Avaliações"
   },
   "candle": {
-    "howToLightACandle": "Como acender uma vela?",
+    "howToLightACandle": "Como funciona acender uma vela?",
     "itsSimple": "É simples:",
     "step1": "Escolha uma igreja onde você gostaria que a vela fosse acesa.",
     "step2": "Escreva uma oração ou um pedido pessoal que você gostaria que acompanhasse o acendimento da vela.",
     "step3": "Iremos até a igreja, acenderemos a vela por você, gravaremos um vídeo com o seu nome e o enviaremos diretamente para você.",
-    "note": "Observação: este vídeo é apenas para fins ilustrativos, mostrando o processo de acender uma vela na igreja ortodoxa grega.",
+    "note": "Observação: este vídeo é apenas ilustrativo e mostra como uma vela é acesa na Igreja Ortodoxa Grega da Anunciação.",
     "lightAPrayCandle": "Acenda uma vela de oração",
-    "selectChurch": "Selecione a igreja para acender a vela:",
+    "selectChurch": "Escolha a igreja onde sua vela será acesa:",
     "churches": {
       "latin": {
         "name": "Basílica da Anunciação",
@@ -99,7 +99,7 @@
     "firstName": "Nome",
     "lastName": "Sobrenome",
     "yourEmail": "Seu e-mail",
-    "confirmEmail": "Confirmar e-mail",
+    "confirmEmail": "Confirme o e-mail",
     "yourPrayer": "Sua oração"
   },
   "heroSection": {
@@ -122,12 +122,12 @@
   },
   "videos": {
     "interview_nazareth": {
-      "title": "Entrevista com a Comunidade de Nazaré",
+      "title": "Entrevista com a comunidade de Nazaré",
       "description": "Assista à entrevista exclusiva transmitida ao vivo de Nazaré."
     },
     "live_prayer_latin": {
       "title": "Oração ao vivo da Basílica da Anunciação",
-      "description": "Experimente uma transmissão ao vivo de orações sinceras da Igreja Latina."
+      "description": "Assista à gravação de uma oração transmitida ao vivo da Basílica da Anunciação."
     }
   },
   "nazarethTour": {
@@ -145,7 +145,7 @@
     "submitButton": "Enviar",
     "successMessage": "Mensagem enviada com sucesso!",
     "confirmationMessage": "Sua mensagem aparecerá no mural assim que for confirmada pela equipe da Nazareth Holy Cross.",
-    "messagesTitle": "Avaliações de clientes",
+    "messagesTitle": "O que dizem nossos visitantes",
     "messagesDescription": "Aqui estão as avaliações que foram aprovadas por nossa equipe. Obrigado por compartilhar seu feedback conosco.",
     "noMessages": "Nenhuma mensagem enviada ainda."
   },
@@ -176,29 +176,29 @@
     "copyright": "Copyright © 2024 – Todos os direitos reservados, NazarethHolyCross"
   },
   "headerGreek": {
-    "title": "Explore a beleza da Igreja Grega",
+    "title": "Explore a beleza da Igreja Ortodoxa Grega da Anunciação",
     "mapButton": "Ver no Google Maps"
   },
   "contentGreek": {
-    "paragraph1": "A Igreja Ortodoxa Grega da Anunciação fica acima da fonte onde os cristãos ortodoxos acreditam que a Anunciação ocorreu. Quando a Virgem Maria foi tirar água da fonte, o Arcanjo Gabriel apareceu e informou que ela conceberia e daria à luz um filho que ela chamaria de Jesus. A igreja atual remonta a 1750, quando Daher al-Omar, o governante beduíno da Galileia, deu permissão à comunidade ortodoxa grega para construí-la.",
+    "paragraph1": "A Igreja Ortodoxa Grega da Anunciação, também conhecida como Igreja de São Gabriel, fica sobre a fonte onde os cristãos ortodoxos acreditam que a Anunciação ocorreu. Quando a Virgem Maria foi tirar água da fonte, o Arcanjo Gabriel apareceu e lhe anunciou que ela conceberia e daria à luz um filho, a quem chamaria Jesus. A igreja atual remonta a 1750, quando Daher al-Omar, o governante da Galileia, deu permissão à comunidade ortodoxa grega para construí-la.",
     "paragraph2": "A igreja tem uma nave central com duas naves laterais e uma bela iconóstase de madeira, doada por um comerciante grego em 1767. Entre 1977 e 1978, foi redecorada por artistas romenos. Uma passagem em arco leva a uma pequena capela, decorada com azulejos armênios, de onde sete degraus descem até a fonte, que se acredita ter sido construída pelos cruzados no século XII.",
-    "paragraph3": "A cerca de 140 metros da igreja fica o Poço de Maria, que já foi alimentado pela fonte e serviu como fonte local de água por vários séculos. A fonte foi reparada em 1967 e novamente em 2000, mas não funciona hoje."
+    "paragraph3": "A cerca de 140 metros da igreja fica o Poço de Maria, que já foi alimentado pela fonte e serviu como fonte local de água por vários séculos. O chafariz foi reparado em 1967 e novamente em 2000, mas hoje não funciona."
   },
   "headerLatin": {
     "title": "Explore a beleza da Basílica da Anunciação"
   },
   "contentLatin": {
-    "paragraph1": "A Igreja Latina, também conhecida como Basílica da Anunciação, é um importante local religioso localizado em Nazaré, Israel. Ela se destaca como uma das maiores igrejas do Oriente Médio e tem um profundo significado religioso para os cristãos em todo o mundo.",
+    "paragraph1": "A Basílica da Anunciação, a igreja católica no coração de Nazaré, é uma das maiores igrejas do Oriente Médio e tem um profundo significado religioso para os cristãos do mundo inteiro.",
     "history": {
       "title": "Contexto histórico",
       "text": "Tradicionalmente, acredita-se que o local seja o lugar onde o anjo Gabriel anunciou à Virgem Maria que ela conceberia e daria à luz Jesus, um evento conhecido como a Anunciação. A basílica tem uma longa história que remonta aos primeiros séculos do cristianismo, com igrejas sucessivas construídas no local ao longo do tempo."
     },
     "architecture": {
       "title": "Características arquitetônicas",
-      "text": "A basílica atual, construída entre 1955 e 1969, apresenta uma estrutura distinta de dois andares. A igreja superior é usada para cultos, enquanto a igreja inferior encerra a Gruta da Anunciação, que se acredita ser o local real da Anunciação. A arquitetura da basílica mistura estilos modernos com elementos tradicionais, e seu interior é adornado com mosaicos, afrescos e obras de arte retratando cenas da vida de Cristo."
+      "text": "A basílica atual, construída entre 1960 e 1969, tem uma estrutura singular de dois andares. A igreja superior é usada para as celebrações, enquanto a igreja inferior abriga a Gruta da Anunciação, que se acredita ser o local exato da Anunciação. A arquitetura da basílica mistura estilos modernos com elementos tradicionais, e seu interior é adornado com mosaicos, afrescos e obras de arte que retratam cenas da vida de Cristo."
     },
     "visiting": {
-      "title": "Visitando a Basílica",
+      "title": "Visitando a basílica",
       "text": "A Basílica da Anunciação é um destino popular para peregrinos e turistas que visitam Nazaré. Os visitantes podem explorar a igreja superior e a inferior, admirar as características artísticas e arquitetônicas e participar de cerimônias religiosas e eventos realizados na basílica. O local oferece uma profunda experiência espiritual e serve como um símbolo de fé e patrimônio."
     }
   },
@@ -206,22 +206,22 @@
     "title": "Explore a beleza do Poço de Maria"
   },
   "contentMary": {
-    "intro": "O Poço de Maria, também conhecido como Poço da Virgem, é um importante local histórico e religioso localizado em Nazaré, Israel. Acredita-se tradicionalmente que seja o lugar onde o anjo Gabriel anunciou à Virgem Maria que ela daria à luz Jesus, um evento conhecido como a Anunciação.",
+    "intro": "O Poço de Maria, também conhecido como Fonte da Virgem, é o antigo chafariz de Nazaré, abastecido durante séculos pela fonte da cidade. A própria fonte brota a cerca de 140 metros dali, dentro da Igreja Ortodoxa Grega da Anunciação (Igreja de São Gabriel), onde a tradição ortodoxa situa a Anunciação: ali o anjo Gabriel saudou Maria pela primeira vez quando ela foi buscar água.",
     "significance": {
       "title": "Significado histórico e religioso",
       "biblical": "Conexão bíblica",
-      "biblicalText": "De acordo com a tradição cristã, o Poço de Maria é onde Maria estava tirando água quando o anjo Gabriel apareceu a ela e anunciou que ela conceberia e daria à luz Jesus Cristo. Este evento é uma parte central da história cristã da Anunciação.",
+      "biblicalText": "O Evangelho de Lucas conta que o anjo Gabriel foi enviado a Maria em Nazaré. Uma antiga tradição, conservada pela Igreja Ortodoxa, acrescenta que o anjo a saudou pela primeira vez quando ela tirava água na fonte. Por isso a fonte, e o poço que ela abastecia, estão ligados à Anunciação.",
       "cultural": "Importância cultural",
       "culturalText": "O poço tem sido uma fonte vital de água para a comunidade local por séculos. Serviu como um local de encontro para o povo de Nazaré, tornando-se parte integrante da vida diária na cidade.",
       "architecture": "Características arquitetônicas",
-      "architectureText": "O poço em si faz parte de um complexo maior que inclui a Igreja Ortodoxa Grega da Anunciação. A estrutura atual da igreja remonta ao século XVIII, mas o poço e o local têm raízes muito mais antigas."
+      "architectureText": "O chafariz era alimentado pela fonte que brota na cripta da Igreja Ortodoxa Grega da Anunciação, a cerca de 140 metros dali. A igreja remonta ao século XVIII, mas a fonte e o local têm raízes muito mais antigas."
     },
     "modern": {
-      "title": "Local moderno",
-      "restoration": "Esforços de restauração",
+      "title": "O local hoje",
+      "restoration": "Restauração",
       "restorationText": "A fonte do Poço de Maria passou por várias restaurações ao longo dos anos, principalmente em 1967 e 2000. Apesar desses esforços, o poço não funciona hoje como antes.",
-      "attraction": "Atração turística",
-      "attractionText": "O Poço de Maria é um destino popular para peregrinos e turistas. Os visitantes vêm para ver o local histórico e vivenciar o lugar onde, de acordo com a tradição, a Anunciação ocorreu.",
+      "attraction": "Um lugar de peregrinação",
+      "attractionText": "O Poço de Maria é uma parada muito procurada por peregrinos e visitantes, que vêm ver o histórico chafariz e seguem até a fonte dentro da igreja ortodoxa grega, onde, segundo a tradição ortodoxa, o anjo saudou Maria pela primeira vez.",
       "surroundings": "Área ao redor",
       "surroundingsText": "O poço está localizado na Cidade Velha de Nazaré, uma área rica em marcos históricos e religiosos. As atrações próximas incluem a Basílica da Anunciação, a Igreja Ortodoxa Grega da Anunciação e vários outros locais relacionados à vida de Jesus e Maria."
     },
@@ -238,7 +238,7 @@
   "headerTitleNaz": "Explore a beleza da cidade de Nazaré",
   "mapButton": "Abrir mapa",
   "contentNaz": {
-    "introduction": "A Cidade Velha de Nazaré é mais famosa por seu shuk (mercado ao ar livre), que atrai israelenses de todo o país em busca de produtos árabes tradicionais. Isso por si só é uma experiência e um grande contraste com os shoppings com ar-condicionado espalhados pelo país. Para os interessados no cristianismo, a Cidade Velha e arredores estão repletas de importantes locais cristãos, incluindo a Basílica da Anunciação.",
+    "introduction": "A Cidade Velha de Nazaré é mais conhecida por seu souk, um mercado de ruelas de pedra onde vendedores de especiarias, padeiros e artesãos ainda mantêm suas lojas. Ao redor dele ficam muitos dos lugares cristãos da cidade, entre eles a Basílica da Anunciação, a Igreja Ortodoxa Grega da Anunciação e a Igreja da Sinagoga.",
     "historicalSignificance": {
       "title": "Significado histórico e religioso",
       "text": "Nazaré é mencionada com destaque no Novo Testamento. De acordo com a tradição cristã, é o local onde o anjo Gabriel anunciou a Maria que ela daria à luz Jesus, um evento comemorado pela Basílica da Anunciação. Evidências arqueológicas indicam que Nazaré era uma pequena vila judaica na época de Jesus. Ela tem sido continuamente habitada desde a antiguidade."
@@ -347,7 +347,7 @@
     "soundToggle": "Ativar ou desativar o som",
     "stickyCandle": "Acender uma vela",
     "candleTitle": "Uma chama para cada oração",
-    "candleText": "Acenda uma vela na Cidade Santa e rezaremos pela sua intenção em Nazaré.",
+    "candleText": "Acenda uma vela e rezaremos pela sua intenção aqui em Nazaré, a cidade da Anunciação.",
     "flameBtn": "Acender uma chama",
     "flameCount": "Chamas acesas neste dispositivo: {count}",
     "flameNote": "Uma chama simbólica. Para que uma vela de verdade seja acesa em Nazaré, visite a nossa página de velas.",
@@ -614,7 +614,7 @@
       "candleTitle": "Acenda uma vela em Nazaré",
       "candleDescription": "Escolha uma igreja em Nazaré e escreva sua oração. Acenderemos uma vela por você e enviaremos o vídeo.",
       "donateTitle": "Doar",
-      "donateDescription": "Apoie o Nazareth Holy Cross com uma doação, paga com segurança pelo PayPal."
+      "donateDescription": "Apoie a Nazareth Holy Cross com uma doação, paga com segurança pelo PayPal."
     },
     "hero": {
       "eyebrow": "Pagamento seguro",
@@ -622,7 +622,7 @@
       "lead": "Seu pagamento é processado com segurança pelo PayPal.",
       "candleEyebrow": "Vela de oração",
       "donateEyebrow": "Doação",
-      "donateTitle": "Apoie o Nazareth Holy Cross",
+      "donateTitle": "Apoie a Nazareth Holy Cross",
       "donateLead": "Sua doação nos ajuda a compartilhar os lugares santos, as orações e o artesanato de Nazaré com peregrinos do mundo inteiro."
     },
     "steps": {
@@ -863,7 +863,7 @@
     "notFound": {
       "suggestions": "Para onde você quer ir?",
       "hint": {
-        "sites": "Igrejas, a fonte e a cidade velha",
+        "sites": "Igrejas, a fonte e a Cidade Velha",
         "tour": "Percorra Nazaré passo a passo",
         "candle": "Acenda uma vela pela sua intenção"
       }
@@ -942,7 +942,7 @@
         "lead": "Conte quantos dias você tem e o que toca seu coração. Montamos um roteiro dia a dia pelos lugares santos de Nazaré, com o tempo de caminhada entre cada parada."
       },
       "form": {
-        "title": "A sua peregrinação",
+        "title": "Sua peregrinação",
         "days": "Quantos dias?",
         "dayCount": "{count, plural, one {# dia} other {# dias}}",
         "interests": "O que você procura?",
@@ -982,7 +982,7 @@
       "caveat": {
         "title": "Antes de ir",
         "hours": "Os horários das igrejas mudam com as celebrações, festas e feriados, às vezes sem aviso prévio. Confirme sempre antes de viajar.",
-        "dress": "As igrejas pedem vestuário recatado: ombros e joelhos cobertos.",
+        "dress": "As igrejas pedem roupas discretas: ombros e joelhos cobertos.",
         "walking": "Os tempos de caminhada entre os locais são estimativas; algumas ruas de Nazaré são íngremes, então reserve um tempo extra."
       },
       "actions": {
@@ -1020,15 +1020,15 @@
         "distance": "cerca de {km} km por estrada",
         "routes": {
           "haifa": {
-            "title": "A partir de Haifa",
+            "title": "Saindo de Haifa",
             "text": "O trajeto mais simples: cerca de 40 minutos de carro ou táxi, ou cerca de uma hora de ônibus."
           },
           "telaviv": {
-            "title": "A partir de Tel Aviv",
-            "text": "Cerca de duas horas de carro. Há ônibus e trens para o norte; de transporte público, o mais comum é ir até Haifa ou Afula e pegar um ônibus para Nazaré."
+            "title": "Saindo de Tel Aviv",
+            "text": "Cerca de uma hora e meia de carro, mais nos horários de pico. Há ônibus diretos de Tel Aviv para Nazaré; você também pode pegar o trem até Haifa ou Afula e seguir de ônibus."
           },
           "airport": {
-            "title": "A partir do aeroporto Ben Gurion",
+            "title": "Saindo do aeroporto Ben Gurion",
             "text": "Cerca de duas horas de carro ou táxi. De transporte público, pegue o trem para Haifa ou Tel Aviv e siga de ônibus; o mais fácil é um transfer reservado com antecedência ou um carro alugado."
           }
         },
@@ -1051,7 +1051,7 @@
           },
           "seasons": {
             "title": "Melhores épocas",
-            "text": "A primavera (de março a maio) e o outono (do fim de setembro a novembro) são amenos e os mais agradáveis para caminhar. O verão é quente e seco; o inverno é fresco e chuvoso. A Páscoa, o Natal e a festa da Anunciação, em 25 de março, são os períodos mais movimentados e mais emocionantes."
+            "text": "A primavera (de março a maio) e o outono (do fim de setembro a novembro) são amenos e os mais agradáveis para caminhar. O verão é quente e seco; o inverno é fresco e chuvoso. A Páscoa, o Natal e a festa da Anunciação (25 de março, e 7 de abril na igreja ortodoxa grega) são os períodos mais movimentados e mais emocionantes."
           },
           "safety": {
             "title": "Segurança",
@@ -1069,7 +1069,7 @@
       },
       "climate": {
         "eyebrow": "Clima",
-        "title": "O tempo mês a mês",
+        "title": "O clima mês a mês",
         "lead": "Condições típicas em Nazaré: verões quentes e secos, invernos frescos e chuvosos.",
         "caption": "Temperaturas médias diárias e precipitação por mês",
         "month": "Mês",
@@ -1094,7 +1094,7 @@
         },
         "dress": {
           "q": "O que devo vestir?",
-          "a": "Roupa recatada que cubra ombros e joelhos e sapatos confortáveis para as ruelas íngremes. Leve uma camada leve no inverno e proteção solar no verão."
+          "a": "Roupas discretas que cubram ombros e joelhos e sapatos confortáveis para as ruelas íngremes. Leve um agasalho leve no inverno e protetor solar no verão."
         },
         "days": {
           "q": "De quantos dias preciso?",
@@ -1102,11 +1102,11 @@
         },
         "safe": {
           "q": "É seguro visitar Nazaré?",
-          "a": "Nazaré é, em geral, calma e acolhedora, mas as condições na região podem mudar. Consulte os conselhos de viagem do seu governo e as notícias locais antes e durante a viagem."
+          "a": "Nazaré é, em geral, calma e acolhedora, mas as condições na região podem mudar. Consulte as recomendações de viagem do seu governo e as notícias locais antes e durante a viagem."
         },
         "season": {
           "q": "Qual é a melhor época para visitar?",
-          "a": "A primavera e o outono são os mais confortáveis. O verão é quente e o inverno chuvoso. A Páscoa, o Natal e o dia 25 de março (a Anunciação) são os momentos mais concorridos e mais comoventes."
+          "a": "A primavera e o outono são os mais confortáveis. O verão é quente e o inverno chuvoso. A Páscoa, o Natal e a Anunciação (25 de março, e 7 de abril na igreja ortodoxa grega) são os períodos mais movimentados e mais emocionantes."
         }
       }
     },
@@ -1128,15 +1128,15 @@
       "note": "As citações são apresentadas para reflexão e podem diferir ligeiramente da tradução da Bíblia que você usa. Passagens: Lucas 1, 2 e 4; Mateus 2; João 1.",
       "p": {
         "luke126": {
-          "quote": "No sexto mês, o anjo Gabriel foi enviado por Deus a uma cidade da Galileia chamada Nazaré, a uma virgem prometida em casamento a um homem chamado José, da casa de David. O nome da virgem era Maria.",
+          "quote": "No sexto mês, o anjo Gabriel foi enviado por Deus a uma cidade da Galileia chamada Nazaré, a uma virgem prometida em casamento a um homem chamado José, da casa de Davi. O nome da virgem era Maria.",
           "ref": "Lucas 1:26-27",
           "text": "Toda a história começa numa pequena cidade das colinas. Caminhar hoje por Nazaré é caminhar onde o Evangelho começa."
         },
         "luke130": {
-          "text": "Debaixo da Basílica da Anunciação encontra-se a gruta que os cristãos veneram há séculos como o lugar da casa de Maria, onde se recorda a saudação do anjo."
+          "text": "Sob a Basílica da Anunciação fica a gruta que os cristãos veneram há séculos como o lugar da casa de Maria, onde se recorda a saudação do anjo."
         },
         "luke138": {
-          "text": "A tradição ortodoxa recorda que o anjo falou pela primeira vez a Maria quando ela ia buscar água, na fonte junto à igreja greco-ortodoxa da Anunciação. A sua resposta é o coração da oração de cada peregrino."
+          "text": "A tradição ortodoxa recorda que o anjo falou pela primeira vez a Maria quando ela ia buscar água, na fonte que brota dentro da Igreja Ortodoxa Grega da Anunciação. A resposta de Maria é o coração da oração de cada peregrino."
         },
         "matthew223": {
           "text": "Depois da volta do Egito, José se estabeleceu com a família em Nazaré. A partir de então, Jesus ficou conhecido como “Jesus de Nazaré”, e o nome da cidade correu o mundo."
@@ -1150,9 +1150,9 @@
           "text": "Durante séculos, a fonte de Nazaré foi o lugar onde a cidade se reunia todos os dias. No Poço de Maria, é possível imaginar o trabalho do dia a dia e a fé silenciosa que Maria guardava no coração."
         },
         "luke416": {
-          "quote": "Veio a Nazaré, onde fora criado, e, segundo o seu costume, entrou no sábado na sinagoga e levantou-se para ler.",
+          "quote": "Veio a Nazaré, onde se tinha criado, e, segundo o seu costume, entrou no sábado na sinagoga e levantou-se para ler.",
           "ref": "Lucas 4:16",
-          "text": "Jesus voltou para pregar na cidade onde crescera. Locais da Cidade Velha, entre eles uma igreja que a tradição situa onde ficava a sinagoga, recordam esse dia."
+          "text": "Jesus voltou para pregar na cidade onde tinha crescido. Locais da Cidade Velha, entre eles uma igreja que a tradição situa onde ficava a sinagoga, recordam esse dia."
         },
         "john146": {
           "text": "A resposta de Filipe a Natanael é o convite de toda peregrinação: “Vem e vê”. Até hoje, a melhor maneira de entender Nazaré é percorrer suas ruas."
@@ -1196,7 +1196,7 @@
       },
       "form": {
         "title": "Compartilhe uma oração",
-        "intro": "Escreva uma intenção pela paz, pela cura, em ação de graças ou pela sua família. Aparecerá no mural.",
+        "intro": "Escreva uma intenção pela paz, pela cura, em ação de graças ou pela sua família. Ela aparecerá no mural.",
         "name": "Seu nome",
         "country": "De onde você é?",
         "countryChoose": "Escolha o seu país",
@@ -1238,7 +1238,7 @@
         "lead": "Alguma dúvida sobre seu pedido, uma vela ou sua peregrinação? Escreva para nós e responderemos por e-mail."
       },
       "form": {
-        "title": "Envie-nos uma mensagem",
+        "title": "Envie sua mensagem",
         "intro": "Todos os campos são necessários para podermos responder.",
         "fullName": "Nome completo",
         "email": "Endereço de e-mail",
@@ -1264,7 +1264,7 @@
         "server": "Algo deu errado do nosso lado. Tente novamente mais tarde."
       },
       "direct": {
-        "title": "Prefere escrever diretamente?",
+        "title": "Você prefere escrever diretamente?",
         "text": "Você pode nos enviar um e-mail ou nos encontrar nas redes sociais.",
         "email": "Enviar um e-mail",
         "whatsapp": "Fale conosco pelo WhatsApp",
@@ -1373,9 +1373,9 @@
             "p1": "Coletamos apenas o que você nos fornece ao usar um serviço:",
             "items": {
               "orders": "Pedidos: seu nome, e-mail, telefone, endereço de entrega, os produtos comprados, o total e a data.",
-              "candles": "Pedidos de velas: o seu nome, e-mail e a sua oração.",
+              "candles": "Solicitações de velas: seu nome, e-mail e sua oração.",
               "prayers": "O mural de orações: o nome, o país, a categoria e a oração que você escrever. Essas informações são exibidas publicamente.",
-              "reviews": "Avaliações: o seu nome, o seu local de origem e a sua mensagem, mostrados no site depois de aprovados.",
+              "reviews": "Avaliações: seu nome, seu local de origem e sua mensagem, exibidos no site depois de aprovados.",
               "contact": "Mensagens de contato: seu nome, e-mail, telefone e mensagem.",
               "payments": "Pagamentos: tratados pelo PayPal. Não recebemos nem guardamos o número do seu cartão."
             }
@@ -1399,9 +1399,9 @@
           },
           "browser": {
             "title": "O que fica no seu navegador",
-            "p1": "O site não tem contas e não usa cookies de publicidade nem de análise. O seu navegador guarda:",
+            "p1": "O site não tem contas e não usa cookies de publicidade nem de análise. Seu navegador guarda:",
             "items": {
-              "cart": "O seu carrinho de compras e a lista de desejos.",
+              "cart": "Seu carrinho de compras e sua lista de desejos.",
               "liked": "As orações às quais você disse Amém, para que só seja possível dizê-lo uma vez.",
               "language": "O idioma que você escolheu."
             }
@@ -1411,7 +1411,7 @@
             "p1": "Guardamos os pedidos e as solicitações de velas pelo tempo necessário para atender você e cumprir nossas obrigações legais e contábeis. As orações e as avaliações ficam no site até que você nos peça para removê-las."
           },
           "rights": {
-            "title": "As suas opções",
+            "title": "Suas opções",
             "p1": "Você pode nos pedir que mostremos, corrijamos ou excluamos os dados que temos sobre você, ou que removamos sua oração ou avaliação. Escreva para {email} e responderemos. Dependendo de onde você mora, a lei pode lhe garantir outros direitos."
           },
           "children": {
@@ -1462,7 +1462,7 @@
             }
           },
           "ip": {
-            "title": "O nosso conteúdo",
+            "title": "Nosso conteúdo",
             "p1": "Os textos, fotos, vídeos e o design do site pertencem à Nazareth Holy Cross ou a quem nos autorizou a usá-los. Peça autorização antes de copiá-los para qualquer uso que não seja pessoal."
           },
           "info": {
@@ -1500,7 +1500,7 @@
             "p1": "Enviamos lembranças de Nazaré para endereços no mundo todo. O prazo de entrega depende do seu país e do serviço postal. Se precisarmos de algo, entraremos em contato com você por e-mail."
           },
           "customs": {
-            "title": "Alfândega e direitos de importação",
+            "title": "Alfândega e impostos de importação",
             "p1": "Os pedidos enviados para o exterior podem estar sujeitos a impostos de importação, taxas ou tarifas alfandegárias definidos pelo seu país. Esses valores não estão incluídos nos nossos preços e são pagos pelo destinatário."
           },
           "returns": {
@@ -1514,7 +1514,7 @@
           },
           "digital": {
             "title": "Velas e doações",
-            "p1": "Os pedidos de velas e as doações são serviços, não produtos, por isso não há envio. Se você fez algum deles por engano, escreva para nós."
+            "p1": "As solicitações de velas e as doações são serviços, não produtos, por isso não há envio. Se você fez alguma delas por engano, escreva para nós."
           },
           "contact": {
             "title": "Perguntas",
@@ -1525,14 +1525,14 @@
       "accessibility": {
         "meta": {
           "title": "Declaração de acessibilidade",
-          "description": "A acessibilidade do Nazareth Holy Cross: o nível WCAG 2.2 que atendemos, as configurações de acessibilidade, as limitações conhecidas e como falar com nosso coordenador."
+          "description": "A acessibilidade da Nazareth Holy Cross: o nível WCAG 2.2 que atendemos, as configurações de acessibilidade, as limitações conhecidas e como falar com nosso coordenador."
         },
         "title": "Declaração de acessibilidade",
         "lead": "Queremos que todas as pessoas possam usar este site, quaisquer que sejam suas capacidades, seu dispositivo ou seu idioma.",
         "sections": {
           "commitment": {
             "title": "Nosso compromisso",
-            "p1": "O Nazareth Holy Cross foi feito para peregrinos do mundo inteiro, muitos deles idosos ou lendo pelo celular. Queremos que cada visitante possa acender uma vela, conhecer os lugares santos, comprar e doar com um teclado, um leitor de tela, uma lupa ou uma tela sensível ao toque."
+            "p1": "O site da Nazareth Holy Cross foi feito para peregrinos do mundo inteiro, muitos deles idosos ou lendo pelo celular. Queremos que cada visitante possa acender uma vela, conhecer os lugares santos, comprar e doar com um teclado, um leitor de tela, uma lupa ou uma tela sensível ao toque."
           },
           "status": {
             "title": "Situação de conformidade",

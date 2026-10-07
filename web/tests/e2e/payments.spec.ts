@@ -103,7 +103,7 @@ async function fillContact(page: Page) {
   await page.getByLabel('First name').fill('Maria');
   await page.getByLabel('Last name').fill('Haddad');
   await page.getByLabel('Email', { exact: true }).fill('maria@example.com');
-  await page.getByLabel('Confirmation email').fill('maria@example.com');
+  await page.getByLabel('Confirm email address').fill('maria@example.com');
   await page.getByLabel('Phone').fill('+972 52-123 4567');
   await page.getByLabel('Country').selectOption('IL');
   await page.getByLabel('Street address').fill('1 Paulus VI St');
@@ -113,11 +113,11 @@ async function fillContact(page: Page) {
 }
 
 async function fillCandle(page: Page) {
-  await page.getByText('Church of the Annunciation').click();
+  await page.getByText('Basilica of the Annunciation', { exact: true }).click();
   await page.getByLabel('First name').fill('Anna');
   await page.getByLabel('Last name').fill('Smith');
   await page.getByLabel('Your email').fill('anna@example.com');
-  await page.getByLabel('Confirm email').fill('anna@example.com');
+  await page.getByLabel('Confirm email address').fill('anna@example.com');
   await page.getByLabel('Your prayer').fill('For my family');
 }
 
@@ -167,7 +167,7 @@ test.describe('checkout', () => {
     await expect(page.getByLabel('First name')).toHaveAttribute('aria-invalid', 'true');
 
     await page.getByLabel('Email', { exact: true }).fill('maria@example');
-    await page.getByLabel('Confirmation email').fill('someone@else.com');
+    await page.getByLabel('Confirm email address').fill('someone@else.com');
     await expect(page.getByText('Enter a valid email address, for example name@example.com.')).toBeVisible();
     await expect(page.getByText("Emails don't match")).toBeVisible();
     await page.getByLabel('Phone').fill('call me');
@@ -183,7 +183,7 @@ test.describe('checkout', () => {
     await fillContact(page);
     for (const address of ['maria@exa_mple.com', 'maría@example.com', 'a&b@example.com']) {
       await page.getByLabel('Email', { exact: true }).fill(address);
-      await page.getByLabel('Confirmation email').fill(address);
+      await page.getByLabel('Confirm email address').fill(address);
       await page.getByRole('button', { name: 'Continue to payment' }).click();
       await expect(page.getByText('Enter a valid email address, for example name@example.com.')).toBeVisible();
       await expect(currentStep(page)).toContainText('Your details');
@@ -278,10 +278,10 @@ test.describe('candle', () => {
     await page.goto('/en/candle');
     await expect(page).toHaveTitle(/Light a candle in Nazareth/);
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('A flame for every prayer');
-    await expect(page.getByRole('heading', { name: 'How to light a candle?' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'How does lighting a candle work?' })).toBeVisible();
     await expect(page.getByRole('radio')).toHaveCount(2);
-    await expect(page.getByRole('radio', { name: 'Church of the Annunciation' })).toHaveAttribute('name', 'church');
-    await expect(page.getByRole('radio', { name: 'Greek Orthodox Church' })).toHaveAttribute('name', 'church');
+    await expect(page.getByRole('radio', { name: /^Basilica of the Annunciation\s*Catholic$/ })).toHaveAttribute('name', 'church');
+    await expect(page.getByRole('radio', { name: /^Greek Orthodox Church of the Annunciation\s*Orthodox · St Gabriel’s Church$/ })).toHaveAttribute('name', 'church');
     await expect(page.getByText('To light a candle: $3.00')).toBeVisible();
 
     await page.goto('/he/candle');
@@ -297,11 +297,11 @@ test.describe('candle', () => {
     await page.getByRole('button', { name: 'LIGHT', exact: true }).click();
     await expect(page.getByText('Please select a church.')).toBeVisible();
     await expect(page.getByText('This field is required.')).toHaveCount(5);
-    await expect(page.getByRole('radio', { name: 'Church of the Annunciation' })).toBeFocused();
+    await expect(page.getByRole('radio', { name: /^Basilica of the Annunciation\s*Catholic$/ })).toBeFocused();
 
-    await page.getByText('Greek Orthodox Church').click();
+    await page.getByText('Greek Orthodox Church of the Annunciation', { exact: true }).click();
     await expect(page.getByText('Please select a church.')).toBeHidden();
-    await expect(page.getByRole('radio', { name: 'Greek Orthodox Church' })).toBeChecked();
+    await expect(page.getByRole('radio', { name: /^Greek Orthodox Church of the Annunciation\s*Orthodox · St Gabriel’s Church$/ })).toBeChecked();
   });
 
   test('valid details lead to the $3 summary and PayPal', async ({ page }) => {

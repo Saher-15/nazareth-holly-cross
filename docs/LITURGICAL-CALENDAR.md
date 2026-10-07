@@ -67,7 +67,7 @@ and truecalendar.com.
 | `ashWednesday` | E - 46 | | |
 | `stJoseph` | 19 March, moved by the rules | | |
 | `annunciation` | 25 March, moved by the rules | 25 March Julian (7 April) | **Nazareth's feast**; Orthodox name "Annunciation of the Theotokos" |
-| `palmSunday` | E - 7 | E - 7 | |
+| `palmSunday` | E - 7 | E - 7 | Orthodox name "Entry of the Lord into Jerusalem" (ru «Вход Господень в Иерусалим», uk «Вхід Господній до Єрусалиму», el «Κυριακή των Βαΐων»): without it the Catholic wording («Пальмовое воскресенье») was shown on the Orthodox date (07 review) |
 | `holyThursday`, `goodFriday`, `holySaturday` | E - 3, E - 2, E - 1 | the same | Orthodox names "Great and Holy ..." |
 | `easter` | E | E | Orthodox name "Pascha (Easter)" |
 | `divineMercy` | E + 7 | | |
@@ -94,7 +94,7 @@ cycle with it), the calendar shows one entry "Catholic and Orthodox" under the c
 | Calendar days | `web/src/lib/liturgical/civil.ts` | Dates as `YYYY-MM-DD` strings, arithmetic on day numbers (never a `Date` for a feast, so no time zone can shift it), Julian/Gregorian conversion through the Julian Day Number, `civilDateIn(instant, zone)` |
 | Easter | `web/src/lib/liturgical/easter.ts` | `westernEaster(year)` (Anonymous Gregorian algorithm: Meeus, Jones, Butcher), `orthodoxEaster(year)` (Meeus's Julian algorithm, written in the Gregorian calendar) |
 | Feasts | `web/src/lib/liturgical/feasts.ts` | `FEASTS`, the Roman transfer rules, Advent, `feastsOfYear(year)` (merged and sorted, cached per year) |
-| Public API | `web/src/lib/liturgical/index.ts` | `nextFeasts(date, n, tradition)`, `feastsBetween(from, to, tradition)`, `feastsOn(date)`, `nazarethToday()`. No React, no messages: any page can use it (the home page's "next feast" can switch to `nextFeasts(new Date(), 1, 'all')`) |
+| Public API | `web/src/lib/liturgical/index.ts` | `nextFeasts(date, n, tradition)`, `feastsBetween(from, to, tradition)`, `feastsOn(date)`, `nazarethToday()`. No React, no messages: any page can use it. The home page's "Today in Nazareth" strip asks it too (`web/src/components/home/feasts.ts`: `nextFeasts(today, 1, 'all')`), so the home page and /live always name the same next feast; `usesOrthodoxName(occurrence)` is the one rule for when the Orthodox name is shown |
 | Grid model | `web/src/components/calendar/calendarModel.ts` | Week start per language, the weeks of a month, what each key does, the Nazareth day of each broadcast |
 | Section | `web/src/components/calendar/LiturgicalCalendarSection.tsx` | Server component: the head, the notes, the broadcasts (server read), their structured data; hands the calendar's texts to the client part through its own `NextIntlClientProvider`, so they are sent only with `/live` and not with every page |
 | Calendar | `web/src/components/calendar/LiturgicalCalendar.tsx` + `.module.css` | Client component: filter, grid, day, month list, upcoming list, "add to calendar" |

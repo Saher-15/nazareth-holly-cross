@@ -4,7 +4,7 @@ import { expect, test, type Page } from '@playwright/test';
 // Holy sites (/sites, /sites/<slug>), the virtual tour and the about page.
 
 const PLACES = [
-  { slug: 'latin', en: 'Church of the Annunciation', he: 'כנסיית הבשורה', photos: 42 },
+  { slug: 'latin', en: 'Basilica of the Annunciation', he: 'בזיליקת הבשורה', photos: 42 },
   { slug: 'greek', en: 'Greek Orthodox Church', he: 'הכנסייה היוונית־אורתודוקסית', photos: 24 },
   { slug: 'maryswell', en: "Mary's Well", he: 'מעיין מרים', photos: 10 },
   { slug: 'oldcity', en: 'The Old City', he: 'העיר העתיקה', photos: 24 },
@@ -195,7 +195,7 @@ test.describe('virtual tour', () => {
     await expect(video).toHaveAttribute('preload', 'none');
     await expect(video).toHaveAttribute('poster', /\/images\/nazareth-media\/old-city-arched-passage\/1280\.webp$/);
     await expect(video.locator('source').first()).toHaveAttribute('type', 'video/mp4');
-    await expect(page.getByRole('link', { name: 'Learn More About Nazareth' })).toHaveAttribute(
+    await expect(page.getByRole('link', { name: 'Learn more about Nazareth' })).toHaveAttribute(
       'href',
       '/en/sites/city',
     );
@@ -212,7 +212,7 @@ test.describe('about', () => {
   test('shows the welcome and the three ways to connect', async ({ page }) => {
     await page.goto('/en/about');
     await expect(page).toHaveTitle(/About us/);
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Welcome to the official portal of Nazareth');
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Welcome to Nazareth Holy Cross');
     const main = page.locator('main');
     await expect(main.getByRole('heading', { level: 2 })).toHaveText([
       'A pilgrimage from afar',
