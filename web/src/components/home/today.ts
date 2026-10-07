@@ -1,7 +1,7 @@
 // Formatting for the "Today in Nazareth" strip, shared by the server render and the client clocks.
 // Every date and time is Nazareth's (Asia/Jerusalem) and written with Western digits in every language.
 
-import { NAZARETH_TIME_ZONE } from '@/lib/time';
+import { dateLocale, NAZARETH_TIME_ZONE } from '@/lib/time';
 
 const MINUTE = 60_000;
 const HOUR = 60 * MINUTE;
@@ -9,7 +9,7 @@ const DAY = 24 * HOUR;
 
 /** "14:32" or "2:32 PM", as the language writes a time of day, in Nazareth. */
 export function formatClock(ms: number, locale: string): string {
-  return new Intl.DateTimeFormat(locale, { hour: 'numeric', minute: '2-digit', timeZone: NAZARETH_TIME_ZONE, numberingSystem: 'latn' }).format(ms);
+  return new Intl.DateTimeFormat(dateLocale(locale), { hour: 'numeric', minute: '2-digit', timeZone: NAZARETH_TIME_ZONE, numberingSystem: 'latn' }).format(ms);
 }
 
 /** "14:32" for the datetime attribute of <time> (a time of day in Nazareth). */
@@ -19,13 +19,13 @@ export function clockAttribute(ms: number): string {
 
 /** "Wednesday 7 October", the day in Nazareth. */
 export function formatDay(ms: number, locale: string): string {
-  return new Intl.DateTimeFormat(locale, { weekday: 'long', day: 'numeric', month: 'long', timeZone: NAZARETH_TIME_ZONE, numberingSystem: 'latn' }).format(ms);
+  return new Intl.DateTimeFormat(dateLocale(locale), { weekday: 'long', day: 'numeric', month: 'long', timeZone: NAZARETH_TIME_ZONE, numberingSystem: 'latn' }).format(ms);
 }
 
 /** A calendar day given as "YYYY-MM-DD" (a feast), e.g. "Thursday 25 December". */
 export function formatCalendarDay(isoDate: string, locale: string): string {
   const [y, m, d] = isoDate.split('-').map(Number);
-  return new Intl.DateTimeFormat(locale, { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC', numberingSystem: 'latn' }).format(Date.UTC(y, m - 1, d));
+  return new Intl.DateTimeFormat(dateLocale(locale), { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC', numberingSystem: 'latn' }).format(Date.UTC(y, m - 1, d));
 }
 
 /** "tomorrow", "in 79 days", in the page language. */
@@ -36,7 +36,7 @@ export function formatInDays(days: number, locale: string): string {
 
 /** The start of a broadcast: "Sun 12 Oct, 10:00", in Nazareth. */
 export function formatStart(ms: number, locale: string): string {
-  return new Intl.DateTimeFormat(locale, {
+  return new Intl.DateTimeFormat(dateLocale(locale), {
     weekday: 'short',
     day: 'numeric',
     month: 'short',

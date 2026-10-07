@@ -1,9 +1,9 @@
 'use client';
 
 import { useMemo, useState, useTransition } from 'react';
-import { useFormatter, useTranslations } from 'next-intl';
+import { useFormatter, useLocale, useTranslations } from 'next-intl';
 import { useRouter } from '@/i18n/navigation';
-import { NAZARETH_TIME_ZONE } from '@/lib/time';
+import { formatDateTime, NAZARETH_TIME_ZONE } from '@/lib/time';
 import Stars from '@/components/ui/Stars';
 import type { ProductReview, ProductReviews as ReviewsData } from '@/lib/api';
 import { mergeReviews } from '@/lib/shop/reviews';
@@ -27,6 +27,7 @@ type Props = {
 export default function ProductReviews({ productId, productName, initial }: Props) {
   const t = useTranslations('shopFeatures.reviews');
   const format = useFormatter();
+  const locale = useLocale();
   const router = useRouter();
   const [posted, setPosted] = useState<ProductReview[]>([]);
   const [expanded, setExpanded] = useState(false);
@@ -131,10 +132,7 @@ export default function ProductReviews({ productId, productName, initial }: Prop
                           <>
                             <span aria-hidden="true"> · </span>
                             <time dateTime={review.createdAt}>
-                              {format.dateTime(new Date(review.createdAt), {
-                                dateStyle: 'medium',
-                                timeZone: NAZARETH_TIME_ZONE,
-                              })}
+                              {formatDateTime(new Date(review.createdAt), locale, { dateStyle: 'medium', timeZone: NAZARETH_TIME_ZONE })}
                             </time>
                           </>
                         )}

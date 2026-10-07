@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { getFormatter, getTranslations } from 'next-intl/server';
+import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { breadcrumbJsonLd, webPageJsonLd } from '@/lib/jsonLd';
 import { faqValues, type Translate } from '@/data/pilgrim/faqEntries';
@@ -9,6 +9,7 @@ import { legalNav } from '@/lib/site';
 import JsonLd from '@/components/ui/JsonLd';
 import PageHero from '@/components/ui/PageHero';
 import { getMedia } from '@/data/media';
+import { formatDateTime } from '@/lib/time';
 import shared from './shared.module.css';
 
 /** When the legal texts were last revised (YYYY-MM-DD). Update it with every change to the messages. */
@@ -41,8 +42,7 @@ export default async function LegalDocument({ page, locale }: { page: LegalPage;
   const translate = await getTranslations();
   const t = translate as unknown as Translate;
   const rich = translate as unknown as RichTranslate;
-  const format = await getFormatter();
-  const updated = format.dateTime(new Date(`${UPDATED[page]}T12:00:00Z`), { dateStyle: 'long', timeZone: 'UTC', numberingSystem: 'latn' });
+  const updated = formatDateTime(new Date(`${UPDATED[page]}T12:00:00Z`), locale, { dateStyle: 'long', timeZone: 'UTC' });
   const values = { ...faqValues(locale), date: updated };
   const text = (key: string) => t(`pilgrim.legal.${page}.${key}`, values);
   const richText = (key: string) =>

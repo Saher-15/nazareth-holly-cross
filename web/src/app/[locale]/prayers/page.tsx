@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { getFormatter, getTranslations, setRequestLocale } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { breadcrumbJsonLd, webPageJsonLd } from '@/lib/jsonLd';
 import { pilgrimMetadata } from '@/data/pilgrim/meta';
@@ -19,6 +19,7 @@ import LikeButton from '@/components/pilgrim/LikeButton';
 import NextSteps from '@/components/pilgrim/NextSteps';
 import PrayerForm from '@/components/pilgrim/PrayerForm';
 import Reveal from '@/components/ui/Reveal';
+import { formatDateTime, NAZARETH_TIME_ZONE } from '@/lib/time';
 import styles from './page.module.css';
 
 const HERO = mediaPhoto('greek-iconostasis');
@@ -58,7 +59,7 @@ export default async function PrayersPage({ params, searchParams }: PageProps<'/
   const rawPage = Number(Array.isArray(query.page) ? query.page[0] : query.page);
   const page = Number.isInteger(rawPage) && rawPage >= 1 && rawPage <= 10_000 ? rawPage : 1;
 
-  const [t, format, data] = await Promise.all([getTranslations(), getFormatter(), loadPrayers(page, category)]);
+  const [t, data] = await Promise.all([getTranslations(), loadPrayers(page, category)]);
   const pages = data ? Math.max(1, Math.ceil(data.total / PRAYERS_PER_PAGE)) : 1;
 
   const jsonLd = [
@@ -166,7 +167,7 @@ export default async function PrayersPage({ params, searchParams }: PageProps<'/
                           <LikeButton id={prayer._id} likes={prayer.likes} name={name} />
                           {prayer.createdAt && !Number.isNaN(Date.parse(prayer.createdAt)) && (
                             <time className={styles.date} dateTime={prayer.createdAt}>
-                              {format.dateTime(new Date(prayer.createdAt), { dateStyle: 'medium' })}
+                              {formatDateTime(new Date(prayer.createdAt), locale, { dateStyle: 'medium', timeZone: NAZARETH_TIME_ZONE })}
                             </time>
                           )}
                         </footer>

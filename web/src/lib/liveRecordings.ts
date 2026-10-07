@@ -1,6 +1,6 @@
 import { OBJECT_ID, PLAYER_URL } from './liveStatus';
 import { apiText, apiTime, isRecord, itemsOf, readInBrowser } from './liveSchedule';
-import { NAZARETH_TIME_ZONE } from './time';
+import { dateLocale, NAZARETH_TIME_ZONE } from './time';
 
 // Recordings of past live broadcasts (docs/LIVE.md): GET /live/recordings answers
 //   { items: [{ id, title, date (ISO, the day of the live), durationSeconds, thumbnailUrl, playbackUrl }] }
@@ -60,7 +60,7 @@ export function nazarethDay(date: number): string {
 
 /** The day of a recorded broadcast in Nazareth time, in the page language: "6 October 2026". */
 export function formatRecordingDate(date: number, locale: string): string {
-  return new Intl.DateTimeFormat(locale, { dateStyle: 'long', timeZone: NAZARETH_TIME_ZONE, numberingSystem: 'latn' }).format(date);
+  return new Intl.DateTimeFormat(dateLocale(locale), { dateStyle: 'long', timeZone: NAZARETH_TIME_ZONE, numberingSystem: 'latn' }).format(date);
 }
 
 /** "45 min", "1 hr 5 min": the language's own short units, joined the way it joins units; null when unknown. */

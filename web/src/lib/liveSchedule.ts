@@ -1,7 +1,7 @@
 import { API_URL } from './config';
 import { OBJECT_ID } from './liveStatus';
 import { decodeEntities } from './plainText';
-import { NAZARETH_TIME_ZONE } from './time';
+import { dateLocale, NAZARETH_TIME_ZONE } from './time';
 
 // The broadcasts announced from the dashboard (docs/LIVE.md): GET /live/schedule answers
 //   { timeZone: 'Asia/Jerusalem', items: [{ id, title, description, startsAt (ISO, UTC), status: 'scheduled' | 'live' }] }
@@ -92,7 +92,7 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 
 /** "Sunday 25 October 2026 at 10:00" in Nazareth time (or in `timeZone`), in the page language. */
 export function formatBroadcastTime(start: number, locale: string, timeZone: string = NAZARETH_TIME_ZONE): string {
-  return new Intl.DateTimeFormat(locale, { ...dateTimeOptions, timeZone }).format(start);
+  return new Intl.DateTimeFormat(dateLocale(locale), { ...dateTimeOptions, timeZone }).format(start);
 }
 
 /** An announced broadcast with its start already written in Nazareth time and the page language. */
@@ -112,7 +112,7 @@ export const broadcastView = (item: ScheduledBroadcast, locale: string): Broadca
 export function formatVisitorTime(start: number, locale: string, timeZone?: string): string | null {
   const zone = timeZone ?? new Intl.DateTimeFormat().resolvedOptions().timeZone;
   if (formatBroadcastTime(start, locale, zone) === formatBroadcastTime(start, locale)) return null;
-  return new Intl.DateTimeFormat(locale, { ...dateTimeOptions, timeZone: zone, timeZoneName: 'short' }).format(start);
+  return new Intl.DateTimeFormat(dateLocale(locale), { ...dateTimeOptions, timeZone: zone, timeZoneName: 'short' }).format(start);
 }
 
 // ---- the countdown ----

@@ -3,7 +3,7 @@ import { Link } from '@/i18n/navigation';
 import Reveal from '@/components/ui/Reveal';
 import type { Review } from '@/lib/api';
 import { reviewerPlace } from '@/lib/reviews';
-import { NAZARETH_TIME_ZONE } from '@/lib/time';
+import { dateLocale, NAZARETH_TIME_ZONE } from '@/lib/time';
 import { clip, loadVoices } from './data';
 import styles from './Voices.module.css';
 
@@ -15,7 +15,7 @@ export function VoicesView({ id, reviews }: ViewProps) {
   const t = useTranslations('home');
   const locale = useLocale();
   if (reviews.length === 0) return null;
-  const date = new Intl.DateTimeFormat(locale, { month: 'long', year: 'numeric', timeZone: NAZARETH_TIME_ZONE, numberingSystem: 'latn' });
+  const date = new Intl.DateTimeFormat(dateLocale(locale), { month: 'long', year: 'numeric', timeZone: NAZARETH_TIME_ZONE, numberingSystem: 'latn' });
 
   return (
     <section id={id} className={styles.section} aria-labelledby={`${id}-title`}>
