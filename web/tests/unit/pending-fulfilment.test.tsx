@@ -462,7 +462,7 @@ describe('DonePanel after a payment', () => {
   it('while the record is still being saved it says the payment went through, that it keeps trying, and shows the reference and a way to write', () => {
     view({ saveStatus: 'retrying', onRetry: () => undefined });
     expect(screen.getAllByRole('status').length).toBeGreaterThan(0);
-    expect(screen.getByText(/Your payment went through\. We could not save your details just yet/)).toBeInTheDocument();
+    expect(screen.getByText(/Your payment went through\. We could not save your details yet/)).toBeInTheDocument();
     expect(screen.getByText(new RegExp(`payment reference \\(${ID}\\)`))).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'nazarethholycross@gmail.com' })).toHaveAttribute('href', 'mailto:nazarethholycross@gmail.com');
     expect(screen.getByRole('button', { name: 'Try again' })).toBeInTheDocument();

@@ -329,7 +329,7 @@ test.describe('candle', () => {
 
     // the payment went through; the first save failed: the customer is told, with the reference, nothing is lost
     await expect(page.getByRole('heading', { name: 'Thank You!' })).toBeVisible();
-    const notice = page.locator('main').getByRole('status').filter({ hasText: 'We could not save your details just yet' });
+    const notice = page.locator('main').getByRole('status').filter({ hasText: 'We could not save your details yet' });
     await expect(notice).toBeVisible();
     await expect(notice).toContainText('TESTCAPTURE0000001');
     await expect(page.getByText('Payment reference: TESTCAPTURE0000001')).toBeVisible();
@@ -362,7 +362,7 @@ test.describe('candle', () => {
     await fillCandle(page);
     await page.getByRole('button', { name: 'LIGHT', exact: true }).click();
     await page.getByRole('button', { name: 'Test PayPal' }).click();
-    const notice = page.locator('main').getByRole('status').filter({ hasText: 'We could not save your details just yet' });
+    const notice = page.locator('main').getByRole('status').filter({ hasText: 'We could not save your details yet' });
     await expect(notice).toBeVisible();
     const before = calls.filter((c) => c.path === '/candle/lightACandle').length;
 
@@ -396,7 +396,7 @@ test.describe('checkout: a paid order is never lost', () => {
     await page.getByRole('button', { name: 'Test PayPal' }).click();
   };
   const pending = (page: Page) => page.evaluate(() => localStorage.getItem('nhc.pending-fulfilment.v1'));
-  const waitingNotice = (page: Page) => page.locator('main').getByRole('status').filter({ hasText: 'We could not save your details just yet' });
+  const waitingNotice = (page: Page) => page.locator('main').getByRole('status').filter({ hasText: 'We could not save your details yet' });
 
   test('the API is down after the payment: the order is kept in the browser, the cart is NOT emptied, the customer sees the reference', async ({ page }) => {
     const newOrder: Reply[] = [{ status: 503, body: { error: 'down' } }];

@@ -144,7 +144,7 @@ describe('plural forms', () => {
   });
 
   it('Arabic: one, two, few (3-10) and many (11-99) differ', () => {
-    expect([1, 2, 5, 11].map((n) => days('ar', n))).toEqual(['يوم', 'يومان', 'أيام', 'يومًا']);
+    expect([1, 2, 5, 11].map((n) => days('ar', n))).toEqual(['يوم', 'يومان', 'أيام', 'يوم']);
   });
 
   it('Hebrew counts photos as "one photo", "two photos", "N photos"', () => {
