@@ -285,6 +285,70 @@ Never set it higher than the real number of proxies: too high lets a visitor cho
 - `render.yaml` lists the variables Render needs, with `sync: false` for secrets; `TRUST_PROXY_HOPS` is optional and set
   only in the dashboard.
 
+### 2.7 Moving the API to Railway, with Render kept as the standby (decided 2026-10-07)
+
+**Why.** The database is in **Frankfurt** (6.1) and the API in **Oregon** (2.4): every API call crosses the Atlantic
+several times. Railway's **EU West (Amsterdam, `europe-west4`)** region is about 10 ms from Frankfurt and 3 times closer to
+Israel. Railway runs the same Node server unchanged (a long-running container, like Render), so no code is rewritten.
+Netlify Functions were considered and rejected: the API keeps a MongoDB connection, in-memory rate limits and requests
+that can last longer than a function's time limit.
+
+**What stays.** The Render service is **not deleted and not changed**. It keeps deploying `main` and stays connected to the
+same database, so going back is one setting (below). Both platforms run the same commit from the same repository.
+
+**Repository side (this change).** `server/railway.json` (config as code: Railpack builder, `npm ci --omit=dev`,
+`node index.js`, health check `/health`, restart on failure, region `europe-west4-drams3a`, one replica, deploys only when
+`server/**` changes). `/health/deep` now says `"host": "railway"` or `"render"` and reads the commit from either platform,
+so the monitors and `ops/smoke-live.mjs` show which one is answering.
+
+#### Owner steps: create the Railway service (about 20 minutes, no visitor impact)
+
+1. Railway -> **New project -> Deploy from GitHub repo** -> `Saher-15/nazareth-holly-cross`. Do not add a database.
+2. The service -> **Settings**: Root directory `/server`; Config-as-code path `/server/railway.json`; Branch `main`;
+   Region **EU West (Amsterdam)** (the config file sets it too). Networking -> **Generate domain** (a
+   `*.up.railway.app` address).
+3. The service -> **Variables -> Raw editor**: paste the same variables as in Render -> the service -> Environment:
+   `NODE_ENV=production`, `DATABASEURL`, `JWT_SECRET`, `ADMIN_PASSWORD`, `MAIL_FROM`, `MAIL_APP_PASSWORD`, `CLIENT_ID`,
+   `CLIENT_SECRET`, `CLIENT_URL`, `ADMIN_ORIGINS`, `ENVIRONMENT`, `REQUIRE_PAYMENT_PROOF`, `CF_ACCOUNT_ID`,
+   `CF_STREAM_API_TOKEN`, and any of `EXTRA_ORIGINS`, `ADMIN_APP_URL`, `ADMIN_BOOTSTRAP_EMAILS`, `TRUST_PROXY_HOPS`,
+   `AUTO_INDEX` that are set on Render. Add `RAILPACK_NODE_VERSION=22`. **Do not** set `PORT` (Railway sets it).
+   `TRUST_PROXY_HOPS` stays 1 on Railway: there is no Cloudflare in front of it (2.5).
+   The values are secrets: copy them between the two dashboards, never into a chat, a file or a commit.
+4. Atlas -> Network Access already allows `0.0.0.0/0` (6.1), which Railway needs (its outgoing addresses are not fixed
+   on the Hobby plan). Nothing to change.
+5. Wait for the deploy to turn green, then check it **before any visitor uses it** (read-only):
+   `curl https://<railway-domain>/health/deep` must answer 200 with `"host":"railway"` and a single-digit or low
+   double-digit `database.latencyMs` (it was about 100+ ms from Oregon), then
+   `node ops/smoke-live.mjs --api https://<railway-domain> --no-browser`: all API lines PASS.
+
+#### Owner steps: the switch (a rebuild, about 10 minutes; do it outside the shop's busy hours)
+
+| Where | Setting | New value |
+|---|---|---|
+| Netlify -> the public site -> Environment variables | `NEXT_PUBLIC_API_URL` | `https://<railway-domain>` |
+| Netlify -> the admin site -> Environment variables | `ADMIN_API_URL` | `https://<railway-domain>` |
+| Netlify -> the old CRA site, if still published | `REACT_APP_API_URL` | `https://<railway-domain>` |
+| GitHub -> Settings -> Variables -> Actions | `API_URL` (keep-alive) | the Railway address, or delete the workflow: a paid Railway service never sleeps |
+| Uptime monitors (MONITORING.md 2) and the Hermes watchdog | API URLs | the Railway address; keep one monitor on Render's `/health` so the standby is watched too |
+
+Then Netlify -> Deploys -> **Trigger deploy -> Clear cache and deploy site** for each site (the API address is baked into
+the build and into the Content-Security-Policy `connect-src`), and run `node ops/smoke-live.mjs` (all PASS, `/health/deep`
+`host: railway`). Then the checkout **up to the PayPal button** in English and Hebrew (WORKING-AGREEMENT.md 6).
+
+**Going back to Render** (Railway down, or anything wrong): set the same Netlify variables back to
+`https://nazareth-holy-cross-api.onrender.com`, clear cache and deploy, run `ops/smoke-live.mjs`. Render was never
+switched off, so this takes one rebuild. Both services share one database, so no data moves either way.
+
+**Later, optional (removes the rebuild from a switch):** a custom domain `api.nazarethholycross.com` (Netlify DNS, a
+CNAME) added to **both** Railway and Render. The sites then always call `api.nazarethholycross.com`, and a switch is a DNS
+change. Not done now: it touches DNS, CORS and the CSP at once, and the first move is safer with addresses that are
+already known to work.
+
+**Cost.** Railway Hobby is billed by usage (a small always-on Node service with about 150 MB of memory costs a few
+dollars a month; check Railway -> Usage after a week). Render's paid instance keeps billing while it is the standby;
+switch it to the free plan later if a sleeping standby is good enough (a failover would then start with a 30-60 s
+cold start).
+
 ## 3. Netlify
 
 ### 3.1 `netlify.toml` (public site) reviewed

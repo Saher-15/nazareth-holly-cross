@@ -77,7 +77,7 @@ async function apiChecks() {
     if (res.status === 404) warn('API /health/deep', 'not deployed yet (404); deploy the API to get the database check');
     else {
       const body = await res.json().catch(() => ({}));
-      check(res.status === 200 && body.status === 'ok', 'API /health/deep: database ping succeeds', `${ms} ms, db ${body.database?.latencyMs ?? '?'} ms, up ${body.uptimeSeconds ?? '?'} s, version ${body.version ?? '?'} ${body.commit ?? ''}`);
+      check(res.status === 200 && body.status === 'ok', 'API /health/deep: database ping succeeds', `${ms} ms, db ${body.database?.latencyMs ?? '?'} ms, up ${body.uptimeSeconds ?? '?'} s, version ${body.version ?? '?'} ${body.commit ?? ''}${body.host ? ` on ${body.host}` : ''}`);
       if (body.paypalMode) (isLive && body.paypalMode === 'sandbox' ? warn : pass)('API PayPal mode', `${body.paypalMode}${body.paypalMode === 'sandbox' ? ' (shop payments are not real yet)' : ''}`);
       if (typeof body.uptimeSeconds === 'number' && body.uptimeSeconds < 120) warn('API restarted just now', `up ${body.uptimeSeconds} s (a deploy, a crash, or a cold start)`);
     }

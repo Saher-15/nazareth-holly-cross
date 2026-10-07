@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 // GET /health/deep: the monitor's view of the API (database ping with a deadline, uptime, version) and nothing secret.
 
 const { createApp } = await import('../app.js');
-const { buildDeepHealth, pingDatabase, resetHealthCache, CACHE_MS } = await import('../services/health.js');
+const { buildDeepHealth, pingDatabase, resetHealthCache, CACHE_MS, hostingPlatform, deployedCommit } = await import('../services/health.js');
 const app = createApp();
 
 /** A stand-in for mongoose.connection: only what the ping touches. */
@@ -69,6 +69,15 @@ describe('buildDeepHealth', () => {
     delete process.env.RENDER_GIT_COMMIT;
     expect((await buildDeepHealth({ connection: connection(async () => ({})) })).body.commit).toBeNull();
     if (saved !== undefined) process.env.RENDER_GIT_COMMIT = saved;
+  });
+
+  it('names the platform and reads the commit Railway gives it (Render stays the standby)', () => {
+    expect(hostingPlatform({ RAILWAY_ENVIRONMENT_ID: 'x' })).toBe('railway');
+    expect(hostingPlatform({ RENDER: 'true' })).toBe('render');
+    expect(hostingPlatform({})).toBeNull();
+    expect(deployedCommit({ RAILWAY_GIT_COMMIT_SHA: 'abcdef0123456789' })).toBe('abcdef0');
+    expect(deployedCommit({ RENDER_GIT_COMMIT: '0123456789' })).toBe('0123456');
+    expect(deployedCommit({})).toBeNull();
   });
 
   it('is degraded when the database cannot be reached', async () => {

@@ -9,7 +9,7 @@ production, and what keeps it safe. Anyone (person or AI agent) changing the cod
 |---|---|---|---|
 | **New website** | `web/` | Netlify (when it replaces `client/`) | Next.js 16 + TypeScript, next-intl, CSS Modules + design tokens |
 | Current website | `client/` | Netlify, `main` branch | React (CRA). Kept live until `web/` reaches parity, then retired |
-| API | `server/` | Render (`nazareth-holy-cross-api`) | Express + Mongoose. Owns prices, payments, e-mails |
+| API | `server/` | Railway (EU West, `server/railway.json`), with Render (`nazareth-holy-cross-api`) as the standby (INFRASTRUCTURE.md 2.7) | Express + Mongoose. Owns prices, payments, e-mails |
 | Database | — | MongoDB Atlas | Products, orders, candles, prayers, reviews, the payment ledger. Cluster0 / database `info`, M10 in Frankfurt with Cloud Backup on (INFRASTRUCTURE.md 6.1), plus the independent copy of [BACKUP.md](BACKUP.md); design, indexes, personal data: [DATABASE.md](DATABASE.md) |
 | Product images | — | Firebase Storage | Served through `next/image` (resized, AVIF/WebP) |
 | Payments | — | PayPal | **The server decides every amount.** The browser only says *what* is bought |
@@ -29,7 +29,7 @@ The API answers `GET /health` (the process is up) and `GET /health/deep` (also: 
 | Preview (per pull request) | Netlify deploy preview | **staging DB (planned)** | Sandbox |
 | Production | nazarethholycross.com | production DB | **Live** (to be switched from Sandbox) |
 
-Secrets live only in Render/Netlify environment settings, never in the repository.
+Secrets live only in Railway/Render/Netlify environment settings, never in the repository.
 
 ## 3. From idea to production
 
@@ -38,7 +38,7 @@ Secrets live only in Render/Netlify environment settings, never in the repositor
 3. Open a **pull request** using the template. CI must be green: API tests, web lint + types + unit tests +
    build + end-to-end + accessibility, and the current site still builds.
 4. **Review** the deploy preview on a phone width and in an RTL language (Hebrew or Arabic).
-5. **Merge** only with the owner's explicit approval. Netlify and Render deploy `main` automatically.
+5. **Merge** only with the owner's explicit approval. Netlify, Railway and Render deploy `main` automatically.
 6. **Smoke-test the live site after every deploy. This step is mandatory, not optional:**
 
    ```bash
@@ -51,7 +51,7 @@ Secrets live only in Render/Netlify environment settings, never in the repositor
    [MONITORING.md](MONITORING.md). Then look at the shop and a checkout up to the PayPal button by hand (the script never
    fills a form or presses a payment button).
 
-**Rollback:** Netlify → Deploys → "Publish deploy" on the previous one. Render → the service → Rollback.
+**Rollback:** Netlify → Deploys → "Publish deploy" on the previous one. Railway → the service → Deployments → Redeploy on the previous one, or switch back to Render (INFRASTRUCTURE.md 2.7). Render → the service → Rollback.
 Then revert the commit on `main` with a pull request. A Netlify site that answers 404 on every page after a deploy is a
 known failure with its own runbook: [MONITORING.md](MONITORING.md) section 5.1.
 
