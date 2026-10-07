@@ -106,3 +106,12 @@ html:lang(he) .field-row dt, html:lang(ar) .field-row dt { letter-spacing: 0; te
 .checks { display: grid; gap: 6px; }
 .checks__item.is-yes { color: var(--success); }
 .checks__item.is-no { color: var(--muted); }
+
+/* Two badges in one cell (an order: "Shipped" and "Payment not verified"). */
+.badges { display: inline-flex; flex-wrap: wrap; gap: 6px; }
+/* A shipping address, one isolated line per part (orders drawer, packing slip): lines keep their own direction. */
+.address { display: grid; gap: 2px; font-style: normal; }
+.address__line { display: block; }
+
+/* An amount in its own left-to-right island (components/ui/DataTable.tsx Money). */
+.money { white-space: nowrap; }

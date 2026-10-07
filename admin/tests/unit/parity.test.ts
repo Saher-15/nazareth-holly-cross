@@ -300,6 +300,7 @@ async function scenario(backend: Backend): Promise<{ steps: Step[]; replies: Rec
   ];
   steps.push({ label: 'live: no other answer carries the WHIP address', status: 0, shape: afterStart.every((r) => !r.text.includes('webRTC/publish')) });
   add('live force: start as editor, end as owner', (await E('POST', '/admin/live/start', { title: 'Forced' }), await O('POST', '/admin/live/stop', { force: true })));
+  add('live stop: failed (never connected)', (await E('POST', '/admin/live/start', { title: 'Never connected' }), await E('POST', '/admin/live/stop', { failed: true })));
   await backend.live({ failCreate: true });
   add('live start: Cloudflare refuses', await E('POST', '/admin/live/start', { title: 'Outage' }));
   await backend.live({ failCreate: false, configured: false });

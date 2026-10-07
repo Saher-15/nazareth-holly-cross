@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ApiAction } from '@/components/ui/ApiAction';
 import { Icon } from '@/components/ui/Icon';
-import { Badge, DataTable, EmptyState, ErrorState, hrefWith, ListToolbar, PageHeader, Pagination, paramsOf } from '@/components/ui/Primitives';
+import { Badge, DataTable, EmptyState, ErrorState, hrefWith, ListToolbar, Money, PageHeader, Pagination, paramsOf } from '@/components/ui/Primitives';
 import { getI18n } from '@/i18n/server';
 import { parseListParams, productsPage, type Product } from '@/lib/api';
 import { formatMoney, formatNumber } from '@/lib/format';
@@ -99,7 +99,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
                     <Link href={`/products/${p.id}`} className="product-card__name">{p.name}</Link>
                     <p className="product-card__meta">{categoryLabel(p.category)}</p>
                     <div className="product-card__row">
-                      <strong>{formatMoney(p.price, locale)}</strong>
+                      <strong><Money>{formatMoney(p.price, locale)}</Money></strong>
                       <StockBadge stock={p.stock} t={t} />
                     </div>
                   </div>
@@ -126,7 +126,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
                     </div>
                   ),
                 },
-                { key: 'price', header: t('products.price'), align: 'end', cell: (p) => <strong>{formatMoney(p.price, locale)}</strong> },
+                { key: 'price', header: t('products.price'), align: 'end', cell: (p) => <strong><Money>{formatMoney(p.price, locale)}</Money></strong> },
                 { key: 'stock', header: t('products.stock'), cell: (p) => <StockBadge stock={p.stock} t={t} /> },
                 { key: 'rate', header: t('products.rateShort'), align: 'end', cell: (p) => formatNumber(p.rate ?? 0, locale) },
                 {

@@ -1035,7 +1035,8 @@ add({
     const page = paginate(ctx.url, rows, { searchable: (e) => [e.actorName, e.action, e.target.id], sorts: ['at'], defaultSort: '-at' });
     // server/route/admin/audit.js withTargetNames: a user's username, a product's name, an order's number
     const nameOf = (e) => {
-      const { type, id } = e.target ?? {};
+      const { id } = e.target ?? {};
+      const type = e.target?.type === 'admin' ? 'user' : e.target?.type;
       if (type === 'order' && id) return orderNumber(id);
       const recorded = typeof e.meta?.username === 'string' ? e.meta.username : typeof e.meta?.name === 'string' ? e.meta.name : null;
       if (type === 'user') return db.users.find((u) => u._id === id)?.username ?? recorded;
@@ -1177,7 +1178,7 @@ add({
 add({
   method: 'POST', path: '/admin/live/stop', min: 'editor',
   run: (ctx) => {
-    const body = parseBody(ctx.body ?? {}, { sessionId: opt(str({ min: 24, max: 24, pattern: /^[a-f0-9]{24}$/i, escape: false })), force: opt(bool()) });
+    const body = parseBody(ctx.body ?? {}, { sessionId: opt(str({ min: 24, max: 24, pattern: /^[a-f0-9]{24}$/i, escape: false })), force: opt(bool()), failed: opt(bool()) });
     const current = liveNow();
     if (!current || (body.sessionId && current._id !== body.sessionId.toLowerCase())) return { stopped: false, session: null };
     const user = ctx.req.auth.user;
@@ -1186,7 +1187,7 @@ add({
       if (user.role !== 'owner') throw new HttpError(403, 'Only the person who started this broadcast, or an owner, can end it');
       if (body.force !== true) return { status: 409, body: { error: 'Someone else started this broadcast. Confirm to end it.', current: liveView(current) } };
     }
-    const ended = endLive(ctx.req, current, mine ? 'stopped' : 'forced', user);
+    const ended = endLive(ctx.req, current, !mine ? 'forced' : body.failed === true ? 'failed' : 'stopped', user);
     return { stopped: Boolean(ended), session: liveView(ended) };
   },
 });

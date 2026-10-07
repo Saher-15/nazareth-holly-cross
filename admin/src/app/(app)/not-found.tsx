@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { PageHeader, StateBox } from '@/components/ui/Primitives';
+import { Icon } from '@/components/ui/Icon';
+import { PageHeader } from '@/components/ui/Primitives';
 import { getI18n } from '@/i18n/server';
 
 // "Not found" inside the dashboard (a product id that does not exist, ...): shown INSIDE the dashboard's layout, so the
@@ -10,7 +11,11 @@ export default async function NotFound() {
   return (
     <>
       <PageHeader title={t('state.notFound')} />
-      <StateBox icon="search" title={t('state.notFound')} text={t('state.notFoundText')} action={<Link className="btn btn--gold btn--sm" href="/">{t('nav.dashboard')}</Link>} />
+      <div className="state" role="status">
+        <Icon name="search" size={32} />
+        <p className="state__text">{t('state.notFoundText')}</p>
+        <Link className="btn btn--gold btn--sm" href="/">{t('nav.dashboard')}</Link>
+      </div>
     </>
   );
 }

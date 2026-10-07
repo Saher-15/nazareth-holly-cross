@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { TimeSeriesChart } from '@/components/charts/TimeSeriesChart';
 import { Icon, type IconName } from '@/components/ui/Icon';
-import { Badge, EmptyState, ErrorState, Ltr, PageHeader, Panel } from '@/components/ui/Primitives';
+import { Badge, EmptyState, ErrorState, Ltr, Money, PageHeader, Panel } from '@/components/ui/Primitives';
 import { getI18n } from '@/i18n/server';
 import { dashboardSchema, type Dashboard } from '@/lib/api';
 import { formatDateTime, formatMoney, formatNumber, fullName, truncate } from '@/lib/format';
@@ -59,7 +59,18 @@ async function DashboardBody({ data }: { data: Dashboard }) {
       ) : null}
       <section className="kpis" aria-label={t('dash.kpis')}>
         <Kpi icon="orders" label={t('dash.kpiOrders')} value={formatNumber(totals.orders, locale)} hint={t('dash.kpiOrdersHint', { n: formatNumber(totals.ordersPending, locale) })} href="/orders" tone={totals.ordersPending ? 'gold' : undefined} />
+        {/* Verified PayPal payments only (server/services/dashboard.js); what was not verified is a figure of its own. */}
         <Kpi icon="dashboard" label={t('dash.kpiRevenue')} value={formatMoney(totals.revenue, locale, true)} hint={t('dash.kpiRevenueHint', { amount: formatMoney(revenue30, locale, true), n: formatNumber(orders30, locale) })} href="/orders" />
+        {totals.ordersUnverified !== undefined ? (
+          <Kpi
+            icon="alert"
+            label={t('dash.kpiUnverified')}
+            value={formatNumber(totals.ordersUnverified, locale)}
+            hint={totals.ordersUnverified ? t('dash.kpiUnverifiedHint', { amount: formatMoney(totals.revenueUnverified ?? 0, locale, true) }) : t('dash.kpiUnverifiedOk')}
+            href="/orders?status=unverified"
+            tone={totals.ordersUnverified ? 'warn' : undefined}
+          />
+        ) : null}
         {unfulfilled ? (
           <Kpi icon="payments" label={t('dash.kpiPayments')} value={formatNumber(unfulfilled.count, locale)} hint={unfulfilled.count ? t('dash.kpiPaymentsHint', { amount: formatMoney(unfulfilled.amount, locale) }) : t('dash.kpiPaymentsOk')} href="/payments?status=unfulfilled" tone={unfulfilled.count ? 'warn' : undefined} />
         ) : null}
@@ -96,7 +107,7 @@ async function DashboardBody({ data }: { data: Dashboard }) {
                       <rect className="meter__track" x="0" y="0" width="100" height="6" rx="3" />
                       <rect className="meter__fill" x="0" y="0" width={(p.sold / maxSold) * 100} height="6" rx="3" />
                     </svg>
-                    <span className="ranking__sub">{formatMoney(p.revenue, locale)}</span>
+                    <span className="ranking__sub">{t('dash.topRevenueEstimate', { amount: formatMoney(p.revenue, locale) })}</span>
                   </div>
                 </li>
               ))}
@@ -129,12 +140,13 @@ async function DashboardBody({ data }: { data: Dashboard }) {
               {recent.orders.map((o) => (
                 <li key={o.id} className="list__item">
                   <span className="list__main">
-                    <Link className="link" href={`/orders?open=${o.id}`}>{fullName(o.firstName, o.lastName)}</Link>
+                    <Link className="link" href={`/orders?open=${o.id}`}><bdi>{fullName(o.firstName, o.lastName)}</bdi></Link>
                     <span className="list__sub">{formatDateTime(o.createdAt ?? o.date, locale)}</span>
                   </span>
                   <span className="list__end">
-                    <span>{formatMoney(o.totalPrice, locale)}</span>
+                    <Money>{formatMoney(o.totalPrice, locale)}</Money>
                     <Badge tone={o.done ? 'success' : 'gold'}>{o.done ? t('status.shipped') : t('status.pending')}</Badge>
+                    {o.paymentVerified !== true ? <Badge tone="warn">{t('status.unverified')}</Badge> : null}
                   </span>
                 </li>
               ))}

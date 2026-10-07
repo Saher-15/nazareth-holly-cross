@@ -48,14 +48,16 @@ router.get('/', asyncHandler(async (req, res) => {
 
 /** Adds `targetName` (users, products: looked up; orders: their number). Two queries at most, whatever the page size. */
 export async function withTargetNames(items) {
-  const idsOf = (type) => [...new Set(items.filter((e) => e.target?.type === type && isObjectId(String(e.target?.id ?? ''))).map((e) => String(e.target.id)))];
+  // A sign-in's target is the account itself (type 'admin'): named like a user.
+  const typeOf = (e) => (e.target?.type === 'admin' ? 'user' : e.target?.type);
+  const idsOf = (type) => [...new Set(items.filter((e) => typeOf(e) === type && isObjectId(String(e.target?.id ?? ''))).map((e) => String(e.target.id)))];
   const [users, products] = await Promise.all([
     idsOf('user').length ? Admin.find({ _id: mongoose.trusted({ $in: idsOf('user') }) }).select('username').lean() : [],
     idsOf('product').length ? Product.find({ _id: mongoose.trusted({ $in: idsOf('product') }) }).select('name').lean() : [],
   ]);
   const names = new Map([...users.map((u) => [`user:${u._id}`, u.username]), ...products.map((p) => [`product:${p._id}`, p.name])]);
   return items.map((e) => {
-    const type = e.target?.type;
+    const type = typeOf(e);
     const id = String(e.target?.id ?? '');
     const recorded = typeof e.meta?.username === 'string' ? e.meta.username : typeof e.meta?.name === 'string' ? e.meta.name : null;
     const targetName = type === 'order' && id ? orderNumber(id) : (names.get(`${type}:${id}`) ?? ((type === 'user' || type === 'product') ? recorded : null));

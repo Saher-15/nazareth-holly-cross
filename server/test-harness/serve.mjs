@@ -19,6 +19,8 @@ process.env.MAIL_APP_PASSWORD = 'unused';
 process.env.CLIENT_ID = 'unused';
 process.env.CLIENT_SECRET = 'unused';
 process.env.HARNESS ??= '1';
+// The seed's and the tests' product photos are local addresses: accept them although the harness runs as production.
+process.env.PRODUCT_IMAGE_LOCAL ??= '1';
 process.env.ADMIN_ORIGINS ??= `http://localhost:${process.env.HARNESS_ADMIN_PORT ?? 3911}`;
 // The password-reset e-mail links to the local dashboard, never to a real one (the mail is only recorded anyway).
 process.env.ADMIN_APP_URL = `http://localhost:${process.env.HARNESS_ADMIN_PORT ?? 3911}`;

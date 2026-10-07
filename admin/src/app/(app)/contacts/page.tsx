@@ -85,7 +85,7 @@ export default async function ContactsPage({ searchParams }: { searchParams: Pro
                   <div className="row-actions">
                     <Link className="btn btn--ghost btn--sm" href={hrefWith('/contacts', { ...keep, open: c.id })} scroll={false}>{t('common.view')}</Link>
                     {canWrite && !c.done ? (
-                      <ApiAction label={t('common.markDone')} ariaLabel={t('contacts.markDoneFor', { name: c.fullName })} icon="check" method="PATCH" path={`contacts/${c.id}`} body={{ done: true }} tone="gold" successText={t('contacts.doneToast')} />
+                      <ApiAction label={t('common.markDone')} ariaLabel={t('contacts.markDoneFor', { name: c.fullName })} icon="check" method="PATCH" path={`contacts/${c.id}`} body={{ done: true }} tone="gold" successText={t('contacts.doneToast')} undo={{ body: { done: false }, doneText: t('common.undoneToast') }} />
                     ) : null}
                     {canWrite ? (
                       <ApiAction
@@ -127,10 +127,12 @@ export default async function ContactsPage({ searchParams }: { searchParams: Pro
               </dl>
               {canWrite ? (
                 <div className="drawer__actions">
-                  <a className="btn btn--ghost btn--sm" href={mailtoHref(detail.data.email) ?? undefined}>{t('contacts.reply')}</a>
+                  <a className="btn btn--ghost btn--sm" href={mailtoHref(detail.data.email, t('contacts.replySubject')) ?? undefined}>{t('contacts.reply')}</a>
                   {!detail.data.done ? (
-                    <ApiAction label={t('common.markDone')} icon="check" method="PATCH" path={`contacts/${detail.data.id}`} body={{ done: true }} tone="gold" successText={t('contacts.doneToast')} />
-                  ) : null}
+                    <ApiAction label={t('common.markDone')} icon="check" method="PATCH" path={`contacts/${detail.data.id}`} body={{ done: true }} tone="gold" successText={t('contacts.doneToast')} undo={{ body: { done: false }, doneText: t('common.undoneToast') }} />
+                  ) : (
+                    <ApiAction label={t('common.reopen')} icon="undo" method="PATCH" path={`contacts/${detail.data.id}`} body={{ done: false }} successText={t('common.undoneToast')} testId="reopen" />
+                  )}
                   <ApiAction
                     label={t('common.delete')}
                     icon="trash"

@@ -85,7 +85,7 @@ export default async function CandlesPage({ searchParams }: { searchParams: Prom
                   <div className="row-actions">
                     <Link className="btn btn--ghost btn--sm" href={hrefWith('/candles', { ...keep, open: c.id })} scroll={false}>{t('common.view')}</Link>
                     {canWrite && !c.done ? (
-                      <ApiAction label={t('common.markDone')} ariaLabel={t('candles.markDoneFor', { name: fullName(c.firstName, c.lastName) })} icon="check" method="PATCH" path={`candles/${c.id}`} body={{ done: true }} tone="gold" successText={t('candles.doneToast')} />
+                      <ApiAction label={t('common.markDone')} ariaLabel={t('candles.markDoneFor', { name: fullName(c.firstName, c.lastName) })} icon="check" method="PATCH" path={`candles/${c.id}`} body={{ done: true }} tone="gold" successText={t('candles.doneToast')} undo={{ body: { done: false }, doneText: t('common.undoneToast') }} />
                     ) : null}
                     {canWrite ? (
                       <ApiAction
@@ -127,8 +127,10 @@ export default async function CandlesPage({ searchParams }: { searchParams: Prom
               {canWrite ? (
                 <div className="drawer__actions">
                   {!detail.data.done ? (
-                    <ApiAction label={t('common.markDone')} icon="check" method="PATCH" path={`candles/${detail.data.id}`} body={{ done: true }} tone="gold" successText={t('candles.doneToast')} />
-                  ) : null}
+                    <ApiAction label={t('common.markDone')} icon="check" method="PATCH" path={`candles/${detail.data.id}`} body={{ done: true }} tone="gold" successText={t('candles.doneToast')} undo={{ body: { done: false }, doneText: t('common.undoneToast') }} />
+                  ) : (
+                    <ApiAction label={t('common.reopen')} icon="undo" method="PATCH" path={`candles/${detail.data.id}`} body={{ done: false }} successText={t('common.undoneToast')} testId="reopen" />
+                  )}
                   <ApiAction
                     label={t('common.delete')}
                     icon="trash"

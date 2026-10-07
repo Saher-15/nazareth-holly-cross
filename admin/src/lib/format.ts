@@ -74,6 +74,25 @@ export function shortId(id: string): string {
   return id.length > 8 ? id.slice(-8) : id;
 }
 
+/**
+ * The order number people see and quote: '#' and the last 8 characters of the id (the API's utils/orderNumber.js). The
+ * list, the drawer, the packing slip, the e-mails and the CSV all show it, and the search finds an order by it.
+ */
+export function orderNumber(id: string): string {
+  return `#${shortId(id)}`;
+}
+
+/**
+ * A shipping address as separate lines in the order of the data: street (with the house number), then city, state and
+ * postal code, then country. Shown one isolated line each, so Hebrew and Arabic pages never move "53" to the end.
+ */
+export function addressLines(a: { street?: string | null; city?: string | null; state?: string | null; postal?: string | null; country?: string | null }): string[] {
+  const clean = (v: string | null | undefined) => (v ?? '').trim();
+  const region = [clean(a.state), clean(a.postal)].filter(Boolean).join(' ');
+  const cityLine = [clean(a.city), region].filter(Boolean).join(', ');
+  return [clean(a.street), cityLine, clean(a.country)].filter(Boolean);
+}
+
 export function fullName(first: string | null | undefined, last: string | null | undefined): string {
   return [first, last].filter(Boolean).join(' ').trim();
 }
@@ -94,9 +113,11 @@ export function formatCountdown(totalSeconds: number): string {
  * characters the public forms allow in the local part (? and &) cannot add Cc, Bcc or body parameters to the mail
  * the admin is about to write.
  */
-export function mailtoHref(email: string | null | undefined): string | null {
+export function mailtoHref(email: string | null | undefined, subject?: string): string | null {
   const value = (email ?? '').trim();
-  return value.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? `mailto:${encodeURIComponent(value)}` : null;
+  if (!(value.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))) return null;
+  // The subject is ours (a translated text), encoded too: it can only ever be the subject.
+  return `mailto:${encodeURIComponent(value)}${subject ? `?subject=${encodeURIComponent(subject)}` : ''}`;
 }
 
 /**

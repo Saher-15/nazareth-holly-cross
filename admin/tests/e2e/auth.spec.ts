@@ -87,12 +87,30 @@ test.describe('sign-in', () => {
     await expect(page.getByRole('alert').filter({ hasText: /Too many attempts/ })).toBeVisible();
   });
 
+  test('an empty sign-in form says what is missing and focuses it (review 03 finding 16)', async ({ page }) => {
+    await page.goto('/login');
+    await page.getByRole('button', { name: 'Sign in' }).click();
+    await expect(page.getByRole('alert').filter({ hasText: 'Enter your username or e-mail address.' })).toBeVisible();
+    await expect(page.getByLabel('Username')).toBeFocused();
+    await page.getByLabel('Username').fill('someone');
+    await page.getByLabel('Username').press('Enter');
+    await expect(page.getByRole('alert').filter({ hasText: 'Enter your password.' })).toBeVisible();
+    await expect(page.getByLabel('Password', { exact: true })).toBeFocused();
+    await page.goto('/forgot-password');
+    await page.getByRole('button', { name: 'Send the link' }).click();
+    await expect(page.getByRole('alert').filter({ hasText: 'Enter the e-mail address of your account.' })).toBeVisible();
+  });
+
   test('two-factor account: the code step appears, a wrong code fails, the right one signs in', async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== 'desktop', 'one wrong code counts toward the lockout: run once');
     await loginUi(page, USERS.secure);
     await expect(page.getByLabel('Authentication code')).toBeVisible();
     await expect(page.getByLabel('Authentication code')).toBeFocused();
-    await expect(page.getByRole('button', { name: 'Verify and sign in' })).toBeDisabled();
+    await expect(page.getByRole('heading', { level: 2, name: 'Second step: the code from your app' })).toBeVisible();
+    // An empty code is named, not a silently disabled button (review 03 finding 16).
+    await page.getByRole('button', { name: 'Verify and sign in' }).click();
+    await expect(page.getByRole('alert').filter({ hasText: 'Enter the 6-digit code.' })).toBeVisible();
+    await expect(page.getByLabel('Authentication code')).toBeFocused();
 
     await page.getByLabel('Authentication code').fill('000000');
     await page.getByRole('button', { name: 'Verify and sign in' }).click();

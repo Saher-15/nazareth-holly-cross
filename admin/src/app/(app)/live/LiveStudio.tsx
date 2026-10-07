@@ -43,6 +43,11 @@ type Props = {
 };
 
 const TITLE_MAX = 120;
+/**
+ * Only an announcement within this time of now can be the one a broadcast fulfils (review 04 finding 17: a test at 08:00
+ * could fulfil tomorrow's 19:00 Mass, which then left the website as "done").
+ */
+export const FULFIL_WINDOW_MS = 6 * 60 * 60 * 1000;
 
 /** The clock, for event handlers (never called while rendering). */
 const clock = () => Date.now();
@@ -61,7 +66,10 @@ export function LiveStudio({ configured, current, maxMinutes, me, scheduled = []
   const [record, setRecord] = useState(true);
   const [scheduleId, setScheduleId] = useState('');
   const [unfinished, setUnfinished] = useState<LocalRecording[]>([]);
+  const [offeredAt, setOfferedAt] = useState<number | null>(null);
   const waiting = scheduled.filter((s) => s.status === 'scheduled');
+  // What "Go live" may fulfil: the waiting announcements within FULFIL_WINDOW_MS of the moment the camera was turned on.
+  const nearby = offeredAt === null ? [] : waiting.filter((s) => Math.abs(new Date(s.startsAt).getTime() - offeredAt) <= FULFIL_WINDOW_MS);
 
   // The broadcast that is live on the server and is NOT this tab's (another admin, or this admin before a reload).
   const other = current && current.id !== live.session?.id ? current : null;
@@ -96,9 +104,11 @@ export function LiveStudio({ configured, current, maxMinutes, me, scheduled = []
   async function openCamera() {
     if (phase !== 'off') return;
     if (!(await live.openCamera())) return;
+    const at = clock();
+    setOfferedAt(at);
     // The scheduled broadcast this one most likely fulfils (within two hours).
     if (!scheduleTouched.current) {
-      const match = matchScheduled(waiting, clock());
+      const match = matchScheduled(waiting.filter((s) => Math.abs(new Date(s.startsAt).getTime() - at) <= FULFIL_WINDOW_MS), at);
       if (match) {
         setScheduleId(match.id);
         setTitle((typed) => (typed.trim() ? typed : match.title));
@@ -109,7 +119,7 @@ export function LiveStudio({ configured, current, maxMinutes, me, scheduled = []
   function chooseSchedule(id: string) {
     scheduleTouched.current = true;
     setScheduleId(id);
-    const item = waiting.find((s) => s.id === id);
+    const item = nearby.find((s) => s.id === id);
     if (item) {
       setTitle(item.title);
       setTitleError(null);
@@ -128,7 +138,7 @@ export function LiveStudio({ configured, current, maxMinutes, me, scheduled = []
       return;
     }
     setTitleError(null);
-    const planned = waiting.some((s) => s.id === scheduleId) ? scheduleId : '';
+    const planned = nearby.some((s) => s.id === scheduleId) ? scheduleId : '';
     if (await live.goLive({ title: text, scheduleId: planned, record })) {
       setScheduleId('');
       scheduleTouched.current = false;
@@ -337,18 +347,19 @@ export function LiveStudio({ configured, current, maxMinutes, me, scheduled = []
                   </div>
                 ) : (
                   <form className="form" onSubmit={goLive} noValidate>
-                    {waiting.length > 0 ? (
+                    {nearby.length > 0 ? (
                       <div className="field">
                         <label htmlFor={`${uid}-schedule`}>{t('live.fulfils')}</label>
-                        <select id={`${uid}-schedule`} className="select" value={waiting.some((s) => s.id === scheduleId) ? scheduleId : ''} onChange={(e) => chooseSchedule(e.target.value)} aria-describedby={`${uid}-schedule-hint`} data-testid="live-fulfils">
+                        <select id={`${uid}-schedule`} className="select" value={nearby.some((s) => s.id === scheduleId) ? scheduleId : ''} onChange={(e) => chooseSchedule(e.target.value)} aria-describedby={`${uid}-schedule-hint`} data-testid="live-fulfils">
                           <option value="">{t('live.fulfilsNone')}</option>
-                          {waiting.map((s) => (
+                          {nearby.map((s) => (
                             <option key={s.id} value={s.id}>{t('live.fulfilsOption', { title: s.title, time: formatDateTime(s.startsAt, locale, NAZARETH_TIME_ZONE) })}</option>
                           ))}
                         </select>
                         <p id={`${uid}-schedule-hint`} className="hint">{t('live.fulfilsHint')}</p>
                       </div>
                     ) : null}
+                    {waiting.length > nearby.length ? <p className="hint" data-testid="live-fulfils-later">{t('live.fulfilsLater', { n: waiting.length - nearby.length })}</p> : null}
                     <div className="field">
                       <label htmlFor={`${uid}-title`}>{t('live.title')}</label>
                       <input

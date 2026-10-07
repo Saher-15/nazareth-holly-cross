@@ -87,7 +87,7 @@ export async function Forbidden() {
 // ---------------------------------------------------------------- data table
 
 // <DataTable> and <Badge> live in DataTable.tsx (no server-only code there, so client components can use them too).
-export { Badge, DataTable, type Column, type Tone } from './DataTable';
+export { Badge, DataTable, Money, type Column, type Tone } from './DataTable';
 
 // ---------------------------------------------------------------- list toolbar and pagination
 

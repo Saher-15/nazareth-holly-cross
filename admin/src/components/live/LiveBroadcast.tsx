@@ -575,7 +575,8 @@ export function LiveBroadcastProvider({ userId, expiresAt, children }: { userId:
       setPhase(streamRef.current ? 'preview' : 'off');
       setAnnouncement('');
       setError({ text: t('live.errConnect') });
-      await proxyCall({ method: 'POST', path: 'live/stop', body: { sessionId: started.session.id }, schema: liveStopSchema }).catch(() => undefined);
+      // failed: the history says "Failed", not "Ended" (the camera never reached Cloudflare).
+      await proxyCall({ method: 'POST', path: 'live/stop', body: { sessionId: started.session.id, failed: true }, schema: liveStopSchema }).catch(() => undefined);
       refreshLivePage();
       return false;
     }

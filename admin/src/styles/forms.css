@@ -98,3 +98,6 @@ html[dir='rtl'] .input[dir='ltr'] { text-align: end; }
 .secret { padding: 10px 14px; border-radius: var(--radius-sm); background: var(--glass); border: 1px solid var(--glass-line); font-size: 1.05rem; letter-spacing: 0.08em; word-break: break-all; }
 .status-line { display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--success); }
 .status-line--off { color: var(--warn); }
+
+/* Long host names in the photo hints (firebasestorage.googleapis.com) must wrap on a 320px phone. */
+.image-field .hint { overflow-wrap: anywhere; }

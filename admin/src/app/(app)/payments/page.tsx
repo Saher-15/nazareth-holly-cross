@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { ApiAction } from '@/components/ui/ApiAction';
 import { Drawer } from '@/components/ui/Drawer';
 import { Icon } from '@/components/ui/Icon';
-import { Badge, DataTable, EmptyState, ErrorState, Field, hrefWith, ListToolbar, Ltr, PageHeader, Pagination, paramsOf } from '@/components/ui/Primitives';
+import { Badge, DataTable, EmptyState, ErrorState, Field, hrefWith, ListToolbar, Ltr, Money, PageHeader, Pagination, paramsOf } from '@/components/ui/Primitives';
 import { getI18n } from '@/i18n/server';
 import { paymentSchema, paymentsPage, parseListParams, type Payment } from '@/lib/api';
 import { formatDateTime, formatMoney, formatNumber, mailtoHref, shortId } from '@/lib/format';
@@ -123,7 +123,7 @@ export default async function PaymentsPage({ searchParams }: { searchParams: Pro
                   </>
                 ),
               },
-              { key: 'amount', header: t('payments.colAmount'), align: 'end', cell: (p) => <strong>{formatMoney(p.amount, locale)}</strong> },
+              { key: 'amount', header: t('payments.colAmount'), align: 'end', cell: (p) => <strong><Money>{formatMoney(p.amount, locale)}</Money></strong> },
               { key: 'status', header: t('common.status'), cell: (p) => { const s = paymentState(p, now); return <Badge tone={STATE_TONE[s]}>{t(`payments.state.${s}`)}</Badge>; } },
               {
                 key: 'linked',
@@ -154,6 +154,13 @@ export default async function PaymentsPage({ searchParams }: { searchParams: Pro
   );
 }
 
+/** The API's own note on a failed capture ("capture ended as DECLINED") in words; any other note as written. */
+function noteText(note: string, t: Awaited<ReturnType<typeof getI18n>>['t']): string {
+  const status = /^capture ended as ([A-Z_]{2,40})$/.exec(note.trim())?.[1];
+  if (!status) return note;
+  return status === 'DECLINED' ? t('payments.noteDeclined') : t('payments.noteEnded', { status });
+}
+
 const TYPES = ['order', 'candle', 'donation', 'unknown'] as const;
 const knownType = (type: string): (typeof TYPES)[number] => ((TYPES as readonly string[]).includes(type) ? (type as (typeof TYPES)[number]) : 'unknown');
 
@@ -166,8 +173,9 @@ async function PaymentDetail({ payment, canWrite, now }: { payment: Payment; can
     <>
       <div className="detail-head">
         <div>
-          <p className="detail-head__id">#{shortId(payment.id)}</p>
-          <p className="muted"><Ltr>{payment.paypalOrderId}</Ltr></p>
+          {/* The PayPal number is what the owner looks up in PayPal: it is the title (review 04 finding 26). */}
+          <p className="detail-head__id"><Ltr>{payment.paypalOrderId}</Ltr></p>
+          <p className="muted"><Ltr>#{shortId(payment.id)}</Ltr></p>
         </div>
         <Badge tone={STATE_TONE[state]}>{t(`payments.state.${state}`)}</Badge>
       </div>
@@ -177,7 +185,7 @@ async function PaymentDetail({ payment, canWrite, now }: { payment: Payment; can
 
       <dl className="fields">
         <Field label={t('payments.colType')}>{t(`payments.type.${knownType(payment.type)}`)}</Field>
-        <Field label={t('payments.colAmount')}><strong>{formatMoney(payment.amount, locale)}</strong> {payment.currency && payment.currency !== 'USD' ? payment.currency : ''}</Field>
+        <Field label={t('payments.colAmount')}><strong><Money>{formatMoney(payment.amount, locale)}</Money></strong> {payment.currency && payment.currency !== 'USD' ? payment.currency : ''}</Field>
         <Field label={t('payments.createdAt')}>{formatDateTime(payment.createdAt, locale)}</Field>
         <Field label={t('payments.capturedAt')}>{payment.capturedAt ? formatDateTime(payment.capturedAt, locale) : '-'}</Field>
         <Field label={t('payments.colPayer')}>{payer || '-'}</Field>
@@ -194,7 +202,7 @@ async function PaymentDetail({ payment, canWrite, now }: { payment: Payment; can
             <span className="cell-sub">{t('payments.resolvedBy', { name: payment.resolvedBy || '-', date: formatDateTime(payment.resolvedAt, locale) })}</span>
           </Field>
         ) : payment.notes ? (
-          <Field label={t('payments.note')} wide>{payment.notes}</Field>
+          <Field label={t('payments.note')} wide>{noteText(payment.notes, t)}</Field>
         ) : null}
       </dl>
 

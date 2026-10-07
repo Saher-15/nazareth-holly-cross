@@ -20,7 +20,11 @@ const problems = [];
 const eq = (name, a, b) => { if (JSON.stringify(a) !== JSON.stringify(b)) problems.push(`${name}: dashboard ${JSON.stringify(a)} vs recomputed ${JSON.stringify(b)}`); };
 eq('orders', dash.totals.orders, orders.length);
 eq('ordersPending', dash.totals.ordersPending, orders.filter((o) => !o.done).length);
-eq('revenue', dash.totals.revenue, round2(orders.reduce((s, o) => s + o.totalPrice, 0)));
+// Revenue counts verified payments only; the unverified orders are counted apart (review 04 finding 9).
+const verified = (o) => o.paymentVerified === true;
+eq('revenue', dash.totals.revenue, round2(orders.filter(verified).reduce((s, o) => s + o.totalPrice, 0)));
+eq('revenueUnverified', dash.totals.revenueUnverified, round2(orders.filter((o) => !verified(o)).reduce((s, o) => s + o.totalPrice, 0)));
+eq('ordersUnverified', dash.totals.ordersUnverified, orders.filter((o) => !verified(o)).length);
 eq('candles', dash.totals.candles, candles.length);
 eq('candlesPending', dash.totals.candlesPending, candles.filter((c) => !c.done).length);
 eq('contacts', dash.totals.contacts, contacts.length);
@@ -29,7 +33,7 @@ eq('products', dash.totals.products, products.length);
 for (const d of dash.last30Days) {
   const mine = orders.filter((o) => day(o.createdAt) === d.date);
   eq(`day ${d.date} orders`, d.orders, mine.length);
-  eq(`day ${d.date} revenue`, d.revenue, round2(mine.reduce((s, o) => s + o.totalPrice, 0)));
+  eq(`day ${d.date} revenue`, d.revenue, round2(mine.filter(verified).reduce((s, o) => s + o.totalPrice, 0)));
   eq(`day ${d.date} candles`, d.candles, candles.filter((c) => day(c.createdAt) === d.date).length);
 }
 const sold = new Map();

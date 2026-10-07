@@ -36,6 +36,23 @@ export function LoginForm({ reason, next }: { reason?: 'expired' | 'idle'; next:
   async function submit(event: FormEvent) {
     event.preventDefault();
     if (busy) return;
+    // The button is never disabled for an empty field (it was, so Enter did nothing and a screen reader heard
+    // "unavailable" with no reason, review 03 finding 16): the missing field is named and focused instead.
+    if (step === 'credentials' && !username.trim()) {
+      setError(t('login.needUsername'));
+      userRef.current?.focus();
+      return;
+    }
+    if (step === 'credentials' && !password) {
+      setError(t('login.needPassword'));
+      passwordRef.current?.focus();
+      return;
+    }
+    if (step === 'totp' && code.length !== 6) {
+      setError(t('login.needCode'));
+      codeRef.current?.focus();
+      return;
+    }
     setBusy(true);
     setError(null);
     try {
@@ -147,6 +164,8 @@ export function LoginForm({ reason, next }: { reason?: 'expired' | 'idle'; next:
         </>
       ) : (
         <div className="field">
+          {/* The second step is named, so a screen reader hears that the page moved on (review 03, 20i). */}
+          <h2 className="login__step" data-testid="login-step-code">{t('login.codeStep')}</h2>
           <label htmlFor="totp">{t('login.code')}</label>
           <input
             ref={codeRef}
@@ -177,7 +196,7 @@ export function LoginForm({ reason, next }: { reason?: 'expired' | 'idle'; next:
         ) : null}
       </div>
 
-      <button type="submit" className="btn btn--gold btn--block" disabled={busy || !username || !password || (step === 'totp' && code.length !== 6)} aria-busy={busy || undefined}>
+      <button type="submit" className="btn btn--gold btn--block" disabled={busy} aria-busy={busy || undefined}>
         {busy ? <span className="spinner" aria-hidden="true" /> : <Icon name="lock" size={18} />}
         <span>{busy ? t('login.signingIn') : step === 'totp' ? t('login.verify') : t('login.submit')}</span>
       </button>

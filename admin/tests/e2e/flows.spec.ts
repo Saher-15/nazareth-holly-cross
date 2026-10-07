@@ -13,8 +13,9 @@ test.describe('orders', () => {
     const rows = page.locator('tbody tr');
     const pendingBefore = await rows.count();
     expect(pendingBefore).toBeGreaterThan(0);
-    const row = rows.first();
-    const customer = (await row.locator('td').nth(1).locator('span').first().textContent()) ?? '';
+    // A verified order (an unverified one asks a stronger question: review-fixes.spec.ts).
+    const row = rows.filter({ hasNot: page.getByTestId('order-unverified') }).first();
+    const customer = (await row.locator('td').nth(1).locator('bdi').first().textContent()) ?? '';
 
     await row.getByRole('button', { name: /Mark the order of .* as shipped/ }).click();
     const dialog = page.getByRole('dialog', { name: 'Mark as shipped?' });
@@ -39,7 +40,7 @@ test.describe('orders', () => {
       await page.goto('/orders?status=pending');
       const rows = page.locator('tbody tr');
       const before = await rows.count();
-      await rows.first().getByRole('button', { name: /Mark the order of .* as shipped/ }).click();
+      await rows.filter({ hasNot: page.getByTestId('order-unverified') }).first().getByRole('button', { name: /Mark the order of .* as shipped/ }).click();
       await page.getByRole('dialog', { name: 'Mark as shipped?' }).getByRole('button', { name: 'Mark shipped' }).click();
       await expect(page.getByRole('alert').filter({ hasText: 'could not be sent' })).toBeVisible();
       await expect(rows).toHaveCount(before - 1);
@@ -241,7 +242,7 @@ test.describe('products', () => {
 
   test('image upload falls back to pasting a URL when Firebase is not configured', async ({ page }) => {
     await page.goto('/products/new');
-    await expect(page.getByText('Photo upload is not set up here.')).toBeVisible();
+    await expect(page.getByText('Photo upload is not set up here (an owner can turn it on).')).toBeVisible();
     await expect(page.getByRole('button', { name: 'Upload photo' })).toHaveCount(0);
   });
 });
@@ -279,11 +280,12 @@ test.describe('users', () => {
     await expect(row.getByText('Disabled').first()).toBeVisible();
   });
 
-  test('your own row offers no role change, disable or delete', async ({ page }) => {
+  test('your own row offers no role change, disable or delete (only your e-mail address)', async ({ page }) => {
     await page.goto('/users?q=owner');
-    const row = page.locator('tbody tr', { hasText: 'You' }).first();
+    const row = page.locator('tbody tr').filter({ has: page.locator('.badge', { hasText: /^You$/ }) }).first();
     await expect(row.getByLabel(/^Role of owner/)).toBeDisabled();
-    await expect(row.getByRole('button')).toHaveCount(0);
+    await expect(row.getByRole('button')).toHaveCount(1);
+    await expect(row.getByTestId('user-email')).toBeVisible();
   });
 
   test('the API guards hold when called directly: not yourself, never the last owner', async ({ page }) => {

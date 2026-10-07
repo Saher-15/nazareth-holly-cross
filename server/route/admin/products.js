@@ -45,7 +45,7 @@ export function imageHostAllowed(address) {
   try {
     const url = new URL(address);
     if (url.protocol === 'https:' && config.productImageHosts.includes(url.hostname.toLowerCase())) return true;
-    return !config.isProd && LOCAL.has(url.hostname) && (url.protocol === 'http:' || url.protocol === 'https:');
+    return (!config.isProd || config.productImageLocal) && LOCAL.has(url.hostname) && (url.protocol === 'http:' || url.protocol === 'https:');
   } catch {
     return false;
   }

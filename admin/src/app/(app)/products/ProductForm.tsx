@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useId, useRef, useState, type FormEvent } from 'react';
 import { ApiAction } from '@/components/ui/ApiAction';
+import { Money } from '@/components/ui/DataTable';
 import { useFeedback } from '@/components/ui/Feedback';
 import { Icon } from '@/components/ui/Icon';
 import { useUnsavedChanges } from '@/components/ui/useUnsavedChanges';
@@ -340,7 +341,7 @@ export function ProductForm({ mode, id, uuid, initial, canDelete }: Props) {
           <h2 className="panel__title">{t('products.preview')}</h2>
           <div className="preview__image">{isShopImageUrl(v.img.trim()) ? <img src={v.img.trim()} alt="" /> : <Icon name="image" size={40} />}</div>
           <p className="preview__name">{v.name.trim() || t('products.previewName')}</p>
-          <p className="preview__price"><bdi>{'value' in parsedPrice ? formatMoney(parsedPrice.value, locale) : '-'}</bdi></p>
+          <p className="preview__price"><Money>{'value' in parsedPrice ? formatMoney(parsedPrice.value, locale) : '-'}</Money></p>
           <p className="preview__meta">
             {v.category ? <span className="chip">{t(`category.${v.category}` as 'category.gifts')}</span> : null}
             {stockNumber === null ? <span className="chip">{t('products.unlimited')}</span> : <span className={`chip ${stockNumber === 0 ? 'chip--danger' : stockNumber <= 5 ? 'chip--warn' : ''}`}>{stockNumber === 0 ? t('products.outOfStock') : t('products.inStock', { n: stockNumber })}</span>}

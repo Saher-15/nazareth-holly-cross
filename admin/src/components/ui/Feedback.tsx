@@ -9,12 +9,14 @@ import { Icon } from './Icon';
 // is a native <dialog> opened with showModal() (focus is trapped and Escape cancels).
 
 type ToastTone = 'success' | 'error' | 'info';
-type ToastItem = { id: number; tone: ToastTone; text: string };
+/** A button in the toast, such as "Undo" after "Mark shipped" (review 04 finding 12). The toast then stays 10 seconds. */
+export type ToastAction = { label: string; run: () => void };
+type ToastItem = { id: number; tone: ToastTone; text: string; action?: ToastAction };
 
 type ConfirmOptions = { title: string; message?: string; confirmLabel?: string; tone?: 'danger' | 'primary' };
 
 type Ctx = {
-  toast: (text: string, tone?: ToastTone) => void;
+  toast: (text: string, tone?: ToastTone, options?: { action?: ToastAction }) => void;
   confirm: (options: ConfirmOptions) => Promise<boolean>;
 };
 
@@ -31,10 +33,10 @@ export function FeedbackProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<ToastItem[]>([]);
   const nextId = useRef(1);
 
-  const toast = useCallback((text: string, tone: ToastTone = 'success') => {
+  const toast = useCallback((text: string, tone: ToastTone = 'success', options: { action?: ToastAction } = {}) => {
     const id = nextId.current++;
-    setToasts((list) => [...list.slice(-3), { id, tone, text }]);
-    window.setTimeout(() => setToasts((list) => list.filter((item) => item.id !== id)), tone === 'error' ? 9000 : 5000);
+    setToasts((list) => [...list.slice(-3), { id, tone, text, action: options.action }]);
+    window.setTimeout(() => setToasts((list) => list.filter((item) => item.id !== id)), options.action ? 10_000 : tone === 'error' ? 9000 : 5000);
   }, []);
 
   const [pending, setPending] = useState<(ConfirmOptions & { resolve: (ok: boolean) => void }) | null>(null);
@@ -66,6 +68,19 @@ export function FeedbackProvider({ children }: { children: ReactNode }) {
           <div key={item.id} className={`toast toast--${item.tone}`} role={item.tone === 'error' ? 'alert' : 'status'}>
             <Icon name={item.tone === 'error' ? 'alert' : item.tone === 'info' ? 'info' : 'check'} />
             <span>{item.text}</span>
+            {item.action ? (
+              <button
+                type="button"
+                className="btn btn--ghost btn--sm toast__action"
+                onClick={() => {
+                  setToasts((list) => list.filter((x) => x.id !== item.id));
+                  item.action?.run();
+                }}
+                data-testid="toast-action"
+              >
+                {item.action.label}
+              </button>
+            ) : null}
             <button type="button" className="icon-btn icon-btn--bare" aria-label={t('common.dismiss')} onClick={() => setToasts((list) => list.filter((x) => x.id !== item.id))}>
               <Icon name="x" size={16} />
             </button>

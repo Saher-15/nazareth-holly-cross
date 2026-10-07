@@ -74,6 +74,8 @@ export const config = {
   },
   // Hosts a product photo may live on: the ones the website can show (web/next.config.ts images.remotePatterns and the
   // site's Content-Security-Policy img-src). Comma-separated host names; add one there before adding it here.
+  // '1' = also accept local photo addresses (http://localhost) in production mode: the test harness only.
+  productImageLocal: env.PRODUCT_IMAGE_LOCAL === '1',
   productImageHosts: (env.PRODUCT_IMAGE_HOSTS || 'firebasestorage.googleapis.com').split(',').map((h) => h.trim().toLowerCase()).filter(Boolean),
   mail: {
     from: env.MAIL_FROM,

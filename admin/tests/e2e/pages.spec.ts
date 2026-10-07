@@ -50,7 +50,7 @@ test('a list page shows the seeded data, a search narrows it and an empty search
 test('the dashboard shows the figures, both charts and an accessible data table', async ({ page }) => {
   await page.goto('/');
   await expect(page.getByRole('region', { name: 'Key figures' })).toBeVisible();
-  await expect(page.locator('.kpi')).toHaveCount(9); // 8 figures and the payments to deal with
+  await expect(page.locator('.kpi')).toHaveCount(10); // 8 figures, the payments to deal with, the orders not verified
   await expect(page.locator('svg.qr, .chart__plot svg')).toHaveCount(2);
   await page.getByText('Show data as a table').first().click();
   await expect(page.locator('.chart__data table').first().locator('tbody tr')).toHaveCount(30);
