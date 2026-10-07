@@ -82,6 +82,16 @@
     "note": "Hinweis: Dieses Video dient nur zu Illustrationszwecken und zeigt den Vorgang des Anzündens einer Kerze in der griechisch-orthodoxen Kirche.",
     "lightAPrayCandle": "Zünden Sie eine Gebetskerze an",
     "selectChurch": "Wählen Sie die Kirche, in der die Kerze angezündet werden soll:",
+    "churches": {
+      "latin": {
+        "name": "Verkündigungsbasilika",
+        "tradition": "Katholisch"
+      },
+      "greek": {
+        "name": "Griechisch-orthodoxe Verkündigungskirche",
+        "tradition": "Orthodox · Gabrielskirche"
+      }
+    },
     "toLightACandlePay": "Um eine Kerze anzuzünden, zahlen Sie 3 $",
     "light": "ANZÜNDEN",
     "emailMatchError": "Die E-Mail-Adressen stimmen nicht überein",
@@ -243,9 +253,6 @@
     }
   },
   "headerTitleOld": "Entdecken Sie die Schönheit der Altstadt von Nazareth",
-  "mapDescriptionOld": "Die Altstadt von Nazareth ist vor allem für ihren Shuk (Freiluftmarkt) bekannt, der Israelis aus dem ganzen Land anzieht, die auf der Suche nach traditionellen arabischen Produkten sind. Dies ist an sich schon ein Erlebnis und ein toller Kontrast zu den klimatisierten Einkaufszentren, die im ganzen Land verstreut sind. Für alle, die sich für das Christentum interessieren, sind die Altstadt und die Umgebung voller wichtiger christlicher Stätten, darunter die Verkündigungsbasilika.",
-  "churchDescriptionOld": "Die griechisch-orthodoxe Verkündigungskirche steht über der Quelle, an der sich nach dem Glauben orthodoxer Christen die Verkündigung ereignet hat. Als die Jungfrau Maria Wasser aus der Quelle schöpfen wollte, erschien ihr der Erzengel Gabriel und verkündete ihr, dass sie schwanger werden und einen Sohn gebären werde, den sie Jesus nennen solle. Die heutige Kirche stammt aus dem Jahr 1750, als Daher al-Omar, der Beduinenherrscher von Galiläa, der griechisch-orthodoxen Gemeinde die Erlaubnis zum Bau erteilte.",
-  "waterSourceOld": "Etwa 140 Meter von der Kirche entfernt befindet sich der Marienbrunnen, der einst von der Quelle gespeist wurde und mehrere Jahrhunderte lang als lokale Wasserquelle diente. Der Brunnen wurde 1967 und erneut 2000 repariert, funktioniert aber heute nicht mehr.",
   "orderSummary": "Bestellübersicht",
   "firstName": "Vorname:",
   "lastName": "Nachname:",
@@ -389,21 +396,6 @@
       "feastToday": "Fest des Tages",
       "feastNext": "Nächstes Fest",
       "feastWhen": "{date} ({inDays})",
-      "feasts": {
-        "epiphany": "Erscheinung des Herrn",
-        "orthodoxChristmas": "Weihnachten (orthodoxer Kalender)",
-        "annunciation": "Mariä Verkündigung",
-        "orthodoxAnnunciation": "Mariä Verkündigung (orthodoxer Kalender)",
-        "palmSunday": "Palmsonntag",
-        "goodFriday": "Karfreitag",
-        "easter": "Ostern",
-        "orthodoxEaster": "Ostern (orthodoxer Kalender)",
-        "ascension": "Christi Himmelfahrt",
-        "pentecost": "Pfingsten",
-        "assumption": "Mariä Himmelfahrt",
-        "holyCross": "Kreuzerhöhung",
-        "christmas": "Weihnachten"
-      },
       "broadcastNext": "Nächste Live-Übertragung",
       "startsIn": "Noch {duration} bis zum Beginn",
       "startingSoon": "Beginnt in Kürze",
@@ -1347,7 +1339,7 @@
         },
         "languages": {
           "q": "In welchen Sprachen gibt es die Website?",
-          "a": "Englisch, Französisch, Spanisch, Deutsch, Italienisch, Portugiesisch, Polnisch, Russisch, Griechisch, Hebräisch und Arabisch."
+          "a": "Die Website gibt es in diesen Sprachen: {languages}."
         },
         "data": {
           "q": "Welche Daten speichern Sie?",
@@ -1725,6 +1717,7 @@
         },
         "palmSunday": {
           "name": "Palmsonntag",
+          "orthodoxName": "Einzug des Herrn in Jerusalem",
           "description": "Jesus zieht in Jerusalem ein, und die Karwoche beginnt."
         },
         "holyThursday": {

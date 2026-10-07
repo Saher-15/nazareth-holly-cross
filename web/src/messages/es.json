@@ -82,6 +82,16 @@
     "note": "Nota: este vídeo es solo ilustrativo y muestra cómo se enciende una vela en la iglesia ortodoxa griega.",
     "lightAPrayCandle": "Encender una vela de oración",
     "selectChurch": "Selecciona la iglesia para encender la vela:",
+    "churches": {
+      "latin": {
+        "name": "Basílica de la Anunciación",
+        "tradition": "Católica"
+      },
+      "greek": {
+        "name": "Iglesia ortodoxa griega de la Anunciación",
+        "tradition": "Ortodoxa · iglesia de San Gabriel"
+      }
+    },
     "toLightACandlePay": "Para encender una vela, paga 3 $",
     "light": "ENCENDER",
     "emailMatchError": "Los correos electrónicos no coinciden",
@@ -243,9 +253,6 @@
     }
   },
   "headerTitleOld": "Explora la belleza de la Ciudad Vieja de Nazaret",
-  "mapDescriptionOld": "La Ciudad Vieja de Nazaret es famosa sobre todo por su shuk (mercado al aire libre), que atrae a israelíes de todo el país en busca de productos árabes tradicionales. Es toda una experiencia y un gran contraste con los centros comerciales con aire acondicionado repartidos por el país. Para quienes se interesan por el cristianismo, la Ciudad Vieja y sus alrededores están llenos de importantes lugares cristianos, entre ellos la Basílica de la Anunciación.",
-  "churchDescriptionOld": "La iglesia ortodoxa griega de la Anunciación se alza sobre el manantial donde, según los cristianos ortodoxos, tuvo lugar la Anunciación. Cuando la Virgen María fue a sacar agua del manantial, se le apareció el arcángel Gabriel y le anunció que concebiría y daría a luz a un hijo al que llamaría Jesús. La iglesia actual data de 1750, cuando Daher al-Omar, el gobernante beduino de Galilea, concedió a la comunidad ortodoxa griega el permiso para construirla.",
-  "waterSourceOld": "A unos 140 metros de la iglesia se encuentra el Pozo de María, que una vez fue alimentado por el manantial y sirvió como fuente local de agua durante varios siglos. La fuente fue reparada en 1967 y nuevamente en 2000, pero hoy no funciona.",
   "orderSummary": "Resumen del pedido",
   "firstName": "Nombre:",
   "lastName": "Apellido:",
@@ -389,21 +396,6 @@
       "feastToday": "Fiesta de hoy",
       "feastNext": "Próxima fiesta",
       "feastWhen": "{date} ({inDays})",
-      "feasts": {
-        "epiphany": "Epifanía",
-        "orthodoxChristmas": "Navidad (calendario ortodoxo)",
-        "annunciation": "La Anunciación",
-        "orthodoxAnnunciation": "La Anunciación (calendario ortodoxo)",
-        "palmSunday": "Domingo de Ramos",
-        "goodFriday": "Viernes Santo",
-        "easter": "Pascua",
-        "orthodoxEaster": "Pascua (calendario ortodoxo)",
-        "ascension": "La Ascensión",
-        "pentecost": "Pentecostés",
-        "assumption": "La Asunción de María",
-        "holyCross": "La Exaltación de la Santa Cruz",
-        "christmas": "Navidad"
-      },
       "broadcastNext": "Próxima transmisión en vivo",
       "startsIn": "Comienza en {duration}",
       "startingSoon": "Comienza en breve",
@@ -1347,7 +1339,7 @@
         },
         "languages": {
           "q": "¿En qué idiomas está el sitio?",
-          "a": "Inglés, francés, español, alemán, italiano, portugués, polaco, ruso, griego, hebreo y árabe."
+          "a": "El sitio está disponible en estos idiomas: {languages}."
         },
         "data": {
           "q": "¿Qué datos conserváis?",
@@ -1725,6 +1717,7 @@
         },
         "palmSunday": {
           "name": "Domingo de Ramos",
+          "orthodoxName": "Entrada del Señor en Jerusalén",
           "description": "Jesús entra en Jerusalén y comienza la Semana Santa."
         },
         "holyThursday": {

@@ -11,7 +11,6 @@ import {
   addMonths,
   daysBetween,
   daysInMonth,
-  feastDefinition,
   feastsBetween,
   nazarethToday,
   nextFeasts,
@@ -22,8 +21,9 @@ import {
   type FeastOccurrence,
   type IsoDate,
   type TraditionFilter,
+  usesOrthodoxName,
 } from '@/lib/liturgical';
-import { NAZARETH_TIME_ZONE } from '@/lib/time';
+import { dateLocale, NAZARETH_TIME_ZONE } from '@/lib/time';
 import { broadcastsByDay, monthWeeks, moveByKey, weekdayColumns, weekStartFor } from './calendarModel';
 import styles from './LiturgicalCalendar.module.css';
 
@@ -90,7 +90,7 @@ export default function LiturgicalCalendar({ today: serverToday, broadcasts, pag
   const upcoming = useMemo(() => nextFeasts(today, UPCOMING_COUNT, tradition), [today, tradition]);
 
   const format = useMemo(() => {
-    const make = (options: Intl.DateTimeFormatOptions) => new Intl.DateTimeFormat(locale, { numberingSystem: 'latn', ...options });
+    const make = (options: Intl.DateTimeFormatOptions) => new Intl.DateTimeFormat(dateLocale(locale), { numberingSystem: 'latn', ...options });
     const monthTitle = make({ month: 'long', year: 'numeric', timeZone: UTC });
     const full = make({ weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: UTC });
     const dayMonth = make({ day: 'numeric', month: 'long', timeZone: UTC });
@@ -121,7 +121,7 @@ export default function LiturgicalCalendar({ today: serverToday, broadcasts, pag
   }, [active]);
 
   const feastName = (o: FeastOccurrence) =>
-    o.traditions.length === 1 && o.traditions[0] === 'orthodox' && feastDefinition(o.id).orthodoxName ? t(`feasts.${o.id}.orthodoxName`) : t(`feasts.${o.id}.name`);
+    usesOrthodoxName(o) ? t(`feasts.${o.id}.orthodoxName`) : t(`feasts.${o.id}.name`);
   const traditionLabel = (o: FeastOccurrence) => (o.traditions.length > 1 ? t('tradition.both') : t(`tradition.${o.traditions[0]}`));
   const feastNote = (o: FeastOccurrence) =>
     o.transferredFrom

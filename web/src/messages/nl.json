@@ -82,6 +82,16 @@
     "note": "Let op: deze video is slechts ter illustratie en laat zien hoe een kaars wordt aangestoken in de Grieks-orthodoxe kerk.",
     "lightAPrayCandle": "Steek een gebedskaars aan",
     "selectChurch": "Kies de kerk waar de kaars moet worden aangestoken:",
+    "churches": {
+      "latin": {
+        "name": "Annunciatiebasiliek",
+        "tradition": "Katholiek"
+      },
+      "greek": {
+        "name": "Grieks-orthodoxe Annunciatiekerk",
+        "tradition": "Orthodox · Sint-Gabriëlkerk"
+      }
+    },
     "toLightACandlePay": "Om een kaars aan te steken, betaalt u $ 3",
     "light": "AANSTEKEN",
     "emailMatchError": "De e-mailadressen komen niet overeen",
@@ -243,9 +253,6 @@
     }
   },
   "headerTitleOld": "Ontdek de schoonheid van de Oude Stad van Nazareth",
-  "mapDescriptionOld": "De Oude Stad van Nazareth is vooral beroemd om zijn sjoek (openluchtmarkt), die Israëliërs uit het hele land trekt op zoek naar traditionele Arabische producten. Dat is op zichzelf al een ervaring en een groot contrast met de gekoelde winkelcentra verspreid over het land. Voor wie geïnteresseerd is in het christendom zit de Oude Stad en omgeving vol belangrijke christelijke plaatsen, waaronder de Annunciatiebasiliek.",
-  "churchDescriptionOld": "De Grieks-orthodoxe Annunciatiekerk staat boven de bron waar volgens orthodoxe christenen de Annunciatie plaatsvond. Toen de maagd Maria water ging scheppen bij de bron, verscheen de aartsengel Gabriël aan haar en verkondigde haar dat zij zwanger zou worden en een zoon zou baren, die zij Jezus zou noemen. De huidige kerk dateert uit 1750, toen Daher al-Omar, de Bedoeïenenheerser van Galilea, de Grieks-orthodoxe gemeenschap toestemming gaf haar te bouwen.",
-  "waterSourceOld": "Ongeveer 140 meter van de kerk ligt de Mariabron, die vroeger door de bron werd gevoed en eeuwenlang diende als lokale waterbron. De fontein werd gerepareerd in 1967 en opnieuw in 2000, maar functioneert tegenwoordig niet meer.",
   "orderSummary": "Besteloverzicht",
   "firstName": "Voornaam:",
   "lastName": "Achternaam:",
@@ -389,21 +396,6 @@
       "feastToday": "Feestdag vandaag",
       "feastNext": "Volgende feestdag",
       "feastWhen": "{date}, {inDays}",
-      "feasts": {
-        "epiphany": "Driekoningen",
-        "orthodoxChristmas": "Kerstmis (orthodoxe kalender)",
-        "annunciation": "Annunciatie",
-        "orthodoxAnnunciation": "Annunciatie (orthodoxe kalender)",
-        "palmSunday": "Palmzondag",
-        "goodFriday": "Goede Vrijdag",
-        "easter": "Pasen",
-        "orthodoxEaster": "Pasen (orthodoxe kalender)",
-        "ascension": "Hemelvaart",
-        "pentecost": "Pinksteren",
-        "assumption": "Maria-Tenhemelopneming",
-        "holyCross": "Kruisverheffing",
-        "christmas": "Kerstmis"
-      },
       "broadcastNext": "Volgende live-uitzending",
       "startsIn": "Begint over {duration}",
       "startingSoon": "Begint zo",
@@ -1347,7 +1339,7 @@
         },
         "languages": {
           "q": "In welke talen is de site beschikbaar?",
-          "a": "Engels, Frans, Spaans, Duits, Italiaans, Portugees, Pools, Russisch, Grieks, Hebreeuws en Arabisch."
+          "a": "De website is beschikbaar in deze talen: {languages}."
         },
         "data": {
           "q": "Welke gegevens bewaart u?",
@@ -1725,6 +1717,7 @@
         },
         "palmSunday": {
           "name": "Palmzondag",
+          "orthodoxName": "Intocht van de Heer in Jeruzalem",
           "description": "Jezus trekt Jeruzalem binnen en de Goede Week begint."
         },
         "holyThursday": {

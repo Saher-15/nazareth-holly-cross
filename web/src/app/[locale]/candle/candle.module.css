@@ -244,10 +244,25 @@
     color-mix(in srgb, var(--night) 92%, transparent) 100%
   );
 }
-.churchName {
+/* The church's full name and whose it is (Catholic / Orthodox), at the foot of the photo. Long names (German
+   "Verkündigungsbasilika") hyphenate by the page language instead of being clipped. */
+.churchText {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
   padding: 12px 14px;
+}
+.churchName {
   font: 400 1.05rem/1.2 var(--serif);
   color: var(--cream);
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+.churchTradition {
+  font-size: var(--text-xs);
+  line-height: 1.3;
+  color: var(--gold);
 }
 .churchCheck {
   position: absolute;
@@ -351,8 +366,10 @@
   .church {
     min-height: 130px;
   }
-  .churchName {
+  .churchText {
     padding: 10px;
+  }
+  .churchName {
     font-size: 0.95rem;
   }
 }

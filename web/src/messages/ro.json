@@ -82,6 +82,16 @@
     "note": "Notă: acest clip are doar scop ilustrativ și arată cum se aprinde o lumânare în biserica greco-ortodoxă.",
     "lightAPrayCandle": "Aprindeți o lumânare de rugăciune",
     "selectChurch": "Alegeți biserica în care să fie aprinsă lumânarea:",
+    "churches": {
+      "latin": {
+        "name": "Bazilica Buna Vestire",
+        "tradition": "Catolică"
+      },
+      "greek": {
+        "name": "Biserica greco-ortodoxă Buna Vestire",
+        "tradition": "Ortodoxă · Biserica Sfântul Arhanghel Gavriil"
+      }
+    },
     "toLightACandlePay": "Pentru a aprinde o lumânare, plătiți 3 $",
     "light": "APRINDE",
     "emailMatchError": "Adresele de e-mail nu se potrivesc",
@@ -243,9 +253,6 @@
     }
   },
   "headerTitleOld": "Descoperiți frumusețea Orașului Vechi din Nazaret",
-  "mapDescriptionOld": "Orașul Vechi al Nazaretului este cunoscut mai ales pentru șuk (piața în aer liber), care atrage israelieni din toată țara în căutarea produselor arabe tradiționale. Este o experiență în sine și un contrast puternic cu centrele comerciale climatizate răspândite prin țară. Pentru cei interesați de creștinism, Orașul Vechi și împrejurimile sale sunt pline de locuri creștine importante, printre care Bazilica Buna Vestire.",
-  "churchDescriptionOld": "Biserica greco-ortodoxă Buna Vestire se înalță deasupra izvorului unde, potrivit creștinilor ortodocși, a avut loc Buna Vestire. Când Fecioara Maria a mers să scoată apă din izvor, arhanghelul Gavriil i s-a arătat și i-a vestit că va concepe și va naște un fiu căruia îi va pune numele Iisus. Biserica de astăzi datează din 1750, când Daher al-Omar, conducătorul beduin al Galileii, a dat comunității greco-ortodoxe încuviințarea de a o construi.",
-  "waterSourceOld": "La aproximativ 140 de metri de biserică se află Fântâna Mariei, care odinioară era alimentată de izvor și a slujit câteva secole drept sursă locală de apă. Fântâna a fost reparată în 1967 și din nou în 2000, dar astăzi nu mai funcționează.",
   "orderSummary": "Rezumatul comenzii",
   "firstName": "Prenume:",
   "lastName": "Nume:",
@@ -389,21 +396,6 @@
       "feastToday": "Sărbătoarea de astăzi",
       "feastNext": "Următoarea sărbătoare",
       "feastWhen": "{date}, {inDays}",
-      "feasts": {
-        "epiphany": "Epifania Domnului",
-        "orthodoxChristmas": "Crăciunul pe stil vechi",
-        "annunciation": "Buna Vestire",
-        "orthodoxAnnunciation": "Buna Vestire pe stil vechi",
-        "palmSunday": "Duminica Floriilor",
-        "goodFriday": "Vinerea Sfântă",
-        "easter": "Paștele",
-        "orthodoxEaster": "Paștele ortodox",
-        "ascension": "Înălțarea Domnului",
-        "pentecost": "Rusaliile",
-        "assumption": "Înălțarea la cer a Fecioarei Maria",
-        "holyCross": "Înălțarea Sfintei Cruci",
-        "christmas": "Crăciunul"
-      },
       "broadcastNext": "Următoarea transmisiune în direct",
       "startsIn": "Începe peste {duration}",
       "startingSoon": "Începe în curând",
@@ -1347,7 +1339,7 @@
         },
         "languages": {
           "q": "În ce limbi este site-ul?",
-          "a": "Engleză, franceză, spaniolă, germană, italiană, portugheză, poloneză, rusă, greacă, ebraică și arabă."
+          "a": "Site-ul este disponibil în următoarele limbi: {languages}."
         },
         "data": {
           "q": "Ce date păstrați?",
@@ -1725,6 +1717,7 @@
         },
         "palmSunday": {
           "name": "Duminica Floriilor",
+          "orthodoxName": "Floriile (Intrarea Domnului în Ierusalim)",
           "description": "Iisus intră în Ierusalim și începe Săptămâna Sfântă."
         },
         "holyThursday": {

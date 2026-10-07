@@ -82,6 +82,16 @@
     "note": "Remarque : cette vidéo est présentée à titre d’illustration uniquement ; elle montre comment une bougie est allumée dans l’église grecque orthodoxe.",
     "lightAPrayCandle": "Allumer une bougie de prière",
     "selectChurch": "Sélectionnez l’église où allumer la bougie :",
+    "churches": {
+      "latin": {
+        "name": "Basilique de l’Annonciation",
+        "tradition": "Catholique"
+      },
+      "greek": {
+        "name": "Église grecque orthodoxe de l’Annonciation",
+        "tradition": "Orthodoxe · église Saint-Gabriel"
+      }
+    },
     "toLightACandlePay": "Pour allumer une bougie, payez 3 $",
     "light": "ALLUMER",
     "emailMatchError": "Les adresses e-mail ne correspondent pas",
@@ -243,9 +253,6 @@
     }
   },
   "headerTitleOld": "Découvrez la beauté de la vieille ville de Nazareth",
-  "mapDescriptionOld": "La vieille ville de Nazareth est surtout célèbre pour son shuk (marché en plein air), qui attire des Israéliens de tout le pays à la recherche de produits arabes traditionnels. C’est une expérience en soi, et un grand contraste avec les centres commerciaux climatisés disséminés dans le pays. Pour ceux qui s’intéressent au christianisme, la vieille ville et ses environs regorgent de sites chrétiens importants, dont la basilique de l’Annonciation.",
-  "churchDescriptionOld": "L’église grecque orthodoxe de l’Annonciation se dresse au-dessus de la source où, selon les chrétiens orthodoxes, l’Annonciation a eu lieu. Alors que la Vierge Marie allait puiser de l’eau à la source, l’archange Gabriel lui est apparu et lui a annoncé qu’elle concevrait et mettrait au monde un fils qu’elle appellerait Jésus. L’église actuelle date de 1750, lorsque Daher al-Omar, le souverain bédouin de la Galilée, a autorisé la communauté grecque orthodoxe à la construire.",
-  "waterSourceOld": "À environ 140 mètres de l’église se trouve le puits de Marie, autrefois alimenté par la source et qui a servi de point d’eau local pendant plusieurs siècles. La fontaine a été réparée en 1967, puis de nouveau en 2000, mais elle ne fonctionne plus aujourd’hui.",
   "orderSummary": "Récapitulatif de la commande",
   "firstName": "Prénom :",
   "lastName": "Nom de famille :",
@@ -389,21 +396,6 @@
       "feastToday": "Fête du jour",
       "feastNext": "Prochaine fête",
       "feastWhen": "{date}, {inDays}",
-      "feasts": {
-        "epiphany": "L’Épiphanie",
-        "orthodoxChristmas": "Noël (calendrier orthodoxe)",
-        "annunciation": "L’Annonciation",
-        "orthodoxAnnunciation": "L’Annonciation (calendrier orthodoxe)",
-        "palmSunday": "Dimanche des Rameaux",
-        "goodFriday": "Vendredi saint",
-        "easter": "Pâques",
-        "orthodoxEaster": "Pâques (calendrier orthodoxe)",
-        "ascension": "L’Ascension",
-        "pentecost": "La Pentecôte",
-        "assumption": "L’Assomption de Marie",
-        "holyCross": "L’Exaltation de la Sainte-Croix",
-        "christmas": "Noël"
-      },
       "broadcastNext": "Prochaine diffusion en direct",
       "startsIn": "Début dans {duration}",
       "startingSoon": "Début imminent",
@@ -1347,7 +1339,7 @@
         },
         "languages": {
           "q": "Dans quelles langues le site est-il disponible ?",
-          "a": "Anglais, français, espagnol, allemand, italien, portugais, polonais, russe, grec, hébreu et arabe."
+          "a": "Le site est disponible dans les langues suivantes : {languages}."
         },
         "data": {
           "q": "Quelles données conservez-vous ?",
@@ -1725,6 +1717,7 @@
         },
         "palmSunday": {
           "name": "Dimanche des Rameaux",
+          "orthodoxName": "Entrée du Seigneur à Jérusalem",
           "description": "Jésus entre à Jérusalem et la Semaine sainte commence."
         },
         "holyThursday": {

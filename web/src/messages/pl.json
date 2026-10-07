@@ -82,6 +82,16 @@
     "note": "Uwaga: Ten filmik ma charakter poglądowy i przedstawia proces zapalania świecy w greckim kościele prawosławnym.",
     "lightAPrayCandle": "Zapal świecę modlitewną",
     "selectChurch": "Wybierz kościół, w którym zapalisz świeczkę:",
+    "churches": {
+      "latin": {
+        "name": "Bazylika Zwiastowania",
+        "tradition": "Katolicka"
+      },
+      "greek": {
+        "name": "Cerkiew grecko-prawosławna Zwiastowania",
+        "tradition": "Prawosławna · cerkiew św. Gabriela"
+      }
+    },
     "toLightACandlePay": "Aby zapalić świecę, zapłać 3 $",
     "light": "ZAPAL",
     "emailMatchError": "Adresy e-mail nie pasują",
@@ -243,9 +253,6 @@
     }
   },
   "headerTitleOld": "Odkryj piękno Starego Miasta w Nazarecie",
-  "mapDescriptionOld": "Stare Miasto w Nazarecie jest najbardziej znane ze swojego szuku (targu na świeżym powietrzu), który przyciąga Izraelczyków z całego kraju poszukujących tradycyjnych produktów arabskich. To samo w sobie jest przeżyciem i wielkim kontrastem z klimatyzowanymi centrami handlowymi rozsianymi po całym kraju. Dla osób zainteresowanych chrześcijaństwem Stare Miasto i okolice są pełne ważnych miejsc chrześcijańskich, w tym Bazyliki Zwiastowania.",
-  "churchDescriptionOld": "Grecka cerkiew prawosławna Zwiastowania stoi nad źródłem, przy którym – według wierzeń chrześcijan prawosławnych – miało miejsce Zwiastowanie. Gdy Dziewica Maryja poszła zaczerpnąć wody ze źródła, ukazał się jej Archanioł Gabriel i oznajmił, że pocznie i urodzi Syna, któremu da na imię Jezus. Obecna cerkiew pochodzi z 1750 roku, kiedy Daher al-Omar, beduiński władca Galilei, zezwolił greckiej wspólnocie prawosławnej na jej budowę.",
-  "waterSourceOld": "Około 140 metrów od cerkwi znajduje się Studnia Maryi, która niegdyś była zasilana przez źródło i przez kilka stuleci służyła jako lokalne ujęcie wody. Fontannę naprawiono w 1967 roku i ponownie w 2000 roku, ale obecnie nie działa.",
   "orderSummary": "Podsumowanie zamówienia",
   "firstName": "Imię:",
   "lastName": "Nazwisko:",
@@ -389,21 +396,6 @@
       "feastToday": "Dzisiejsze święto",
       "feastNext": "Najbliższe święto",
       "feastWhen": "{date}, {inDays}",
-      "feasts": {
-        "epiphany": "Objawienie Pańskie",
-        "orthodoxChristmas": "Boże Narodzenie (prawosławne)",
-        "annunciation": "Zwiastowanie Pańskie",
-        "orthodoxAnnunciation": "Zwiastowanie (prawosławne)",
-        "palmSunday": "Niedziela Palmowa",
-        "goodFriday": "Wielki Piątek",
-        "easter": "Wielkanoc",
-        "orthodoxEaster": "Wielkanoc (prawosławna)",
-        "ascension": "Wniebowstąpienie Pańskie",
-        "pentecost": "Zesłanie Ducha Świętego",
-        "assumption": "Wniebowzięcie Najświętszej Maryi Panny",
-        "holyCross": "Podwyższenie Krzyża Świętego",
-        "christmas": "Boże Narodzenie"
-      },
       "broadcastNext": "Najbliższa transmisja na żywo",
       "startsIn": "Do rozpoczęcia: {duration}",
       "startingSoon": "Wkrótce się rozpocznie",
@@ -1347,7 +1339,7 @@
         },
         "languages": {
           "q": "W jakich językach jest strona?",
-          "a": "Po angielsku, francusku, hiszpańsku, niemiecku, włosku, portugalsku, polsku, rosyjsku, grecku, hebrajsku i arabsku."
+          "a": "Strona jest dostępna w tych językach: {languages}."
         },
         "data": {
           "q": "Jakie dane przechowujecie?",
@@ -1725,6 +1717,7 @@
         },
         "palmSunday": {
           "name": "Niedziela Palmowa",
+          "orthodoxName": "Wjazd Pański do Jerozolimy",
           "description": "Jezus wjeżdża do Jerozolimy i zaczyna się Wielki Tydzień."
         },
         "holyThursday": {

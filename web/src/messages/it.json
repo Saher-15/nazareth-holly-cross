@@ -82,6 +82,16 @@
     "note": "Nota: questo video è solo a scopo illustrativo, mostra il processo di accensione di una candela nella chiesa greco-ortodossa.",
     "lightAPrayCandle": "Accendi una candela di preghiera",
     "selectChurch": "Seleziona la chiesa in cui accendere la candela:",
+    "churches": {
+      "latin": {
+        "name": "Basilica dell’Annunciazione",
+        "tradition": "Cattolica"
+      },
+      "greek": {
+        "name": "Chiesa greco-ortodossa dell’Annunciazione",
+        "tradition": "Ortodossa · chiesa di San Gabriele"
+      }
+    },
     "toLightACandlePay": "Per accendere una candela, paga 3 $",
     "light": "ACCENDI",
     "emailMatchError": "Gli indirizzi email non corrispondono",
@@ -243,9 +253,6 @@
     }
   },
   "headerTitleOld": "Esplora la bellezza della Città Vecchia di Nazaret",
-  "mapDescriptionOld": "La città vecchia di Nazaret è famosa soprattutto per il suo shuk (mercato all’aperto), che attrae israeliani da tutto il paese alla ricerca di prodotti arabi tradizionali. Di per sé è un’esperienza e un grande contrasto con i centri commerciali climatizzati sparsi in tutto il paese. Per chi è interessato al cristianesimo, la città vecchia e i dintorni sono pieni di importanti siti cristiani, tra cui la Basilica dell’Annunciazione.",
-  "churchDescriptionOld": "La chiesa greco-ortodossa dell’Annunciazione si trova sopra la sorgente dove, secondo i cristiani ortodossi, ebbe luogo l’Annunciazione. Mentre la Vergine Maria andava ad attingere acqua dalla sorgente, l’arcangelo Gabriele le apparve e le comunicò che avrebbe concepito e dato alla luce un figlio che avrebbe chiamato Gesù. L’attuale chiesa risale al 1750, quando Daher al-Omar, il sovrano beduino della Galilea, diede alla comunità greco-ortodossa il permesso di costruirla.",
-  "waterSourceOld": "A circa 140 metri dalla chiesa si trova il Pozzo di Maria, un tempo alimentato dalla sorgente e per diversi secoli fonte d’acqua locale. La fontana è stata riparata nel 1967 e di nuovo nel 2000, ma oggi non è più in funzione.",
   "orderSummary": "Riepilogo ordine",
   "firstName": "Nome:",
   "lastName": "Cognome:",
@@ -389,21 +396,6 @@
       "feastToday": "Festa di oggi",
       "feastNext": "Prossima festa",
       "feastWhen": "{date}, {inDays}",
-      "feasts": {
-        "epiphany": "Epifania",
-        "orthodoxChristmas": "Natale (calendario ortodosso)",
-        "annunciation": "L’Annunciazione",
-        "orthodoxAnnunciation": "L’Annunciazione (calendario ortodosso)",
-        "palmSunday": "Domenica delle Palme",
-        "goodFriday": "Venerdì santo",
-        "easter": "Pasqua",
-        "orthodoxEaster": "Pasqua (calendario ortodosso)",
-        "ascension": "L’Ascensione",
-        "pentecost": "Pentecoste",
-        "assumption": "L’Assunzione di Maria",
-        "holyCross": "L’Esaltazione della Santa Croce",
-        "christmas": "Natale"
-      },
       "broadcastNext": "Prossima diretta",
       "startsIn": "Inizia tra {duration}",
       "startingSoon": "Inizia a breve",
@@ -1347,7 +1339,7 @@
         },
         "languages": {
           "q": "In quali lingue è disponibile il sito?",
-          "a": "Inglese, francese, spagnolo, tedesco, italiano, portoghese, polacco, russo, greco, ebraico e arabo."
+          "a": "Il sito è disponibile in queste lingue: {languages}."
         },
         "data": {
           "q": "Quali dati conservate?",
@@ -1725,6 +1717,7 @@
         },
         "palmSunday": {
           "name": "Domenica delle Palme",
+          "orthodoxName": "Ingresso del Signore a Gerusalemme",
           "description": "Gesù entra a Gerusalemme e inizia la Settimana Santa."
         },
         "holyThursday": {

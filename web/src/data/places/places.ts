@@ -176,9 +176,11 @@ const oldcity: Place = {
   schemaTypes: ['TouristAttraction'],
   photos: [...mediaPhotosOf('oldcity'), ...photosOf('old', OLD_EXT)],
   story: [
-    { kind: 'text', text: 'mapDescriptionOld' },
-    { kind: 'text', text: 'churchDescriptionOld' },
-    { kind: 'text', text: 'waterSourceOld' },
+    // The souk and the Greek Orthodox church with its spring, from the city and Greek church texts (the Old City
+    // page used to carry its own copies of these paragraphs, which drifted apart).
+    { kind: 'text', text: 'contentNaz.introduction' },
+    { kind: 'text', text: 'contentGreek.paragraph1' },
+    { kind: 'text', text: 'contentGreek.paragraph3' },
   ],
 };
 

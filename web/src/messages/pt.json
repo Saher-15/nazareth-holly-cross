@@ -82,6 +82,16 @@
     "note": "Observação: este vídeo é apenas para fins ilustrativos, mostrando o processo de acender uma vela na igreja ortodoxa grega.",
     "lightAPrayCandle": "Acenda uma vela de oração",
     "selectChurch": "Selecione a igreja para acender a vela:",
+    "churches": {
+      "latin": {
+        "name": "Basílica da Anunciação",
+        "tradition": "Católica"
+      },
+      "greek": {
+        "name": "Igreja Ortodoxa Grega da Anunciação",
+        "tradition": "Ortodoxa · Igreja de São Gabriel"
+      }
+    },
     "toLightACandlePay": "Para acender uma vela, pague US$ 3",
     "light": "ACENDA",
     "emailMatchError": "Os e-mails não correspondem",
@@ -243,9 +253,6 @@
     }
   },
   "headerTitleOld": "Explore a beleza da Cidade Velha de Nazaré",
-  "mapDescriptionOld": "A Cidade Velha de Nazaré é mais famosa por seu shuk (mercado ao ar livre), que atrai israelenses de todo o país em busca de produtos árabes tradicionais. Isso por si só é uma experiência e um grande contraste com os shoppings com ar-condicionado espalhados pelo país. Para os interessados no cristianismo, a Cidade Velha e arredores estão repletas de importantes locais cristãos, incluindo a Basílica da Anunciação.",
-  "churchDescriptionOld": "A Igreja Ortodoxa Grega da Anunciação fica acima da fonte onde os cristãos ortodoxos acreditam que a Anunciação ocorreu. Quando a Virgem Maria foi tirar água da fonte, o Arcanjo Gabriel apareceu e a informou que ela conceberia e daria à luz um filho que ela chamaria de Jesus. A igreja atual remonta a 1750, quando Daher al-Omar, o governante beduíno da Galileia, deu à comunidade ortodoxa grega permissão para construí-la.",
-  "waterSourceOld": "A cerca de 140 metros da igreja fica o Poço de Maria, que já foi alimentado pela fonte e serviu como fonte local de água por vários séculos. A fonte foi consertada em 1967 e novamente em 2000, mas não funciona mais hoje.",
   "orderSummary": "Resumo do pedido",
   "firstName": "Primeiro nome:",
   "lastName": "Sobrenome:",
@@ -389,21 +396,6 @@
       "feastToday": "Festa de hoje",
       "feastNext": "Próxima festa",
       "feastWhen": "{date}, {inDays}",
-      "feasts": {
-        "epiphany": "Epifania do Senhor",
-        "orthodoxChristmas": "Natal (calendário ortodoxo)",
-        "annunciation": "Anunciação do Senhor",
-        "orthodoxAnnunciation": "Anunciação (calendário ortodoxo)",
-        "palmSunday": "Domingo de Ramos",
-        "goodFriday": "Sexta-feira Santa",
-        "easter": "Páscoa",
-        "orthodoxEaster": "Páscoa (calendário ortodoxo)",
-        "ascension": "Ascensão do Senhor",
-        "pentecost": "Pentecostes",
-        "assumption": "Assunção de Nossa Senhora",
-        "holyCross": "Exaltação da Santa Cruz",
-        "christmas": "Natal"
-      },
       "broadcastNext": "Próxima transmissão ao vivo",
       "startsIn": "Começa em {duration}",
       "startingSoon": "Começa em breve",
@@ -1347,7 +1339,7 @@
         },
         "languages": {
           "q": "Em que línguas está o site?",
-          "a": "Inglês, francês, espanhol, alemão, italiano, português, polaco, russo, grego, hebraico e árabe."
+          "a": "O site está disponível nestes idiomas: {languages}."
         },
         "data": {
           "q": "Que dados guardam?",
@@ -1725,6 +1717,7 @@
         },
         "palmSunday": {
           "name": "Domingo de Ramos",
+          "orthodoxName": "Entrada do Senhor em Jerusalém",
           "description": "Jesus entra em Jerusalém e começa a Semana Santa."
         },
         "holyThursday": {

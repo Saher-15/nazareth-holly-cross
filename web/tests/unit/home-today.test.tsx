@@ -12,13 +12,14 @@ import {
   type ScheduledBroadcast,
 } from '@/components/home/broadcast';
 import { loadPrayerWall, NEWEST_PRAYERS } from '@/components/home/data';
-import { feastOn, feastsOfYear, orthodoxEaster, westernEaster } from '@/components/home/feasts';
+import { feastOn } from '@/components/home/feasts';
 import { filmAllowed, filmPlan, loopPlan } from '@/components/home/HeroVideo';
 import { NewestPrayersView } from '@/components/home/NewestPrayers';
 import SitesMap from '@/components/home/SitesMap';
 import { formatClock, formatDuration, formatInDays } from '@/components/home/today';
 import { broadcastState, TodayView } from '@/components/home/TodayInNazareth';
 import type { Prayer } from '@/lib/api';
+import { addDays, nextFeasts } from '@/lib/liturgical';
 import { NAZARETH_COORDS, sunTimes } from '@/lib/sun';
 import { HERO_TOUR_PARTS } from '@/lib/videos';
 import en from '@/messages/en.json';
@@ -44,7 +45,6 @@ const withIntl = (ui: ReactNode, locale = 'en', messages: object = en) => (
 );
 
 const day = (iso: string) => new Date(`${iso}T00:00:00Z`).getTime();
-const iso = (ms: number) => new Date(ms).toISOString().slice(0, 10);
 /** Minutes after midnight in Nazareth of a moment. */
 const nazarethMinutes = (date: Date) => {
   const [h, m] = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZone: 'Asia/Jerusalem' })
@@ -115,42 +115,32 @@ describe('sunrise and sunset (computed, no service)', () => {
   });
 });
 
-describe('feasts (minimal calendar, until the liturgical calendar replaces it)', () => {
-  it('computes Western and Orthodox Easter', () => {
-    const western = { 2024: '2024-03-31', 2025: '2025-04-20', 2026: '2026-04-05', 2027: '2027-03-28', 2030: '2030-04-21', 2038: '2038-04-25' };
-    const orthodox = { 2024: '2024-05-05', 2025: '2025-04-20', 2026: '2026-04-12', 2027: '2027-05-02', 2030: '2030-04-28' };
-    for (const [year, date] of Object.entries(western)) expect(iso(westernEaster(Number(year)))).toBe(date);
-    for (const [year, date] of Object.entries(orthodox)) expect(iso(orthodoxEaster(Number(year)))).toBe(date);
-  });
-
-  it('moves the Annunciation out of Holy Week, the Easter octave and the Sundays of Lent, as the Roman rite does', () => {
-    const annunciation = (year: number) => feastsOfYear(year).find((f) => f.key === 'annunciation')!.date;
-    expect(annunciation(2026)).toBe('2026-03-25'); // a Wednesday of Lent
-    expect(annunciation(2024)).toBe('2024-04-08'); // Monday of Holy Week -> after the octave
-    expect(annunciation(2029)).toBe('2029-04-09'); // Palm Sunday -> after the octave
-    expect(annunciation(2035)).toBe('2035-04-02'); // Easter Sunday itself
-    expect(annunciation(2028)).toBe('2028-03-25'); // a Saturday
-    expect(annunciation(2012)).toBe('2012-03-26'); // the fifth Sunday of Lent -> the Monday
-    expect(annunciation(2040)).toBe('2040-04-09'); // Palm Sunday -> after the octave
-  });
-
-  it('leaves Orthodox Easter out when both churches keep Easter on the same day', () => {
-    expect(feastsOfYear(2025).filter((f) => f.key.endsWith('aster'))).toEqual([{ key: 'easter', date: '2025-04-20' }]);
-    expect(feastsOfYear(2026).filter((f) => f.key.endsWith('aster')).map((f) => f.key)).toEqual(['easter', 'orthodoxEaster']);
-  });
-
+describe('feasts (the home strip asks the liturgical calendar, like /live)', () => {
   it('names the feast of the day, or the next one with the days to wait, across the new year', () => {
-    expect(feastOn('2026-09-14')).toEqual({ key: 'holyCross', date: '2026-09-14', today: true, days: 0 });
-    expect(feastOn('2026-10-07')).toEqual({ key: 'christmas', date: '2026-12-25', today: false, days: 79 });
-    expect(feastOn('2026-12-26')).toEqual({ key: 'epiphany', date: '2027-01-06', today: false, days: 11 });
-    expect(feastOn('2027-01-07').key).toBe('orthodoxChristmas');
+    expect(feastOn('2026-09-14')).toEqual({ id: 'holyCross', date: '2026-09-14', nameKey: 'pilgrim.calendar.feasts.holyCross.name', today: true, days: 0 });
+    expect(feastOn('2026-10-07')).toEqual({ id: 'allSaints', date: '2026-11-01', nameKey: 'pilgrim.calendar.feasts.allSaints.name', today: false, days: 25 });
+    expect(feastOn('2026-12-26')).toMatchObject({ id: 'maryMotherOfGod', date: '2027-01-01', days: 6 });
   });
 
-  it('has a name in every language for every feast it can return', () => {
-    const keys = new Set([2025, 2026, 2027, 2028].flatMap((y) => feastsOfYear(y).map((f) => f.key)));
-    for (const key of keys) {
-      expect(en.home.today.feasts[key]).toBeTruthy();
-      expect(he.home.today.feasts[key]).toBeTruthy();
+  it('gives the same next feast as the calendar on /live, every day of a year', () => {
+    for (let date = '2026-01-01'; date < '2027-01-01'; date = addDays(date, 1)) {
+      const [next] = nextFeasts(date, 1, 'all');
+      expect(feastOn(date)).toMatchObject({ id: next.id, date: next.date });
+    }
+  });
+
+  it('uses the Orthodox name on a day only the Orthodox keep (Christmas on 7 January, their Palm Sunday)', () => {
+    expect(feastOn('2027-01-07').nameKey).toBe('pilgrim.calendar.feasts.christmas.orthodoxName');
+    expect(feastOn('2027-04-25')).toMatchObject({ id: 'palmSunday', nameKey: 'pilgrim.calendar.feasts.palmSunday.orthodoxName', today: true });
+    expect(feastOn('2027-03-21').nameKey).toBe('pilgrim.calendar.feasts.palmSunday.name'); // the Catholic Palm Sunday
+  });
+
+  it('has a name in English and Hebrew for every feast it can return', () => {
+    const lookup = (messages: object, key: string) => key.split('.').reduce<unknown>((node, part) => (node as Record<string, unknown>)?.[part], messages);
+    for (let date = '2025-01-01'; date < '2029-01-01'; date = addDays(date, 1)) {
+      const { nameKey } = feastOn(date);
+      expect(lookup(en, nameKey), nameKey).toBeTruthy();
+      expect(lookup(he, nameKey), nameKey).toBeTruthy();
     }
   });
 });
@@ -267,8 +257,8 @@ describe('<TodayView>', () => {
     expect(within(section).getByText(/^2:32\sPM$/)).toHaveAttribute('dateTime', '14:32');
     expect(section).toHaveTextContent('Wednesday, October 7');
     expect(section).toHaveTextContent(/Sunrise \d{1,2}:\d{2}/);
-    expect(section).toHaveTextContent(en.home.today.feasts.christmas);
-    expect(section).toHaveTextContent('in 79 days');
+    expect(section).toHaveTextContent(en.pilgrim.calendar.feasts.allSaints.name);
+    expect(section).toHaveTextContent('in 25 days');
     expect(section.querySelector('[data-broadcast]')).toBeNull();
   });
 

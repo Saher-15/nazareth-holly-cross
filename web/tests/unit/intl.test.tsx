@@ -10,6 +10,8 @@ import { defaultLocale, isRtl, locales, localeNames, openGraphLocales, rtlLocale
 import { approximateIn, formatCurrency, hintCurrencyFor, INDICATIVE_RATES } from '@/lib/currency';
 import { formatUsd, SHIPPING_FEE } from '@/lib/pricing';
 import { openGraphLocale, pageAlternates } from '@/lib/seo';
+import { dateLocale, formatDateTime } from '@/lib/time';
+import { faqValues, languageList } from '@/data/pilgrim/faqEntries';
 
 // The sitemap asks the API for the shop's products; the test must not depend on the network.
 vi.mock('@/lib/shop/load', () => ({ loadCatalog: async () => ({ products: [{ _id: 'p1' }] }) }));
@@ -95,6 +97,33 @@ describe('numbers and prices', () => {
       expect(text).toContain('3.00');
       expect(text).toMatch(/\$|USD|US\$/);
     }
+  });
+});
+
+describe('the FAQ answer "Which languages is the site in?"', () => {
+  it.each(locales)('%s names every language of the site (built from the routing locales)', (locale) => {
+    const names = new Intl.DisplayNames([locale], { type: 'language' });
+    const answer = say(locale, 'pilgrim.faq.items.languages.a', faqValues(locale));
+    for (const code of locales) expect(answer).toContain(names.of(code));
+    expect(answer).toContain(languageList(locale));
+  });
+});
+
+describe('dates', () => {
+  const october7 = Date.UTC(2026, 9, 7, 12);
+
+  it('writes Arabic months the Levantine way used in Nazareth (ar-PS), with Western digits', () => {
+    expect(dateLocale('ar')).toBe('ar-PS-u-nu-latn');
+    expect(formatDateTime(october7, 'ar', { month: 'long', timeZone: 'UTC' })).toBe('تشرين الأول');
+    const full = formatDateTime(october7, 'ar', { dateStyle: 'full', timeZone: 'UTC' });
+    expect(full).toContain('تشرين الأول');
+    expect(full).toContain('7');
+    expect(full).not.toMatch(/[٠-٩]|أكتوبر/);
+  });
+
+  it.each(locales.filter((l) => l !== 'ar'))('%s formats dates in its own locale, with Western digits', (locale) => {
+    expect(dateLocale(locale)).toBe(locale);
+    expect(formatDateTime(october7, locale, { dateStyle: 'long', timeZone: 'UTC' })).toMatch(/2026/);
   });
 });
 

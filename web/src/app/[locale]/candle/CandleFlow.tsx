@@ -30,9 +30,11 @@ import styles from './candle.module.css';
 
 type Key = keyof CandleForm;
 
-const CHURCH_CARDS: { value: Church; labelKey: 'home.siteLatin' | 'home.siteGreek'; img: string }[] = [
-  { value: 'Annunciation church', labelKey: 'home.siteLatin', img: '/images/latin/latin9.jpg' },
-  { value: 'Greek orthodox church', labelKey: 'home.siteGreek', img: '/images/greek/greek11.jpg' },
+// Two churches of the Annunciation: each card names its church in full and says whose it is (Catholic basilica,
+// Greek Orthodox St Gabriel's), so nobody pays for a candle in the other one (07 review, A3).
+const CHURCH_CARDS: { value: Church; nameKey: string; traditionKey: string; img: string }[] = [
+  { value: 'Annunciation church', nameKey: 'candle.churches.latin.name', traditionKey: 'candle.churches.latin.tradition', img: '/images/latin/latin9.jpg' },
+  { value: 'Greek orthodox church', nameKey: 'candle.churches.greek.name', traditionKey: 'candle.churches.greek.tradition', img: '/images/greek/greek11.jpg' },
 ];
 
 // Element ids of the fields, in screen order (the first invalid one gets the focus).
@@ -136,7 +138,10 @@ export default function CandleFlow() {
                     <span className={styles.churchCheck} aria-hidden="true">
                       {selected && <CheckIcon size={15} />}
                     </span>
-                    <span className={styles.churchName}>{tr(card.labelKey)}</span>
+                    <span className={styles.churchText}>
+                      <span className={styles.churchName}>{tr(card.nameKey)}</span>
+                      <span className={styles.churchTradition}>{tr(card.traditionKey)}</span>
+                    </span>
                     <span className={styles.churchRing} aria-hidden="true" />
                   </label>
                 );
@@ -222,7 +227,7 @@ export default function CandleFlow() {
             </div>
             <div>
               <dt>{tr('prayerAt')}</dt>
-              <dd>{church ? tr(church.labelKey) : ''}</dd>
+              <dd>{church ? tr(church.nameKey) : ''}</dd>
             </div>
             <div>
               <dt>{tr('candle.yourPrayer')}</dt>
