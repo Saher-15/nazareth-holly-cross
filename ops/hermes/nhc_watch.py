@@ -44,6 +44,17 @@ from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlparse
 
+def _local_tz():
+    """The owner's time zone for every time in a message (the Railway server runs on UTC). NHC_TZ overrides it."""
+    try:
+        from zoneinfo import ZoneInfo
+        return ZoneInfo(os.environ.get("NHC_TZ", "Asia/Jerusalem"))
+    except Exception:  # no tz database on the machine: fall back to its own clock
+        return None
+
+
+LOCAL_TZ = _local_tz()
+
 UA = "nhc-watch/1.0 (Hermes watchdog, read-only; docs/MONITORING.md)"
 DOMAIN = "nazarethholycross.com"
 DOMAIN_EXPIRY_FALLBACK = "2027-08-26"  # docs/MONITORING.md, used only when RDAP cannot be reached
@@ -493,7 +504,7 @@ def recap(state: dict, now: float) -> list[str]:
         lines.append("What happened:")
         for ts, msg in events[-15:]:
             first = msg.splitlines()[0]
-            lines.append(f"  {datetime.fromtimestamp(ts).astimezone().strftime('%H:%M')}  {first}")
+            lines.append(f"  {datetime.fromtimestamp(ts).astimezone(LOCAL_TZ).strftime('%H:%M')}  {first}")
     return lines
 
 
@@ -529,7 +540,7 @@ def code_changes(since: float, timeout: float, ctx) -> list[str]:
         if len(merged) > MAX_LISTED:
             lines.append(f"  … {len(merged) - MAX_LISTED} earlier ones not listed")
         for p in merged[-MAX_LISTED:]:
-            when = datetime.fromtimestamp(iso_to_ts(p["merged_at"])).astimezone().strftime("%d/%m %H:%M")
+            when = datetime.fromtimestamp(iso_to_ts(p["merged_at"])).astimezone(LOCAL_TZ).strftime("%d/%m %H:%M")
             lines.append(f"  #{p['number']} {p['title'][:70]} ({when})")
         sha = github_get(f"/repos/{GITHUB_REPO}/commits/main", timeout, ctx)["sha"]
         statuses = github_get(f"/repos/{GITHUB_REPO}/commits/{sha}/status", timeout, ctx).get("statuses", [])
@@ -648,7 +659,7 @@ def changes_report(state: dict, api: str, timeout: float, ctx, now: float) -> li
 
 def summary(results: dict, state: dict) -> str:
     bad = [n for n, r in results.items() if not r["ok"]]
-    stamp = datetime.now().astimezone().strftime("%a %d %b, %H:%M")
+    stamp = datetime.now().astimezone(LOCAL_TZ).strftime("%a %d %b, %H:%M")
     head = f"Nazareth Holy Cross, daily status ({stamp})"
     head += "\nAll checks OK ✅" if not bad else f"\n{len(bad)} of {len(results)} checks failing 🔴"
     lines = [head]
