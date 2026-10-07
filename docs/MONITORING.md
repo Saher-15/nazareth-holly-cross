@@ -179,7 +179,8 @@ Asia/Jerusalem) and delivers to the owner's Telegram. Two script-only cron jobs 
 and failing checks on `main`, open pull requests waiting for review (GitHub API), and the shop compared with the
 previous morning (public `/product/catalog`: new, removed and edited products, price, stock, photos, description, the
 `sold` counter and new reviews). The first report after an install records the shop and reports changes from the next
-day. The state lives in `/opt/data/nhc-watch-state.json`.
+day. The state lives in `/opt/data/nhc-watch-state.json`. Every time in a message is Israel time (`NHC_TZ`,
+default `Asia/Jerusalem`): the Railway server itself runs on UTC.
 
 To update the scripts on Hermes after a merge: download both files from `main` into `/opt/data/scripts/` (`railway ssh`
 into the `hermes` service). The Render checks in the script run only with `NHC_WATCH_RENDER=1` (the API left Render on
