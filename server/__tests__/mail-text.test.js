@@ -35,9 +35,9 @@ describe('greetingName: a name, or nothing', () => {
     ['a line break', 'Maria\nBcc: x@y.zz'],
     ['a carriage return', 'Maria\rX'],
     ['a tab', 'Maria\tX'],
-    ['a right-to-left override', 'Maria‮exe'],
-    ['a zero-width space', 'Ma​ria'],
-    ['a line separator', 'Maria X'],
+    ['a right-to-left override', 'Maria\u202Eexe'],
+    ['a zero-width space', 'Ma\u200Bria'],
+    ['a line separator', 'Maria\u2028X'],
     ['digits', 'Maria 2'],
     ['four words', 'Anna Maria Lucia Rosa'],
     ['punctuation', 'Maria!'],
@@ -63,8 +63,8 @@ describe('greetingName: a name, or nothing', () => {
 
 describe('plainMailText: no markup, links, control characters; one line; bounded', () => {
   it('removes tags, entities, links and invisible characters and joins lines', () => {
-    const out = plainMailText('Hello <script>x</script> see https://evil.example/a?b=c and www.evil.example\r\nBcc: a@b.co &amp; more‮');
-    expect(out).not.toMatch(/[<>]|https?:|www\.|evil|&amp;|\r|\n|‮/);
+    const out = plainMailText('Hello <script>x</script> see https://evil.example/a?b=c and www.evil.example\r\nBcc: a@b.co &amp; more\u202E');
+    expect(out).not.toMatch(/[<>]|https?:|www\.|evil|&amp;|\r|\n|\u202E/);
     expect(out.startsWith('Hello')).toBe(true);
   });
 

@@ -425,14 +425,14 @@ describe('confirmation mails: only for a paid request, and no visitor text in th
     ['a line break and a fake header', 'Ann\r\nBcc: victim@example.com'],
     ['digits', 'Call 0501234567'],
     ['a long run of words', 'Ann Bea Cat Dot'],
-    ['an invisible right-to-left override', 'Ann‮gpj.exe'],
+    ['an invisible right-to-left override', 'Ann\u202Egpj.exe'],
   ])('a name with %s is not echoed: the mail says "Dear friend,"', async (_label, firstName) => {
     await paidCandle();
     const res = await post('/candle/lightACandle', candleBody({ firstName, lastName: 'Visit https://evil.example now', paypalOrderId: PAYPAL }));
     expect(res.status).toBe(200);
     const [m] = sent();
     expect(m.text.split('\n')[0]).toBe('Dear friend,');
-    expect(m.text).not.toMatch(/evil|https?:|refund|<|&lt;|Bcc|0501234567|‮|Visit/i);
+    expect(m.text).not.toMatch(/evil|https?:|refund|<|&lt;|Bcc|0501234567|\u202E|Visit/i);
     expect(m.text.split('\n').every((line) => line.length <= 80)).toBe(true);
   });
 
