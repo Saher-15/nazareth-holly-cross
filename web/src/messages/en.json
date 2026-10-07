@@ -1507,7 +1507,7 @@
           },
           "settings": {
             "title": "Accessibility settings",
-            "p1": "The button with the accessibility sign at the top of every page opens settings that apply to the whole site and are remembered in this browser. The reset button returns everything to the original look.",
+            "p1": "The button with the accessibility sign in the bottom corner of every page opens settings that apply to the whole site and are remembered in this browser. The reset button returns everything to the original look.",
             "items": {
               "text": "Text size from 100 to 200 percent.",
               "contrast": "High contrast: black background, white text and brighter gold.",

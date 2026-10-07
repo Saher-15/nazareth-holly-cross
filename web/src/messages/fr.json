@@ -1507,7 +1507,7 @@
           },
           "settings": {
             "title": "Paramètres d’accessibilité",
-            "p1": "Le bouton portant le symbole de l’accessibilité, en haut de chaque page, ouvre des paramètres qui s’appliquent à tout le site et sont mémorisés dans ce navigateur. Le bouton de réinitialisation rend au site son apparence d’origine.",
+            "p1": "Le bouton portant le symbole de l’accessibilité, dans le coin inférieur de chaque page, ouvre des paramètres qui s’appliquent à tout le site et sont mémorisés dans ce navigateur. Le bouton de réinitialisation rend au site son apparence d’origine.",
             "items": {
               "text": "Taille du texte de 100 à 200 pour cent.",
               "contrast": "Contraste élevé : fond noir, texte blanc et doré plus lumineux.",

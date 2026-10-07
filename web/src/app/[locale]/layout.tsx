@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { hasLocale, NextIntlClientProvider, type AbstractIntlMessages } from 'next-intl';
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
 import PendingFulfilmentRunner from '@/components/checkout/PendingFulfilmentRunner';
+import A11yPanel from '@/components/layout/A11yPanel';
 import BackToTop from '@/components/layout/BackToTop';
 import LiveAlert from '@/components/layout/LiveAlert';
 import PageTransitions from '@/components/layout/PageTransitions';
@@ -91,6 +92,8 @@ export default async function LocaleLayout({ children, search, params }: LayoutP
                 <ReadingProgress />
                 {/* "live now" on the Live link while a broadcast is on */}
                 <SiteHeader live={live} />
+                {/* The accessibility settings: a floating button in the bottom corner, early in the tab order. */}
+                <A11yPanel />
                 <main id="main" tabIndex={-1}>
                   {children}
                 </main>

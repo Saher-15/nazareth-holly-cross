@@ -1507,7 +1507,7 @@
           },
           "settings": {
             "title": "Setări de accesibilitate",
-            "p1": "Butonul cu simbolul accesibilității din partea de sus a fiecărei pagini deschide setări care se aplică întregului site și sunt păstrate în acest browser. Butonul de resetare readuce aspectul original.",
+            "p1": "Butonul cu simbolul accesibilității din colțul de jos al fiecărei pagini deschide setări care se aplică întregului site și sunt păstrate în acest browser. Butonul de resetare readuce aspectul original.",
             "items": {
               "text": "Mărimea textului de la 100 la 200 la sută.",
               "contrast": "Contrast ridicat: fundal negru, text alb și auriu mai luminos.",

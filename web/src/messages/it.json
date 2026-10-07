@@ -1507,7 +1507,7 @@
           },
           "settings": {
             "title": "Impostazioni di accessibilità",
-            "p1": "Il pulsante con il simbolo dell’accessibilità, in alto in ogni pagina, apre impostazioni che valgono per tutto il sito e restano memorizzate in questo browser. Il pulsante di ripristino riporta tutto all’aspetto originale.",
+            "p1": "Il pulsante con il simbolo dell’accessibilità, nell’angolo in basso di ogni pagina, apre impostazioni che valgono per tutto il sito e restano memorizzate in questo browser. Il pulsante di ripristino riporta tutto all’aspetto originale.",
             "items": {
               "text": "Dimensione del testo dal 100 al 200 per cento.",
               "contrast": "Contrasto elevato: sfondo nero, testo bianco e oro più luminoso.",

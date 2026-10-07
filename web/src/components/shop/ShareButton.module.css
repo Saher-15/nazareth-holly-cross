@@ -38,6 +38,12 @@
   justify-content: center;
   pointer-events: none;
 }
+/* Narrow screens: above the floating corner buttons (the accessibility settings and back to top), not over them. */
+@media (max-width: 600px) {
+  .toastRegion {
+    inset-block-end: calc(48px + var(--space-3) + var(--space-4) + env(safe-area-inset-bottom, 0px));
+  }
+}
 .toast {
   display: inline-flex;
   align-items: center;

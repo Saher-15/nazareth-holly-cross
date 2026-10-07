@@ -1507,7 +1507,7 @@
           },
           "settings": {
             "title": "Ustawienia dostępności",
-            "p1": "Przycisk z symbolem dostępności u góry każdej strony otwiera ustawienia, które działają na całej stronie i są zapamiętywane w tej przeglądarce. Przycisk przywracania przywraca pierwotny wygląd.",
+            "p1": "Przycisk z symbolem dostępności w dolnym rogu każdej strony otwiera ustawienia, które działają na całej stronie i są zapamiętywane w tej przeglądarce. Przycisk przywracania przywraca pierwotny wygląd.",
             "items": {
               "text": "Rozmiar tekstu od 100 do 200 procent.",
               "contrast": "Wysoki kontrast: czarne tło, biały tekst i jaśniejsze złoto.",

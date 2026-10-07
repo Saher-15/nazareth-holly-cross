@@ -14,7 +14,7 @@ import shared from './shared.module.css';
 /** When the legal texts were last revised (YYYY-MM-DD). Update it with every change to the messages. */
 export const LEGAL_UPDATED = '2026-10-05';
 /** When the site's accessibility was last reviewed and the statement written (docs/ACCESSIBILITY.md). */
-export const A11Y_REVIEWED = '2026-10-06';
+export const A11Y_REVIEWED = '2026-10-07';
 
 const PATH: Record<LegalPage, string> = {
   privacy: '/privacy',
