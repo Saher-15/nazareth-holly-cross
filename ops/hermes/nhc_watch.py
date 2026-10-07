@@ -9,7 +9,8 @@ How Hermes uses it (docs/MONITORING.md, section 8):
     every 5 minutes   nhc_watch.py            prints NOTHING while all is well -> Hermes sends nothing
                                               prints an alert when a check fails twice in a row, a reminder
                                               while it stays down, and a "recovered" message when it is back
-    every morning     nhc_summary.py          always prints a short status report
+    every morning     nhc_summary.py          always prints a short status report, plus what changed since the
+                                              previous report (merged PRs, deploy status, open PRs, shop changes)
 
 Hermes delivers whatever the script prints to Telegram; empty output means silence. A crash or a non-zero exit is
 delivered by Hermes as an error, so a broken watchdog cannot fail silently.
@@ -42,6 +43,17 @@ import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlparse
+
+def _local_tz():
+    """The owner's time zone for every time in a message (the Railway server runs on UTC). NHC_TZ overrides it."""
+    try:
+        from zoneinfo import ZoneInfo
+        return ZoneInfo(os.environ.get("NHC_TZ", "Asia/Jerusalem"))
+    except Exception:  # no tz database on the machine: fall back to its own clock
+        return None
+
+
+LOCAL_TZ = _local_tz()
 
 UA = "nhc-watch/1.0 (Hermes watchdog, read-only; docs/MONITORING.md)"
 DOMAIN = "nazarethholycross.com"
@@ -492,13 +504,162 @@ def recap(state: dict, now: float) -> list[str]:
         lines.append("What happened:")
         for ts, msg in events[-15:]:
             first = msg.splitlines()[0]
-            lines.append(f"  {datetime.fromtimestamp(ts).astimezone().strftime('%H:%M')}  {first}")
+            lines.append(f"  {datetime.fromtimestamp(ts).astimezone(LOCAL_TZ).strftime('%H:%M')}  {first}")
+    return lines
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+# "What changed" for the morning report: the code (GitHub) and the shop (public catalog), since the previous report.
+# Read-only and public: no customer data is read. Each part fails on its own without breaking the report.
+# ----------------------------------------------------------------------------------------------------------------------
+GITHUB_REPO = "Saher-15/nazareth-holly-cross"
+GITHUB_API = "https://api.github.com"
+RAILWAY_STATUS_PREFIX = "divine-spontaneity - "  # Railway's commit status for the production API
+MAX_LISTED = 8
+
+
+def github_get(path: str, timeout: float, ctx):
+    headers = {"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28"}
+    token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+    status, body, _ = http_get(f"{GITHUB_API}{path}", timeout, ctx, headers)
+    if status != 200:
+        raise RuntimeError(f"GitHub HTTP {status}")
+    return json.loads(body)
+
+
+def code_changes(since: float, timeout: float, ctx) -> list[str]:
+    pulls = github_get(f"/repos/{GITHUB_REPO}/pulls?state=closed&sort=updated&direction=desc&per_page=50", timeout, ctx)
+    merged = [p for p in pulls if p.get("merged_at") and (iso_to_ts(p["merged_at"]) or 0) > since]
+    merged.sort(key=lambda p: p["merged_at"])
+    open_prs = github_get(f"/repos/{GITHUB_REPO}/pulls?state=open&per_page=50", timeout, ctx)
+    lines = []
+    if merged:
+        lines.append(f"🚀 Published to the live site ({len(merged)}):")
+        if len(merged) > MAX_LISTED:
+            lines.append(f"  … {len(merged) - MAX_LISTED} earlier ones not listed")
+        for p in merged[-MAX_LISTED:]:
+            when = datetime.fromtimestamp(iso_to_ts(p["merged_at"])).astimezone(LOCAL_TZ).strftime("%d/%m %H:%M")
+            lines.append(f"  #{p['number']} {p['title'][:70]} ({when})")
+        sha = github_get(f"/repos/{GITHUB_REPO}/commits/main", timeout, ctx)["sha"]
+        statuses = github_get(f"/repos/{GITHUB_REPO}/commits/{sha}/status", timeout, ctx).get("statuses", [])
+        api = next((s for s in statuses if s.get("context", "").startswith(RAILWAY_STATUS_PREFIX)), None)
+        if api:
+            mark = {"success": "✅", "pending": "⏳"}.get(api.get("state"), "🔴")
+            lines.append(f"  {mark} API deploy on Railway: {api.get('state')}")
+        runs = github_get(f"/repos/{GITHUB_REPO}/commits/{sha}/check-runs?per_page=50", timeout, ctx).get("check_runs", [])
+        failed = sorted({r["name"] for r in runs if r.get("conclusion") in ("failure", "timed_out", "cancelled")})
+        if failed:
+            lines.append("  🔴 Failing checks on main: " + ", ".join(failed)[:200])
+    else:
+        lines.append("🚀 Nothing new was published to the live site.")
+    if open_prs:
+        waiting = [p for p in open_prs if not p.get("draft")]
+        lines.append(f"📝 Open changes waiting for review: {len(waiting)}")
+        for p in waiting[:MAX_LISTED]:
+            lines.append(f"  #{p['number']} {p['title'][:70]}")
+        if len(waiting) > MAX_LISTED:
+            lines.append(f"  … and {len(waiting) - MAX_LISTED} more")
+    return lines
+
+
+def _digest(value) -> str:
+    import hashlib
+    return hashlib.sha256(json.dumps(value, sort_keys=True, ensure_ascii=False).encode()).hexdigest()[:12]
+
+
+def catalog_snapshot(api: str, timeout: float, ctx) -> dict:
+    status, body, _ = http_get(f"{api}/product/catalog", timeout, ctx)
+    if status != 200:
+        raise RuntimeError(f"catalog HTTP {status}")
+    products = json.loads(body).get("products", [])
+    snap = {}
+    for p in products:
+        if not isinstance(p, dict) or not p.get("_id"):
+            continue
+        rating = p.get("rating") if isinstance(p.get("rating"), dict) else {}
+        snap[p["_id"]] = {
+            "name": p.get("name") or "?",
+            "price": p.get("price"),
+            "stock": p.get("stock"),
+            "category": p.get("category"),
+            "sold": p.get("sold") or 0,
+            "reviews": rating.get("count") or 0,
+            "photos": _digest([p.get("img"), p.get("additionalImageUrls")]),
+            "text": _digest([p.get("description"), p.get("materials"), p.get("color")]),
+        }
+    return snap
+
+
+def shop_changes(old: dict, new: dict) -> list[str]:
+    lines = []
+    added = [new[i]["name"] for i in new if i not in old]
+    removed = [old[i]["name"] for i in old if i not in new]
+    if added:
+        lines.append(f"🆕 New products ({len(added)}): " + ", ".join(added[:MAX_LISTED]))
+    if removed:
+        lines.append(f"🗑️ Removed products ({len(removed)}): " + ", ".join(removed[:MAX_LISTED]))
+    edits, sold, reviews = [], 0, 0
+    for i in new.keys() & old.keys():
+        a, b = old[i], new[i]
+        sold += max(0, (b["sold"] or 0) - (a["sold"] or 0))
+        reviews += max(0, (b["reviews"] or 0) - (a["reviews"] or 0))
+        what = []
+        if a["price"] != b["price"]:
+            what.append(f"price {a['price']} → {b['price']}")
+        if a["stock"] != b["stock"]:
+            what.append(f"stock {a['stock']} → {b['stock']}")
+        if a["category"] != b["category"]:
+            what.append(f"category {a['category']} → {b['category']}")
+        if a["photos"] != b["photos"]:
+            what.append("photos")
+        if a["text"] != b["text"]:
+            what.append("description")
+        if a["name"] != b["name"]:
+            what.append(f"renamed from \"{a['name']}\"")
+        if what:
+            edits.append(f"  {b['name']}: " + ", ".join(what))
+    if edits:
+        lines.append(f"✏️ Edited products ({len(edits)}):")
+        lines += edits[:MAX_LISTED]
+        if len(edits) > MAX_LISTED:
+            lines.append(f"  … and {len(edits) - MAX_LISTED} more")
+    if sold:
+        lines.append(f"🛒 Items sold (shop counter): {sold}")
+    if reviews:
+        lines.append(f"⭐ New product reviews: {reviews}")
+    if not lines:
+        lines.append("🛍️ No changes in the shop.")
+    return lines
+
+
+def changes_report(state: dict, api: str, timeout: float, ctx, now: float) -> list[str]:
+    """Called on the summary run only, so the five-minute watchdog never moves the baseline."""
+    previous = state.get("report", {})
+    since = previous.get("at") or (now - HISTORY_S)
+    span = fmt_duration(now - since)
+    lines = ["", f"What changed (last {span}):"]
+    try:
+        lines += code_changes(since, 30, ctx)
+    except Exception as err:
+        lines.append(f"⚪ Code changes not available ({type(err).__name__}: {str(err)[:80]})")
+    try:
+        snap = catalog_snapshot(api, timeout, ctx)
+        if previous.get("catalog"):
+            lines += shop_changes(previous["catalog"], snap)
+        else:
+            lines.append(f"🛍️ Shop: {len(snap)} products recorded; changes are reported from tomorrow.")
+        state["report"] = {"at": now, "catalog": snap}
+    except Exception as err:
+        lines.append(f"⚪ Shop changes not available ({type(err).__name__}: {str(err)[:80]})")
+        state.setdefault("report", {})["at"] = now
     return lines
 
 
 def summary(results: dict, state: dict) -> str:
     bad = [n for n, r in results.items() if not r["ok"]]
-    stamp = datetime.now().astimezone().strftime("%a %d %b, %H:%M")
+    stamp = datetime.now().astimezone(LOCAL_TZ).strftime("%a %d %b, %H:%M")
     head = f"Nazareth Holy Cross, daily status ({stamp})"
     head += "\nAll checks OK ✅" if not bad else f"\n{len(bad)} of {len(results)} checks failing 🔴"
     lines = [head]
@@ -582,21 +743,23 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     render_messages: list[str] = []
-    key = None if args.no_render else render_key(state_path)
+    # The API moved to Railway on 2026-10-07 and the Render service is suspended: the Render checks run only when
+    # NHC_WATCH_RENDER=1 is set on purpose (otherwise a leftover key would report the suspension as an outage).
+    key = render_key(state_path) if os.environ.get("NHC_WATCH_RENDER") == "1" and not args.no_render else None
     if key:
         results["render"], render_messages = render_check(key, state, args.timeout, ctx, now)
-    elif args.summary and not args.no_render:
-        results["render"] = {"ok": True, "unknown": True, "metrics": {},
-                             "detail": f"not connected (put a Render API key in {RENDER_KEY_FILE} next to the state file)"}
 
     lines = evaluate(results, state, now, confirm, remind_s)
     lines += render_messages
     record_run(results, lines, state, now)
+    changes = changes_report(state, api, args.timeout, ctx, now) if args.summary else []
     state["lastRun"] = now
     save_state(state_path, state)
 
     if args.summary:
         print(summary(results, state))
+        if changes:
+            print("\n".join(changes))
         if lines:  # an alert that falls on the summary run is not lost
             print("\n" + "\n".join(lines))
     elif lines:

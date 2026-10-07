@@ -164,3 +164,25 @@ Render and Atlas team member) so an alert at night or during a trip is seen by s
   (`docs/ENGINEERING.md` section 8).
 - Failed PayPal captures (no PayPal webhook yet, `docs/SECURITY.md` section 7): the Render log names the PayPal order id.
 - Backups: production is on Atlas M10 with Cloud Backup on (INFRASTRUCTURE.md 6.1); check the cluster's *Backup* tab shows recent snapshots.
+
+## 8. Hermes on Telegram (watchdog and morning report)
+
+Hermes Agent runs 24/7 on Railway (project `divine-spontaneity`, service `hermes`, `HERMES_HOME=/opt/data`, timezone
+Asia/Jerusalem) and delivers to the owner's Telegram. Two script-only cron jobs (no AI model, so no data reaches one):
+
+| Job | Schedule | Script | Sends |
+|---|---|---|---|
+| `nhc-watch` | every 5 minutes | `ops/hermes/nhc_watch.py` | nothing while all is well; an alert after two failures in a row, a reminder every 2 h while it stays down, a "back" message on recovery |
+| `nhc-daily` | 08:00 | `ops/hermes/nhc_summary.py` | always: status of every check, the last 24 h (checks run, uptime, incidents), and **what changed** since the previous report |
+
+"What changed" reads only public data: merged pull requests (= what was published), the Railway API deploy status
+and failing checks on `main`, open pull requests waiting for review (GitHub API), and the shop compared with the
+previous morning (public `/product/catalog`: new, removed and edited products, price, stock, photos, description, the
+`sold` counter and new reviews). The first report after an install records the shop and reports changes from the next
+day. The state lives in `/opt/data/nhc-watch-state.json`. Every time in a message is Israel time (`NHC_TZ`,
+default `Asia/Jerusalem`): the Railway server itself runs on UTC.
+
+To update the scripts on Hermes after a merge: download both files from `main` into `/opt/data/scripts/` (`railway ssh`
+into the `hermes` service). The Render checks in the script run only with `NHC_WATCH_RENDER=1` (the API left Render on
+2026-10-07). Hermes itself runs on Railway: a Railway-wide outage silences it, so keep an outside monitor (section 2)
+and treat a missing 08:00 report as an alert.
