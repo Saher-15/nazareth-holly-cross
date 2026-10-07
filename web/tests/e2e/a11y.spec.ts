@@ -268,7 +268,7 @@ test.describe('the floating accessibility button', () => {
 });
 
 test.describe('moving backgrounds can be paused (WCAG 2.2.2)', () => {
-  test('the home hero film and the Ken Burns zoom pause and play', async ({ page, isMobile }) => {
+  test('the home hero photo zoom pauses and plays', async ({ page }) => {
     await offline(page);
     await page.goto('/en');
     const pause = page.getByRole('button', { name: en.ux.motion.pause });
@@ -278,11 +278,6 @@ test.describe('moving backgrounds can be paused (WCAG 2.2.2)', () => {
     await pause.click();
     await expect(page.getByRole('button', { name: en.ux.motion.play })).toBeVisible();
     expect(await zoom.evaluate((el) => getComputedStyle(el).animationPlayState)).toBe('paused');
-    // On a wide screen the film may have started; once paused it stays paused.
-    if (!isMobile) {
-      const paused = await page.evaluate(() => [...document.querySelectorAll('video')].every((v) => v.paused));
-      expect(paused).toBe(true);
-    }
     await page.getByRole('button', { name: en.ux.motion.play }).click();
     expect(await zoom.evaluate((el) => getComputedStyle(el).animationPlayState)).toBe('running');
   });

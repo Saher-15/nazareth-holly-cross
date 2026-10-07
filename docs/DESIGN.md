@@ -129,6 +129,10 @@ No emoji and no text glyphs (`✝`, `★`, `→`) as icons.
 | `Stars` | Read-only rating drawn with SVG stars (no font dependence). |
 | `PageHero` / `PlaceHero` | Page header with photograph; `PlaceHero` takes `focus` (CSS object-position) so tall phone crops keep the subject. |
 
+**Home hero (2026-10-07):** the full-bleed opening uses the licensed `city-sunset-glow` photo
+on desktop and phone, with the existing scrim and optional Ken Burns zoom. The former background
+video is no longer mounted or requested. The pause control still stops the photo zoom.
+
 ## 4. The shell
 
 ### 4.1 Header and menus

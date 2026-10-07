@@ -18,7 +18,6 @@
 }
 
 .media,
-.video,
 .shade {
   position: absolute;
   inset: 0;
@@ -33,28 +32,6 @@
   object-fit: cover;
   transform: scale(1.04);
   animation: kenburns 24s ease-in-out infinite alternate;
-}
-/* The film's box (components/home/HeroVideo.tsx) fades in over the photo once the film really plays. */
-.video {
-  opacity: 0;
-  transition: opacity 1.2s ease;
-}
-.film {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-/* The tour's two players: only the one playing the current part is shown (the other loads the next part). */
-.part {
-  visibility: hidden;
-}
-.part[data-front='true'] {
-  visibility: visible;
-}
-.videoOn {
-  opacity: 1;
 }
 .shade {
   background:
@@ -172,7 +149,7 @@
   color: var(--gold);
   border-color: color-mix(in srgb, var(--gold) 55%, transparent);
 }
-/* The pause button of the moving background (<MotionToggle>) sits beside the sound button. */
+/* The pause button for the photo's Ken Burns zoom sits beside the sound button. */
 .motion {
   inset-inline-end: 72px;
 }
@@ -233,8 +210,5 @@
   .content,
   .bob {
     animation: none;
-  }
-  .video {
-    transition: none;
   }
 }
