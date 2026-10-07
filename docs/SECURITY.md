@@ -103,6 +103,12 @@ line to its test, not loosening the policy.
 - No secret reaches the browser: only `NEXT_PUBLIC_*` variables are read; the PayPal client id is public by design.
   `npm run scan:bundle` (also in CI after the build) searches `.next` for the API's secret names and for credential
   shapes.
+- **`POST /api/revalidate`** (`web/src/app/api/revalidate/route.ts`, the only route handler of the site that changes
+  anything): the API calls it after a product change so the shop shows it at once (docs/ADMIN.md 4.2). It needs
+  `Authorization: Bearer <REVALIDATE_SECRET>` (32+ characters, compared in constant time after hashing both sides; the
+  same value on Render and Netlify, never logged or echoed); without the variable it answers 404. It can only drop the
+  `catalog` cache tag and the shop pages of up to 50 valid product ids: no path or tag comes from the request, so the
+  worst a leaked secret allows is extra reads of the API's catalogue (the next visit re-reads it). 4 KB body limit.
 
 ### 3.3 Payments in the browser
 

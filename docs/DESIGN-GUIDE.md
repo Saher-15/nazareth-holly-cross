@@ -1427,6 +1427,10 @@ contract: `docs/ADMIN-UI.md`, `docs/ADMIN.md`, `docs/ADMIN-RUNBOOK.md`, `admin/R
 - **Detail:** a `<Drawer>` (native `<dialog>`, 540px from the end edge, closes by navigating back to the list URL, so
   `?open=<id>` is a deep link). Edit forms are full pages (`/products/new`, `/products/<id>`) with a sticky action
   bar.
+- **Live bar:** while this tab broadcasts (or uploads its recording), every page but Live starts with `<LiveBar>`
+  (`.live-bar`, sticky under the top bar: the red live badge, the time, the title, Open the studio, End broadcast). The
+  broadcast belongs to the layout (`<LiveBroadcastProvider>` in `admin/src/components/live/LiveBroadcast.tsx`), never
+  to a page: a new page must not stop it (no full reload for an in-app link or a search: `next/form`).
 - **Breakpoints:** 1180 (grids collapse), 960 (shell), 860, 760 (tables become cards), 560 and 480 (forms single
   column). The responsive rules of 4.2.1 apply here too (`admin/tests/e2e/responsive.spec.ts`, signed in as the spare
   owner `tempowner` so that it has its own share of the API's per-admin request budget). Charts draw at their box's
@@ -1465,6 +1469,17 @@ no sideways scroll from 360px.
 - Prefer reversible actions (hide a review, disable a user) to deletion; show them first.
 - Forms validate on the client with the API's limits and then show the API's own error; a failed save keeps what was
   typed.
+- **Typed work is never thrown away.** A form with unsaved changes asks before an in-app link, Back or Cancel leaves it
+  ("Leave without saving?", `useUnsavedChanges` in `admin/src/components/ui/useUnsavedChanges.ts`) and the browser asks
+  before the tab closes; its draft is kept in the tab (`admin/src/lib/drafts.ts`) and offered back after an ended
+  sign-in. A **form** dialog closes on a click outside only while nothing was typed in it
+  (`admin/src/components/ui/closeOnBackdrop.ts`); a confirm dialog without fields still closes on any click outside.
+- **Reversible beats confirmed** for frequent, mild actions: "Mark shipped" and "Mark as done" toasts carry **Undo** for
+  10 seconds (`.toast__action`, `ApiAction` `undo`), and the drawer offers the way back ("Mark as not shipped", "Mark as
+  not done"). A consequential action on doubtful data asks a stronger question: shipping an order whose payment PayPal
+  did not confirm is a danger-toned confirm that names the check to make.
+- A number typed by a person is a text field with its own parser when the browser's number field would misread it (the
+  price: "24,50" is 24.50, never 2450), and a large jump asks first.
 
 ![An order drawer](design/admin-drawer.jpg)
 
@@ -1497,7 +1512,9 @@ lock icon, "You do not have access", a way back) instead of crashing; navigation
 ### 11.6 Audit visibility
 
 Every change is recorded by the API (who, what, when, from which device; the address only as a salted hash). The
-owner sees it in the Audit log page (`admin/src/app/(app)/audit/page.tsx`: a table filtered by user and action).
+owner sees it in the Audit log page (`admin/src/app/(app)/audit/page.tsx`: each action in words with its code beside it,
+the target named and linked, a few facts from the entry; filtered by user and by kind of action; the words are in
+`admin/src/lib/audit-labels.ts`: a new audit action gets a label there).
 Rules for new features: a new write route needs an audit action on the server; the audit page must be able to show
 it (action names are Latin text and use `.ltr`); never show an IP address, a token or a password anywhere in the UI.
 Session facts the user should see: their role, when the session ends, a sign-out button, and an idle warning dialog
@@ -1521,14 +1538,19 @@ clear "unexpected answer" error, never a broken page.
 
 `<PageHeader>`, `<Panel>`, `<Badge>` (tones `neutral`, `gold`, `success`, `warn`, `danger`, `info`), `<StateBox>`,
 `<EmptyState>`, `<ErrorState>`, `<Forbidden>`, `<DataTable>`, `<ListToolbar>`, `<Pagination>`, `<Field>` (label and
-value in a drawer), `<Ltr>` in `admin/src/components/ui/Primitives.tsx` (`<DataTable>` and `<Badge>` live in
+value in a drawer), `<Ltr>`, `<Money>` (an amount in a left-to-right island: Arabic's "41.50 US$" otherwise reads
+"$US 41.50") in `admin/src/components/ui/Primitives.tsx` (`<DataTable>`, `<Badge>` and `<Money>` live in
 `admin/src/components/ui/DataTable.tsx`, re-exported there, so client components can use them too); `<Drawer>`, `<ApiAction>`, the feedback
 provider with toasts and confirm in `admin/src/components/ui/Feedback.tsx`; `<AppShell>`, `<IdleGuard>`,
-`<LanguageSwitcher>`, `<BrandMark>` in `admin/src/components/shell/`; `<TimeSeriesChart>` and `<QrCode>`.
+`<LanguageSwitcher>`, `<BrandMark>` in `admin/src/components/shell/`; `<LiveBroadcastProvider>`, `<PreviewSlot>` and
+`<LiveBar>` in `admin/src/components/live/`; `<TimeSeriesChart>` and `<QrCode>`.
 Classes (in `admin/src/styles/`): `.btn`, `.btn--gold`, `.btn--ghost`, `.btn--ghost-danger`, `.btn--danger`,
 `.btn--sm`, `.btn--block`, `.icon-btn`, `.badge`, `.panel`, `.kpi`, `.table`, `.table-wrap`, `.toolbar`, `.pager`,
 `.tabs`, `.segmented`, `.drawer`, `.dialog`, `.toast`, `.toasts`, `.state`, `.alert`, `.skeleton`, `.input`,
-`.select`, `.textarea`, `.field`, `.hint`, `.ltr`, `.muted`, `.strong`, `.visually-hidden`. They follow the same
+`.select`, `.textarea`, `.field`, `.hint`, `.ltr`, `.muted`, `.strong`, `.visually-hidden`, and since the review of
+2026-10-07 `.live-bar`, `.toast__action`, `.badges` (two badges in a cell), `.address` (an address, one isolated line
+per part: `<bdi dir="auto">` each, so "53 Pilgrim Road" keeps its number in front in Hebrew and Arabic), `.money` and
+`.slip` (the printable packing slip, with a print stylesheet). They follow the same
 state rules as the public equivalents (hover, active, disabled, `aria-busy`, focus ring, reduced motion).
 
 ## 12. Definition of done for UI work

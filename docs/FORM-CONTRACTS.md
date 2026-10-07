@@ -181,8 +181,10 @@ The browser calls `admin/src/app/api/proxy/[...path]/route.ts` (allow-list `admi
 | `username` (`users.username`) | lower-cased, `^[a-z0-9][a-z0-9._-]{2,39}$` | 3-64, `^[A-Za-z0-9][A-Za-z0-9._-]*$`, unique without case | FIXED (a leading `.`, `_` or `-` passed the form and was refused) |
 | `password` (`users.password`) | full policy | full policy | FIXED (see 3.2) |
 | `role` (`users.role`) | `owner`, `editor`, `viewer` | same enum | OK |
+| `email` (`users.emailOptional`, and **Add e-mail** / **Change e-mail** on a row) | optional; one address, lower-cased; `''` removes it | `''` or an address (`isEmail`), stored lower-cased; `409` when another account uses it as e-mail or username | FIXED (review 04: dashboard-made accounts had no e-mail, so "Forgot your password?" never reached them) |
 | Role change / disable | `{ role }`, `{ disabled }` | same | OK |
-| `resetTotp` | no control | accepted | DOCUMENTED (API only) |
+| `resetTotp` | **Reset two-factor** on a row with two-factor (confirmed) | accepted; not on yourself | FIXED (was API only) |
+| `unlock` | **Unlock** on a row "Locked until hh:mm" | `true` lifts a lockout only | FIXED (a lock showed "Active" and could not be lifted) |
 
 ### 3.4 Products (`/products/new`, `/products/:id`)
 
@@ -192,8 +194,8 @@ Client: `admin/src/lib/product-form.ts`, `admin/src/app/(app)/products/ProductFo
 | Field (label key) | Client name | API / model | Required (create) | Limits (client / API) | Status |
 |---|---|---|---|---|---|
 | `products.name` | `name` | `name` | yes | 2-200 stored / 2-200 | FIXED (stored length) |
-| `products.price` | `price` (number, 2 decimals) | `price` | yes | 0.01-10000 | OK |
-| `products.mainImage` | `img` | `img` | yes | https (or http on localhost), no whitespace or quotes, 1000 / http(s), 8-2048 | FIXED (a space or quote passed the form) |
+| `products.price` | `price`: a TEXT field, "24.50" or "24,50" (a decimal comma; a thousands separator or a 3rd decimal is refused); asks first when 3x higher or lower | `price` | yes | 0.01-10000, 2 decimals / 0.01-10000, at most 2 decimals | FIXED (review 04: a number field dropped the comma, "24,50" was saved as 2450) |
+| `products.mainImage` | `img` | `img` | yes | https on `firebasestorage.googleapis.com` (or http(s) on localhost), no whitespace or quotes, 1000 / http(s), 8-2048, a NEW address on `PRODUCT_IMAGE_HOSTS` | FIXED (a space or quote passed the form; review 04: any https host was accepted and showed a broken photo on the website) |
 | `products.extraImage` | `additionalImageUrls` | same | no | up to 5 / up to 20 | DOCUMENTED (a product with 6+ extra photos must lose some to be saved) |
 | `products.description` | `description` | same | no | 2000 stored / 2000 | FIXED (stored length) |
 | `products.category` | `category` (`null` = infer) | same | no | the 8 categories | OK |

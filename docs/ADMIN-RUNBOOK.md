@@ -93,6 +93,8 @@ If the only owner loses the authenticator: ADMIN.md section 6 (`db.admins.update
 | `ADMIN_BOOTSTRAP_EMAILS` | optional: who may create the first owner by e-mail while no account exists (section 2). Default `nazarethholycross@gmail.com`; empty turns it off. |
 | `MAIL_FROM`, `MAIL_APP_PASSWORD` | already set: the password-reset mails use them. |
 | `CF_ACCOUNT_ID`, `CF_STREAM_API_TOKEN` | optional: live broadcasting from the dashboard's Live page through Cloudflare Stream. Set up and first test: [LIVE.md](LIVE.md) sections 6 and 7. Without them the Live page says "not set up yet". New collection `liveSession`. |
+| `REVALIDATE_SECRET` | optional (recommended): a long random value (32+ characters, e.g. `openssl rand -base64 32`), **the same value** also on the **website's** Netlify site (not the dashboard's). Then a product saved in the dashboard is on the website at once; without it, within 10 minutes. ADMIN.md 4.2. |
+| `SITE_URL`, `PRODUCT_IMAGE_HOSTS` | optional: where the refresh above goes (default `https://nazarethholycross.com`) and the hosts a product photo may be on (default `firebasestorage.googleapis.com`, the only one the website shows). |
 
 **Netlify (the admin site)**:
 
@@ -106,6 +108,9 @@ If the only owner loses the authenticator: ADMIN.md section 6 (`db.admins.update
 | `ADMIN_ALLOWED_ORIGINS` | leave unset unless the dashboard is reached through a second domain. |
 
 No secret belongs in `admin/netlify.toml` or in the repository.
+
+**Netlify (the website, `web/`)**: `REVALIDATE_SECRET`, the same value as on Render (above). Without it the website's
+`/api/revalidate` answers 404 and nothing else changes.
 
 ## 4. Deploy the dashboard (Netlify)
 
@@ -180,9 +185,19 @@ Then in a browser on the preview: sign in with the real owner (section 2), check
 
 ## 7. Day to day
 
-Unlock an account: an owner re-enables it. Lost authenticator: an owner resets two-factor on the Users page. Someone
-leaves: disable (not delete) the account; the audit log keeps who did what for 180 days. Rotating `JWT_SECRET` and the
-retention of sessions: ADMIN.md 6.
+Unlock an account (5 wrong passwords: the Users page says "Locked until hh:mm"): an owner presses **Unlock**. Lost
+authenticator: an owner presses **Reset two-factor** on the Users page (after making sure it is really that person, for
+example by phone). Forgotten password: "Forgot your password?" on the sign-in page works for an account that has an
+e-mail address; an owner adds it on the Users page (**Add e-mail**; give every account one). Someone leaves: disable (not
+delete) the account; the audit log keeps who did what for 180 days. Rotating `JWT_SECRET` and the retention of
+sessions: ADMIN.md 6.
+
+**Live broadcast and the rest of the dashboard.** While broadcasting, the other pages can be used (a bar at the top shows
+the broadcast and ends it). Do not close or reload the broadcasting tab, and do not sign out in it: that ends the
+broadcast. To print a parcel's address: the order's drawer -> **Packing slip** (a new tab).
+
+**The website after a product change.** With `REVALIDATE_SECRET` set on Render and on Netlify (the same value, section
+3), the dashboard says "It is on the website now" after saving a product; without it, "within 10 minutes".
 
 ### 7.1 Payments, backups and the database tools
 
