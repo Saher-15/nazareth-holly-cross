@@ -233,7 +233,8 @@ test.describe('contact', () => {
     await page.goto('/en/contact');
     const form = page.getByRole('form', { name: t.contact.form.title });
     await form.getByRole('button', { name: t.contact.form.submit }).click();
-    await expect(form.getByText(t.contact.errors.required)).toHaveCount(4);
+    await expect(form.getByText(t.contact.errors.required)).toHaveCount(3); // the phone is optional
+    await expect(form.getByLabel(t.contact.form.phone)).not.toHaveAttribute('required', '');
     await form.getByLabel(t.contact.form.email).fill('nope');
     await form.getByLabel(t.contact.form.phone).fill('abc');
     await expect(form.getByText(t.contact.errors.invalidEmail)).toBeVisible();
@@ -241,7 +242,17 @@ test.describe('contact', () => {
     expect(posted).toHaveLength(0);
   });
 
-  test('sends the four fields the API requires and confirms', async ({ page }) => {
+  test('without a phone number: sends the three required fields only', async ({ page }) => {
+    const posted = await mockPost(page, '**/contact/contact_us_request', 201, 'Created');
+    await page.goto('/en/contact');
+    const form = await fill(page);
+    await form.getByLabel(t.contact.form.phone).fill('');
+    await form.getByRole('button', { name: t.contact.form.submit }).click();
+    await expect(page.getByRole('heading', { name: t.contact.form.sent })).toBeFocused();
+    expect(posted).toEqual([{ fullName: 'Maria Rossi', email: 'maria@example.com', msg: 'A question about my order.' }]);
+  });
+
+  test('sends the four fields (with the optional phone) and confirms', async ({ page }) => {
     const posted = await mockPost(page, '**/contact/contact_us_request', 201, 'Created');
     await page.goto('/en/contact');
     const form = await fill(page);

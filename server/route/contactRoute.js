@@ -23,8 +23,14 @@ routerContact.post('/contact_us_request', strictLimiter, asyncHandler(async (req
         return res.status(422).json({error:"Bad input: invalid email format"})
     }
 
-    if(!phone || typeof phone !== 'string' || phone.trim() === ''){
-        return res.status(422).json({error:"Bad input: phone is required"})
+    // The phone number is optional (data minimisation, security review 06 finding 8): absent, null or empty means
+    // "not given". When it is given it must be text; the model bounds it at 50 characters (a longer one is a 400).
+    let phoneText = '';
+    if (phone !== undefined && phone !== null && phone !== '') {
+        if (typeof phone !== 'string') {
+            return res.status(422).json({error:"Bad input: phone must be text"})
+        }
+        phoneText = phone.trim();
     }
 
     if(!msg || typeof msg !== 'string' || msg.trim() === ''){
@@ -34,7 +40,7 @@ routerContact.post('/contact_us_request', strictLimiter, asyncHandler(async (req
     const newContact = new Contact({
         fullName: fullName,
         email: email,
-        phone: phone,
+        phone: phoneText,
         msg: msg
     })
 

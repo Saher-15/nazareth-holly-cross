@@ -1015,32 +1015,53 @@ function privacyLimit(user) {
   if (bucket.count > 20) throw new HttpError(429, 'Too many privacy requests, please try again later.', { 'Retry-After': '60' });
 }
 const sameAddress = (stored, address) => String(stored ?? '').toLowerCase() === address; // contact messages and site reviews: any case
-function privacyCounts(address) {
+// Prayers and product reviews keep no address: they are found by the name (and country) they were published under, only
+// when it is EXACTLY equal (any case); prayers need both, product reviews a name (server/route/admin/privacy.js).
+const NOT_ERASED = ['gmailSent', 'backups', 'recordings', 'paypal', 'hostLogs'];
+const sameText = (stored, wanted) => {
+  const forms = new Set([wanted, decodeEntities(wanted)].map((t) => t.toLowerCase()));
+  return forms.has(String(stored ?? '').toLowerCase());
+};
+const PERSON = { name: opt(str({ min: 2, max: 200 })), country: opt(str({ min: 1, max: 100 })) };
+function published({ name, country }) {
+  if (country && !name) throw new HttpError(400, 'A country is used only together with a name');
+  return {
+    prayers: name && country ? (p) => sameText(p.name, name) && sameText(p.country, country) : null,
+    productReviews: name ? (r) => sameText(r.name, name) && (!country || sameText(r.country, country)) : null,
+  };
+}
+const notSearched = (match) => [...(match.prayers ? [] : ['prayersNotSearched']), ...(match.productReviews ? [] : ['productReviewsNotSearched'])];
+function privacyCounts(address, match) {
   return {
     orders: db.orders.filter((o) => o.email === address).length,
     candles: db.candles.filter((c) => c.email === address).length,
     contacts: db.contacts.filter((c) => sameAddress(c.email, address)).length,
     reviews: db.siteReviews.filter((r) => sameAddress(r.email, address)).length,
     payments: db.payments.filter((p) => p.payerEmail === address).length,
+    prayers: match.prayers ? db.prayers.filter(match.prayers).length : 0,
+    productReviews: match.productReviews ? db.productReviews.filter(match.productReviews).length : 0,
   };
 }
 add({
   method: 'POST', path: '/admin/privacy/lookup', min: 'owner',
   run: (ctx) => {
     privacyLimit(ctx.req.auth.user);
-    const address = personalEmail(parseBody(ctx.body, { email: str({ min: 3, max: 254, escape: false }) }).email);
-    const found = privacyCounts(address);
+    const input = parseBody(ctx.body, { email: str({ min: 3, max: 254, escape: false }), ...PERSON });
+    const address = personalEmail(input.email);
+    const match = published(input);
+    const found = privacyCounts(address, match);
     record(ctx.req, 'privacy.lookup', { type: 'privacy', id: subjectRef(address) }, found);
-    return { found };
+    return { found, notSearched: notSearched(match) };
   },
 });
 add({
   method: 'POST', path: '/admin/privacy/erase', min: 'owner',
   run: (ctx) => {
     privacyLimit(ctx.req.auth.user);
-    const input = parseBody(ctx.body, { email: str({ min: 3, max: 254, escape: false }), confirm: str({ min: 3, max: 254, escape: false }) });
+    const input = parseBody(ctx.body, { email: str({ min: 3, max: 254, escape: false }), confirm: str({ min: 3, max: 254, escape: false }), ...PERSON });
     const address = personalEmail(input.email);
     if (personalEmail(input.confirm) !== address) throw new HttpError(400, 'The confirmation does not match the address');
+    const match = published(input);
     const erasedAt = new Date().toISOString();
     const orders = db.orders.filter((o) => o.email === address);
     const candles = db.candles.filter((c) => c.email === address);
@@ -1054,9 +1075,13 @@ add({
     db.siteReviews = db.siteReviews.filter((r) => !sameAddress(r.email, address));
     const payments = db.payments.filter((p) => p.payerEmail === address || (p.linkedTo?.id && linked.has(p.linkedTo.id)));
     for (const p of payments) { delete p.payerEmail; delete p.payerName; delete p.donorName; }
-    const erased = { orders: orders.length, candles: candles.length, contacts, reviews, payments: payments.length };
+    const prayers = match.prayers ? db.prayers.filter(match.prayers).length : 0;
+    if (match.prayers) db.prayers = db.prayers.filter((p) => !match.prayers(p));
+    const productReviews = match.productReviews ? db.productReviews.filter(match.productReviews).length : 0;
+    if (match.productReviews) db.productReviews = db.productReviews.filter((r) => !match.productReviews(r));
+    const erased = { orders: orders.length, candles: candles.length, contacts, reviews, payments: payments.length, prayers, productReviews };
     record(ctx.req, 'privacy.erase', { type: 'privacy', id: subjectRef(address) }, erased);
-    return { erased };
+    return { erased, notErased: [...notSearched(match), ...NOT_ERASED] };
   },
 });
 

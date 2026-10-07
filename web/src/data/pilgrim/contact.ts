@@ -1,7 +1,8 @@
 // Rules of the contact form (/contact), free of React so they can be unit tested. The API
-// (server/route/contactRoute.js, POST /contact/contact_us_request) requires fullName, email, phone and msg (the route
-// requires the phone although the model makes it optional) and checks the address with its strict isEmail; the model
-// caps them at 200, 500, 50 and 2000 characters, counted as stored (lib/formRules.ts). docs/FORM-CONTRACTS.md.
+// (server/route/contactRoute.js, POST /contact/contact_us_request) requires fullName, email and msg and checks the
+// address with its strict isEmail; the phone is OPTIONAL (only what is needed to answer is required: data minimisation,
+// security review 06 finding 8) and is sent only when it was typed. The model caps the fields at 200, 500, 50 and 2000
+// characters, counted as stored (lib/formRules.ts). docs/FORM-CONTRACTS.md.
 
 import { isApiEmail, storedLength } from '@/lib/formRules';
 
@@ -13,6 +14,8 @@ export type ContactErrors = Partial<Record<ContactField, ContactFieldError>>;
 export type ContactSubmitError = 'rateLimited' | 'invalid' | 'network' | 'server';
 
 export const CONTACT_FIELDS: readonly ContactField[] = ['fullName', 'email', 'phone', 'msg'];
+/** Fields that may be left empty. */
+export const OPTIONAL_CONTACT_FIELDS: ReadonlySet<ContactField> = new Set(['phone']);
 export const emptyContact: ContactValues = { fullName: '', email: '', phone: '', msg: '' };
 
 export const CONTACT_RULES: Record<ContactField, { min: number; max: number }> = {
@@ -28,7 +31,7 @@ const PHONE = /^\+?[\d\s().-]{5,}$/;
 export function validateContactField(field: ContactField, raw: string): ContactFieldError | undefined {
   const value = raw.trim();
   const rule = CONTACT_RULES[field];
-  if (!value) return { key: 'required' };
+  if (!value) return OPTIONAL_CONTACT_FIELDS.has(field) ? undefined : { key: 'required' };
   if (storedLength(value) > rule.max) return { key: 'tooLong', values: { max: rule.max } };
   if (field === 'email' && !isApiEmail(value)) return { key: 'invalidEmail' };
   if (field === 'phone' && (!PHONE.test(value) || (value.match(/\d/g)?.length ?? 0) < 5)) return { key: 'invalidPhone' };
@@ -49,12 +52,15 @@ export function validateContact(values: ContactValues): ContactErrors {
 
 export const firstInvalidContactField = (errors: ContactErrors) => CONTACT_FIELDS.find((f) => errors[f]);
 
-export const toContactPayload = (values: ContactValues) => ({
-  fullName: values.fullName.trim(),
-  email: values.email.trim(),
-  phone: values.phone.trim(),
-  msg: values.msg.trim(),
-});
+export const toContactPayload = (values: ContactValues) => {
+  const phone = values.phone.trim();
+  return {
+    fullName: values.fullName.trim(),
+    email: values.email.trim(),
+    ...(phone ? { phone } : {}), // not given: nothing is sent
+    msg: values.msg.trim(),
+  };
+};
 
 /** Which message to show when the API refused the message (status 0 = no answer at all). */
 export function contactSubmitError(status: number): ContactSubmitError {

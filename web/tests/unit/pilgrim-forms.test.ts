@@ -4,6 +4,7 @@ import {
   emptyContact,
   validateContact,
   validateContactField,
+  toContactPayload,
   whatsappUrl,
 } from '@/data/pilgrim/contact';
 import {
@@ -99,8 +100,15 @@ describe('contact form', () => {
     expect(validateContact(good)).toEqual({});
   });
 
-  it('requires all four fields, like the API', () => {
-    expect(Object.keys(validateContact(emptyContact))).toEqual(['fullName', 'email', 'phone', 'msg']);
+  it('requires the name, the e-mail and the message, like the API; the phone is optional', () => {
+    expect(Object.keys(validateContact(emptyContact))).toEqual(['fullName', 'email', 'msg']);
+    expect(validateContact({ ...good, phone: '' })).toEqual({});
+    expect(validateContact({ ...good, phone: '   ' })).toEqual({});
+  });
+
+  it('sends the phone only when one was typed', () => {
+    expect(toContactPayload({ ...good, phone: '  ' })).toEqual({ fullName: 'Maria Rossi', email: 'maria@example.com', msg: 'Hello there' });
+    expect(toContactPayload({ ...good, phone: ' +39 312 345 6789 ' })).toEqual({ fullName: 'Maria Rossi', email: 'maria@example.com', phone: '+39 312 345 6789', msg: 'Hello there' });
   });
 
   it('validates e-mail and phone formats', () => {
