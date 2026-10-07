@@ -16,7 +16,9 @@ const BUDGET = {
   imageBytes: 1_000_000, // every photo the page loads before the visitor scrolls
   scriptBytes: 350_000, // all JavaScript the page loads (compressed)
   fontBytes: 250_000, // web fonts: Latin only, the other scripts only when the page shows them
-  heroFilmBytes: 3_000_000, // the home hero film, on a screen wide enough to get it
+  // The home hero film on a screen wide enough to get it: what it downloads in its first seconds. The film is the whole
+  // tour (20 MB) in 30-second parts of 1-3 MB, so only the part that plays (and, near its end, the next) is fetched.
+  heroFilmBytes: 3_000_000,
 };
 
 async function observe(page: Page) {
@@ -37,9 +39,21 @@ async function observe(page: Page) {
 for (const path of PAGES) {
   test(`${path} stays inside the performance budget`, async ({ page }) => {
     await observe(page);
+    // Film bytes are counted as they arrive (DevTools protocol): a video that is still streaming is not in the
+    // resource timing until its request ends, so that list alone would not see a large film being buffered.
+    const cdp = await page.context().newCDPSession(page);
+    await cdp.send('Network.enable');
+    const filmRequests = new Set<string>();
+    let filmBytes = 0;
+    cdp.on('Network.requestWillBeSent', (e) => {
+      if (/\/videos\//.test(e.request.url)) filmRequests.add(e.requestId);
+    });
+    cdp.on('Network.dataReceived', (e) => {
+      if (filmRequests.has(e.requestId)) filmBytes += e.encodedDataLength;
+    });
     await page.goto(path, { waitUntil: 'load' });
-    // The hero film (wide screens) joins after the load event, once the browser is idle: let it start.
-    await page.waitForTimeout(2500);
+    // The hero film (wide screens) joins after the load event, once the browser is idle (at most 3 s): let it start.
+    await page.waitForTimeout(path === '/en' ? 6000 : 2500);
 
     const result = await page.evaluate(() => {
       const perf = (window as unknown as { __perf: { lcp: number; cls: number } }).__perf;
@@ -61,7 +75,8 @@ for (const path of PAGES) {
     expect.soft(result.image, `image bytes ${result.image}`).toBeLessThan(PAGE_IMAGE_BYTES[path] ?? BUDGET.imageBytes);
     expect.soft(result.script, `script bytes ${result.script}`).toBeLessThan(BUDGET.scriptBytes);
     expect.soft(result.font, `font bytes ${result.font}`).toBeLessThan(BUDGET.fontBytes);
-    expect.soft(result.video, `film bytes ${result.video}`).toBeLessThan(BUDGET.heroFilmBytes);
+    const film = Math.max(result.video, filmBytes);
+    expect.soft(film, `film bytes ${film}`).toBeLessThan(BUDGET.heroFilmBytes);
   });
 }
 
@@ -77,8 +92,11 @@ test('a phone never downloads the hero film', async ({ page, isMobile }) => {
 });
 
 test('static assets are cached for a long time and the language cookie is not set for anonymous probes', async ({ request }) => {
-  const film = await request.head('/videos/hero-loop.mp4');
-  expect(film.headers()['cache-control']).toMatch(/max-age=\d{6,}/);
+  for (const file of ['/videos/hero-loop.mp4', '/videos/hero-tour-00.mp4', '/videos/hero-tour-11.mp4']) {
+    const film = await request.head(file);
+    expect(film.status(), file).toBe(200);
+    expect(film.headers()['cache-control'], file).toMatch(/max-age=\d{6,}/);
+  }
   const photo = await request.head('/images/nazareth-media/city-sunset-glow/lean-1920.avif');
   expect(photo.headers()['cache-control']).toMatch(/max-age=\d{6,}/);
   // A request without Accept-Language or cookies (a CDN health check, curl) has no language to remember.

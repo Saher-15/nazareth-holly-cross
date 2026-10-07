@@ -12,7 +12,16 @@ const av1 = (src: string): VideoSource => ({ src, type: 'video/webm; codecs="av0
 const av1Silent = (src: string): VideoSource => ({ src, type: 'video/webm; codecs="av01.0.05M.08"' });
 const h264 = (src: string): VideoSource => ({ src, type: 'video/mp4' });
 
-/** The home hero: 16 s of the aerial film, silent, 1280x720, about 2 MB. */
+/**
+ * The home hero's film: the whole virtual tour as a silent background (960x540 H.264, 5 min 49 s at 1.5x, 20.1 MB in
+ * all), cut into 30-second parts that play one after the other. A browser buffers far ahead of a single long file
+ * (3.1 MB in the first 3 seconds and 6.0 MB after 30 were measured, against 1.4 and 3.0 MB in parts); with parts it holds at most the one playing and the next.
+ */
+export const HERO_TOUR_PARTS: readonly string[] = Array.from({ length: 12 }, (_, i) => `/videos/hero-tour-${String(i).padStart(2, '0')}.mp4`);
+/** H.264 High profile, level 3.1 (scripts/video/encode.mjs): a browser that has MP4 but not this codec gets the loop. */
+export const HERO_TOUR_TYPE = 'video/mp4; codecs="avc1.64001F"';
+
+/** The previous hero film, kept as the fallback: 16 s of the aerial film, silent, 1280x720, about 2 MB. */
 export const HERO_VIDEO: readonly VideoSource[] = [av1Silent('/videos/hero-loop.webm'), h264('/videos/hero-loop.mp4')];
 
 /** The 9-minute virtual tour (1080p, 811 MB as uploaded; the 1080p re-encode is about 200 MB). */

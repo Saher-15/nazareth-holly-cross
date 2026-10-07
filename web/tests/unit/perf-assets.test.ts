@@ -1,9 +1,9 @@
 // @vitest-environment node
-import { existsSync, readdirSync, statSync } from 'node:fs';
+import { closeSync, existsSync, openSync, readdirSync, readSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { LEAN_WIDTHS, getMedia, mediaFile, mediaSrcSet } from '@/data/media';
-import { HERO_VIDEO, LIVE_PRAYER_VIDEO, contentUrl } from '@/lib/videos';
+import { HERO_TOUR_PARTS, HERO_VIDEO, LIVE_PRAYER_VIDEO, contentUrl } from '@/lib/videos';
 
 const publicDir = join(process.cwd(), 'public');
 
@@ -32,14 +32,38 @@ describe('lean photo copies (the home hero)', () => {
 describe('videos in the repository', () => {
   const films = readdirSync(join(publicDir, 'videos'));
 
+  // The home hero's tour (decided by the owner on 2026-10-07: self-hosted, so no video service bills the minutes a
+  // background plays) is twelve parts of 30 s: each part is small, the whole film has a limit of its own.
+  const TOUR_LIMIT = 25 * 1024 * 1024;
+  const size = (src: string) => statSync(join(publicDir, src)).size;
+
   it('are each under 8 MB (larger ones belong on Firebase Storage, see docs/PERFORMANCE.md)', () => {
     expect(films.length).toBeGreaterThan(0);
     for (const file of films) expect(statSync(join(publicDir, 'videos', file)).size, file).toBeLessThan(8 * 1024 * 1024);
   });
 
-  it('every local source of the site exists', () => {
-    for (const source of [...HERO_VIDEO, ...LIVE_PRAYER_VIDEO]) {
-      expect(existsSync(join(publicDir, source.src)), source.src).toBe(true);
+  it('the hero tour is under 25 MB in all, and no part is over 3 MB (what a browser may hold at once is two parts)', () => {
+    expect(HERO_TOUR_PARTS.reduce((sum, src) => sum + size(src), 0)).toBeLessThan(TOUR_LIMIT);
+    for (const src of HERO_TOUR_PARTS) expect(size(src), src).toBeLessThan(3 * 1024 * 1024);
+  });
+
+  it('every local source of the site exists, and nothing else is left in public/videos', () => {
+    const sources = [...HERO_TOUR_PARTS, ...[...HERO_VIDEO, ...LIVE_PRAYER_VIDEO].map((s) => s.src)];
+    for (const src of sources) expect(existsSync(join(publicDir, src)), src).toBe(true);
+    expect(films.map((file) => `/videos/${file}`).sort()).toEqual([...sources].sort());
+  });
+
+  it('every part of the hero tour is silent and starts playing before it has fully arrived (moov box first)', () => {
+    for (const src of HERO_TOUR_PARTS) {
+      const head = Buffer.alloc(64 * 1024);
+      const fd = openSync(join(publicDir, src), 'r');
+      readSync(fd, head, 0, head.length, 0);
+      closeSync(fd);
+      const moov = head.indexOf('moov');
+      const mdat = head.indexOf('mdat');
+      expect(moov, src).toBeGreaterThan(0);
+      expect(mdat === -1 || moov < mdat, src).toBe(true);
+      expect(head.indexOf('soun'), src).toBe(-1); // no sound track (an audio handler would be named 'soun')
     }
   });
 

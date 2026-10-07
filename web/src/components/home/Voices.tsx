@@ -3,17 +3,19 @@ import { Link } from '@/i18n/navigation';
 import Reveal from '@/components/ui/Reveal';
 import type { Review } from '@/lib/api';
 import { reviewerPlace } from '@/lib/reviews';
+import { NAZARETH_TIME_ZONE } from '@/lib/time';
 import { clip, loadVoices } from './data';
 import styles from './Voices.module.css';
 
 type ViewProps = { id: string; reviews: Review[] };
 
-// Words from visitors, rendered on the server. Hidden entirely when there are
-// no reviews or the reviews cannot be loaded.
+// Words from visitors, newest first, with the month they wrote (Nazareth time), rendered on the server. Hidden
+// entirely when there are no reviews or the reviews cannot be loaded.
 export function VoicesView({ id, reviews }: ViewProps) {
   const t = useTranslations('home');
   const locale = useLocale();
   if (reviews.length === 0) return null;
+  const date = new Intl.DateTimeFormat(locale, { month: 'long', year: 'numeric', timeZone: NAZARETH_TIME_ZONE, numberingSystem: 'latn' });
 
   return (
     <section id={id} className={styles.section} aria-labelledby={`${id}-title`}>
@@ -29,6 +31,7 @@ export function VoicesView({ id, reviews }: ViewProps) {
           <ul className={styles.strip}>
             {reviews.map((review) => {
               const place = reviewerPlace(review, locale);
+              const when = review.createdAt && !Number.isNaN(Date.parse(review.createdAt)) ? review.createdAt : null;
               return (
                 <li key={review._id} className={`ui-glass ${styles.voice}`}>
                   <blockquote className={styles.quote}>
@@ -41,6 +44,11 @@ export function VoicesView({ id, reviews }: ViewProps) {
                         {' · '}
                         <bdi>{place}</bdi>
                       </span>
+                    )}
+                    {when && (
+                      <time className={styles.when} dateTime={when}>
+                        {date.format(new Date(when))}
+                      </time>
                     )}
                   </p>
                 </li>

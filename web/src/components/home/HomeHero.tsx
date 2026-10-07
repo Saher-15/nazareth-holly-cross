@@ -3,15 +3,15 @@ import { Link } from '@/i18n/navigation';
 import MediaPicture from '@/components/media/MediaPicture';
 import Flame from '@/components/ui/Flame';
 import MotionToggle from '@/components/ui/MotionToggle';
-import { getMedia, mediaDefaultFile, mediaShareFile } from '@/data/media';
+import { getMedia, mediaShareFile } from '@/data/media';
 import HeroVideo from './HeroVideo';
 import SoundToggle from './SoundToggle';
 import { ChevronDown } from './icons';
 import styles from './HomeHero.module.css';
 
 export const HERO_ID = 'home-hero';
-// A licensed 2560 px photo (docs/MEDIA.md), served as AVIF/WebP in four widths. The film (a daytime aerial of the
-// same city) fades in over it on wide screens only.
+// A licensed 2560 px photo (docs/MEDIA.md), served as AVIF/WebP in four widths. The film (the whole virtual tour of the
+// city, silent) fades in over it on wide screens with a good connection only.
 const HERO_MEDIA = getMedia('city-sunset-glow');
 /** The social card of the home page. */
 export const HERO_POSTER = mediaShareFile(HERO_MEDIA);
@@ -25,7 +25,7 @@ export default function HomeHero({ nextSectionId }: { nextSectionId: string }) {
     <section id={HERO_ID} className={styles.hero} aria-labelledby="home-title" data-motion-scope="">
       <div className={styles.media}>
         <MediaPicture className={styles.poster} item={HERO_MEDIA} alt="" sizes="(max-width: 767px) 700px, 100vw" lean fill priority />
-        <HeroVideo poster={mediaDefaultFile(HERO_MEDIA)} />
+        <HeroVideo />
         <div className={styles.shade} />
       </div>
 

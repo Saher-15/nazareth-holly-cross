@@ -17,8 +17,8 @@ test.beforeEach(async ({ page }) => {
     apiWrites.push(`${request.method()} ${request.url()}`);
     return route.fulfill({ status: 200, contentType: 'application/json', body: '{}' });
   });
-  // The background video is not needed for these checks.
-  await page.route(/\.mp4/, (route) => route.abort());
+  // The background film is not needed for these checks (hero-film.spec.ts covers it).
+  await page.route(/\/videos\//, (route) => route.abort());
 });
 
 test.afterEach(() => {
@@ -177,7 +177,7 @@ test('the verse of the day follows the date in Nazareth', async ({ page }) => {
   const yesterday = nazarethDate(new Date(Date.now() - 86_400_000));
   expect([today, yesterday]).toContain(isoDate);
   expect(Number(n)).toBe(verseNumberFor(isoDate!));
-  const messages = en.home as Record<string, string>;
+  const messages = en.home as unknown as Record<string, string>;
   await expect(card.locator('blockquote')).toHaveText(messages[`v${n}`]);
   await expect(card.locator('figcaption')).toHaveText(messages[`r${n}`]);
 });
@@ -230,25 +230,13 @@ test('sections reveal as they scroll into view', async ({ page }) => {
   await expect(story).toHaveClass(/is-in/);
 });
 
-test('the background film joins after the page loaded, on wide screens, and is skipped for reduced motion', async ({ page, isMobile }) => {
-  await page.goto('/en');
+test('the background film is left out on phones and under reduced motion (the film itself: hero-film.spec.ts)', async ({ page, isMobile }) => {
   const video = page.locator('#home-hero video');
-  if (isMobile) {
-    // A phone gets the photo only: no film is downloaded.
-    await page.waitForLoadState('load');
-    await page.waitForTimeout(1500);
-    await expect(video).toHaveCount(0);
-    return;
-  }
-  await expect(video).toHaveAttribute('poster', /city-sunset-glow/);
-  await expect(video.locator('source')).toHaveCount(2);
-  await expect(video.locator('source').first()).toHaveAttribute('type', /video\/webm/);
-  await expect(video.locator('source').last()).toHaveAttribute('type', 'video/mp4');
-
-  await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.reload();
+  if (!isMobile) await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/en', { waitUntil: 'load' });
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-  await expect(page.locator('#home-hero video')).toHaveCount(0);
+  await page.waitForTimeout(3500); // longer than the idle wait (at most 3 s after load) before the film would mount
+  await expect(video).toHaveCount(0);
 });
 
 test('the sound button toggles the music', async ({ page }) => {
@@ -280,3 +268,64 @@ for (const locale of ['en', 'he']) {
     expect(await seriousViolations(page)).toEqual([]);
   });
 }
+
+test.describe('today in Nazareth, the map, the prayer wall and the social links', () => {
+  test('the strip under the hero gives the time, the sun and the next feast in Nazareth', async ({ page }) => {
+    await page.goto('/en');
+    const today = page.getByRole('region', { name: en.home.today.title });
+    await expect(today).toBeVisible();
+    await expect(today.getByText(en.home.today.time)).toBeVisible();
+    await expect(today.locator('time').first()).toHaveAttribute('datetime', /^\d{2}:\d{2}$/);
+    await expect(today).toContainText(/Sunrise \d{1,2}:\d{2}/);
+    await expect(today).toContainText(/Sunset \d{1,2}:\d{2}/);
+    const feasts = Object.values(en.home.today.feasts);
+    const feastText = await today.locator('[data-feast] dd').first().textContent();
+    expect(feasts).toContain(feastText);
+    // The broadcast is shown only with real data from the API (live now, or a scheduled one); otherwise it is absent.
+    const broadcast = today.locator('[data-broadcast]');
+    if (await broadcast.count()) await expect(broadcast.getByRole('link')).toHaveAttribute('href', '/en/live');
+  });
+
+  test('the strip reads right to left in Hebrew with Western digits', async ({ page }) => {
+    await page.goto('/he');
+    const today = page.getByRole('region', { name: he.home.today.title });
+    await expect(today).toBeVisible();
+    const text = (await today.textContent()) ?? '';
+    expect(text).toMatch(/\d{2}:\d{2}/);
+    expect(text).not.toMatch(/[٠-٩]/);
+  });
+
+  test('the map lists the five holy sites with walking times and leads to the planner', async ({ page }) => {
+    await page.goto('/en');
+    const map = page.locator('#home-map');
+    await map.scrollIntoViewIfNeeded();
+    const hrefs = await map.getByRole('listitem').getByRole('link').evaluateAll((links) => links.map((a) => a.getAttribute('href')));
+    expect(hrefs).toEqual(['/en/sites/latin', '/en/sites/greek', '/en/sites/maryswell', '/en/sites/oldcity', '/en/sites/city']);
+    await expect(map.getByRole('link', { name: en.home.mapPlan })).toHaveAttribute('href', '/en/plan');
+    await expect(map.locator('svg[viewBox="0 0 400 300"]')).toHaveAttribute('aria-hidden', 'true');
+  });
+
+  test('the prayer wall shows real figures and the newest prayers, or nothing at all', async ({ page }) => {
+    await page.goto('/en');
+    const section = page.locator('#home-prayers');
+    if (!(await section.count())) return; // the API could not be read: the section is left out, never filled in
+    await section.scrollIntoViewIfNeeded();
+    const total = Number((await section.getByTestId('prayers-total').textContent())?.replace(/[^\d]/g, ''));
+    expect(total).toBeGreaterThan(0);
+    const cards = section.getByRole('listitem');
+    expect(await cards.count()).toBeGreaterThan(0);
+    expect(await cards.count()).toBeLessThanOrEqual(3);
+    await expect(section.getByRole('link', { name: en.home.prayersAll })).toHaveAttribute('href', '/en/prayers');
+  });
+
+  test('the social links open the three profiles in a new tab, safely', async ({ page }) => {
+    await page.goto('/en');
+    const links = page.locator('#home-follow').getByRole('link');
+    await expect(links).toHaveCount(3);
+    for (const link of await links.all()) {
+      await expect(link).toHaveAttribute('target', '_blank');
+      await expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+      await expect(link).toHaveAttribute('aria-label', /\(opens in a new tab\)/);
+    }
+  });
+});

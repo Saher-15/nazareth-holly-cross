@@ -58,6 +58,10 @@ How it is built, in short:
 - The system setting `prefers-reduced-motion` is always honoured; "Stop animations" adds the same for visitors who
   cannot change it, and `prefersReducedMotion()` (`web/src/lib/motion.ts`) reports both to the code that starts the
   hero film, the scroll reveals, page transitions, carousels and the live countdown.
+- The home page's "Today in Nazareth" band has a clock and, when a broadcast is scheduled, a countdown: both change once
+  a minute and never show seconds, the calm form the `/live` countdown uses for visitors who asked for less motion.
+  The home hero's film (since 2026-10-07 the whole silent tour) is never started under reduced motion or "Stop
+  animations", and its pause button stops it.
 - Moving backgrounds have their own pause button (`<MotionToggle>`): the home hero (film and Ken Burns zoom) and
   every `<PlaceHero>` (the five holy sites, the sites index, tour, about, contact, credits, gallery, gospel, plan,
   prayers, visit).
