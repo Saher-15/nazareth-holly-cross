@@ -26,7 +26,7 @@ Environment (all optional): NHC_WATCH_STATE (state file, default: nhc-watch-stat
 NHC_WATCH_CONFIRM (failures in a row before alerting, default 2), NHC_WATCH_REMIND_MIN (minutes between "still down"
 reminders, default 120).
 
-Cost: two API requests per run (about 6 of the API's 200 per 15 minutes), which also keeps Render's free plan awake.
+Cost: two API requests per run (about 6 of the API's 200 per 15 minutes).
 """
 
 from __future__ import annotations
@@ -71,12 +71,11 @@ RUNBOOK = {
     "site": "Netlify -> Deploys: is the last deploy green? Roll back with 'Publish deploy' on the previous one (MONITORING.md 5.1).",
     "shop": "If /en works but the shop fails, the API is the likely cause: check /health/deep (MONITORING.md 5.2, 5.4).",
     "sitemap": "The sitemap reads the API: check /health/deep, then Netlify function logs.",
-    "api": "Render -> the service -> Logs. 503 = MongoDB unreachable: Atlas -> Network Access (MONITORING.md 5.2).",
-    "catalog": "Render logs; Atlas status (MONITORING.md 5.4).",
+    "api": "Railway -> divine-spontaneity -> nazareth-holy-cross-api -> Deployments and Logs. 503 = MongoDB unreachable: Atlas -> Network Access (MONITORING.md 5.2).",
+    "catalog": "Railway -> the API service -> Logs; Atlas status (MONITORING.md 5.4).",
     "admin": "Netlify -> the admin site -> Deploys; a 404 on every page means the Next.js runtime plugin did not run (MONITORING.md 5.1).",
     "cert": "Netlify -> Domain management -> HTTPS -> Renew certificate.",
     "domain": "GoDaddy: renew the domain and turn auto-renew on.",
-    "render": "Render dashboard -> the service: resume it, or fix billing (Account -> Billing).",
 }
 
 
@@ -204,158 +203,6 @@ def domain_check(state: dict, timeout: float, ctx, now: float) -> dict:
     return {"ok": True, "detail": f"expires {expiry} ({days:.0f} days)", "metrics": metrics}
 
 
-# ----------------------------------------------------------------------------------------------------------------------
-# Render (optional): deploys, crashes and restarts read from the Render API with a read-only use of an API key.
-# The key is never printed. Without a key this whole section is skipped.
-# ----------------------------------------------------------------------------------------------------------------------
-RENDER_SERVICE_ID = "srv-d9p3kiht0dsc73c77f4g"  # nazareth-holy-cross-api (docs/INFRASTRUCTURE.md)
-RENDER_API = "https://api.render.com/v1"
-RENDER_KEY_FILE = "nhc-render-key.txt"
-DEPLOY_FAILED = {"build_failed", "update_failed", "pre_deploy_failed"}
-DEPLOY_RUNNING = {"created", "queued", "build_in_progress", "update_in_progress", "pre_deploy_in_progress"}
-STUCK_DEPLOY_S = 30 * 60
-# Render event types worth a message, with the text shown. Deploy outcomes come from the deploys list instead.
-RENDER_EVENTS = {
-    "server_failed": "🔴 Render: the server failed (crashed). Render -> Logs.",
-    "server_hardware_failure": "🔴 Render: hardware failure on the instance; Render moves it automatically.",
-    "server_restarted": "🟠 Render: the server restarted.",
-    "service_suspended": "🔴 Render: the service was SUSPENDED (billing, or suspended by hand). The site has no API.",
-    "service_resumed": "✅ Render: the service was resumed.",
-    "image_pull_failed": "🔴 Render: image pull failed.",
-    "pipeline_minutes_exhausted": "🔴 Render: build pipeline minutes are used up; new deploys cannot build.",
-    "service_disk_usage_high": "🟠 Render: disk usage is high.",
-    "maintenance_started": "🟠 Render: platform maintenance started.",
-    "maintenance_ended": "✅ Render: platform maintenance ended.",
-    "plan_changed": "ℹ️ Render: the service plan was changed.",
-    "auto_deploy_disabled": "🟠 Render: auto-deploy was turned OFF (merges to main will not deploy the API).",
-    "auto_deploy_enabled": "ℹ️ Render: auto-deploy was turned on.",
-    "branch_deleted": "🔴 Render: the deploy branch was deleted.",
-}
-
-
-def render_key(state_path: Path) -> str | None:
-    key = os.environ.get("RENDER_API_KEY", "").strip()
-    if key:
-        return key
-    try:
-        key = (state_path.parent / RENDER_KEY_FILE).read_text(encoding="utf-8").strip()
-    except OSError:
-        return None
-    return key or None
-
-
-def _unwrap(items, name):
-    """The Render API lists items as [{"deploy": {...}, "cursor": ...}]; accept the bare shape as well."""
-    out = []
-    for item in items if isinstance(items, list) else []:
-        if isinstance(item, dict):
-            out.append(item.get(name) if isinstance(item.get(name), dict) else item)
-    return out
-
-
-def render_get(path: str, key: str, timeout: float, ctx):
-    status, body, _ = http_get(f"{RENDER_API}{path}", timeout, ctx, {"Authorization": f"Bearer {key}", "Accept": "application/json"})
-    try:
-        data = json.loads(body) if status == 200 else None
-    except ValueError:
-        data = None
-    return status, data
-
-
-def iso_to_ts(value) -> float | None:
-    if not isinstance(value, str) or not value:
-        return None
-    try:
-        return datetime.fromisoformat(value.replace("Z", "+00:00")).timestamp()
-    except ValueError:
-        return None
-
-
-def short_commit(deploy: dict) -> str:
-    commit = deploy.get("commit") if isinstance(deploy.get("commit"), dict) else {}
-    cid = (commit.get("id") or "")[:7]
-    msg = (commit.get("message") or "").strip().splitlines()[0][:70] if commit.get("message") else ""
-    return f"{cid} {msg}".strip() or deploy.get("id", "?")
-
-
-def render_check(key: str, state: dict, timeout: float, ctx, now: float) -> tuple[dict, list[str]]:
-    """Returns (result for the summary/alert logic, one-off messages). Never raises."""
-    r = state.setdefault("render", {})
-    first_run = not r.get("initialised")
-    messages: list[str] = []
-
-    status, service = render_get(f"/services/{RENDER_SERVICE_ID}", key, timeout, ctx)
-    if status in (401, 403):
-        return {"ok": False, "detail": f"the Render API key was refused (HTTP {status}): create a new read key in Render -> Account settings -> API keys", "metrics": {"status": status}}, messages
-    if status == 404:
-        return {"ok": False, "detail": f"service {RENDER_SERVICE_ID} not found with this API key (wrong account or deleted)", "metrics": {"status": status}}, messages
-    if status != 200 or not isinstance(service, dict):
-        # The Render API itself is unreachable: not the site's problem, do not alert, show it in the summary only.
-        return {"ok": True, "unknown": True, "detail": f"Render API not reachable (HTTP {status})", "metrics": {"status": status}}, messages
-
-    name = service.get("name", RENDER_SERVICE_ID)
-    suspended = service.get("suspended") == "suspended"
-    metrics = {"status": 200, "name": name, "suspended": suspended,
-               "autoDeploy": service.get("autoDeploy"), "branch": service.get("branch")}
-
-    _, deploys = render_get(f"/services/{RENDER_SERVICE_ID}/deploys?limit=5", key, timeout, ctx)
-    deploys = _unwrap(deploys, "deploy")
-    latest = deploys[0] if deploys else {}
-    dstatus = latest.get("status", "?")
-    metrics.update(deployStatus=dstatus, deployId=latest.get("id"), deployCommit=short_commit(latest) if latest else None,
-                   deployFinished=latest.get("finishedAt"))
-
-    # Deploy transitions, one message per deploy and outcome.
-    seen = r.setdefault("deploys", {})
-    if not first_run:
-        for d in reversed(deploys):
-            did, st = d.get("id"), d.get("status")
-            if not did or seen.get(did) == st:
-                continue
-            if st == "live":
-                messages.append(f"🚀 Render: new API deploy is live ({short_commit(d)}). Run the post-deploy check: node ops/smoke-live.mjs")
-            elif st in DEPLOY_FAILED:
-                messages.append(f"🔴 Render: API deploy FAILED ({st}, {short_commit(d)}). The previous version keeps running. Render -> Events -> the deploy's logs.")
-            elif st == "canceled" and seen.get(did) in DEPLOY_RUNNING:
-                messages.append(f"🟠 Render: API deploy was canceled ({short_commit(d)}).")
-    for d in deploys:
-        if d.get("id"):
-            seen[d["id"]] = d.get("status")
-    for old in list(seen)[:-20]:
-        seen.pop(old, None)
-
-    # A deploy running for too long.
-    started = iso_to_ts(latest.get("createdAt"))
-    if dstatus in DEPLOY_RUNNING and started and now - started > STUCK_DEPLOY_S and r.get("stuckAlerted") != latest.get("id"):
-        messages.append(f"🟠 Render: a deploy has been running for {fmt_duration(now - started)} ({dstatus}). Render -> Events.")
-        r["stuckAlerted"] = latest.get("id")
-
-    # Events since the last run (crashes, restarts, suspension, maintenance...).
-    since = int(r.get("eventsSince") or (now - 3600))
-    _, events = render_get(f"/services/{RENDER_SERVICE_ID}/events?limit=50&startTime={since}", key, timeout, ctx)
-    seen_events = r.setdefault("events", [])
-    newest = since
-    for e in reversed(_unwrap(events, "event")):
-        eid, etype = e.get("id"), e.get("type")
-        ts = iso_to_ts(e.get("timestamp")) or now
-        newest = max(newest, int(ts))
-        if not eid or eid in seen_events:
-            continue
-        seen_events.append(eid)
-        if not first_run and etype in RENDER_EVENTS:
-            messages.append(RENDER_EVENTS[etype])
-    r["events"] = seen_events[-100:]
-    r["eventsSince"] = newest
-    r["initialised"] = True
-
-    if suspended:
-        return {"ok": False, "detail": f"{name} is SUSPENDED in Render", "metrics": metrics}, messages
-    if dstatus in DEPLOY_FAILED:
-        return {"ok": True, "detail": f"{name}: last deploy {dstatus} ({metrics['deployCommit']}), the previous version is still serving", "metrics": metrics}, messages
-    return {"ok": True, "detail": f"{name}: last deploy {dstatus} ({metrics['deployCommit'] or '?'})", "metrics": metrics}, messages
-
-
-
 def internet_ok(timeout: float, ctx) -> bool:
     """A control request to unrelated sites: if the watcher itself is offline, it must not report the site as down."""
     for url in ("https://www.google.com/generate_204", "https://cloudflare.com/cdn-cgi/trace"):
@@ -377,7 +224,6 @@ LABELS = {
     "admin": "Admin dashboard",
     "cert": "TLS certificates",
     "domain": "Domain registration",
-    "render": "Render service",
 }
 
 
@@ -448,13 +294,16 @@ def evaluate(results: dict, state: dict, now: float, confirm: int, remind_s: flo
     uptime, last_uptime, last_run = api.get("uptimeSeconds"), state.get("apiUptime"), state.get("lastRun")
     if isinstance(uptime, (int, float)):
         if isinstance(last_uptime, (int, float)) and last_run and uptime + 30 < last_uptime + (now - last_run):
-            if state.get("apiCommit") == api.get("commit"):
-                notes.append(f"ℹ️ The API restarted {fmt_duration(uptime)} ago without a new deploy (crash or sleep): Render -> Logs.")
+            before, after = state.get("apiCommit"), api.get("commit")
+            if before and after and before == after:  # same known commit: not a deploy
+                notes.append(f"ℹ️ The API restarted {fmt_duration(uptime)} ago without a new deploy (crash, or a restart in Railway): Railway -> the API service -> Deployments and Logs.")
+            elif not (before and after):  # the API does not report its commit: a deploy cannot be told apart from a crash
+                notes.append(f"ℹ️ The API restarted {fmt_duration(uptime)} ago (a deploy or a crash): Railway -> the API service -> Deployments.")
         state["apiUptime"], state["apiCommit"] = uptime, api.get("commit")
     db_ms = api.get("dbLatencyMs")
     if isinstance(db_ms, (int, float)) and db_ms > DB_LATENCY_WARN_MS:
         if not state.get("dbSlowAlerted"):
-            notes.append(f"🟠 Database latency is {db_ms} ms (normal: under {DB_LATENCY_WARN_MS}): Render and Atlas may be in different regions (INFRASTRUCTURE.md 2.4).")
+            notes.append(f"🟠 Database latency is {db_ms} ms (normal: under {DB_LATENCY_WARN_MS}): Railway (EU West) and Atlas may be in different regions (INFRASTRUCTURE.md 2.4).")
             state["dbSlowAlerted"] = True
     elif isinstance(db_ms, (int, float)):
         state["dbSlowAlerted"] = False
@@ -764,9 +613,6 @@ def summary(results: dict, state: dict) -> str:
         extra.append(f"PayPal mode: {api['paypalMode']}")
     if extra:
         lines.append("· " + " · ".join(extra))
-    rm = results.get("render", {}).get("metrics", {})
-    if rm.get("autoDeploy") == "no":
-        lines.append("⚠️ Render auto-deploy is OFF: merging to main does not deploy the API.")
     if api.get("paypalMode") == "sandbox":
         lines.append("⚠️ PayPal is still in sandbox mode: real payments are not taken.")
     lines += recap(state, time.time())
@@ -801,8 +647,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--state", default=os.environ.get("NHC_WATCH_STATE", str(default_state_path())))
     p.add_argument("--summary", action="store_true", help="always print a full status report")
     p.add_argument("--verbose", action="store_true", help="one line per check on stderr")
-    p.add_argument("--timeout", type=float, default=60, help="seconds per request (60 covers a Render cold start)")
-    p.add_argument("--no-render", action="store_true", help="skip the Render API checks")
+    p.add_argument("--timeout", type=float, default=60, help="seconds per request")
     p.add_argument("--insecure-local", action="store_true", help=argparse.SUPPRESS)  # tests: self-signed local servers
     args = p.parse_args(argv)
 
@@ -830,15 +675,8 @@ def main(argv: list[str] | None = None) -> int:
             print("Nazareth Holy Cross watchdog: this machine has no internet connection, nothing was checked.")
         return 0
 
-    render_messages: list[str] = []
-    # The API moved to Railway on 2026-10-07 and the Render service is suspended: the Render checks run only when
-    # NHC_WATCH_RENDER=1 is set on purpose (otherwise a leftover key would report the suspension as an outage).
-    key = render_key(state_path) if os.environ.get("NHC_WATCH_RENDER") == "1" and not args.no_render else None
-    if key:
-        results["render"], render_messages = render_check(key, state, args.timeout, ctx, now)
 
     lines = evaluate(results, state, now, confirm, remind_s)
-    lines += render_messages
     record_run(results, lines, state, now)
     changes = changes_report(state, api, args.timeout, ctx, now) if args.summary else []
     if args.summary:
