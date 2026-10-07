@@ -1247,7 +1247,7 @@
       },
       "form": {
         "title": "Wyślij nam wiadomość",
-        "intro": "Wszystkie pola są potrzebne, abyśmy mogli odpowiedzieć.",
+        "intro": "Abyśmy mogli odpowiedzieć, potrzebujemy Twojego imienia i nazwiska, adresu e-mail oraz wiadomości. Numer telefonu jest opcjonalny.",
         "fullName": "Imię i nazwisko",
         "email": "Adres e-mail",
         "phone": "Numer telefonu (opcjonalnie)",

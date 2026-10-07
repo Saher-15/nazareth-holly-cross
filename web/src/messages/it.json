@@ -1247,7 +1247,7 @@
       },
       "form": {
         "title": "Inviaci un messaggio",
-        "intro": "Tutti i campi sono necessari per poterti rispondere.",
+        "intro": "Per risponderti ci servono il tuo nome, il tuo indirizzo e-mail e il tuo messaggio. Il numero di telefono è facoltativo.",
         "fullName": "Nome e cognome",
         "email": "Indirizzo e-mail",
         "phone": "Numero di telefono (facoltativo)",
