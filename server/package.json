@@ -5,10 +5,11 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js",
+    "dev": "node --watch index.js",
     "test": "vitest run",
     "create-admin": "node scripts/create-admin.js",
-    "harness": "node test-harness/serve.mjs"
+    "harness": "node test-harness/serve.mjs",
+    "security:audit": "node ../ops/audit-dependencies.mjs"
   },
   "keywords": [],
   "author": "",
@@ -31,7 +32,6 @@
     "nodemailer": "^10.0.15"
   },
   "devDependencies": {
-    "nodemon": "^3.1.14",
     "supertest": "^7.3.1",
     "vitest": "^5.0.3"
   },

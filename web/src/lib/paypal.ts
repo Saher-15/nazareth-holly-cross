@@ -1,14 +1,15 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { z } from 'zod';
 import './zodConfig';
 import { postJson } from './apiClient';
+import { pendingFulfilment } from './pendingFulfilment';
 
 // What is being paid for. The API decides the amount; the browser only says what.
 export type PaymentPayload =
-  | { type: 'order'; items: { _id: string; quantity: number }[] }
-  | { type: 'candle' }
+  | { type: 'order'; items: { _id: string; quantity: number; color?: string }[]; fulfilment?: Record<string, unknown>; cart?: string }
+  | { type: 'candle'; fulfilment?: Record<string, unknown> }
   | { type: 'donation'; amount: number; donorName?: string };
 
 // 'unconfirmed': the capture's answer never arrived (no connection, the API asleep): the customer may or may not have
@@ -45,29 +46,53 @@ export function usePayPalOrder({
   onPaid: (capture: Capture) => void;
 }) {
   const [error, setError] = useState<PaymentErrorCode | null>(null);
+  const approvedPayloads = useRef(new Map<string, PaymentPayload>());
 
   const createOrder = useCallback(async () => {
     setError(null);
-    const res = await postJson('/order/create_order', getPayload(), { schema: createdSchema });
+    const payload = getPayload();
+    if (pendingFulfilment.list().some(record => record.kind === payload.type)) {
+      setError('unconfirmed');
+      throw new Error('An earlier payment is still being confirmed');
+    }
+    const res = await postJson('/order/create_order', payload, { schema: createdSchema });
     if (!res.ok) {
       setError('start');
       throw new Error(res.error);
     }
+    approvedPayloads.current.set(res.data.id, payload);
     return res.data.id;
   }, [getPayload]);
 
   const onApprove = useCallback(
     async ({ orderID }: { orderID: string }) => {
+      const payload = approvedPayloads.current.get(orderID);
+      if (!payload) { setError('start'); return; }
+      if (pendingFulfilment.list().some(record => record.kind === payload.type && record.paypalOrderId !== orderID)) {
+        setError('unconfirmed');
+        return;
+      }
+      // Persist before the first capture request: refresh/lost responses must not lose this reference.
+      try {
+        pendingFulfilment.prepare({ paypalOrderId: orderID, kind: payload.type,
+          path: payload.type === 'order' ? '/order/newOrder' : payload.type === 'candle' ? '/candle/lightACandle' : '/order/complete_order',
+          body: payload.type === 'donation' ? {} : payload.fulfilment ?? {},
+          cart: payload.type === 'order' ? payload.cart : undefined });
+      } catch {
+        setError('start'); // storage failed before capture: do not risk a charge without durable recovery
+        return;
+      }
       const res = await captureWithRetry(orderID);
       if (!res.ok) {
-        setError(isLostAnswer(res.status) ? 'unconfirmed' : 'notCompleted');
+        setError('unconfirmed');
         return;
       }
       if (res.data.status !== 'COMPLETED') {
-        setError('notCompleted');
+        setError('unconfirmed'); // nested capture may be pending; never invite another charge
         return;
       }
-      onPaid(res.data);
+      onPaid({ ...res.data, id: orderID });
+      if (payload.type === 'donation') pendingFulfilment.confirmDonation(orderID);
     },
     [onPaid],
   );

@@ -47,7 +47,7 @@ const IDS: Record<Key, string> = {
 const ORDER = fieldOrder(IDS);
 const id = (key: Key) => IDS[key];
 
-const getPayload = (): PaymentPayload => ({ type: 'candle' });
+
 
 // 1) church + name + prayer, 2) summary + PayPal ($3, priced by the API), 3) thank you.
 export default function CandleFlow() {
@@ -59,6 +59,7 @@ export default function CandleFlow() {
   const [reference, setReference] = useState('');
   const form = useValidatedForm(emptyCandle, validateCandle);
   const { values, set, touch, shown } = form;
+  const getPayload = useCallback((): PaymentPayload => ({ type: 'candle', fulfilment: buildCandleBody(values) }), [values]);
   const saving = useSaveAfterPayment();
   const { save } = saving;
   const headingRef = useStepFocus<HTMLHeadingElement>(step);

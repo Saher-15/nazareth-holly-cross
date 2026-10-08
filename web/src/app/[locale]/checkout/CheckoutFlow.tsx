@@ -68,8 +68,9 @@ export default function CheckoutFlow() {
   const countries = useMemo(() => countryOptions(locale), [locale]);
 
   const getPayload = useCallback(
-    (): PaymentPayload => ({ type: 'order', items: lines.map((l) => ({ _id: l._id, quantity: l.quantity })) }),
-    [lines],
+    (): PaymentPayload => ({ type: 'order', items: lines.map((l) => ({ _id: l._id, quantity: l.quantity, color: l.color })),
+      fulfilment: buildOrderBody(values, lines, summary.total, countryName(values.country, 'en')), cart: cartSignature(lines) }),
+    [lines, values, summary.total],
   );
 
   const onPaid = useCallback(

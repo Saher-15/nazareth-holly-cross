@@ -1,5 +1,6 @@
 // Env the routes read at import time; no real services are contacted in tests.
 process.env.NODE_ENV = 'test';
+process.env.REQUIRE_PAYMENT_PROOF = 'false'; // explicit local compatibility fixtures; production cannot opt out
 process.env.JWT_SECRET = 'test-secret-test-secret-test-secret';
 delete process.env.ADMIN_PASSWORD; // no longer read by the server (the legacy shared-password sign-in was removed)
 process.env.MAIL_FROM = 'test@example.com';

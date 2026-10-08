@@ -34,37 +34,37 @@ export function candleConfirmation({ email, firstName, candleId, paypalOrderId }
     };
 }
 
-routerCandle.post('/lightACandle', strictLimiter, asyncHandler(async(req, res)=>{
-    const { firstName, lastName, email, prayer, paypalOrderId } = req.body;
+export async function fulfilCandle(body = {}) {
+    const { firstName, lastName, email, prayer, paypalOrderId } = body;
 
     if(!firstName || typeof firstName !== 'string' || firstName.trim() === ''){
-        return res.status(422).json({error:"Bad input: firstName is required"})
+        throw new HttpError(422, 'Bad input: firstName is required');
     }
 
     if(!lastName || typeof lastName !== 'string' || lastName.trim() === ''){
-        return res.status(422).json({error:"Bad input: lastName is required"})
+        throw new HttpError(422, 'Bad input: lastName is required');
     }
 
     if(!email || typeof email !== 'string' || email.trim() === ''){
-        return res.status(422).json({error:"Bad input: email is required"})
+        throw new HttpError(422, 'Bad input: email is required');
     }
     // Validate email format
     // Strict on purpose: this address is handed to the mailer, so "a@b.co,victim@x.com" must not pass.
     if(!isEmail(email)){
-        return res.status(422).json({error:"Bad input: invalid email format"})
+        throw new HttpError(422, 'Bad input: invalid email format');
     }
 
     if(!prayer || typeof prayer !== 'string' || prayer.trim() === ''){
-        return res.status(422).json({error:"Bad input: prayer is required"})
+        throw new HttpError(422, 'Bad input: prayer is required');
     }
 
-    // Proof of payment. Optional for now (clients that do not send it yet keep working), like /order/newOrder:
+    // Proof of payment is required by default and always in production, like /order/newOrder:
     // when it is sent, the payment ledger (or PayPal itself) must confirm that PayPal captured the candle's price,
     // for a candle, and one payment lights one candle. REQUIRE_PAYMENT_PROOF=true makes it mandatory.
     let proven;
     if (paypalOrderId !== undefined && paypalOrderId !== null && paypalOrderId !== '') {
         if (!isPayPalOrderId(paypalOrderId)) {
-            return res.status(400).json({ error: 'Invalid paypalOrderId' });
+            throw new HttpError(400, 'Invalid paypalOrderId');
         }
         if (await Candle.exists({ paypalOrderId })) {
             throw new HttpError(409, 'This payment was already used for a candle');
@@ -100,7 +100,12 @@ routerCandle.post('/lightACandle', strictLimiter, asyncHandler(async(req, res)=>
         console.warn(`[${new Date().toISOString()}] [unverified-candle] candle ${newPrayer._id} saved without a payment: no confirmation mail sent`);
     }
 
-    res.status(200).send("Success")
-}))
+    return newPrayer;
+}
+
+routerCandle.post('/lightACandle', strictLimiter, asyncHandler(async (req, res) => {
+    await fulfilCandle(req.body);
+    res.status(200).send('Success');
+}));
 
 export default routerCandle;

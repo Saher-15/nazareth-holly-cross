@@ -165,6 +165,8 @@ Authy and 1Password expect. Implemented with `node:crypto` (no new dependency).
 A code works **once**: the last accepted step is stored and that step (or an older one) is refused, so a code that was
 just used cannot be replayed within its 30 seconds. A wrong code counts toward the lockout.
 
+**Security audit update (2026-10-07).** TOTP login uses an atomic last-step comparison/update, so two concurrent uses of the same code produce one session. Privacy lookup and erasure also cover payment checkout drafts before payerEmail is populated. Payment repair is an operator CLI action (`scripts/repair-payments.js`), with read-only default and explicit --apply; the dashboard contract is unchanged.
+
 ### 3.5 Secrets at rest
 
 The TOTP secret is stored encrypted (AES-256-GCM, random IV per value, authenticated) with a key derived from
