@@ -174,6 +174,7 @@ Asia/Jerusalem) and delivers to the owner's Telegram. Two script-only cron jobs 
 |---|---|---|---|
 | `nhc-watch` | every 5 minutes | `ops/hermes/nhc_watch.py` | nothing while all is well; an alert after two failures in a row, a reminder every 2 h while it stays down, a "back" message on recovery |
 | `nhc-daily` | 08:00 | `ops/hermes/nhc_summary.py` | always: status of every check, the last 24 h (checks run, uptime, incidents), and **what changed** since the previous report |
+| `nhc-disk` | 04:00 | `ops/hermes/nhc_disk_guard.py` | nothing, unless the Hermes volume is still above 85% after it cleared the download caches (npm, uv, scratch; done only above 80%). A full disk stops Hermes and every alert |
 
 "What changed" reads only public data: merged pull requests (= what was published), the Railway API deploy status
 and failing checks on `main`, open pull requests waiting for review (GitHub API), and the shop compared with the
