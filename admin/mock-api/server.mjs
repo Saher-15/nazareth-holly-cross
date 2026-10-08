@@ -759,6 +759,14 @@ add({
 // --- dashboard
 add({ method: 'GET', path: '/admin/dashboard', min: 'viewer', run: () => dashboard() });
 
+// ------------------------------------------------------------------ candle videos (server/route/admin/candleVideos.js)
+// The mock has no Cloudflare Stream: the list says "not set up" and an upload answers 503, as the API does then.
+add({ method: 'GET', path: '/admin/candle-videos', min: 'viewer', run: () => ({ configured: false, max: 20, maxBytes: 2 * 1024 ** 3, items: [] }) });
+add({
+  method: 'POST', path: '/admin/candle-videos', min: 'editor',
+  run: () => { throw new HttpError(503, 'Video uploads are not set up yet (CF_ACCOUNT_ID and CF_STREAM_API_TOKEN, docs/LIVE.md)'); },
+});
+
 // ------------------------------------------------------------------ settings (server/route/admin/settings.js)
 // The candle price: every admin reads it, an owner changes it (1 to 100 USD, two decimals), audited with old and new.
 const siteSettings = { candlePrice: 3, updatedAt: null, updatedBy: '' };

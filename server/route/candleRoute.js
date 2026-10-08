@@ -3,6 +3,7 @@ import Candle from "../model/candle.js";
 import { sendMail } from '../services/emailService.js';
 import { assertPaid } from '../services/paypalService.js';
 import { getCandlePrice } from '../services/siteSettings.js';
+import { publicCandleVideos } from '../services/candleVideos.js';
 import { linkPayment, paymentFor } from '../services/payments.js';
 import { asyncHandler } from "../middleware/asyncHandler.js"
 import { config } from '../config/env.js';
@@ -111,6 +112,12 @@ export async function fulfilCandle(body = {}) {
 routerCandle.get('/price', asyncHandler(async (req, res) => {
     res.set('Cache-Control', 'public, max-age=60');
     res.json({ price: await getCandlePrice(), currency: 'USD' });
+}));
+
+// The videos of the candle page (docs/ADMIN.md 5.5): published and ready, newest first. Public, cached a minute.
+routerCandle.get('/videos', asyncHandler(async (req, res) => {
+    res.set('Cache-Control', 'public, max-age=60');
+    res.json(await publicCandleVideos());
 }));
 
 routerCandle.post('/lightACandle', strictLimiter, asyncHandler(async (req, res) => {

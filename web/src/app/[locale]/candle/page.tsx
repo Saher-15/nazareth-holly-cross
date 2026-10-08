@@ -7,6 +7,7 @@ import { getMedia } from '@/data/media';
 import { flowMetadata } from '@/components/checkout/metadata';
 import shared from '@/components/checkout/checkout.module.css';
 import CandleFlow from './CandleFlow';
+import CandleVideos from './CandleVideos';
 import styles from './candle.module.css';
 
 export async function generateMetadata({ params }: PageProps<'/[locale]/candle'>): Promise<Metadata> {
@@ -58,6 +59,8 @@ export default async function CandlePage({ params }: PageProps<'/[locale]/candle
 
         <CandleFlow priceUsd={await api.candlePrice()} />
       </div>
+
+      <CandleVideos videos={await api.candleVideos()} />
     </div>
   );
 }

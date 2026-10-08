@@ -32,6 +32,7 @@ take('LiveSession', { collection: 'liveSession', timestamps: true, unique: [{ fi
 take('LiveRecording', { collection: 'liveRecording', timestamps: true, unique: ['session'], defaults: RECORDING_DEFAULTS });
 take('ScheduledBroadcast', { collection: 'scheduledBroadcast', timestamps: true, defaults: SCHEDULE_DEFAULTS });
 take('SiteSetting', { collection: 'siteSetting', timestamps: true, unique: ['key'] });
+take('CandleVideo', { collection: 'candleVideo', timestamps: true, defaults: { status: 'uploading', published: false, publishedAt: null, failReason: null, customerCode: '', durationSeconds: 0 } });
 take('AdminSession', { collection: 'adminSession', defaults: { revokedAt: null } });
 take('AuditLog', { collection: 'auditLog', autoCreatedAt: false, defaults: { actorId: null, actorName: '', role: '', meta: {}, ipHash: '', ua: '' } });
 take('Admin', {

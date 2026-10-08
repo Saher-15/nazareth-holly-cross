@@ -90,7 +90,11 @@
     "lastName": "Apellido",
     "yourEmail": "Tu correo electrónico",
     "confirmEmail": "Confirma tu correo electrónico",
-    "yourPrayer": "Tu oración"
+    "yourPrayer": "Tu oración",
+    "videosTitle": "Vídeos",
+    "videosLead": "Vea cómo se encienden las velas en las iglesias de Nazaret.",
+    "videoPlay": "Reproducir el vídeo: {title}",
+    "videoPlayerTitle": "Vídeo: {title}"
   },
   "heroSection": {
     "heading": "LA CIUDAD DE JESÚS TE ESPERA",

@@ -90,7 +90,11 @@
     "lastName": "Επώνυμο",
     "yourEmail": "Το email σας",
     "confirmEmail": "Επιβεβαίωση email",
-    "yourPrayer": "Η προσευχή σας"
+    "yourPrayer": "Η προσευχή σας",
+    "videosTitle": "Βίντεο",
+    "videosLead": "Δείτε πώς ανάβουν τα κεριά στις εκκλησίες της Ναζαρέτ.",
+    "videoPlay": "Αναπαραγωγή βίντεο: {title}",
+    "videoPlayerTitle": "Βίντεο: {title}"
   },
   "heroSection": {
     "heading": "Η ΠΟΛΗ ΤΟΥ ΙΗΣΟΥ ΣΑΣ ΠΕΡΙΜΕΝΕΙ",

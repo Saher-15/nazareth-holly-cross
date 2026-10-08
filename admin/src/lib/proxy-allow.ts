@@ -15,6 +15,12 @@ const rules: Rule[] = [
   { method: 'GET', pattern: /^dashboard$/ },
   { method: 'GET', pattern: /^settings$/ },
   { method: 'PUT', pattern: /^settings\/candle-price$/ },
+  // The candle page's videos (editor and owner write; the API enforces the role). docs/ADMIN.md 5.5.
+  { method: 'GET', pattern: /^candle-videos$/ },
+  { method: 'POST', pattern: /^candle-videos$/ },
+  { method: 'POST', pattern: new RegExp(`^candle-videos/${OID}/(upload-url|uploaded)$`) },
+  { method: 'PATCH', pattern: new RegExp(`^candle-videos/${OID}$`) },
+  { method: 'DELETE', pattern: new RegExp(`^candle-videos/${OID}$`) },
   { method: 'GET', pattern: /^export\/(orders|candles|contacts|payments)\.csv$/ },
   // The payment ledger: read, and resolve with a note. There is no delete, on purpose (docs/ADMIN.md, Payments).
   { method: 'GET', pattern: /^payments$/ },

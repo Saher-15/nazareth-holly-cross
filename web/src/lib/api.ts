@@ -252,7 +252,18 @@ const CATALOG_REVALIDATE = 600;
 
 const id = (value: string) => encodeURIComponent(value);
 
+const candleVideoSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  durationSeconds: z.number(),
+  thumbnailUrl: z.string().url().refine((u) => /^https:\/\/customer-[a-z0-9]+\.cloudflarestream\.com\//.test(u)),
+  playbackUrl: z.string().url().refine((u) => /^https:\/\/customer-[a-z0-9]+\.cloudflarestream\.com\//.test(u)),
+});
+export type CandleVideo = z.infer<typeof candleVideoSchema>;
+
 export const api = {
+  // The candle page's published videos (server/services/candleVideos.js). A minute old at most; none on an API failure.
+  candleVideos: () => getJson('/candle/videos', z.array(candleVideoSchema), { revalidate: 60, timeoutMs: 5_000 }).catch((): CandleVideo[] => []),
   // The owner's candle price (server/services/siteSettings.js), what create_order charges. A minute old at most.
   candlePrice: () =>
     getJson('/candle/price', z.object({ price: z.number().positive(), currency: z.literal('USD') }), { revalidate: 60, timeoutMs: 5_000 })

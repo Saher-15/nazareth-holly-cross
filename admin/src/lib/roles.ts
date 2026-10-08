@@ -39,6 +39,7 @@ export type NavId =
   | 'contacts'
   | 'products'
   | 'pricing'
+  | 'candleVideos'
   | 'reviews'
   | 'prayers'
   | 'users'
@@ -56,6 +57,7 @@ export const NAV: readonly { id: NavId; href: string; needs?: Capability }[] = [
   { id: 'contacts', href: '/contacts' },
   { id: 'products', href: '/products' },
   { id: 'pricing', href: '/pricing' },
+  { id: 'candleVideos', href: '/candle-videos' },
   { id: 'reviews', href: '/reviews' },
   { id: 'prayers', href: '/prayers' },
   { id: 'users', href: '/users', needs: 'manageUsers' },
