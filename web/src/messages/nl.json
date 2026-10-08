@@ -90,7 +90,11 @@
     "lastName": "Achternaam",
     "yourEmail": "Uw e-mailadres",
     "confirmEmail": "Bevestig uw e-mailadres",
-    "yourPrayer": "Uw gebed"
+    "yourPrayer": "Uw gebed",
+    "videosTitle": "Video’s",
+    "videosLead": "Bekijk hoe de kaarsen worden aangestoken in de kerken van Nazareth.",
+    "videoPlay": "Video afspelen: {title}",
+    "videoPlayerTitle": "Video: {title}"
   },
   "heroSection": {
     "heading": "DE STAD VAN JEZUS WACHT OP U",

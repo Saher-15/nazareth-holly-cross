@@ -59,5 +59,9 @@ vi.mock('../model/siteSetting.js', async (importOriginal) => {
   const { fakeModule } = await import('./helpers/fakes.js');
   return { ...(await importOriginal()), ...fakeModule('SiteSetting', { collection: 'siteSetting', timestamps: true, unique: ['key'] }) };
 });
+vi.mock('../model/candleVideo.js', async (importOriginal) => {
+  const { fakeModule } = await import('./helpers/fakes.js');
+  return { ...(await importOriginal()), ...fakeModule('CandleVideo', { collection: 'candleVideo', timestamps: true, defaults: { status: 'uploading', published: false, publishedAt: null, failReason: null, customerCode: '', durationSeconds: 0 } }) };
+});
 delete process.env.CF_ACCOUNT_ID;
 delete process.env.CF_STREAM_API_TOKEN;
