@@ -77,6 +77,8 @@ whatever the token says.
 | `GET /admin/payments`, `GET /admin/payments/:id` | yes | yes | yes |
 | `PATCH /admin/payments/:id` (resolve with a note, reopen) | - | yes | yes |
 | `POST /admin/privacy/lookup`, `POST /admin/privacy/erase` | - | - | yes |
+| `GET /admin/settings` (the candle price, its limits, who changed it last) | yes | yes | yes |
+| `PUT /admin/settings/candle-price` `{ price }` (1 to 100 USD, two decimals; audited `settings.candle_price` with `from` and `to`) | - | - | yes |
 | `GET /admin/live`, `POST /admin/live/start`, `POST /admin/live/stop` | - | yes | yes |
 | `GET`/`POST /admin/live/recordings`, `POST /admin/live/recordings/:id/{upload-url,uploaded}`, `PATCH`/`DELETE /admin/live/recordings/:id` | - | yes (uploads only for their own broadcasts) | yes |
 | `GET`/`POST /admin/live/schedule`, `PATCH`/`DELETE /admin/live/schedule/:id` | - | yes | yes |
@@ -448,6 +450,16 @@ own record) and `hostLogs` (Cloudflare, Render, Netlify request logs). The dashb
 
 The address must be a valid one and not the placeholder erased records carry (`erased@erased.invalid`); 20 requests per 15 minutes per owner; both calls are audited with a keyed hash of the address and
 the counts, never the address, the name or the country. The policy is in docs/DATABASE.md sections 7 and 8.
+
+### 5.4 Settings: the candle price (`/pricing` in the dashboard)
+
+`GET /admin/settings` answers `{ candlePrice, candlePriceMin, candlePriceMax, currency, updatedAt, updatedBy }` to every
+role; `PUT /admin/settings/candle-price { price }` is the owner's (1 to 100 USD, at most two decimals, a strict body: 400
+otherwise, 403 for an editor or a viewer). The value lives in `model/siteSetting.js` (one document, key `site`) and is read
+through `services/siteSettings.js` (cached 30 seconds, dropped at once on a change). `create_order` charges it; a candle is
+then checked against the price its payment was **started** with (the ledger's amount, rows of type `candle` only), so a change
+never blocks a customer who has already paid. The website reads `GET /candle/price` (public, cached a minute) for the candle
+page, the FAQ and the terms, and falls back to the built-in `$3` when the API cannot be reached.
 
 ## 6. Operations
 

@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { api } from '@/lib/api';
 import { getFormatter, getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { breadcrumbJsonLd, webPageJsonLd } from '@/lib/jsonLd';
@@ -43,7 +44,7 @@ export default async function LegalDocument({ page, locale }: { page: LegalPage;
   const rich = translate as unknown as RichTranslate;
   const format = await getFormatter();
   const updated = format.dateTime(new Date(`${UPDATED[page]}T12:00:00Z`), { dateStyle: 'long', timeZone: 'UTC', numberingSystem: 'latn' });
-  const values = { ...faqValues(locale), date: updated };
+  const values = { ...faqValues(locale, await api.candlePrice()), date: updated };
   const text = (key: string) => t(`pilgrim.legal.${page}.${key}`, values);
   const richText = (key: string) =>
     rich.rich(`pilgrim.legal.${page}.${key}`, {

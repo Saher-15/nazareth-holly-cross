@@ -6,7 +6,9 @@ import { clip, isObjectId } from '../utils/validate.js';
 // Business rules (mirrors what the cart page shows).
 export const SHIPPING_FEE = 5;
 export const ORDER_DISCOUNT = 0.9; // 10% off the items
-export const CANDLE_PRICE = 3;
+// The DEFAULT candle price; the price charged is the owner's setting (services/siteSettings.js).
+export { CANDLE_PRICE_DEFAULT as CANDLE_PRICE } from './siteSettings.js';
+import { getCandlePrice } from './siteSettings.js';
 export const DONATION_MIN = 1;
 export const DONATION_MAX = 5000;
 export const MAX_QUANTITY = 50;
@@ -80,7 +82,7 @@ export async function priceShopOrder(items) {
 
 // Amount (USD) to charge for a create_order request.
 //   type 'order'    -> computed from `items` and the database
-//   type 'candle'   -> fixed price
+//   type 'candle'   -> the owner's candle price (services/siteSettings.js)
 //   type 'donation' -> chosen by the donor, within limits
 //   no type (legacy clients) -> the amount sent by the browser, logged as deprecated
 export async function priceFor({ type, items, amount }) {
@@ -88,7 +90,7 @@ export async function priceFor({ type, items, amount }) {
     case 'order':
       return priceShopOrder(items);
     case 'candle':
-      return CANDLE_PRICE;
+      return getCandlePrice();
     case 'donation': {
       const value = Number(amount);
       if (!Number.isFinite(value) || value < DONATION_MIN || value > DONATION_MAX) {

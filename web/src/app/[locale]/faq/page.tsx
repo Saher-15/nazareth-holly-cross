@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { api } from '@/lib/api';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { breadcrumbJsonLd, faqJsonLd, webPageJsonLd } from '@/lib/jsonLd';
 import { FAQ_GROUPS } from '@/data/pilgrim/faq';
@@ -24,7 +25,8 @@ export default async function FaqPage({ params }: PageProps<'/[locale]/faq'>) {
   const t = await getTranslations();
   const translate = t as Translate;
 
-  const groups = FAQ_GROUPS.map((group) => ({ group, items: faqItems(translate, locale, [group]) }));
+  const candlePrice = await api.candlePrice();
+  const groups = FAQ_GROUPS.map((group) => ({ group, items: faqItems(translate, locale, [group], candlePrice) }));
   const all = groups.flatMap((g) => g.items);
 
   const jsonLd = [

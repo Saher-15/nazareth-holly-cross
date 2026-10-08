@@ -13,6 +13,8 @@ const rules: Rule[] = [
   { method: 'POST', pattern: /^auth\/password$/ },
   { method: 'POST', pattern: /^auth\/totp\/(setup|enable|disable)$/ },
   { method: 'GET', pattern: /^dashboard$/ },
+  { method: 'GET', pattern: /^settings$/ },
+  { method: 'PUT', pattern: /^settings\/candle-price$/ },
   { method: 'GET', pattern: /^export\/(orders|candles|contacts|payments)\.csv$/ },
   // The payment ledger: read, and resolve with a note. There is no delete, on purpose (docs/ADMIN.md, Payments).
   { method: 'GET', pattern: /^payments$/ },
