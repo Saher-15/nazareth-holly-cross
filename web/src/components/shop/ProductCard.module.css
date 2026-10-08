@@ -44,7 +44,7 @@
 }
 
 /* The whole photo, never cropped (owner's request, 2026-10-08): a 4:5 frame, close to the tall product photos, with
-   the photo contained and a blurred, slightly enlarged copy of it filling the bands beside it. */
+   the photo contained and a blurred copy of it filling the bands beside it. */
 .media {
   position: relative;
   display: block;
@@ -54,8 +54,8 @@
 }
 .backdrop {
   object-fit: cover;
+  /* no enlargement: the copy stays inside the frame (an enlarged box reached past the screen edge, home.spec.ts) */
   filter: blur(18px) saturate(1.1) brightness(0.9);
-  transform: scale(1.2);
 }
 .img {
   object-fit: contain;

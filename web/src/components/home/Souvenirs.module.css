@@ -56,8 +56,8 @@
 }
 .backdrop {
   object-fit: cover;
+  /* no enlargement: the copy stays inside the frame (an enlarged box reached past the screen edge, home.spec.ts) */
   filter: blur(18px) saturate(1.1) brightness(0.9);
-  transform: scale(1.2);
 }
 .img {
   object-fit: contain;
