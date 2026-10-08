@@ -613,7 +613,9 @@
     "shipping": "Livraison",
     "total": "Total",
     "secure": "Paiement sécurisé avec PayPal",
-    "emptyLead": "Découvrez chapelets, croix et souvenirs de Nazareth."
+    "emptyLead": "Découvrez chapelets, croix et souvenirs de Nazareth.",
+    "sideCartClose": "Fermer le panier",
+    "sideCartView": "Voir tout le panier"
   },
   "checkoutPage": {
     "meta": {

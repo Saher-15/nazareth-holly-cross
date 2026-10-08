@@ -613,7 +613,9 @@
     "shipping": "Spedizione",
     "total": "Totale",
     "secure": "Pagamento sicuro con PayPal",
-    "emptyLead": "Scopri rosari, croci e ricordi da Nazaret."
+    "emptyLead": "Scopri rosari, croci e ricordi da Nazaret.",
+    "sideCartClose": "Chiudi il carrello",
+    "sideCartView": "Vedi tutto il carrello"
   },
   "checkoutPage": {
     "meta": {

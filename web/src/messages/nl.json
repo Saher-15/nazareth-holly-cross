@@ -613,7 +613,9 @@
     "shipping": "Verzending",
     "total": "Totaal",
     "secure": "Veilig betalen met PayPal",
-    "emptyLead": "Ontdek rozenkransen, kruisen en aandenkens uit Nazareth."
+    "emptyLead": "Ontdek rozenkransen, kruisen en aandenkens uit Nazareth.",
+    "sideCartClose": "Winkelwagen sluiten",
+    "sideCartView": "Hele winkelwagen bekijken"
   },
   "checkoutPage": {
     "meta": {

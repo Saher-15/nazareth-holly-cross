@@ -613,7 +613,9 @@
     "shipping": "Envío",
     "total": "Total",
     "secure": "Pago seguro con PayPal",
-    "emptyLead": "Descubre rosarios, cruces y recuerdos de Nazaret."
+    "emptyLead": "Descubre rosarios, cruces y recuerdos de Nazaret.",
+    "sideCartClose": "Cerrar el carrito",
+    "sideCartView": "Ver el carrito completo"
   },
   "checkoutPage": {
     "meta": {
