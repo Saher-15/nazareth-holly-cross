@@ -157,6 +157,10 @@ Not verified: anything against a real MongoDB, Atlas, Render or PayPal (docs/DAT
 (it asks for the secret at a prompt); the screenshots in docs/admin-ui were not retaken for the two new screens.
 The admin end-to-end suites share one owner session and the API allows 300 requests per admin per 15 minutes: the new specs use the editor session and an owner account of their own so the budget of the others is not used up.
 
+## 6b. Security regression pass (2026-10-07, branch `fix/security-review`)
+
+`server/__tests__/security-audit-regressions.test.js` verifies removed legacy login, single-use concurrent TOTP, nested pending capture, immutable paid quotes, read-only versus apply recovery without another charge, historical unverified ledger rows and excessive capture amounts. Payment and privacy suites cover the updated capture contract and erasure of pending drafts. Web pending-fulfilment tests cover storage before capture, refresh recovery, lost/pending answers, unavailable storage and donation confirmation. Contact introductory text names required fields and marks phone optional in all 14 languages. See the accompanying audit-fix report for exact command results and environment limitations; no production mutation or real payment/email is part of this pass.
+
 ## 7. Form-contracts pass (2026-10-06, branch `fix/form-contracts`)
 
 Every form of the site and the dashboard checked field by field against the API route and the model:
@@ -177,7 +181,3 @@ rules; site reviews were not searchable by place.
 
 Not verified: real MongoDB data (how many stored reviews, orders or products hold values these rules now refuse:
 the rules only apply to new input), real PayPal, Firefox and Safari.
-
-## Security regression pass (2026-10-07)
-
-`server/__tests__/security-audit-regressions.test.js` verifies removed legacy login, single-use concurrent TOTP, nested pending capture, immutable paid quotes, read-only versus apply recovery without another charge, historical unverified ledger rows and excessive capture amounts. Payment and privacy suites cover the updated capture contract and erasure of pending drafts. Web pending-fulfilment tests cover storage before capture, refresh recovery, lost/pending answers, unavailable storage and donation confirmation. Contact introductory text names required fields and marks phone optional in all 14 languages. See the accompanying audit-fix report for exact command results and environment limitations; no production mutation or real payment/email is part of this pass.

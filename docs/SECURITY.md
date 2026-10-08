@@ -296,6 +296,8 @@ browser                         API                                PayPal
 
 ## Audit fixes (2026-10-07)
 
+**No server price, no capture.** `complete_order` reads the ledger row (the price `create_order` computed) **before** it asks PayPal to capture. A PayPal order the API never priced is refused with 409 and is never charged, and the capture check has no "any amount" path: the expected amount is required.
+
 TOTP login consumes the accepted time step with a conditional atomic database update; parallel requests cannot both create a session. Legacy sign-in remains removed. Capture success requires completed nested captures for exactly the ledger amount in USD; pending captures return 202 PENDING and remain unverified. Historical captured rows without `captureVerified` are rechecked with PayPal before reuse.
 
 The browser saves the payment id and original approved form before the first capture request. Storage failure blocks capture; uncertain answers stay unconfirmed and block a new payment of that kind. A returning browser confirms the original payment before fulfilling it. The API also stores a validated draft before exposing the PayPal id, fulfils it after a verified capture, and removes the draft after linking or privacy erasure. Drafts are hidden from ordinary reads. Repair batches exclude verified donations without drafts and rotate by last-check time. Voided payments with no captures can have drafts cleared after 30 days; unknown/paid drafts remain for recovery or owner erasure. The repair script must be run/scheduled by the operator; these changes do not attest to production deployment.
