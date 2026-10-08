@@ -11,10 +11,11 @@ export type Capability =
   | 'manageUsers' // /admin/users
   | 'viewAudit' // /admin/audit
   | 'managePrivacy' // /admin/privacy: look up and erase a customer's personal data
-  | 'broadcast'; // /admin/live: start and stop a live broadcast (docs/LIVE.md)
+  | 'broadcast' // /admin/live: start and stop a live broadcast (docs/LIVE.md)
+  | 'managePricing'; // PUT /admin/settings/candle-price: what customers are charged for a candle (owner only)
 
 const CAPABILITIES: Record<Role, readonly Capability[]> = {
-  owner: ['write', 'export', 'deleteOrders', 'manageUsers', 'viewAudit', 'managePrivacy', 'broadcast'],
+  owner: ['write', 'export', 'deleteOrders', 'manageUsers', 'viewAudit', 'managePrivacy', 'broadcast', 'managePricing'],
   editor: ['write', 'export', 'broadcast'],
   viewer: [],
 };
@@ -37,6 +38,7 @@ export type NavId =
   | 'candles'
   | 'contacts'
   | 'products'
+  | 'pricing'
   | 'reviews'
   | 'prayers'
   | 'users'
@@ -53,6 +55,7 @@ export const NAV: readonly { id: NavId; href: string; needs?: Capability }[] = [
   { id: 'candles', href: '/candles' },
   { id: 'contacts', href: '/contacts' },
   { id: 'products', href: '/products' },
+  { id: 'pricing', href: '/pricing' },
   { id: 'reviews', href: '/reviews' },
   { id: 'prayers', href: '/prayers' },
   { id: 'users', href: '/users', needs: 'manageUsers' },

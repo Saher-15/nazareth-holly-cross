@@ -4,6 +4,7 @@ import { API_URL } from './config';
 import { parseRecordings } from './liveRecordings';
 import { parseSchedule } from './liveSchedule';
 import { decodeEntities } from './plainText';
+import { CANDLE_PRICE } from './pricing';
 
 // Every response from the API is validated before the UI touches it, so a bad
 // record shows up as a clear error instead of a broken page. Old records hold
@@ -252,6 +253,11 @@ const CATALOG_REVALIDATE = 600;
 const id = (value: string) => encodeURIComponent(value);
 
 export const api = {
+  // The owner's candle price (server/services/siteSettings.js), what create_order charges. A minute old at most.
+  candlePrice: () =>
+    getJson('/candle/price', z.object({ price: z.number().positive(), currency: z.literal('USD') }), { revalidate: 60, timeoutMs: 5_000 })
+      .then((r) => r.price)
+      .catch(() => CANDLE_PRICE),
   products: (page = 1, size = 24) =>
     getJson(`/product/getNProducts?page=${page}&size=${size}`, productPageSchema).then((r) => r.data),
   product: (productId: string) => getJson(`/product/getProduct/${id(productId)}`, productSchema),

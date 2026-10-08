@@ -54,5 +54,10 @@ vi.mock('../model/scheduledBroadcast.js', async (importOriginal) => {
   const { SCHEDULE_DEFAULTS } = await import('../test-harness/live-defaults.js');
   return { ...(await importOriginal()), ...fakeModule('ScheduledBroadcast', { collection: 'scheduledBroadcast', timestamps: true, defaults: SCHEDULE_DEFAULTS }) };
 });
+// The site settings (model/siteSetting.js, services/siteSettings.js): in memory, so the candle price can be changed in tests.
+vi.mock('../model/siteSetting.js', async (importOriginal) => {
+  const { fakeModule } = await import('./helpers/fakes.js');
+  return { ...(await importOriginal()), ...fakeModule('SiteSetting', { collection: 'siteSetting', timestamps: true, unique: ['key'] }) };
+});
 delete process.env.CF_ACCOUNT_ID;
 delete process.env.CF_STREAM_API_TOKEN;

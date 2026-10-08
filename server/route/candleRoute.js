@@ -2,7 +2,7 @@ import express from "express"
 import Candle from "../model/candle.js";
 import { sendMail } from '../services/emailService.js';
 import { assertPaid } from '../services/paypalService.js';
-import { CANDLE_PRICE } from '../services/pricing.js';
+import { getCandlePrice } from '../services/siteSettings.js';
 import { linkPayment, paymentFor } from '../services/payments.js';
 import { asyncHandler } from "../middleware/asyncHandler.js"
 import { config } from '../config/env.js';
@@ -62,6 +62,7 @@ export async function fulfilCandle(body = {}) {
     // when it is sent, the payment ledger (or PayPal itself) must confirm that PayPal captured the candle's price,
     // for a candle, and one payment lights one candle. REQUIRE_PAYMENT_PROOF=true makes it mandatory.
     let proven;
+    let price;
     if (paypalOrderId !== undefined && paypalOrderId !== null && paypalOrderId !== '') {
         if (!isPayPalOrderId(paypalOrderId)) {
             throw new HttpError(400, 'Invalid paypalOrderId');
@@ -69,10 +70,13 @@ export async function fulfilCandle(body = {}) {
         if (await Candle.exists({ paypalOrderId })) {
             throw new HttpError(409, 'This payment was already used for a candle');
         }
-        await paymentFor(paypalOrderId, 'candle');
+        const payment = await paymentFor(paypalOrderId, 'candle');
+        // The price this payment was STARTED with (create_order recorded it), so an owner's price change in between never
+        // blocks a customer who paid. Only a row priced as a candle counts: a legacy 'unknown' row was priced by a browser.
+        price = payment?.type === 'candle' && payment.amount > 0 ? payment.amount : await getCandlePrice();
         // Always asked of PayPal, even when the ledger says "captured": a legacy create_order call without a type is
         // priced from the client, so only PayPal's own amount proves that the full candle price was paid.
-        await assertPaid(paypalOrderId, CANDLE_PRICE);
+        await assertPaid(paypalOrderId, price);
         proven = paypalOrderId;
     } else if (config.requirePaymentProof) {
         throw new HttpError(402, 'Payment proof is required');
@@ -90,7 +94,7 @@ export async function fulfilCandle(body = {}) {
 
     await newPrayer.save();
     if (proven) {
-        await linkPayment(proven, { kind: 'candle', id: newPrayer._id, amount: CANDLE_PRICE });
+        await linkPayment(proven, { kind: 'candle', id: newPrayer._id, amount: price });
         // The confirmation goes out only for a PAID request (security review 06, finding 5): an unpaid request, possible
         // while REQUIRE_PAYMENT_PROOF is off, is saved for the staff to see but makes the church's Gmail send nothing
         // to an address a stranger typed. The mail is plain text and echoes no visitor text except a greeting name that
@@ -102,6 +106,12 @@ export async function fulfilCandle(body = {}) {
 
     return newPrayer;
 }
+
+// The price the website shows (create_order charges the same; docs/FORM-CONTRACTS.md). Public, cacheable for a minute.
+routerCandle.get('/price', asyncHandler(async (req, res) => {
+    res.set('Cache-Control', 'public, max-age=60');
+    res.json({ price: await getCandlePrice(), currency: 'USD' });
+}));
 
 routerCandle.post('/lightACandle', strictLimiter, asyncHandler(async (req, res) => {
     await fulfilCandle(req.body);

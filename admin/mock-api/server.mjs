@@ -759,6 +759,28 @@ add({
 // --- dashboard
 add({ method: 'GET', path: '/admin/dashboard', min: 'viewer', run: () => dashboard() });
 
+// ------------------------------------------------------------------ settings (server/route/admin/settings.js)
+// The candle price: every admin reads it, an owner changes it (1 to 100 USD, two decimals), audited with old and new.
+const siteSettings = { candlePrice: 3, updatedAt: null, updatedBy: '' };
+const settingsView = () => ({ ...siteSettings, candlePriceMin: 1, candlePriceMax: 100, currency: 'USD' });
+add({ method: 'GET', path: '/admin/settings', min: 'viewer', run: () => settingsView() });
+add({
+  method: 'PUT', path: '/admin/settings/candle-price', min: 'owner',
+  run: (ctx) => {
+    const body = ctx.body !== null && typeof ctx.body === 'object' && !Array.isArray(ctx.body) ? ctx.body : {};
+    const keys = Object.keys(body);
+    const price = body.price;
+    if (keys.length !== 1 || keys[0] !== 'price' || typeof price !== 'number' || !Number.isFinite(price) || price < 1 || price > 100
+      || Math.abs(Math.round(price * 100) - price * 100) > 1e-6) {
+      throw new HttpError(400, 'Invalid price: between 1 and 100 USD, at most two decimals');
+    }
+    const from = siteSettings.candlePrice;
+    Object.assign(siteSettings, { candlePrice: price, updatedAt: new Date().toISOString(), updatedBy: ctx.req.auth.user.username });
+    record(ctx.req, 'settings.candle_price', { type: 'siteSetting', id: 'site' }, { from, to: price });
+    return settingsView();
+  },
+});
+
 // --- orders
 for (const route of collection({
   name: 'orders', type: 'order', label: 'Order', rows: () => db.orders, flag: 'done', deleteRole: 'owner',

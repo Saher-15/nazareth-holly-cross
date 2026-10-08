@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { api } from '@/lib/api';
 import Flame from '@/components/ui/Flame';
 import PageHero from '@/components/ui/PageHero';
 import { getMedia } from '@/data/media';
@@ -55,7 +56,7 @@ export default async function CandlePage({ params }: PageProps<'/[locale]/candle
           </ol>
         </aside>
 
-        <CandleFlow />
+        <CandleFlow priceUsd={await api.candlePrice()} />
       </div>
     </div>
   );
