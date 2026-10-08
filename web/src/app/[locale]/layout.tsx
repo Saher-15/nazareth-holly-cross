@@ -6,6 +6,7 @@ import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server
 import PendingFulfilmentRunner from '@/components/checkout/PendingFulfilmentRunner';
 import A11yPanel from '@/components/layout/A11yPanel';
 import BackToTop from '@/components/layout/BackToTop';
+import SideCart from '@/components/shop/SideCart';
 import LiveAlert from '@/components/layout/LiveAlert';
 import PageTransitions from '@/components/layout/PageTransitions';
 import ReadingProgress from '@/components/layout/ReadingProgress';
@@ -100,6 +101,8 @@ export default async function LocaleLayout({ children, search, params }: LayoutP
                 <SiteFooter />
                 {search}
                 <BackToTop />
+                {/* The cart on every page: a tab on the side that opens it in a panel (not on /cart and /checkout). */}
+                <SideCart />
                 <RouteFocus />
                 <PageTransitions />
                 <PendingFulfilmentRunner />

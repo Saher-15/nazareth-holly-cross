@@ -617,7 +617,9 @@
     "shipping": "Frete",
     "total": "Total",
     "secure": "Pagamento seguro com PayPal",
-    "emptyLead": "Conheça terços, cruzes e lembranças de Nazaré."
+    "emptyLead": "Conheça terços, cruzes e lembranças de Nazaré.",
+    "sideCartClose": "Fechar o carrinho",
+    "sideCartView": "Ver o carrinho completo"
   },
   "checkoutPage": {
     "meta": {
