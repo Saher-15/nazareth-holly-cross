@@ -100,3 +100,67 @@ describe('side cart', () => {
     expect(screen.getByRole('button', { name: 'סגירת העגלה' })).toBeTruthy();
   });
 });
+
+describe('moving the side cart', () => {
+  beforeEach(() => {
+    pathname = '/shop';
+    localStorage.clear();
+    Object.assign(HTMLDialogElement.prototype, {
+      showModal(this: HTMLDialogElement) { this.setAttribute('open', ''); },
+      close(this: HTMLDialogElement) { if (!this.hasAttribute('open')) return; this.removeAttribute('open'); this.dispatchEvent(new Event('close')); },
+    });
+  });
+  afterEach(() => {
+    cleanup();
+    const proto = HTMLDialogElement.prototype as unknown as Record<string, unknown>;
+    delete proto.showModal;
+    delete proto.close;
+  });
+
+  it('a drag moves it to the nearer side and the height it was dropped at, remembers it, and does not open the cart', async () => {
+    store([line('green', 1)]);
+    show();
+    const tab = await screen.findByTestId('side-cart-tab');
+    fireEvent.pointerDown(tab, { button: 0, clientX: 1000, clientY: 400, pointerId: 1 });
+    fireEvent.pointerMove(tab, { clientX: 600, clientY: 300, pointerId: 1 });
+    fireEvent.pointerMove(tab, { clientX: 40, clientY: 200, pointerId: 1 });
+    fireEvent.pointerUp(tab, { clientX: 40, clientY: 200, pointerId: 1 });
+    fireEvent.click(tab);
+    expect(screen.getByTestId('side-cart').hasAttribute('open')).toBe(false);
+    expect(tab.getAttribute('data-side')).toBe('left');
+    expect(JSON.parse(localStorage.getItem('nhc.sideCart.place.v1') ?? 'null')).toMatchObject({ side: 'left' });
+  });
+
+  it('a short movement is a click: it opens the cart', async () => {
+    store([line('green', 1)]);
+    show();
+    const tab = await screen.findByTestId('side-cart-tab');
+    fireEvent.pointerDown(tab, { button: 0, clientX: 1000, clientY: 400, pointerId: 1 });
+    fireEvent.pointerMove(tab, { clientX: 1003, clientY: 402, pointerId: 1 });
+    fireEvent.pointerUp(tab, { clientX: 1003, clientY: 402, pointerId: 1 });
+    fireEvent.click(tab);
+    expect(screen.getByTestId('side-cart').hasAttribute('open')).toBe(true);
+  });
+
+  it('without dragging: the panel button moves it to the other side, and back', async () => {
+    store([line('green', 1)]);
+    show();
+    fireEvent.click(await screen.findByTestId('side-cart-tab'));
+    const move = screen.getByRole('button', { name: 'Move the cart button to the other side' });
+    fireEvent.click(move);
+    expect(screen.getByTestId('side-cart-tab').getAttribute('data-side')).toBe('left');
+    fireEvent.click(move);
+    expect(screen.getByTestId('side-cart-tab').getAttribute('data-side')).toBe('right');
+  });
+
+  it('starts where the visitor left it last time, and ignores a damaged value', async () => {
+    localStorage.setItem('nhc.sideCart.place.v1', JSON.stringify({ side: 'left', y: 0.3 }));
+    store([line('green', 1)]);
+    show();
+    expect((await screen.findByTestId('side-cart-tab')).getAttribute('data-side')).toBe('left');
+    cleanup();
+    localStorage.setItem('nhc.sideCart.place.v1', '{not json');
+    show();
+    expect((await screen.findByTestId('side-cart-tab')).getAttribute('data-side')).toBe('default');
+  });
+});

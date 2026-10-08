@@ -619,7 +619,8 @@
     "secure": "Pagamento seguro com PayPal",
     "emptyLead": "Conheça terços, cruzes e lembranças de Nazaré.",
     "sideCartClose": "Fechar o carrinho",
-    "sideCartView": "Ver o carrinho completo"
+    "sideCartView": "Ver o carrinho completo",
+    "sideCartMove": "Mover o botão do carrinho para o outro lado"
   },
   "checkoutPage": {
     "meta": {

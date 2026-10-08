@@ -619,7 +619,8 @@
     "secure": "Veilig betalen met PayPal",
     "emptyLead": "Ontdek rozenkransen, kruisen en aandenkens uit Nazareth.",
     "sideCartClose": "Winkelwagen sluiten",
-    "sideCartView": "Hele winkelwagen bekijken"
+    "sideCartView": "Hele winkelwagen bekijken",
+    "sideCartMove": "Winkelwagenknop naar de andere kant"
   },
   "checkoutPage": {
     "meta": {

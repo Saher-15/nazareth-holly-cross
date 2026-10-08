@@ -619,7 +619,8 @@
     "secure": "دفع آمن عبر PayPal",
     "emptyLead": "تصفّح المسابح والصلبان والتذكارات من الناصرة.",
     "sideCartClose": "إغلاق السلة",
-    "sideCartView": "عرض السلة كاملة"
+    "sideCartView": "عرض السلة كاملة",
+    "sideCartMove": "نقل زر السلة إلى الجهة الأخرى"
   },
   "checkoutPage": {
     "meta": {

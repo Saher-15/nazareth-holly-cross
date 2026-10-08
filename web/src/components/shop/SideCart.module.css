@@ -267,3 +267,107 @@
     display: none;
   }
 }
+
+/* The visitor moved the tab (dragged it, or "move to the other side" in the panel): it sits on that edge of the SCREEN
+   at the height it was dropped. The screen's left is the inline start in LTR and the inline end in RTL, so each side has
+   its LTR rule and its RTL mirror (the stylesheets use logical properties only). */
+.tab {
+  touch-action: none; /* a finger that starts on the tab drags it instead of scrolling the page */
+}
+.placed {
+  inset-inline: auto;
+  inset-block-start: var(--tab-y, 50%);
+  inset-block-end: auto;
+  translate: 0 -50%;
+}
+.placedLeft {
+  inset-inline-start: 0;
+  border: 1px solid var(--glass-line);
+  border-inline-start: 0;
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+  border-start-end-radius: 14px;
+  border-end-end-radius: 14px;
+}
+.placedRight {
+  inset-inline-end: 0;
+  border: 1px solid var(--glass-line);
+  border-inline-end: 0;
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
+  border-start-start-radius: 14px;
+  border-end-start-radius: 14px;
+}
+:global([dir='rtl']) .placedLeft {
+  inset-inline-start: auto;
+  inset-inline-end: 0;
+  border: 1px solid var(--glass-line);
+  border-inline-end: 0;
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
+  border-start-start-radius: 14px;
+  border-end-start-radius: 14px;
+}
+:global([dir='rtl']) .placedRight {
+  inset-inline-end: auto;
+  inset-inline-start: 0;
+  border: 1px solid var(--glass-line);
+  border-inline-start: 0;
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+  border-start-end-radius: 14px;
+  border-end-end-radius: 14px;
+}
+/* While dragged: centred under the pointer (--drag-x is from the screen's left edge). */
+.dragging {
+  inset: auto;
+  inset-inline-start: var(--drag-x);
+  inset-block-start: var(--drag-y);
+  translate: -50% -50%;
+  border: 1px solid var(--gold);
+  border-radius: 14px;
+  cursor: grabbing;
+}
+:global([dir='rtl']) .dragging {
+  inset-inline-start: calc(100vw - var(--drag-x));
+  translate: 50% -50%;
+}
+@media (max-width: 767px) {
+  .placedLeft,
+  .placedRight,
+  :global([dir='rtl']) .placedLeft,
+  :global([dir='rtl']) .placedRight {
+    border: 1px solid var(--glass-line);
+    border-radius: 999px;
+  }
+  .placedLeft,
+  :global([dir='rtl']) .placedRight {
+    inset-inline-start: var(--space-4);
+  }
+  .placedRight,
+  :global([dir='rtl']) .placedLeft {
+    inset-inline-end: var(--space-4);
+  }
+  .dragging {
+    border-radius: 999px;
+  }
+}
+
+.move {
+  justify-self: center;
+  padding: 8px 12px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.85rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.move:hover {
+  color: var(--cream);
+}
+.move:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
