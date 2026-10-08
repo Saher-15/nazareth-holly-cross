@@ -100,9 +100,20 @@ router.post('/login', adminLoginLimiter, adminLoginIpLimiter, asyncHandler(async
   }
 
   const now = new Date();
-  await Admin.updateOne({ _id: admin._id }, {
+  // Consume the step atomically. Concurrent requests must not both use the same code.
+  const loginFilter = { _id: admin._id, disabled: mongoose.trusted({ $ne: true }) };
+  if (usedStep !== null) {
+    loginFilter.totpEnabled = true;
+    loginFilter.totpSecretEnc = admin.totpSecretEnc;
+  }
+  if (usedStep !== null) loginFilter.$or = [
+    { totpLastStep: mongoose.trusted({ $lt: usedStep }) },
+    { totpLastStep: null },
+  ];
+  const consumed = await Admin.updateOne(loginFilter, {
     $set: { failedLogins: 0, lockedUntil: null, lastLoginAt: now, ...(usedStep !== null ? { totpLastStep: usedStep } : {}) },
   });
+  if (!consumed.matchedCount) return res.status(401).json(INVALID);
   const user = publicUser(admin);
   const { sid } = await createSession(admin._id);
   const token = signSessionToken(user, sid);

@@ -90,7 +90,11 @@
     "lastName": "اسم العائلة",
     "yourEmail": "بريدك الإلكتروني",
     "confirmEmail": "تأكيد البريد الإلكتروني",
-    "yourPrayer": "صلاتك"
+    "yourPrayer": "صلاتك",
+    "videosTitle": "فيديوهات",
+    "videosLead": "شاهد كيف تُضاء الشموع في كنائس الناصرة.",
+    "videoPlay": "تشغيل الفيديو: {title}",
+    "videoPlayerTitle": "فيديو: {title}"
   },
   "heroSection": {
     "heading": "مدينة يسوع بانتظارك",

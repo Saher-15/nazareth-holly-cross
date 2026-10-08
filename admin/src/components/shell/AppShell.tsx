@@ -20,6 +20,8 @@ const ICONS: Record<NavId, IconName> = {
   candles: 'candles',
   contacts: 'mail',
   products: 'products',
+  pricing: 'flame',
+  candleVideos: 'video',
   reviews: 'reviews',
   prayers: 'prayers',
   users: 'users',
@@ -35,7 +37,7 @@ const FULL_LOAD = new Set<NavId>(['live']);
 const GROUPS: { label: 'shell.groupOverview' | 'shell.groupInbox' | 'shell.groupCatalog' | 'shell.groupAdmin'; ids: NavId[] }[] = [
   { label: 'shell.groupOverview', ids: ['dashboard', 'live'] },
   { label: 'shell.groupInbox', ids: ['orders', 'payments', 'candles', 'contacts', 'prayers', 'reviews'] },
-  { label: 'shell.groupCatalog', ids: ['products'] },
+  { label: 'shell.groupCatalog', ids: ['products', 'pricing', 'candleVideos'] },
   { label: 'shell.groupAdmin', ids: ['users', 'audit', 'privacy', 'settings', 'profile'] },
 ];
 

@@ -1,11 +1,13 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { api } from '@/lib/api';
 import Flame from '@/components/ui/Flame';
 import PageHero from '@/components/ui/PageHero';
 import { getMedia } from '@/data/media';
 import { flowMetadata } from '@/components/checkout/metadata';
 import shared from '@/components/checkout/checkout.module.css';
 import CandleFlow from './CandleFlow';
+import CandleVideos from './CandleVideos';
 import styles from './candle.module.css';
 
 export async function generateMetadata({ params }: PageProps<'/[locale]/candle'>): Promise<Metadata> {
@@ -55,8 +57,10 @@ export default async function CandlePage({ params }: PageProps<'/[locale]/candle
           </ol>
         </aside>
 
-        <CandleFlow />
+        <CandleFlow priceUsd={await api.candlePrice()} />
       </div>
+
+      <CandleVideos videos={await api.candleVideos()} />
     </div>
   );
 }

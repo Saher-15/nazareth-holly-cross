@@ -90,7 +90,11 @@
     "lastName": "Прізвище",
     "yourEmail": "Ваша електронна адреса",
     "confirmEmail": "Підтвердіть електронну адресу",
-    "yourPrayer": "Ваша молитва"
+    "yourPrayer": "Ваша молитва",
+    "videosTitle": "Відео",
+    "videosLead": "Подивіться, як запалюють свічки в храмах Назарета.",
+    "videoPlay": "Відтворити відео: {title}",
+    "videoPlayerTitle": "Відео: {title}"
   },
   "heroSection": {
     "heading": "МІСТО ІСУСА ЧЕКАЄ НА ВАС",

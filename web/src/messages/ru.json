@@ -90,7 +90,11 @@
     "lastName": "Фамилия",
     "yourEmail": "Ваш адрес электронной почты",
     "confirmEmail": "Подтвердите адрес электронной почты",
-    "yourPrayer": "Ваша молитва"
+    "yourPrayer": "Ваша молитва",
+    "videosTitle": "Видео",
+    "videosLead": "Посмотрите, как зажигают свечи в храмах Назарета.",
+    "videoPlay": "Воспроизвести видео: {title}",
+    "videoPlayerTitle": "Видео: {title}"
   },
   "heroSection": {
     "heading": "ГОРОД ИИСУСА ЖДЁТ ВАС",

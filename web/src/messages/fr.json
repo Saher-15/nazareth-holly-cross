@@ -90,7 +90,11 @@
     "lastName": "Nom de famille",
     "yourEmail": "Votre adresse e-mail",
     "confirmEmail": "Confirmez votre adresse e-mail",
-    "yourPrayer": "Votre prière"
+    "yourPrayer": "Votre prière",
+    "videosTitle": "Vidéos",
+    "videosLead": "Voyez comment les bougies sont allumées dans les églises de Nazareth.",
+    "videoPlay": "Lire la vidéo : {title}",
+    "videoPlayerTitle": "Vidéo : {title}"
   },
   "heroSection": {
     "heading": "LA VILLE DE JÉSUS VOUS ATTEND",

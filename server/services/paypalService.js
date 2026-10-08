@@ -95,8 +95,10 @@ export async function getOrder(orderId) {
 
 const cents = (value) => Math.round(Number(value) * 100);
 
+export { verifiedCaptureStatus } from './paymentCapture.js';
+
 // Proves that a PayPal order was really paid, in full: PayPal itself says it is COMPLETED, it holds one
-// purchase for exactly `expectedAmount` USD, and that purchase has a COMPLETED capture for at least that
+// purchase for exactly `expectedAmount` USD, and completed captures for exactly that
 // amount. Throws an HttpError otherwise (402 = not paid / does not match, 502 = PayPal could not be asked).
 export async function assertPaid(orderId, expectedAmount) {
   let order;
@@ -120,9 +122,9 @@ export async function assertPaid(orderId, expectedAmount) {
   }
   const captures = Array.isArray(unit.payments?.captures) ? unit.payments.captures : [];
   const captured = captures
-    .filter((c) => c.status === 'COMPLETED' && c.amount?.currency_code === 'USD')
+    .filter((c) => c.status === 'COMPLETED' && c.amount?.currency_code === 'USD' && /^\d+(?:\.\d{1,2})?$/.test(String(c.amount?.value)))
     .reduce((sum, c) => sum + cents(c.amount.value), 0);
-  if (captured < cents(expectedAmount)) throw new HttpError(402, 'Payment was not captured');
+  if (captures.some(c => c.status !== 'COMPLETED' || c.amount?.currency_code !== 'USD') || captured !== cents(expectedAmount)) throw new HttpError(402, 'Payment was not captured');
 
   return { id: order.id ?? orderId, amount: expectedAmount };
 }
