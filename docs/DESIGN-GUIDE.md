@@ -669,6 +669,29 @@ photos, `11fr / 9fr` from 900 px). A holy-site page on a phone, top 2600 px:
 
 ![Holy sites index](design/site-sites-en.jpg)
 
+#### Tour (`/tour`)
+
+```
++-----------------------------------------------------------------+
+| PlaceHero (medium) eyebrow + H1 + lead                          |
++-----------------------------------------------------------------+
+| [ tour video frame ]  | H2 + text + (The city of Nazareth ->)   |
++-----------------------------------------------------------------+
+| #tour-activities  band: eyebrow + H2 "Things to do" + lead      |
+| [photo card][photo card][photo card]   1 / 2 / 3 columns         |
+| (title, text, optional "More about this place ->")              |
++-----------------------------------------------------------------+
+| Holy sites: H2 + PlaceCards                                     |
++-----------------------------------------------------------------+
+| plan band: H2 + lead      | (Open the planner)(Visitor guide)   |
++-----------------------------------------------------------------+
+```
+
+The activities (`web/src/components/places/Activities.tsx`) are real, lasting things to do in Nazareth, written without
+prices, opening hours or dates that would go out of date; each photo shows the place the card names, and a card
+links to the holy-site page when there is one. Columns switch at 700 px and 1040 px; the plan band is two columns
+from 900 px and its buttons take the full width on a phone.
+
 #### Shop list (`/shop`)
 
 ```

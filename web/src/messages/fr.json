@@ -1889,5 +1889,43 @@
       "license": "Licence",
       "viewOnCommons": "Voir sur Wikimedia Commons"
     }
+  },
+  "tourPage": {
+    "activities": {
+      "eyebrow": "À Nazareth",
+      "title": "Que faire",
+      "lead": "Quelques façons de passer vos journées dans la ville, au-delà de ses églises.",
+      "more": "En savoir plus sur ce lieu",
+      "oldcity": {
+        "title": "Parcourez la vieille ville et son marché",
+        "text": "Ruelles étroites, passages voûtés et vieux marché, où épices, douceurs et artisanat se vendent côte à côte."
+      },
+      "basilica": {
+        "title": "Priez dans la basilique de l’Annonciation",
+        "text": "Recueillez-vous en silence dans la grotte où la tradition situe l’Annonciation, ou participez à une messe dans l’église haute."
+      },
+      "trail": {
+        "title": "Marchez une étape du Jesus Trail",
+        "text": "Le sentier part de Nazareth et traverse les collines de Galilée vers le lac de Tibériade. Ses premiers kilomètres ouvrent déjà de larges vues."
+      },
+      "precipice": {
+        "title": "Admirez le coucher de soleil depuis le mont du Précipice",
+        "text": "Depuis la falaise au-dessus de la vallée de Jezreel, toute la plaine s’étend à vos pieds, dorée en fin de journée."
+      },
+      "food": {
+        "title": "Goûtez Nazareth",
+        "text": "La ville est connue pour ses douceurs et sa cuisine familiale : goûtez le knafeh, servi chaud."
+      },
+      "christmas": {
+        "title": "Noël à Nazareth",
+        "text": "En décembre, la ville s’illumine, avec un marché de Noël et un défilé festif la veille de Noël."
+      }
+    },
+    "plan": {
+      "title": "Préparez vos journées à Nazareth",
+      "lead": "Choisissez combien de jours vous avez et ce que vous aimez : le planificateur du pèlerin trace un itinéraire avec les temps de marche. Le guide du visiteur réunit les saisons, les façons de venir et des conseils pratiques.",
+      "planner": "Ouvrir le planificateur",
+      "guide": "Guide du visiteur"
+    }
   }
 }

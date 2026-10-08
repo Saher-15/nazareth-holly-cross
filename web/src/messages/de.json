@@ -1889,5 +1889,43 @@
       "license": "Lizenz",
       "viewOnCommons": "Auf Wikimedia Commons ansehen"
     }
+  },
+  "tourPage": {
+    "activities": {
+      "eyebrow": "In Nazareth",
+      "title": "Was Sie unternehmen können",
+      "lead": "Einige Möglichkeiten, Ihre Tage in der Stadt zu verbringen, über ihre Kirchen hinaus.",
+      "more": "Mehr über diesen Ort",
+      "oldcity": {
+        "title": "Durch die Altstadt und ihren Markt",
+        "text": "Enge Gassen, überwölbte Durchgänge und der alte Markt, wo Gewürze, Süßigkeiten und Handwerk nebeneinander verkauft werden."
+      },
+      "basilica": {
+        "title": "Beten in der Verkündigungsbasilika",
+        "text": "Verweilen Sie still in der Grotte, in die die Überlieferung die Verkündigung legt, oder feiern Sie eine Messe in der Oberkirche mit."
+      },
+      "trail": {
+        "title": "Ein Stück auf dem Jesus Trail",
+        "text": "Der Weg beginnt in Nazareth und führt über die Hügel Galiläas zum See Genezareth. Schon die ersten Kilometer öffnen weite Blicke."
+      },
+      "precipice": {
+        "title": "Sonnenuntergang am Berg des Absturzes",
+        "text": "Vom Felsen über der Jesreelebene liegt die ganze Ebene unter Ihnen, golden am Ende des Tages."
+      },
+      "food": {
+        "title": "Nazareth schmecken",
+        "text": "Die Stadt ist für ihre Süßigkeiten und ihre Hausmannskost bekannt: Probieren Sie Knafeh, warm serviert."
+      },
+      "christmas": {
+        "title": "Weihnachten in Nazareth",
+        "text": "Im Dezember erstrahlt die Stadt, mit einem Weihnachtsmarkt und einem festlichen Umzug an Heiligabend."
+      }
+    },
+    "plan": {
+      "title": "Planen Sie Ihre Tage in Nazareth",
+      "lead": "Wählen Sie, wie viele Tage Sie haben und was Sie lieben: Der Pilgerplaner zeichnet eine Route mit Gehzeiten. Der Besucherführer kennt die Jahreszeiten, die Anreise und praktische Hinweise.",
+      "planner": "Planer öffnen",
+      "guide": "Besucherführer"
+    }
   }
 }

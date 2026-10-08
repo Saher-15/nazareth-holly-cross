@@ -1889,5 +1889,43 @@
       "license": "Licença",
       "viewOnCommons": "Ver no Wikimedia Commons"
     }
+  },
+  "tourPage": {
+    "activities": {
+      "eyebrow": "Em Nazaré",
+      "title": "O que fazer",
+      "lead": "Algumas maneiras de passar seus dias na cidade, além das igrejas.",
+      "more": "Mais sobre este lugar",
+      "oldcity": {
+        "title": "Caminhe pela Cidade Velha e seu mercado",
+        "text": "Ruelas estreitas, passagens em arco e o velho mercado, onde especiarias, doces e artesanato são vendidos lado a lado."
+      },
+      "basilica": {
+        "title": "Reze na Basílica da Anunciação",
+        "text": "Sente-se em silêncio na gruta onde a tradição situa a Anunciação, ou participe de uma missa na igreja superior."
+      },
+      "trail": {
+        "title": "Caminhe um trecho da Trilha de Jesus",
+        "text": "A trilha começa em Nazaré e atravessa as colinas da Galileia rumo ao mar da Galileia. Já os primeiros quilômetros abrem vistas amplas."
+      },
+      "precipice": {
+        "title": "Veja o pôr do sol do Monte do Precipício",
+        "text": "Do penhasco acima do vale de Jezreel, toda a planície se estende abaixo de você, dourada no fim do dia."
+      },
+      "food": {
+        "title": "Prove Nazaré",
+        "text": "A cidade é conhecida por seus doces e sua comida caseira: experimente o knafeh, servido quente."
+      },
+      "christmas": {
+        "title": "Natal em Nazaré",
+        "text": "Em dezembro a cidade se ilumina, com uma feira de Natal e um desfile festivo na véspera de Natal."
+      }
+    },
+    "plan": {
+      "title": "Planeje seus dias em Nazaré",
+      "lead": "Escolha quantos dias você tem e o que você ama: o planejador do peregrino traça um roteiro com os tempos a pé. O guia do visitante reúne as estações, como chegar e dicas práticas.",
+      "planner": "Abrir o planejador",
+      "guide": "Guia do visitante"
+    }
   }
 }

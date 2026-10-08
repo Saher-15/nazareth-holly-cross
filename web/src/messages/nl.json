@@ -1889,5 +1889,43 @@
       "license": "Licentie",
       "viewOnCommons": "Bekijk op Wikimedia Commons"
     }
+  },
+  "tourPage": {
+    "activities": {
+      "eyebrow": "In Nazareth",
+      "title": "Wat u kunt doen",
+      "lead": "Enkele manieren om uw dagen in de stad door te brengen, naast haar kerken.",
+      "more": "Meer over deze plek",
+      "oldcity": {
+        "title": "Wandel door de Oude Stad en haar markt",
+        "text": "Smalle steegjes, overwelfde doorgangen en de oude markt, waar specerijen, zoetigheden en handwerk naast elkaar worden verkocht."
+      },
+      "basilica": {
+        "title": "Bid in de Annunciatiebasiliek",
+        "text": "Zit in stilte in de grot waar de overlevering de Annunciatie plaatst, of woon een mis bij in de bovenkerk."
+      },
+      "trail": {
+        "title": "Loop een stuk van de Jesus Trail",
+        "text": "Het pad begint in Nazareth en trekt over de heuvels van Galilea naar het Meer van Galilea. De eerste kilometers bieden al wijde uitzichten."
+      },
+      "precipice": {
+        "title": "Bekijk de zonsondergang vanaf de Berg van de Afgrond",
+        "text": "Vanaf de rots boven de Jizreëlvlakte ligt de hele vlakte aan uw voeten, goudkleurig aan het eind van de dag."
+      },
+      "food": {
+        "title": "Proef Nazareth",
+        "text": "De stad staat bekend om haar zoetigheden en haar huiselijke keuken: probeer knafeh, warm geserveerd."
+      },
+      "christmas": {
+        "title": "Kerstmis in Nazareth",
+        "text": "In december licht de stad op, met een kerstmarkt en een feestelijke optocht op kerstavond."
+      }
+    },
+    "plan": {
+      "title": "Plan uw dagen in Nazareth",
+      "lead": "Kies hoeveel dagen u hebt en waar u van houdt: de pelgrimsplanner tekent een route met looptijden. De bezoekersgids bundelt de seizoenen, de reiswegen en praktisch advies.",
+      "planner": "Planner openen",
+      "guide": "Bezoekersgids"
+    }
   }
 }
