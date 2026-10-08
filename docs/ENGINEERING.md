@@ -141,3 +141,9 @@ If Playwright cannot download its browser, run the tests with an installed one: 
 3. **Staging** environment (Render service + Atlas DB + PayPal sandbox) so previews never touch production data.
 4. **PayPal Live** with webhook verification; one admin login; error tracking (Sentry) and uptime monitoring.
 5. **Growth** — native translation review, SEO (structured data), image optimisation, analytics with consent.
+
+## Payment/security maintenance (2026-10-07)
+
+`server` development uses Node native watch (`npm run dev`), removing nodemon and its vulnerable glob dependency. All three projects expose `npm run security:audit`; CI audits production and development dependencies. Web/admin lint preload the bounded braces guard. Its sole advisory exception expires 2026-11-06 and must be removed when upstream releases a patch. No dependency was added.
+
+`node server/scripts/repair-payments.js --help` describes the new operator tool. Run from `server/` with the same protected database/PayPal configuration as other maintenance tools. Default: read-only PayPal comparison; `--apply`: repair verified completed ledger rows, create missing orders/candles from saved drafts and rotate lastCheckedAt. It never invokes capture. Review output first; do not use production credentials in tests.

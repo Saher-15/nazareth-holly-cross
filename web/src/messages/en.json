@@ -90,7 +90,11 @@
     "lastName": "Last name",
     "yourEmail": "Your email",
     "confirmEmail": "Confirm email",
-    "yourPrayer": "Your prayer"
+    "yourPrayer": "Your prayer",
+    "videosTitle": "Videos",
+    "videosLead": "See how the candles are lit in the churches of Nazareth.",
+    "videoPlay": "Play the video: {title}",
+    "videoPlayerTitle": "Video: {title}"
   },
   "heroSection": {
     "heading": "JESUS CITY AWAITS",

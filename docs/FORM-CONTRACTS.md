@@ -78,8 +78,10 @@ Step 3, `POST /order/newOrder` (after paying, retried by `web/src/lib/pendingFul
 
 ### 2.3 Prayer candle (`/candle`, `POST /candle/lightACandle`)
 
+The price is the owner's setting (docs/ADMIN.md 5.4): `GET /candle/price` answers `{ price, currency: "USD" }`; the page shows it and `create_order` charges the same.
+
 Client: `web/src/app/[locale]/candle/CandleFlow.tsx`, `validation.ts`. Route: `server/route/candleRoute.js`. Model:
-`server/model/candle.js`. Pays first (`create_order { type: 'candle' }`, fixed price), then saves. Labels `candle.*`.
+`server/model/candle.js`. Pays first (`create_order { type: 'candle' }`, the owner's candle price), then saves. Labels `candle.*`.
 
 | Field | Label key | Client name | Model field | Required | Limits (client / model) | Rule | Status |
 |---|---|---|---|---|---|---|---|

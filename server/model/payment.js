@@ -27,7 +27,22 @@ const paymentSchema = new Schema({
   amount: { type: Number, required: true, min: [0, 'Amount cannot be negative'], max: [1_000_000, 'Amount too large'] },
   currency: { type: String, default: 'USD', trim: true, uppercase: true, minlength: 3, maxlength: 3 },
   status: { type: String, enum: PAYMENT_STATUSES, default: 'created' },
+  captureVerified: { type: Boolean, default: false },
+  // Temporary personal data, hidden from ordinary admin lists. Cleared on fulfilment/erasure.
+  fulfilment: { type: Schema.Types.Mixed, select: false },
+  // Immutable server quote; fulfilment uses it even if the catalog changes during payment.
+  orderQuote: {
+    amount: { type: Number, min: 0.01, max: 1_000_000 },
+    lines: [{
+      _id: false,
+      productID: { type: Schema.Types.ObjectId, required: true },
+      productName: { type: String, maxlength: 200 },
+      quantity: { type: Number, min: 1, max: 50, required: true },
+      color: { type: String, maxlength: 50 },
+    }],
+  },
   capturedAt: { type: Date, default: null },
+  lastCheckedAt: { type: Date, default: null },
   // What PayPal says about the payer (a personal-data field: see docs/DATABASE.md, erased with the customer's data).
   payerEmail: { type: String, trim: true, lowercase: true, maxlength: [254, 'Email too long'] },
   payerName: { type: String, trim: true, maxlength: [200, 'Name too long'] },

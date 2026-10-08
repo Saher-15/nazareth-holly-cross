@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import type { PaymentPayload } from '@/lib/paypal';
-import { CANDLE_PRICE, formatUsd } from '@/lib/pricing';
+import { formatUsd } from '@/lib/pricing';
 import DonePanel from '@/components/checkout/DonePanel';
 import Field, { invalidProps, TextField } from '@/components/checkout/Field';
 import PayPalPanel from '@/components/checkout/LazyPayPalPanel';
@@ -47,10 +47,11 @@ const IDS: Record<Key, string> = {
 const ORDER = fieldOrder(IDS);
 const id = (key: Key) => IDS[key];
 
-const getPayload = (): PaymentPayload => ({ type: 'candle' });
+
 
 // 1) church + name + prayer, 2) summary + PayPal ($3, priced by the API), 3) thank you.
-export default function CandleFlow() {
+/** `priceUsd`: the live candle price from the API (candle/page.tsx); create_order charges the same. */
+export default function CandleFlow({ priceUsd }: { priceUsd: number }) {
   const t = useTranslations('checkoutPage');
   const tr = useTranslations();
   const locale = useLocale();
@@ -59,10 +60,11 @@ export default function CandleFlow() {
   const [reference, setReference] = useState('');
   const form = useValidatedForm(emptyCandle, validateCandle);
   const { values, set, touch, shown } = form;
+  const getPayload = useCallback((): PaymentPayload => ({ type: 'candle', fulfilment: buildCandleBody(values) }), [values]);
   const saving = useSaveAfterPayment();
   const { save } = saving;
   const headingRef = useStepFocus<HTMLHeadingElement>(step);
-  const price = formatUsd(CANDLE_PRICE, locale);
+  const price = formatUsd(priceUsd, locale);
   const church = CHURCH_CARDS.find((c) => c.value === values.church);
 
   const onPaid = useCallback(
@@ -236,7 +238,7 @@ export default function CandleFlow() {
             </dt>
             <dd data-testid="candle-total">{price}</dd>
           </dl>
-          <CurrencyNote amountUsd={CANDLE_PRICE} />
+          <CurrencyNote amountUsd={priceUsd} />
           <h3 className={shared.payTitle}>{tr('paypalComponent.paymentMethod')}</h3>
           <PayPalPanel getPayload={getPayload} onPaid={onPaid} />
           <div className={shared.actions}>

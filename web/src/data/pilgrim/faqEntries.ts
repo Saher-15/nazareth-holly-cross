@@ -12,9 +12,10 @@ export type FaqItem = { anchor: string; group: FaqGroup['id']; id: string; quest
 const DONATION_MIN = 1;
 const DONATION_MAX = 5000;
 
-export function faqValues(locale: string) {
+/** `candlePrice`: the live price (api.candlePrice()); the built-in default when a caller has none. */
+export function faqValues(locale: string, candlePrice: number = CANDLE_PRICE) {
   return {
-    price: formatUsd(CANDLE_PRICE, locale),
+    price: formatUsd(candlePrice, locale),
     shipping: formatUsd(SHIPPING_FEE, locale),
     min: formatUsd(DONATION_MIN, locale),
     max: formatUsd(DONATION_MAX, locale),
@@ -24,8 +25,8 @@ export function faqValues(locale: string) {
 }
 
 /** The questions and answers of the given groups (all groups when none is given), in page order. */
-export function faqItems(t: Translate, locale: string, groups: readonly FaqGroup[] = FAQ_GROUPS): FaqItem[] {
-  const values = faqValues(locale);
+export function faqItems(t: Translate, locale: string, groups: readonly FaqGroup[] = FAQ_GROUPS, candlePrice: number = CANDLE_PRICE): FaqItem[] {
+  const values = faqValues(locale, candlePrice);
   return groups.flatMap((group) =>
     group.ids.map((id) => ({
       anchor: faqAnchor(group.id, id),

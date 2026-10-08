@@ -50,9 +50,8 @@ export const config = {
   databaseUrl: env.DATABASEURL,
   jwtSecret: env.JWT_SECRET,
   clientUrl: env.CLIENT_URL,
-  // When "true", /order/newOrder and /candle/lightACandle refuse a request that does not carry a paypalOrderId PayPal
-  // confirmed. The public site (web/) always sends it (docs/SECURITY.md section 5), so it can be switched on.
-  requirePaymentProof: env.REQUIRE_PAYMENT_PROOF === 'true',
+  // Production always fails closed; only local/test compatibility may explicitly opt out.
+  requirePaymentProof: env.NODE_ENV === 'production' || env.REQUIRE_PAYMENT_PROOF !== 'false',
   // Comma-separated extra origins allowed by CORS (e.g. a new admin domain)
   extraOrigins: (env.EXTRA_ORIGINS || '').split(',').map((o) => o.trim()).filter(Boolean),
   // Comma-separated browser origins of the NEW admin dashboard (docs/ADMIN.md). Exact origins, no wildcards.

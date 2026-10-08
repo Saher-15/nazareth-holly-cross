@@ -90,7 +90,11 @@
     "lastName": "שם משפחה",
     "yourEmail": "כתובת הדוא״ל שלכם",
     "confirmEmail": "אימות כתובת הדוא״ל",
-    "yourPrayer": "התפילה שלכם"
+    "yourPrayer": "התפילה שלכם",
+    "videosTitle": "סרטונים",
+    "videosLead": "ראו איך מדליקים את הנרות בכנסיות של נצרת.",
+    "videoPlay": "הפעלת הסרטון: {title}",
+    "videoPlayerTitle": "סרטון: {title}"
   },
   "heroSection": {
     "heading": "עיר ישוע מחכה לכם",

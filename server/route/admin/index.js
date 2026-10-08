@@ -7,6 +7,8 @@ import auditRouter from './audit.js';
 import exportRouter from './export.js';
 import paymentsRouter from './payments.js';
 import privacyRouter from './privacy.js';
+import settingsRouter from './settings.js';
+import candleVideosRouter from './candleVideos.js';
 import liveRouter from './live.js';
 import { candles, contacts, siteReviews, productReviews, prayers } from './collections.js';
 import { adminAccess, requireRole } from '../../middleware/adminGuard.js';
@@ -49,5 +51,7 @@ router.use('/live', ...adminAccess, liveRouter); // editor or owner (route/admin
 router.use('/users', ...adminAccess, requireRole('owner'), usersRouter);
 router.use('/audit', ...adminAccess, requireRole('owner'), auditRouter);
 router.use('/privacy', ...adminAccess, requireRole('owner'), privacyRouter);
+router.use('/candle-videos', ...adminAccess, candleVideosRouter); // read: every admin; write: editor (route/admin/candleVideos.js)
+router.use('/settings', ...adminAccess, settingsRouter); // read: every admin; candle price: owner (route/admin/settings.js)
 
 export default router;

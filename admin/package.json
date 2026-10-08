@@ -8,13 +8,14 @@
     "dev:mock": "node mock-api/server.mjs",
     "build": "next build",
     "start": "next start -p 3901",
-    "lint": "eslint",
+    "lint": "node --require ../ops/braces-depth-guard.cjs node_modules/eslint/bin/eslint.js .",
     "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
     "test:e2e": "playwright test",
     "check": "npm run lint && npm run typecheck && npm run test && npm run build",
     "test:e2e:harness": "node scripts/e2e.mjs harness",
-    "dev:harness": "node ../server/test-harness/serve.mjs"
+    "dev:harness": "node ../server/test-harness/serve.mjs",
+    "security:audit": "node ../ops/audit-dependencies.mjs"
   },
   "dependencies": {
     "next": "16.3.8",

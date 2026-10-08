@@ -77,6 +77,10 @@ whatever the token says.
 | `GET /admin/payments`, `GET /admin/payments/:id` | yes | yes | yes |
 | `PATCH /admin/payments/:id` (resolve with a note, reopen) | - | yes | yes |
 | `POST /admin/privacy/lookup`, `POST /admin/privacy/erase` | - | - | yes |
+| `GET /admin/settings` (the candle price, its limits, who changed it last) | yes | yes | yes |
+| `PUT /admin/settings/candle-price` `{ price }` (1 to 100 USD, two decimals; audited `settings.candle_price` with `from` and `to`) | - | - | yes |
+| `GET /admin/candle-videos` | yes | yes | yes |
+| `POST /admin/candle-videos`, `POST /admin/candle-videos/:id/{upload-url,uploaded}`, `PATCH`/`DELETE /admin/candle-videos/:id` | - | yes | yes |
 | `GET /admin/live`, `POST /admin/live/start`, `POST /admin/live/stop` | - | yes | yes |
 | `GET`/`POST /admin/live/recordings`, `POST /admin/live/recordings/:id/{upload-url,uploaded}`, `PATCH`/`DELETE /admin/live/recordings/:id` | - | yes (uploads only for their own broadcasts) | yes |
 | `GET`/`POST /admin/live/schedule`, `PATCH`/`DELETE /admin/live/schedule/:id` | - | yes | yes |
@@ -164,6 +168,8 @@ Authy and 1Password expect. Implemented with `node:crypto` (no new dependency).
 
 A code works **once**: the last accepted step is stored and that step (or an older one) is refused, so a code that was
 just used cannot be replayed within its 30 seconds. A wrong code counts toward the lockout.
+
+**Security audit update (2026-10-07).** TOTP login uses an atomic last-step comparison/update, so two concurrent uses of the same code produce one session. Privacy lookup and erasure also cover payment checkout drafts before payerEmail is populated. Payment repair is an operator CLI action (`scripts/repair-payments.js`), with read-only default and explicit --apply; the dashboard contract is unchanged.
 
 ### 3.5 Secrets at rest
 
@@ -446,6 +452,30 @@ own record) and `hostLogs` (Cloudflare, Render, Netlify request logs). The dashb
 
 The address must be a valid one and not the placeholder erased records carry (`erased@erased.invalid`); 20 requests per 15 minutes per owner; both calls are audited with a keyed hash of the address and
 the counts, never the address, the name or the country. The policy is in docs/DATABASE.md sections 7 and 8.
+
+### 5.4 Settings: the candle price (`/pricing` in the dashboard)
+
+`GET /admin/settings` answers `{ candlePrice, candlePriceMin, candlePriceMax, currency, updatedAt, updatedBy }` to every
+role; `PUT /admin/settings/candle-price { price }` is the owner's (1 to 100 USD, at most two decimals, a strict body: 400
+otherwise, 403 for an editor or a viewer). The value lives in `model/siteSetting.js` (one document, key `site`) and is read
+through `services/siteSettings.js` (cached 30 seconds, dropped at once on a change). `create_order` charges it; a candle is
+then checked against the price its payment was **started** with (the ledger's amount, rows of type `candle` only), so a change
+never blocks a customer who has already paid. The website reads `GET /candle/price` (public, cached a minute) for the candle
+page, the FAQ and the terms, and falls back to the built-in `$3` when the API cannot be reached.
+
+### 5.5 The candle page's videos (`/candle-videos` in the dashboard)
+
+Short films for the website's candle page (for example how the candles are lit), not tied to a broadcast. Model
+`model/candleVideo.js`, service `services/candleVideos.js`, routes `route/admin/candleVideos.js`. The upload uses the same
+pipeline as the broadcast recordings (docs/LIVE.md): `POST /admin/candle-videos { title, sizeBytes, mimeType }` asks
+Cloudflare Stream for a one-time tus address (MP4, MOV, WebM or MKV, at most 2 GB and 30 minutes; at most 20 videos), the
+browser sends the file straight to Cloudflare, then `POST /:id/uploaded` asks Cloudflare how far it got
+(uploading -> processing -> ready, or failed; also checked on every list read). A video is published only once it is
+ready (`PATCH { published: true }`, 409 before). `DELETE` also deletes it at Cloudflare. Every write is audited
+(`candle_video.create`, `.renew`, `.update`, `.delete`, `.status`). Without `CF_ACCOUNT_ID` and `CF_STREAM_API_TOKEN` the
+list says "not set up" and an upload answers 503. The website reads `GET /candle/videos` (published and ready, newest first,
+public, cached a minute; only Cloudflare Stream addresses are accepted) and shows a section below the form only when there
+is at least one: a poster button per video, and Cloudflare's player only after a press.
 
 ## 6. Operations
 

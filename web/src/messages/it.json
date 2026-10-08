@@ -90,7 +90,11 @@
     "lastName": "Cognome",
     "yourEmail": "La tua email",
     "confirmEmail": "Conferma email",
-    "yourPrayer": "La tua preghiera"
+    "yourPrayer": "La tua preghiera",
+    "videosTitle": "Video",
+    "videosLead": "Guardate come vengono accese le candele nelle chiese di Nazaret.",
+    "videoPlay": "Riproduci il video: {title}",
+    "videoPlayerTitle": "Video: {title}"
   },
   "heroSection": {
     "heading": "LA CITTÀ DI GESÙ TI ASPETTA",

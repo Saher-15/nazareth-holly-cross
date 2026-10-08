@@ -90,7 +90,11 @@
     "lastName": "Nazwisko",
     "yourEmail": "Twój adres e-mail",
     "confirmEmail": "Potwierdź adres e-mail",
-    "yourPrayer": "Twoja modlitwa"
+    "yourPrayer": "Twoja modlitwa",
+    "videosTitle": "Filmy",
+    "videosLead": "Zobacz, jak zapala się świece w kościołach Nazaretu.",
+    "videoPlay": "Odtwórz film: {title}",
+    "videoPlayerTitle": "Film: {title}"
   },
   "heroSection": {
     "heading": "MIASTO JEZUSA CZEKA NA CIEBIE",

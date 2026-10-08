@@ -90,7 +90,11 @@
     "lastName": "Nume",
     "yourEmail": "Adresa dumneavoastră de e-mail",
     "confirmEmail": "Confirmați adresa de e-mail",
-    "yourPrayer": "Rugăciunea dumneavoastră"
+    "yourPrayer": "Rugăciunea dumneavoastră",
+    "videosTitle": "Videoclipuri",
+    "videosLead": "Vedeți cum sunt aprinse lumânările în bisericile din Nazaret.",
+    "videoPlay": "Redați videoclipul: {title}",
+    "videoPlayerTitle": "Videoclip: {title}"
   },
   "heroSection": {
     "heading": "ORAȘUL LUI IISUS VĂ AȘTEAPTĂ",

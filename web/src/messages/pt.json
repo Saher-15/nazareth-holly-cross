@@ -90,7 +90,11 @@
     "lastName": "Sobrenome",
     "yourEmail": "Seu e-mail",
     "confirmEmail": "Confirmar e-mail",
-    "yourPrayer": "Sua oração"
+    "yourPrayer": "Sua oração",
+    "videosTitle": "Vídeos",
+    "videosLead": "Veja como as velas são acesas nas igrejas de Nazaré.",
+    "videoPlay": "Reproduzir o vídeo: {title}",
+    "videoPlayerTitle": "Vídeo: {title}"
   },
   "heroSection": {
     "heading": "A CIDADE DE JESUS ESPERA POR VOCÊ",

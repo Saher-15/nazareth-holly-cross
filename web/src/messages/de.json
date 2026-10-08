@@ -90,7 +90,11 @@
     "lastName": "Nachname",
     "yourEmail": "Ihre E-Mail-Adresse",
     "confirmEmail": "E-Mail bestätigen",
-    "yourPrayer": "Ihr Gebet"
+    "yourPrayer": "Ihr Gebet",
+    "videosTitle": "Videos",
+    "videosLead": "Sehen Sie, wie die Kerzen in den Kirchen von Nazareth angezündet werden.",
+    "videoPlay": "Video abspielen: {title}",
+    "videoPlayerTitle": "Video: {title}"
   },
   "heroSection": {
     "heading": "DIE STADT JESU ERWARTET SIE",

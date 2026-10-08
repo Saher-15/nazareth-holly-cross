@@ -9,7 +9,7 @@ type Call = { path: string; body: unknown };
 
 const DEFAULT_REPLIES: Record<string, Reply[]> = {
   '/order/create_order': [{ body: { id: 'TESTORDER00000001', status: 'CREATED' } }],
-  '/order/complete_order': [{ body: { id: 'TESTCAPTURE0000001', status: 'COMPLETED' } }],
+  '/order/complete_order': [{ body: { id: 'TESTORDER00000001', status: 'COMPLETED' } }],
   '/order/newOrder': [{ status: 201, body: 'Created' }],
   '/candle/lightACandle': [{ body: 'Success' }],
 };
@@ -219,11 +219,11 @@ test.describe('checkout', () => {
 
     await expect(page.getByRole('heading', { name: 'Thank You!' })).toBeVisible();
     await expect(page.getByText('A receipt has been sent to your email address.')).toBeVisible();
-    await expect(page.getByText('Payment reference: TESTCAPTURE0000001')).toBeVisible();
+    await expect(page.getByText('Payment reference: TESTORDER00000001')).toBeVisible();
     expect(calls).toEqual([
       {
         path: '/order/create_order',
-        body: { type: 'order', items: [{ _id: '66eb4665c7e03262956c8d1d', quantity: 2 }] },
+        body: expect.objectContaining({ type: 'order', items: [{ _id: '66eb4665c7e03262956c8d1d', quantity: 2, color: 'brown' }], fulfilment: expect.objectContaining({ firstName: 'Maria', email: 'maria@example.com' }), cart: expect.any(String) }),
       },
       { path: '/order/complete_order', body: { order_id: 'TESTORDER00000001' } },
       {
@@ -241,7 +241,7 @@ test.describe('checkout', () => {
           totalPrice: 41,
           products: [{ productID: '66eb4665c7e03262956c8d1d', productName: 'Olive wood cross', quantity: 2, color: 'brown' }],
           // the proof of payment: the API checks it with PayPal before it saves the order
-          paypalOrderId: 'TESTCAPTURE0000001',
+          paypalOrderId: 'TESTORDER00000001',
         },
       },
     ]);
@@ -331,9 +331,9 @@ test.describe('candle', () => {
     await expect(page.getByRole('heading', { name: 'Thank You!' })).toBeVisible();
     const notice = page.locator('main').getByRole('status').filter({ hasText: 'We could not save your details just yet' });
     await expect(notice).toBeVisible();
-    await expect(notice).toContainText('TESTCAPTURE0000001');
-    await expect(page.getByText('Payment reference: TESTCAPTURE0000001')).toBeVisible();
-    await expect.poll(() => page.evaluate(() => localStorage.getItem('nhc.pending-fulfilment.v1'))).toContain('TESTCAPTURE0000001');
+    await expect(notice).toContainText('TESTORDER00000001');
+    await expect(page.getByText('Payment reference: TESTORDER00000001')).toBeVisible();
+    await expect.poll(() => page.evaluate(() => localStorage.getItem('nhc.pending-fulfilment.v1'))).toContain('TESTORDER00000001');
 
     // ...and the page tries again by itself (after two seconds), no click needed
     await expect(notice).toBeHidden({ timeout: 15_000 });
@@ -345,10 +345,10 @@ test.describe('candle', () => {
       lastName: 'Smith',
       email: 'anna@example.com',
       prayer: 'Annunciation church, For my family',
-      paypalOrderId: 'TESTCAPTURE0000001', // lets the API check the $3 was paid and link it to the request
+      paypalOrderId: 'TESTORDER00000001', // lets the API check the $3 was paid and link it to the request
     };
     expect(calls).toEqual([
-      { path: '/order/create_order', body: { type: 'candle' } },
+      { path: '/order/create_order', body: { type: 'candle', fulfilment: { firstName: 'Anna', lastName: 'Smith', email: 'anna@example.com', prayer: 'Annunciation church, For my family' } } },
       { path: '/order/complete_order', body: { order_id: 'TESTORDER00000001' } },
       { path: '/candle/lightACandle', body: expected },
       { path: '/candle/lightACandle', body: expected },
@@ -380,11 +380,11 @@ test.describe('candle', () => {
     await page.getByRole('button', { name: 'LIGHT', exact: true }).click();
     await page.getByRole('button', { name: 'Test PayPal' }).click();
     await expect(page.locator('main').getByRole('alert')).toContainText('Your payment went through, but we could not save your details.');
-    await expect(page.getByText('Payment reference: TESTCAPTURE0000001')).toBeVisible();
+    await expect(page.getByText('Payment reference: TESTORDER00000001')).toBeVisible();
     await page.waitForTimeout(3_500); // longer than the first retry delay
     expect(calls.filter((c) => c.path === '/candle/lightACandle')).toHaveLength(1);
     // kept as evidence: the customer paid
-    await expect.poll(() => page.evaluate(() => localStorage.getItem('nhc.pending-fulfilment.v1'))).toContain('TESTCAPTURE0000001');
+    await expect.poll(() => page.evaluate(() => localStorage.getItem('nhc.pending-fulfilment.v1'))).toContain('TESTORDER00000001');
   });
 });
 
@@ -405,12 +405,12 @@ test.describe('checkout: a paid order is never lost', () => {
     await payAndSave(page);
 
     await expect(page.getByRole('heading', { name: 'Thank You!' })).toBeVisible();
-    await expect(page.getByText('Payment reference: TESTCAPTURE0000001')).toBeVisible();
+    await expect(page.getByText('Payment reference: TESTORDER00000001')).toBeVisible();
     await expect(waitingNotice(page)).toBeVisible();
     // the order itself is in storage (name, address, products, with the payment id as its key)
     const record = JSON.parse((await pending(page)) ?? '[]');
     expect(record).toHaveLength(1);
-    expect(record[0]).toMatchObject({ paypalOrderId: 'TESTCAPTURE0000001', path: '/order/newOrder', state: 'pending' });
+    expect(record[0]).toMatchObject({ paypalOrderId: 'TESTORDER00000001', path: '/order/newOrder', state: 'pending' });
     expect(record[0].body).toMatchObject({ firstName: 'Maria', email: 'maria@example.com', products: [{ productID: '66eb4665c7e03262956c8d1d', quantity: 2 }] });
     // the cart still holds what was paid for: it is emptied only when the order is confirmed saved
     expect(await page.evaluate(() => localStorage.getItem('nhc.cart.v1'))).not.toBe('[]');
@@ -424,7 +424,7 @@ test.describe('checkout: a paid order is never lost', () => {
     await expect(waitingNotice(page)).toBeVisible();
 
     await page.goto('/en/checkout'); // the cart still holds the paid items
-    const notice = page.locator('main').getByRole('status').filter({ hasText: 'Your earlier payment (TESTCAPTURE0000001) is still waiting to be saved' });
+    const notice = page.locator('main').getByRole('status').filter({ hasText: 'Your earlier payment (TESTORDER00000001) is still waiting to be saved' });
     await expect(notice).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Contact & delivery information' })).toBeVisible();
 
@@ -443,11 +443,11 @@ test.describe('checkout: a paid order is never lost', () => {
 
     newOrder[0] = { status: 201, body: 'Created' }; // the API is back; the customer comes back another day
     await page.goto('/en/faq');
-    await expect(page.getByText('Good news: your earlier payment (TESTCAPTURE0000001) has now been saved with us. Thank you!')).toBeVisible();
+    await expect(page.getByText('Good news: your earlier payment (TESTORDER00000001) has now been saved with us. Thank you!')).toBeVisible();
     await expect.poll(() => pending(page)).toBeNull();
     await expect.poll(() => page.evaluate(() => localStorage.getItem('nhc.cart.v1'))).toBe('[]');
     const saves = calls.filter((c) => c.path === '/order/newOrder');
-    expect(saves.at(-1)?.body).toMatchObject({ firstName: 'Maria', paypalOrderId: 'TESTCAPTURE0000001' });
+    expect(saves.at(-1)?.body).toMatchObject({ firstName: 'Maria', paypalOrderId: 'TESTORDER00000001' });
   });
 
   test('a tab closed right after paying loses nothing: the order is in storage before the first request is sent', async ({ page }) => {
@@ -465,14 +465,14 @@ test.describe('checkout: a paid order is never lost', () => {
     await payAndSave(page);
     await expect(page.getByRole('heading', { name: 'Thank You!' })).toBeVisible();
     await expect.poll(() => held).not.toBeNull(); // the request was made (and aborted); this is what storage held at that moment
-    expect(JSON.parse(held ?? '[]')[0]).toMatchObject({ paypalOrderId: 'TESTCAPTURE0000001', path: '/order/newOrder' });
+    expect(JSON.parse(held ?? '[]')[0]).toMatchObject({ paypalOrderId: 'TESTORDER00000001', path: '/order/newOrder' });
   });
 
   test('a lost answer to the capture is asked for again: the customer is not told they were not charged', async ({ page }) => {
     const completes: Reply[] = [
       { status: 503, body: { error: 'asleep' } },
       { status: 503, body: { error: 'asleep' } },
-      { body: { id: 'TESTCAPTURE0000001', status: 'COMPLETED' } },
+      { body: { id: 'TESTORDER00000001', status: 'COMPLETED' } },
     ];
     const calls = await mockNetwork(page, { paypal: 'fake', replies: { '/order/complete_order': completes } });
     await seedCart(page);
