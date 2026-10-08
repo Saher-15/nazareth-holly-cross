@@ -617,7 +617,9 @@
     "shipping": "משלוח",
     "total": "סך הכול",
     "secure": "תשלום מאובטח באמצעות PayPal",
-    "emptyLead": "גלו מחרוזות תפילה, צלבים ומזכרות מנצרת."
+    "emptyLead": "גלו מחרוזות תפילה, צלבים ומזכרות מנצרת.",
+    "sideCartClose": "סגירת העגלה",
+    "sideCartView": "צפייה בעגלה המלאה"
   },
   "checkoutPage": {
     "meta": {

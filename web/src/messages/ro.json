@@ -617,7 +617,9 @@
     "shipping": "Livrare",
     "total": "Total",
     "secure": "Plată sigură prin PayPal",
-    "emptyLead": "Rozarii, cruci și amintiri din Nazaret vă așteaptă."
+    "emptyLead": "Rozarii, cruci și amintiri din Nazaret vă așteaptă.",
+    "sideCartClose": "Închide coșul",
+    "sideCartView": "Vezi tot coșul"
   },
   "checkoutPage": {
     "meta": {
