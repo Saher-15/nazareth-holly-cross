@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import { api } from '@/lib/api';
 import { getFormatter, getTranslations, setRequestLocale } from 'next-intl/server';
+import { api } from '@/lib/api';
 import { mediaPhoto } from '@/data/places/places';
 import { breadcrumbJsonLd, faqJsonLd, webPageJsonLd } from '@/lib/jsonLd';
 import { pilgrimMetadata } from '@/data/pilgrim/meta';

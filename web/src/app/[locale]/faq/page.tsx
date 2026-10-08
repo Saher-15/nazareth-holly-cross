@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import { api } from '@/lib/api';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { api } from '@/lib/api';
 import { breadcrumbJsonLd, faqJsonLd, webPageJsonLd } from '@/lib/jsonLd';
 import { FAQ_GROUPS } from '@/data/pilgrim/faq';
 import { faqItems, type Translate } from '@/data/pilgrim/faqEntries';

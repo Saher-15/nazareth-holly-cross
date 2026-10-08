@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
-import { api } from '@/lib/api';
 import { getFormatter, getTranslations } from 'next-intl/server';
+import { api } from '@/lib/api';
 import { Link } from '@/i18n/navigation';
 import { breadcrumbJsonLd, webPageJsonLd } from '@/lib/jsonLd';
 import { faqValues, type Translate } from '@/data/pilgrim/faqEntries';
