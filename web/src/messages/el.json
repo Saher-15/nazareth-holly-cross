@@ -424,7 +424,11 @@
     "prayersTotal": "Προσευχές στον τοίχο",
     "prayersCountriesLatest": "{count, plural, one {Χώρες στην τελευταία προσευχή} other {Χώρες στις τελευταίες # προσευχές}}",
     "prayersCountriesAll": "Χώρες στον τοίχο",
-    "prayersAll": "Διαβάστε τον τοίχο προσευχών"
+    "prayersAll": "Διαβάστε τον τοίχο προσευχών",
+    "intro": {
+      "welcome": "Καλώς ήρθατε στη Ναζαρέτ",
+      "tagline": "Η πόλη του Ιησού"
+    }
   },
   "homePage": {
     "meta": {

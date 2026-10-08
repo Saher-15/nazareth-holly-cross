@@ -424,7 +424,11 @@
     "prayersTotal": "Prayers on the wall",
     "prayersCountriesLatest": "{count, plural, one {Countries in the newest prayer} other {Countries in the newest # prayers}}",
     "prayersCountriesAll": "Countries on the wall",
-    "prayersAll": "Read the prayer wall"
+    "prayersAll": "Read the prayer wall",
+    "intro": {
+      "welcome": "Welcome to Nazareth",
+      "tagline": "Jesus City"
+    }
   },
   "homePage": {
     "meta": {

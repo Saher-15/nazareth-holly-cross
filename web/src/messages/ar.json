@@ -424,7 +424,11 @@
     "prayersTotal": "الصلوات على الجدار",
     "prayersCountriesLatest": "{count, plural, zero {البلدان في آخر الصلوات} one {البلدان في آخر صلاة} two {البلدان في آخر صلاتين} few {البلدان في آخر # صلوات} many {البلدان في آخر # صلاة} other {البلدان في آخر # صلاة}}",
     "prayersCountriesAll": "البلدان على الجدار",
-    "prayersAll": "تصفّح جدار الصلوات"
+    "prayersAll": "تصفّح جدار الصلوات",
+    "intro": {
+      "welcome": "أهلًا بك في الناصرة",
+      "tagline": "مدينة يسوع"
+    }
   },
   "homePage": {
     "meta": {

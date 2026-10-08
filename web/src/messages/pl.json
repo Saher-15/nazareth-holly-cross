@@ -424,7 +424,11 @@
     "prayersTotal": "Modlitwy na ścianie",
     "prayersCountriesLatest": "{count, plural, one {Kraje w najnowszej modlitwie} few {Kraje w # najnowszych modlitwach} many {Kraje w # najnowszych modlitwach} other {Kraje w # najnowszych modlitwach}}",
     "prayersCountriesAll": "Kraje na ścianie",
-    "prayersAll": "Zobacz ścianę modlitw"
+    "prayersAll": "Zobacz ścianę modlitw",
+    "intro": {
+      "welcome": "Witamy w Nazarecie",
+      "tagline": "Miasto Jezusa"
+    }
   },
   "homePage": {
     "meta": {

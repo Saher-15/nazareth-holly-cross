@@ -424,7 +424,11 @@
     "prayersTotal": "Preghiere sul muro",
     "prayersCountriesLatest": "{count, plural, one {Paesi nella preghiera più recente} many {Paesi nelle # preghiere più recenti} other {Paesi nelle # preghiere più recenti}}",
     "prayersCountriesAll": "Paesi sul muro",
-    "prayersAll": "Leggi il muro delle preghiere"
+    "prayersAll": "Leggi il muro delle preghiere",
+    "intro": {
+      "welcome": "Benvenuti a Nazaret",
+      "tagline": "La città di Gesù"
+    }
   },
   "homePage": {
     "meta": {

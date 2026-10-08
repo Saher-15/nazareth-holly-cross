@@ -424,7 +424,11 @@
     "prayersTotal": "Orações no mural",
     "prayersCountriesLatest": "{count, plural, one {Países na oração mais recente} other {Países nas # orações mais recentes}}",
     "prayersCountriesAll": "Países no mural",
-    "prayersAll": "Ler o mural de orações"
+    "prayersAll": "Ler o mural de orações",
+    "intro": {
+      "welcome": "Boas-vindas a Nazaré",
+      "tagline": "A cidade de Jesus"
+    }
   },
   "homePage": {
     "meta": {
