@@ -1889,5 +1889,43 @@
       "license": "Licencia",
       "viewOnCommons": "Ver en Wikimedia Commons"
     }
+  },
+  "tourPage": {
+    "activities": {
+      "eyebrow": "En Nazaret",
+      "title": "Qué hacer",
+      "lead": "Algunas formas de pasar tus días en la ciudad, más allá de sus iglesias.",
+      "more": "Más sobre este lugar",
+      "oldcity": {
+        "title": "Recorre la Ciudad Vieja y su mercado",
+        "text": "Callejuelas estrechas, pasajes abovedados y el viejo mercado, donde especias, dulces y artesanía se venden uno junto a otro."
+      },
+      "basilica": {
+        "title": "Reza en la Basílica de la Anunciación",
+        "text": "Siéntate en silencio en la gruta donde la tradición sitúa la Anunciación, o únete a una misa en la iglesia superior."
+      },
+      "trail": {
+        "title": "Camina un tramo del Camino de Jesús",
+        "text": "El camino empieza en Nazaret y cruza las colinas de Galilea hacia el mar de Galilea. Ya sus primeros kilómetros abren amplias vistas."
+      },
+      "precipice": {
+        "title": "Mira la puesta de sol desde el monte del Precipicio",
+        "text": "Desde el acantilado sobre el valle de Jezreel toda la llanura se extiende a tus pies, dorada al final del día."
+      },
+      "food": {
+        "title": "Saborea Nazaret",
+        "text": "La ciudad es conocida por sus dulces y su cocina casera: prueba el knafeh, servido caliente."
+      },
+      "christmas": {
+        "title": "Navidad en Nazaret",
+        "text": "En diciembre la ciudad se ilumina, con un mercado navideño y un desfile festivo en Nochebuena."
+      }
+    },
+    "plan": {
+      "title": "Planea tus días en Nazaret",
+      "lead": "Elige cuántos días tienes y lo que te gusta: el planificador del peregrino traza una ruta con tiempos a pie. La guía del visitante reúne las estaciones, cómo llegar y consejos prácticos.",
+      "planner": "Abrir el planificador",
+      "guide": "Guía del visitante"
+    }
   }
 }

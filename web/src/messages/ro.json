@@ -1889,5 +1889,43 @@
       "license": "Licență",
       "viewOnCommons": "Vedeți pe Wikimedia Commons"
     }
+  },
+  "tourPage": {
+    "activities": {
+      "eyebrow": "În Nazaret",
+      "title": "Ce puteți face",
+      "lead": "Câteva moduri de a vă petrece zilele în oraș, dincolo de bisericile lui.",
+      "more": "Mai multe despre acest loc",
+      "oldcity": {
+        "title": "Plimbați-vă prin Orașul Vechi și piața lui",
+        "text": "Străduțe înguste, pasaje boltite și piața veche, unde mirodenii, dulciuri și obiecte meșteșugărești se vând unele lângă altele."
+      },
+      "basilica": {
+        "title": "Rugați-vă în Bazilica Buna Vestire",
+        "text": "Stați în liniște în grota unde tradiția așază Buna Vestire, sau participați la o Liturghie în biserica de sus."
+      },
+      "trail": {
+        "title": "Parcurgeți o porțiune din Traseul lui Iisus",
+        "text": "Traseul începe în Nazaret și străbate dealurile Galileii spre Marea Galileii. Încă din primii kilometri se deschid priveliști largi."
+      },
+      "precipice": {
+        "title": "Priviți apusul de pe Muntele Prăpastiei",
+        "text": "De pe stânca de deasupra văii Izreel, întreaga câmpie se întinde sub dumneavoastră, aurie la sfârșitul zilei."
+      },
+      "food": {
+        "title": "Gustați Nazaretul",
+        "text": "Orașul este cunoscut pentru dulciurile și bucătăria sa de casă: încercați knafeh, servit cald."
+      },
+      "christmas": {
+        "title": "Crăciunul în Nazaret",
+        "text": "În decembrie orașul se luminează, cu un târg de Crăciun și o paradă festivă în Ajunul Crăciunului."
+      }
+    },
+    "plan": {
+      "title": "Plănuiți-vă zilele în Nazaret",
+      "lead": "Alegeți câte zile aveți și ce vă place: planificatorul pelerinului trasează un traseu cu timpii de mers pe jos. Ghidul vizitatorului cuprinde anotimpurile, căile de acces și sfaturi practice.",
+      "planner": "Deschideți planificatorul",
+      "guide": "Ghidul vizitatorului"
+    }
   }
 }
