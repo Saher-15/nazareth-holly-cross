@@ -621,6 +621,14 @@ Phone: the three hero buttons stack full width; the carousel is swiped; the stic
 edge and the floating accessibility and back-to-top buttons step up above it; the "Today in Nazareth" band shows
 its items one per row (two from 560 px, one row from 1000 px); the map sits above its list.
 
+Rhythm (2026-10-08): every other section sits on a full-width **band** (`app/[locale]/home.module.css`): `--night-2`
+fading to the page colour with a `--glass-line` hairline above and below, the candle band with a warm gold glow on the
+end side. The candle strip, the map, the souvenirs and the social links are banded; a section that can be left out
+(the prayer wall, the voices) never is, so an empty one cannot leave two stray lines. The story at the end is an
+editorial block: a licensed photo of the old city beside the words from 900 px (held in view, `position: sticky`,
+under the header), above them on a phone; the scripture notes as gold-ruled quotes; the closing invitation set apart in
+the serif. Content and order are unchanged.
+
 Rules of the newer home sections (2026-10-07): every figure is real or left out. The band computes sunrise and sunset
 itself (`web/src/lib/sun.ts`, no weather service), names the feast of the day or the next great feast
 (`web/src/components/home/feasts.ts`, a stand-in until the liturgical calendar of the branch feat/christian-calendar lands) and
