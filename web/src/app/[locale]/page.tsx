@@ -19,6 +19,7 @@ import Voices from '@/components/home/Voices';
 import JsonLd from '@/components/ui/JsonLd';
 import { routing } from '@/i18n/routing';
 import { pageMetadata } from '@/lib/seo';
+import styles from './home.module.css';
 
 // Rendered per request (the CSP nonce, docs/PERFORMANCE.md); the API reads below it are cached by Next's data cache
 // (products 10 minutes, reviews 2, prayers 1) and the live schedule is peeked at most once a minute.
@@ -65,14 +66,23 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
       <JsonLd data={jsonLd} />
       <HomeHero nextSectionId={ids.today} />
       <TodayInNazareth id={ids.today} locale={locale} />
-      <CandleStrip id={ids.candle} />
+      {/* Every other section on a full-width band (home.module.css): the page's rhythm. */}
+      <div className={`${styles.band} ${styles.bandWarm}`}>
+        <CandleStrip id={ids.candle} />
+      </div>
       <SitesCarousel id={ids.sites} cards={placeCards({ withTour: true })} />
-      <SitesMap id={ids.map} />
+      <div className={styles.band}>
+        <SitesMap id={ids.map} />
+      </div>
       <VerseOfDay id={ids.verse} locale={locale} />
-      <Souvenirs id={ids.shop} locale={locale} />
+      <div className={styles.band}>
+        <Souvenirs id={ids.shop} locale={locale} />
+      </div>
       <NewestPrayers id={ids.prayers} />
       <Voices id={ids.voices} />
-      <FollowUs id={ids.follow} />
+      <div className={styles.band}>
+        <FollowUs id={ids.follow} />
+      </div>
       <Story id={ids.story} />
       <StickyCta watchId={HERO_ID} />
     </div>
