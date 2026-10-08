@@ -424,7 +424,11 @@
     "prayersTotal": "Modlitwy na ścianie",
     "prayersCountriesLatest": "{count, plural, one {Kraje w najnowszej modlitwie} few {Kraje w # najnowszych modlitwach} many {Kraje w # najnowszych modlitwach} other {Kraje w # najnowszych modlitwach}}",
     "prayersCountriesAll": "Kraje na ścianie",
-    "prayersAll": "Zobacz ścianę modlitw"
+    "prayersAll": "Zobacz ścianę modlitw",
+    "intro": {
+      "welcome": "Witamy w Nazarecie",
+      "tagline": "Miasto Jezusa"
+    }
   },
   "homePage": {
     "meta": {
@@ -1888,6 +1892,44 @@
       "author": "Autor",
       "license": "Licencja",
       "viewOnCommons": "Zobacz w Wikimedia Commons"
+    }
+  },
+  "tourPage": {
+    "activities": {
+      "eyebrow": "W Nazarecie",
+      "title": "Co robić",
+      "lead": "Kilka sposobów, by spędzić Twoje dni w mieście, poza jego kościołami.",
+      "more": "Więcej o tym miejscu",
+      "oldcity": {
+        "title": "Przejdź się po Starym Mieście i jego targu",
+        "text": "Wąskie uliczki, sklepione przejścia i stary targ, gdzie przyprawy, słodycze i rękodzieło sprzedaje się obok siebie."
+      },
+      "basilica": {
+        "title": "Pomódl się w Bazylice Zwiastowania",
+        "text": "Usiądź w ciszy w grocie, w której tradycja umieszcza Zwiastowanie, albo weź udział we Mszy w kościele górnym."
+      },
+      "trail": {
+        "title": "Przejdź odcinek Szlaku Jezusa",
+        "text": "Szlak zaczyna się w Nazarecie i prowadzi przez wzgórza Galilei ku Jezioru Galilejskiemu. Już pierwsze kilometry otwierają szerokie widoki."
+      },
+      "precipice": {
+        "title": "Obejrzyj zachód słońca z Góry Strącenia",
+        "text": "Z urwiska nad Doliną Jizreel cała równina leży u Twoich stóp, złota pod koniec dnia."
+      },
+      "food": {
+        "title": "Skosztuj Nazaretu",
+        "text": "Miasto słynie ze słodyczy i domowej kuchni: spróbuj knafeh, podawanego na ciepło."
+      },
+      "christmas": {
+        "title": "Boże Narodzenie w Nazarecie",
+        "text": "W grudniu miasto rozbłyska światłami, z jarmarkiem bożonarodzeniowym i świąteczną paradą w Wigilię."
+      }
+    },
+    "plan": {
+      "title": "Zaplanuj swoje dni w Nazarecie",
+      "lead": "Wybierz, ile masz dni i co lubisz: planer pielgrzyma wyznacza trasę z czasem przejścia. Przewodnik dla odwiedzających zawiera pory roku, sposoby dojazdu i praktyczne rady.",
+      "planner": "Otwórz planer",
+      "guide": "Przewodnik dla odwiedzających"
     }
   }
 }

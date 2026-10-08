@@ -424,7 +424,11 @@
     "prayersTotal": "Prayers on the wall",
     "prayersCountriesLatest": "{count, plural, one {Countries in the newest prayer} other {Countries in the newest # prayers}}",
     "prayersCountriesAll": "Countries on the wall",
-    "prayersAll": "Read the prayer wall"
+    "prayersAll": "Read the prayer wall",
+    "intro": {
+      "welcome": "Welcome to Nazareth",
+      "tagline": "Jesus City"
+    }
   },
   "homePage": {
     "meta": {
@@ -1888,6 +1892,44 @@
       "author": "Author",
       "license": "Licence",
       "viewOnCommons": "View on Wikimedia Commons"
+    }
+  },
+  "tourPage": {
+    "activities": {
+      "eyebrow": "In Nazareth",
+      "title": "Things to do",
+      "lead": "A few ways to spend your days in the city, beyond its churches.",
+      "more": "More about this place",
+      "oldcity": {
+        "title": "Walk the Old City and its market",
+        "text": "Narrow lanes, arched passages and the old market, where spices, sweets and crafts are sold side by side."
+      },
+      "basilica": {
+        "title": "Pray in the Basilica of the Annunciation",
+        "text": "Sit in silence in the grotto where tradition places the Annunciation, or join a Mass in the upper church."
+      },
+      "trail": {
+        "title": "Walk a stretch of the Jesus Trail",
+        "text": "The trail begins in Nazareth and crosses the hills of Galilee towards the Sea of Galilee. Its first kilometres already open wide views."
+      },
+      "precipice": {
+        "title": "Watch the sunset from Mount Precipice",
+        "text": "From the cliff above the Jezreel Valley the whole plain lies below you, golden at the end of the day."
+      },
+      "food": {
+        "title": "Taste Nazareth",
+        "text": "The city is known for its sweets and its home cooking: try knafeh, served warm."
+      },
+      "christmas": {
+        "title": "Christmas in Nazareth",
+        "text": "In December the city lights up, with a Christmas market and a festive parade on Christmas Eve."
+      }
+    },
+    "plan": {
+      "title": "Plan your days in Nazareth",
+      "lead": "Choose how many days you have and what you love: the pilgrim planner draws a route with walking times. The visitor guide has the seasons, the ways here and practical advice.",
+      "planner": "Open the planner",
+      "guide": "Visitor guide"
     }
   }
 }

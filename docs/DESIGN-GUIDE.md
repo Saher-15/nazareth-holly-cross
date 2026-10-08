@@ -105,6 +105,13 @@ These come from `docs/DESIGN.md` section 1 and are enforced by tests or review:
   on a page with a payment step or on the way to one (`/cart`, `/checkout`, `/candle`, `/donate`), never in the first
   4 seconds on a page, never while the visitor is typing in a field or another dialog or the menu is open. It asks
   nothing of the visitor and collects nothing. Any other pop-up still needs the owner's explicit decision.
+- **The one approved opening: the door** (`<OpeningDoor>`, decided by the owner on 2026-10-08). When a visit
+  starts on the home page, a double door opens on a strong warm light and `home.intro` greets the visitor
+  ("Welcome to Nazareth", "Jesus City"), then fades into the page in under 4 seconds. Once per tab
+  (`nhc.intro.v1` in sessionStorage): a visit that starts on another page never shows it, and neither does a later
+  return to the home page. Never for reduced motion (the system setting or "Stop animations"), never under
+  automation; any key, click, tap or scroll skips it. Decided before the first paint (`web/src/lib/intro.ts`), so
+  there is no flash; decorative, hidden from screen readers. Not a model for other overlays.
 - No light theme, no theme switch (`color-scheme: dark`).
 - No emoji or text glyphs used as icons.
 - No colour as the only signal (errors and success always carry an icon or words).
@@ -592,6 +599,8 @@ region, `( )` a button, `{ }` a card on `.ui-glass`.
 
 ```
 +-----------------------------------------------------------------+
+| OpeningDoor: first page of a visit only (1.5), over everything  |
++-----------------------------------------------------------------+
 | header (sticky; open over the photo, solid after scrolling)     |
 +-----------------------------------------------------------------+
 |     HomeHero: full-bleed licensed photo at every width          |
@@ -605,6 +614,7 @@ region, `( )` a button, `{ }` a card on `.ui-glass`.
 | TodayInNazareth time, sunrise/sunset, feast, next broadcast      |
 | CandleStrip     the flame counter + the way to light a candle    |
 | SitesCarousel   scroll-snap row of 5 place cards + tour card     |
+|   inside the page margins at both ends; 2 / 3 / 4 whole cards    |
 | SitesMap        drawn map of the 5 sites + walking minutes       |
 | VerseOfDay      one verse, the same for every visitor that day   |
 | Souvenirs       featured products (server rendered, or a note)   |
@@ -668,6 +678,29 @@ photos, `11fr / 9fr` from 900 px). A holy-site page on a phone, top 2600 px:
 ![A holy-site page on a phone](design/site-place-phone-strip.jpg)
 
 ![Holy sites index](design/site-sites-en.jpg)
+
+#### Tour (`/tour`)
+
+```
++-----------------------------------------------------------------+
+| PlaceHero (medium) eyebrow + H1 + lead                          |
++-----------------------------------------------------------------+
+| [ tour video frame ]  | H2 + text + (The city of Nazareth ->)   |
++-----------------------------------------------------------------+
+| #tour-activities  band: eyebrow + H2 "Things to do" + lead      |
+| [photo card][photo card][photo card]   1 / 2 / 3 columns         |
+| (title, text, optional "More about this place ->")              |
++-----------------------------------------------------------------+
+| Holy sites: H2 + PlaceCards                                     |
++-----------------------------------------------------------------+
+| plan band: H2 + lead      | (Open the planner)(Visitor guide)   |
++-----------------------------------------------------------------+
+```
+
+The activities (`web/src/components/places/Activities.tsx`) are real, lasting things to do in Nazareth, written without
+prices, opening hours or dates that would go out of date; each photo shows the place the card names, and a card
+links to the holy-site page when there is one. Columns switch at 700 px and 1040 px; the plan band is two columns
+from 900 px and its buttons take the full width on a phone.
 
 #### Shop list (`/shop`)
 
@@ -1025,7 +1058,7 @@ shop has full skeleton sets (`web/src/components/shop/Skeletons.tsx`). Shop page
 
 | Area | Components (all under `web/src/components/`) | Notes |
 |---|---|---|
-| Home | `<HomeHero>`, `<SoundToggle>`, `<TodayInNazareth>` (with `<NazarethClock>` and `<StartsIn>`), `<CandleStrip>`, `<SitesCarousel>`, `<SitesMap>`, `<VerseOfDay>`, `<Souvenirs>`, `<NewestPrayers>`, `<Voices>`, `<FollowUs>`, `<Story>`, `<StickyCta>` in `web/src/components/home/` | Sections render on the server; each is left out or replaced by a friendly note when its data cannot be loaded. Every section uses `--section-space`. The carousel works with touch, mouse drag, arrow buttons and keyboard (arrows, Home, End) in both directions. The candle strip draws a rack of candles (wicks, a few heights, a gold ledge; lit ones glow) above a quiet cream count; the souvenir cards share the look of `<ProductCard>` (serif name, gold price at the foot) |
+| Home | `<OpeningDoor>`, `<HomeHero>`, `<SoundToggle>`, `<TodayInNazareth>` (with `<NazarethClock>` and `<StartsIn>`), `<CandleStrip>`, `<SitesCarousel>`, `<SitesMap>`, `<VerseOfDay>`, `<Souvenirs>`, `<NewestPrayers>`, `<Voices>`, `<FollowUs>`, `<Story>`, `<StickyCta>` in `web/src/components/home/` | Sections render on the server; each is left out or replaced by a friendly note when its data cannot be loaded. Every section uses `--section-space`. The door (1.5) is pure CSS in the server HTML, shown by `<html data-intro="door">`. The carousel keeps the same side margin as the heading at both ends (whole cards from 600 px, sized with container units) and works with touch, mouse drag, arrow buttons and keyboard (arrows, Home, End) in both directions. The candle strip draws a rack of candles (wicks, a few heights, a gold ledge; lit ones glow) above a quiet cream count; the souvenir cards share the look of `<ProductCard>` (serif name, gold price at the foot) |
 | Holy sites | `<SiteList>`, `<PlaceCards>`, `<PlaceStory>`, `<VisitCard>`, `<PlaceGallery>`, `<Lightbox>`, `<PhotoImage>`, `<ExternalLink>` in `web/src/components/places/` | The `<Lightbox>` is a native modal `<dialog>` (focus trapped, Escape closes, arrows and swipes change photo, mirrored in RTL, focus returns to the tile). Its code loads on the first click |
 | Shop | `<ShopBrowser>`, `<FilterPanel>`, `<FilterDrawer>`, `<ProductCard>`, `<ProductStrip>`, `<ProductRow>`, `<ProductDetail>`, `<ImageZoom>`, `<QuantityStepper>`, `<CartView>`, `<CartPill>`, `<WishlistButton>`, `<WishlistLink>`, `<WishlistView>`, `<ShareButton>`, `<ProductReviews>`, `<ProductReviewForm>`, `<RecentlyViewed>`, `<RetryButton>`, `<StateCard>`, `<GridSkeleton>`, `<ProductSkeleton>`, `<CartSkeleton>`, `<ShopBarSkeleton>` in `web/src/components/shop/` | State in the URL; the product photo is contained on a soft night backdrop (`--night-3` to `--night-2`, like the photo viewer), never a cream mat; on a card (`<ProductCard>`, and the home `<Souvenirs>`) the whole photo sits in a 4:5 frame on a blurred copy of itself (most product photos are tall portraits; the old square crop cut about a third of each away, owner's request 2026-10-08), and the grid skeleton keeps the same 4:5; `<ProductStrip>` fades out at an edge where more cards wait (a mask, off while the keyboard is inside the row); the heart is a toggle with `aria-pressed` and a polite status line; a stepper button at its limit is `aria-disabled` (focus stays); cart and wishlist live in `localStorage` and are validated on read |
 | Checkout and payments | `<StepIndicator>`, `<Field>`, `<TextField>`, `<DonePanel>`, `<PayPalPanel>`, `<LazyPayPalPanel>` in `web/src/components/checkout/` | PayPal loads lazily at the payment step; the server decides every amount; the PayPal SDK gets the CSP nonce (`useCspNonce`) |
@@ -1615,7 +1648,7 @@ Each one happened (or nearly did) here. The right-hand column says what catches 
 | **`target="_blank"` without `rel="noopener noreferrer"`** | Reverse tabnabbing | `security.test.ts` |
 | **Arabic-Indic or other non-Western digits, or an invisible bidi character, in a message** | Prices and numbers read wrongly; copy-paste traps | `messages.test.ts` |
 | **Translating the brand name** | The logo is the name | Glossary: never translate or transliterate "Nazareth Holy Cross" |
-| **Adding a banner, pop-up, newsletter box or cookie notice** | Violates "nothing asks the visitor for anything they did not come for"; implies tracking we do not do | Do not; owner and legal decision if tracking is ever introduced. The only exception is the owner-approved "We are live now" window (`<LiveAlert>`, 1.5): live broadcasts only, once per broadcast, never on a payment page. Do not reuse it for anything else |
+| **Adding a banner, pop-up, newsletter box or cookie notice** | Violates "nothing asks the visitor for anything they did not come for"; implies tracking we do not do | Do not; owner and legal decision if tracking is ever introduced. The only exceptions are the owner-approved "We are live now" window (`<LiveAlert>`, 1.5: live broadcasts only, once per broadcast, never on a payment page) and the opening door (`<OpeningDoor>`, 1.5). Do not reuse them for anything else |
 | **Title Case sentences and ALL-CAPS in the message text itself** ("LIGHT A PRAY CANDLE", "Your Cart is Empty") | Looks shouty, breaks translation, cannot be restyled | Sentence case in the message; capitals by CSS in Latin scripts only. The legacy strings named here were fixed on 2026-10-06 (2.2) |
 | **Two gold buttons in one view; a button with only an icon and no `aria-label`; a custom pill** | Dilutes the primary action; inaccessible | One `.ui-btn--gold`; `.ui-btn--icon` with an `aria-label` |
 | **`font-style: italic` on the serif** (verse, scripture notes, reviews, the candle intention) | No italic face is loaded, so the browser slants the upright letters: a faux italic that looks cheap at display sizes | Upright serif, a step larger, with a gold rule or a quote mark (3.3) |

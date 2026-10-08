@@ -424,7 +424,11 @@
     "prayersTotal": "Preghiere sul muro",
     "prayersCountriesLatest": "{count, plural, one {Paesi nella preghiera più recente} many {Paesi nelle # preghiere più recenti} other {Paesi nelle # preghiere più recenti}}",
     "prayersCountriesAll": "Paesi sul muro",
-    "prayersAll": "Leggi il muro delle preghiere"
+    "prayersAll": "Leggi il muro delle preghiere",
+    "intro": {
+      "welcome": "Benvenuti a Nazaret",
+      "tagline": "La città di Gesù"
+    }
   },
   "homePage": {
     "meta": {
@@ -1888,6 +1892,44 @@
       "author": "Autore",
       "license": "Licenza",
       "viewOnCommons": "Vedi su Wikimedia Commons"
+    }
+  },
+  "tourPage": {
+    "activities": {
+      "eyebrow": "A Nazaret",
+      "title": "Cosa fare",
+      "lead": "Alcuni modi per trascorrere le tue giornate in città, oltre alle sue chiese.",
+      "more": "Scopri di più su questo luogo",
+      "oldcity": {
+        "title": "Passeggia nella Città Vecchia e nel suo mercato",
+        "text": "Vicoli stretti, passaggi a volta e il vecchio mercato, dove spezie, dolci e artigianato si vendono fianco a fianco."
+      },
+      "basilica": {
+        "title": "Prega nella Basilica dell’Annunciazione",
+        "text": "Siedi in silenzio nella grotta dove la tradizione colloca l’Annunciazione, oppure partecipa a una Messa nella chiesa superiore."
+      },
+      "trail": {
+        "title": "Percorri un tratto del Jesus Trail",
+        "text": "Il sentiero parte da Nazaret e attraversa le colline della Galilea verso il lago di Tiberiade. Già i primi chilometri aprono ampi panorami."
+      },
+      "precipice": {
+        "title": "Guarda il tramonto dal Monte del Precipizio",
+        "text": "Dalla rupe sopra la valle di Izreel l’intera pianura si stende sotto di te, dorata alla fine del giorno."
+      },
+      "food": {
+        "title": "Assaggia Nazaret",
+        "text": "La città è nota per i suoi dolci e la sua cucina casalinga: prova la knafeh, servita calda."
+      },
+      "christmas": {
+        "title": "Natale a Nazaret",
+        "text": "A dicembre la città si illumina, con un mercatino di Natale e una sfilata festosa la vigilia di Natale."
+      }
+    },
+    "plan": {
+      "title": "Organizza le tue giornate a Nazaret",
+      "lead": "Scegli quanti giorni hai e cosa ami: il pianificatore del pellegrino traccia un percorso con i tempi a piedi. La guida per il visitatore raccoglie le stagioni, come arrivare e consigli pratici.",
+      "planner": "Apri il pianificatore",
+      "guide": "Guida per il visitatore"
     }
   }
 }
