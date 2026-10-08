@@ -304,6 +304,13 @@ prefixed twin, and Chrome and Edge ignore it, so the blur silently disappears in
 Write `backdrop-filter` alone: the build adds the Safari prefix itself. Check with
 `getComputedStyle(el).backdropFilter` in a production build.
 
+### Build pitfall: an `animation` shorthand without a name
+
+Do **not** write `animation: 1.5s ease 0.5s forwards` on a shared class and the name on another
+(`animation-name: doorA`). The production CSS minifier turns a nameless shorthand into `animation: none`, so the
+timings vanish and nothing moves in the build (it works in dev). Write the whole shorthand, name included, on each
+class (`web/src/components/home/OpeningDoor.module.css`).
+
 ## 8. Changelog
 
 ### 2026-10-07: live broadcasts around the player (branch `feat/live-recordings`)

@@ -424,7 +424,11 @@
     "prayersTotal": "Rugăciuni pe zid",
     "prayersCountriesLatest": "{count, plural, one {Țări din ultima rugăciune} few {Țări din ultimele # rugăciuni} other {Țări din ultimele # de rugăciuni}}",
     "prayersCountriesAll": "Țări pe zid",
-    "prayersAll": "Citiți zidul rugăciunilor"
+    "prayersAll": "Citiți zidul rugăciunilor",
+    "intro": {
+      "welcome": "Bun venit în Nazaret",
+      "tagline": "Orașul lui Iisus"
+    }
   },
   "homePage": {
     "meta": {

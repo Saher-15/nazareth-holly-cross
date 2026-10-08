@@ -424,7 +424,11 @@
     "prayersTotal": "Gebeden op de muur",
     "prayersCountriesLatest": "{count, plural, one {Landen in het nieuwste gebed} other {Landen in de # nieuwste gebeden}}",
     "prayersCountriesAll": "Landen op de muur",
-    "prayersAll": "Lees de gebedsmuur"
+    "prayersAll": "Lees de gebedsmuur",
+    "intro": {
+      "welcome": "Welkom in Nazareth",
+      "tagline": "De stad van Jezus"
+    }
   },
   "homePage": {
     "meta": {

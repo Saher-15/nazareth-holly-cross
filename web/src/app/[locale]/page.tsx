@@ -7,6 +7,7 @@ import FollowUs from '@/components/home/FollowUs';
 import HomeHero, { HERO_ID, HERO_POSTER } from '@/components/home/HomeHero';
 import { homeJsonLd } from '@/components/home/jsonLd';
 import NewestPrayers from '@/components/home/NewestPrayers';
+import OpeningDoor from '@/components/home/OpeningDoor';
 import SitesMap from '@/components/home/SitesMap';
 import SitesCarousel from '@/components/home/SitesCarousel';
 import Souvenirs from '@/components/home/Souvenirs';
@@ -64,6 +65,8 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
   return (
     <div className="ui-page">
       <JsonLd data={jsonLd} />
+      {/* The opening of the site: once per visit, never for reduced motion (lib/intro.ts) */}
+      <OpeningDoor />
       <HomeHero nextSectionId={ids.today} />
       <TodayInNazareth id={ids.today} locale={locale} />
       {/* Every other section on a full-width band (home.module.css): the page's rhythm. */}

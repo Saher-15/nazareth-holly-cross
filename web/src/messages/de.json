@@ -424,7 +424,11 @@
     "prayersTotal": "Gebete an der Wand",
     "prayersCountriesLatest": "{count, plural, one {Länder im neuesten Gebet} other {Länder in den # neuesten Gebeten}}",
     "prayersCountriesAll": "Länder an der Wand",
-    "prayersAll": "Zur Gebetswand"
+    "prayersAll": "Zur Gebetswand",
+    "intro": {
+      "welcome": "Willkommen in Nazareth",
+      "tagline": "Die Stadt Jesu"
+    }
   },
   "homePage": {
     "meta": {

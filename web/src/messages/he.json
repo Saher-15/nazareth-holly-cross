@@ -424,7 +424,11 @@
     "prayersTotal": "תפילות על הקיר",
     "prayersCountriesLatest": "{count, plural, one {מדינות בתפילה האחרונה} two {מדינות בשתי התפילות האחרונות} other {מדינות ב-# התפילות האחרונות}}",
     "prayersCountriesAll": "מדינות על הקיר",
-    "prayersAll": "קראו את קיר התפילות"
+    "prayersAll": "קראו את קיר התפילות",
+    "intro": {
+      "welcome": "ברוכים הבאים לנצרת",
+      "tagline": "עיר ישוע"
+    }
   },
   "homePage": {
     "meta": {

@@ -15,6 +15,7 @@ import SiteFooter from '@/components/layout/SiteFooter';
 import SiteHeader from '@/components/layout/SiteHeader';
 import { ToastProvider } from '@/components/ui/Toast';
 import { A11Y_PREPAINT } from '@/lib/a11y';
+import { INTRO_PREPAINT } from '@/lib/intro';
 import { CartProvider } from '@/lib/cart';
 import { CspNonceProvider } from '@/lib/cspNonce';
 import { isRtl, locales, routing } from '@/i18n/routing';
@@ -79,10 +80,11 @@ export default async function LocaleLayout({ children, search, params }: LayoutP
     <html lang={locale} dir={isRtl(locale) ? 'rtl' : 'ltr'} className={fontVariables} suppressHydrationWarning>
       <head>
         {/* The visitor's accessibility settings (lib/a11y.ts), applied before the first paint so large text or high
-            contrast never flashes in after the page appears. Inline, so it carries this response's CSP nonce; it
-            only reads localStorage and sets attributes on <html>. */}
+            contrast never flashes in after the page appears, then whether this visit opens with the door (lib/intro.ts,
+            home page only, once per tab). Inline, so it carries this response's CSP nonce; it only reads
+            localStorage and sessionStorage and sets attributes on <html>. */}
         <script nonce={nonce} suppressHydrationWarning>
-          {A11Y_PREPAINT}
+          {A11Y_PREPAINT + INTRO_PREPAINT}
         </script>
       </head>
       <body>
