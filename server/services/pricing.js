@@ -13,6 +13,20 @@ export const MAX_QUANTITY = 50;
 
 const round2 = (n) => Math.round(n * 100) / 100;
 
+// Compare paid lines without looking up today's catalog or trusting browser prices/names.
+export function quoteSignature(items) {
+  if (!Array.isArray(items) || !items.length || items.length > 100) throw new HttpError(400, 'Order items are required');
+  const totals = new Map();
+  for (const item of items) {
+    const id = String(item?.productID ?? item?._id ?? '');
+    const quantity = Number(item?.quantity);
+    if (!isObjectId(id) || !Number.isInteger(quantity) || quantity < 1 || quantity > MAX_QUANTITY) throw new HttpError(400, 'Invalid order item');
+    const key = JSON.stringify([id, clip(item?.color, 50) ?? '']);
+    totals.set(key, (totals.get(key) ?? 0) + quantity);
+  }
+  return JSON.stringify([...totals].sort(([a], [b]) => a.localeCompare(b)));
+}
+
 // Prices a shop order from the product prices stored in the database and returns
 // { total, lines }: the amount to charge and the order lines as the database knows them
 // (product id and name from the database, quantity and colour from the request).

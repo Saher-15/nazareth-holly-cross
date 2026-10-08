@@ -543,3 +543,7 @@ script, the models' indexes, and the old admin routes. The database is replaced 
 * **Indexes are built by the server at start-up, in production too** (docs/DATABASE.md section 5; `AUTO_INDEX=false` turns it off). This release adds the unique `payment.paypalOrderId` index. After the deploy, check on Atlas that it exists and that `auditLog` and `adminSession` show the expiry indexes; `node scripts/ensure-indexes.js` (dry run) lists anything missing.
 * No e-mail was sent (the mailer is mocked); the shipped-order mail uses the same `sendMail` as before. The same holds
   for the password-reset mail: the first real one is the owner's first request on production (ADMIN-RUNBOOK.md 2).
+
+### Security audit update (2026-10-07)
+
+TOTP login uses an atomic last-step comparison/update, so two concurrent uses of the same code produce one session. Privacy lookup and erasure also cover payment checkout drafts before payerEmail is populated. Payment repair is an operator CLI action (`scripts/repair-payments.js`), with read-only default and explicit --apply; the dashboard contract is unchanged.

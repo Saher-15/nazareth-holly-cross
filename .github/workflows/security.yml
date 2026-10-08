@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        project: [server, web]
+        project: [server, web, admin]
     defaults:
       run:
         working-directory: ${{ matrix.project }}
@@ -47,5 +47,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      # What ships to production only (dev tools such as nodemon/eslint are not deployed).
-      - run: npm audit --omit=dev --audit-level=high
+      # Includes dev tools; only the tested, expiring braces mitigation is accepted.
+      - run: npm ci --ignore-scripts
+      - run: npm run security:audit

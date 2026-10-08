@@ -48,7 +48,8 @@ const sources = {
     export const createOrder = refuse;
     export const captureOrder = refuse;
     export const getOrder = refuse;
-    export const assertPaid = refuse;`,
+    export const assertPaid = refuse;
+    export { verifiedCaptureStatus } from '../services/paymentCapture.js';`,
 };
 
 registerHooks({

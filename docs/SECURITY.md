@@ -110,13 +110,12 @@ The browser only says *what* is bought. The API creates the PayPal order for its
 shop checkout then sends the PayPal order id (`paypalOrderId`) with the order so the API can prove the payment
 (section 5).
 
-**A paid order is never lost (docs/DATABASE.md section 2).** The moment PayPal says COMPLETED, the browser writes the order (or candle
-request) to `localStorage` (`nhc.pending-fulfilment.v1`) and removes it only when the API confirms it, retrying with a growing delay and on every later
-visit (`web/src/lib/pendingFulfilment.ts`). That record holds the customer's name, address, phone and e-mail **in their own browser** for at most
-30 days; it is read only by the site's own script (nothing else on the origin can read `localStorage`, and the CSP allows no foreign script), is
-never sent anywhere but to the API's two save routes, and is deleted on success. The cost: on a shared computer a paid but unsaved order stays in that
-browser until it is saved; it cannot be read by another site. The retry loop only calls `/order/newOrder` and `/candle/lightACandle` (the stored
-path is checked against that list on every read).
+**Payment recovery (docs/DATABASE.md section 2).** Before capture, the browser saves the approved PayPal order id and original form
+to `localStorage` (`nhc.pending-fulfilment.v1`). Storage failure prevents capture. Unknown outcomes stay unconfirmed; a returning browser
+checks the original capture before fulfilling the order/candle. Records are removed after confirmation and expire after 30 days.
+They contain personal delivery/prayer details on the customer's device; any script executing on the same origin can read them,
+including permitted third-party scripts. Other origins cannot read them. Keep the CSP restrictive and consider shared-device privacy.
+The retry engine allows only `/order/complete_order`, `/order/newOrder` and `/candle/lightACandle`.
 
 ## 4. The API (`server/`)
 
@@ -228,27 +227,25 @@ browser                         API                                PayPal
   |                              | save order (paymentVerified: true) |
 ```
 
-- `paypalOrderId` is **optional in the code** (`REQUIRE_PAYMENT_PROOF`, default off). The public site (`web/`) **always**
+- `paypalOrderId` is **required by default and always required in production**. The public site (`web/`) **always**
   sends it: the only callers of `/order/newOrder` and `/candle/lightACandle` are the pending-fulfilment engine
   (`web/src/lib/pendingFulfilment.ts`), which adds the PayPal order id to every attempt and refuses a stored record
   without one, and has done so since before the site went live. A **donation** has no fulfilment request at all: the
   payment is its own record (`create_order` with `type: 'donation'`, then `complete_order` with the PayPal id), so there is
-  no unpaid donation route to close. The old CRA site that did not send it is retired. When it is missing the order is
-  saved as `paymentVerified: false`, the log gets a line containing `[unverified-order]` (`[unverified-candle]`), and
+  no unpaid donation route to close. The old CRA site that did not send it is retired. Only explicitly opted-out local fixtures can be
+  saved as `paymentVerified: false`; the log then contains `[unverified-order]` (`[unverified-candle]`), and
   **no confirmation mail is sent** (only a verified payment is confirmed by mail: security review 06, finding 5).
 - When it is sent, the order is saved only if PayPal itself says: `COMPLETED`, exactly one purchase, USD, an amount
-  equal to the price the API computes now, and a `COMPLETED` capture for at least that amount. Otherwise 402 and
+  equal to the approved immutable server quote (or current price for historical payments without a quote), and only completed captures totalling exactly that amount. Otherwise 402 and
   nothing is saved. If PayPal cannot be asked the answer is 502 and nothing is saved (fail closed; the browser's
   retry button asks again).
 - One PayPal order can pay for one shop order: checked before saving, and enforced by a partial unique index on
   `order.paypalOrderId` (two simultaneous requests: the second gets 409).
-- If a product price changes between payment and saving, the amounts differ and the order is refused with 402; the
-  Render log names the PayPal order id so the payment can be reconciled by hand.
-- **To make it mandatory:** set `REQUIRE_PAYMENT_PROOF=true` on Render. Safe now: no client of the public site sends an
-  order or a candle request without the payment id (checked 2026-10-07).
+- Shop payments store an immutable server quote (amount, product ids, names, quantities and colours). Fulfilment uses that quote even after catalog changes, and refuses changed items. Older payments without a snapshot require manual reconciliation if prices changed.
+- Payment proof is mandatory by default and always mandatory when `NODE_ENV=production`; `REQUIRE_PAYMENT_PROOF=false` only permits unpaid local/test fixtures.
 - **The payment ledger** (`payment` collection, `server/services/payments.js`): `create_order` writes a row *before* the PayPal id reaches the browser
   (if it cannot, 503: nothing is charged); `complete_order` marks it captured, **idempotently** (a repeat never captures or records twice; PayPal's
-  "already captured" is checked and accepted; a declined card is a definite 402); `newOrder` and `lightACandle` accept the optional `paypalOrderId`, require the
+  "already captured" is checked and accepted; a pending nested capture returns 202 and remains unverified); `newOrder` and `lightACandle` require `paypalOrderId` in production, require the
   ledger's type to match (**a donation or a candle payment cannot pay for an order**, which closes a hole: a $23 donation could have been presented as the
   $23 order total), and link the row. A candle (3 USD) is checked the same way (the ledger says captured, else PayPal is asked for exactly 3 USD), and one payment lights one
   candle (partial unique index). A donation's only record is its ledger row (with the optional donor name). `REQUIRE_PAYMENT_PROOF=true` now covers candles too.
@@ -258,16 +255,13 @@ browser                         API                                PayPal
 ## 6. Repository and delivery
 
 - `.github/workflows/security.yml`: **gitleaks** (official container image, version pinned) over the whole git
-  history and tree on every pull request and push, plus a weekly run; `npm audit --omit=dev --audit-level=high` for
-  `server/` and `web/`. Allow-list and the reasons: `.gitleaks.toml`.
+  history and tree on every pull request and push, plus a weekly run; `npm run security:audit` for `server/`, `web/` and `admin/`, including development dependencies. The only exception is the tested, development-only braces advisory described below, with a hard expiry. Allow-list and the reasons: `.gitleaks.toml`.
 - `.github/workflows/ci.yml`: also runs `npm run scan:bundle` after the web build.
 - A manual scan of the history (72 commits, all branches) for private keys, connection strings, `.env`-style
   assignments, PayPal/Google/GitHub/Slack/AWS/Stripe tokens, JWTs and credentials in URLs found only the
   placeholders in `server/.env.example`; no `.env`, key or certificate file was ever committed. (The PayPal
   *sandbox client id* and Firebase Storage download tokens appear in the code; both are public by design.)
-- Dependabot keeps dependencies current. Last audit (production dependencies): 0 known vulnerabilities in `web/` and
-  `server/`. Remaining advisories are development-only: `braces` (through `nodemon` in `server/`, `eslint-config-next`
-  in `web/`), for which no patched version exists.
+- Dependabot keeps dependencies current. Production dependency audits report no known vulnerabilities in all three projects. `nodemon` has been removed in favour of native `node --watch`. Next.js lint tooling still depends on `braces@3.0.3` (GHSA-vfj7-8cjw-p6xm), with no upstream fix. ESLint preloads `ops/braces-depth-guard.cjs` to reject pattern/AST nesting above 64 before recursive walkers. The full audit gate tests all five guarded APIs against 10,000-level inputs and an ordinary glob, requires every affected lock entry to be development-only, permits only this exact advisory and fails from 2026-11-06. Raw npm audit continues to report the upstream advisory; this is a temporary mitigation, not an upstream patch.
 - Secrets live only in Render and Netlify settings. If a secret was ever pasted into a chat, an e-mail or a ticket,
   treat it as leaked and rotate it (Render env, then redeploy).
 
@@ -275,9 +269,8 @@ browser                         API                                PayPal
 
 | Item | Risk | Plan |
 |---|---|---|
-| `/order/newOrder` and `/candle/lightACandle` accept requests without proof of payment while `REQUIRE_PAYMENT_PROOF` is off | an attacker can create unpaid orders and candle requests (the owners see `paymentVerified: false`); no mail goes out for them | set `REQUIRE_PAYMENT_PROOF=true` on Render (the site always sends the proof) |
-| No PayPal webhook | a payment whose capture answer was lost *and* whose ledger write also failed stays `created` while PayPal holds the money (the ledger and the browser retry cover the normal cases) | PayPal Live phase: webhook with signature verification fills the ledger from PayPal itself; until then `reconcile-payments.js` lists `created` rows older than 24 h and PayPal's dashboard is the truth |
-| The paid-but-unsaved order sits in the customer's `localStorage` | personal data in a shared browser until it is saved (at most 30 days) | deleted on success; the privacy page should say so (not yet written, docs/TODO-LEGAL.md) |
+| No PayPal webhook | server repair is an operator-run batch rather than an automatic provider notification | `node scripts/repair-payments.js` compares unresolved rows with PayPal read-only; `--apply` repairs verified completed captures and saved drafts without capturing or charging. Schedule/run it after deployment with operator credentials. Unknown provider outcomes remain unresolved; never mark them paid. |
+| The approved payment and pending order sit in the customer's `localStorage` | personal data in a shared browser until it is saved (at most 30 days) | deleted on success; the privacy page should say so (not yet written, docs/TODO-LEGAL.md) |
 | Backups (docs/BACKUP.md) contain all personal data and the admin hashes | a stolen backup folder | keep it private (BitLocker), use a read-only database user, 30-day rotation; never in the repository |
 | The production server no longer builds indexes at start-up | a release that needs a new index (the `payment` unique one) does nothing useful until `ensure-indexes.js --apply` is run | run it before deploying (docs/DATABASE.md section 10); the server logs a warning for any missing index |
 | Reviews and prayers are public immediately (`approved` defaults to true) | spam or abuse appears until an admin deletes it | add moderation (`approved: false` by default and an admin queue) |
@@ -300,3 +293,9 @@ browser                         API                                PayPal
 | Stored visitor text is HTML-escaped by the API | consumers that print it raw would show `&amp;` | decode on display (done in `web/`); consider storing raw text and escaping on output only |
 | `NEXT_LOCALE` cookie is not `Secure` | none (a language preference) | set `localeCookie.secure` if more cookies are ever added |
 | Gitleaks configuration was written without being able to run gitleaks locally | the first CI run may need an allow-list entry | review the first run |
+
+## Audit fixes (2026-10-07)
+
+TOTP login consumes the accepted time step with a conditional atomic database update; parallel requests cannot both create a session. Legacy sign-in remains removed. Capture success requires completed nested captures for exactly the ledger amount in USD; pending captures return 202 PENDING and remain unverified. Historical captured rows without `captureVerified` are rechecked with PayPal before reuse.
+
+The browser saves the payment id and original approved form before the first capture request. Storage failure blocks capture; uncertain answers stay unconfirmed and block a new payment of that kind. A returning browser confirms the original payment before fulfilling it. The API also stores a validated draft before exposing the PayPal id, fulfils it after a verified capture, and removes the draft after linking or privacy erasure. Drafts are hidden from ordinary reads. Repair batches exclude verified donations without drafts and rotate by last-check time. Voided payments with no captures can have drafts cleared after 30 days; unknown/paid drafts remain for recovery or owner erasure. The repair script must be run/scheduled by the operator; these changes do not attest to production deployment.
