@@ -390,7 +390,8 @@ in a comment.
 
 ![Spacing and elevation](design/ds-space.png)
 
-**Radius:** `--radius` 20px (cards, glass panels), `--radius-sm` 12px (fields, small panels, alerts), `999px`
+**Radius:** `--radius` 0 (cards, glass panels: square corners since 2026-10-08, the owner's choice; it was 20px), `--radius-sm` 0
+(fields, small panels, alerts; it was 12px), `999px`
 (pills: buttons, badges, chips), `50%` (round icon buttons). No other radii: the 8, 10, 14, 16, 18 and 28 px and
 `calc(var(--radius) ± n)` one-offs (live player, language menu, gallery tiles, candle churches, home cards) were put
 back on these values. Drawn objects (the candle's wax, a progress bar) are not surfaces and may have their own.
