@@ -619,7 +619,8 @@
     "secure": "Secure payment with PayPal",
     "emptyLead": "Browse rosaries, crosses and keepsakes from Nazareth.",
     "sideCartClose": "Close the cart",
-    "sideCartView": "View the whole cart"
+    "sideCartView": "View the whole cart",
+    "sideCartMove": "Move the cart button to the other side"
   },
   "checkoutPage": {
     "meta": {

@@ -619,7 +619,8 @@
     "secure": "Bezpieczna płatność przez PayPal",
     "emptyLead": "Odkryj różańce, krzyże i pamiątki z Nazaretu.",
     "sideCartClose": "Zamknij koszyk",
-    "sideCartView": "Zobacz cały koszyk"
+    "sideCartView": "Zobacz cały koszyk",
+    "sideCartMove": "Przenieś przycisk koszyka na drugą stronę"
   },
   "checkoutPage": {
     "meta": {

@@ -619,7 +619,8 @@
     "secure": "Paiement sécurisé avec PayPal",
     "emptyLead": "Découvrez chapelets, croix et souvenirs de Nazareth.",
     "sideCartClose": "Fermer le panier",
-    "sideCartView": "Voir tout le panier"
+    "sideCartView": "Voir tout le panier",
+    "sideCartMove": "Déplacer le bouton du panier de l’autre côté"
   },
   "checkoutPage": {
     "meta": {

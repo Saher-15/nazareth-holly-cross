@@ -619,7 +619,8 @@
     "secure": "Sichere Zahlung mit PayPal",
     "emptyLead": "Entdecken Sie Rosenkränze, Kreuze und Andenken aus Nazareth.",
     "sideCartClose": "Warenkorb schließen",
-    "sideCartView": "Ganzen Warenkorb ansehen"
+    "sideCartView": "Ganzen Warenkorb ansehen",
+    "sideCartMove": "Warenkorb-Knopf auf die andere Seite"
   },
   "checkoutPage": {
     "meta": {

@@ -619,7 +619,8 @@
     "secure": "תשלום מאובטח באמצעות PayPal",
     "emptyLead": "גלו מחרוזות תפילה, צלבים ומזכרות מנצרת.",
     "sideCartClose": "סגירת העגלה",
-    "sideCartView": "צפייה בעגלה המלאה"
+    "sideCartView": "צפייה בעגלה המלאה",
+    "sideCartMove": "העברת כפתור העגלה לצד השני"
   },
   "checkoutPage": {
     "meta": {
