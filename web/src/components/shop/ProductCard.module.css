@@ -43,20 +43,27 @@
   outline-offset: -3px;
 }
 
+/* The whole photo, never cropped (owner's request, 2026-10-08): a 4:5 frame, close to the tall product photos, with
+   the photo contained and a blurred, slightly enlarged copy of it filling the bands beside it. */
 .media {
   position: relative;
   display: block;
-  aspect-ratio: 1;
+  aspect-ratio: 4 / 5;
   overflow: hidden;
-  background: var(--cream);
+  background: var(--night-2);
+}
+.backdrop {
+  object-fit: cover;
+  filter: blur(18px) saturate(1.1) brightness(0.9);
+  transform: scale(1.2);
 }
 .img {
-  object-fit: cover;
+  object-fit: contain;
   transition: transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .card:hover .img,
 .card:focus-within .img {
-  transform: scale(1.08);
+  transform: scale(1.04);
 }
 
 /* ---- badges over the photo (the heart sits in the other corner) ---- */
