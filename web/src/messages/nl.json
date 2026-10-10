@@ -1457,7 +1457,7 @@
           },
           "candles": {
             "title": "Kaarsen",
-            "p1": "Een gebedskaars kost {price}. Wij steken in de kerk die u kiest een echte kaars aan voor uw intentie, filmen die en sturen de video binnen 48 uur na uw betaling naar uw e-mailadres. Als de video in die tijd niet aankomt of als er iets niet klopt, schrijf ons dan en wij lossen het op."
+            "p1": "Een gebedskaars kost {price}. Wij steken in de kerk die u kiest een echte kaars aan voor uw intentie, filmen die en sturen de video binnen 48 uur na uw betaling naar uw e-mailadres. Als de video in die tijd niet aankomt of als er iets niet klopt, schrijf ons dan en wij betalen u het volledige bedrag terug."
           },
           "donations": {
             "title": "Giften",
@@ -1949,7 +1949,7 @@
     "whoQ": "Wie verzorgt deze dienst?",
     "whoA": "Nazareth Holy Cross is een onafhankelijke dienst van een lokaal team in Nazareth. Het is geen officiële instantie van de stad Nazareth of van de kerken.",
     "wrongQ": "En als er iets misgaat?",
-    "wrongA": "Als uw video na 48 uur niet is aangekomen (kijk eerst in uw spammap) of als er iets niet klopt, schrijf ons dan en wij lossen het op.",
+    "wrongA": "Als uw video na 48 uur niet is aangekomen (kijk eerst in uw spammap) of als er iets niet klopt, schrijf ons dan en wij betalen u het volledige bedrag terug.",
     "contact": "Neem contact op"
   }
 }

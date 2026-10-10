@@ -1457,7 +1457,7 @@
           },
           "candles": {
             "title": "Cierges",
-            "p1": "Une bougie de prière coûte {price}. Nous allumons une vraie bougie à votre intention dans l’église que vous choisissez, nous la filmons et nous envoyons la vidéo à votre adresse e-mail dans les 48 heures qui suivent votre paiement. Si la vidéo n’arrive pas dans ce délai ou si quelque chose n’y est pas correct, écrivez-nous et nous réglerons cela."
+            "p1": "Une bougie de prière coûte {price}. Nous allumons une vraie bougie à votre intention dans l’église que vous choisissez, nous la filmons et nous envoyons la vidéo à votre adresse e-mail dans les 48 heures qui suivent votre paiement. Si la vidéo n’arrive pas dans ce délai ou si quelque chose n’y est pas correct, écrivez-nous et nous vous rembourserons intégralement."
           },
           "donations": {
             "title": "Dons",
@@ -1949,7 +1949,7 @@
     "whoQ": "Qui assure ce service ?",
     "whoA": "Nazareth Holy Cross est un service indépendant assuré par une équipe locale de Nazareth. Ce n’est pas un organisme officiel de la ville de Nazareth ni des églises.",
     "wrongQ": "Et en cas de problème ?",
-    "wrongA": "Si votre vidéo n’est pas arrivée sous 48 heures (vérifiez d’abord votre dossier de courrier indésirable) ou si quelque chose n’y est pas correct, écrivez-nous et nous réglerons cela.",
+    "wrongA": "Si votre vidéo n’est pas arrivée sous 48 heures (vérifiez d’abord votre dossier de courrier indésirable) ou si quelque chose n’y est pas correct, écrivez-nous et nous vous rembourserons intégralement.",
     "contact": "Nous écrire"
   }
 }

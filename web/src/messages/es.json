@@ -1457,7 +1457,7 @@
           },
           "candles": {
             "title": "Velas",
-            "p1": "Una vela de oración cuesta {price}. Encendemos una vela de verdad por tu intención en la iglesia que elijas, la grabamos y enviamos el vídeo a tu correo electrónico en las 48 horas siguientes a tu pago. Si el vídeo no llega en ese plazo o algo en él no es correcto, escríbenos y lo solucionaremos."
+            "p1": "Una vela de oración cuesta {price}. Encendemos una vela de verdad por tu intención en la iglesia que elijas, la grabamos y enviamos el vídeo a tu correo electrónico en las 48 horas siguientes a tu pago. Si el vídeo no llega en ese plazo o algo en él no es correcto, escríbenos y te devolveremos el importe íntegro."
           },
           "donations": {
             "title": "Donativos",
@@ -1949,7 +1949,7 @@
     "whoQ": "¿Quién ofrece este servicio?",
     "whoA": "Nazareth Holy Cross es un servicio independiente a cargo de un equipo local de Nazaret. No es un organismo oficial de la ciudad de Nazaret ni de las iglesias.",
     "wrongQ": "¿Y si algo sale mal?",
-    "wrongA": "Si tu vídeo no ha llegado en 48 horas (revisa antes tu carpeta de correo no deseado) o algo en él no es correcto, escríbenos y lo solucionaremos.",
+    "wrongA": "Si tu vídeo no ha llegado en 48 horas (revisa antes tu carpeta de correo no deseado) o algo en él no es correcto, escríbenos y te devolveremos el importe íntegro.",
     "contact": "Escríbenos"
   }
 }

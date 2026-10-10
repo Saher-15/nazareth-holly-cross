@@ -1457,7 +1457,7 @@
           },
           "candles": {
             "title": "Świece",
-            "p1": "Świeca modlitewna kosztuje {price}. Zapalimy prawdziwą świecę w Twojej intencji w wybranym przez Ciebie kościele, sfilmujemy ją i wyślemy film na Twój adres e-mail w ciągu 48 godzin od płatności. Jeśli film nie dotrze w tym czasie albo coś w nim będzie nie tak, napisz do nas, a naprawimy to."
+            "p1": "Świeca modlitewna kosztuje {price}. Zapalimy prawdziwą świecę w Twojej intencji w wybranym przez Ciebie kościele, sfilmujemy ją i wyślemy film na Twój adres e-mail w ciągu 48 godzin od płatności. Jeśli film nie dotrze w tym czasie albo coś w nim będzie nie tak, napisz do nas, a zwrócimy Ci całą kwotę."
           },
           "donations": {
             "title": "Darowizny",
@@ -1949,7 +1949,7 @@
     "whoQ": "Kto prowadzi tę usługę?",
     "whoA": "Nazareth Holy Cross to niezależna usługa prowadzona przez lokalny zespół w Nazarecie. Nie jest oficjalną instytucją miasta Nazaret ani kościołów.",
     "wrongQ": "A jeśli coś pójdzie nie tak?",
-    "wrongA": "Jeśli film nie dotrze w ciągu 48 godzin (sprawdź najpierw folder ze spamem) albo coś w nim będzie nie tak, napisz do nas, a naprawimy to.",
+    "wrongA": "Jeśli film nie dotrze w ciągu 48 godzin (sprawdź najpierw folder ze spamem) albo coś w nim będzie nie tak, napisz do nas, a zwrócimy Ci całą kwotę.",
     "contact": "Napisz do nas"
   }
 }

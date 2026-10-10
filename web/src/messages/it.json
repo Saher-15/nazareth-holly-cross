@@ -1457,7 +1457,7 @@
           },
           "candles": {
             "title": "Candele",
-            "p1": "Una candela di preghiera costa {price}. Accendiamo una candela vera per la tua intenzione nella chiesa che scegli, la filmiamo e inviamo il video al tuo indirizzo e-mail entro 48 ore dal pagamento. Se il video non arriva in questo tempo o qualcosa non è corretto, scrivici e sistemeremo tutto."
+            "p1": "Una candela di preghiera costa {price}. Accendiamo una candela vera per la tua intenzione nella chiesa che scegli, la filmiamo e inviamo il video al tuo indirizzo e-mail entro 48 ore dal pagamento. Se il video non arriva in questo tempo o qualcosa non è corretto, scrivici e ti rimborseremo per intero."
           },
           "donations": {
             "title": "Donazioni",
@@ -1949,7 +1949,7 @@
     "whoQ": "Chi gestisce questo servizio?",
     "whoA": "Nazareth Holy Cross è un servizio indipendente gestito da un gruppo locale di Nazaret. Non è un ente ufficiale della città di Nazaret né delle chiese.",
     "wrongQ": "E se qualcosa va storto?",
-    "wrongA": "Se il tuo video non è arrivato entro 48 ore (controlla prima la cartella dello spam) o qualcosa non è corretto, scrivici e sistemeremo tutto.",
+    "wrongA": "Se il tuo video non è arrivato entro 48 ore (controlla prima la cartella dello spam) o qualcosa non è corretto, scrivici e ti rimborseremo per intero.",
     "contact": "Scrivici"
   }
 }
