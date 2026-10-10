@@ -46,25 +46,19 @@
   border-radius: var(--radius);
 }
 
-/* The whole photo in a 4:5 frame, on a blurred copy of itself (the product card's look, ProductCard.module.css). */
 .imgWrap {
   position: relative;
   display: block;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 1;
   overflow: hidden;
-  background: var(--night-2);
-}
-.backdrop {
-  object-fit: cover;
-  /* no enlargement: the copy stays inside the frame (an enlarged box reached past the screen edge, home.spec.ts) */
-  filter: blur(18px) saturate(1.1) brightness(0.9);
+  background: var(--cream);
 }
 .img {
-  object-fit: contain;
+  object-fit: cover;
   transition: transform 0.7s ease;
 }
 .product:hover .img {
-  transform: scale(1.04);
+  transform: scale(1.07);
 }
 
 /* The whole name is shown (it wraps instead of ending in "..."): a cut name loses content, and more so with larger

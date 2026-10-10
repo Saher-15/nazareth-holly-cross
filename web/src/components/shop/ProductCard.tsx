@@ -22,8 +22,7 @@ const GRID_SIZES = '(min-width: 1040px) 280px, (min-width: 700px) 33vw, 50vw';
 
 // One glass card: photo with badges, category, name, stars, price. The card links to the
 // product page; the heart is a separate button next to the link, never inside it.
-// The photo is decorative here (alt="") because the product name sits right under it. It is shown whole (most product
-// photos are tall portraits; a square crop cut a third of them away), on a blurred copy of itself.
+// The photo is decorative here (alt="") because the product name sits right under it.
 export default function ProductCard({ item, index = 0, eager = false, sizes = GRID_SIZES, wishlist = true }: Props) {
   const t = useTranslations('shopFeatures');
   const format = useFormatter();
@@ -33,8 +32,6 @@ export default function ProductCard({ item, index = 0, eager = false, sizes = GR
     <article className={`ui-glass ${styles.card}`} style={{ '--i': index % 4 } as CSSProperties}>
       <Link href={`/shop/${item._id}`} className={styles.link} data-testid="product-card">
         <span className={styles.media}>
-          {/* The same photo, blurred, fills the space beside the whole photo (same src and sizes: one download). */}
-          <Image className={styles.backdrop} src={item.img} alt="" fill sizes={sizes} loading={eager ? 'eager' : 'lazy'} aria-hidden="true" />
           <Image
             className={styles.img}
             src={item.img}
