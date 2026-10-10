@@ -1,10 +1,11 @@
-// The password policy the API enforces (server/services/passwordPolicy.js): at least 12 characters, at most 200, not
+// The password policy the API enforces (server/services/passwordPolicy.js): at least 12 characters, at most 72 bytes of UTF-8 (bcrypt reads no more), not
 // the username (nor the username with a few characters added), not a well-known password, at least 4 different
 // characters. The server is the authority; this copy gives an instant, translated message for every rule it applies,
 // so the person never sees the API's English text instead. Keep the two in step (tests/unit/helpers.test.ts).
 
 export const MIN_PASSWORD_LENGTH = 12;
 export const MAX_PASSWORD_LENGTH = 200;
+export const MAX_PASSWORD_BYTES = 72;
 
 // The server's list, compared case-insensitively and without separators.
 const COMMON = new Set([
@@ -32,7 +33,7 @@ const normalise = (text: string) => text.toLowerCase().replace(/[\s._-]+/g, '');
 
 export function passwordProblem(password: string, username: string): PasswordProblem | null {
   if (password.length < MIN_PASSWORD_LENGTH) return 'short';
-  if (password.length > MAX_PASSWORD_LENGTH) return 'long';
+  if (password.length > MAX_PASSWORD_LENGTH || new TextEncoder().encode(password).length > MAX_PASSWORD_BYTES) return 'long';
   const flat = normalise(password);
   const name = normalise(username ?? '');
   if (name && (flat === name || (flat.includes(name) && name.length >= 4 && flat.length - name.length < 4))) return 'username';

@@ -227,6 +227,7 @@ export type PrivacyCounts = z.infer<typeof privacyCounts>;
 
 export const userSchema = doc({
   username: z.string(),
+  email: z.string().nullish(), // the recovery address ("Forgot password" mails its link there); '' = none
   role: roleSchema,
   disabled: z.boolean().default(false),
   totpEnabled: z.boolean().nullish(),

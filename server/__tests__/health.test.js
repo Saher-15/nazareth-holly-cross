@@ -62,6 +62,16 @@ describe('buildDeepHealth', () => {
     expect(typeof body.memoryMb).toBe('number');
   });
 
+  it('reports the 7-character commit Railway gives it, preferred over a leftover Render one', async () => {
+    const saved = { railway: process.env.RAILWAY_GIT_COMMIT_SHA, render: process.env.RENDER_GIT_COMMIT };
+    process.env.RAILWAY_GIT_COMMIT_SHA = 'abcdef0123456789abcdef0123456789abcdef01';
+    process.env.RENDER_GIT_COMMIT = '0123456789abcdef0123456789abcdef01234567';
+    expect((await buildDeepHealth({ connection: connection(async () => ({})) })).body.commit).toBe('abcdef0');
+    for (const [key, value] of [['RAILWAY_GIT_COMMIT_SHA', saved.railway], ['RENDER_GIT_COMMIT', saved.render]]) {
+      if (value === undefined) delete process.env[key]; else process.env[key] = value;
+    }
+  });
+
   it('reports the 7-character commit Render gives it, and null without one', async () => {
     const saved = process.env.RENDER_GIT_COMMIT;
     process.env.RENDER_GIT_COMMIT = '0123456789abcdef0123456789abcdef01234567';

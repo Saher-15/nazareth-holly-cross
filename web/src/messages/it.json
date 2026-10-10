@@ -37,10 +37,10 @@
     }
   },
   "about": {
-    "title": "Benvenuti al portale ufficiale di Nazaret",
+    "title": "Ti diamo il benvenuto su Nazareth Holy Cross",
     "description1": "Il cuore della fede cristiana. Sappiamo che non tutti possono visitare di persona Nazaret, la città dove è cresciuto Gesù e dove ogni visitatore può vivere esperienze spirituali. Per questo siamo lieti di offrirti la possibilità di portare Nazaret fino a te.",
     "description2": "Tramite il nostro sito web, puoi fare un tour virtuale delle principali chiese e dei luoghi sacri di Nazaret, entrare in contatto con la ricca storia e la tradizione religiosa che caratterizzano il luogo. Inoltre, ti offriamo un’opportunità unica di acquistare souvenir locali e persino accendere una candela in memoria o in onore dei tuoi cari, come se fossi qui con noi.",
-    "description3": "Nel nostro negozio online puoi trovare un’ampia gamma di prodotti: croci in legno di ulivo locale, gioielli ispirati ai simboli cristiani, dipinti e mosaici che riflettono la ricchezza dell’arte religiosa e molto altro. Ora puoi anche acquistare acqua dalla leggendaria sorgente di Nazaret, sabbia di Nazaret e olive locali, tutto per sentire la grandezza della città di Nazaret e di Gesù. Puoi anche scegliere di accendere una candela virtuale, un gesto che porta preghiera e ricordo a distanza.",
+    "description3": "Nel nostro negozio online puoi trovare un’ampia gamma di prodotti: croci in legno di ulivo locale, gioielli ispirati ai simboli cristiani, dipinti e mosaici che riflettono la ricchezza dell’arte religiosa e molto altro. Ora puoi anche acquistare acqua dalla leggendaria sorgente di Nazaret, sabbia di Nazaret e olive locali, tutto per sentire la grandezza della città di Nazaret e di Gesù. Puoi anche chiederci di accendere per te una candela vera in una chiesa di Nazaret e riceverne il video.",
     "description4": "Ti invitiamo ad aprire il tuo cuore e a sentire il calore della nostra comunità attraverso ogni prodotto che scegli di acquistare. Ogni acquisto sostiene la comunità locale e aiuta a preservare il ricco patrimonio di Nazaret per le generazioni future. Visita il nostro sito e trova il tuo modo di entrare in contatto con Nazaret, sempre e ovunque."
   },
   "whatIsNew": {
@@ -74,23 +74,18 @@
     "reviews": "Recensioni"
   },
   "candle": {
-    "howToLightACandle": "Come accendere una candela?",
-    "itsSimple": "È semplice:",
-    "step1": "Scegli una chiesa in cui vorresti che la candela fosse accesa.",
-    "step2": "Scrivi una preghiera o una richiesta personale che vorresti che accompagnasse l’accensione della candela.",
-    "step3": "Andremo in chiesa, accenderemo la candela per te, registreremo un video con il tuo nome e te lo invieremo direttamente.",
-    "note": "Nota: questo video è solo a scopo illustrativo, mostra il processo di accensione di una candela nella chiesa greco-ortodossa.",
     "lightAPrayCandle": "Accendi una candela di preghiera",
     "selectChurch": "Seleziona la chiesa in cui accendere la candela:",
-    "toLightACandlePay": "Per accendere una candela, paga 3 $",
-    "light": "ACCENDI",
-    "emailMatchError": "Gli indirizzi email non corrispondono",
     "inputWarning": "Seleziona una chiesa.",
     "firstName": "Nome",
     "lastName": "Cognome",
     "yourEmail": "La tua email",
     "confirmEmail": "Conferma email",
-    "yourPrayer": "La tua preghiera"
+    "yourPrayer": "La tua preghiera",
+    "videosTitle": "Video",
+    "videosLead": "Guardate come vengono accese le candele nelle chiese di Nazaret.",
+    "videoPlay": "Riproduci il video: {title}",
+    "videoPlayerTitle": "Video: {title}"
   },
   "heroSection": {
     "heading": "LA CITTÀ DI GESÙ TI ASPETTA",
@@ -420,7 +415,11 @@
     "prayersTotal": "Preghiere sul muro",
     "prayersCountriesLatest": "{count, plural, one {Paesi nella preghiera più recente} many {Paesi nelle # preghiere più recenti} other {Paesi nelle # preghiere più recenti}}",
     "prayersCountriesAll": "Paesi sul muro",
-    "prayersAll": "Leggi il muro delle preghiere"
+    "prayersAll": "Leggi il muro delle preghiere",
+    "intro": {
+      "welcome": "Benvenuti a Nazaret",
+      "tagline": "La città di Gesù"
+    }
   },
   "homePage": {
     "meta": {
@@ -613,14 +612,17 @@
     "shipping": "Spedizione",
     "total": "Totale",
     "secure": "Pagamento sicuro con PayPal",
-    "emptyLead": "Scopri rosari, croci e ricordi da Nazaret."
+    "emptyLead": "Scopri rosari, croci e ricordi da Nazaret.",
+    "sideCartClose": "Chiudi il carrello",
+    "sideCartView": "Vedi tutto il carrello",
+    "sideCartMove": "Sposta il pulsante del carrello dall’altro lato"
   },
   "checkoutPage": {
     "meta": {
       "checkoutTitle": "Cassa",
       "checkoutDescription": "Completa il tuo ordine di ricordi da Nazaret e paga in sicurezza con PayPal.",
       "candleTitle": "Accendi una candela a Nazaret",
-      "candleDescription": "Scegli una chiesa di Nazaret e scrivi la tua preghiera. Accenderemo una candela per te e ti invieremo il video.",
+      "candleDescription": "Scegli una chiesa di Nazaret e scrivi la tua preghiera. Accendiamo per te una candela vera e ti inviamo il tuo video personale entro 48 ore.",
       "donateTitle": "Dona",
       "donateDescription": "Sostieni Nazareth Holy Cross con una donazione, pagata in sicurezza con PayPal."
     },
@@ -628,7 +630,6 @@
       "eyebrow": "Pagamento sicuro",
       "orderTitle": "Completa il tuo ordine",
       "lead": "Il tuo pagamento è elaborato in modo sicuro da PayPal.",
-      "candleEyebrow": "Candela di preghiera",
       "donateEyebrow": "Donazione",
       "donateTitle": "Sostieni Nazareth Holy Cross",
       "donateLead": "Il tuo dono ci aiuta a condividere i luoghi santi, le preghiere e l’artigianato di Nazaret con i pellegrini di tutto il mondo."
@@ -665,13 +666,14 @@
     "payment": {
       "loading": "Caricamento di PayPal…",
       "unavailable": "Impossibile caricare PayPal. Controlla la connessione o disattiva i blocchi dei contenuti, poi ricarica la pagina.",
-      "secured": "Pagamento sicuro con PayPal. Non vediamo mai i dati della tua carta.",
+      "secured": "Pagamento sicuro con PayPal o con carta di credito o di debito: non serve un conto PayPal. Non vediamo mai i dati della tua carta.",
       "cancelled": "Pagamento annullato. Non ti è stato addebitato nulla.",
       "errors": {
         "start": "Non è stato possibile avviare il pagamento. Riprova.",
         "notCompleted": "Il pagamento non è stato completato. Non ti è stato addebitato nulla.",
         "paypal": "PayPal ha segnalato un errore. Riprova.",
-        "unconfirmed": "Non siamo riusciti a confermare il pagamento perché la connessione è caduta. Per ora non pagare di nuovo: controlla il tuo account PayPal oppure scrivici."
+        "unconfirmed": "Non siamo riusciti a confermare il pagamento perché la connessione è caduta. Per ora non pagare di nuovo: controlla il tuo account PayPal oppure scrivici.",
+        "priceChanged": "Il totale è cambiato: ora è {charged}, non {shown}. Non ti è stato addebitato nulla. Premi di nuovo il pulsante PayPal per pagare {charged}."
       },
       "reference": "Riferimento del pagamento: {id}",
       "saving": "Salvataggio dei tuoi dati…",
@@ -682,8 +684,7 @@
       "text": "Scopri rosari, croci e ricordi da Nazaret."
     },
     "candle": {
-      "price": "Per accendere una candela: {price}",
-      "secureNext": "Poi controllerai i tuoi dati e pagherai in sicurezza con PayPal."
+      "secureNext": "Poi controllerai i tuoi dati e pagherai in sicurezza con PayPal o con carta di credito o di debito. Non ti serve un conto PayPal."
     },
     "donate": {
       "formTitle": "Fai una donazione",
@@ -1311,7 +1312,7 @@
       "items": {
         "candle": {
           "q": "Come funziona l’accensione di una candela?",
-          "a": "Scegli una chiesa di Nazaret, scrivi la tua preghiera e paga {price}. Accendiamo una candela per te, registriamo un breve video con il tuo nome e lo inviamo al tuo indirizzo e-mail."
+          "a": "Scegli una chiesa di Nazaret, scrivi il tuo nome e la tua preghiera e paga {price}. Accendiamo per te una candela vera in quella chiesa, la filmiamo con il tuo nome e la tua preghiera e inviamo il video al tuo indirizzo e-mail entro 48 ore."
         },
         "wall": {
           "q": "Il muro delle preghiere è pubblico?",
@@ -1412,7 +1413,8 @@
               "cart": "Il tuo carrello e la lista dei desideri.",
               "liked": "Le preghiere a cui hai detto Amen, così puoi dirlo una sola volta.",
               "language": "La lingua che hai scelto."
-            }
+            },
+            "p2": "Contiamo quante volte vengono aperte alcune pagine e quanti pagamenti vengono completati, per giorno e per campagna pubblicitaria. Sono semplici totali: non usano cookie né identificativi, non salvano nulla nel tuo browser, non contengono nulla su di te e non vengono condivisi con nessuno."
           },
           "keep": {
             "title": "Per quanto tempo li conserviamo",
@@ -1455,7 +1457,7 @@
           },
           "candles": {
             "title": "Candele",
-            "p1": "Una candela di preghiera costa {price}. Accendiamo una candela per la tua intenzione nella chiesa che scegli e ti inviamo un video. È un servizio di preghiera e ricordo; non possiamo promettere una data o un’ora precisa."
+            "p1": "Una candela di preghiera costa {price}. Accendiamo una candela vera per la tua intenzione nella chiesa che scegli, la filmiamo e inviamo il video al tuo indirizzo e-mail entro 48 ore dal pagamento. Se il video non arriva in questo tempo o qualcosa non è corretto, scrivici e ti rimborseremo per intero."
           },
           "donations": {
             "title": "Donazioni",
@@ -1882,5 +1884,72 @@
       "license": "Licenza",
       "viewOnCommons": "Vedi su Wikimedia Commons"
     }
+  },
+  "tourPage": {
+    "activities": {
+      "eyebrow": "A Nazaret",
+      "title": "Cosa fare",
+      "lead": "Alcuni modi per trascorrere le tue giornate in città, oltre alle sue chiese.",
+      "more": "Scopri di più su questo luogo",
+      "oldcity": {
+        "title": "Passeggia nella Città Vecchia e nel suo mercato",
+        "text": "Vicoli stretti, passaggi a volta e il vecchio mercato, dove spezie, dolci e artigianato si vendono fianco a fianco."
+      },
+      "basilica": {
+        "title": "Prega nella Basilica dell’Annunciazione",
+        "text": "Siedi in silenzio nella grotta dove la tradizione colloca l’Annunciazione, oppure partecipa a una Messa nella chiesa superiore."
+      },
+      "trail": {
+        "title": "Percorri un tratto del Jesus Trail",
+        "text": "Il sentiero parte da Nazaret e attraversa le colline della Galilea verso il lago di Tiberiade. Già i primi chilometri aprono ampi panorami."
+      },
+      "precipice": {
+        "title": "Guarda il tramonto dal Monte del Precipizio",
+        "text": "Dalla rupe sopra la valle di Izreel l’intera pianura si stende sotto di te, dorata alla fine del giorno."
+      },
+      "food": {
+        "title": "Assaggia Nazaret",
+        "text": "La città è nota per i suoi dolci e la sua cucina casalinga: prova la knafeh, servita calda."
+      },
+      "christmas": {
+        "title": "Natale a Nazaret",
+        "text": "A dicembre la città si illumina, con un mercatino di Natale e una sfilata festosa la vigilia di Natale."
+      }
+    },
+    "plan": {
+      "title": "Organizza le tue giornate a Nazaret",
+      "lead": "Scegli quanti giorni hai e cosa ami: il pianificatore del pellegrino traccia un percorso con i tempi a piedi. La guida per il visitatore raccoglie le stagioni, come arrivare e consigli pratici.",
+      "planner": "Apri il pianificatore",
+      "guide": "Guida per il visitatore"
+    }
+  },
+  "candlePage": {
+    "eyebrow": "Una candela vera, accesa per te a Nazaret",
+    "title": "La tua preghiera. La tua chiesa. La tua candela.",
+    "lead": "Scegli una chiesa di Nazaret e scrivi il tuo nome e la tua preghiera. Accendiamo per te una candela vera dentro quella chiesa, la filmiamo con il tuo nome e la tua preghiera e ti inviamo il tuo video personale entro 48 ore.",
+    "cta": "Accendi la mia candela – {price}",
+    "pReal": "Una candela vera in una chiesa vera, non virtuale",
+    "pVideo": "Il tuo video personale entro 48 ore",
+    "pGuest": "Senza creare un account",
+    "pSecure": "Paga con PayPal o con carta, senza conto PayPal",
+    "stepsTitle": "Come funziona",
+    "s1T": "Scegli la tua chiesa",
+    "s1X": "{latin} o {greek}, entrambe a Nazaret.",
+    "s2T": "Scrivi il tuo nome e la tua preghiera",
+    "s2X": "Con le tue parole e nella tua lingua. Le mettiamo su un biglietto accanto alla tua candela.",
+    "s3T": "Paga {price} e ricevi il tuo video",
+    "s3X": "Accendiamo la tua candela, la filmiamo e inviamo il tuo video personale al tuo indirizzo e-mail entro 48 ore.",
+    "knowTitle": "Buono a sapersi",
+    "realQ": "È una candela vera?",
+    "realA": "Sì. Una persona del nostro gruppo a Nazaret va nella chiesa che hai scelto e vi accende una candela vera. Non c’è nulla di virtuale.",
+    "getQ": "Che cosa riceverò?",
+    "getA": "Un breve video personale via e-mail: la chiesa, il biglietto con il tuo nome e la tua preghiera e la tua candela mentre viene accesa.",
+    "timeQ": "Quanto tempo ci vuole?",
+    "timeA": "Ricevi il tuo video entro 48 ore dal pagamento.",
+    "whoQ": "Chi gestisce questo servizio?",
+    "whoA": "Nazareth Holy Cross è un servizio indipendente gestito da un gruppo locale di Nazaret. Non è un ente ufficiale della città di Nazaret né delle chiese.",
+    "wrongQ": "E se qualcosa va storto?",
+    "wrongA": "Se il tuo video non è arrivato entro 48 ore (controlla prima la cartella dello spam) o qualcosa non è corretto, scrivici e ti rimborseremo per intero.",
+    "contact": "Scrivici"
   }
 }

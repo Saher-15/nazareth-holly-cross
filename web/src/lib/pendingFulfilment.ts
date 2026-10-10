@@ -1,8 +1,7 @@
 import { postJson, type PostResult } from './apiClient';
 
-// "Pending fulfilment": a customer has PAID (PayPal said COMPLETED) but the shop's own record of the order or the
-// candle request has not been saved yet. The browser writes a record to localStorage the moment PayPal confirms the
-// payment, BEFORE it calls the API, and keeps trying until the API confirms (/order/newOrder, /candle/lightACandle).
+// Payment recovery: the browser saves the approved payment reference and original form BEFORE capture.
+// It confirms capture on retries, then saves the order/candle, keeping the record until the API confirms.
 // Only then is the record removed. So a lost connection, a closed tab or a sleeping API never leaves a paid
 // customer without an order: the work is retried automatically with a growing delay, and again on the next visit
 // to the site from the same browser.
@@ -13,8 +12,8 @@ import { postJson, type PostResult } from './apiClient';
 // The record holds what the API needs to save the order (name, address, products...): personal data, kept in this
 // browser only until the order is confirmed saved, and for at most 30 days (docs/SECURITY.md).
 
-export type PendingKind = 'order' | 'candle';
-export type PendingPath = '/order/newOrder' | '/candle/lightACandle';
+export type PendingKind = 'order' | 'candle' | 'donation';
+export type PendingPath = '/order/newOrder' | '/candle/lightACandle' | '/order/complete_order';
 
 export type PendingRecord = {
   v: 1;
@@ -32,6 +31,7 @@ export type PendingRecord = {
   nextAt: number;
   /** "rejected": the API refused it for good (a person must look at it). It is kept, but not retried. */
   state: 'pending' | 'rejected';
+  capturePending?: boolean;
   lastStatus?: number;
 };
 
@@ -77,8 +77,8 @@ const valid = (value: unknown): value is PendingRecord => {
     r.v === 1 &&
     typeof r.paypalOrderId === 'string' &&
     /^[A-Za-z0-9]{10,40}$/.test(r.paypalOrderId) && // PayPal issues 17 upper-case characters; the API (isPayPalOrderId) is the strict judge
-    (r.kind === 'order' || r.kind === 'candle') &&
-    (r.path === '/order/newOrder' || r.path === '/candle/lightACandle') &&
+    (r.kind === 'order' || r.kind === 'candle' || r.kind === 'donation') &&
+    (r.path === '/order/newOrder' || r.path === '/candle/lightACandle' || r.path === '/order/complete_order') &&
     typeof r.body === 'object' &&
     r.body !== null &&
     typeof r.createdAt === 'number' &&
@@ -190,8 +190,26 @@ export class PendingFulfilment {
     return record;
   }
 
+  /** Durable approval record, before capture. Refuse a charge if storage cannot retain it. */
+  prepare(input: Pick<PendingRecord, 'paypalOrderId' | 'kind' | 'path' | 'body' | 'cart'>): PendingRecord {
+    const record: PendingRecord = { v: 1, ...input, capturePending: true, createdAt: this.now(), attempts: 0, nextAt: this.now() + 10_000, state: 'pending' };
+    const records = [...this.list().filter(r => r.paypalOrderId !== record.paypalOrderId), record];
+    if (records.length > MAX_RECORDS || !writeRecords(this.store, records)) throw new Error('Payment recovery storage is unavailable');
+    this.memory = new Map(records.map(r => [r.paypalOrderId, r]));
+    this.emit({ type: 'added', record });
+    return record;
+  }
+
   private remove(paypalOrderId: string) {
     this.save(this.list().filter((r) => r.paypalOrderId !== paypalOrderId));
+  }
+
+  /** A completed donation needs no second fulfilment request. */
+  confirmDonation(paypalOrderId: string) {
+    const record = this.get(paypalOrderId);
+    if (record?.kind !== 'donation') return;
+    this.remove(paypalOrderId);
+    this.emit({ type: 'saved', record });
   }
 
   /**
@@ -206,7 +224,18 @@ export class PendingFulfilment {
 
     this.busy.add(paypalOrderId);
     try {
-      const result = await this.post(record.path, { ...record.body, paypalOrderId: record.paypalOrderId });
+      let result: PostResult<unknown>;
+      if (record.capturePending) {
+        result = await this.post('/order/complete_order', { order_id: record.paypalOrderId });
+        if (result.ok && (result.data as { status?: string } | undefined)?.status !== 'COMPLETED') {
+          result = { ok: false, status: 425, error: 'Payment is still pending' };
+        }
+        if (result.ok && record.kind !== 'donation') {
+          result = await this.post(record.path, { ...record.body, paypalOrderId: record.paypalOrderId });
+        }
+      } else {
+        result = await this.post(record.path, { ...record.body, paypalOrderId: record.paypalOrderId });
+      }
       const outcome = classify(result);
       if (outcome === 'saved') {
         this.remove(paypalOrderId);

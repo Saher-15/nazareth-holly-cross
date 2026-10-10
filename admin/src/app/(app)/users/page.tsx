@@ -6,7 +6,7 @@ import { parseListParams, usersPage, type AdminUser } from '@/lib/api';
 import { formatDateTime } from '@/lib/format';
 import { can } from '@/lib/roles';
 import { getSession, load, serverApi } from '@/lib/server-api';
-import { CreateUser, RoleSelect } from './UserControls';
+import { CreateUser, RecoveryEmail, RoleSelect } from './UserControls';
 
 export async function generateMetadata(): Promise<Metadata> {
   const { t } = await getI18n();
@@ -59,6 +59,7 @@ export default async function UsersPage({ searchParams }: { searchParams: Promis
                   </>
                 ),
               },
+              { key: 'email', header: t('users.email'), cell: (u) => <RecoveryEmail id={u.id} username={u.username} email={u.email ?? ''} /> },
               { key: 'role', header: t('users.role'), cell: (u) => <RoleSelect id={u.id} username={u.username} role={u.role} disabled={u.id === user.id} /> },
               { key: 'twofa', header: t('users.twoFactor'), cell: (u) => (u.totpEnabled ? <Badge tone="success">{t('common.on')}</Badge> : <Badge tone="neutral">{t('common.off')}</Badge>) },
               { key: 'last', header: t('users.lastLogin'), cell: (u) => (u.lastLoginAt ? formatDateTime(u.lastLoginAt, locale) : t('users.never')) },

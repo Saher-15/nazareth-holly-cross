@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { openSiteSearch } from '@/components/search/events';
 import { CloseIcon, MenuIcon, SearchIcon } from '@/components/ui/icons';
 import { Link, usePathname } from '@/i18n/navigation';
-import { mainNav } from '@/lib/site';
+import { headerNav } from '@/lib/site';
 import type { LiveSeed } from '@/lib/useLiveStatus';
 import BrandLogo from './BrandLogo';
 import LanguageSwitcher from './LanguageSwitcher';
@@ -136,7 +136,7 @@ export default function SiteHeader({ live }: { live?: LiveSeed }) {
           className={`${styles.nav} ${open ? styles.open : ''}`}
         >
           <ul>
-            {mainNav.map((item) => (
+            {headerNav.map((item) => (
               <li key={item.key}>
                 <Link
                   href={item.href}

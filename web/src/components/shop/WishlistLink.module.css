@@ -6,8 +6,8 @@
   fill: currentColor;
 }
 
-/* very small phones: icon + count only, like the cart pill (the link keeps its full aria-label) */
-@media (max-width: 400px) {
+/* phones: icon + count only, like the cart pill (the link keeps its full aria-label) */
+@media (max-width: 599px) {
   .link {
     padding-inline: 14px;
   }

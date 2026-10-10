@@ -61,7 +61,7 @@ function mockPayPal({ order = paypalOrder(), status = 200, unreachable = false }
 beforeEach(() => {
   vi.clearAllMocks();
   fakes.Payment.reset(); // the payment ledger (an in-memory model, __tests__/setup.js) starts empty in every test
-  mocks.productFind.mockImplementation(async () => [{ _id: OID1, price: 10, name: 'Olive oil', stock: null }]);
+  mocks.productFind.mockImplementation(async () => [{ _id: OID1, price: 10, name: 'Olive oil', stock: null, color: ['brown', 'green'] }]);
   mocks.orderCreate.mockResolvedValue({ _id: 'abc' });
   mocks.orderExists.mockResolvedValue(null);
   mocks.sendMail.mockResolvedValue(true);

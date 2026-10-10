@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { getFormatter, getTranslations } from 'next-intl/server';
+import { api } from '@/lib/api';
 import { Link } from '@/i18n/navigation';
 import { breadcrumbJsonLd, webPageJsonLd } from '@/lib/jsonLd';
 import { faqValues, type Translate } from '@/data/pilgrim/faqEntries';
@@ -12,7 +13,7 @@ import { getMedia } from '@/data/media';
 import shared from './shared.module.css';
 
 /** When the legal texts were last revised (YYYY-MM-DD). Update it with every change to the messages. */
-export const LEGAL_UPDATED = '2026-10-05';
+export const LEGAL_UPDATED = '2026-10-10';
 /** When the site's accessibility was last reviewed and the statement written (docs/ACCESSIBILITY.md). */
 export const A11Y_REVIEWED = '2026-10-07';
 
@@ -43,7 +44,7 @@ export default async function LegalDocument({ page, locale }: { page: LegalPage;
   const rich = translate as unknown as RichTranslate;
   const format = await getFormatter();
   const updated = format.dateTime(new Date(`${UPDATED[page]}T12:00:00Z`), { dateStyle: 'long', timeZone: 'UTC', numberingSystem: 'latn' });
-  const values = { ...faqValues(locale), date: updated };
+  const values = { ...faqValues(locale, await api.candlePrice()), date: updated };
   const text = (key: string) => t(`pilgrim.legal.${page}.${key}`, values);
   const richText = (key: string) =>
     rich.rich(`pilgrim.legal.${page}.${key}`, {

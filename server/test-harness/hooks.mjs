@@ -20,7 +20,7 @@ const toUrl = (...parts) => pathToFileURL(path.join(serverDir, ...parts)).href;
 const MODEL_KEYS = {
   order: 'Order', candle: 'Candle', contact: 'Contact', review: 'Review', productReview: 'ProductReview',
   prayer: 'Prayer', product: 'Product', admin: 'Admin', adminSession: 'AdminSession', auditLog: 'AuditLog', payment: 'Payment', liveSession: 'LiveSession',
-  liveRecording: 'LiveRecording', scheduledBroadcast: 'ScheduledBroadcast',
+  liveRecording: 'LiveRecording', scheduledBroadcast: 'ScheduledBroadcast', siteSetting: 'SiteSetting', candleVideo: 'CandleVideo', metric: 'Metric',
 };
 
 const EMAIL_URL = toUrl('services', 'emailService.js');
@@ -48,7 +48,8 @@ const sources = {
     export const createOrder = refuse;
     export const captureOrder = refuse;
     export const getOrder = refuse;
-    export const assertPaid = refuse;`,
+    export const assertPaid = refuse;
+    export { verifiedCaptureStatus } from '../services/paymentCapture.js';`,
 };
 
 registerHooks({

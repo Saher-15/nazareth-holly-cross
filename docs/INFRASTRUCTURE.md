@@ -6,12 +6,29 @@ to GoDaddy, Netlify, Render, MongoDB Atlas, Firebase or PayPal** from the audit:
 **owner** and is *not verified*. Watching and recovery: [MONITORING.md](MONITORING.md). Repositories:
 [REPOSITORIES.md](REPOSITORIES.md).
 
+> **Hosting since 2026-10-07: the API runs on Railway, not Render** (project `divine-spontaneity`, service
+> `nazareth-holy-cross-api`, built from this repository, root `/server`; address
+> `https://nazareth-holy-cross-api-production.up.railway.app`). The Render service is suspended. Where this page
+> still says Render, read it with this table (checked read-only on 2026-10-10):
+>
+> | On Render it was | On Railway it is |
+> |---|---|
+> | Environment -> variables | the service -> **Variables** (same names; a change redeploys) |
+> | Auto-deploy of `main` | the same: Railway deploys `main` (root `/server`) after a merge |
+> | Logs, Events | the service -> **Deployments** -> a deploy -> Logs (`railway logs`) |
+> | Rollback | **Deployments** -> the previous successful deploy -> **Redeploy** |
+> | Free plan sleeps after 15 minutes | it does not sleep unless "Serverless" is switched on in the service settings (not checked from here) |
+> | Oregon, behind Cloudflare | Railway's own edge (`x-railway-edge`), one proxy hop: `TRUST_PROXY` is unset (default 1) |
+> | `render.yaml` | kept for reference only; Railway reads its own service settings |
+>
+> Hermes (the 24/7 watcher, [MONITORING.md](MONITORING.md)) runs on the same Railway project.
+
 ```
 GoDaddy  (registrar: owns the name, expires 2027-08-26)
    |  name servers are delegated to ->
 Netlify DNS (NS1: dns1-4.p0x.nsone.net)   <- the DNS records live HERE, not at GoDaddy
    |  nazarethholycross.com, www  ->  Netlify edge (2 AWS Frankfurt addresses)
-Netlify: public site (web/)  -- server-side and browser --> Render: API (Oregon, free plan, behind Cloudflare)
+Netlify: public site (web/)  -- server-side and browser --> Railway: API (was Render, Oregon, until 2026-10-07)
 Netlify: admin site (old)                                          |--> MongoDB Atlas (region: owner)
                                                                    |--> PayPal, Gmail (SMTP)
 Firebase Storage: product photos and videos (served through Netlify's image CDN)
@@ -464,9 +481,16 @@ The bullets below were written before this check, from outside:
 ### 6.2 Firebase Storage
 
 Holds the product photos and the long videos (bucket `nazareth-holy-cross.appspot.com`). The rules and CORS file lived only
-in the old public client repository; copies are in `ops/firebase/` with their README. The copy says: **anyone reads,
-any signed-in Firebase user writes**. Safe only if **no sign-in method** is enabled in Firebase Authentication (Console ->
-Authentication -> Sign-in method: all disabled, Anonymous too). Otherwise a stranger can create a user and fill the bucket.
-The deployed rules were not seen; compare them with the copy and tighten as `ops/firebase/README.md` describes. Set long
+in the old public client repository; copies are in `ops/firebase/` with their README.
+
+**Rules since 2026-10-07** (`ops/firebase/storage.rules`, deployed with `firebase deploy --only storage`): anyone may
+read a file by its address; nobody may list the bucket; the only anonymous write is **creating a new image** (JPEG, PNG,
+WebP, AVIF or GIF, under 8 MB) under `images/<folder>/<file>`, which is how the admin dashboard uploads product photos
+(it does not sign in: `admin/src/lib/firebase-upload.ts`). Overwriting and deleting are refused through the API; the
+Firebase console still can. The audit of 2026-10-07 found the previous live rules allowed **anonymous upload, overwrite,
+delete and listing** of every file. The rules were checked with the Firebase rules simulator (8 cases). Still to do:
+upload through the API with a server credential, so no anonymous write is needed at all. The bucket keeps deleted and
+overwritten files for 7 days (soft delete): restore one with the Cloud Storage console or
+`POST .../o/<object>/restore?generation=<old generation>`. Set long
 `Cache-Control` metadata on photos (section 3.4). Firebase's free tier has download quotas: watch Usage if the video
 traffic grows (videos over 8 MB are served from here by design).

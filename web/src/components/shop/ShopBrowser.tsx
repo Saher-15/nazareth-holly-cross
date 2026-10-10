@@ -175,7 +175,7 @@ export default function ShopBrowser({ products, strip }: Props) {
             </form>
             <div className={styles.saved}>
               <WishlistLink />
-              <CartPill />
+              <CartPill className={styles.cartPill} />
             </div>
             <div className={styles.tools}>
               <button
@@ -187,7 +187,7 @@ export default function ShopBrowser({ products, strip }: Props) {
                 data-testid="filters-button"
               >
                 <ShopIcon name="filter" className={styles.filtersIcon} />
-                <span>{tf('filters.title')}</span>
+                <span className={styles.filtersText}>{tf('filters.title')}</span>
                 {filters > 0 && (
                   <span className={styles.filtersCount} aria-hidden="true">
                     {format.number(filters)}
