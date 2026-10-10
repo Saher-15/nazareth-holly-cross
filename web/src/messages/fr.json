@@ -682,7 +682,8 @@
         "start": "Impossible de lancer le paiement. Veuillez réessayer.",
         "notCompleted": "Le paiement n’a pas abouti. Vous n’avez pas été débité.",
         "paypal": "PayPal a signalé une erreur. Veuillez réessayer.",
-        "unconfirmed": "Nous n’avons pas pu confirmer votre paiement car la connexion a échoué. Ne payez pas à nouveau pour l’instant : vérifiez votre compte PayPal ou écrivez-nous."
+        "unconfirmed": "Nous n’avons pas pu confirmer votre paiement car la connexion a échoué. Ne payez pas à nouveau pour l’instant : vérifiez votre compte PayPal ou écrivez-nous.",
+        "priceChanged": "Le total a changé : il est maintenant de {charged}, et non de {shown}. Vous n’avez pas été débité. Cliquez à nouveau sur le bouton PayPal pour payer {charged}."
       },
       "reference": "Référence du paiement : {id}",
       "saving": "Enregistrement de vos informations…",

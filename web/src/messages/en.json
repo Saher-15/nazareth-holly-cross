@@ -682,7 +682,8 @@
         "start": "We could not start the payment. Please try again.",
         "notCompleted": "The payment was not completed. You have not been charged.",
         "paypal": "PayPal reported an error. Please try again.",
-        "unconfirmed": "We could not confirm your payment because the connection failed. Please do not pay again yet: check your PayPal account, or write to us."
+        "unconfirmed": "We could not confirm your payment because the connection failed. Please do not pay again yet: check your PayPal account, or write to us.",
+        "priceChanged": "The total has changed: it is now {charged}, not {shown}. You have not been charged. Press the PayPal button again to pay {charged}."
       },
       "reference": "Payment reference: {id}",
       "saving": "Saving your details…",

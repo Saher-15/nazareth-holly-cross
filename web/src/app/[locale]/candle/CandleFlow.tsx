@@ -240,7 +240,7 @@ export default function CandleFlow({ priceUsd }: { priceUsd: number }) {
           </dl>
           <CurrencyNote amountUsd={priceUsd} />
           <h3 className={shared.payTitle}>{tr('paypalComponent.paymentMethod')}</h3>
-          <PayPalPanel getPayload={getPayload} onPaid={onPaid} />
+          <PayPalPanel getPayload={getPayload} onPaid={onPaid} shownAmount={priceUsd} />
           <div className={shared.actions}>
             <button type="button" className="ui-btn ui-btn--ghost" onClick={() => setStep('details')}>
               {t('form.edit')}

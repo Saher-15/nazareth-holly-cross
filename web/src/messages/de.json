@@ -682,7 +682,8 @@
         "start": "Die Zahlung konnte nicht gestartet werden. Bitte versuchen Sie es erneut.",
         "notCompleted": "Die Zahlung wurde nicht abgeschlossen. Ihnen wurde nichts berechnet.",
         "paypal": "PayPal hat einen Fehler gemeldet. Bitte versuchen Sie es erneut.",
-        "unconfirmed": "Wir konnten Ihre Zahlung nicht bestätigen, weil die Verbindung ausgefallen ist. Bitte zahlen Sie vorerst nicht erneut: Prüfen Sie Ihr PayPal-Konto oder schreiben Sie uns."
+        "unconfirmed": "Wir konnten Ihre Zahlung nicht bestätigen, weil die Verbindung ausgefallen ist. Bitte zahlen Sie vorerst nicht erneut: Prüfen Sie Ihr PayPal-Konto oder schreiben Sie uns.",
+        "priceChanged": "Der Gesamtbetrag hat sich geändert: Er beträgt jetzt {charged} statt {shown}. Ihnen wurde nichts berechnet. Klicken Sie erneut auf die PayPal-Schaltfläche, um {charged} zu bezahlen."
       },
       "reference": "Zahlungsreferenz: {id}",
       "saving": "Ihre Angaben werden gespeichert…",

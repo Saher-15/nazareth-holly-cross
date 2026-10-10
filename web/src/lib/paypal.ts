@@ -14,9 +14,18 @@ export type PaymentPayload =
 
 // 'unconfirmed': the capture's answer never arrived (no connection, the API asleep): the customer may or may not have
 // paid, so the page must not say "you have not been charged" and must not invite a second payment.
-export type PaymentErrorCode = 'start' | 'notCompleted' | 'unconfirmed' | 'paypal';
+// 'priceChanged': the API will charge another amount than the page shows (a price was changed after the cart was
+// filled, or the page showed a fallback price). Nothing is started: the customer sees both amounts and presses the
+// button again to pay the new one.
+export type PaymentErrorCode = 'start' | 'notCompleted' | 'unconfirmed' | 'paypal' | 'priceChanged';
+/** The amount the page showed and the amount the API quoted, in USD. */
+export type PriceChange = { shown: number; charged: number };
 
-const createdSchema = z.object({ id: z.string().min(1) });
+// `amount` is the price the API computed and gave to PayPal (server/route/orderRoute.js create_order).
+const createdSchema = z.object({ id: z.string().min(1), amount: z.number().positive().optional() });
+
+/** Do two USD amounts differ by a cent or more? */
+export const amountsDiffer = (a: number, b: number) => Math.abs(Math.round(a * 100) - Math.round(b * 100)) >= 1;
 const captureSchema = z.object({ id: z.string(), status: z.string() });
 type Capture = z.output<typeof captureSchema>;
 
@@ -41,11 +50,17 @@ export async function captureWithRetry(orderId: string, delays: readonly number[
 export function usePayPalOrder({
   getPayload,
   onPaid,
+  getShownAmount,
 }: {
   getPayload: () => PaymentPayload;
   onPaid: (capture: Capture) => void;
+  /** The total the page shows (USD). When given, a different amount from the API stops the payment once. */
+  getShownAmount?: () => number | undefined;
 }) {
   const [error, setError] = useState<PaymentErrorCode | null>(null);
+  const [priceChange, setPriceChange] = useState<PriceChange | null>(null);
+  // The amount the customer has been told about: pressing the button again accepts it.
+  const acknowledged = useRef<number | null>(null);
   const approvedPayloads = useRef(new Map<string, PaymentPayload>());
 
   const createOrder = useCallback(async () => {
@@ -60,9 +75,19 @@ export function usePayPalOrder({
       setError('start');
       throw new Error(res.error);
     }
+    const shown = getShownAmount?.();
+    const charged = res.data.amount;
+    if (shown !== undefined && charged !== undefined && amountsDiffer(shown, charged) && (acknowledged.current === null || amountsDiffer(acknowledged.current, charged))) {
+      // The PayPal order just created is left unapproved (it expires by itself); nothing was charged.
+      acknowledged.current = charged;
+      setPriceChange({ shown, charged });
+      setError('priceChanged');
+      throw new Error('The price changed');
+    }
+    setPriceChange(null);
     approvedPayloads.current.set(res.data.id, payload);
     return res.data.id;
-  }, [getPayload]);
+  }, [getPayload, getShownAmount]);
 
   const onApprove = useCallback(
     async ({ orderID }: { orderID: string }) => {
@@ -99,5 +124,5 @@ export function usePayPalOrder({
 
   const onError = useCallback(() => setError((current) => current ?? 'paypal'), []);
 
-  return { createOrder, onApprove, onError, error };
+  return { createOrder, onApprove, onError, error, priceChange };
 }
