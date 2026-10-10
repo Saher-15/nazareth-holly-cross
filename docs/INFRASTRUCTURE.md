@@ -1,5 +1,14 @@
 # Infrastructure: domain, DNS, hosting, regions
 
+> **2026-10-07: the API moved from Render to Railway.** Project `divine-spontaneity`, service `nazareth-holy-cross-api`,
+> environment `production`, region **EU West (Amsterdam, `europe-west4-drams3a`)**, next to Atlas in Frankfurt (database
+> latency 151 ms from Oregon, 9-14 ms from Amsterdam). Address: `https://nazareth-holy-cross-api-production.up.railway.app`.
+> It deploys from GitHub `main` with root directory `/server`, `npm ci --omit=dev`, `node index.js`, health check
+> `/health`, `RAILPACK_NODE_VERSION=22`; these settings live in the Railway service, not in a file. The environment variables
+> are the ones listed for Render below (without `ADMIN_PASSWORD`). Railway has one proxy in front of the app (no
+> Cloudflare), so the default `TRUST_PROXY_HOPS=1` is correct there. Where the text below says "Render", read "Railway ->
+> the service -> Variables / Settings"; the measurements below were taken on Render and are kept for history.
+
 What stands between a visitor and the site, what was measured on **2026-10-06**, and exactly what to change. Measured
 from one PC in Israel with `nslookup`, `curl`, a TLS probe and Node; nothing was changed anywhere. There is **no access
 to GoDaddy, Netlify, Render, MongoDB Atlas, Firebase or PayPal** from the audit: whatever needs a login is marked
