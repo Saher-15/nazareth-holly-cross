@@ -21,6 +21,9 @@ export function tokenFromParam(value: string | string[] | undefined): string | n
 /** The API's answer for a link that is invalid, already used or expired (server/route/admin/auth.js BAD_LINK). */
 export const API_BAD_LINK = 'This link is invalid or has expired. Ask for a new one.';
 
+/** A recovery address the API will take (server/utils/validate.js isEmail is the authority; this is the instant check). */
+export const isRecoveryEmail = (value: string) => value.length <= 254 && /^[^\s@,;<>"]+@[^\s@,;<>"]+\.[^\s@,;<>"]+$/.test(value);
+
 export type PolicyReason = 'short' | 'long' | 'username' | 'common' | 'repetitive';
 
 /** Which rule of the server's password policy (server/services/passwordPolicy.js) an API message names, if any. */

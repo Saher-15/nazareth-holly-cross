@@ -941,6 +941,14 @@ add({
 });
 
 // --- users (owner only), server/route/admin/users.js
+// The recovery address (server/route/admin/users.js): trimmed, lower-cased, '' removes it; one account per address.
+const recoveryEmail = (value, field) => {
+  if (typeof value !== 'string') throw new HttpError(400, `${field} must be text`);
+  const email = value.trim().toLowerCase();
+  if (email !== '' && (email.length > 254 || !/^[^\s@,;<>"]+@[^\s@,;<>"]+\.[^\s@,;<>"]+$/.test(email))) throw new HttpError(400, 'Enter a valid e-mail address');
+  return email;
+};
+const emailTaken = (email, exceptId) => db.users.some((u) => u._id !== exceptId && (String(u.email ?? '').toLowerCase() === email || u.username.toLowerCase() === email));
 const enabledOwners = (exceptId) => db.users.filter((u) => u._id !== exceptId && u.role === 'owner' && !u.disabled).length;
 const isEnabledOwner = (u) => u.role === 'owner' && !u.disabled;
 add({
@@ -957,15 +965,17 @@ add({
 add({
   method: 'POST', path: '/admin/users', min: 'owner',
   run: (ctx) => {
-    const { username, password, role } = parseBody(ctx.body, {
+    const { username, password, role, email = '' } = parseBody(ctx.body, {
       username: str({ min: 3, max: 64, pattern: /^[A-Za-z0-9][A-Za-z0-9._-]*$/, escape: false }),
       password: secret({ max: 200 }),
       role: oneOf(ROLES),
+      email: opt(recoveryEmail),
     });
     const problem = passwordProblem(password, username);
     if (problem) throw new HttpError(400, problem);
     if (db.users.some((u) => u.username.toLowerCase() === username.toLowerCase())) throw new HttpError(409, 'Username already exists');
-    const user = { _id: newId('7'), username, role, disabled: false, ...hashPassword(password), totpSecret: null, totpLastStep: -1, pendingTotp: null, failedLogins: 0, lockedUntil: null, lastLoginAt: null, createdAt: new Date().toISOString() };
+    if (email && emailTaken(email)) throw new HttpError(409, 'This e-mail address is already used by another account');
+    const user = { _id: newId('7'), username, ...(email ? { email } : {}), role, disabled: false, ...hashPassword(password), totpSecret: null, totpLastStep: -1, pendingTotp: null, failedLogins: 0, lockedUntil: null, lastLoginAt: null, createdAt: new Date().toISOString() };
     db.users.push(user);
     record(ctx.req, 'user.create', { type: 'user', id: user._id }, { username, role });
     return { status: 201, body: { item: userItem(user) } };
@@ -975,9 +985,11 @@ add({
   method: 'PATCH', path: '/admin/users/:id', min: 'owner',
   run: (ctx) => {
     const id = objectId(ctx.params.id);
-    const changes = parseBody(ctx.body, { role: opt(oneOf(ROLES)), disabled: opt(bool()), resetTotp: opt(bool()) });
+    const changes = parseBody(ctx.body, { role: opt(oneOf(ROLES)), disabled: opt(bool()), resetTotp: opt(bool()), email: opt(recoveryEmail) });
     if (Object.keys(changes).length === 0) throw new HttpError(400, 'No fields to update');
     const target = found(byId(db.users, id), 'User');
+    const emailChanged = changes.email !== undefined && changes.email !== String(target.email ?? '').trim().toLowerCase();
+    if (emailChanged && changes.email && emailTaken(changes.email, id)) throw new HttpError(409, 'This e-mail address is already used by another account');
     const self = id === ctx.req.auth.user._id;
     const newRole = changes.role ?? target.role;
     const demoting = newRole !== 'owner' || changes.disabled === true;
@@ -985,6 +997,7 @@ add({
     if (self && changes.resetTotp === true) throw new HttpError(400, 'Disable your own TOTP from your account settings');
     if (isEnabledOwner(target) && demoting && enabledOwners(id) === 0) throw new HttpError(409, 'The last owner cannot be demoted or disabled');
     const before = { role: target.role };
+    if (emailChanged) Object.assign(target, { email: changes.email, resetTokenHash: null, resetTokenExpires: null });
     if (changes.role !== undefined) target.role = changes.role;
     if (changes.disabled !== undefined) {
       target.disabled = changes.disabled;
