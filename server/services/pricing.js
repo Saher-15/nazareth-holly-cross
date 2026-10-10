@@ -31,7 +31,7 @@ export function quoteSignature(items) {
 
 // Prices a shop order from the product prices stored in the database and returns
 // { total, lines }: the amount to charge and the order lines as the database knows them
-// (product id and name from the database, quantity and colour from the request).
+// (product id and name from the database, quantity from the request, colour checked against the product's own list).
 // items: [{ _id | productID, quantity, color? }]
 export async function quoteShopOrder(items) {
   if (!Array.isArray(items) || items.length === 0 || items.length > 100) {
@@ -52,9 +52,19 @@ export async function quoteShopOrder(items) {
   }
 
   // mongoose.trusted: this $in is ours; the sanitizeFilter setting (index.js) would otherwise neutralise it.
-  const products = await Product.find({ _id: mongoose.trusted({ $in: [...wanted.keys()] }) }).select('price stock name');
+  const products = await Product.find({ _id: mongoose.trusted({ $in: [...wanted.keys()] }) }).select('price stock name color');
   if (products.length !== wanted.size) throw new HttpError(400, 'Unknown product in order');
   const byId = new Map(products.map((p) => [String(p._id), p]));
+
+  // The colour (or design) must be one the product offers today: a product with variants needs one of them, a product
+  // without variants takes none. The browser's text is never saved as it came.
+  for (const { id, color } of requested) {
+    const product = byId.get(id);
+    const offered = (product.color ?? []).map((c) => String(c).trim()).filter(Boolean);
+    if (offered.length ? !offered.includes(color) : color !== '') {
+      throw new HttpError(409, `This colour or design is not available for ${product.name}`);
+    }
+  }
 
   let subtotal = 0;
   for (const product of products) {

@@ -455,7 +455,7 @@ export const ar: Partial<Record<MessageKey, string>> = {
   'settings.totpTitle': 'التحقق بخطوتين',
   'password.policy': '12 حرفاً على الأقل، وليست اسم المستخدم، وليست كلمة مرور شائعة.',
   'password.short': 'يجب ألا تقل كلمة المرور عن 12 حرفاً.',
-  'password.long': 'كلمة المرور طويلة جداً.',
+  'password.long': 'كلمة المرور طويلة جداً: 72 حرفاً على الأكثر (أقل بالعربية أو العبرية أو مع الرموز التعبيرية).',
   'password.username': 'يجب ألا تكون كلمة المرور مطابقة لاسم المستخدم.',
   'password.common': 'كلمة المرور شائعة جداً.',
   'password.mismatch': 'كلمتا المرور غير متطابقتين.',

@@ -472,7 +472,7 @@ export const en = {
   'settings.totpTitle': 'Two-factor sign-in',
   'password.policy': 'At least 12 characters, not your username, not a common password.',
   'password.short': 'The password must be at least 12 characters.',
-  'password.long': 'The password is too long.',
+  'password.long': 'The password is too long: at most 72 characters (fewer in Hebrew or Arabic, or with emoji).',
   'password.username': 'The password must not be the same as the username.',
   'password.common': 'That password is too common.',
   'password.mismatch': 'The two passwords do not match.',

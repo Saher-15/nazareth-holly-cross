@@ -455,7 +455,7 @@ export const he: Partial<Record<MessageKey, string>> = {
   'settings.totpTitle': 'אימות דו-שלבי',
   'password.policy': 'לפחות 12 תווים, לא שם המשתמש ולא סיסמה נפוצה.',
   'password.short': 'הסיסמה חייבת להכיל לפחות 12 תווים.',
-  'password.long': 'הסיסמה ארוכה מדי.',
+  'password.long': 'הסיסמה ארוכה מדי: עד 72 תווים (פחות בעברית, בערבית או עם אימוג׳י).',
   'password.username': 'הסיסמה אינה יכולה להיות זהה לשם המשתמש.',
   'password.common': 'הסיסמה נפוצה מדי.',
   'password.mismatch': 'שתי הסיסמאות אינן תואמות.',
