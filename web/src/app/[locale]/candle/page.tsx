@@ -4,6 +4,7 @@ import { api } from '@/lib/api';
 import { formatUsd } from '@/lib/pricing';
 import { Link } from '@/i18n/navigation';
 import PageHero from '@/components/ui/PageHero';
+import { TrackedLink, TrackView } from '@/components/analytics/Track';
 import { CheckIcon } from '@/components/ui/icons';
 import { getMedia } from '@/data/media';
 import { flowMetadata } from '@/components/checkout/metadata';
@@ -40,9 +41,9 @@ export default async function CandlePage({ params }: PageProps<'/[locale]/candle
       <PageHero eyebrow={t('candlePage.eyebrow')} title={t('candlePage.title')} lead={t('candlePage.lead')} media={getMedia('basilica-grotto-altar')}>
         <p className="ui-hero__action">
           {/* A plain link to the form on this page: it works before the scripts load. */}
-          <a href={`#${FORM_ID}`} className={`ui-btn ui-btn--gold ${shared.btnLg}`} data-testid="candle-cta">
+          <TrackedLink flow="candle" event="cta" href={`#${FORM_ID}`} className={`ui-btn ui-btn--gold ${shared.btnLg}`} data-testid="candle-cta">
             {t('candlePage.cta', { price })}
-          </a>
+          </TrackedLink>
         </p>
         <ul className={styles.points}>
           {POINTS.map((key) => (
@@ -53,6 +54,9 @@ export default async function CandlePage({ params }: PageProps<'/[locale]/candle
           ))}
         </ul>
       </PageHero>
+
+      {/* Counts one opening of the page for the sales funnel: anonymous, no cookie (docs/ANALYTICS.md) */}
+      <TrackView flow="candle" />
 
       <CandleVideos videos={videos} />
 

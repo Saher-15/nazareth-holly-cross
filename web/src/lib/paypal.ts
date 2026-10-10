@@ -5,6 +5,7 @@ import { z } from 'zod';
 import './zodConfig';
 import { postJson } from './apiClient';
 import { pendingFulfilment } from './pendingFulfilment';
+import { track } from './track';
 
 // What is being paid for. The API decides the amount; the browser only says what.
 export type PaymentPayload =
@@ -85,6 +86,7 @@ export function usePayPalOrder({
       throw new Error('The price changed');
     }
     setPriceChange(null);
+    track(payload.type, 'pay_start'); // the PayPal window opens for this payment (anonymous count, lib/track.ts)
     approvedPayloads.current.set(res.data.id, payload);
     return res.data.id;
   }, [getPayload, getShownAmount]);
@@ -116,6 +118,7 @@ export function usePayPalOrder({
         setError('unconfirmed'); // nested capture may be pending; never invite another charge
         return;
       }
+      track(payload.type, 'paid');
       onPaid({ ...res.data, id: orderID });
       if (payload.type === 'donation') pendingFulfilment.confirmDonation(orderID);
     },

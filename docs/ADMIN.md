@@ -78,6 +78,7 @@ whatever the token says.
 | `PATCH /admin/payments/:id` (resolve with a note, reopen) | - | yes | yes |
 | `POST /admin/privacy/lookup`, `POST /admin/privacy/erase` | - | - | yes |
 | `GET /admin/settings` (the candle price, its limits, who changed it last) | yes | yes | yes |
+| `GET /admin/metrics/funnel` (the sales funnel per campaign: anonymous counts, `docs/ANALYTICS.md`) | yes | yes | yes |
 | `PUT /admin/settings/candle-price` `{ price }` (1 to 100 USD, two decimals; audited `settings.candle_price` with `from` and `to`) | - | - | yes |
 | `GET /admin/candle-videos` | yes | yes | yes |
 | `POST /admin/candle-videos`, `POST /admin/candle-videos/:id/{upload-url,uploaded}`, `PATCH`/`DELETE /admin/candle-videos/:id` | - | yes | yes |

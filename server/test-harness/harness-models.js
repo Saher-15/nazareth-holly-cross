@@ -31,6 +31,7 @@ take('Product', { collection: 'product', timestamps: true, defaults: { rate: 1, 
 take('LiveSession', { collection: 'liveSession', timestamps: true, unique: [{ field: 'status', only: 'live' }], defaults: { status: 'live', endedAt: null, endReason: null, inputDeleted: false } });
 take('LiveRecording', { collection: 'liveRecording', timestamps: true, unique: ['session'], defaults: RECORDING_DEFAULTS });
 take('ScheduledBroadcast', { collection: 'scheduledBroadcast', timestamps: true, defaults: SCHEDULE_DEFAULTS });
+take('Metric', { collection: 'metric', autoCreatedAt: false, defaults: { source: '', medium: '', campaign: '', count: 0 } });
 take('SiteSetting', { collection: 'siteSetting', timestamps: true, unique: ['key'] });
 take('CandleVideo', { collection: 'candleVideo', timestamps: true, defaults: { status: 'uploading', published: false, publishedAt: null, failReason: null, customerCode: '', durationSeconds: 0 } });
 take('AdminSession', { collection: 'adminSession', defaults: { revokedAt: null } });

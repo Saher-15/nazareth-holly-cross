@@ -6,6 +6,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import type { PaymentPayload } from '@/lib/paypal';
 import { formatUsd } from '@/lib/pricing';
+import { track } from '@/lib/track';
 import DonePanel from '@/components/checkout/DonePanel';
 import Field, { invalidProps, TextField } from '@/components/checkout/Field';
 import PayPalPanel from '@/components/checkout/LazyPayPalPanel';
@@ -80,7 +81,10 @@ export default function CandleFlow({ priceUsd }: { priceUsd: number }) {
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (form.submit(ORDER)) setStep('payment');
+    if (form.submit(ORDER)) {
+      track('candle', 'details'); // the details are complete: the customer reaches the payment step
+      setStep('payment');
+    }
   };
 
   const text = (key: Key, label: string, extra: InputHTMLAttributes<HTMLInputElement> = {}) => (

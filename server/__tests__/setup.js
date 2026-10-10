@@ -59,6 +59,11 @@ vi.mock('../model/siteSetting.js', async (importOriginal) => {
   const { fakeModule } = await import('./helpers/fakes.js');
   return { ...(await importOriginal()), ...fakeModule('SiteSetting', { collection: 'siteSetting', timestamps: true, unique: ['key'] }) };
 });
+// The funnel counters (model/metric.js, services/metrics.js): in memory.
+vi.mock('../model/metric.js', async (importOriginal) => {
+  const { fakeModule } = await import('./helpers/fakes.js');
+  return { ...(await importOriginal()), ...fakeModule('Metric', { collection: 'metric', autoCreatedAt: false, defaults: { source: '', medium: '', campaign: '', count: 0 } }) };
+});
 vi.mock('../model/candleVideo.js', async (importOriginal) => {
   const { fakeModule } = await import('./helpers/fakes.js');
   return { ...(await importOriginal()), ...fakeModule('CandleVideo', { collection: 'candleVideo', timestamps: true, defaults: { status: 'uploading', published: false, publishedAt: null, failReason: null, customerCode: '', durationSeconds: 0 } }) };
