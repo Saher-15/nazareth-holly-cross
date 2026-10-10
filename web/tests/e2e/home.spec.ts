@@ -6,7 +6,7 @@ import { nazarethDate, verseNumberFor } from '../../src/components/home/verse';
 import { feastOn } from '../../src/components/home/feasts';
 import { nazarethToday } from '../../src/lib/liturgical';
 
-const API = 'https://nazareth-holy-cross-api.onrender.com';
+const API = 'https://nazareth-holy-cross-api-production.up.railway.app';
 let apiWrites: string[] = [];
 
 // The home page only reads data (on the server). Anything the browser tries to send

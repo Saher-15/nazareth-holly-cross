@@ -6,6 +6,22 @@ const importConfig = async () => {
 };
 
 describe('config/env', () => {
+  it('requires payment proof by default and cannot opt out in production', async () => {
+    const savedNode = process.env.NODE_ENV;
+    const savedProof = process.env.REQUIRE_PAYMENT_PROOF;
+    try {
+      for (const [node,flag,expected] of [['production','false',true],['production',undefined,true],['development',undefined,true],['test','false',false]]) {
+        process.env.NODE_ENV = node;
+        if (flag === undefined) delete process.env.REQUIRE_PAYMENT_PROOF;
+        else process.env.REQUIRE_PAYMENT_PROOF = flag;
+        expect((await importConfig()).config.requirePaymentProof).toBe(expected);
+      }
+    } finally {
+      process.env.NODE_ENV = savedNode;
+      if (savedProof === undefined) delete process.env.REQUIRE_PAYMENT_PROOF;
+      else process.env.REQUIRE_PAYMENT_PROOF = savedProof;
+    }
+  });
   beforeEach(() => {
     delete process.env.ENVIRONMENT;
   });

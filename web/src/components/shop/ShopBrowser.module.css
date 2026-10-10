@@ -21,13 +21,14 @@
   background: color-mix(in srgb, var(--night-2) 94%, transparent);
 }
 
-/* phones and tablets: search + wishlist + cart, then filters + sort */
+/* phones and tablets: the search on its own row (sharing it with the wishlist and cart squeezed it to "S..." between
+   401 and 559 px), then filters + sort + wishlist + cart */
 .bar {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   grid-template-areas:
-    'search saved'
-    'tools tools';
+    'search search'
+    'tools saved';
   gap: 8px;
   padding: 8px;
   border-radius: var(--radius);
@@ -444,5 +445,22 @@
   .chip,
   .page {
     transition: none;
+  }
+}
+
+/* Phones: the cart is already on screen as the floating side cart (components/shop/SideCart.tsx, shown on every page
+   once something is in it), so the toolbar keeps only the wishlist there and the sort menu gets the room it needs
+   ("Featured" was cut to "F" at 390 px). */
+@media (max-width: 599px) {
+  .cartPill {
+    display: none;
+  }
+}
+
+/* Narrow phones: the filters button shows its icon (and the count) only, so a long sort label fits ("Рекомендуемые"
+   was cut at 390 px). The button keeps its full aria-label. */
+@media (max-width: 420px) {
+  .filtersText {
+    display: none;
   }
 }

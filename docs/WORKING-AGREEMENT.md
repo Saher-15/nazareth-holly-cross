@@ -32,7 +32,7 @@ Next.js 16 differs from older versions (Middleware is now `web/src/proxy.ts`): r
 
 - **Local first.** Work and test on your own machine. Nothing is pushed, merged or deployed without the owner's
   explicit approval for that specific change. An earlier approval does not cover a later change.
-- **The owner approves deploys.** Merging to `main` deploys the website (Netlify) and the API (Render)
+- **The owner approves deploys.** Merging to `main` deploys the website (Netlify) and the API (Railway)
   automatically, so a merge **is** a deploy.
 - **Never** connect to the production database, send real e-mail, click a live PayPal pay button, use real customer
   data in a test, or call write routes of the production API.
@@ -87,7 +87,7 @@ the keyboard (`docs/DESIGN-GUIDE.md` section 12.2).
 
 **The live API's rate limit.** The production API allows 200 requests per 15 minutes per address, and everything on
 this machine shares it (builds render hundreds of pages that read it). Check before a build or an end-to-end run:
-`curl -sI https://nazareth-holy-cross-api.onrender.com/health` and read the `ratelimit` header. A throttled run
+`curl -sI https://nazareth-holy-cross-api-production.up.railway.app/health` and read the `ratelimit` header. A throttled run
 shows error states that are not bugs; wait for the window to reset.
 
 ## 5. Deploy previews and the Netlify rule
@@ -124,13 +124,13 @@ for p in /en /he /ar /en/shop /en/sites /en/sites/latin /en/candle /en/donate /e
 done
 curl -s -o /dev/null -w "%{http_code}\n" "$SITE/en/does-not-exist"               # 404, not 200
 curl -sI "$SITE/en" | grep -i -E "content-security-policy|strict-transport"      # present
-curl -sI https://nazareth-holy-cross-api.onrender.com/health | head -1           # 200
+curl -sI https://nazareth-holy-cross-api-production.up.railway.app/health | head -1           # 200
 ```
 
 Then in a browser: the home page, the shop with products visible, a product page, a holy-site page, the candle form
 and the checkout **up to the PayPal button** (never click pay), in English and Hebrew, on a phone width. If anything
-fails, say so at once and propose the rollback (Netlify: Deploys, "Publish deploy" on the previous one; Render: the
-service, Rollback; then revert the commit on `main` with a pull request: `docs/ENGINEERING.md` section 3). Do not
+fails, say so at once and propose the rollback (Netlify: Deploys, "Publish deploy" on the previous one; Railway: the
+service, Deployments, Redeploy on the previous successful deploy; then revert the commit on `main` with a pull request: `docs/ENGINEERING.md` section 3). Do not
 "fix forward" in production without the owner.
 
 ## 7. Secrets and personal data
@@ -138,7 +138,7 @@ service, Rollback; then revert the commit on `main` with a pull request: `docs/E
 - **Never print a secret**: not in the terminal, a log, a test, a commit, a pull request, a screenshot or a final
   report. That includes the database connection string, JWT secrets, PayPal secrets, API keys and tokens, TOTP
   secrets, admin passwords and session cookies. Refer to them by name (`PAYPAL_SECRET`), never by value.
-- Secrets live only in Render and Netlify settings and in local `.env` files that are git-ignored. Do not copy an
+- Secrets live only in Railway and Netlify settings and in local `.env` files that are git-ignored. Do not copy an
   `.env` into a document.
 - If a secret appears where it should not (a chat, a ticket, a commit), say so and treat it as leaked: it must be
   rotated by the owner. `.github/workflows/security.yml` (gitleaks) and `npm run scan:bundle` are safety nets, not

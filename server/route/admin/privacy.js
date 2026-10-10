@@ -92,7 +92,7 @@ function filters(address) {
   return {
     exact: { email: address },
     anyCase: { email: mongoose.trusted(anyCase) },
-    payer: { payerEmail: address },
+    payer: { $or: [{ payerEmail: address }, { 'fulfilment.email': address }] },
   };
 }
 
@@ -150,7 +150,7 @@ router.post('/erase', asyncHandler(async (req, res) => {
   ]);
   const payments = await Payment.updateMany(
     { $or: [f.payer, ...(linked.length ? [{ 'linkedTo.id': mongoose.trusted({ $in: linked }) }] : [])] },
-    { $unset: { payerEmail: '', payerName: '', donorName: '' } },
+    { $unset: { payerEmail: '', payerName: '', donorName: '', fulfilment: '' } },
   );
   const [prayers, productReviews] = await Promise.all([
     published.prayers ? Prayer.deleteMany(published.prayers) : null,

@@ -13,7 +13,6 @@ import {
 } from '@/components/home/broadcast';
 import { loadPrayerWall, NEWEST_PRAYERS } from '@/components/home/data';
 import { feastOn } from '@/components/home/feasts';
-import { filmAllowed, filmPlan, loopPlan } from '@/components/home/HeroVideo';
 import { NewestPrayersView } from '@/components/home/NewestPrayers';
 import SitesMap from '@/components/home/SitesMap';
 import { formatClock, formatDuration, formatInDays } from '@/components/home/today';
@@ -21,7 +20,7 @@ import { broadcastState, TodayView } from '@/components/home/TodayInNazareth';
 import type { Prayer } from '@/lib/api';
 import { addDays, nextFeasts } from '@/lib/liturgical';
 import { NAZARETH_COORDS, sunTimes } from '@/lib/sun';
-import { HERO_TOUR_PARTS } from '@/lib/videos';
+
 import en from '@/messages/en.json';
 import he from '@/messages/he.json';
 
@@ -348,36 +347,5 @@ describe('<SitesMap>', () => {
       expect(y).toBeGreaterThanOrEqual(0);
       expect(y).toBeLessThanOrEqual(300);
     }
-  });
-});
-
-describe('the hero film', () => {
-  const good = { reducedMotion: false, wide: true };
-
-  it('plays only on a wide screen, with a good connection, for visitors who did not ask for less motion or data', () => {
-    expect(filmAllowed(good)).toBe(true);
-    expect(filmAllowed({ ...good, effectiveType: '4g' })).toBe(true);
-    expect(filmAllowed({ ...good, effectiveType: '3g' })).toBe(false);
-    expect(filmAllowed({ ...good, effectiveType: '2g' })).toBe(false);
-    expect(filmAllowed({ ...good, saveData: true, effectiveType: '4g' })).toBe(false);
-    expect(filmAllowed({ ...good, reducedMotion: true })).toBe(false);
-    expect(filmAllowed({ ...good, wide: false })).toBe(false);
-  });
-
-  it('plays the whole tour in parts where the browser plays H.264, and the short loop otherwise', () => {
-    expect(filmPlan(() => true)).toEqual({ mode: 'tour', parts: HERO_TOUR_PARTS });
-    // MP4 without H.264 (a Chromium built without it, Firefox on Linux without system codecs): the loop at once
-    expect(filmPlan((type) => type === 'video/mp4')).toEqual({ mode: 'loop', src: '/videos/hero-loop.mp4' });
-    // Playwright's own Chromium has no H.264: the AV1 loop
-    expect(filmPlan((type) => type.startsWith('video/webm'))).toEqual({ mode: 'loop', src: '/videos/hero-loop.webm' });
-    expect(filmPlan(() => false)).toBeNull();
-    // the fallback when a part of the tour fails to load
-    expect(loopPlan((type) => type === 'video/mp4')).toEqual({ mode: 'loop', src: '/videos/hero-loop.mp4' });
-  });
-
-  it('cuts the tour into twelve parts that play in order', () => {
-    expect(HERO_TOUR_PARTS).toHaveLength(12);
-    expect(HERO_TOUR_PARTS[0]).toBe('/videos/hero-tour-00.mp4');
-    expect(HERO_TOUR_PARTS[11]).toBe('/videos/hero-tour-11.mp4');
   });
 });

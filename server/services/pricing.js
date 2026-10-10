@@ -6,16 +6,32 @@ import { clip, isObjectId } from '../utils/validate.js';
 // Business rules (mirrors what the cart page shows).
 export const SHIPPING_FEE = 5;
 export const ORDER_DISCOUNT = 0.9; // 10% off the items
-export const CANDLE_PRICE = 3;
+// The DEFAULT candle price; the price charged is the owner's setting (services/siteSettings.js).
+export { CANDLE_PRICE_DEFAULT as CANDLE_PRICE } from './siteSettings.js';
+import { getCandlePrice } from './siteSettings.js';
 export const DONATION_MIN = 1;
 export const DONATION_MAX = 5000;
 export const MAX_QUANTITY = 50;
 
 const round2 = (n) => Math.round(n * 100) / 100;
 
+// Compare paid lines without looking up today's catalog or trusting browser prices/names.
+export function quoteSignature(items) {
+  if (!Array.isArray(items) || !items.length || items.length > 100) throw new HttpError(400, 'Order items are required');
+  const totals = new Map();
+  for (const item of items) {
+    const id = String(item?.productID ?? item?._id ?? '');
+    const quantity = Number(item?.quantity);
+    if (!isObjectId(id) || !Number.isInteger(quantity) || quantity < 1 || quantity > MAX_QUANTITY) throw new HttpError(400, 'Invalid order item');
+    const key = JSON.stringify([id, clip(item?.color, 50) ?? '']);
+    totals.set(key, (totals.get(key) ?? 0) + quantity);
+  }
+  return JSON.stringify([...totals].sort(([a], [b]) => a.localeCompare(b)));
+}
+
 // Prices a shop order from the product prices stored in the database and returns
 // { total, lines }: the amount to charge and the order lines as the database knows them
-// (product id and name from the database, quantity and colour from the request).
+// (product id and name from the database, quantity from the request, colour checked against the product's own list).
 // items: [{ _id | productID, quantity, color? }]
 export async function quoteShopOrder(items) {
   if (!Array.isArray(items) || items.length === 0 || items.length > 100) {
@@ -36,9 +52,19 @@ export async function quoteShopOrder(items) {
   }
 
   // mongoose.trusted: this $in is ours; the sanitizeFilter setting (index.js) would otherwise neutralise it.
-  const products = await Product.find({ _id: mongoose.trusted({ $in: [...wanted.keys()] }) }).select('price stock name');
+  const products = await Product.find({ _id: mongoose.trusted({ $in: [...wanted.keys()] }) }).select('price stock name color');
   if (products.length !== wanted.size) throw new HttpError(400, 'Unknown product in order');
   const byId = new Map(products.map((p) => [String(p._id), p]));
+
+  // The colour (or design) must be one the product offers today: a product with variants needs one of them, a product
+  // without variants takes none. The browser's text is never saved as it came.
+  for (const { id, color } of requested) {
+    const product = byId.get(id);
+    const offered = (product.color ?? []).map((c) => String(c).trim()).filter(Boolean);
+    if (offered.length ? !offered.includes(color) : color !== '') {
+      throw new HttpError(409, `This colour or design is not available for ${product.name}`);
+    }
+  }
 
   let subtotal = 0;
   for (const product of products) {
@@ -59,6 +85,38 @@ export async function quoteShopOrder(items) {
   };
 }
 
+// The units of a saved order leave the stock (audit 2026-10-10, F01: stock was checked when quoting and never
+// changed, so the last unit could be sold again and again). Only products whose stock is tracked (a number) change.
+// Each product is one atomic update that never goes below zero. The order is already paid when this runs, so a
+// product that no longer has enough units (two customers paid for the last one between their quotes and their
+// payments) is set to 0 and returned in `oversold` for the owner to see: it is not refused.
+// lines: [{ productID, quantity }]. Returns { changed, oversold: [{ productID, productName, missing }] }.
+export async function takeFromStock(lines) {
+  const wanted = new Map();
+  for (const line of lines ?? []) {
+    const id = String(line?.productID ?? '');
+    const quantity = Number(line?.quantity);
+    if (!isObjectId(id) || !Number.isInteger(quantity) || quantity < 1) continue;
+    wanted.set(id, (wanted.get(id) ?? 0) + quantity);
+  }
+  let changed = 0;
+  const oversold = [];
+  for (const [id, quantity] of wanted) {
+    const taken = await Product.updateOne({ _id: id, stock: mongoose.trusted({ $gte: quantity }) }, { $inc: { stock: -quantity } });
+    if (taken.modifiedCount) {
+      changed += 1;
+      continue;
+    }
+    // Not enough units, or the stock is not tracked (null): find out which.
+    const product = await Product.findById(id).select('stock name').lean();
+    if (!product || typeof product.stock !== 'number') continue;
+    await Product.updateOne({ _id: id }, { $set: { stock: 0 } });
+    changed += 1;
+    oversold.push({ productID: id, productName: product.name, missing: quantity - product.stock });
+  }
+  return { changed, oversold };
+}
+
 // Price of a shop order (see quoteShopOrder).
 export async function priceShopOrder(items) {
   return (await quoteShopOrder(items)).total;
@@ -66,7 +124,7 @@ export async function priceShopOrder(items) {
 
 // Amount (USD) to charge for a create_order request.
 //   type 'order'    -> computed from `items` and the database
-//   type 'candle'   -> fixed price
+//   type 'candle'   -> the owner's candle price (services/siteSettings.js)
 //   type 'donation' -> chosen by the donor, within limits
 //   no type (legacy clients) -> the amount sent by the browser, logged as deprecated
 export async function priceFor({ type, items, amount }) {
@@ -74,7 +132,7 @@ export async function priceFor({ type, items, amount }) {
     case 'order':
       return priceShopOrder(items);
     case 'candle':
-      return CANDLE_PRICE;
+      return getCandlePrice();
     case 'donation': {
       const value = Number(amount);
       if (!Number.isFinite(value) || value < DONATION_MIN || value > DONATION_MAX) {

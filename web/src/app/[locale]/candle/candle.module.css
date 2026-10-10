@@ -1,108 +1,48 @@
-/* Candle page: the glowing candle + three steps beside the form card.
-   Shared flow pieces (fields, summary, PayPal, thank-you) live in components/checkout. */
+/* Candle page: a sales page. Hero with the promise and one priced button, the three steps, the form card beside
+   the plain answers. Shared flow pieces (fields, summary, PayPal, thank-you) live in components/checkout. */
 
 .page :global(.ui-hero) {
-  min-height: clamp(300px, 46vh, 460px);
+  min-height: clamp(420px, 78vh, 640px);
+  padding-block-end: 40px;
 }
 .page :global(.ui-hero__bg) {
   filter: saturate(1.1);
 }
-
-.layout {
-  position: relative;
-  display: grid;
-  gap: 28px;
-  margin-block-start: -32px;
+/* The one action of the first screen: large, and full width on a phone. */
+.page :global(.ui-hero__action) {
+  margin-block-start: 22px;
 }
-
-/* ---- guide: glowing candle + the three steps ---- */
-.guide {
-  text-align: center;
-}
-.visual {
-  position: relative;
+.points {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 18px;
+  max-width: 760px;
+  margin: 20px auto 0;
+  padding: 0;
+  list-style: none;
+  color: var(--cream);
+  font-size: 0.92rem;
+  /* small text on a photograph: the same dark halo as the hero's lead (WCAG 1.4.3) */
+  text-shadow: 0 0 1px var(--night), 0 0 3px var(--night), 0 0 6px var(--night), 0 0 14px var(--night);
+}
+.points li {
+  display: inline-flex;
   align-items: center;
-  justify-content: flex-end;
-  width: 160px;
-  height: 230px;
-  margin: 0 auto 10px;
+  gap: 6px;
 }
-.halo {
-  position: absolute;
-  inset-block-start: -10px;
-  inset-inline: -40px;
-  height: 240px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    color-mix(in srgb, var(--gold) 50%, transparent) 0%,
-    color-mix(in srgb, var(--gold) 16%, transparent) 36%,
-    transparent 70%
-  );
-  animation: glow 3.4s ease-in-out infinite;
-  pointer-events: none;
-}
-.visualFlame {
-  position: relative;
-  margin-block-end: 2px;
-}
-.wick {
-  position: relative;
-  width: 3px;
-  height: 10px;
-  border-radius: 2px;
-  background: color-mix(in srgb, var(--night) 75%, var(--gold-deep));
-}
-.wax {
-  position: relative;
-  width: 58px;
-  height: 128px;
-  border-radius: 10px 10px 4px 4px;
-  background: linear-gradient(
-    90deg,
-    color-mix(in srgb, var(--cream) 75%, var(--gold-deep)) 0%,
-    var(--cream) 42%,
-    color-mix(in srgb, var(--cream) 92%, var(--gold-deep)) 60%,
-    color-mix(in srgb, var(--cream) 60%, var(--gold-deep)) 100%
-  );
-  box-shadow:
-    inset 0 14px 18px color-mix(in srgb, var(--gold) 40%, transparent),
-    0 24px 44px color-mix(in srgb, var(--night) 70%, transparent);
-}
-/* a wax drip */
-.wax::before {
-  content: '';
-  position: absolute;
-  inset-block-start: 6px;
-  inset-inline-start: 12px;
-  width: 9px;
-  height: 30px;
-  border-radius: 0 0 6px 6px;
-  background: linear-gradient(180deg, var(--cream), color-mix(in srgb, var(--cream) 85%, var(--gold-deep)));
-}
-.plate {
-  width: 120px;
-  height: 14px;
-  margin-block-start: -4px;
-  border-radius: 50%;
-  background: radial-gradient(
-    ellipse at 50% 30%,
-    color-mix(in srgb, var(--gold) 55%, var(--cream)) 0%,
-    var(--gold-deep) 55%,
-    color-mix(in srgb, var(--gold-deep) 50%, var(--night)) 100%
-  );
-  box-shadow: 0 10px 24px color-mix(in srgb, var(--night) 75%, transparent);
+.points svg {
+  flex: none;
+  color: var(--gold);
 }
 
-.howto {
-  margin-block-end: 4px;
+/* ---- how it works: three steps ---- */
+.how {
+  padding-block: var(--section-space) 0;
 }
-.simple {
-  margin: 0 0 18px;
-  color: var(--muted);
-  font-size: 1.05rem;
+.howTitle {
+  margin-block-end: 20px;
+  text-align: center;
 }
 .steps {
   display: grid;
@@ -110,14 +50,13 @@
   margin: 0;
   padding: 0;
   list-style: none;
-  text-align: start;
 }
 .steps li {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr); /* the number's circle grows with large text */
   gap: 14px;
   align-items: start;
-  padding: 14px 16px;
+  padding: 16px 18px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--glass-line);
   background: var(--glass);
@@ -141,9 +80,46 @@
   font-variant-numeric: lining-nums tabular-nums;
   box-shadow: 0 6px 18px color-mix(in srgb, var(--gold) 30%, transparent);
 }
+.stepTitle {
+  margin: 6px 0 4px;
+  font: 400 1.2rem / 1.25 var(--serif);
+  color: var(--cream);
+}
 .steps p {
   margin: 0;
-  padding-block-start: 8px;
+  color: var(--muted);
+}
+
+/* ---- the form beside the answers ---- */
+.layout {
+  display: grid;
+  gap: 28px;
+  padding-block-start: var(--section-space);
+}
+.formAnchor {
+  min-width: 0; /* the hero's button lands here; html's scroll-padding keeps it clear of the sticky header */
+}
+.know {
+  min-width: 0;
+  padding: clamp(20px, 3.2vw, 30px);
+}
+.knowTitle {
+  margin: 0 0 14px;
+  font: 400 1.5rem / 1.2 var(--serif);
+  color: var(--cream);
+}
+.answers {
+  display: grid;
+  gap: 16px;
+  margin: 0 0 20px;
+}
+.answers dt {
+  margin-block-end: 4px;
+  color: var(--gold);
+  font-weight: 700;
+}
+.answers dd {
+  margin: 0;
   color: var(--cream);
 }
 
@@ -324,13 +300,6 @@
   padding-block-start: 18px;
   border-block-start: 1px solid var(--glass-line);
 }
-.price {
-  margin: 0;
-  color: var(--gold);
-  font-size: 1.05rem;
-  font-weight: 700;
-}
-
 /* the e-mail address keeps its left-to-right order on Hebrew and Arabic pages */
 :global(html[dir='rtl']) .ltrValue {
   text-align: end;
@@ -342,21 +311,42 @@
     min-height: 170px;
   }
 }
+@media (min-width: 760px) {
+  .steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .steps li {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
 @media (min-width: 960px) {
   .layout {
-    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-    gap: 48px;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+    gap: 40px;
     align-items: start;
-    margin-block-start: -56px;
-  }
-  .guide {
-    padding-block-start: 24px;
   }
 }
 @media (min-width: 960px) and (min-height: 820px) {
-  .guide {
+  .know {
     position: sticky;
     inset-block-start: 100px;
+  }
+}
+@media (max-width: 560px) {
+  .page :global(.ui-hero__action .ui-btn) {
+    width: 100%;
+  }
+  /* one promise per line, the ticks in a column, the block centred */
+  .points {
+    display: grid;
+    justify-content: center;
+    text-align: start;
+  }
+  .points li {
+    align-items: flex-start;
+  }
+  .points svg {
+    margin-block-start: 4px;
   }
 }
 @media (max-width: 420px) {
@@ -374,21 +364,7 @@
   }
 }
 
-@keyframes glow {
-  0%,
-  100% {
-    opacity: 0.85;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.08);
-  }
-}
 @media (prefers-reduced-motion: reduce) {
-  .halo {
-    animation: none;
-  }
   .church,
   .churchImg {
     transition: none;

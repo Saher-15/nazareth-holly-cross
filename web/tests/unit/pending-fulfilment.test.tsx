@@ -91,6 +91,42 @@ describe('classify: what an answer of the API means for a record', () => {
 });
 
 describe('the record is written before anything is sent, and removed only when the API confirms', () => {
+  it('persists before capture and resumes capture before fulfilment after a refresh', async () => {
+    const {instance,store,calls,clock} = engine([ok({status:'COMPLETED'}),ok()]);
+    instance.prepare(orderInput());
+    expect(store.stored()).toMatchObject([{paypalOrderId:ID,capturePending:true}]);
+    const resumed = new PendingFulfilment({store,now:()=>clock.now,post:async (path,body)=>{
+      calls.push({path,body:body as Record<string,unknown>,storedAtCall:store.stored().map(r=>r.paypalOrderId)});
+      return path === '/order/complete_order' ? ok({status:'COMPLETED'}) : ok();
+    }});
+    expect(await resumed.attempt(ID)).toBe('saved');
+    expect(calls.map(c=>c.path)).toEqual(['/order/complete_order','/order/newOrder']);
+    expect(calls[0].storedAtCall).toEqual([ID]);
+    expect(store.stored()).toEqual([]);
+  });
+
+  it('keeps a pending or lost capture answer and never submits an unpaid order', async () => {
+    const {instance,store,calls} = engine([fail(502),ok({status:'PENDING'})]);
+    instance.prepare(orderInput());
+    expect(await instance.attempt(ID)).toBe('retry');
+    expect(await instance.attempt(ID)).toBe('retry');
+    expect(calls.map(c=>c.path)).toEqual(['/order/complete_order','/order/complete_order']);
+    expect(store.stored()).toHaveLength(1);
+  });
+
+  it('refuses preparation when durable storage is unavailable', () => {
+    const instance = new PendingFulfilment({store:null});
+    expect(()=>instance.prepare(orderInput())).toThrow('storage is unavailable');
+    expect(instance.list()).toEqual([]);
+  });
+
+  it('confirms a donation without creating an order or charging a second payment', async () => {
+    const {instance,calls,store} = engine([ok({status:'COMPLETED'})]);
+    instance.prepare({paypalOrderId:ID,kind:'donation',path:'/order/complete_order',body:{}});
+    expect(await instance.attempt(ID)).toBe('saved');
+    expect(calls.map(c=>c.path)).toEqual(['/order/complete_order']);
+    expect(store.stored()).toEqual([]);
+  });
   it('writes the order to storage first, sends it with the payment id, then removes it', async () => {
     const { instance, store, calls } = engine([ok()]);
     instance.add(orderInput());

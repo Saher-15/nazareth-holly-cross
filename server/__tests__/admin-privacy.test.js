@@ -73,6 +73,17 @@ beforeEach(() => {
 });
 
 describe('POST /admin/privacy/lookup', () => {
+  it('finds and erases checkout drafts before the payer is recorded', async () => {
+    const [draft] = fakes.Payment.seed([{paypalOrderId:'DRAFT000000000001',type:'order',amount:14,status:'created',fulfilment:{email:ME,street:'Private street'}}]);
+    const found = await call('post','/admin/privacy/lookup',owner,{email:ME});
+    expect(found.status).toBe(200);
+    expect(found.body.found.payments).toBe(3);
+    const erased = await call('post','/admin/privacy/erase',owner,{email:ME,confirm:ME});
+    expect(erased.status).toBe(200);
+    const row = fakes.Payment.docs.find(r => r._id === draft._id);
+    expect(row.fulfilment).toBeUndefined();
+    expect(row.amount).toBe(14);
+  });
   it('counts what is stored about an address, in every collection, without returning any of it', async () => {
     const res = await call('post', '/admin/privacy/lookup', owner, { email: '  Maria.Rossi@Example.COM ' });
     expect(res.status).toBe(200);

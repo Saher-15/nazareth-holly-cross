@@ -15,11 +15,14 @@ import { LanguageSwitcher } from './LanguageSwitcher';
 const ICONS: Record<NavId, IconName> = {
   dashboard: 'dashboard',
   live: 'broadcast',
+  campaigns: 'chart',
   orders: 'orders',
   payments: 'payments',
   candles: 'candles',
   contacts: 'mail',
   products: 'products',
+  pricing: 'flame',
+  candleVideos: 'video',
   reviews: 'reviews',
   prayers: 'prayers',
   users: 'users',
@@ -33,9 +36,9 @@ const ICONS: Record<NavId, IconName> = {
 const FULL_LOAD = new Set<NavId>(['live']);
 
 const GROUPS: { label: 'shell.groupOverview' | 'shell.groupInbox' | 'shell.groupCatalog' | 'shell.groupAdmin'; ids: NavId[] }[] = [
-  { label: 'shell.groupOverview', ids: ['dashboard', 'live'] },
+  { label: 'shell.groupOverview', ids: ['dashboard', 'live', 'campaigns'] },
   { label: 'shell.groupInbox', ids: ['orders', 'payments', 'candles', 'contacts', 'prayers', 'reviews'] },
-  { label: 'shell.groupCatalog', ids: ['products'] },
+  { label: 'shell.groupCatalog', ids: ['products', 'pricing', 'candleVideos'] },
   { label: 'shell.groupAdmin', ids: ['users', 'audit', 'privacy', 'settings', 'profile'] },
 ];
 

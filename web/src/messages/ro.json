@@ -40,7 +40,7 @@
     "title": "Bun venit la Nazareth Holy Cross",
     "description1": "Nazaretul se află în inima credinței creștine. Nu oricine poate călători până la Nazaret, orașul în care a crescut Iisus și unde fiecare vizitator are parte de experiențe spirituale, așa că suntem bucuroși să aducem Nazaretul până la dumneavoastră.",
     "description2": "Prin site-ul nostru puteți face un tur virtual al principalelor biserici și locuri sfinte din Nazaret și vă puteți apropia de istoria bogată și de tradiția religioasă care caracterizează acest loc. În plus, vă oferim ocazia unică de a cumpăra suveniruri locale și chiar de a aprinde o lumânare în amintirea sau în cinstea celor dragi, ca și cum ați fi aici alături de noi.",
-    "description3": "În magazinul nostru online găsiți cruci din lemn de măslin local, rozarii, bijuterii inspirate de simboluri creștine, vitralii și un set de suveniruri cu apă, pământ, măsline și tămâie din Nazaret. Puteți aprinde și o lumânare, un gest de rugăciune și de pomenire peste distanțe.",
+    "description3": "În magazinul nostru online găsiți cruci din lemn de măslin local, rozarii, bijuterii inspirate de simboluri creștine, vitralii și un set de suveniruri cu apă, pământ, măsline și tămâie din Nazaret. Puteți, de asemenea, să ne cereți să aprindem pentru dumneavoastră o lumânare adevărată într-o biserică din Nazaret și să primiți un videoclip cu acest moment.",
     "description4": "Vă invităm să vă deschideți inima și să simțiți căldura comunității noastre prin fiecare produs pe care alegeți să îl cumpărați. Fiecare achiziție sprijină comunitatea locală și ajută la păstrarea bogatei moșteniri a Nazaretului pentru generațiile viitoare. Vizitați site-ul nostru și găsiți-vă propria cale de a vă apropia de Nazaret, oricând și oriunde."
   },
   "whatIsNew": {
@@ -74,12 +74,6 @@
     "reviews": "Recenzii"
   },
   "candle": {
-    "howToLightACandle": "Cum funcționează aprinderea unei lumânări?",
-    "itsSimple": "Este simplu:",
-    "step1": "Alegeți biserica în care doriți să fie aprinsă lumânarea.",
-    "step2": "Scrieți o rugăciune sau o cerere personală care să însoțească aprinderea lumânării.",
-    "step3": "Vom merge la biserică, vom aprinde lumânarea pentru dumneavoastră, vom filma un clip cu numele dumneavoastră și vi-l vom trimite direct.",
-    "note": "Notă: acest clip are doar scop ilustrativ și arată cum se aprinde o lumânare în biserica greco-ortodoxă Buna Vestire.",
     "lightAPrayCandle": "Aprindeți o lumânare de rugăciune",
     "selectChurch": "Alegeți biserica în care va fi aprinsă lumânarea dumneavoastră:",
     "churches": {
@@ -92,15 +86,16 @@
         "tradition": "Ortodoxă · Biserica Sfântul Arhanghel Gavriil"
       }
     },
-    "toLightACandlePay": "Pentru a aprinde o lumânare, plătiți 3 $",
-    "light": "APRINDEȚI",
-    "emailMatchError": "Adresele de e-mail nu se potrivesc",
     "inputWarning": "Alegeți o biserică.",
     "firstName": "Prenume",
     "lastName": "Nume",
     "yourEmail": "Adresa dumneavoastră de e-mail",
     "confirmEmail": "Confirmați adresa de e-mail",
-    "yourPrayer": "Rugăciunea dumneavoastră"
+    "yourPrayer": "Rugăciunea dumneavoastră",
+    "videosTitle": "Videoclipuri",
+    "videosLead": "Vedeți cum sunt aprinse lumânările în bisericile din Nazaret.",
+    "videoPlay": "Redați videoclipul: {title}",
+    "videoPlayerTitle": "Videoclip: {title}"
   },
   "heroSection": {
     "heading": "ORAȘUL LUI IISUS VĂ AȘTEAPTĂ",
@@ -412,7 +407,11 @@
     "prayersTotal": "Rugăciuni pe zid",
     "prayersCountriesLatest": "{count, plural, one {Țări din ultima rugăciune} few {Țări din ultimele # rugăciuni} other {Țări din ultimele # de rugăciuni}}",
     "prayersCountriesAll": "Țări pe zid",
-    "prayersAll": "Citiți zidul rugăciunilor"
+    "prayersAll": "Citiți zidul rugăciunilor",
+    "intro": {
+      "welcome": "Bun venit în Nazaret",
+      "tagline": "Orașul lui Iisus"
+    }
   },
   "homePage": {
     "meta": {
@@ -605,14 +604,17 @@
     "shipping": "Livrare",
     "total": "Total",
     "secure": "Plată sigură prin PayPal",
-    "emptyLead": "Rozarii, cruci și amintiri din Nazaret vă așteaptă."
+    "emptyLead": "Rozarii, cruci și amintiri din Nazaret vă așteaptă.",
+    "sideCartClose": "Închide coșul",
+    "sideCartView": "Vezi tot coșul",
+    "sideCartMove": "Mută butonul coșului pe cealaltă parte"
   },
   "checkoutPage": {
     "meta": {
       "checkoutTitle": "Finalizarea comenzii",
       "checkoutDescription": "Finalizați comanda de suveniruri din Nazaret și plătiți în siguranță prin PayPal.",
       "candleTitle": "Aprindeți o lumânare la Nazaret",
-      "candleDescription": "Alegeți o biserică din Nazaret și scrieți-vă rugăciunea. Vom aprinde o lumânare pentru dumneavoastră și vă vom trimite clipul.",
+      "candleDescription": "Alegeți o biserică din Nazaret și scrieți-vă rugăciunea. Aprindem pentru dumneavoastră o lumânare adevărată și vă trimitem videoclipul personal în cel mult 48 de ore.",
       "donateTitle": "Donație",
       "donateDescription": "Sprijiniți Nazareth Holy Cross printr-o donație, plătită în siguranță prin PayPal."
     },
@@ -620,7 +622,6 @@
       "eyebrow": "Plată sigură",
       "orderTitle": "Finalizați comanda",
       "lead": "Plata dumneavoastră este procesată în siguranță de PayPal.",
-      "candleEyebrow": "Lumânare de rugăciune",
       "donateEyebrow": "Donație",
       "donateTitle": "Sprijiniți Nazareth Holy Cross",
       "donateLead": "Darul dumneavoastră ne ajută să împărtășim locurile sfinte, rugăciunile și meșteșugurile Nazaretului cu pelerinii din întreaga lume."
@@ -657,13 +658,14 @@
     "payment": {
       "loading": "Se încarcă PayPal…",
       "unavailable": "PayPal nu a putut fi încărcat. Verificați conexiunea sau dezactivați extensiile care blochează conținutul, apoi reîncărcați pagina.",
-      "secured": "Plată sigură prin PayPal. Nu vedem niciodată datele cardului dumneavoastră.",
+      "secured": "Plată sigură prin PayPal sau cu un card de credit sau de debit: nu este nevoie de un cont PayPal. Nu vedem niciodată datele cardului dumneavoastră.",
       "cancelled": "Plata a fost anulată. Nu s-a retras nicio sumă.",
       "errors": {
         "start": "Plata nu a putut fi inițiată. Încercați din nou.",
         "notCompleted": "Plata nu a fost finalizată. Nu s-a retras nicio sumă.",
         "paypal": "PayPal a raportat o eroare. Încercați din nou.",
-        "unconfirmed": "Nu am putut confirma plata deoarece conexiunea a căzut. Nu plătiți din nou deocamdată: verificați contul dumneavoastră PayPal sau scrieți-ne."
+        "unconfirmed": "Nu am putut confirma plata deoarece conexiunea a căzut. Nu plătiți din nou deocamdată: verificați contul dumneavoastră PayPal sau scrieți-ne.",
+        "priceChanged": "Totalul s-a schimbat: acum este {charged}, nu {shown}. Nu ați fost taxat. Apăsați din nou butonul PayPal pentru a plăti {charged}."
       },
       "reference": "Referința plății: {id}",
       "saving": "Se salvează datele dumneavoastră…",
@@ -674,8 +676,7 @@
       "text": "Descoperiți rozarii, cruci și suveniruri din Nazaret."
     },
     "candle": {
-      "price": "Pentru a aprinde o lumânare: {price}",
-      "secureNext": "În continuare vă veți verifica datele și veți plăti în siguranță prin PayPal."
+      "secureNext": "În continuare vă veți verifica datele și veți plăti în siguranță prin PayPal sau cu un card de credit sau de debit. Nu aveți nevoie de un cont PayPal."
     },
     "donate": {
       "formTitle": "Faceți o donație",
@@ -1303,7 +1304,7 @@
       "items": {
         "candle": {
           "q": "Cum funcționează aprinderea unei lumânări?",
-          "a": "Alegeți o biserică din Nazaret, scrieți-vă rugăciunea și plătiți {price}. Aprindem o lumânare pentru dumneavoastră, înregistrăm un scurt videoclip cu numele dumneavoastră și vi-l trimitem la adresa de e-mail."
+          "a": "Alegeți o biserică din Nazaret, scrieți-vă numele și rugăciunea și plătiți {price}. Aprindem pentru dumneavoastră o lumânare adevărată în acea biserică, o filmăm împreună cu numele și rugăciunea dumneavoastră și trimitem videoclipul la adresa dumneavoastră de e-mail în cel mult 48 de ore."
         },
         "wall": {
           "q": "Este public zidul rugăciunilor?",
@@ -1404,7 +1405,8 @@
               "cart": "Coșul de cumpărături și lista de dorințe.",
               "liked": "Rugăciunile pentru care ați rostit Amin, pentru a-l putea rosti o singură dată.",
               "language": "Limba aleasă."
-            }
+            },
+            "p2": "Numărăm de câte ori sunt deschise unele pagini și câte plăți sunt finalizate, pe zile și pe campanii publicitare. Sunt simple totaluri: nu folosesc cookie-uri și niciun identificator, nu salvează nimic în browserul dumneavoastră, nu conțin nimic despre dumneavoastră și nu sunt transmise nimănui."
           },
           "keep": {
             "title": "Cât timp le păstrăm",
@@ -1447,7 +1449,7 @@
           },
           "candles": {
             "title": "Lumânări",
-            "p1": "O lumânare de rugăciune costă {price}. Aprindem o lumânare pentru intenția dumneavoastră în biserica pe care o alegeți și vă trimitem un videoclip. Este un serviciu de rugăciune și de pomenire; nu putem promite o anumită dată sau oră."
+            "p1": "O lumânare de rugăciune costă {price}. Aprindem o lumânare adevărată pentru intenția dumneavoastră în biserica pe care o alegeți, o filmăm și trimitem videoclipul la adresa dumneavoastră de e-mail în cel mult 48 de ore de la plată. Dacă videoclipul nu sosește în acest timp sau dacă ceva din el este greșit, scrieți-ne și vă vom returna întreaga sumă."
           },
           "donations": {
             "title": "Donații",
@@ -1875,5 +1877,72 @@
       "license": "Licență",
       "viewOnCommons": "Vedeți pe Wikimedia Commons"
     }
+  },
+  "tourPage": {
+    "activities": {
+      "eyebrow": "În Nazaret",
+      "title": "Ce puteți face",
+      "lead": "Câteva moduri de a vă petrece zilele în oraș, dincolo de bisericile lui.",
+      "more": "Mai multe despre acest loc",
+      "oldcity": {
+        "title": "Plimbați-vă prin Orașul Vechi și piața lui",
+        "text": "Străduțe înguste, pasaje boltite și piața veche, unde mirodenii, dulciuri și obiecte meșteșugărești se vând unele lângă altele."
+      },
+      "basilica": {
+        "title": "Rugați-vă în Bazilica Buna Vestire",
+        "text": "Stați în liniște în grota unde tradiția așază Buna Vestire, sau participați la o Liturghie în biserica de sus."
+      },
+      "trail": {
+        "title": "Parcurgeți o porțiune din Traseul lui Iisus",
+        "text": "Traseul începe în Nazaret și străbate dealurile Galileii spre Marea Galileii. Încă din primii kilometri se deschid priveliști largi."
+      },
+      "precipice": {
+        "title": "Priviți apusul de pe Muntele Prăpastiei",
+        "text": "De pe stânca de deasupra văii Izreel, întreaga câmpie se întinde sub dumneavoastră, aurie la sfârșitul zilei."
+      },
+      "food": {
+        "title": "Gustați Nazaretul",
+        "text": "Orașul este cunoscut pentru dulciurile și bucătăria sa de casă: încercați knafeh, servit cald."
+      },
+      "christmas": {
+        "title": "Crăciunul în Nazaret",
+        "text": "În decembrie orașul se luminează, cu un târg de Crăciun și o paradă festivă în Ajunul Crăciunului."
+      }
+    },
+    "plan": {
+      "title": "Plănuiți-vă zilele în Nazaret",
+      "lead": "Alegeți câte zile aveți și ce vă place: planificatorul pelerinului trasează un traseu cu timpii de mers pe jos. Ghidul vizitatorului cuprinde anotimpurile, căile de acces și sfaturi practice.",
+      "planner": "Deschideți planificatorul",
+      "guide": "Ghidul vizitatorului"
+    }
+  },
+  "candlePage": {
+    "eyebrow": "O lumânare adevărată, aprinsă pentru dumneavoastră în Nazaret",
+    "title": "Rugăciunea dumneavoastră. Biserica dumneavoastră. Lumânarea dumneavoastră.",
+    "lead": "Alegeți o biserică din Nazaret și scrieți-vă numele și rugăciunea. Aprindem pentru dumneavoastră o lumânare adevărată în acea biserică, o filmăm împreună cu numele și rugăciunea dumneavoastră și vă trimitem videoclipul personal în cel mult 48 de ore.",
+    "cta": "Aprindeți lumânarea mea – {price}",
+    "pReal": "O lumânare adevărată într-o biserică adevărată, nu una virtuală",
+    "pVideo": "Videoclipul dumneavoastră personal în 48 de ore",
+    "pGuest": "Fără crearea unui cont",
+    "pSecure": "Plătiți cu PayPal sau cu cardul, fără cont PayPal",
+    "stepsTitle": "Cum funcționează",
+    "s1T": "Alegeți biserica",
+    "s1X": "{latin} sau {greek}, amândouă în Nazaret.",
+    "s2T": "Scrieți-vă numele și rugăciunea",
+    "s2X": "Cu propriile cuvinte și în limba dumneavoastră. Le așezăm pe un bilet lângă lumânarea dumneavoastră.",
+    "s3T": "Plătiți {price} și primiți videoclipul",
+    "s3X": "Aprindem lumânarea, o filmăm și trimitem videoclipul personal la adresa dumneavoastră de e-mail în cel mult 48 de ore.",
+    "knowTitle": "Bine de știut",
+    "realQ": "Este o lumânare adevărată?",
+    "realA": "Da. Cineva din echipa noastră din Nazaret merge la biserica pe care ați ales-o și aprinde acolo o lumânare adevărată. Nimic nu este virtual.",
+    "getQ": "Ce voi primi?",
+    "getA": "Un scurt videoclip personal prin e-mail: biserica, biletul cu numele și rugăciunea dumneavoastră și lumânarea în momentul aprinderii.",
+    "timeQ": "Cât durează?",
+    "timeA": "Primiți videoclipul în cel mult 48 de ore de la plată.",
+    "whoQ": "Cine oferă acest serviciu?",
+    "whoA": "Nazareth Holy Cross este un serviciu independent, oferit de o echipă locală din Nazaret. Nu este o instituție oficială a orașului Nazaret sau a bisericilor.",
+    "wrongQ": "Și dacă ceva nu merge bine?",
+    "wrongA": "Dacă videoclipul nu a sosit în 48 de ore (verificați mai întâi dosarul de spam) sau dacă ceva din el este greșit, scrieți-ne și vă vom returna întreaga sumă.",
+    "contact": "Scrieți-ne"
   }
 }
