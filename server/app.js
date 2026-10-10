@@ -10,16 +10,28 @@ import routerProduct from './route/productRoute.js';
 import routerCandle from './route/candleRoute.js';
 import routerContact from './route/contactRoute.js';
 import routerLive from './route/liveRoute.js';
-import routerAuth from './route/authRoute.js';
-import routerAdmin from './route/adminRoute.js';
 import routerAdminApi from './route/admin/index.js';
 import routerPrayer from './route/prayerRoute.js';
+import routerTrack from './route/trackRoute.js';
 import routerReview from './route/reviewRoute.js';
 import { apiLimiter, healthLimiter, publicReadCache } from './utils/security.js';
 import { deepHealth } from './services/health.js';
 import { config } from './config/env.js';
 import { HttpError } from './utils/httpError.js';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
+
+// The public site's own addresses: the domain, www, and Netlify's production address of the site (it answers with a
+// 301 to the domain, but is still this site's own origin).
+export const PRODUCTION_ORIGINS = Object.freeze([
+  'https://nazarethholycross.com',
+  'https://www.nazarethholycross.com',
+  'https://nazarethholycross.netlify.app',
+]);
+// Netlify's deploy previews of THIS site (one per pull request): exactly `deploy-preview-<number>--nazarethholycross`.
+// Branch deploys and any other `<anything>--nazarethholycross` subdomain are not trusted (the repository is public:
+// such a subdomain can carry code nobody reviewed), nor is the retired 2024 admin site `nazaretholycrossadmin`.
+// The dashboard calls the API from its own server (no CORS); a browser origin for it goes in ADMIN_ORIGINS.
+export const DEPLOY_PREVIEW_ORIGIN = /^https:\/\/deploy-preview-\d{1,6}--nazarethholycross\.netlify\.app$/;
 
 // Builds the Express app without connecting to the DB or listening,
 // so tests can import it and drive it with supertest.
@@ -38,10 +50,8 @@ export function createApp() {
   // otherwise call the live API with their credentials); use EXTRA_ORIGINS to allow one deliberately.
   const allowedOrigins = [
     ...(config.isProd ? [] : ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:5174']),
-    'https://nazarethholycross.com',
-    'https://www.nazarethholycross.com',
-    // the public site and the admin site on Netlify, including deploy previews
-    /^https:\/\/([a-z0-9-]+--)?(nazarethholycross|nazaretholycrossadmin)\.netlify\.app$/,
+    ...PRODUCTION_ORIGINS,
+    DEPLOY_PREVIEW_ORIGIN,
     config.clientUrl,
     ...config.extraOrigins,
     ...config.adminOrigins, // the new admin dashboard (ADMIN_ORIGINS, docs/ADMIN.md)
@@ -104,17 +114,18 @@ export function createApp() {
   app.use(publicReadCache);
   app.use(apiLimiter);
 
-  app.use('/auth', routerAuth);
+  // The public routes below take no token at all. Every private read or change is under /admin (the dashboard API,
+  // route/admin/index.js: a live session, a role check, the audit log). The legacy sign-ins (/auth/login,
+  // /admin/login) and the legacy admin routes that accepted their 8-hour tokens were removed on 2026-10-07.
   app.use('/product', routerProduct);
   app.use('/order', routerOrder);
   app.use('/candle', routerCandle);
   app.use('/contact', routerContact);
   app.use('/live', routerLive);
-  // The dashboard API first; a legacy admin token is handed on to the legacy router (middleware/adminGuard.js).
   app.use('/admin', routerAdminApi);
-  app.use('/admin', routerAdmin);
   app.use('/prayer', routerPrayer);
   app.use('/review', routerReview);
+  app.use('/track', routerTrack); // anonymous funnel counters (services/metrics.js)
 
   app.use(notFoundHandler);
   app.use(errorHandler);

@@ -37,10 +37,10 @@
     }
   },
   "about": {
-    "title": "Willkommen auf dem offiziellen Portal von Nazareth",
+    "title": "Willkommen bei Nazareth Holy Cross",
     "description1": "Das Herz des christlichen Glaubens. Wir verstehen, dass nicht jeder Nazareth physisch besuchen kann, eine Stadt, in der Jesus aufwuchs und wo spirituelle Erfahrungen auf jeden Besucher warten. Daher freuen wir uns, Ihnen die Möglichkeit zu bieten, Nazareth zu Ihnen zu bringen.",
     "description2": "Über unsere Website können Sie einen virtuellen Rundgang durch die wichtigsten Kirchen und heiligen Stätten von Nazareth machen und sich mit der reichen Geschichte und religiösen Tradition verbinden, die den Ort charakterisiert. Darüber hinaus bieten wir Ihnen eine einzigartige Gelegenheit, lokale Souvenirs zu kaufen und sogar eine Kerze zum Gedenken oder zu Ehren Ihrer Lieben anzuzünden, als ob Sie hier bei uns wären.",
-    "description3": "In unserem Online-Shop finden Sie eine breite Produktpalette: Kreuze aus lokalem Olivenholz, von christlichen Symbolen inspirierten Schmuck, Gemälde und Mosaike, die die reiche religiöse Kunst widerspiegeln, und vieles mehr. Jetzt können Sie auch Wasser aus der legendären Quelle von Nazareth, Sand aus Nazareth und Oliven aus der Region erwerben – alles, um die Größe der Stadt Nazareth und Jesu zu spüren. Sie können auch eine virtuelle Kerze anzünden, eine Geste, die Gebet und Erinnerung über Entfernungen hinweg trägt.",
+    "description3": "In unserem Online-Shop finden Sie eine breite Produktpalette: Kreuze aus lokalem Olivenholz, von christlichen Symbolen inspirierten Schmuck, Gemälde und Mosaike, die die reiche religiöse Kunst widerspiegeln, und vieles mehr. Jetzt können Sie auch Wasser aus der legendären Quelle von Nazareth, Sand aus Nazareth und Oliven aus der Region erwerben – alles, um die Größe der Stadt Nazareth und Jesu zu spüren. Sie können auch eine echte Kerze für sich in einer Kirche in Nazareth entzünden lassen und ein Video davon erhalten.",
     "description4": "Wir laden Sie ein, Ihre Herzen zu öffnen und die Wärme unserer Gemeinschaft durch jedes Produkt zu spüren, das Sie kaufen. Jeder Kauf unterstützt die lokale Gemeinschaft und hilft, das reiche Erbe von Nazareth für zukünftige Generationen zu bewahren. Besuchen Sie unsere Website und finden Sie heraus, wie Sie jederzeit und überall mit Nazareth in Verbindung treten können."
   },
   "whatIsNew": {
@@ -74,23 +74,18 @@
     "reviews": "Bewertungen"
   },
   "candle": {
-    "howToLightACandle": "Wie zündet man eine Kerze an?",
-    "itsSimple": "Es ist ganz einfach:",
-    "step1": "Wählen Sie eine Kirche aus, in der die Kerze angezündet werden soll.",
-    "step2": "Schreiben Sie ein Gebet oder eine persönliche Bitte, die Sie mit dem Anzünden der Kerze verbinden möchten.",
-    "step3": "Wir gehen in die Kirche, zünden die Kerze für Sie an, nehmen ein Video mit Ihrem Namen auf und senden es Ihnen direkt zu.",
-    "note": "Hinweis: Dieses Video dient nur zu Illustrationszwecken und zeigt den Vorgang des Anzündens einer Kerze in der griechisch-orthodoxen Kirche.",
     "lightAPrayCandle": "Zünden Sie eine Gebetskerze an",
     "selectChurch": "Wählen Sie die Kirche, in der die Kerze angezündet werden soll:",
-    "toLightACandlePay": "Um eine Kerze anzuzünden, zahlen Sie 3 $",
-    "light": "ANZÜNDEN",
-    "emailMatchError": "Die E-Mail-Adressen stimmen nicht überein",
     "inputWarning": "Bitte wählen Sie eine Kirche.",
     "firstName": "Vorname",
     "lastName": "Nachname",
     "yourEmail": "Ihre E-Mail-Adresse",
     "confirmEmail": "E-Mail bestätigen",
-    "yourPrayer": "Ihr Gebet"
+    "yourPrayer": "Ihr Gebet",
+    "videosTitle": "Videos",
+    "videosLead": "Sehen Sie, wie die Kerzen in den Kirchen von Nazareth angezündet werden.",
+    "videoPlay": "Video abspielen: {title}",
+    "videoPlayerTitle": "Video: {title}"
   },
   "heroSection": {
     "heading": "DIE STADT JESU ERWARTET SIE",
@@ -420,7 +415,11 @@
     "prayersTotal": "Gebete an der Wand",
     "prayersCountriesLatest": "{count, plural, one {Länder im neuesten Gebet} other {Länder in den # neuesten Gebeten}}",
     "prayersCountriesAll": "Länder an der Wand",
-    "prayersAll": "Zur Gebetswand"
+    "prayersAll": "Zur Gebetswand",
+    "intro": {
+      "welcome": "Willkommen in Nazareth",
+      "tagline": "Die Stadt Jesu"
+    }
   },
   "homePage": {
     "meta": {
@@ -613,14 +612,17 @@
     "shipping": "Versand",
     "total": "Gesamt",
     "secure": "Sichere Zahlung mit PayPal",
-    "emptyLead": "Entdecken Sie Rosenkränze, Kreuze und Andenken aus Nazareth."
+    "emptyLead": "Entdecken Sie Rosenkränze, Kreuze und Andenken aus Nazareth.",
+    "sideCartClose": "Warenkorb schließen",
+    "sideCartView": "Ganzen Warenkorb ansehen",
+    "sideCartMove": "Warenkorb-Knopf auf die andere Seite"
   },
   "checkoutPage": {
     "meta": {
       "checkoutTitle": "Kasse",
       "checkoutDescription": "Schließen Sie Ihre Bestellung von Andenken aus Nazareth ab und bezahlen Sie sicher mit PayPal.",
       "candleTitle": "Eine Kerze in Nazareth anzünden",
-      "candleDescription": "Wählen Sie eine Kirche in Nazareth und schreiben Sie Ihr Gebet. Wir zünden eine Kerze für Sie an und senden Ihnen das Video.",
+      "candleDescription": "Wählen Sie eine Kirche in Nazareth und schreiben Sie Ihr Gebet. Wir entzünden für Sie eine echte Kerze und senden Ihr persönliches Video innerhalb von 48 Stunden.",
       "donateTitle": "Spenden",
       "donateDescription": "Unterstützen Sie Nazareth Holy Cross mit einer Spende, sicher bezahlt mit PayPal."
     },
@@ -628,7 +630,6 @@
       "eyebrow": "Sichere Kasse",
       "orderTitle": "Bestellung abschließen",
       "lead": "Ihre Zahlung wird sicher über PayPal abgewickelt.",
-      "candleEyebrow": "Gebetskerze",
       "donateEyebrow": "Spende",
       "donateTitle": "Unterstützen Sie Nazareth Holy Cross",
       "donateLead": "Ihre Spende hilft uns, die heiligen Stätten, Gebete und das Handwerk Nazareths mit Pilgern in aller Welt zu teilen."
@@ -665,13 +666,14 @@
     "payment": {
       "loading": "PayPal wird geladen…",
       "unavailable": "PayPal konnte nicht geladen werden. Prüfen Sie Ihre Verbindung oder deaktivieren Sie Inhaltsblocker und laden Sie die Seite neu.",
-      "secured": "Sichere Zahlung mit PayPal. Ihre Kartendaten sehen wir nie.",
+      "secured": "Sichere Zahlung mit PayPal oder mit Kredit- oder Debitkarte: kein PayPal-Konto nötig. Ihre Kartendaten sehen wir nie.",
       "cancelled": "Zahlung abgebrochen. Ihnen wurde nichts berechnet.",
       "errors": {
         "start": "Die Zahlung konnte nicht gestartet werden. Bitte versuchen Sie es erneut.",
         "notCompleted": "Die Zahlung wurde nicht abgeschlossen. Ihnen wurde nichts berechnet.",
         "paypal": "PayPal hat einen Fehler gemeldet. Bitte versuchen Sie es erneut.",
-        "unconfirmed": "Wir konnten Ihre Zahlung nicht bestätigen, weil die Verbindung ausgefallen ist. Bitte zahlen Sie vorerst nicht erneut: Prüfen Sie Ihr PayPal-Konto oder schreiben Sie uns."
+        "unconfirmed": "Wir konnten Ihre Zahlung nicht bestätigen, weil die Verbindung ausgefallen ist. Bitte zahlen Sie vorerst nicht erneut: Prüfen Sie Ihr PayPal-Konto oder schreiben Sie uns.",
+        "priceChanged": "Der Gesamtbetrag hat sich geändert: Er beträgt jetzt {charged} statt {shown}. Ihnen wurde nichts berechnet. Klicken Sie erneut auf die PayPal-Schaltfläche, um {charged} zu bezahlen."
       },
       "reference": "Zahlungsreferenz: {id}",
       "saving": "Ihre Angaben werden gespeichert…",
@@ -682,8 +684,7 @@
       "text": "Entdecken Sie Rosenkränze, Kreuze und Andenken aus Nazareth."
     },
     "candle": {
-      "price": "Eine Kerze anzünden: {price}",
-      "secureNext": "Als Nächstes prüfen Sie Ihre Angaben und bezahlen sicher mit PayPal."
+      "secureNext": "Als Nächstes prüfen Sie Ihre Angaben und bezahlen sicher mit PayPal oder mit Kredit- oder Debitkarte. Ein PayPal-Konto brauchen Sie nicht."
     },
     "donate": {
       "formTitle": "Spenden",
@@ -1247,10 +1248,10 @@
       },
       "form": {
         "title": "Schreiben Sie uns",
-        "intro": "Alle Felder werden benötigt, damit wir antworten können.",
+        "intro": "Wir brauchen Ihren Namen, Ihre E-Mail-Adresse und Ihre Nachricht, um antworten zu können. Die Telefonnummer ist optional.",
         "fullName": "Vollständiger Name",
         "email": "E-Mail-Adresse",
-        "phone": "Telefonnummer",
+        "phone": "Telefonnummer (optional)",
         "phoneHint": "Mit Ländervorwahl, zum Beispiel +49 151 2345 6789.",
         "msg": "Ihre Nachricht",
         "counter": "{count} / {max}",
@@ -1311,7 +1312,7 @@
       "items": {
         "candle": {
           "q": "Wie funktioniert das Entzünden einer Kerze?",
-          "a": "Wählen Sie eine Kirche in Nazareth, schreiben Sie Ihr Gebet und zahlen Sie {price}. Wir entzünden eine Kerze für Sie, nehmen ein kurzes Video mit Ihrem Namen auf und senden es an Ihre E-Mail-Adresse."
+          "a": "Wählen Sie eine Kirche in Nazareth, schreiben Sie Ihren Namen und Ihr Gebet und zahlen Sie {price}. Wir entzünden für Sie eine echte Kerze in dieser Kirche, filmen sie mit Ihrem Namen und Ihrem Gebet und senden das Video innerhalb von 48 Stunden an Ihre E-Mail-Adresse."
         },
         "wall": {
           "q": "Ist die Gebetswand öffentlich?",
@@ -1412,7 +1413,8 @@
               "cart": "Ihren Warenkorb und Ihre Merkliste.",
               "liked": "Die Gebete, zu denen Sie Amen gesagt haben, damit Sie es nur einmal sagen können.",
               "language": "Ihre Sprachwahl."
-            }
+            },
+            "p2": "Wir zählen, wie oft einige Seiten geöffnet und wie viele Zahlungen abgeschlossen werden, pro Tag und pro Werbekampagne. Das sind reine Summen: Sie verwenden kein Cookie und keine Kennung, speichern nichts in Ihrem Browser, enthalten nichts über Sie und werden an niemanden weitergegeben."
           },
           "keep": {
             "title": "Wie lange wir sie speichern",
@@ -1455,7 +1457,7 @@
           },
           "candles": {
             "title": "Kerzen",
-            "p1": "Eine Gebetskerze kostet {price}. Wir entzünden in der von Ihnen gewählten Kirche eine Kerze für Ihr Anliegen und senden Ihnen ein Video. Es ist ein Dienst des Gebets und Gedenkens; ein bestimmtes Datum oder eine bestimmte Uhrzeit können wir nicht zusagen."
+            "p1": "Eine Gebetskerze kostet {price}. Wir entzünden in der von Ihnen gewählten Kirche eine echte Kerze für Ihr Anliegen, filmen sie und senden das Video innerhalb von 48 Stunden nach Ihrer Zahlung an Ihre E-Mail-Adresse. Wenn das Video in dieser Zeit nicht ankommt oder etwas darin nicht stimmt, schreiben Sie uns, und wir erstatten Ihnen den vollen Betrag."
           },
           "donations": {
             "title": "Spenden",
@@ -1882,5 +1884,72 @@
       "license": "Lizenz",
       "viewOnCommons": "Auf Wikimedia Commons ansehen"
     }
+  },
+  "tourPage": {
+    "activities": {
+      "eyebrow": "In Nazareth",
+      "title": "Was Sie unternehmen können",
+      "lead": "Einige Möglichkeiten, Ihre Tage in der Stadt zu verbringen, über ihre Kirchen hinaus.",
+      "more": "Mehr über diesen Ort",
+      "oldcity": {
+        "title": "Durch die Altstadt und ihren Markt",
+        "text": "Enge Gassen, überwölbte Durchgänge und der alte Markt, wo Gewürze, Süßigkeiten und Handwerk nebeneinander verkauft werden."
+      },
+      "basilica": {
+        "title": "Beten in der Verkündigungsbasilika",
+        "text": "Verweilen Sie still in der Grotte, in die die Überlieferung die Verkündigung legt, oder feiern Sie eine Messe in der Oberkirche mit."
+      },
+      "trail": {
+        "title": "Ein Stück auf dem Jesus Trail",
+        "text": "Der Weg beginnt in Nazareth und führt über die Hügel Galiläas zum See Genezareth. Schon die ersten Kilometer öffnen weite Blicke."
+      },
+      "precipice": {
+        "title": "Sonnenuntergang am Berg des Absturzes",
+        "text": "Vom Felsen über der Jesreelebene liegt die ganze Ebene unter Ihnen, golden am Ende des Tages."
+      },
+      "food": {
+        "title": "Nazareth schmecken",
+        "text": "Die Stadt ist für ihre Süßigkeiten und ihre Hausmannskost bekannt: Probieren Sie Knafeh, warm serviert."
+      },
+      "christmas": {
+        "title": "Weihnachten in Nazareth",
+        "text": "Im Dezember erstrahlt die Stadt, mit einem Weihnachtsmarkt und einem festlichen Umzug an Heiligabend."
+      }
+    },
+    "plan": {
+      "title": "Planen Sie Ihre Tage in Nazareth",
+      "lead": "Wählen Sie, wie viele Tage Sie haben und was Sie lieben: Der Pilgerplaner zeichnet eine Route mit Gehzeiten. Der Besucherführer kennt die Jahreszeiten, die Anreise und praktische Hinweise.",
+      "planner": "Planer öffnen",
+      "guide": "Besucherführer"
+    }
+  },
+  "candlePage": {
+    "eyebrow": "Eine echte Kerze, für Sie in Nazareth entzündet",
+    "title": "Ihr Gebet. Ihre Kirche. Ihre Kerze.",
+    "lead": "Wählen Sie eine Kirche in Nazareth und schreiben Sie Ihren Namen und Ihr Gebet. Wir entzünden für Sie eine echte Kerze in dieser Kirche, filmen sie mit Ihrem Namen und Ihrem Gebet und senden Ihnen Ihr persönliches Video innerhalb von 48 Stunden.",
+    "cta": "Meine Kerze anzünden – {price}",
+    "pReal": "Eine echte Kerze in einer echten Kirche, keine virtuelle",
+    "pVideo": "Ihr persönliches Video innerhalb von 48 Stunden",
+    "pGuest": "Kein Konto nötig",
+    "pSecure": "Zahlung mit PayPal oder Karte, ohne PayPal-Konto",
+    "stepsTitle": "So funktioniert es",
+    "s1T": "Wählen Sie Ihre Kirche",
+    "s1X": "{latin} oder {greek}, beide in Nazareth.",
+    "s2T": "Schreiben Sie Ihren Namen und Ihr Gebet",
+    "s2X": "In Ihren eigenen Worten und in Ihrer Sprache. Wir legen sie auf einem Zettel neben Ihre Kerze.",
+    "s3T": "Zahlen Sie {price} und erhalten Sie Ihr Video",
+    "s3X": "Wir entzünden Ihre Kerze, filmen sie und senden Ihr persönliches Video innerhalb von 48 Stunden an Ihre E-Mail-Adresse.",
+    "knowTitle": "Gut zu wissen",
+    "realQ": "Ist es eine echte Kerze?",
+    "realA": "Ja. Jemand aus unserem Team in Nazareth geht in die Kirche, die Sie gewählt haben, und entzündet dort eine echte Kerze. Daran ist nichts virtuell.",
+    "getQ": "Was erhalte ich?",
+    "getA": "Ein kurzes persönliches Video per E-Mail: die Kirche, den Zettel mit Ihrem Namen und Ihrem Gebet und Ihre Kerze, während sie entzündet wird.",
+    "timeQ": "Wie lange dauert es?",
+    "timeA": "Sie erhalten Ihr Video innerhalb von 48 Stunden nach Ihrer Zahlung.",
+    "whoQ": "Wer betreibt diesen Dienst?",
+    "whoA": "Nazareth Holy Cross ist ein unabhängiger Dienst, den ein Team vor Ort in Nazareth betreibt. Er ist keine offizielle Einrichtung der Stadt Nazareth oder der Kirchen.",
+    "wrongQ": "Und wenn etwas schiefgeht?",
+    "wrongA": "Wenn Ihr Video nach 48 Stunden nicht angekommen ist (bitte prüfen Sie zuerst Ihren Spam-Ordner) oder etwas darin nicht stimmt, schreiben Sie uns, und wir erstatten Ihnen den vollen Betrag.",
+    "contact": "Kontakt aufnehmen"
   }
 }

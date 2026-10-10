@@ -37,10 +37,10 @@
     }
   },
   "about": {
-    "title": "Bienvenido al portal oficial de Nazaret",
+    "title": "Te damos la bienvenida a Nazareth Holy Cross",
     "description1": "El corazón de la fe cristiana. Entendemos que no todos pueden visitar Nazaret en persona, una ciudad donde Jesús creció y donde las experiencias espirituales esperan a cada visitante. Por eso nos alegra ofrecerte la oportunidad de llevar Nazaret hasta ti.",
     "description2": "A través de nuestro sitio web puedes hacer un recorrido virtual por las principales iglesias y lugares santos de Nazaret y conectar con la rica historia y la tradición religiosa que caracterizan este lugar. Además, te ofrecemos una oportunidad única de comprar recuerdos locales e incluso encender una vela en memoria u honor de tus seres queridos, como si estuvieras aquí con nosotros.",
-    "description3": "En nuestra tienda en línea encontrarás una amplia gama de productos: cruces de madera de olivo local, joyería inspirada en símbolos cristianos, pinturas y mosaicos que reflejan la riqueza del arte religioso, y mucho más. Ahora también puedes comprar agua de la legendaria fuente de Nazaret, arena de Nazaret y aceitunas locales, todo para sentir la grandeza de la ciudad de Nazaret y de Jesús. También puedes elegir encender una vela virtual, un gesto que lleva la oración y el recuerdo a través de las distancias.",
+    "description3": "En nuestra tienda en línea encontrarás una amplia gama de productos: cruces de madera de olivo local, joyería inspirada en símbolos cristianos, pinturas y mosaicos que reflejan la riqueza del arte religioso, y mucho más. Ahora también puedes comprar agua de la legendaria fuente de Nazaret, arena de Nazaret y aceitunas locales, todo para sentir la grandeza de la ciudad de Nazaret y de Jesús. También puedes pedir que encendamos para ti una vela de verdad en una iglesia de Nazaret y recibir un vídeo del momento.",
     "description4": "Te invitamos a abrir tu corazón y a sentir el calor de nuestra comunidad a través de cada producto que elijas comprar. Cada compra apoya a la comunidad local y ayuda a preservar la rica herencia de Nazaret para las generaciones futuras. Visita nuestro sitio web y encuentra tu manera de conectar con Nazaret, en cualquier momento y desde cualquier lugar."
   },
   "whatIsNew": {
@@ -74,23 +74,18 @@
     "reviews": "Reseñas"
   },
   "candle": {
-    "howToLightACandle": "¿Cómo encender una vela?",
-    "itsSimple": "Es simple:",
-    "step1": "Elige una iglesia donde te gustaría que se encendiera la vela.",
-    "step2": "Escribe una oración o una petición personal que quieras que acompañe el encendido de la vela.",
-    "step3": "Iremos a la iglesia, encenderemos la vela por ti, grabaremos un video con tu nombre y te enviaremos el video directamente.",
-    "note": "Nota: este vídeo es solo ilustrativo y muestra cómo se enciende una vela en la iglesia ortodoxa griega.",
     "lightAPrayCandle": "Encender una vela de oración",
     "selectChurch": "Selecciona la iglesia para encender la vela:",
-    "toLightACandlePay": "Para encender una vela, paga 3 $",
-    "light": "ENCENDER",
-    "emailMatchError": "Los correos electrónicos no coinciden",
     "inputWarning": "Selecciona una iglesia.",
     "firstName": "Nombre",
     "lastName": "Apellido",
     "yourEmail": "Tu correo electrónico",
     "confirmEmail": "Confirma tu correo electrónico",
-    "yourPrayer": "Tu oración"
+    "yourPrayer": "Tu oración",
+    "videosTitle": "Vídeos",
+    "videosLead": "Vea cómo se encienden las velas en las iglesias de Nazaret.",
+    "videoPlay": "Reproducir el vídeo: {title}",
+    "videoPlayerTitle": "Vídeo: {title}"
   },
   "heroSection": {
     "heading": "LA CIUDAD DE JESÚS TE ESPERA",
@@ -420,7 +415,11 @@
     "prayersTotal": "Oraciones en el muro",
     "prayersCountriesLatest": "{count, plural, one {Países en la oración más reciente} many {Países en las # oraciones más recientes} other {Países en las # oraciones más recientes}}",
     "prayersCountriesAll": "Países en el muro",
-    "prayersAll": "Leer el muro de oraciones"
+    "prayersAll": "Leer el muro de oraciones",
+    "intro": {
+      "welcome": "Te damos la bienvenida a Nazaret",
+      "tagline": "La ciudad de Jesús"
+    }
   },
   "homePage": {
     "meta": {
@@ -613,14 +612,17 @@
     "shipping": "Envío",
     "total": "Total",
     "secure": "Pago seguro con PayPal",
-    "emptyLead": "Descubre rosarios, cruces y recuerdos de Nazaret."
+    "emptyLead": "Descubre rosarios, cruces y recuerdos de Nazaret.",
+    "sideCartClose": "Cerrar el carrito",
+    "sideCartView": "Ver el carrito completo",
+    "sideCartMove": "Mover el botón del carrito al otro lado"
   },
   "checkoutPage": {
     "meta": {
       "checkoutTitle": "Pago",
       "checkoutDescription": "Completa tu pedido de recuerdos de Nazaret y paga de forma segura con PayPal.",
       "candleTitle": "Enciende una vela en Nazaret",
-      "candleDescription": "Elige una iglesia de Nazaret y escribe tu oración. Encenderemos una vela por ti y te enviaremos el vídeo.",
+      "candleDescription": "Elige una iglesia de Nazaret y escribe tu oración. Encendemos para ti una vela de verdad y te enviamos tu vídeo personal en 48 horas.",
       "donateTitle": "Donar",
       "donateDescription": "Apoya a Nazareth Holy Cross con un donativo, pagado de forma segura con PayPal."
     },
@@ -628,7 +630,6 @@
       "eyebrow": "Pago seguro",
       "orderTitle": "Completa tu pedido",
       "lead": "Tu pago se procesa de forma segura a través de PayPal.",
-      "candleEyebrow": "Vela de oración",
       "donateEyebrow": "Donativo",
       "donateTitle": "Apoya a Nazareth Holy Cross",
       "donateLead": "Tu donativo nos ayuda a compartir los lugares santos, las oraciones y la artesanía de Nazaret con peregrinos de todo el mundo."
@@ -665,13 +666,14 @@
     "payment": {
       "loading": "Cargando PayPal…",
       "unavailable": "No se pudo cargar PayPal. Comprueba tu conexión o desactiva los bloqueadores de contenido y vuelve a cargar la página.",
-      "secured": "Pago seguro con PayPal. Nunca vemos los datos de tu tarjeta.",
+      "secured": "Pago seguro con PayPal o con tarjeta de crédito o débito: no necesitas una cuenta de PayPal. Nunca vemos los datos de tu tarjeta.",
       "cancelled": "Pago cancelado. No se te ha cobrado nada.",
       "errors": {
         "start": "No pudimos iniciar el pago. Inténtalo de nuevo.",
         "notCompleted": "El pago no se completó. No se te ha cobrado nada.",
         "paypal": "PayPal informó de un error. Inténtalo de nuevo.",
-        "unconfirmed": "No hemos podido confirmar tu pago porque se cortó la conexión. No pagues de nuevo por ahora: revisa tu cuenta de PayPal o escríbenos."
+        "unconfirmed": "No hemos podido confirmar tu pago porque se cortó la conexión. No pagues de nuevo por ahora: revisa tu cuenta de PayPal o escríbenos.",
+        "priceChanged": "El total ha cambiado: ahora es {charged}, no {shown}. No se te ha cobrado nada. Pulsa de nuevo el botón de PayPal para pagar {charged}."
       },
       "reference": "Referencia del pago: {id}",
       "saving": "Guardando tus datos…",
@@ -682,8 +684,7 @@
       "text": "Descubre rosarios, cruces y recuerdos de Nazaret."
     },
     "candle": {
-      "price": "Para encender una vela: {price}",
-      "secureNext": "A continuación revisarás tus datos y pagarás de forma segura con PayPal."
+      "secureNext": "A continuación revisarás tus datos y pagarás de forma segura con PayPal o con tarjeta de crédito o débito. No necesitas una cuenta de PayPal."
     },
     "donate": {
       "formTitle": "Haz un donativo",
@@ -1247,10 +1248,10 @@
       },
       "form": {
         "title": "Envíanos un mensaje",
-        "intro": "Todos los campos son necesarios para poder responderte.",
+        "intro": "Necesitamos tu nombre, tu correo electrónico y tu mensaje para poder responderte. El teléfono es opcional.",
         "fullName": "Nombre completo",
         "email": "Correo electrónico",
-        "phone": "Número de teléfono",
+        "phone": "Número de teléfono (opcional)",
         "phoneHint": "Incluye el prefijo del país, por ejemplo +34 612 34 56 78.",
         "msg": "Tu mensaje",
         "counter": "{count} / {max}",
@@ -1311,7 +1312,7 @@
       "items": {
         "candle": {
           "q": "¿Cómo funciona encender una vela?",
-          "a": "Elige una iglesia de Nazaret, escribe tu oración y paga {price}. Encendemos una vela por ti, grabamos un breve vídeo con tu nombre y te lo enviamos por correo electrónico."
+          "a": "Elige una iglesia de Nazaret, escribe tu nombre y tu oración y paga {price}. Encendemos para ti una vela de verdad en esa iglesia, la grabamos con tu nombre y tu oración y enviamos el vídeo a tu correo electrónico en 48 horas."
         },
         "wall": {
           "q": "¿Es público el muro de oraciones?",
@@ -1412,7 +1413,8 @@
               "cart": "Tu carrito de compra y tu lista de deseos.",
               "liked": "Las oraciones a las que dijiste Amén, para que puedas decirlo una sola vez.",
               "language": "Tu elección de idioma."
-            }
+            },
+            "p2": "Contamos cuántas veces se abren algunas páginas y cuántos pagos se completan, por día y por campaña publicitaria. Son simples totales: no usan cookies ni identificadores, no guardan nada en tu navegador, no contienen nada sobre ti y no se comparten con nadie."
           },
           "keep": {
             "title": "Cuánto tiempo los guardamos",
@@ -1455,7 +1457,7 @@
           },
           "candles": {
             "title": "Velas",
-            "p1": "Una vela de oración cuesta {price}. Encendemos una vela por tu intención en la iglesia que elijas y te enviamos un vídeo. Es un servicio de oración y recuerdo; no podemos prometer una fecha ni una hora concretas."
+            "p1": "Una vela de oración cuesta {price}. Encendemos una vela de verdad por tu intención en la iglesia que elijas, la grabamos y enviamos el vídeo a tu correo electrónico en las 48 horas siguientes a tu pago. Si el vídeo no llega en ese plazo o algo en él no es correcto, escríbenos y te devolveremos el importe íntegro."
           },
           "donations": {
             "title": "Donativos",
@@ -1882,5 +1884,72 @@
       "license": "Licencia",
       "viewOnCommons": "Ver en Wikimedia Commons"
     }
+  },
+  "tourPage": {
+    "activities": {
+      "eyebrow": "En Nazaret",
+      "title": "Qué hacer",
+      "lead": "Algunas formas de pasar tus días en la ciudad, más allá de sus iglesias.",
+      "more": "Más sobre este lugar",
+      "oldcity": {
+        "title": "Recorre la Ciudad Vieja y su mercado",
+        "text": "Callejuelas estrechas, pasajes abovedados y el viejo mercado, donde especias, dulces y artesanía se venden uno junto a otro."
+      },
+      "basilica": {
+        "title": "Reza en la Basílica de la Anunciación",
+        "text": "Siéntate en silencio en la gruta donde la tradición sitúa la Anunciación, o únete a una misa en la iglesia superior."
+      },
+      "trail": {
+        "title": "Camina un tramo del Camino de Jesús",
+        "text": "El camino empieza en Nazaret y cruza las colinas de Galilea hacia el mar de Galilea. Ya sus primeros kilómetros abren amplias vistas."
+      },
+      "precipice": {
+        "title": "Mira la puesta de sol desde el monte del Precipicio",
+        "text": "Desde el acantilado sobre el valle de Jezreel toda la llanura se extiende a tus pies, dorada al final del día."
+      },
+      "food": {
+        "title": "Saborea Nazaret",
+        "text": "La ciudad es conocida por sus dulces y su cocina casera: prueba el knafeh, servido caliente."
+      },
+      "christmas": {
+        "title": "Navidad en Nazaret",
+        "text": "En diciembre la ciudad se ilumina, con un mercado navideño y un desfile festivo en Nochebuena."
+      }
+    },
+    "plan": {
+      "title": "Planea tus días en Nazaret",
+      "lead": "Elige cuántos días tienes y lo que te gusta: el planificador del peregrino traza una ruta con tiempos a pie. La guía del visitante reúne las estaciones, cómo llegar y consejos prácticos.",
+      "planner": "Abrir el planificador",
+      "guide": "Guía del visitante"
+    }
+  },
+  "candlePage": {
+    "eyebrow": "Una vela de verdad, encendida para ti en Nazaret",
+    "title": "Tu oración. Tu iglesia. Tu vela.",
+    "lead": "Elige una iglesia de Nazaret y escribe tu nombre y tu oración. Encendemos para ti una vela de verdad dentro de esa iglesia, la grabamos con tu nombre y tu oración y te enviamos tu vídeo personal en 48 horas.",
+    "cta": "Encender mi vela – {price}",
+    "pReal": "Una vela de verdad en una iglesia de verdad, no virtual",
+    "pVideo": "Tu vídeo personal en 48 horas",
+    "pGuest": "Sin crear una cuenta",
+    "pSecure": "Paga con PayPal o con tarjeta, sin cuenta de PayPal",
+    "stepsTitle": "Cómo funciona",
+    "s1T": "Elige tu iglesia",
+    "s1X": "{latin} o {greek}, ambas en Nazaret.",
+    "s2T": "Escribe tu nombre y tu oración",
+    "s2X": "Con tus propias palabras y en tu idioma. Las ponemos en una nota junto a tu vela.",
+    "s3T": "Paga {price} y recibe tu vídeo",
+    "s3X": "Encendemos tu vela, la grabamos y enviamos tu vídeo personal a tu correo electrónico en 48 horas.",
+    "knowTitle": "Conviene saber",
+    "realQ": "¿Es una vela de verdad?",
+    "realA": "Sí. Alguien de nuestro equipo en Nazaret va a la iglesia que elegiste y enciende allí una vela de verdad. No hay nada virtual.",
+    "getQ": "¿Qué voy a recibir?",
+    "getA": "Un breve vídeo personal por correo electrónico: la iglesia, la nota con tu nombre y tu oración, y tu vela mientras se enciende.",
+    "timeQ": "¿Cuánto tarda?",
+    "timeA": "Recibes tu vídeo en las 48 horas siguientes a tu pago.",
+    "whoQ": "¿Quién ofrece este servicio?",
+    "whoA": "Nazareth Holy Cross es un servicio independiente a cargo de un equipo local de Nazaret. No es un organismo oficial de la ciudad de Nazaret ni de las iglesias.",
+    "wrongQ": "¿Y si algo sale mal?",
+    "wrongA": "Si tu vídeo no ha llegado en 48 horas (revisa antes tu carpeta de correo no deseado) o algo en él no es correcto, escríbenos y te devolveremos el importe íntegro.",
+    "contact": "Escríbenos"
   }
 }

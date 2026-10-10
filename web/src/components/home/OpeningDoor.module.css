@@ -1,0 +1,202 @@
+/* The opening of the site (OpeningDoor.tsx): closed doors with a line of light in the seam, the doors swing away
+   from the visitor onto a strong warm light, the greeting rises in it, then everything fades into the home page.
+   Timeline: 0-0.5 s seam glows, 0.5-2.0 s doors open and the light grows, 1.4-2.4 s greeting, 2.8-3.6 s fade out.
+   Hidden unless <html data-intro> (lib/intro.ts), which is never set for reduced motion. The door is symmetric, so
+   its two leaves are laid out left to right in every language (direction: ltr on .doors only). */
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-toast) + 10);
+  display: none;
+  grid-template: 1fr / 1fr;
+  overflow: hidden;
+  background: var(--night-deep);
+  cursor: pointer;
+  animation: introOut 0.8s ease 2.8s forwards;
+}
+:global(:root[data-intro='door']) .intro {
+  display: grid;
+}
+/* Skipped (a key, a click, a scroll): a short fade from wherever the opening was. */
+:global(:root[data-intro='skip']) .intro {
+  display: grid;
+  animation: introOut 0.35s ease forwards;
+}
+.intro > * {
+  grid-area: 1 / 1;
+}
+
+/* The light behind the doors: a warm flood that fills the screen as they open. */
+.light {
+  background: radial-gradient(
+    ellipse at center,
+    var(--white) 0%,
+    var(--cream) 22%,
+    color-mix(in srgb, var(--gold-light) 80%, var(--cream)) 48%,
+    var(--gold) 100%
+  );
+  opacity: 0;
+  scale: 0.25 1;
+  animation: introLight 1.6s cubic-bezier(0.2, 0.7, 0.2, 1) 0.45s forwards;
+}
+
+.doors {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  direction: ltr;
+  perspective: 1300px;
+}
+.door {
+  position: relative;
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--night-3) 85%, var(--gold-deep)), var(--night-2) 45%, var(--night-3)),
+    var(--night-2);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 30%, transparent);
+  backface-visibility: hidden;
+}
+/* Two carved panels on each leaf, framed in gold. */
+.door::before,
+.door::after {
+  content: '';
+  position: absolute;
+  inset-inline: 16%;
+  border: 1px solid color-mix(in srgb, var(--gold) 45%, transparent);
+  box-shadow:
+    inset 0 0 0 8px color-mix(in srgb, var(--night-deep) 45%, transparent),
+    inset 0 0 0 9px color-mix(in srgb, var(--gold) 22%, transparent);
+}
+.door::before {
+  inset-block: 8% 40%;
+}
+.door::after {
+  inset-block: 66% 8%;
+}
+.doorA {
+  transform-origin: 0 50%;
+  /* the whole shorthand on each leaf: the production minifier turns a shorthand without a name into "none" */
+  animation: doorA 1.5s cubic-bezier(0.6, 0, 0.25, 1) 0.5s forwards;
+}
+.doorB {
+  transform-origin: 100% 50%;
+  animation: doorB 1.5s cubic-bezier(0.6, 0, 0.25, 1) 0.5s forwards;
+}
+.handle {
+  position: absolute;
+  inset-block-start: calc(50% - 36px);
+  width: 6px;
+  height: 72px;
+  background: linear-gradient(180deg, var(--gold-light), var(--gold-deep));
+  box-shadow: 0 0 12px color-mix(in srgb, var(--gold) 60%, transparent);
+}
+.doorA .handle {
+  inset-inline-end: 7%;
+}
+.doorB .handle {
+  inset-inline-start: 7%;
+}
+
+/* The line of light between the closed leaves. */
+.seam {
+  justify-self: center;
+  width: 3px;
+  background: linear-gradient(180deg, transparent, var(--white) 20%, var(--white) 80%, transparent);
+  box-shadow:
+    0 0 18px 4px color-mix(in srgb, var(--gold-light) 85%, transparent),
+    0 0 60px 18px color-mix(in srgb, var(--gold) 45%, transparent);
+  opacity: 0;
+  animation: introSeam 1.2s ease forwards;
+}
+
+.greeting {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  place-self: center;
+  gap: 14px;
+  margin: 0;
+  padding-inline: 24px;
+  color: var(--on-gold);
+  text-align: center;
+  opacity: 0;
+  translate: 0 14px;
+  animation:
+    introGreet 1s cubic-bezier(0.2, 0.7, 0.2, 1) 1.4s forwards,
+    introGreetOut 0.45s ease 2.7s forwards;
+}
+.welcome {
+  font: 400 clamp(2.4rem, 7vw, 5.2rem) / 1.05 var(--serif);
+  text-shadow: 0 0 40px color-mix(in srgb, var(--white) 90%, transparent);
+}
+.tagline {
+  font: 700 clamp(0.95rem, 2vw, 1.3rem) / 1.2 var(--sans);
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--on-gold) 78%, var(--gold-deep));
+}
+/* Letter-spacing pulls Hebrew apart and breaks the joins of Arabic script. */
+.tagline:lang(he),
+.tagline:lang(ar) {
+  letter-spacing: 0;
+}
+
+@keyframes introSeam {
+  30% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes introLight {
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+@keyframes doorA {
+  to {
+    transform: rotateY(96deg);
+    opacity: 0.6;
+  }
+}
+@keyframes doorB {
+  to {
+    transform: rotateY(-96deg);
+    opacity: 0.6;
+  }
+}
+@keyframes introGreet {
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+@keyframes introGreetOut {
+  from {
+    opacity: 1;
+    translate: 0 0;
+  }
+  to {
+    opacity: 0;
+    translate: 0 -10px;
+  }
+}
+@keyframes introOut {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* Never for reduced motion (lib/intro.ts does not set the attribute); this also covers a change mid-visit. */
+@media (prefers-reduced-motion: reduce) {
+  .intro {
+    display: none !important;
+  }
+}
+:global(:root[data-a11y-motion='reduce']) .intro {
+  display: none !important;
+}

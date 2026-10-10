@@ -3,9 +3,31 @@
 Audited on 2026-10-06 with read-only `gh` commands and `git log` (no setting was changed). Items marked **owner** need
 the owner's GitHub, Netlify or Render login: nothing in this document has been executed on GitHub.
 
+## Status on 2026-10-10 (read this first; sections 1 to 4 are the 2026-10-06 audit, kept as history)
+
+Checked with `gh repo list`, `netlify api listSites` and `railway status` (read-only), then `node ops/smoke-live.mjs`
+(75 passed, 0 failed).
+
+- **The project now has one repository: `nazareth-holly-cross` (this monorepo).** The owner deleted
+  `nazareth-holly-cross-client` and `nazareth-holly-cross-server` on 2026-10-10 (GitHub can restore a deleted
+  repository for 90 days: Settings -> Repositories -> Deleted repositories). `nazareth-holy-cross-admin`,
+  `live-nazareth-client` and `live-nazareth-admin` no longer appear on the account either.
+- Nothing was lost: the Firebase files of the old client are in `ops/firebase/` (`storage.rules` there is the newer,
+  create-only version that is deployed); the old server had nothing to carry over.
+- **What deploys from where:** Netlify `nazarethholycross` (public site) and `nhc-admin-dashboard` (new admin) build
+  from this monorepo; the API runs on **Railway** from this monorepo, root `/server` (Render is suspended); Hermes runs
+  on Railway from the `nousresearch/hermes-agent` image.
+- **Netlify:** the old 2024 admin site `nazaretholycrossadmin` was deleted by the owner on 2026-10-10 (its address now
+  answers 404; the API had already refused it as an origin). Not part of this project, left to the owner: `forma-store`,
+  `urbangents` and `siwarafashionadmin`, whose repositories no longer appear publicly.
+- Steps 14 and 15 of the checklist below are done (by deletion instead of archiving); step 7 is replaced by the
+  separate `nhc-admin-dashboard` site.
+- Step 9 is done (2026-10-11): `client/` and `client-next/` and the `legacy-client` CI job ("Current site (build)") are
+  removed; the automatic dependency updates for those folders stop with them.
+
 ## 1. Inventory
 
-Account `Saher-15` has 20 repositories; six belong to this project.
+Account `Saher-15` had 20 repositories on 2026-10-06; six belonged to this project.
 
 | Repository | Visibility | Last push | What it holds | Superseded by the monorepo? |
 |---|---|---|---|---|
@@ -120,7 +142,7 @@ reversible (Unarchive) and deletes nothing; do not delete any repository until t
        base directory `admin` (docs/ADMIN-RUNBOOK.md section 4; write down the old settings first). Check the deploy
        preview answers 200 on `/login`.
 8. [ ] Netlify, site `nazarethholycross` and Render service: confirm the repository and branch they follow (section 1).
-9. [ ] Delete `client/` and `client-next/` from the monorepo in one pull request (rollback is a revert), and the
+9. [x] Delete `client/` and `client-next/` from the monorepo in one pull request (rollback is a revert), and the
        `legacy-client` job of `ci.yml`. They are 94 MB of history that only costs minutes.
 
 **C. Make the monorepo private**

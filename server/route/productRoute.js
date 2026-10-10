@@ -1,6 +1,5 @@
 import express from "express"
 import Product from "../model/product.js";
-import { requireAdmin } from '../middleware/auth.js';
 import { asyncHandler } from "../middleware/asyncHandler.js"
 import crypto from 'node:crypto';
 import mongoose from 'mongoose';
@@ -59,89 +58,6 @@ routerProduct.get('/getProduct/:id', asyncHandler(async (req, res) => {
     res.status(200).send(product);
 }))
 
-routerProduct.delete('/deleteProduct/:id', requireAdmin, asyncHandler(async (req, res) => {
-    await Product.findByIdAndDelete(req.params.id);
-    res.status(200).send("Success");
-}))
-
-routerProduct.post('/addProduct', requireAdmin, asyncHandler(async (req, res) => {
-    const { name, price, img, additionalImgsURL, description, uuidv4_ } = req.body;
-
-    if (name === null || name === undefined || name === "") {
-        return res.status(422).json({ error: "Bad input" })
-    }
-
-    if (price === null || price === undefined || price === "") {
-        return res.status(422).json({ error: "Bad input" })
-    }
-
-    if (img === null || img === undefined || img === "") {
-        return res.status(422).json({ error: "Bad input" })
-    }
-
-    if (additionalImgsURL === null || additionalImgsURL === undefined || additionalImgsURL === "") {
-        return res.status(422).json({ error: "Bad input" })
-    }
-
-    if (description === null || description === undefined || description === "") {
-        return res.status(422).json({ error: "Bad input" })
-    }
-
-    if (uuidv4_ === null || uuidv4_ === undefined || uuidv4_ === "") {
-        return res.status(422).json({ error: "Bad input" })
-    }
-
-    const newProduct = new Product({
-        name: name,
-        price: price,
-        img: img,
-        additionalImageUrls: additionalImgsURL,
-        description: description,
-        uuidv4_: uuidv4_
-    });
-
-    await newProduct.save();
-    res.status(200).send("Success");
-}))
-
-routerProduct.put('/updateProduct/:id', requireAdmin, asyncHandler(async (req, res) => {
-    const productId = req.params.id;
-    const { name, price, img, additionalImageUrls, description, uuidv4_ } = req.body;
-
-    const existingProduct = await Product.findById(productId);
-
-    if (!existingProduct) {
-        return res.status(404).send("Error: Product not found")
-    }
-
-    if (name !== undefined) {
-        existingProduct.name = name;
-    }
-    if (price !== undefined) {
-        existingProduct.price = price;
-    }
-
-    if (img !== undefined) {
-        existingProduct.img = img;
-    }
-
-    if (additionalImageUrls !== undefined) {
-        existingProduct.additionalImageUrls = additionalImageUrls;
-    }
-
-    if (description !== undefined) {
-        existingProduct.description = description;
-    }
-
-    if (uuidv4_ !== undefined) {
-        existingProduct.uuidv4_ = uuidv4_;
-    }
-
-    const updatedProduct = await existingProduct.save()
-
-    res.status(200).json(updatedProduct)
-}))
-
 // ---------------------------------------------------------------------------------------------
 // Storefront data: catalog with categories, best sellers, similar products and product reviews.
 // ---------------------------------------------------------------------------------------------
@@ -185,8 +101,9 @@ routerProduct.get('/:id/reviews', asyncHandler(async (req, res) => {
         .limit(50)
         .select('name country rating title comment createdAt')
         .lean();
-    const distribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
-    reviews.forEach((r) => { distribution[r.rating] += 1; });
+    // Counted over ALL approved reviews, like the average and the total next to it (the list above is the newest 50).
+    const counts = await Promise.all([1, 2, 3, 4, 5].map((rating) => ProductReview.countDocuments({ product: product._id, approved: true, rating })));
+    const distribution = { 1: counts[0], 2: counts[1], 3: counts[2], 4: counts[3], 5: counts[4] };
     res.json({ summary: { ...product.rating, distribution }, reviews });
 }))
 

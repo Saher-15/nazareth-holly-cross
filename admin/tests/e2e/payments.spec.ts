@@ -211,7 +211,16 @@ test.describe('privacy requests (owner)', () => {
 
     await dialog.getByTestId('privacy-confirm').fill('lost.order@example.com');
     await dialog.getByTestId('privacy-confirm-submit').click();
-    await expect(page.getByRole('status').filter({ hasText: /Erased: 0 orders, 0 candle requests, 0 messages, 0 reviews, 1 payments/ })).toBeVisible();
+    await expect(page.getByRole('status').filter({ hasText: /Erased: 0 orders, 0 candle requests, 0 messages, 0 site reviews, 1 payments, 0 prayers, 0 product reviews/ })).toBeVisible();
+    // the report: what was erased, and what this tool could not reach (to be done by hand)
+    const report = page.getByTestId('privacy-report');
+    await expect(report.getByTestId('privacy-erased-payments')).toHaveText('1');
+    const notErased = report.getByTestId('privacy-not-erased');
+    await expect(notErased.locator('li')).toHaveCount(7); // prayers and product reviews not searched (no name), then the five outside the database
+    await expect(notErased).toContainText('Copies of the confirmation e-mails in the Gmail account');
+    await expect(notErased).toContainText('Database backups keep the old data');
+    await expect(notErased).toContainText('Broadcast recordings at Cloudflare');
+    await expect(notErased).toContainText('Prayers were not searched');
 
     await page.getByTestId('privacy-email').fill('lost.order@example.com');
     await page.getByTestId('privacy-find').click();
@@ -226,6 +235,28 @@ test.describe('privacy requests (owner)', () => {
     await expect(page.locator('tbody')).toContainText('privacy.erase');
     await expect(page.locator('tbody')).toContainText('privacy.lookup');
     await expect(page.locator('main')).not.toContainText('lost.order@example.com');
+    await context.close();
+  });
+
+  test('prayers and product reviews are searched only by the published name (and country), and say so', async ({ browser }) => {
+    const { page, context } = await asPrivacyOwner(browser);
+    await page.goto('/privacy');
+    await page.getByTestId('privacy-email').fill('nobody-at-all@example.com');
+    await page.getByTestId('privacy-country').fill('Italy');
+    await page.getByTestId('privacy-find').click();
+    await expect(page.getByText('A country is used only together with a name.')).toBeVisible(); // refused before sending
+
+    await page.getByTestId('privacy-name').fill('Nobody Of That Name');
+    await page.getByTestId('privacy-country').fill('');
+    await page.getByTestId('privacy-find').click();
+    const notes = page.getByTestId('privacy-not-searched');
+    await expect(notes).toContainText('Prayers were not searched'); // a name alone is not enough
+    await expect(notes).toContainText('Product reviews were not searched');
+
+    await page.getByTestId('privacy-country').fill('Italy');
+    await page.getByTestId('privacy-find').click();
+    await expect(page.getByText('Nothing is stored about this address.')).toBeVisible();
+    await expect(page.getByTestId('privacy-not-searched')).toHaveCount(0); // both were searched
     await context.close();
   });
 

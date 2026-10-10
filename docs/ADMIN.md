@@ -4,7 +4,7 @@ The API behind the new admin dashboard (`server/route/admin/*`). It replaces the
 personal accounts, roles, optional two-factor sign-in, sessions that can be ended at once, and an audit log.
 Threat model and the rest of the API's protections: [SECURITY.md](SECURITY.md) (section 4.1).
 
-Everything below is under the API origin (Render: `https://nazareth-holy-cross-api.onrender.com`). Bodies are JSON.
+Everything below is under the API origin (Render: `https://nazareth-holy-cross-api-production.up.railway.app`). Bodies are JSON.
 Every error is `{ "error": "text" }`; every answer under `/admin` carries `Cache-Control: no-store`.
 
 ## 1. Setting it up
@@ -42,9 +42,9 @@ cost 12.
 | Variable | Required | Meaning |
 |---|---|---|
 | `JWT_SECRET` | yes (already) | Signs the dashboard tokens, and (through HKDF, see 3.5) encrypts the TOTP secrets and keys the audit address hash. At least 32 random characters. **Rotating it signs everyone out and makes stored TOTP secrets unreadable** (section 6). |
-| `ADMIN_ORIGINS` | **new**, for the dashboard | Comma-separated exact browser origins of the dashboard, e.g. `https://admin.nazarethholycross.com`. Added to the CORS allow-list. No wildcards; a trailing slash is ignored. Without it the dashboard cannot call the API from a browser (the old admin site's `*.netlify.app` addresses are allowed as before). |
+| `ADMIN_ORIGINS` | **new**, for the dashboard | Comma-separated exact browser origins of the dashboard, e.g. `https://admin.nazarethholycross.com`. Added to the CORS allow-list. No wildcards; a trailing slash is ignored. The dashboard calls the API from its own server, so this matters only if a browser ever calls the API directly (the old admin site's `nazaretholycrossadmin.netlify.app` addresses are **no longer** trusted, 2026-10-07). |
 | `DATABASEURL` | yes (already) | MongoDB. New collections: `adminSession`, `auditLog`. |
-| `ADMIN_PASSWORD` | yes (already) | Only for the deprecated shared-password sign-in (section 7). |
+| `ADMIN_PASSWORD` | **no longer used** | The shared-password sign-in it served was removed on 2026-10-07 (section 7). The server neither requires nor reads it; a leftover value only logs "ADMIN_PASSWORD is set but no longer used". **The owner can delete it on Render** (Environment). |
 | `ADMIN_APP_URL` | no | Where the dashboard lives; the password-reset e-mail links to `<ADMIN_APP_URL>/reset-password?token=...`. Default `https://admin.nazarethholycross.com`; set it when the dashboard moves to its own domain. A trailing slash is ignored. |
 | `ADMIN_BOOTSTRAP_EMAILS` | no | Comma-separated addresses that may create the **first** owner by a password-reset request while no account exists (1.1). Default `nazarethholycross@gmail.com`; `ADMIN_BOOTSTRAP_EMAILS=` (empty) turns it off. |
 | `MAIL_FROM`, `MAIL_APP_PASSWORD` | yes (already) | The reset e-mails go out through the same mailer as the order mails. |
@@ -77,6 +77,11 @@ whatever the token says.
 | `GET /admin/payments`, `GET /admin/payments/:id` | yes | yes | yes |
 | `PATCH /admin/payments/:id` (resolve with a note, reopen) | - | yes | yes |
 | `POST /admin/privacy/lookup`, `POST /admin/privacy/erase` | - | - | yes |
+| `GET /admin/settings` (the candle price, its limits, who changed it last) | yes | yes | yes |
+| `GET /admin/metrics/funnel` (the sales funnel per campaign: anonymous counts, `docs/ANALYTICS.md`) | yes | yes | yes |
+| `PUT /admin/settings/candle-price` `{ price }` (1 to 100 USD, two decimals; audited `settings.candle_price` with `from` and `to`) | - | - | yes |
+| `GET /admin/candle-videos` | yes | yes | yes |
+| `POST /admin/candle-videos`, `POST /admin/candle-videos/:id/{upload-url,uploaded}`, `PATCH`/`DELETE /admin/candle-videos/:id` | - | yes | yes |
 | `GET /admin/live`, `POST /admin/live/start`, `POST /admin/live/stop` | - | yes | yes |
 | `GET`/`POST /admin/live/recordings`, `POST /admin/live/recordings/:id/{upload-url,uploaded}`, `PATCH`/`DELETE /admin/live/recordings/:id` | - | yes (uploads only for their own broadcasts) | yes |
 | `GET`/`POST /admin/live/schedule`, `PATCH`/`DELETE /admin/live/schedule/:id` | - | yes | yes |
@@ -141,7 +146,7 @@ Revoked sessions stay, flagged, until they expire; a TTL index then removes them
 ```
 
 `204` on success; all other sessions end. `403` if the current password is wrong (5 wrong tries per 15 minutes per
-account, then `429`). `400` if the new password breaks the policy: **at least 12 characters, at most 200, not the
+account, then `429`). `400` if the new password breaks the policy: **at least 12 characters, at most 72 bytes of UTF-8 (what bcrypt reads; fewer characters in Hebrew or Arabic), not the
 username (nor the username with a few characters added), not in a list of common passwords, not just repeated
 characters, and not equal to the current one.** Passwords are hashed with bcrypt cost 12 and are never trimmed,
 altered or logged (the HTML sanitizer that cleans other request bodies skips the sign-in, password and user-creation
@@ -152,8 +157,11 @@ bodies, so `&`, `<` and `>` in a password are kept as typed).
 SHA-1, 6 digits, 30-second steps, one step of drift accepted: what Google Authenticator, Microsoft Authenticator,
 Authy and 1Password expect. Implemented with `node:crypto` (no new dependency).
 
-1. `POST /admin/auth/totp/setup` -> `{ secret, otpauthUrl }`. Show the secret (base32) or a QR code of `otpauthUrl`. TOTP
-   is **not** on yet. (`409` if it already is.)
+1. `POST /admin/auth/totp/setup { "currentPassword": "..." }` -> `{ secret, otpauthUrl }`. Show the secret (base32) or a
+   QR code of `otpauthUrl`. TOTP is **not** on yet. The current password is required (re-authentication, security review
+   06 finding 9): `400` without it, `403 Current password is incorrect` (audited as `auth.totp_setup_failed`) when wrong,
+   `409` if TOTP is already on. Wrong tries count toward the 5 sensitive failures per account per 15 minutes. The secret
+   only ever comes from a re-authenticated setup, so enabling needs only the code.
 2. `POST /admin/auth/totp/enable { "code": "123456" }` -> `204` once the app's code is right; `400 Invalid code`
    otherwise. Other sessions end.
 3. From now on sign-in needs the code (section 3.1).
@@ -161,6 +169,8 @@ Authy and 1Password expect. Implemented with `node:crypto` (no new dependency).
 
 A code works **once**: the last accepted step is stored and that step (or an older one) is refused, so a code that was
 just used cannot be replayed within its 30 seconds. A wrong code counts toward the lockout.
+
+**Security audit update (2026-10-07).** TOTP login uses an atomic last-step comparison/update, so two concurrent uses of the same code produce one session. Privacy lookup and erasure also cover payment checkout drafts before payerEmail is populated. Payment repair is an operator CLI action (`scripts/repair-payments.js`), with read-only default and explicit --apply; the dashboard contract is unchanged.
 
 ### 3.5 Secrets at rest
 
@@ -241,8 +251,8 @@ the password.
 | `DELETE /admin/<resource>/:id` | - | `{ "message": "..." }`, `404` if missing |
 
 * Ids must be 24 hexadecimal characters (`400 Invalid id`).
-* **Shipping an order** (`done: true`) e-mails the customer ("Your order was shipped"), exactly like the old
-  `/order/orderSent` - but **once**: marking an already shipped order again sends nothing (`emailSent: null`). If the
+* **Shipping an order** (`done: true`) e-mails the customer ("Your order was shipped", the mail the removed
+  `/order/orderSent` used to send) - but **once**: marking an already shipped order again sends nothing (`emailSent: null`). If the
   mail cannot be sent the change is kept and the answer says `emailSent: false`, so the admin can write to the
   customer. Un-shipping sends nothing. `emailSent` is `true`, `false` or `null` (no mail was due).
 * Changing a product, or a product review, refreshes the storefront catalogue cache at once.
@@ -387,8 +397,13 @@ Cache-Control and rate limit as the recordings.
   lockedUntil, lastLoginAt, createdAt }`. Never a hash or secret.
 * `POST /admin/users { username, password, role }`: `201 { item }`. `username`: 3-64 characters, letters, digits and
   `. _ -`, starting with a letter or digit; names that differ only by case are the same name (`409`). `role`:
-  `owner`, `editor` or `viewer`. Password policy as in 3.3.
-* `PATCH /admin/users/:id { role?, disabled?, resetTotp? }` (at least one): change the role, disable or enable the
+  `owner`, `editor` or `viewer`. Password policy as in 3.3. Optional `email`: the account's **recovery address**
+  ("Forgot password" mails its link there; without one, an account whose username is not an e-mail address cannot
+  recover its password and needs an owner). Stored lower-cased; one account per address (`409` when it is another
+  account's e-mail or username); the address is told by mail that it was set. It is not verified by a link: the owner
+  types it, sees it in the users table, and the reset link itself only reaches whoever reads that mailbox.
+* `PATCH /admin/users/:id { role?, disabled?, resetTotp?, email? }` (at least one): set, change or remove (`""`) the
+  recovery address (a pending reset link is cancelled; sessions are untouched), change the role, disable or enable the
   account (enabling also lifts a lockout), or **reset the account's two-factor sign-in** (recovery for someone who lost
   their phone: they sign in with the password alone and set TOTP up again). Disabling, changing the role and resetting
   TOTP end all of the account's sessions.
@@ -427,10 +442,46 @@ A failed sign-in is recorded with the name that was typed (no account was proven
 
 ### 5.3 Privacy requests (owner only): `POST /admin/privacy/lookup` and `/erase`
 
-`{ "email": "..." }` answers `{ "found": { orders, candles, contacts, reviews, payments } }`: counts only, no personal data. `{ "email": "...", "confirm": "..." }` (the same address typed again, case does not matter)
-erases it: orders and candle requests are **anonymised** (name, address, phone, e-mail, prayer text replaced by "Erased"; the sale and its total stay), contact messages and site reviews are **deleted**,
-the payer's e-mail and names are removed from payments (amount and PayPal id stay). Answer `{ "erased": { ...counts } }`. The address must be a valid one and not the placeholder erased records carry
-(`erased@erased.invalid`); 20 requests per 15 minutes per owner; both calls are audited with a keyed hash of the address, not the address. The policy is in docs/DATABASE.md sections 7 and 8.
+`{ "email": "...", "name"?: "...", "country"?: "..." }` answers `{ "found": { orders, candles, contacts, reviews, payments, prayers, productReviews }, "notSearched": [...] }`: counts only, no personal data.
+`{ "email": "...", "confirm": "...", "name"?, "country"? }` (the same address typed again, case does not matter) erases it: orders and candle requests are **anonymised** (name, address, phone, e-mail, prayer
+text replaced by "Erased"; the sale and its total stay), contact messages and site reviews are **deleted**, the payer's e-mail and names are removed from payments (amount and PayPal id stay).
+
+Prayers and product reviews keep no e-mail address. They are found by what they were **published** under, and only when it is **exactly equal** (any case; the HTML-escaped form the API stores counts
+as equal; no wildcard, a "." is a dot): both need `name` **and** `country` (a name alone is shared by strangers; a product review published without a country is not found this way). Both are **deleted**; erasing a product
+review rebuilds the storefront's ratings. A `country` without a `name` is `400`; `name` is 2-200 characters, `country` 1-100. Anything similar but not equal (a nickname, another spelling, the same
+name from another country) is **not** touched: the owner checks it on the Prayers or Reviews page and deletes it there. `notSearched` lists `prayersNotSearched` / `productReviewsNotSearched` when the
+request did not identify them.
+
+The erase answers `{ "erased": { ...counts }, "notErased": [...] }`. `notErased` is the to-do list of what this route cannot reach, in this order: what was not searched (above), then
+`gmailSent` (copies of the confirmation mails in the Gmail Sent folder), `backups` (until rotated out, at most 30 days), `recordings` (Cloudflare Stream; not linked to a person), `paypal` (PayPal's
+own record) and `hostLogs` (Cloudflare, Render, Netlify request logs). The dashboard shows it as a list after the erase; docs/DATABASE.md section 8 has the manual steps.
+
+The address must be a valid one and not the placeholder erased records carry (`erased@erased.invalid`); 20 requests per 15 minutes per owner; both calls are audited with a keyed hash of the address and
+the counts, never the address, the name or the country. The policy is in docs/DATABASE.md sections 7 and 8.
+
+### 5.4 Settings: the candle price (`/pricing` in the dashboard)
+
+`GET /admin/settings` answers `{ candlePrice, candlePriceMin, candlePriceMax, currency, updatedAt, updatedBy }` to every
+role; `PUT /admin/settings/candle-price { price }` is the owner's (1 to 100 USD, at most two decimals, a strict body: 400
+otherwise, 403 for an editor or a viewer). The value lives in `model/siteSetting.js` (one document, key `site`) and is read
+through `services/siteSettings.js` (cached 30 seconds, dropped at once on a change). `create_order` charges it; a candle is
+then checked against the price its payment was **started** with (the ledger's amount, rows of type `candle` only), so a change
+never blocks a customer who has already paid. The website reads `GET /candle/price` (public, cached a minute) for the candle
+page, the FAQ and the terms, and falls back to the built-in `$3` when the API cannot be reached.
+
+### 5.5 The candle page's videos (`/candle-videos` in the dashboard)
+
+Short films for the website's candle page (for example how the candles are lit), not tied to a broadcast. Model
+`model/candleVideo.js`, service `services/candleVideos.js`, routes `route/admin/candleVideos.js`. The upload uses the same
+pipeline as the broadcast recordings (docs/LIVE.md): `POST /admin/candle-videos { title, sizeBytes, mimeType }` asks
+Cloudflare Stream for a one-time tus address (MP4, MOV, WebM or MKV, at most 2 GB and 30 minutes; at most 20 videos), the
+browser sends the file straight to Cloudflare, then `POST /:id/uploaded` asks Cloudflare how far it got
+(uploading -> processing -> ready, or failed; also checked on every list read). A video is published only once it is
+ready (`PATCH { published: true }`, 409 before). `DELETE` also deletes it at Cloudflare. Every write is audited
+(`candle_video.create`, `.renew`, `.update`, `.delete`, `.status`). Without `CF_ACCOUNT_ID` and `CF_STREAM_API_TOKEN` the
+list says "not set up" and an upload answers 503. The website reads `GET /candle/videos` (published and ready, newest first,
+public, cached a minute; only Cloudflare Stream addresses are accepted) and shows a section below the form only when there
+is at least one: a poster button per video, and Cloudflare's player only after a press.
 
 ## 6. Operations
 
@@ -438,36 +489,40 @@ the payer's e-mail and names are removed from payments (amount and PayPal id sta
 * **Someone lost their authenticator:** an owner sends `PATCH /admin/users/:id { "resetTotp": true }`. If the **only**
   owner lost theirs, remove the three fields by hand in MongoDB
   (`db.admins.updateOne({ username: "..." }, { $set: { totpEnabled: false, totpSecretEnc: null } })`).
-* **Rotating `JWT_SECRET`:** all dashboard and old admin tokens stop working (everyone signs in again), and every stored
+* **Rotating `JWT_SECRET`:** all dashboard tokens stop working (everyone signs in again), and every stored
   TOTP secret becomes unreadable - those users cannot pass the code step (the answer is the same generic `401`, the
   audit log says `totp_secret_unreadable`) until an owner resets their TOTP. Plan the rotation with that in mind.
 * **A suspected stolen token:** sign out everywhere by changing the password (all other sessions end) or disabling and
-  re-enabling the account (all sessions end). A stolen token cannot change the password (it needs the current one) or
-  turn TOTP off (it needs the password and a code); it *could* turn TOTP on for an account that has none, which would
-  lock the real user out of password-only sign-in until an owner resets their TOTP; the audit log shows it
-  (`auth.totp_setup` / `auth.totp_enable` from an unfamiliar `ua`/`ipHash`).
+  re-enabling the account (all sessions end). A stolen token cannot change the password (it needs the current one),
+  turn TOTP off (it needs the password and a code) or turn TOTP on (setting it up needs the current password, since
+  2026-10-07); attempts are audited (`auth.totp_setup_failed`, `auth.password_change_failed`).
 * **Retention:** audit entries 180 days, sessions until they expire (60 minutes), by TTL indexes (created when the
   server starts; allow MongoDB's TTL monitor up to a minute to purge).
 
-## 7. The old shared-password sign-in is deprecated
+## 7. The old sign-ins and their routes were removed (2026-10-07)
 
 `POST /auth/login { password }` (the shared `ADMIN_PASSWORD`) and `POST /admin/login { username, password }` (an
-`Admin` account, 8-hour token with no roles, no lockout, no second factor, no audit) are **deprecated**. They keep
-working, with a `Deprecation: true` header on their answers, **only so the old admin site keeps running until the new
-dashboard is deployed**. The legacy routes they unlock (`/admin/stats`, `/admin/prayers`, `/admin/candles`,
-`/admin/products`, `/admin/product-reviews`, `/order/*`, `/candle/*`, `/contact/*`, `/product/*` writes, `/prayer/:id`,
-`/review/:id`) are unchanged (the old `/live/*` room routes were removed: LIVE.md section 3); where an address exists in both APIs (`/admin/candles`, ...) a legacy token
-gets the legacy answer (a plain array) and a dashboard token gets the new one (`{ items, total, page, size }`).
-A legacy token is **not** accepted on the new-only routes, and a dashboard token is not accepted on the legacy-only
-ones.
+`Admin` account, an 8-hour token with no session, no role, no lockout, no second factor, no audit) were **removed** with
+every route that accepted their tokens (security review 06, finding 1: any account's password, even a viewer's, a
+disabled or a locked one, or one with TOTP on, gave an 8-hour token that read every order, candle request and message):
 
-**Retiring them** (once the old admin site is off): delete `POST /auth/login` (`route/authRoute.js`) and
-`POST /admin/login` plus the legacy routes in `route/adminRoute.js`; move the remaining `/order`, `/candle`, `/contact`
-reads to the dashboard routes; unset `ADMIN_PASSWORD` (and drop it from `REQUIRED_ENV` in `config/env.js`). Until
-then the per-address ceiling for `/admin/*` is 1000 requests per 15 minutes (it was the global 200).
+* `route/authRoute.js`, `route/adminRoute.js` (`/admin/login`, `/admin/stats` and the legacy `/admin/prayers`,
+  `/admin/candles`, `/admin/products`, `/admin/product-reviews` handlers) and `middleware/auth.js` (`requireAdmin`);
+* `/order/getAllOrders`, `/order/getOrder/:id`, `/order/orderSent/:id`, `/order/deleteOrder/:id`;
+* `/candle/getAllCandleRequests`, `/candle/set_request_done/:id`, `/candle/delete_lighting_request/:id`;
+* `/contact/get_all_contact_us`, `/contact/get_request/:id`, `/contact/request_done/:id`, `/contact/delete_request/:id`;
+* `/product/addProduct`, `/product/updateProduct/:id`, `/product/deleteProduct/:id`; `DELETE /prayer/:id` and `/review/:id`.
 
-The legacy "read everything" routes (`/order/getAllOrders`, `/candle/getAllCandleRequests`, `/contact/get_all_contact_us`, `/product/getAllProducts`, `/admin/prayers`, `/admin/candles`, `/admin/products`) still
-answer a plain array, but **newest first and at most 5,000 documents**; an `X-Result-Capped: 5000` header says when the cap was reached. The paginated routes above are how to read all of them.
+The removed addresses answer `404`. Where the dashboard has a route at the same address (`/admin/prayers`, ...), it
+answers `401` to anything but a live session's token, so **a legacy token issued before the change opens nothing**:
+`verifySessionToken` (`services/adminSessions.js`) accepts only `{ sub, sid, role }` tokens of at most 60 minutes.
+`JWT_SECRET` was not rotated (it also keys the TOTP encryption). No code in `web/` or `admin/` called these routes; the
+old admin site (`nazaretholycrossadmin.netlify.app`) calls a Heroku app that no longer exists, and its origin is no
+longer trusted by CORS. `ADMIN_PASSWORD` is no longer required (section 1.2): delete it on Render.
+
+The one "read everything" route left is the public `/product/getAllProducts`: a plain array, **newest first and at most
+5,000 documents**, with an `X-Result-Capped: 5000` header when the cap was reached. Private data is read only through the
+paginated dashboard routes above.
 
 ## 8. Security model in one page
 

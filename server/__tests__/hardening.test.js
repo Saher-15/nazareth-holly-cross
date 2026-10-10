@@ -1,6 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
 import request from 'supertest';
-import jwt from 'jsonwebtoken';
 
 const prayerFind = vi.fn();
 
@@ -16,18 +15,12 @@ vi.mock('../services/emailService.js', () => ({ sendMail: vi.fn(async () => true
 const { createApp } = await import('../app.js');
 const app = createApp();
 
-// The login limiter allows 5 failed attempts per 15 minutes, so each test spends few.
-describe('POST /auth/login (shared password)', () => {
-  it('answers a token for the right password', async () => {
-    const res = await request(app).post('/auth/login').send({ password: process.env.ADMIN_PASSWORD });
-    expect(res.status).toBe(200);
-    expect(jwt.verify(res.body.token, process.env.JWT_SECRET).role).toBe('admin');
-  });
-
-  it('refuses a wrong, a missing and a non-string password with 401', async () => {
-    for (const password of ['nope', undefined, { $ne: 'x' }, ['a']]) {
+describe('POST /auth/login (the removed shared-password sign-in)', () => {
+  it('answers 404 to every body, the right old password included, and issues no token', async () => {
+    for (const password of ['test-admin-password', 'nope', undefined, { $ne: 'x' }, ['a']]) {
       const res = await request(app).post('/auth/login').send({ password });
-      expect(res.status, JSON.stringify(password)).toBe(401);
+      expect(res.status, JSON.stringify(password)).toBe(404);
+      expect(res.body.token).toBeUndefined();
     }
   });
 });

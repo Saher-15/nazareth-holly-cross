@@ -7,14 +7,15 @@ production, and what keeps it safe. Anyone (person or AI agent) changing the cod
 
 | Part | Folder | Runs on | Notes |
 |---|---|---|---|
-| **New website** | `web/` | Netlify (when it replaces `client/`) | Next.js 16 + TypeScript, next-intl, CSS Modules + design tokens |
-| Current website | `client/` | Netlify, `main` branch | React (CRA). Kept live until `web/` reaches parity, then retired |
-| API | `server/` | Render (`nazareth-holy-cross-api`) | Express + Mongoose. Owns prices, payments, e-mails |
+| Website | `web/` | Netlify, `main` branch | Next.js 16 + TypeScript, next-intl, CSS Modules + design tokens |
+| Admin dashboard | `admin/` | Netlify (`nhc-admin-dashboard`), `main` branch | Next.js; talks to the API server to server ([ADMIN.md](ADMIN.md)) |
+| API | `server/` | Railway (project `divine-spontaneity`, service `nazareth-holy-cross-api`; Render is suspended since 2026-10-07) | Express + Mongoose. Owns prices, payments, e-mails |
 | Database | — | MongoDB Atlas | Products, orders, candles, prayers, reviews, the payment ledger. Cluster0 / database `info`, M10 in Frankfurt with Cloud Backup on (INFRASTRUCTURE.md 6.1), plus the independent copy of [BACKUP.md](BACKUP.md); design, indexes, personal data: [DATABASE.md](DATABASE.md) |
 | Product images | — | Firebase Storage | Served through `next/image` (resized, AVIF/WebP) |
 | Payments | — | PayPal | **The server decides every amount.** The browser only says *what* is bought |
 
-`client-next/` is an abandoned earlier attempt and is not deployed.
+The previous React site (`client/`) and an abandoned earlier attempt (`client-next/`) were removed from the repository on
+2026-10-11; both are in the git history.
 
 Domain, DNS (at Netlify, not GoDaddy), regions, the PayPal Live checklist and the owner's action list:
 [INFRASTRUCTURE.md](INFRASTRUCTURE.md). Repositories, branch protection and the plan to make the monorepo private:
@@ -29,7 +30,7 @@ The API answers `GET /health` (the process is up) and `GET /health/deep` (also: 
 | Preview (per pull request) | Netlify deploy preview | **staging DB (planned)** | Sandbox |
 | Production | nazarethholycross.com | production DB | **Live** (to be switched from Sandbox) |
 
-Secrets live only in Render/Netlify environment settings, never in the repository.
+Secrets live only in Railway/Netlify environment settings, never in the repository.
 
 ## 3. From idea to production
 
@@ -38,7 +39,7 @@ Secrets live only in Render/Netlify environment settings, never in the repositor
 3. Open a **pull request** using the template. CI must be green: API tests, web lint + types + unit tests +
    build + end-to-end + accessibility, and the current site still builds.
 4. **Review** the deploy preview on a phone width and in an RTL language (Hebrew or Arabic).
-5. **Merge** only with the owner's explicit approval. Netlify and Render deploy `main` automatically.
+5. **Merge** only with the owner's explicit approval. Netlify and Railway deploy `main` automatically.
 6. **Smoke-test the live site after every deploy. This step is mandatory, not optional:**
 
    ```bash
@@ -51,7 +52,7 @@ Secrets live only in Render/Netlify environment settings, never in the repositor
    [MONITORING.md](MONITORING.md). Then look at the shop and a checkout up to the PayPal button by hand (the script never
    fills a form or presses a payment button).
 
-**Rollback:** Netlify → Deploys → "Publish deploy" on the previous one. Render → the service → Rollback.
+**Rollback:** Netlify → Deploys → "Publish deploy" on the previous one. Railway → the service → Deployments → the previous successful deploy → Redeploy.
 Then revert the commit on `main` with a pull request. A Netlify site that answers 404 on every page after a deploy is a
 known failure with its own runbook: [MONITORING.md](MONITORING.md) section 5.1.
 
@@ -138,6 +139,12 @@ If Playwright cannot download its browser, run the tests with an installed one: 
 1. **Foundations** — CI, tests, this rulebook, security headers, languages. *(in progress)*
 2. **New site page by page** in `web/` with the chosen design, each page with e2e tests; switch Netlify to `web/`
    when every page matches or beats the current one.
-3. **Staging** environment (Render service + Atlas DB + PayPal sandbox) so previews never touch production data.
+3. **Staging** environment (a second Railway service + Atlas DB + PayPal sandbox) so previews never touch production data.
 4. **PayPal Live** with webhook verification; one admin login; error tracking (Sentry) and uptime monitoring.
 5. **Growth** — native translation review, SEO (structured data), image optimisation, analytics with consent.
+
+## Payment/security maintenance (2026-10-07)
+
+`server` development uses Node native watch (`npm run dev`), removing nodemon and its vulnerable glob dependency. All three projects expose `npm run security:audit`; CI audits production and development dependencies. Web/admin lint preload the bounded braces guard. Its sole advisory exception expires 2026-11-06 and must be removed when upstream releases a patch. No dependency was added.
+
+`node server/scripts/repair-payments.js --help` describes the new operator tool. Run from `server/` with the same protected database/PayPal configuration as other maintenance tools. Default: read-only PayPal comparison; `--apply`: repair verified completed ledger rows, create missing orders/candles from saved drafts and rotate lastCheckedAt. It never invokes capture. Review output first; do not use production credentials in tests.

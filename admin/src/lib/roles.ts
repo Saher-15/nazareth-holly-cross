@@ -11,10 +11,11 @@ export type Capability =
   | 'manageUsers' // /admin/users
   | 'viewAudit' // /admin/audit
   | 'managePrivacy' // /admin/privacy: look up and erase a customer's personal data
-  | 'broadcast'; // /admin/live: start and stop a live broadcast (docs/LIVE.md)
+  | 'broadcast' // /admin/live: start and stop a live broadcast (docs/LIVE.md)
+  | 'managePricing'; // PUT /admin/settings/candle-price: what customers are charged for a candle (owner only)
 
 const CAPABILITIES: Record<Role, readonly Capability[]> = {
-  owner: ['write', 'export', 'deleteOrders', 'manageUsers', 'viewAudit', 'managePrivacy', 'broadcast'],
+  owner: ['write', 'export', 'deleteOrders', 'manageUsers', 'viewAudit', 'managePrivacy', 'broadcast', 'managePricing'],
   editor: ['write', 'export', 'broadcast'],
   viewer: [],
 };
@@ -32,11 +33,14 @@ export function can(role: Role | null | undefined, capability: Capability): bool
 export type NavId =
   | 'dashboard'
   | 'live'
+  | 'campaigns'
   | 'orders'
   | 'payments'
   | 'candles'
   | 'contacts'
   | 'products'
+  | 'pricing'
+  | 'candleVideos'
   | 'reviews'
   | 'prayers'
   | 'users'
@@ -48,11 +52,14 @@ export type NavId =
 export const NAV: readonly { id: NavId; href: string; needs?: Capability }[] = [
   { id: 'dashboard', href: '/' },
   { id: 'live', href: '/live', needs: 'broadcast' },
+  { id: 'campaigns', href: '/campaigns' },
   { id: 'orders', href: '/orders' },
   { id: 'payments', href: '/payments' },
   { id: 'candles', href: '/candles' },
   { id: 'contacts', href: '/contacts' },
   { id: 'products', href: '/products' },
+  { id: 'pricing', href: '/pricing' },
+  { id: 'candleVideos', href: '/candle-videos' },
   { id: 'reviews', href: '/reviews' },
   { id: 'prayers', href: '/prayers' },
   { id: 'users', href: '/users', needs: 'manageUsers' },

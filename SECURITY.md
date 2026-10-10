@@ -42,12 +42,12 @@ We will not take legal action against anyone who follows this policy in good fai
 | In scope | Examples |
 |---|---|
 | The website `nazarethholycross.com` and its Netlify previews | cross-site scripting, broken access control, open redirects |
-| The API `nazareth-holy-cross-api.onrender.com` | injection, authentication bypass, paying less than the price, reading admin data |
+| The API `nazareth-holy-cross-api-production.up.railway.app` | injection, authentication bypass, paying less than the price, reading admin data |
 | The admin site (`admin.nazarethholycross.com`; formerly `nazaretholycrossadmin.netlify.app`) | anything that lets a visitor act as an administrator |
 
 Out of scope: problems in PayPal, Firebase, Netlify, Render, MongoDB Atlas or Google themselves (report those to
 the vendor); missing "best practice" headers with no demonstrated impact; reports from automated scanners without a
-working proof; the older site in `client/` once it is retired.
+working proof.
 
 ## Supported versions
 

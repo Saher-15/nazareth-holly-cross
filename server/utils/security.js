@@ -24,11 +24,6 @@ export const healthLimiter = limiter(300);
 // Public forms that send mail or store text (contact, candle, prayer, review): shared counter per IP.
 export const strictLimiter = limiter(10);
 
-// Authentication endpoints (brute-force protection); only failed attempts count.
-export const loginLimiter = limiter(5, 'Too many login attempts, please try again in 15 minutes.', {
-  skipSuccessfulRequests: true,
-});
-
 // Payments. Starting a PayPal order and capturing it are cheap for a shopper (a few tries when a card is
 // declined or a popup is closed) but each one is a call to PayPal for us, so they are capped per IP.
 export const paymentLimiter = limiter(30, 'Too many payment attempts, please try again later.');
@@ -38,6 +33,10 @@ export const newOrderLimiter = limiter(10, 'Too many orders, please try again la
 
 // A "like" on a prayer: anonymous and cheap, so it is the easiest thing to inflate with a script.
 export const likeLimiter = limiter(30, 'Too many likes, please slow down.');
+
+// POST /track (route/trackRoute.js): a visitor's whole purchase sends about five; a script inflating the counts is
+// stopped early. The answer is always 204, so a limited caller learns nothing either.
+export const trackLimiter = limiter(60, 'Too many requests, please try again later.');
 
 // ---- Public read-only data (catalogue, product pages, reviews, prayers) ----
 //
@@ -130,7 +129,7 @@ const adminKey = (req) => `admin:${req.adminUser?.id}`;
 // Every authenticated admin request.
 export const adminLimiter = limiter(300, 'Too many requests, please slow down.', {
   keyGenerator: adminKey,
-  skip: (req) => !req.adminUser, // legacy tokens are handled by the legacy routes (and the per-IP layer)
+  skip: (req) => !req.adminUser, // always set after adminAuth; without it there is no account to count
 });
 
 // Password and second-factor changes: a stolen token must not be able to guess the current password.

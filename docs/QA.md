@@ -106,7 +106,7 @@ Severity: **High** = visitors cannot reach content or money is at risk; **Med** 
 
 | Sev | Where | Note |
 |---|---|---|
-| Med | home hero video | **Fixed for the hero**: since 2026-10-07 the whole tour as a silent background, self-hosted in twelve 30 s parts (20.1 MB in all, 1.4 MB for the first 30 s, wide screens with a good connection only, the 16 s loop as the fallback; see PERFORMANCE.md). `tour.mp4` (851 MB) and `interview.mp4` (69 MB) on `/tour` and `/live` are still the Firebase originals until the re-encoded files are uploaded (instructions in PERFORMANCE.md) |
+| Med | home hero video | The hero now uses the licensed `city-sunset-glow` photo only, at every width. Its former tour and loop files remain stored but are not requested by the home page. `/tour` and `/live` keep their own videos (see PERFORMANCE.md). |
 | Med | images | **Fixed** for the home hero and the heroes of shop, candle, FAQ, reviews, search, legal, prayers, live, plan, visit, tour (licensed 2560 px photos, see MEDIA.md and PERFORMANCE.md). Still soft: the older gallery photos in `public/images/{latin,greek,mary,old,nazareth}` (`node scripts/media/audit.mjs` lists them) and the two video posters (the videos themselves are 520x850) |
 | Med | videos | no captions or transcript on any video (WCAG 1.2.2); content task |
 | Med | caching | **Fixed**: a client without Accept-Language or cookie (probe, curl) no longer gets `Set-Cookie: NEXT_LOCALE`; a browser gets it only when it opens a language other than its own (next-intl's rule, kept). Every page is still rendered per request because of the CSP nonce, so the HTML is `no-store` by design; see PERFORMANCE.md |
@@ -156,6 +156,10 @@ What was run, on this PC, with the in-memory stand-ins (no MongoDB, no PayPal, n
 Not verified: anything against a real MongoDB, Atlas, Render or PayPal (docs/DATABASE.md section 11); the scheduled task registration (`ops/backup-windows.ps1 -Register` changes the PC's tasks, so it was not run) and `-Setup`
 (it asks for the secret at a prompt); the screenshots in docs/admin-ui were not retaken for the two new screens.
 The admin end-to-end suites share one owner session and the API allows 300 requests per admin per 15 minutes: the new specs use the editor session and an owner account of their own so the budget of the others is not used up.
+
+## 6b. Security regression pass (2026-10-07, branch `fix/security-review`)
+
+`server/__tests__/security-audit-regressions.test.js` verifies removed legacy login, single-use concurrent TOTP, nested pending capture, immutable paid quotes, read-only versus apply recovery without another charge, historical unverified ledger rows and excessive capture amounts. Payment and privacy suites cover the updated capture contract and erasure of pending drafts. Web pending-fulfilment tests cover storage before capture, refresh recovery, lost/pending answers, unavailable storage and donation confirmation. Contact introductory text names required fields and marks phone optional in all 14 languages. See the accompanying audit-fix report for exact command results and environment limitations; no production mutation or real payment/email is part of this pass.
 
 ## 7. Form-contracts pass (2026-10-06, branch `fix/form-contracts`)
 

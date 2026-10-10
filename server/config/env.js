@@ -5,8 +5,9 @@ dotenv.config();
 const env = process.env;
 
 // Variables the server cannot run without; index.js refuses to start if any is missing.
+// (ADMIN_PASSWORD is no longer one of them: the shared-password sign-in it served was removed on 2026-10-07.)
 export const REQUIRED_ENV = [
-  'DATABASEURL', 'JWT_SECRET', 'ADMIN_PASSWORD',
+  'DATABASEURL', 'JWT_SECRET',
   'MAIL_FROM', 'MAIL_APP_PASSWORD', 'CLIENT_ID', 'CLIENT_SECRET',
 ];
 
@@ -15,7 +16,6 @@ export const missingEnv = () => REQUIRED_ENV.filter((k) => !env[k]);
 // Values copied from .env.example must never be used for real.
 const PLACEHOLDERS = new Set([
   'your-very-long-random-secret-key-here',
-  'your-secure-admin-password',
   'changeme',
   'secret',
   'password',
@@ -25,12 +25,12 @@ const PLACEHOLDERS = new Set([
 export function secretProblems() {
   const problems = [];
   const jwt = env.JWT_SECRET || '';
-  const pass = env.ADMIN_PASSWORD || '';
   if (PLACEHOLDERS.has(jwt.toLowerCase())) problems.push({ fatal: true, message: 'JWT_SECRET is a placeholder value' });
-  else if (jwt && jwt.length < 32) problems.push({ fatal: false, message: 'JWT_SECRET is shorter than 32 characters' });
-  if (PLACEHOLDERS.has(pass.toLowerCase())) problems.push({ fatal: true, message: 'ADMIN_PASSWORD is a placeholder value' });
-  else if (pass && pass.length < 12) problems.push({ fatal: false, message: 'ADMIN_PASSWORD is shorter than 12 characters' });
-  if (jwt && pass && jwt === pass) problems.push({ fatal: true, message: 'JWT_SECRET and ADMIN_PASSWORD must not be the same value' });
+  // Fatal in production since the 2026-10-10 audit (H02): a short key can be guessed offline from one session token.
+  // (The length is a floor, not a proof of randomness: generate it, e.g. `openssl rand -base64 48`.)
+  else if (jwt && jwt.length < 32) problems.push({ fatal: true, message: 'JWT_SECRET is shorter than 32 characters' });
+  // Nothing reads it any more; a leftover value is only a secret lying around (the owner deletes it on Render).
+  if (env.ADMIN_PASSWORD) problems.push({ fatal: false, message: 'ADMIN_PASSWORD is set but no longer used: delete it from the environment' });
   return problems;
 }
 
@@ -51,11 +51,9 @@ export const config = {
   trustProxyHops,
   databaseUrl: env.DATABASEURL,
   jwtSecret: env.JWT_SECRET,
-  adminPassword: env.ADMIN_PASSWORD,
   clientUrl: env.CLIENT_URL,
-  // When "true", /order/newOrder refuses an order that does not carry a paypalOrderId PayPal confirmed.
-  // Off until every client sends it (the current CRA site does not); then switch it on.
-  requirePaymentProof: env.REQUIRE_PAYMENT_PROOF === 'true',
+  // Production always fails closed; only local/test compatibility may explicitly opt out.
+  requirePaymentProof: env.NODE_ENV === 'production' || env.REQUIRE_PAYMENT_PROOF !== 'false',
   // Comma-separated extra origins allowed by CORS (e.g. a new admin domain)
   extraOrigins: (env.EXTRA_ORIGINS || '').split(',').map((o) => o.trim()).filter(Boolean),
   // Comma-separated browser origins of the NEW admin dashboard (docs/ADMIN.md). Exact origins, no wildcards.

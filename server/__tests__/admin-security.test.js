@@ -152,7 +152,7 @@ describe('rate limits', () => {
 
   it('there is a per-address ceiling in front of everything (1000), separate from the 200 of the public routes', async () => {
     const admin = await http.get('/admin/auth/me').set('X-Forwarded-For', freshIp());
-    const other = await http.get('/order/getAllOrders').set('X-Forwarded-For', freshIp());
+    const other = await http.get('/order/newOrder').set('X-Forwarded-For', freshIp()); // a public route that is not a read
     const limit = (res) => Number((res.headers.ratelimit ?? '').match(/limit=(\d+)/)?.[1] ?? (res.headers['ratelimit-policy'] ?? '').match(/^(\d+)/)?.[1]);
     expect(limit(admin)).toBe(1000);
     expect(limit(other)).toBe(200);

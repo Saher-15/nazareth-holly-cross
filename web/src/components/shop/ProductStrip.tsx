@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from 'react';
+import { useCallback, useEffect, useRef, useState, type FocusEvent, type KeyboardEvent } from 'react';
 import { useTranslations } from 'next-intl';
 import { prefersReducedMotion } from '@/lib/motion';
 import type { CardItem } from '@/lib/shop/items';
@@ -69,6 +69,21 @@ export default function ProductStrip({ id, title, lead, items }: Props) {
     }
   };
 
+  // A card that takes the focus (Tab) is brought wholly into the visible part of the row: the browser scrolls only as
+  // far as the focused control itself, and scroll snapping can then leave the card, or the heart in its corner, cut by
+  // the edge (audit 2026-10-10, F10; WCAG 2.4.11). Physical distances, so it is the same in both reading directions.
+  const onFocus = (e: FocusEvent<HTMLDivElement>) => {
+    const el = trackRef.current;
+    if (!el || e.target === el) return;
+    const card = (e.target as HTMLElement).closest('li');
+    if (!card) return;
+    const view = el.getBoundingClientRect();
+    const box = card.getBoundingClientRect();
+    const margin = 8;
+    const delta = box.left < view.left + margin ? box.left - view.left - margin : box.right > view.right - margin ? box.right - view.right + margin : 0;
+    if (delta !== 0) el.scrollBy({ left: delta, behavior: 'auto' });
+  };
+
   if (!items.length) return null;
 
   return (
@@ -113,6 +128,7 @@ export default function ProductStrip({ id, title, lead, items }: Props) {
         aria-label={title}
         tabIndex={0}
         onKeyDown={onKeyDown}
+        onFocus={onFocus}
         onScroll={measure}
       >
         <ul className={styles.list}>

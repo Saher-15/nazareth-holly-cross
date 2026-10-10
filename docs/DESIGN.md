@@ -129,6 +129,10 @@ No emoji and no text glyphs (`✝`, `★`, `→`) as icons.
 | `Stars` | Read-only rating drawn with SVG stars (no font dependence). |
 | `PageHero` / `PlaceHero` | Page header with photograph; `PlaceHero` takes `focus` (CSS object-position) so tall phone crops keep the subject. |
 
+**Home hero (2026-10-07):** the full-bleed opening uses the licensed `city-sunset-glow` photo
+on desktop and phone, with the existing scrim and optional Ken Burns zoom. The former background
+video is no longer mounted or requested. The pause control still stops the photo zoom.
+
 ## 4. The shell
 
 ### 4.1 Header and menus
@@ -299,6 +303,13 @@ Do **not** write `-webkit-backdrop-filter` next to `backdrop-filter`. The produc
 prefixed twin, and Chrome and Edge ignore it, so the blur silently disappears in the build (it works in dev).
 Write `backdrop-filter` alone: the build adds the Safari prefix itself. Check with
 `getComputedStyle(el).backdropFilter` in a production build.
+
+### Build pitfall: an `animation` shorthand without a name
+
+Do **not** write `animation: 1.5s ease 0.5s forwards` on a shared class and the name on another
+(`animation-name: doorA`). The production CSS minifier turns a nameless shorthand into `animation: none`, so the
+timings vanish and nothing moves in the build (it works in dev). Write the whole shorthand, name included, on each
+class (`web/src/components/home/OpeningDoor.module.css`).
 
 ## 8. Changelog
 

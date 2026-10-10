@@ -224,7 +224,9 @@ check('new password with & < > signs in', (await login('tempowner', 'Fish&Chips<
 function b32d(s) { const A = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'; let bits = 0, v = 0; const o = []; for (const c of s) { v = (v << 5) | A.indexOf(c); bits += 5; if (bits >= 8) { o.push((v >>> (bits - 8)) & 255); bits -= 8; } } return Buffer.from(o); }
 const code = (secret, off = 0) => { const c = Math.floor(Date.now() / 30000) + off; const m = Buffer.alloc(8); m.writeBigUInt64BE(BigInt(c)); const h = crypto.createHmac('sha1', b32d(secret)).update(m).digest(); const o2 = h[h.length - 1] & 15; return String(((h[o2] & 0x7f) << 24 | h[o2 + 1] << 16 | h[o2 + 2] << 8 | h[o2 + 3]) % 1e6).padStart(6, '0'); };
 const ts = (await login('totpsetup', 'Totpsetup-Mock-Pass-1')).json.token;
-const setup = await req('POST', '/admin/auth/totp/setup', { token: ts });
+check('totp setup without the current password 400', (await req('POST', '/admin/auth/totp/setup', { token: ts })).status === 400);
+check('totp setup with a wrong password 403', (await req('POST', '/admin/auth/totp/setup', { token: ts, body: { currentPassword: 'not-my-password-1' } })).status === 403);
+const setup = await req('POST', '/admin/auth/totp/setup', { token: ts, body: { currentPassword: 'Totpsetup-Mock-Pass-1' } });
 check('totp setup returns secret + otpauthUrl', setup.status === 200 && /^otpauth:\/\/totp\//.test(setup.json.otpauthUrl));
 check('totp enable wrong code 400', (await req('POST', '/admin/auth/totp/enable', { token: ts, body: { code: '000000' } })).status === 400);
 check('totp enable ok', (await req('POST', '/admin/auth/totp/enable', { token: ts, body: { code: code(setup.json.secret, -1) } })).status === 204);
@@ -237,7 +239,7 @@ check('REPLAY of the same code refused', l3.status === 401);
 const l4 = await login('totpsetup', 'Totpsetup-Mock-Pass-1', { totp: code(setup.json.secret, -1) });
 check('older step refused after a newer one was used', l4.status === 401);
 check('428 body for unknown user does not exist (user enumeration): unknown user + totp', (await login('nobody-here', 'xxxxxxxxxxxxxxx', { totp: '123456' })).status === 401);
-check('totp setup twice 409', (await req('POST', '/admin/auth/totp/setup', { token: ts })).status === 409);
+check('totp setup twice 409', (await req('POST', '/admin/auth/totp/setup', { token: ts, body: { currentPassword: 'Totpsetup-Mock-Pass-1' } })).status === 409);
 
 // ---- audit
 const aud = (await req('GET', '/admin/audit?size=100', { token: ow2 })).json;

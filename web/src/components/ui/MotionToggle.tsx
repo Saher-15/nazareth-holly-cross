@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { PauseIcon, PlayIcon } from '@/components/ui/icons';
 import { prefersReducedMotion, subscribeMotion } from '@/lib/motion';
 
-/** The event a paused or resumed scope announces (the hero film listens to it). */
+/** The event a paused or resumed scope announces (for moving backgrounds). */
 export const MOTION_PAUSE_EVENT = 'nhc:motion-pause';
 export const MOTION_SCOPE_ATTRIBUTE = 'data-motion-scope';
 
@@ -13,7 +13,7 @@ const moving = () => !prefersReducedMotion();
 
 // Pause and play the moving background of a hero (WCAG 2.2.2: anything that moves by itself for more than five
 // seconds can be stopped). It pauses every CSS animation inside the nearest element marked `data-motion-scope`
-// (the Ken Burns zoom, the bobbing chevron) and the hero film, which listens for MOTION_PAUSE_EVENT.
+// (the Ken Burns zoom and the bobbing chevron). Moving media may also listen for MOTION_PAUSE_EVENT.
 // Nothing moves when the visitor asked for less motion (system setting or the accessibility panel), so the
 // button is not shown then; it is also absent from the server HTML, so it never flashes.
 export default function MotionToggle({ className }: { className?: string }) {

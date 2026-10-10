@@ -76,41 +76,60 @@ describe('secretProblems', () => {
   };
   afterEach(() => {
     process.env.JWT_SECRET = saved.jwt;
-    process.env.ADMIN_PASSWORD = saved.pass;
+    if (saved.pass === undefined) delete process.env.ADMIN_PASSWORD;
+    else process.env.ADMIN_PASSWORD = saved.pass;
   });
 
-  it('is quiet for strong secrets', async () => {
+  const setAdminPassword = (value) => {
+    if (value === undefined) delete process.env.ADMIN_PASSWORD;
+    else process.env.ADMIN_PASSWORD = value;
+  };
+
+  it('is quiet for a strong JWT_SECRET', async () => {
     process.env.JWT_SECRET = 'k'.repeat(48);
-    process.env.ADMIN_PASSWORD = 'a-long-enough-admin-password';
+    setAdminPassword(undefined);
     expect(await (await load())()).toEqual([]);
   });
 
-  it('treats the example values as fatal', async () => {
+  it('treats the example value as fatal', async () => {
     process.env.JWT_SECRET = 'your-very-long-random-secret-key-here';
-    process.env.ADMIN_PASSWORD = 'your-secure-admin-password';
+    setAdminPassword(undefined);
     const problems = (await (await load())());
-    expect(problems.filter((p) => p.fatal)).toHaveLength(2);
+    expect(problems.filter((p) => p.fatal)).toHaveLength(1);
   });
 
-  it('warns (not fatal) about short secrets', async () => {
+  // Fatal since the 2026-10-10 audit (H02): production must not start with a key that can be guessed.
+  it('treats a JWT_SECRET shorter than 32 characters as fatal, and 32 as enough', async () => {
     process.env.JWT_SECRET = 'short-secret';
-    process.env.ADMIN_PASSWORD = 'short';
+    setAdminPassword(undefined);
     const problems = (await (await load())());
-    expect(problems).toHaveLength(2);
-    expect(problems.every((p) => !p.fatal)).toBe(true);
+    expect(problems).toHaveLength(1);
+    expect(problems[0]).toMatchObject({ fatal: true, message: expect.stringMatching(/shorter than 32/) });
+    expect(problems[0].message).not.toContain('short-secret'); // the value is never printed
+    process.env.JWT_SECRET = 'k9'.repeat(16);
+    expect(await (await load())()).toEqual([]);
   });
 
-  it('refuses one value used for both', async () => {
-    process.env.JWT_SECRET = 'the-same-value-for-both-secrets-123456';
-    process.env.ADMIN_PASSWORD = 'the-same-value-for-both-secrets-123456';
-    expect((await (await load())()).some((p) => p.fatal && /same/.test(p.message))).toBe(true);
+  // The shared-password sign-in was removed (security review 06, finding 1): the variable is no longer required and a
+  // leftover value only earns a warning to delete it, never a fatal stop, whatever it is.
+  it('does not require ADMIN_PASSWORD, and asks to delete a leftover one without ever stopping', async () => {
+    vi.resetModules();
+    const { REQUIRED_ENV } = await import('../config/env.js');
+    expect(REQUIRED_ENV).not.toContain('ADMIN_PASSWORD');
+    expect(REQUIRED_ENV).toContain('JWT_SECRET');
+    process.env.JWT_SECRET = 'k'.repeat(48);
+    for (const leftover of ['your-secure-admin-password', 'short', 'k'.repeat(48)]) {
+      setAdminPassword(leftover);
+      const problems = (await (await load())());
+      expect(problems).toEqual([{ fatal: false, message: expect.stringMatching(/ADMIN_PASSWORD is set but no longer used/) }]);
+    }
   });
 
   it('never puts a secret value into a message', async () => {
     process.env.JWT_SECRET = 'changeme';
-    process.env.ADMIN_PASSWORD = 'password';
+    setAdminPassword('password-leftover-value');
     const text = JSON.stringify(await (await load())());
-    expect(text).not.toMatch(/changeme|"password"/);
+    expect(text).not.toMatch(/changeme|password-leftover-value/);
   });
 });
 

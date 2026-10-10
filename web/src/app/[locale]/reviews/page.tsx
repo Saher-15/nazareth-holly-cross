@@ -83,7 +83,8 @@ export default async function ReviewsPage({ params }: PageProps<'/[locale]/revie
             <ReviewForm titleId="review-form-title" />
           </Reveal>
         </div>
-        <ReviewWall reviews={reviews} titleId="review-wall-title" />
+        {/* With no review yet the page is the invitation to write one: an empty wall is not shown. */}
+        {(reviews === null || reviews.length > 0) && <ReviewWall reviews={reviews} titleId="review-wall-title" />}
       </div>
 
       <JsonLd data={jsonLd} />

@@ -37,10 +37,10 @@
     }
   },
   "about": {
-    "title": "Bem-vindo ao portal oficial de Nazaré",
+    "title": "Boas-vindas ao Nazareth Holy Cross",
     "description1": "O coração da fé cristã. Entendemos que nem todos podem visitar fisicamente Nazaré, uma cidade onde Jesus cresceu e onde experiências espirituais aguardam cada visitante. Portanto, temos o prazer de oferecer a você a oportunidade de trazer Nazaré até você.",
     "description2": "Por meio do nosso site, você pode fazer um tour virtual pelas principais igrejas e lugares sagrados de Nazaré e se conectar com a rica história e a tradição religiosa que caracterizam o lugar. Além disso, oferecemos a você uma oportunidade única de comprar lembranças locais e até acender uma vela em memória ou em homenagem aos seus entes queridos, como se estivesse aqui conosco.",
-    "description3": "Em nossa loja online, você encontra uma ampla variedade de produtos: cruzes feitas de madeira de oliveira local, joias inspiradas em símbolos cristãos, pinturas e mosaicos que refletem a riqueza da arte religiosa e muito mais. Agora você também pode comprar água da lendária fonte de Nazaré, areia de Nazaré e azeitonas locais – tudo para sentir a grandeza da cidade de Nazaré e de Jesus. Você também pode escolher acender uma vela virtual, um gesto que leva oração e lembrança através das distâncias.",
+    "description3": "Em nossa loja online, você encontra uma ampla variedade de produtos: cruzes feitas de madeira de oliveira local, joias inspiradas em símbolos cristãos, pinturas e mosaicos que refletem a riqueza da arte religiosa e muito mais. Agora você também pode comprar água da lendária fonte de Nazaré, areia de Nazaré e azeitonas locais – tudo para sentir a grandeza da cidade de Nazaré e de Jesus. Você também pode pedir que acendamos uma vela de verdade para você em uma igreja de Nazaré e receber um vídeo desse momento.",
     "description4": "Nós convidamos você a abrir seu coração e sentir o calor da nossa comunidade através de cada produto que você escolher comprar. Cada compra apoia a comunidade local e ajuda a preservar a rica herança de Nazaré para as gerações futuras. Visite nosso site e encontre sua maneira de se conectar com Nazaré, a qualquer hora e em qualquer lugar."
   },
   "whatIsNew": {
@@ -74,23 +74,18 @@
     "reviews": "Avaliações"
   },
   "candle": {
-    "howToLightACandle": "Como acender uma vela?",
-    "itsSimple": "É simples:",
-    "step1": "Escolha uma igreja onde você gostaria que a vela fosse acesa.",
-    "step2": "Escreva uma oração ou um pedido pessoal que você gostaria que acompanhasse o acendimento da vela.",
-    "step3": "Iremos até a igreja, acenderemos a vela por você, gravaremos um vídeo com o seu nome e o enviaremos diretamente para você.",
-    "note": "Observação: este vídeo é apenas para fins ilustrativos, mostrando o processo de acender uma vela na igreja ortodoxa grega.",
     "lightAPrayCandle": "Acenda uma vela de oração",
     "selectChurch": "Selecione a igreja para acender a vela:",
-    "toLightACandlePay": "Para acender uma vela, pague US$ 3",
-    "light": "ACENDA",
-    "emailMatchError": "Os e-mails não correspondem",
     "inputWarning": "Selecione uma igreja.",
     "firstName": "Primeiro nome",
     "lastName": "Sobrenome",
     "yourEmail": "Seu e-mail",
     "confirmEmail": "Confirmar e-mail",
-    "yourPrayer": "Sua oração"
+    "yourPrayer": "Sua oração",
+    "videosTitle": "Vídeos",
+    "videosLead": "Veja como as velas são acesas nas igrejas de Nazaré.",
+    "videoPlay": "Reproduzir o vídeo: {title}",
+    "videoPlayerTitle": "Vídeo: {title}"
   },
   "heroSection": {
     "heading": "A CIDADE DE JESUS ESPERA POR VOCÊ",
@@ -420,7 +415,11 @@
     "prayersTotal": "Orações no mural",
     "prayersCountriesLatest": "{count, plural, one {Países na oração mais recente} other {Países nas # orações mais recentes}}",
     "prayersCountriesAll": "Países no mural",
-    "prayersAll": "Ler o mural de orações"
+    "prayersAll": "Ler o mural de orações",
+    "intro": {
+      "welcome": "Boas-vindas a Nazaré",
+      "tagline": "A cidade de Jesus"
+    }
   },
   "homePage": {
     "meta": {
@@ -613,14 +612,17 @@
     "shipping": "Frete",
     "total": "Total",
     "secure": "Pagamento seguro com PayPal",
-    "emptyLead": "Conheça terços, cruzes e lembranças de Nazaré."
+    "emptyLead": "Conheça terços, cruzes e lembranças de Nazaré.",
+    "sideCartClose": "Fechar o carrinho",
+    "sideCartView": "Ver o carrinho completo",
+    "sideCartMove": "Mover o botão do carrinho para o outro lado"
   },
   "checkoutPage": {
     "meta": {
       "checkoutTitle": "Finalizar compra",
       "checkoutDescription": "Conclua seu pedido de lembranças de Nazaré e pague com segurança pelo PayPal.",
       "candleTitle": "Acenda uma vela em Nazaré",
-      "candleDescription": "Escolha uma igreja em Nazaré e escreva sua oração. Acenderemos uma vela por você e enviaremos o vídeo.",
+      "candleDescription": "Escolha uma igreja de Nazaré e escreva a sua oração. Acendemos para você uma vela de verdade e enviamos o seu vídeo pessoal em até 48 horas.",
       "donateTitle": "Doar",
       "donateDescription": "Apoie o Nazareth Holy Cross com uma doação, paga com segurança pelo PayPal."
     },
@@ -628,7 +630,6 @@
       "eyebrow": "Pagamento seguro",
       "orderTitle": "Conclua seu pedido",
       "lead": "Seu pagamento é processado com segurança pelo PayPal.",
-      "candleEyebrow": "Vela de oração",
       "donateEyebrow": "Doação",
       "donateTitle": "Apoie o Nazareth Holy Cross",
       "donateLead": "Sua doação nos ajuda a compartilhar os lugares santos, as orações e o artesanato de Nazaré com peregrinos do mundo inteiro."
@@ -665,13 +666,14 @@
     "payment": {
       "loading": "Carregando o PayPal…",
       "unavailable": "Não foi possível carregar o PayPal. Verifique sua conexão ou desative bloqueadores de conteúdo e recarregue a página.",
-      "secured": "Pagamento seguro com PayPal. Nunca vemos os dados do seu cartão.",
+      "secured": "Pagamento seguro com PayPal ou com cartão de crédito ou débito: não é preciso ter conta PayPal. Nunca vemos os dados do seu cartão.",
       "cancelled": "Pagamento cancelado. Nada foi cobrado.",
       "errors": {
         "start": "Não foi possível iniciar o pagamento. Tente novamente.",
         "notCompleted": "O pagamento não foi concluído. Nada foi cobrado.",
         "paypal": "O PayPal informou um erro. Tente novamente.",
-        "unconfirmed": "Não conseguimos confirmar seu pagamento porque a conexão falhou. Não pague de novo por enquanto: confira sua conta do PayPal ou escreva para nós."
+        "unconfirmed": "Não conseguimos confirmar seu pagamento porque a conexão falhou. Não pague de novo por enquanto: confira sua conta do PayPal ou escreva para nós.",
+        "priceChanged": "O total mudou: agora é {charged}, e não {shown}. Nada foi cobrado. Clique novamente no botão do PayPal para pagar {charged}."
       },
       "reference": "Referência do pagamento: {id}",
       "saving": "Salvando seus dados…",
@@ -682,8 +684,7 @@
       "text": "Conheça terços, cruzes e lembranças de Nazaré."
     },
     "candle": {
-      "price": "Para acender uma vela: {price}",
-      "secureNext": "Em seguida, você vai revisar seus dados e pagar com segurança pelo PayPal."
+      "secureNext": "Em seguida, você vai revisar seus dados e pagar com segurança pelo PayPal ou com cartão de crédito ou débito. Você não precisa de uma conta PayPal."
     },
     "donate": {
       "formTitle": "Faça uma doação",
@@ -1247,10 +1248,10 @@
       },
       "form": {
         "title": "Envie-nos uma mensagem",
-        "intro": "Todos os campos são necessários para podermos responder.",
+        "intro": "Precisamos do seu nome, do seu e-mail e da sua mensagem para responder. O número de telefone é opcional.",
         "fullName": "Nome completo",
         "email": "Endereço de e-mail",
-        "phone": "Número de telefone",
+        "phone": "Número de telefone (opcional)",
         "phoneHint": "Inclua o indicativo do país, por exemplo +351 912 345 678.",
         "msg": "A sua mensagem",
         "counter": "{count} / {max}",
@@ -1311,7 +1312,7 @@
       "items": {
         "candle": {
           "q": "Como funciona acender uma vela?",
-          "a": "Escolha uma igreja de Nazaré, escreva a sua oração e pague {price}. Acendemos uma vela por si, gravamos um breve vídeo com o seu nome e enviamo-lo para o seu e-mail."
+          "a": "Escolha uma igreja de Nazaré, escreva o seu nome e a sua oração e pague {price}. Acendemos para você uma vela de verdade nessa igreja, filmamos com o seu nome e a sua oração e enviamos o vídeo para o seu e-mail em até 48 horas."
         },
         "wall": {
           "q": "O mural de orações é público?",
@@ -1412,7 +1413,8 @@
               "cart": "O seu carrinho de compras e a lista de desejos.",
               "liked": "As orações a que disse Ámen, para que o possa dizer uma só vez.",
               "language": "A língua que escolheu."
-            }
+            },
+            "p2": "Contamos quantas vezes algumas páginas são abertas e quantos pagamentos são concluídos, por dia e por campanha de publicidade. São apenas totais: não usam cookies nem identificadores, não guardam nada no seu navegador, não contêm nada sobre você e não são compartilhados com ninguém."
           },
           "keep": {
             "title": "Durante quanto tempo os guardamos",
@@ -1455,7 +1457,7 @@
           },
           "candles": {
             "title": "Velas",
-            "p1": "Uma vela de oração custa {price}. Acendemos uma vela pela sua intenção na igreja que escolher e enviamos-lhe um vídeo. É um serviço de oração e memória; não podemos prometer uma data ou hora concretas."
+            "p1": "Uma vela de oração custa {price}. Acendemos uma vela de verdade pela sua intenção na igreja que você escolher, filmamos e enviamos o vídeo para o seu e-mail em até 48 horas após o pagamento. Se o vídeo não chegar nesse prazo ou se houver algo errado nele, escreva para nós e devolveremos o valor integral."
           },
           "donations": {
             "title": "Donativos",
@@ -1882,5 +1884,72 @@
       "license": "Licença",
       "viewOnCommons": "Ver no Wikimedia Commons"
     }
+  },
+  "tourPage": {
+    "activities": {
+      "eyebrow": "Em Nazaré",
+      "title": "O que fazer",
+      "lead": "Algumas maneiras de passar seus dias na cidade, além das igrejas.",
+      "more": "Mais sobre este lugar",
+      "oldcity": {
+        "title": "Caminhe pela Cidade Velha e seu mercado",
+        "text": "Ruelas estreitas, passagens em arco e o velho mercado, onde especiarias, doces e artesanato são vendidos lado a lado."
+      },
+      "basilica": {
+        "title": "Reze na Basílica da Anunciação",
+        "text": "Sente-se em silêncio na gruta onde a tradição situa a Anunciação, ou participe de uma missa na igreja superior."
+      },
+      "trail": {
+        "title": "Caminhe um trecho da Trilha de Jesus",
+        "text": "A trilha começa em Nazaré e atravessa as colinas da Galileia rumo ao mar da Galileia. Já os primeiros quilômetros abrem vistas amplas."
+      },
+      "precipice": {
+        "title": "Veja o pôr do sol do Monte do Precipício",
+        "text": "Do penhasco acima do vale de Jezreel, toda a planície se estende abaixo de você, dourada no fim do dia."
+      },
+      "food": {
+        "title": "Prove Nazaré",
+        "text": "A cidade é conhecida por seus doces e sua comida caseira: experimente o knafeh, servido quente."
+      },
+      "christmas": {
+        "title": "Natal em Nazaré",
+        "text": "Em dezembro a cidade se ilumina, com uma feira de Natal e um desfile festivo na véspera de Natal."
+      }
+    },
+    "plan": {
+      "title": "Planeje seus dias em Nazaré",
+      "lead": "Escolha quantos dias você tem e o que você ama: o planejador do peregrino traça um roteiro com os tempos a pé. O guia do visitante reúne as estações, como chegar e dicas práticas.",
+      "planner": "Abrir o planejador",
+      "guide": "Guia do visitante"
+    }
+  },
+  "candlePage": {
+    "eyebrow": "Uma vela de verdade, acesa para você em Nazaré",
+    "title": "Sua oração. Sua igreja. Sua vela.",
+    "lead": "Escolha uma igreja de Nazaré e escreva o seu nome e a sua oração. Acendemos para você uma vela de verdade dentro dessa igreja, filmamos com o seu nome e a sua oração e enviamos o seu vídeo pessoal em até 48 horas.",
+    "cta": "Acender minha vela – {price}",
+    "pReal": "Uma vela de verdade em uma igreja de verdade, não virtual",
+    "pVideo": "Seu vídeo pessoal em até 48 horas",
+    "pGuest": "Sem criar conta",
+    "pSecure": "Pague com PayPal ou cartão, sem conta PayPal",
+    "stepsTitle": "Como funciona",
+    "s1T": "Escolha a sua igreja",
+    "s1X": "{latin} ou {greek}, ambas em Nazaré.",
+    "s2T": "Escreva o seu nome e a sua oração",
+    "s2X": "Com as suas palavras e no seu idioma. Colocamos tudo em um bilhete ao lado da sua vela.",
+    "s3T": "Pague {price} e receba o seu vídeo",
+    "s3X": "Acendemos a sua vela, filmamos e enviamos o seu vídeo pessoal para o seu e-mail em até 48 horas.",
+    "knowTitle": "Bom saber",
+    "realQ": "É uma vela de verdade?",
+    "realA": "Sim. Alguém da nossa equipe em Nazaré vai até a igreja que você escolheu e acende ali uma vela de verdade. Nada é virtual.",
+    "getQ": "O que vou receber?",
+    "getA": "Um vídeo pessoal curto por e-mail: a igreja, o bilhete com o seu nome e a sua oração e a sua vela sendo acesa.",
+    "timeQ": "Quanto tempo leva?",
+    "timeA": "Você recebe o seu vídeo em até 48 horas após o pagamento.",
+    "whoQ": "Quem oferece este serviço?",
+    "whoA": "Nazareth Holy Cross é um serviço independente mantido por uma equipe local de Nazaré. Não é um órgão oficial da cidade de Nazaré nem das igrejas.",
+    "wrongQ": "E se algo der errado?",
+    "wrongA": "Se o seu vídeo não chegar em 48 horas (confira antes a pasta de spam) ou se houver algo errado nele, escreva para nós e devolveremos o valor integral.",
+    "contact": "Fale conosco"
   }
 }

@@ -10,7 +10,7 @@ export const LEGAL: Record<LegalPage, readonly LegalSection[]> = {
     { id: 'collect', paras: ['p1'], items: ['orders', 'candles', 'prayers', 'reviews', 'contact', 'payments'] },
     { id: 'use', items: ['u1', 'u2', 'u3'] },
     { id: 'share', paras: ['p1'], items: ['paypal', 'hosting', 'maps'] },
-    { id: 'browser', paras: ['p1'], items: ['cart', 'liked', 'language'] },
+    { id: 'browser', paras: ['p1', 'p2'], items: ['cart', 'liked', 'language'] }, // p2: the anonymous funnel counts (docs/ANALYTICS.md)
     { id: 'keep', paras: ['p1'] },
     { id: 'rights', paras: ['p1'] },
     { id: 'children', paras: ['p1'] },

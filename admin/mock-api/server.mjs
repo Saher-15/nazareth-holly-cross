@@ -567,7 +567,7 @@ add({
 
 add({ method: 'GET', path: '/admin/auth/me', min: 'viewer', run: (ctx) => ({ ...publicUser(ctx.req.auth.user), lastLoginAt: ctx.req.auth.user.lastLoginAt }) });
 
-// 5 wrong tries per 15 minutes per account on the sensitive routes (password, totp enable/disable), then 429
+// 5 wrong tries per 15 minutes per account on the sensitive routes (password, totp setup/enable/disable), then 429
 const sensitive = new Map();
 function sensitiveBudget(userId) {
   const now = Date.now();
@@ -597,11 +597,26 @@ add({
   },
 });
 
+// setup asks for the current password (server/route/admin/auth.js, security review 06 finding 9); wrong ones count
+// against the account's sensitive-attempt budget like the password change.
 add({
   method: 'POST', path: '/admin/auth/totp/setup', min: 'viewer',
   run: (ctx) => {
     const u = ctx.req.auth.user;
-    if (u.totpSecret) throw new HttpError(409, 'TOTP is already enabled; disable it first');
+    const budget = sensitiveBudget(u._id);
+    let currentPassword;
+    try {
+      ({ currentPassword } = parseBody(ctx.body, { currentPassword: secret() }));
+    } catch (error) {
+      budget();
+      throw error;
+    }
+    if (!checkPassword(u, currentPassword)) {
+      budget();
+      record(ctx.req, 'auth.totp_setup_failed', { type: 'admin', id: u._id }, { reason: 'wrong_current_password' });
+      throw new HttpError(403, 'Current password is incorrect');
+    }
+    if (u.totpSecret) { budget(); throw new HttpError(409, 'TOTP is already enabled; disable it first'); }
     u.pendingTotp = generateSecret();
     record(ctx.req, 'auth.totp_setup', { type: 'admin', id: u._id });
     return { secret: u.pendingTotp, otpauthUrl: otpauthUrl(u.pendingTotp, u.username) };
@@ -743,6 +758,62 @@ add({
 
 // --- dashboard
 add({ method: 'GET', path: '/admin/dashboard', min: 'viewer', run: () => dashboard() });
+
+// ------------------------------------------------------------------ candle videos (server/route/admin/candleVideos.js)
+// The mock has no Cloudflare Stream: the list says "not set up" and an upload answers 503, as the API does then.
+add({ method: 'GET', path: '/admin/candle-videos', min: 'viewer', run: () => ({ configured: false, max: 20, maxBytes: 2 * 1024 ** 3, items: [] }) });
+add({
+  method: 'POST', path: '/admin/candle-videos', min: 'editor',
+  run: () => { throw new HttpError(503, 'Video uploads are not set up yet (CF_ACCOUNT_ID and CF_STREAM_API_TOKEN, docs/LIVE.md)'); },
+});
+
+// ------------------------------------------------------------------ settings (server/route/admin/settings.js)
+// The candle price: every admin reads it, an owner changes it (1 to 100 USD, two decimals), audited with old and new.
+const siteSettings = { candlePrice: 3, updatedAt: null, updatedBy: '' };
+const settingsView = () => ({ ...siteSettings, candlePriceMin: 1, candlePriceMax: 100, currency: 'USD' });
+add({ method: 'GET', path: '/admin/settings', min: 'viewer', run: () => settingsView() });
+// ------------------------------------------------------------------ the sales funnel (server/route/admin/metrics.js)
+const FUNNEL_FLOWS = ['candle', 'order', 'donation'];
+add({
+  method: 'GET', path: '/admin/metrics/funnel', min: 'viewer',
+  run: (ctx) => {
+    const flow = ctx.url.searchParams.get('flow') ?? 'candle';
+    if (!FUNNEL_FLOWS.includes(flow)) throw new HttpError(400, 'Unknown flow');
+    const day = (text, fallback) => (/^\d{4}-\d{2}-\d{2}$/.test(text ?? '') ? text : fallback);
+    const to = day(ctx.url.searchParams.get('to'), new Date().toISOString().slice(0, 10));
+    const from = day(ctx.url.searchParams.get('from'), new Date(Date.parse(`${to}T00:00:00Z`) - 29 * 86400000).toISOString().slice(0, 10));
+    if (flow !== 'candle') return { from, to, flow, totals: { view: 0, cta: 0, details: 0, pay_start: 0, paid: 0 }, campaigns: [], days: [], paidConfirmed: flow === 'order' ? 0 : null };
+    return {
+      from, to, flow,
+      totals: { view: 250, cta: 60, details: 22, pay_start: 14, paid: 5 },
+      campaigns: [
+        { source: 'facebook', medium: 'paid', campaign: 'easter', view: 200, cta: 50, details: 18, pay_start: 12, paid: 4 },
+        { source: '', medium: '', campaign: '', view: 50, cta: 10, details: 4, pay_start: 2, paid: 1 },
+      ],
+      days: [
+        { day: from, view: 120, cta: 30, details: 10, pay_start: 6, paid: 2 },
+        { day: to, view: 130, cta: 30, details: 12, pay_start: 8, paid: 3 },
+      ],
+      paidConfirmed: 5,
+    };
+  },
+});
+add({
+  method: 'PUT', path: '/admin/settings/candle-price', min: 'owner',
+  run: (ctx) => {
+    const body = ctx.body !== null && typeof ctx.body === 'object' && !Array.isArray(ctx.body) ? ctx.body : {};
+    const keys = Object.keys(body);
+    const price = body.price;
+    if (keys.length !== 1 || keys[0] !== 'price' || typeof price !== 'number' || !Number.isFinite(price) || price < 1 || price > 100
+      || Math.abs(Math.round(price * 100) - price * 100) > 1e-6) {
+      throw new HttpError(400, 'Invalid price: between 1 and 100 USD, at most two decimals');
+    }
+    const from = siteSettings.candlePrice;
+    Object.assign(siteSettings, { candlePrice: price, updatedAt: new Date().toISOString(), updatedBy: ctx.req.auth.user.username });
+    record(ctx.req, 'settings.candle_price', { type: 'siteSetting', id: 'site' }, { from, to: price });
+    return settingsView();
+  },
+});
 
 // --- orders
 for (const route of collection({
@@ -896,6 +967,14 @@ add({
 });
 
 // --- users (owner only), server/route/admin/users.js
+// The recovery address (server/route/admin/users.js): trimmed, lower-cased, '' removes it; one account per address.
+const recoveryEmail = (value, field) => {
+  if (typeof value !== 'string') throw new HttpError(400, `${field} must be text`);
+  const email = value.trim().toLowerCase();
+  if (email !== '' && (email.length > 254 || !/^[^\s@,;<>"]+@[^\s@,;<>"]+\.[^\s@,;<>"]+$/.test(email))) throw new HttpError(400, 'Enter a valid e-mail address');
+  return email;
+};
+const emailTaken = (email, exceptId) => db.users.some((u) => u._id !== exceptId && (String(u.email ?? '').toLowerCase() === email || u.username.toLowerCase() === email));
 const enabledOwners = (exceptId) => db.users.filter((u) => u._id !== exceptId && u.role === 'owner' && !u.disabled).length;
 const isEnabledOwner = (u) => u.role === 'owner' && !u.disabled;
 add({
@@ -912,15 +991,17 @@ add({
 add({
   method: 'POST', path: '/admin/users', min: 'owner',
   run: (ctx) => {
-    const { username, password, role } = parseBody(ctx.body, {
+    const { username, password, role, email = '' } = parseBody(ctx.body, {
       username: str({ min: 3, max: 64, pattern: /^[A-Za-z0-9][A-Za-z0-9._-]*$/, escape: false }),
       password: secret({ max: 200 }),
       role: oneOf(ROLES),
+      email: opt(recoveryEmail),
     });
     const problem = passwordProblem(password, username);
     if (problem) throw new HttpError(400, problem);
     if (db.users.some((u) => u.username.toLowerCase() === username.toLowerCase())) throw new HttpError(409, 'Username already exists');
-    const user = { _id: newId('7'), username, role, disabled: false, ...hashPassword(password), totpSecret: null, totpLastStep: -1, pendingTotp: null, failedLogins: 0, lockedUntil: null, lastLoginAt: null, createdAt: new Date().toISOString() };
+    if (email && emailTaken(email)) throw new HttpError(409, 'This e-mail address is already used by another account');
+    const user = { _id: newId('7'), username, ...(email ? { email } : {}), role, disabled: false, ...hashPassword(password), totpSecret: null, totpLastStep: -1, pendingTotp: null, failedLogins: 0, lockedUntil: null, lastLoginAt: null, createdAt: new Date().toISOString() };
     db.users.push(user);
     record(ctx.req, 'user.create', { type: 'user', id: user._id }, { username, role });
     return { status: 201, body: { item: userItem(user) } };
@@ -930,9 +1011,11 @@ add({
   method: 'PATCH', path: '/admin/users/:id', min: 'owner',
   run: (ctx) => {
     const id = objectId(ctx.params.id);
-    const changes = parseBody(ctx.body, { role: opt(oneOf(ROLES)), disabled: opt(bool()), resetTotp: opt(bool()) });
+    const changes = parseBody(ctx.body, { role: opt(oneOf(ROLES)), disabled: opt(bool()), resetTotp: opt(bool()), email: opt(recoveryEmail) });
     if (Object.keys(changes).length === 0) throw new HttpError(400, 'No fields to update');
     const target = found(byId(db.users, id), 'User');
+    const emailChanged = changes.email !== undefined && changes.email !== String(target.email ?? '').trim().toLowerCase();
+    if (emailChanged && changes.email && emailTaken(changes.email, id)) throw new HttpError(409, 'This e-mail address is already used by another account');
     const self = id === ctx.req.auth.user._id;
     const newRole = changes.role ?? target.role;
     const demoting = newRole !== 'owner' || changes.disabled === true;
@@ -940,6 +1023,7 @@ add({
     if (self && changes.resetTotp === true) throw new HttpError(400, 'Disable your own TOTP from your account settings');
     if (isEnabledOwner(target) && demoting && enabledOwners(id) === 0) throw new HttpError(409, 'The last owner cannot be demoted or disabled');
     const before = { role: target.role };
+    if (emailChanged) Object.assign(target, { email: changes.email, resetTokenHash: null, resetTokenExpires: null });
     if (changes.role !== undefined) target.role = changes.role;
     if (changes.disabled !== undefined) {
       target.disabled = changes.disabled;
@@ -1000,32 +1084,53 @@ function privacyLimit(user) {
   if (bucket.count > 20) throw new HttpError(429, 'Too many privacy requests, please try again later.', { 'Retry-After': '60' });
 }
 const sameAddress = (stored, address) => String(stored ?? '').toLowerCase() === address; // contact messages and site reviews: any case
-function privacyCounts(address) {
+// Prayers and product reviews keep no address: they are found by the name (and country) they were published under, only
+// when it is EXACTLY equal (any case); both need the name and the country (server/route/admin/privacy.js).
+const NOT_ERASED = ['gmailSent', 'backups', 'recordings', 'paypal', 'hostLogs'];
+const sameText = (stored, wanted) => {
+  const forms = new Set([wanted, decodeEntities(wanted)].map((t) => t.toLowerCase()));
+  return forms.has(String(stored ?? '').toLowerCase());
+};
+const PERSON = { name: opt(str({ min: 2, max: 200 })), country: opt(str({ min: 1, max: 100 })) };
+function published({ name, country }) {
+  if (country && !name) throw new HttpError(400, 'A country is used only together with a name');
+  return {
+    prayers: name && country ? (p) => sameText(p.name, name) && sameText(p.country, country) : null,
+    productReviews: name && country ? (r) => sameText(r.name, name) && sameText(r.country, country) : null,
+  };
+}
+const notSearched = (match) => [...(match.prayers ? [] : ['prayersNotSearched']), ...(match.productReviews ? [] : ['productReviewsNotSearched'])];
+function privacyCounts(address, match) {
   return {
     orders: db.orders.filter((o) => o.email === address).length,
     candles: db.candles.filter((c) => c.email === address).length,
     contacts: db.contacts.filter((c) => sameAddress(c.email, address)).length,
     reviews: db.siteReviews.filter((r) => sameAddress(r.email, address)).length,
     payments: db.payments.filter((p) => p.payerEmail === address).length,
+    prayers: match.prayers ? db.prayers.filter(match.prayers).length : 0,
+    productReviews: match.productReviews ? db.productReviews.filter(match.productReviews).length : 0,
   };
 }
 add({
   method: 'POST', path: '/admin/privacy/lookup', min: 'owner',
   run: (ctx) => {
     privacyLimit(ctx.req.auth.user);
-    const address = personalEmail(parseBody(ctx.body, { email: str({ min: 3, max: 254, escape: false }) }).email);
-    const found = privacyCounts(address);
+    const input = parseBody(ctx.body, { email: str({ min: 3, max: 254, escape: false }), ...PERSON });
+    const address = personalEmail(input.email);
+    const match = published(input);
+    const found = privacyCounts(address, match);
     record(ctx.req, 'privacy.lookup', { type: 'privacy', id: subjectRef(address) }, found);
-    return { found };
+    return { found, notSearched: notSearched(match) };
   },
 });
 add({
   method: 'POST', path: '/admin/privacy/erase', min: 'owner',
   run: (ctx) => {
     privacyLimit(ctx.req.auth.user);
-    const input = parseBody(ctx.body, { email: str({ min: 3, max: 254, escape: false }), confirm: str({ min: 3, max: 254, escape: false }) });
+    const input = parseBody(ctx.body, { email: str({ min: 3, max: 254, escape: false }), confirm: str({ min: 3, max: 254, escape: false }), ...PERSON });
     const address = personalEmail(input.email);
     if (personalEmail(input.confirm) !== address) throw new HttpError(400, 'The confirmation does not match the address');
+    const match = published(input);
     const erasedAt = new Date().toISOString();
     const orders = db.orders.filter((o) => o.email === address);
     const candles = db.candles.filter((c) => c.email === address);
@@ -1039,9 +1144,13 @@ add({
     db.siteReviews = db.siteReviews.filter((r) => !sameAddress(r.email, address));
     const payments = db.payments.filter((p) => p.payerEmail === address || (p.linkedTo?.id && linked.has(p.linkedTo.id)));
     for (const p of payments) { delete p.payerEmail; delete p.payerName; delete p.donorName; }
-    const erased = { orders: orders.length, candles: candles.length, contacts, reviews, payments: payments.length };
+    const prayers = match.prayers ? db.prayers.filter(match.prayers).length : 0;
+    if (match.prayers) db.prayers = db.prayers.filter((p) => !match.prayers(p));
+    const productReviews = match.productReviews ? db.productReviews.filter(match.productReviews).length : 0;
+    if (match.productReviews) db.productReviews = db.productReviews.filter((r) => !match.productReviews(r));
+    const erased = { orders: orders.length, candles: candles.length, contacts, reviews, payments: payments.length, prayers, productReviews };
     record(ctx.req, 'privacy.erase', { type: 'privacy', id: subjectRef(address) }, erased);
-    return { erased };
+    return { erased, notErased: [...notSearched(match), ...NOT_ERASED] };
   },
 });
 

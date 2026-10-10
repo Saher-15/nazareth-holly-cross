@@ -10,7 +10,7 @@ test.describe('security settings', () => {
   test('change password: policy hints, then the new password works and the old one does not', async ({ page, browser }) => {
     await signIn(page, USERS.passchange);
     await page.goto('/settings');
-    await page.getByLabel('Current password').fill(USERS.passchange.password);
+    await page.getByLabel('Current password').first().fill(USERS.passchange.password); // the first form (the second sets up two-factor)
     await page.getByLabel('New password', { exact: true }).fill('short');
     await page.getByLabel('Repeat the new password').fill('short');
     await page.getByRole('button', { name: 'Change password' }).click();
@@ -47,6 +47,16 @@ test.describe('security settings', () => {
     await signIn(page, USERS.totpsetup);
     await page.goto('/settings');
     await expect(page.getByText('Two-factor sign-in is off.')).toBeVisible();
+    // Setting up needs the current password again (security review 06, finding 9): none -> the button waits for it,
+    // a wrong one -> refused, and no QR code is shown.
+    await expect(page.getByText('To set it up, confirm with your current password.')).toBeVisible();
+    await expect(page.getByTestId('totp-start')).toBeDisabled();
+    const setupPassword = page.getByLabel('Current password').last(); // the second form on the page
+    await setupPassword.fill('not-my-password-1');
+    await page.getByTestId('totp-start').click();
+    await expect(page.getByRole('alert').filter({ hasText: 'The current password is not right.' })).toBeVisible();
+    await expect(page.getByRole('img', { name: 'QR code for your authenticator app' })).toHaveCount(0);
+    await setupPassword.fill(USERS.totpsetup.password);
     await page.getByTestId('totp-start').click();
     await expect(page.getByRole('img', { name: 'QR code for your authenticator app' })).toBeVisible();
     const secret = ((await page.getByTestId('totp-secret').textContent()) ?? '').replace(/\s+/g, '');
