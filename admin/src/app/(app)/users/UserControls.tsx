@@ -189,7 +189,7 @@ export function RecoveryEmail({ id, username, email }: { id: string; username: s
       router.refresh();
     } catch (e) {
       if (isApiError(e) && e.unauthorized) return;
-      setError(isApiError(e) && e.status < 500 && e.status !== 429 ? e.message : t('error.generic'));
+      setError(isApiError(e) && e.status === 409 && /mail/i.test(e.message) ? t('users.errEmailTaken') : isApiError(e) && e.status < 500 && e.status !== 429 ? e.message : t('error.generic'));
     } finally {
       setBusy(false);
     }
@@ -203,7 +203,7 @@ export function RecoveryEmail({ id, username, email }: { id: string; username: s
           {t('users.emailEdit')}
         </button>
       </span>
-      <dialog ref={dialog} className="dialog dialog--form" aria-labelledby={`${uid}-title`} onClick={(e) => { if (e.target === e.currentTarget) dialog.current?.close(); }}>
+      <dialog ref={dialog} className="dialog dialog--form" aria-labelledby={`${uid}-title`} onClick={closeOnBackdrop(value.trim().toLowerCase() !== email)}>
         <form className="dialog__body form" onSubmit={submit} noValidate>
           <h2 id={`${uid}-title`} className="dialog__title">{t('users.emailTitle', { name: username })}</h2>
           <div className="field">

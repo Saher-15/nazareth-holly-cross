@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Form from 'next/form';
 import { DataTable, EmptyState, ErrorState, Ltr, PageHeader, Panel } from '@/components/ui/Primitives';
 import { getI18n } from '@/i18n/server';
 import { formatNumber } from '@/lib/format';
@@ -36,7 +37,8 @@ export default async function CampaignsPage({ searchParams }: { searchParams: Pr
     <>
       <PageHeader title={t('nav.campaigns')} description={t('campaigns.lead')} />
 
-      <form className="toolbar" method="get" action="/campaigns" aria-label={t('campaigns.filter')}>
+      {/* next/form: a GET form that navigates inside the tab (a live broadcast of this tab goes on) */}
+      <Form className="toolbar" action="/campaigns" aria-label={t('campaigns.filter')}>
         <div className="toolbar__select">
           <label htmlFor="funnel-flow">{t('campaigns.flow')}</label>
           <select id="funnel-flow" name="flow" className="select" defaultValue={flow}>
@@ -55,7 +57,7 @@ export default async function CampaignsPage({ searchParams }: { searchParams: Pr
         </div>
         <div className="toolbar__spacer" />
         <button type="submit" className="btn btn--gold">{t('campaigns.show')}</button>
-      </form>
+      </Form>
 
       {!report.ok ? (
         <ErrorState error={report.error} />

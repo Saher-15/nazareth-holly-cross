@@ -118,4 +118,4 @@ export function auditHref(entry: Entry): string | null {
 }
 
 /** The action prefixes the filter offers (the API filters by a prefix ending in a dot). */
-export const AUDIT_GROUPS = ['auth.', 'order.', 'payment.', 'candle.', 'contact.', 'product.', 'site-review.', 'product-review.', 'prayer.', 'user.', 'export.', 'privacy.', 'live.'] as const;
+export const AUDIT_GROUPS = ['auth.', 'order.', 'payment.', 'candle.', 'contact.', 'product.', 'site-review.', 'product-review.', 'prayer.', 'user.', 'export.', 'privacy.', 'live.', 'candle_video.', 'settings.'] as const;

@@ -126,6 +126,7 @@ function groupLabel(t: Awaited<ReturnType<typeof getI18n>>['t'], prefix: string)
     'auth.': 'audit.g.auth', 'order.': 'audit.g.order', 'payment.': 'audit.g.payment', 'candle.': 'audit.g.candle', 'contact.': 'audit.g.contact',
     'product.': 'audit.g.product', 'site-review.': 'audit.g.siteReview', 'product-review.': 'audit.g.productReview', 'prayer.': 'audit.g.prayer',
     'user.': 'audit.g.user', 'export.': 'audit.g.export', 'privacy.': 'audit.g.privacy', 'live.': 'audit.g.live',
+    'candle_video.': 'audit.g.candleVideo', 'settings.': 'audit.g.settings',
   };
   return keys[prefix] ? `${t(keys[prefix])} (${prefix})` : prefix;
 }

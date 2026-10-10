@@ -485,6 +485,8 @@ export const en = {
   'audit.g.export': 'CSV exports',
   'audit.g.privacy': 'Privacy requests',
   'audit.g.live': 'Live broadcasts',
+  'audit.g.candleVideo': 'Candle page videos',
+  'audit.g.settings': 'Prices and settings',
   'audit.a.login': 'Signed in',
   'audit.a.loginFailed': 'Sign-in refused',
   'audit.a.logout': 'Signed out',

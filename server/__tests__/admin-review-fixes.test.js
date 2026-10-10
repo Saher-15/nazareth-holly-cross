@@ -238,9 +238,12 @@ describe('users: e-mail for "Forgot your password?", unlock', () => {
     expect(set.status).toBe(200);
     expect(set.body.item.email).toBe('staff@example.com');
     expect(audits('user.update')[0].meta).toMatchObject({ email: 'set' });
+    // setting the address tells it so (the recovery notice); the reset link is a second, different mail
+    expect(mail.sendMail).toHaveBeenCalledWith(expect.objectContaining({ to: ['staff@example.com'], subject: expect.stringMatching(/recovery address/i) }));
+    mail.sendMail.mockClear();
     const forgot = await http.post('/admin/auth/forgot-password').set('X-Forwarded-For', freshIp()).send({ email: 'staff@example.com' });
     expect(forgot.status).toBe(202);
-    await vi.waitFor(() => expect(mail.sendMail).toHaveBeenCalledWith(expect.objectContaining({ to: ['staff@example.com'] })));
+    await vi.waitFor(() => expect(mail.sendMail).toHaveBeenCalledWith(expect.objectContaining({ to: ['staff@example.com'], subject: expect.stringMatching(/reset your password/i) })));
     const removed = await call('patch', `/admin/users/${u._id}`, me, { email: '' });
     expect(removed.body.item.email).toBe('');
     expect(audits('user.update')[1].meta).toMatchObject({ email: 'removed' });

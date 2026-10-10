@@ -208,7 +208,7 @@ Then in a browser on the preview: sign in with the real owner (section 2), check
 Unlock an account (5 wrong passwords: the Users page says "Locked until hh:mm"): an owner presses **Unlock**. Lost
 authenticator: an owner presses **Reset two-factor** on the Users page (after making sure it is really that person, for
 example by phone). Forgotten password: "Forgot your password?" on the sign-in page works for an account that has an
-e-mail address; an owner adds it on the Users page (**Add e-mail**; give every account one). Someone leaves: disable (not
+e-mail address; an owner adds it on the Users page (the **Recovery e-mail** column, **Change**; give every account one). Someone leaves: disable (not
 delete) the account; the audit log keeps who did what for 180 days. Rotating `JWT_SECRET` and the retention of
 sessions: ADMIN.md 6.
 

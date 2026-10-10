@@ -469,6 +469,8 @@ export const he: Partial<Record<MessageKey, string>> = {
   'audit.g.export': 'ייצוא CSV',
   'audit.g.privacy': 'בקשות פרטיות',
   'audit.g.live': 'שידורים חיים',
+  'audit.g.candleVideo': 'סרטוני עמוד הנרות',
+  'audit.g.settings': 'מחירים והגדרות',
   'audit.a.login': 'התחבר/ה',
   'audit.a.loginFailed': 'התחברות נדחתה',
   'audit.a.logout': 'התנתק/ה',
