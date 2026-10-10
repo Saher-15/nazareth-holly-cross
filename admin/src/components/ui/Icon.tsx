@@ -45,6 +45,7 @@ const PATHS = {
   switchCamera: 'M4 8h3l2-2h6l2 2h3v11H4V8Zm4.500 5.500a3.500 3.500 0 0 1 6-2.500l.500.500m.500 1.500a3.500 3.500 0 0 1-6 2.500l-.500-.500M15 9.500v2h-2M9 17.500v-2h2',
   stop: 'M7 7h10v10H7V7Z',
   undo: 'M9 14 4 9l5-5M4 9h10.5a5.5 5.5 0 0 1 0 11H11',
+  chart: 'M4 20V11m5.300 9V5m5.400 15v-7M20 20V8M2 20h20',
 } as const;
 
 export type IconName = keyof typeof PATHS;

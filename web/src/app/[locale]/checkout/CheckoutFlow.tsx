@@ -68,8 +68,9 @@ export default function CheckoutFlow() {
   const countries = useMemo(() => countryOptions(locale), [locale]);
 
   const getPayload = useCallback(
-    (): PaymentPayload => ({ type: 'order', items: lines.map((l) => ({ _id: l._id, quantity: l.quantity })) }),
-    [lines],
+    (): PaymentPayload => ({ type: 'order', items: lines.map((l) => ({ _id: l._id, quantity: l.quantity, color: l.color })),
+      fulfilment: buildOrderBody(values, lines, summary.total, countryName(values.country, 'en')), cart: cartSignature(lines) }),
+    [lines, values, summary.total],
   );
 
   const onPaid = useCallback(
@@ -320,7 +321,7 @@ export default function CheckoutFlow() {
           {step === 'payment' ? (
             <>
               <h3 className={shared.payTitle}>{tr('paypalComponent.paymentMethod')}</h3>
-              <PayPalPanel getPayload={getPayload} onPaid={onPaid} />
+              <PayPalPanel getPayload={getPayload} onPaid={onPaid} shownAmount={summary.total} />
             </>
           ) : (
             <Notice tone="info">{tr('paypalComponent.pleaseFillAllDetails')}</Notice>

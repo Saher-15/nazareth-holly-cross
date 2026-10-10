@@ -46,6 +46,11 @@ export async function pingDatabase(connection = mongoose.connection, timeoutMs =
 }
 
 /** The full report. `healthy` is false when the database cannot be reached (the route then answers 503). */
+export function deployedCommit(env = process.env) {
+  const sha = env.RAILWAY_GIT_COMMIT_SHA || env.RENDER_GIT_COMMIT;
+  return sha ? sha.slice(0, 7) : null;
+}
+
 export async function buildDeepHealth({ connection = mongoose.connection, now = new Date(), timeoutMs = PING_TIMEOUT_MS } = {}) {
   const database = await pingDatabase(connection, timeoutMs);
   const healthy = database.status === 'up';
@@ -54,8 +59,9 @@ export async function buildDeepHealth({ connection = mongoose.connection, now = 
     body: {
       status: healthy ? 'ok' : 'degraded',
       version,
-      // Render sets RENDER_GIT_COMMIT on every deploy; seven characters name the commit without anything else.
-      commit: process.env.RENDER_GIT_COMMIT ? process.env.RENDER_GIT_COMMIT.slice(0, 7) : null,
+      // The host names the deployed commit: Railway sets RAILWAY_GIT_COMMIT_SHA (the API's host since 2026-10-07),
+      // Render set RENDER_GIT_COMMIT. Seven characters name the commit without anything else.
+      commit: deployedCommit(),
       // A small number here means the service just (re)started: a cold start on the free plan, or a crash.
       uptimeSeconds: Math.round(process.uptime()),
       startedAt: startedAt.toISOString(),

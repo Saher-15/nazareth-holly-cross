@@ -1,6 +1,6 @@
 // Public build-time settings. Override with NEXT_PUBLIC_* variables per environment.
 export const API_URL =
-  process.env.NEXT_PUBLIC_API_URL ?? 'https://nazareth-holy-cross-api.onrender.com';
+  process.env.NEXT_PUBLIC_API_URL ?? 'https://nazareth-holy-cross-api-production.up.railway.app';
 
 // Must belong to the same PayPal environment (sandbox/live) as the API's CLIENT_ID.
 export const PAYPAL_CLIENT_ID =

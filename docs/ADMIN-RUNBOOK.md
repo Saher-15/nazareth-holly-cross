@@ -4,8 +4,25 @@ How to run the new admin dashboard locally, create the first owner, configure Re
 back, and what to check before the owner starts using it. The pieces: the dashboard (`admin/`, Next.js), the API
 (`server/route/admin/*`, [ADMIN.md](ADMIN.md)), the screens ([ADMIN-UI.md](ADMIN-UI.md)).
 
+> **Hosting since 2026-10-07: the API runs on Railway, not Render** (project `divine-spontaneity`, service
+> `nazareth-holy-cross-api`, built from this repository, root `/server`; address
+> `https://nazareth-holy-cross-api-production.up.railway.app`). The Render service is suspended. Where this page
+> still says Render, read it with this table (checked read-only on 2026-10-10):
+>
+> | On Render it was | On Railway it is |
+> |---|---|
+> | Environment -> variables | the service -> **Variables** (same names; a change redeploys) |
+> | Auto-deploy of `main` | the same: Railway deploys `main` (root `/server`) after a merge |
+> | Logs, Events | the service -> **Deployments** -> a deploy -> Logs (`railway logs`) |
+> | Rollback | **Deployments** -> the previous successful deploy -> **Redeploy** |
+> | Free plan sleeps after 15 minutes | it does not sleep unless "Serverless" is switched on in the service settings (not checked from here) |
+> | Oregon, behind Cloudflare | Railway's own edge (`x-railway-edge`), one proxy hop: `TRUST_PROXY` is unset (default 1) |
+> | `render.yaml` | kept for reference only; Railway reads its own service settings |
+>
+> Hermes (the 24/7 watcher, [MONITORING.md](MONITORING.md)) runs on the same Railway project.
+
 ```
-browser --httpOnly cookie--> dashboard (admin/, Netlify) --Bearer token, server to server--> API (server/, Render) --> MongoDB
+browser --httpOnly cookie--> dashboard (admin/, Netlify) --Bearer token, server to server--> API (server/, Railway) --> MongoDB
 ```
 
 ## 1. Run it on your PC
@@ -100,7 +117,7 @@ If the only owner loses the authenticator: ADMIN.md section 6 (`db.admins.update
 
 | Variable | Value |
 |---|---|
-| `ADMIN_API_URL` | `https://nazareth-holy-cross-api.onrender.com` (the API origin, no trailing slash). Server-side only; never prefixed `NEXT_PUBLIC_`. |
+| `ADMIN_API_URL` | `https://nazareth-holy-cross-api-production.up.railway.app` (the API origin, no trailing slash). Server-side only; never prefixed `NEXT_PUBLIC_`. |
 | `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET` (+ the other `NEXT_PUBLIC_FIREBASE_*` in `admin/.env.example`) | optional: turns on product-photo upload. Public values, not secrets. Empty = the form asks for pasted https image addresses. |
 | `ADMIN_IMG_SRC` | optional: extra https image hosts for the Content-Security-Policy. |
 | `ADMIN_TIMEZONE` | optional, default `Asia/Jerusalem`. |

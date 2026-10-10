@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { expectNoAxeViolations, noHorizontalScroll, stateFile, watchProblems } from './helpers';
+import { expectNoAxeViolations, HARNESS, noHorizontalScroll, stateFile, watchProblems } from './helpers';
 
 // Every page renders for the owner, with no console errors or CSP violations, no accessibility violations
 // (axe, WCAG 2.1 A/AA), and no sideways scrolling, on desktop and on a phone.
@@ -21,6 +21,8 @@ const PAGES: { path: string; heading: string }[] = [
   { path: '/audit', heading: 'Audit log' },
   { path: '/settings', heading: 'Security settings' },
   { path: '/profile', heading: 'Profile' },
+  { path: '/campaigns', heading: 'Campaigns' },
+  { path: '/campaigns?flow=order&from=2026-10-01&to=2026-10-07', heading: 'Campaigns' },
 ];
 
 for (const { path, heading } of PAGES) {
@@ -69,4 +71,37 @@ test('an unknown page shows the not-found state, a bad product id too', async ({
   await expect(page.getByRole('heading', { name: 'Page not found' })).toBeVisible();
   await page.goto('/products/does-not-exist');
   await expect(page.getByRole('heading', { name: 'Page not found' })).toBeVisible();
+});
+
+// The sales funnel counted without cookies (docs/ANALYTICS.md): the totals, each campaign, and the cost of a customer.
+test('campaigns: the funnel, the campaigns and the cost of one paying customer', async ({ page }) => {
+  await page.goto('/campaigns');
+  const funnel = page.getByTestId('funnel');
+  await expect(funnel.getByRole('listitem')).toHaveCount(5);
+  await expect(funnel).toContainText('Page opened');
+  if (HARNESS) {
+    // The real API has counted nothing in this run: the page says so, and the calculator has no customers to divide by.
+    await expect(page.getByTestId('paid-confirmed')).toContainText('0');
+    await expect(page.getByText('Nothing counted yet')).toBeVisible();
+    await page.getByTestId('ad-spend').fill('60');
+    await expect(page.getByTestId('cost-per-customer')).toHaveText('There were no completed payments in this period, so there is no cost per customer yet.');
+    return;
+  }
+  // The mock API's sample numbers (mock-api/server.mjs).
+  await expect(funnel).toContainText('250');
+  await expect(funnel).toContainText('2% of the openings'); // 5 paid of 250 opened
+  await expect(page.getByTestId('paid-confirmed')).toContainText('5');
+  const table = page.getByRole('region', { name: 'By campaign' });
+  await expect(table).toContainText('facebook / paid / easter');
+  await expect(table).toContainText('No campaign link');
+
+  await expect(page.getByTestId('cost-per-customer')).toHaveText('Type the amount to see what one paying customer cost.');
+  await page.getByTestId('ad-spend').fill('60');
+  await expect(page.getByTestId('cost-per-customer')).toHaveText('One paying customer cost $12.00 (5 completed payments).');
+
+  // Another flow and other dates come from the address, and the form keeps them.
+  await page.getByLabel('Show', { exact: true }).selectOption('order');
+  await page.getByRole('button', { name: 'Show' }).click();
+  await expect(page).toHaveURL(/flow=order/);
+  await expect(page.getByText('Nothing counted yet')).toBeVisible();
 });

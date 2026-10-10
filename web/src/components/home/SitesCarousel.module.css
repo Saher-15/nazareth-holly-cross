@@ -1,3 +1,5 @@
+/* The row sits inside the same side margins as the heading, at both ends (owner's request, 2026-10-08: it used to
+   run to the right edge of the screen). Whole cards fill it on a desktop; on a phone the next card peeks in. */
 .section {
   --gutter: max(16px, calc((100% - var(--container)) / 2));
   /* the rhythm of every page section (--section-space, like .ui-section) */
@@ -47,10 +49,11 @@
 }
 
 .track {
+  container-type: inline-size;
+  margin-inline: var(--gutter);
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
-  scroll-padding-inline: var(--gutter);
   scrollbar-width: none;
   cursor: grab;
 }
@@ -73,11 +76,11 @@
   gap: 16px;
   width: max-content;
   margin: 0;
-  padding: 8px var(--gutter) 24px;
+  padding: 8px 0 24px;
   list-style: none;
 }
 .item {
-  flex: 0 0 min(78vw, 340px);
+  flex: 0 0 min(82cqi, 340px);
   scroll-snap-align: start;
 }
 
@@ -142,9 +145,20 @@
   letter-spacing: 0;
 }
 
-@media (min-width: 1000px) {
+/* Two, three or four whole cards (16px gaps), so the last visible card ends exactly at the right margin. */
+@media (min-width: 600px) {
   .item {
-    flex-basis: 320px;
+    flex-basis: calc((100cqi - 16px) / 2);
+  }
+}
+@media (min-width: 860px) {
+  .item {
+    flex-basis: calc((100cqi - 32px) / 3);
+  }
+}
+@media (min-width: 1100px) {
+  .item {
+    flex-basis: calc((100cqi - 48px) / 4);
   }
 }
 

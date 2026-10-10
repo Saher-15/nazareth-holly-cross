@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { getFormatter, getTranslations, setRequestLocale } from 'next-intl/server';
+import { api } from '@/lib/api';
 import { mediaPhoto } from '@/data/places/places';
 import { breadcrumbJsonLd, faqJsonLd, webPageJsonLd } from '@/lib/jsonLd';
 import { pilgrimMetadata } from '@/data/pilgrim/meta';
@@ -34,7 +35,7 @@ export default async function VisitPage({ params }: PageProps<'/[locale]/visit'>
   const format = await getFormatter();
   const number = (n: number) => format.number(n);
 
-  const faq = faqItems(t as Translate, locale, FAQ_GROUPS.filter((g) => g.id === 'visiting'));
+  const faq = faqItems(t as Translate, locale, FAQ_GROUPS.filter((g) => g.id === 'visiting'), await api.candlePrice());
   const jsonLd = [
     webPageJsonLd(locale, {
       path: '/visit',

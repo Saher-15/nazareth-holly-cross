@@ -284,8 +284,9 @@ test.describe('users', () => {
     await page.goto('/users?q=owner');
     const row = page.locator('tbody tr').filter({ has: page.locator('.badge', { hasText: /^You$/ }) }).first();
     await expect(row.getByLabel(/^Role of owner/)).toBeDisabled();
+    // The one button of your own row changes your recovery e-mail; nothing disables or deletes you.
     await expect(row.getByRole('button')).toHaveCount(1);
-    await expect(row.getByTestId('user-email')).toBeVisible();
+    await expect(row.getByRole('button', { name: /^Change the recovery e-mail of owner/ })).toBeVisible();
   });
 
   test('the API guards hold when called directly: not yourself, never the last owner', async ({ page }) => {

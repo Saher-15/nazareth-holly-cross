@@ -45,7 +45,7 @@ function paypal(options = {}) {
         id: PAYPAL,
         status: o.captureStatus,
         payer: { email_address: 'Buyer@Example.com', name: { given_name: 'Ben', surname: 'Buyer' } },
-        purchase_units: [{ payments: { captures: [{ amount: { value: o.captureAmount, currency_code: 'USD' } }] } }],
+        purchase_units: [{ payments: { captures: [{ status: o.captureStatus, amount: { value: o.captureAmount, currency_code: 'USD' } }] } }],
       });
     }
     if (method === 'GET') {
@@ -178,12 +178,13 @@ describe('complete_order marks the payment captured, once', () => {
     expect(row().status).toBe('captured');
   });
 
-  it('a payment the ledger never saw (created by the API before the ledger existed) is recorded now as "unknown"', async () => {
+  it('a PayPal order the ledger never priced is refused BEFORE anything is captured (never charged)', async () => {
     fakes.Payment.reset();
-    paypal();
+    const state = paypal();
     const res = await post('/order/complete_order', { order_id: PAYPAL });
-    expect(res.status).toBe(200);
-    expect(row()).toMatchObject({ status: 'captured', type: 'unknown', amount: 23 });
+    expect(res.status).toBe(409);
+    expect(state.calls.some((c) => c.includes('/capture'))).toBe(false);
+    expect(rows()).toHaveLength(0);
   });
 
   it('a declined capture is answered 402 and marked failed; a later successful capture of the same order wins', async () => {
@@ -476,8 +477,9 @@ describe('services/payments', () => {
 
   it('recordCaptured reports whether it was the first time', async () => {
     await recordCreated({ paypalOrderId: PAYPAL, type: 'order', amount: 23 });
-    expect((await recordCaptured(PAYPAL, {})).firstTime).toBe(true);
-    expect((await recordCaptured(PAYPAL, {})).firstTime).toBe(false);
+    const capture = { status: 'COMPLETED', purchase_units: [{ payments: { captures: [{ status: 'COMPLETED', amount: { currency_code: 'USD', value: '23.00' } }] } }] };
+    expect((await recordCaptured(PAYPAL, capture)).firstTime).toBe(true);
+    expect((await recordCaptured(PAYPAL, capture)).firstTime).toBe(false);
   });
 
   describe('unfulfilled payments', () => {

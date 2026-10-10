@@ -75,7 +75,8 @@ export function auditDetails(entry: Entry, t: Translate): string[] {
     if (m.disabled === false) out.push(t('audit.d.enabled'));
     if (m.resetTotp === true) out.push(t('audit.d.totpReset'));
     if (m.unlock === true) out.push(t('audit.d.unlocked'));
-    if (m.email === 'changed' || (entry.action === 'user.create' && m.email === true)) out.push(t('audit.d.emailSet'));
+    // server/route/admin/users.js: `email: 'set' | 'removed'` on a change, `hasEmail` on creation
+    if (m.email === 'set' || m.email === 'changed' || (entry.action === 'user.create' && (m.hasEmail === true || m.email === true))) out.push(t('audit.d.emailSet'));
     if (m.email === 'removed') out.push(t('audit.d.emailRemoved'));
   }
   if (entry.action.startsWith('export.') && typeof m.rows === 'number') out.push(t('audit.d.rows', { n: m.rows }));

@@ -221,7 +221,7 @@ describe('users: e-mail for "Forgot your password?", unlock', () => {
     const res = await call('post', '/admin/users', me, { ...base, email: 'New.Editor@Example.com' });
     expect(res.status).toBe(201);
     expect(res.body.item.email).toBe('new.editor@example.com');
-    expect(audits('user.create')[0].meta).toMatchObject({ username: 'new.editor', email: true });
+    expect(audits('user.create')[0].meta).toMatchObject({ username: 'new.editor', hasEmail: true });
     expect(JSON.stringify(audits())).not.toContain('example.com');
     expect((await call('post', '/admin/users', me, { ...base, username: 'second', email: 'NEW.EDITOR@example.com' })).status).toBe(409);
     expect((await call('post', '/admin/users', me, { ...base, username: 'third', email: 'not-an-address' })).status).toBe(400);
@@ -237,7 +237,7 @@ describe('users: e-mail for "Forgot your password?", unlock', () => {
     const set = await call('patch', `/admin/users/${u._id}`, me, { email: 'staff@example.com' });
     expect(set.status).toBe(200);
     expect(set.body.item.email).toBe('staff@example.com');
-    expect(audits('user.update')[0].meta).toMatchObject({ email: 'changed' });
+    expect(audits('user.update')[0].meta).toMatchObject({ email: 'set' });
     const forgot = await http.post('/admin/auth/forgot-password').set('X-Forwarded-For', freshIp()).send({ email: 'staff@example.com' });
     expect(forgot.status).toBe(202);
     await vi.waitFor(() => expect(mail.sendMail).toHaveBeenCalledWith(expect.objectContaining({ to: ['staff@example.com'] })));

@@ -1,11 +1,12 @@
 'use client';
 
 import { useCallback, useMemo, useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { PayPalButtons, PayPalScriptProvider, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import { PAYPAL_CLIENT_ID } from '@/lib/config';
 import { useCspNonce } from '@/lib/cspNonce';
 import { usePayPalOrder, type PaymentPayload } from '@/lib/paypal';
+import { formatUsd } from '@/lib/pricing';
 import Notice from '@/components/ui/Notice';
 import { LockIcon } from './icons';
 import styles from './checkout.module.css';
@@ -13,13 +14,18 @@ import styles from './checkout.module.css';
 type Props = {
   getPayload: () => PaymentPayload;
   onPaid: (capture: { id: string; status: string }) => void;
+  /** The total shown on the page (USD): if the API quotes another amount, the customer is told before paying. */
+  shownAmount?: number;
 };
 
 // The PayPal buttons for one payment, with loading, cancel and error states in the
-// visitor's language. The API decides the amount; getPayload only says what is bought.
-export default function PayPalPanel({ getPayload, onPaid }: Props) {
+// visitor's language. The API decides the amount; getPayload only says what is bought, and shownAmount lets the
+// panel notice when the page and the API disagree (audit 2026-10-10, F04).
+export default function PayPalPanel({ getPayload, onPaid, shownAmount }: Props) {
   const t = useTranslations('checkoutPage.payment');
-  const { createOrder, onApprove, onError, error } = usePayPalOrder({ getPayload, onPaid });
+  const locale = useLocale();
+  const getShownAmount = useCallback(() => shownAmount, [shownAmount]);
+  const { createOrder, onApprove, onError, error, priceChange } = usePayPalOrder({ getPayload, onPaid, getShownAmount });
   const [cancelled, setCancelled] = useState(false);
   // The SDK adds script and style tags of its own; the nonce lets the Content-Security-Policy accept them.
   const nonce = useCspNonce();
@@ -39,9 +45,15 @@ export default function PayPalPanel({ getPayload, onPaid }: Props) {
       <PayPalScriptProvider options={scriptOptions}>
         <Buttons createOrder={start} onApprove={onApprove} onError={onError} onCancel={cancel} />
       </PayPalScriptProvider>
-      {error && (
-        <Notice role="alert">{t(`errors.${error}`)}</Notice>
-      )}
+      {error === 'priceChanged' && priceChange ? (
+        <div data-testid="price-changed">
+          <Notice role="alert">
+          {t('errors.priceChanged', { shown: formatUsd(priceChange.shown, locale), charged: formatUsd(priceChange.charged, locale) })}
+          </Notice>
+        </div>
+      ) : error ? (
+        <Notice role="alert">{t(`errors.${error === 'priceChanged' ? 'start' : error}`)}</Notice>
+      ) : null}
       {cancelled && !error && (
         <Notice tone="info" role="status">
           {t('cancelled')}
