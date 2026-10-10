@@ -93,6 +93,93 @@ describe('POST /admin/users', () => {
   });
 });
 
+// Audit 2026-10-10, F03: an account made in the dashboard had no address "Forgot password" could reach.
+describe('the recovery e-mail', () => {
+  let mail;
+  beforeAll(async () => {
+    mail = (await import('../services/emailService.js')).sendMail;
+  });
+  beforeEach(() => mail.mockClear());
+  const forgot = (email) => http.post('/admin/auth/forgot-password').set('X-Forwarded-For', freshIp()).send({ email });
+  const resetMails = () => mail.mock.calls.filter(([m]) => /reset your password/i.test(m.subject));
+
+  it('is saved lower-cased at creation, tells the address, and makes "Forgot password" work for the new account', async () => {
+    const res = await call('post', '/admin/users', me, { ...GOOD, email: '  New.Editor@Example.com ' });
+    expect(res.status).toBe(201);
+    expect(res.body.item.email).toBe('new.editor@example.com');
+    expect(mail).toHaveBeenCalledTimes(1);
+    expect(mail.mock.calls[0][0]).toMatchObject({ to: ['new.editor@example.com'], subject: expect.stringMatching(/recovery address/i) });
+    expect(mail.mock.calls[0][0].text).toContain('"new.editor"');
+    expect(audits('user.create')[0].meta).toMatchObject({ hasEmail: true });
+    expect(JSON.stringify(fakes.AuditLog.docs)).not.toContain('example.com'); // the address itself is not logged
+
+    expect((await forgot('new.editor@example.com')).status).toBe(202);
+    await vi.waitFor(() => expect(resetMails()).toHaveLength(1));
+    expect(resetMails()[0][0].to).toEqual(['new.editor@example.com']);
+    expect(fakes.Admin.docs.find((a) => a.username === 'new.editor').resetTokenHash).toMatch(/^[a-f0-9]{64}$/);
+  });
+
+  it('stays optional: an account without one is created as before and gets no mail', async () => {
+    const res = await call('post', '/admin/users', me, GOOD);
+    expect(res.status).toBe(201);
+    expect(res.body.item.email).toBe('');
+    expect(mail).not.toHaveBeenCalled();
+  });
+
+  it('can be set, changed and removed later by an owner; a pending reset link does not outlive the change', async () => {
+    const id = (await call('post', '/admin/users', me, GOOD)).body.item._id;
+    const set = await call('patch', `/admin/users/${id}`, me, { email: 'first@example.com' });
+    expect(set.status).toBe(200);
+    expect(set.body.item.email).toBe('first@example.com');
+    expect(mail.mock.calls.at(-1)[0].to).toEqual(['first@example.com']);
+
+    await forgot('first@example.com');
+    await vi.waitFor(() => expect(resetMails()).toHaveLength(1));
+    const stored = () => fakes.Admin.docs.find((a) => String(a._id) === id);
+    expect(stored().resetTokenHash).toBeTruthy();
+
+    const changed = await call('patch', `/admin/users/${id}`, me, { email: 'second@example.com' });
+    expect(changed.body.item.email).toBe('second@example.com');
+    expect(stored().resetTokenHash).toBeNull();
+    expect(audits('user.update').at(-1).meta).toMatchObject({ email: 'set' });
+
+    mail.mockClear();
+    const removed = await call('patch', `/admin/users/${id}`, me, { email: '' });
+    expect(removed.body.item.email).toBe('');
+    expect(mail).not.toHaveBeenCalled();
+    expect(audits('user.update').at(-1).meta).toMatchObject({ email: 'removed' });
+    await forgot('second@example.com');
+    await new Promise((r) => setTimeout(r, 20));
+    expect(resetMails()).toHaveLength(0);
+  });
+
+  it('sending the same address again changes nothing and mails nothing', async () => {
+    const id = (await call('post', '/admin/users', me, { ...GOOD, email: 'same@example.com' })).body.item._id;
+    mail.mockClear();
+    expect((await call('patch', `/admin/users/${id}`, me, { email: 'SAME@example.com' })).status).toBe(200);
+    expect(mail).not.toHaveBeenCalled();
+  });
+
+  it('belongs to one account: refused (409) when it is another account’s e-mail or username, in any case', async () => {
+    await call('post', '/admin/users', me, { ...GOOD, email: 'taken@example.com' });
+    fakes.Admin.seed([{ username: 'owner@example.com', password: quickHash(PASSWORD), role: 'owner' }]);
+    const other = { username: 'second.editor', password: GOOD.password, role: 'editor' };
+    expect((await call('post', '/admin/users', me, { ...other, email: 'TAKEN@example.com' })).status).toBe(409);
+    expect((await call('post', '/admin/users', me, { ...other, email: 'Owner@Example.com' })).status).toBe(409);
+    const id = (await call('post', '/admin/users', me, other)).body.item._id;
+    expect((await call('patch', `/admin/users/${id}`, me, { email: 'taken@example.com' })).status).toBe(409);
+    expect(fakes.Admin.docs.find((a) => String(a._id) === id).email ?? '').toBe('');
+  });
+
+  it('refuses what is not one plain address (400), without saving or mailing', async () => {
+    for (const email of ['not-an-address', 'a@b', 'a@b.co,victim@x.com', 'a b@example.com', '<a@example.com>', 42, { $ne: '' }, ['a@example.com']]) {
+      expect((await call('post', '/admin/users', me, { ...GOOD, email })).status).toBe(400);
+    }
+    expect(fakes.Admin.docs.some((a) => a.username === 'new.editor')).toBe(false);
+    expect(mail).not.toHaveBeenCalled();
+  });
+});
+
 describe('GET /admin/users', () => {
   it('lists accounts without hashes or secrets, shows legacy accounts as owners, paginates and filters', async () => {
     fakes.Admin.seed([

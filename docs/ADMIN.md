@@ -396,8 +396,13 @@ Cache-Control and rate limit as the recordings.
   lockedUntil, lastLoginAt, createdAt }`. Never a hash or secret.
 * `POST /admin/users { username, password, role }`: `201 { item }`. `username`: 3-64 characters, letters, digits and
   `. _ -`, starting with a letter or digit; names that differ only by case are the same name (`409`). `role`:
-  `owner`, `editor` or `viewer`. Password policy as in 3.3.
-* `PATCH /admin/users/:id { role?, disabled?, resetTotp? }` (at least one): change the role, disable or enable the
+  `owner`, `editor` or `viewer`. Password policy as in 3.3. Optional `email`: the account's **recovery address**
+  ("Forgot password" mails its link there; without one, an account whose username is not an e-mail address cannot
+  recover its password and needs an owner). Stored lower-cased; one account per address (`409` when it is another
+  account's e-mail or username); the address is told by mail that it was set. It is not verified by a link: the owner
+  types it, sees it in the users table, and the reset link itself only reaches whoever reads that mailbox.
+* `PATCH /admin/users/:id { role?, disabled?, resetTotp?, email? }` (at least one): set, change or remove (`""`) the
+  recovery address (a pending reset link is cancelled; sessions are untouched), change the role, disable or enable the
   account (enabling also lifts a lockout), or **reset the account's two-factor sign-in** (recovery for someone who lost
   their phone: they sign in with the password alone and set TOTP up again). Disabling, changing the role and resetting
   TOTP end all of the account's sessions.
