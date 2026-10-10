@@ -642,6 +642,7 @@ export const ar: Partial<Record<MessageKey, string>> = {
   'campaigns.spendLabel': 'الإنفاق الإعلاني في هذه الفترة (بالدولار)',
   'campaigns.spendHint': 'اكتب ما دفعته للإعلان في التواريخ المعروضة. لا يُحفظ شيء.',
   'campaigns.costEmpty': 'اكتب المبلغ لترى كم كلّف العميل الدافع الواحد.',
+  'campaigns.costInvalid': 'هذا ليس مبلغًا. اكتب رقمًا، مثل 120 أو 120.50.',
   'campaigns.costNoCustomers': 'لم تكتمل أي مدفوعات في هذه الفترة، لذلك لا توجد تكلفة للعميل بعد.',
   'campaigns.costResult': 'كلّف العميل الدافع الواحد {cost} ({n} مدفوعات مكتملة).',
   'campaigns.byCampaign': 'حسب الحملة',

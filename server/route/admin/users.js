@@ -164,11 +164,21 @@ router.patch('/:id', asyncHandler(async (req, res) => {
   }
   if (changes.resetTotp === true) Object.assign(set, { totpEnabled: false, totpSecretEnc: null, totpLastStep: -1 });
 
-  const item = found(await Admin.findByIdAndUpdate(id, { $set: set }, { new: true }).select('-password -totpSecretEnc').lean(), 'User');
-  if (isEnabledOwner(target) && demoting && (await noEnabledOwnerLeft())) {
-    await Admin.updateOne({ _id: id }, { $set: { role: 'owner', disabled: false } });
-    throw new HttpError(409, 'The last owner cannot be demoted or disabled');
+  // Demoting or disabling an enabled owner is written first, alone, and checked again (see noEnabledOwnerLeft): if it
+  // left no enabled owner it is taken back and NOTHING else of this request is applied (no e-mail change, no
+  // two-factor reset, no session ended). `target` was an enabled owner, so that is the state restored.
+  if (isEnabledOwner(target) && demoting) {
+    const step = {};
+    if (changes.role !== undefined) step.role = changes.role;
+    if (changes.disabled === true) step.disabled = true;
+    await Admin.updateOne({ _id: id }, { $set: step });
+    if (await noEnabledOwnerLeft()) {
+      await Admin.updateOne({ _id: id }, { $set: { role: 'owner', disabled: false } });
+      throw new HttpError(409, 'The last owner cannot be demoted or disabled');
+    }
   }
+
+  const item = found(await Admin.findByIdAndUpdate(id, { $set: set }, { new: true }).select('-password -totpSecretEnc').lean(), 'User');
   if (changes.disabled === true || (changes.role !== undefined && changes.role !== roleOf(target)) || changes.resetTotp === true) {
     await revokeAllSessions(id);
   }

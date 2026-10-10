@@ -662,6 +662,7 @@ export const en = {
   'campaigns.spendLabel': 'Advertising spend in this period (USD)',
   'campaigns.spendHint': 'Type what you paid for advertising in the dates shown. Nothing is saved.',
   'campaigns.costEmpty': 'Type the amount to see what one paying customer cost.',
+  'campaigns.costInvalid': 'That is not an amount. Type a number, for example 120 or 120.50.',
   'campaigns.costNoCustomers': 'There were no completed payments in this period, so there is no cost per customer yet.',
   'campaigns.costResult': 'One paying customer cost {cost} ({n} completed payments).',
   'campaigns.byCampaign': 'By campaign',

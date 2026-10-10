@@ -85,7 +85,8 @@ export function usePayPalOrder({
       setError('priceChanged');
       throw new Error('The price changed');
     }
-    setPriceChange(null);
+    // An accepted change stays on the page (PayPalPanel shows it): the summary above still shows the old total.
+    if (shown === undefined || charged === undefined || !amountsDiffer(shown, charged)) setPriceChange(null);
     track(payload.type, 'pay_start'); // the PayPal window opens for this payment (anonymous count, lib/track.ts)
     approvedPayloads.current.set(res.data.id, payload);
     return res.data.id;

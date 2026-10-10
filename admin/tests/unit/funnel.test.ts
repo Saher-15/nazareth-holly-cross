@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { campaignName, costPerCustomer, dayParam, flowParam, funnelSchema, share } from '@/lib/funnel';
+import { campaignName, costPerCustomer, dayParam, flowParam, funnelSchema, parseAmount, share } from '@/lib/funnel';
 
 // The Campaigns page's arithmetic and what it accepts from the address bar and from the API.
 describe('funnel helpers', () => {
@@ -18,6 +18,16 @@ describe('funnel helpers', () => {
     expect(costPerCustomer(50, 0)).toBeNull();
     expect(costPerCustomer(-1, 4)).toBeNull();
     expect(costPerCustomer(Number.NaN, 4)).toBeNull();
+  });
+
+  // Review of 2026-10-11: "1,200" was read as 1.2.
+  it('parseAmount: reads an amount the way a person types it', () => {
+    const cases: [string, number | null][] = [
+      ['120', 120], ['120.5', 120.5], ['120,50', 120.5], ['1,200', 1200], ['1.200', 1200], ['1 200', 1200], ['1,234.50', 1234.5],
+      ['1.234,50', 1234.5], ['12,345,678', 12345678], ['$60', 60], ['0', 0], [' 75 ', 75], ['١٢٠', 120],
+      ['', null], ['abc', null], ['-5', null], ['1,2,3', null], ['12.3456', null], ['1e3', null],
+    ];
+    for (const [text, value] of cases) expect(parseAmount(text), JSON.stringify(text)).toBe(value);
   });
 
   it('campaignName: the labels that exist, or null for a visit without a campaign link', () => {

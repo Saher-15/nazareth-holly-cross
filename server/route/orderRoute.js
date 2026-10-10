@@ -51,9 +51,13 @@ export async function fulfilOrder(body = {}) {
     if (stored?.lines?.length && quoteSignature(stored.lines) !== quoteSignature(body.products)) {
         throw new HttpError(409, 'Order items do not match the paid quote');
     }
-    const { total: totalPrice, lines } = stored?.lines?.length
+    // A payment without a stored quote (a client that sent none) is priced now. When it comes with a PayPal id the
+    // money may already have moved, so stock and colour no longer refuse it (they are logged): assertPaid below still
+    // requires the captured amount to equal this price.
+    const { total: totalPrice, lines, warnings = [] } = stored?.lines?.length
         ? { total: stored.amount, lines: stored.lines.map(line => ({ productID: line.productID, productName: line.productName, quantity: line.quantity, color: line.color ?? '' })) }
-        : await quoteShopOrder(body.products); // in-flight pre-upgrade payments have no snapshot
+        : await quoteShopOrder(body.products, { afterPayment: Boolean(body.paypalOrderId) });
+    for (const warning of warnings) console.warn(`[${new Date().toISOString()}] [order after payment] ${body.paypalOrderId}: ${warning}`);
 
     // Proof of payment is required by default and always in production. When supplied,
     // PayPal must confirm the order is COMPLETED and captured for exactly the price computed above, and one

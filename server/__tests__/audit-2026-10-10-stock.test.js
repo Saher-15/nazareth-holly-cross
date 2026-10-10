@@ -102,4 +102,47 @@ describe('F01: a saved order takes its units from the stock', () => {
     expect(stockOf(oil)).toBeNull();
     expect(await takeFromStock(undefined)).toEqual({ changed: 0, oversold: [] });
   });
+
+  // Review of 2026-10-11.
+  it('a restock between the failed take and the fallback is not overwritten with 0', async () => {
+    const [cross] = fakes.Product.seed([{ name: 'Olive wood cross', price: 10, img: 'x', stock: 1 }]);
+    const real = fakes.Product.updateOne.bind(fakes.Product);
+    const spy = vi.spyOn(fakes.Product, 'updateOne').mockImplementation(async (filter, update, options) => {
+      const result = await real(filter, update, options);
+      fakes.Product.byId(cross._id).stock = 50; // the owner restocks right after the first attempt found too few
+      return result;
+    });
+    const result = await takeFromStock([{ productID: String(cross._id), quantity: 2 }]);
+    spy.mockRestore();
+    expect(result).toEqual({ changed: 0, oversold: [] });
+    expect(stockOf(cross)).toBe(50);
+  });
+
+  it('a payment made without a stored quote is not refused afterwards for stock or colour: it is saved and logged', async () => {
+    const [cross] = fakes.Product.seed([{ name: 'Olive wood cross', price: 10, img: 'x', stock: 0, color: ['brown'] }]);
+    const id = 'STOCKLEGACY000001';
+    const paid = { id, status: 'COMPLETED', purchase_units: [{ amount: { currency_code: 'USD', value: '14.00' }, payments: { captures: [{ status: 'COMPLETED', amount: { currency_code: 'USD', value: '14.00' } }] } }] };
+    global.fetch = vi.fn(async (url) => ({ ok: true, status: 200, json: async () => (String(url).includes('/oauth2/token') ? { access_token: 'test-token' } : paid) }));
+    const warnings = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const errors = vi.spyOn(console, 'error').mockImplementation(() => {});
+    // an older client: no create_order through this API, so no quote is stored; the unit sold out and the colour is gone
+    const saved = await post('/order/newOrder', { ...address, products: [{ productID: cross._id, quantity: 1, color: 'green' }], paypalOrderId: id });
+    expect(saved.status).toBe(201);
+    expect(fakes.Order.docs).toHaveLength(1);
+    const logged = warnings.mock.calls.flat().join(' ');
+    expect(logged).toMatch(/order after payment.*1 of Olive wood cross ordered, 0 in stock/);
+    expect(logged).toMatch(/colour "green" is not offered/);
+    warnings.mockRestore();
+    errors.mockRestore();
+    // before any payment the same request is still refused
+    expect((await post('/order/create_order', { type: 'order', items: [{ _id: cross._id, quantity: 1, color: 'brown' }] })).status).toBe(409);
+  });
+
+  it('compares colours with HTML entities decoded on both sides', async () => {
+    const { quoteShopOrder } = await import('../services/pricing.js');
+    const [mix] = fakes.Product.seed([{ name: 'Set', price: 10, img: 'x', stock: null, color: ['Black & gold', 'Red &amp; white'] }]);
+    await expect(quoteShopOrder([{ _id: String(mix._id), quantity: 1, color: 'Black &amp; gold' }])).resolves.toMatchObject({ total: 14, warnings: [] });
+    await expect(quoteShopOrder([{ _id: String(mix._id), quantity: 1, color: 'Red &amp; white' }])).resolves.toMatchObject({ total: 14 });
+    await expect(quoteShopOrder([{ _id: String(mix._id), quantity: 1, color: 'Blue' }])).rejects.toMatchObject({ status: 409 });
+  });
 });

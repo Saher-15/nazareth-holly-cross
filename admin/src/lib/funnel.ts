@@ -34,6 +34,28 @@ export function share(part: number, whole: number): number | null {
   return Math.round((part / whole) * 1000) / 10;
 }
 
+/**
+ * An amount of money as a person types it: "1200", "1,200", "1 200", "1200.50", "1200,50", "1.234,50", "1,234.50".
+ * A comma or a point followed by exactly three digits groups thousands; a single one followed by one or two digits is
+ * the decimal mark. Returns null for what is not an amount (and for a negative one). Arabic-Indic digits are read too.
+ */
+export function parseAmount(text: string): number | null {
+  let s = text.trim().replace(/[\u0660-\u0669]/g, (d) => String(d.charCodeAt(0) - 0x0660)).replace(/[\u06f0-\u06f9]/g, (d) => String(d.charCodeAt(0) - 0x06f0));
+  s = s.replace(/[\s\u00a0\u202f'$]/g, '');
+  if (!/^\d[\d.,]*$/.test(s)) return null;
+  const last = Math.max(s.lastIndexOf(','), s.lastIndexOf('.'));
+  if (last >= 0) {
+    const tail = s.length - last - 1;
+    const marks = s.replace(/\d/g, '');
+    const decimal = tail >= 1 && tail <= 2 && (marks.length === 1 || marks[marks.length - 1] !== marks[0] || marks.split(marks[0]).length - 1 === 1);
+    if (decimal) s = s.slice(0, last).replace(/[.,]/g, '') + '.' + s.slice(last + 1);
+    else if (tail === 3) s = s.replace(/[.,]/g, '');
+    else return null;
+  }
+  const value = Number(s);
+  return Number.isFinite(value) && value >= 0 ? value : null;
+}
+
 /** What one paying customer cost: the money spent on advertising divided by the completed purchases. */
 export function costPerCustomer(spend: number, customers: number): number | null {
   if (!Number.isFinite(spend) || spend < 0 || !(customers > 0)) return null;

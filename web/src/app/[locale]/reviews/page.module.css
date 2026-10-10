@@ -32,8 +32,14 @@
     align-items: start;
     margin-top: -48px;
   }
-  .layout > :last-child {
+  /* the wall starts below the hero's overlap; the form card overlaps it */
+  .layout > :last-child:not(.aside) {
     padding-top: 48px;
+  }
+  /* no wall (no review yet): the form alone, centred */
+  .alone {
+    grid-template-columns: minmax(0, 560px);
+    justify-content: center;
   }
 }
 
