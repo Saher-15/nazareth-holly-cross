@@ -17,10 +17,9 @@ Checked with `gh repo list`, `netlify api listSites` and `railway status` (read-
 - **What deploys from where:** Netlify `nazarethholycross` (public site) and `nhc-admin-dashboard` (new admin) build
   from this monorepo; the API runs on **Railway** from this monorepo, root `/server` (Render is suspended); Hermes runs
   on Railway from the `nousresearch/hermes-agent` image.
-- **Left for the owner (Netlify):** the site `nazaretholycrossadmin` (the old admin) is still linked to the repository
-  `nazareth-holy-cross-admin`, which no longer appears; delete the site once nobody uses its address (the new admin is
-  `nhc-admin-dashboard`). Same for the unrelated sites `forma-store`, `urbangents` and `siwarafashionadmin`, whose
-  repositories no longer appear.
+- **Netlify:** the old 2024 admin site `nazaretholycrossadmin` was deleted by the owner on 2026-10-10 (its address now
+  answers 404; the API had already refused it as an origin). Not part of this project, left to the owner: `forma-store`,
+  `urbangents` and `siwarafashionadmin`, whose repositories no longer appear publicly.
 - Steps 14 and 15 of the checklist below are done (by deletion instead of archiving); step 7 is replaced by the
   separate `nhc-admin-dashboard` site.
 
