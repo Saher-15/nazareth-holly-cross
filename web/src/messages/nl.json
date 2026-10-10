@@ -37,10 +37,10 @@
     }
   },
   "about": {
-    "title": "Welkom op het officiële portaal van Nazareth",
+    "title": "Welkom bij Nazareth Holy Cross",
     "description1": "Het hart van het christelijk geloof. Wij begrijpen dat niet iedereen Nazareth in persoon kan bezoeken, de stad waar Jezus opgroeide en waar elke bezoeker geestelijke ervaringen te wachten staan. Daarom bieden wij u graag de mogelijkheid om Nazareth naar u toe te brengen.",
     "description2": "Via onze website kunt u een virtuele rondleiding maken langs de belangrijkste kerken en heilige plaatsen van Nazareth en kennismaken met de rijke geschiedenis en religieuze traditie die deze plek kenmerken. Daarnaast bieden wij u de unieke kans om lokale souvenirs te kopen en zelfs een kaars aan te steken ter nagedachtenis aan of ter ere van uw dierbaren, alsof u hier bij ons was.",
-    "description3": "In onze webwinkel vindt u een breed assortiment: kruisen van lokaal olijfhout, sieraden geïnspireerd op christelijke symbolen, schilderijen en mozaïeken die de rijkdom van de religieuze kunst weerspiegelen, en nog veel meer. Nu kunt u ook water uit de legendarische bron van Nazareth, zand uit Nazareth en lokale olijven kopen — alles om de grootsheid van de stad Nazareth en van Jezus te voelen. U kunt er ook voor kiezen een virtuele kaars aan te steken, een gebaar dat gebed en herinnering over de afstand heen draagt.",
+    "description3": "In onze webwinkel vindt u een breed assortiment: kruisen van lokaal olijfhout, sieraden geïnspireerd op christelijke symbolen, schilderijen en mozaïeken die de rijkdom van de religieuze kunst weerspiegelen, en nog veel meer. Nu kunt u ook water uit de legendarische bron van Nazareth, zand uit Nazareth en lokale olijven kopen — alles om de grootsheid van de stad Nazareth en van Jezus te voelen. U kunt ons ook vragen een echte kaars voor u aan te steken in een kerk in Nazareth en daarvan een video ontvangen.",
     "description4": "Wij nodigen u uit uw hart te openen en de warmte van onze gemeenschap te voelen in elk product dat u koopt. Elke aankoop steunt de lokale gemeenschap en helpt het rijke erfgoed van Nazareth te bewaren voor toekomstige generaties. Bezoek onze website en vind uw eigen weg naar Nazareth, op elk moment en vanaf elke plek."
   },
   "whatIsNew": {
@@ -74,17 +74,8 @@
     "reviews": "Reviews"
   },
   "candle": {
-    "howToLightACandle": "Hoe steekt u een kaars aan?",
-    "itsSimple": "Het is eenvoudig:",
-    "step1": "Kies de kerk waar u de kaars wilt laten aansteken.",
-    "step2": "Schrijf een gebed of een persoonlijke wens die u bij het aansteken van de kaars wilt meegeven.",
-    "step3": "Wij gaan naar de kerk, steken de kaars voor u aan, nemen een video op met uw naam en sturen die rechtstreeks naar u toe.",
-    "note": "Let op: deze video is slechts ter illustratie en laat zien hoe een kaars wordt aangestoken in de Grieks-orthodoxe kerk.",
     "lightAPrayCandle": "Steek een gebedskaars aan",
     "selectChurch": "Kies de kerk waar de kaars moet worden aangestoken:",
-    "toLightACandlePay": "Om een kaars aan te steken, betaalt u $ 3",
-    "light": "AANSTEKEN",
-    "emailMatchError": "De e-mailadressen komen niet overeen",
     "inputWarning": "Kies een kerk.",
     "firstName": "Voornaam",
     "lastName": "Achternaam",
@@ -631,7 +622,7 @@
       "checkoutTitle": "Afrekenen",
       "checkoutDescription": "Rond uw bestelling van souvenirs uit Nazareth af en betaal veilig met PayPal.",
       "candleTitle": "Steek een kaars aan in Nazareth",
-      "candleDescription": "Kies een kerk in Nazareth en schrijf uw gebed. Wij steken een kaars voor u aan en sturen u de video.",
+      "candleDescription": "Kies een kerk in Nazareth en schrijf uw gebed. Wij steken voor u een echte kaars aan en sturen uw persoonlijke video binnen 48 uur.",
       "donateTitle": "Doneren",
       "donateDescription": "Steun Nazareth Holy Cross met een gift, veilig betaald via PayPal."
     },
@@ -639,7 +630,6 @@
       "eyebrow": "Veilig afrekenen",
       "orderTitle": "Rond uw bestelling af",
       "lead": "Uw betaling wordt veilig verwerkt door PayPal.",
-      "candleEyebrow": "Gebedskaars",
       "donateEyebrow": "Gift",
       "donateTitle": "Steun Nazareth Holy Cross",
       "donateLead": "Uw gift helpt ons de heilige plaatsen, gebeden en het ambacht van Nazareth te delen met pelgrims over de hele wereld."
@@ -694,7 +684,6 @@
       "text": "Ontdek rozenkransen, kruisen en souvenirs uit Nazareth."
     },
     "candle": {
-      "price": "Een kaars aansteken: {price}",
       "secureNext": "Hierna controleert u uw gegevens en betaalt u veilig met PayPal."
     },
     "donate": {
@@ -1323,7 +1312,7 @@
       "items": {
         "candle": {
           "q": "Hoe werkt het aansteken van een kaars?",
-          "a": "Kies een kerk in Nazareth, schrijf uw gebed en betaal {price}. Wij steken een kaars voor u aan, nemen een korte video op met uw naam en sturen die naar uw e-mailadres."
+          "a": "Kies een kerk in Nazareth, schrijf uw naam en uw gebed en betaal {price}. Wij steken voor u een echte kaars aan in die kerk, filmen die met uw naam en uw gebed en sturen de video binnen 48 uur naar uw e-mailadres."
         },
         "wall": {
           "q": "Is de gebedsmuur openbaar?",
@@ -1467,7 +1456,7 @@
           },
           "candles": {
             "title": "Kaarsen",
-            "p1": "Een gebedskaars kost {price}. Wij steken een kaars aan voor uw intentie in de kerk van uw keuze en sturen u een video. Het is een dienst van gebed en gedachtenis; wij kunnen geen bepaalde datum of tijd beloven."
+            "p1": "Een gebedskaars kost {price}. Wij steken in de kerk die u kiest een echte kaars aan voor uw intentie, filmen die en sturen de video binnen 48 uur na uw betaling naar uw e-mailadres. Als de video in die tijd niet aankomt of als er iets niet klopt, schrijf ons dan en wij lossen het op."
           },
           "donations": {
             "title": "Giften",
@@ -1932,5 +1921,34 @@
       "planner": "Planner openen",
       "guide": "Bezoekersgids"
     }
+  },
+  "candlePage": {
+    "eyebrow": "Een echte kaars, voor u aangestoken in Nazareth",
+    "title": "Uw gebed. Uw kerk. Uw kaars.",
+    "lead": "Kies een kerk in Nazareth en schrijf uw naam en uw gebed. Wij steken voor u een echte kaars aan in die kerk, filmen die met uw naam en uw gebed en sturen u binnen 48 uur uw persoonlijke video.",
+    "cta": "Steek mijn kaars aan – {price}",
+    "pReal": "Een echte kaars in een echte kerk, geen virtuele",
+    "pVideo": "Uw persoonlijke video binnen 48 uur",
+    "pGuest": "Geen account nodig",
+    "pSecure": "Veilig betalen met PayPal",
+    "stepsTitle": "Zo werkt het",
+    "s1T": "Kies uw kerk",
+    "s1X": "{latin} of {greek}, beide in Nazareth.",
+    "s2T": "Schrijf uw naam en uw gebed",
+    "s2X": "In uw eigen woorden en uw eigen taal. Wij leggen ze op een briefje naast uw kaars.",
+    "s3T": "Betaal {price} en ontvang uw video",
+    "s3X": "Wij steken uw kaars aan, filmen die en sturen uw persoonlijke video binnen 48 uur naar uw e-mailadres.",
+    "knowTitle": "Goed om te weten",
+    "realQ": "Is het een echte kaars?",
+    "realA": "Ja. Iemand van ons team in Nazareth gaat naar de kerk die u hebt gekozen en steekt daar een echte kaars aan. Er is niets virtueels aan.",
+    "getQ": "Wat ontvang ik?",
+    "getA": "Een korte persoonlijke video per e-mail: de kerk, het briefje met uw naam en uw gebed, en uw kaars terwijl die wordt aangestoken.",
+    "timeQ": "Hoe lang duurt het?",
+    "timeA": "U ontvangt uw video binnen 48 uur na uw betaling.",
+    "whoQ": "Wie verzorgt deze dienst?",
+    "whoA": "Nazareth Holy Cross is een onafhankelijke dienst van een lokaal team in Nazareth. Het is geen officiële instantie van de stad Nazareth of van de kerken.",
+    "wrongQ": "En als er iets misgaat?",
+    "wrongA": "Als uw video na 48 uur niet is aangekomen (kijk eerst in uw spammap) of als er iets niet klopt, schrijf ons dan en wij lossen het op.",
+    "contact": "Neem contact op"
   }
 }

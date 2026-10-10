@@ -783,24 +783,49 @@ An empty cart shows a `.ui-glass` empty state with one gold button back to the s
 
 #### Candle (`/candle`)
 
+The page that sells the service, and the landing page of paid campaigns (owner's brief, 2026-10-10). The first
+screen, on a phone too, says what it is and has one priced button.
+
 ```
 +-----------------------------------------------------------------+
-| PageHero (altar photo, "A flame for every prayer")              |
-+-------------------------+---------------------------------------+
-| (candle drawn in CSS)   | {card, overlaps the hero by 56px}      |
-| H2 How to light a candle| ( 1 )-( 2 )-( 3 )  StepIndicator       |
-| 1 Choose a church       | Select church:  [photo card][photo card]|
-| 2 Write the intention   | First name | Last name                 |
-| 3 Pay, we light it      | Email, repeat email, prayer (textarea) |
-| (sticky >= 960 and      | price      (Continue to payment)       |
-|  height >= 820)         | secure-payment note                    |
-+-------------------------+---------------------------------------+
+| PageHero (altar photo, taller: up to 78vh)                      |
+|   eyebrow  "A real candle, lit for you in Nazareth"             |
+|   H1       "Your Prayer. Your Church. Your Candle."             |
+|   lead     real candle, your church, personal video in 48 hours |
+|   (Light My Candle - $3)   gold, large, full width on a phone   |
+|   v real, not virtual  v video in 48 h  v no account  v PayPal  |
++-----------------------------------------------------------------+
+| CandleVideos (only when the owner uploaded films in the admin)   |
++-----------------------------------------------------------------+
+| H2 How it works   {1 church} {2 name + prayer} {3 pay, video}    |
++---------------------------------------+-------------------------+
+| #candle-form  {card}                  | {Good to know}           |
+| ( 1 )-( 2 )-( 3 )  StepIndicator      | Is it a real candle?     |
+| Select church: [photo card][photo card]| What will I receive?     |
+| First name | Last name                 | How long does it take?   |
+| Email, repeat email, prayer           | Who runs this service?   |
+| (Light My Candle - $3)                | What if something goes   |
+| secure-payment note                   | wrong?  (Contact us)     |
++---------------------------------------+-------------------------+
 ```
 
-The prayer text is private and long: the textarea has a visible character limit, keeps what the visitor typed
-when sending fails, and the confirmation page repeats the intention back with gratitude. The flame is decorative
-(`aria-hidden`), still under reduced motion.
+Rules of this page:
 
+- **One promise, the same everywhere.** A real candle in the church the customer chooses, filmed with the name and
+  the prayer, the personal video by e-mail **within 48 hours**. The hero, the steps, the answers, the FAQ
+  (`pilgrim.faq.items.candle`) and the terms (`pilgrim.legal.terms.sections.candles`) say the same thing in all 14
+  languages: change them together, never one alone. Never call the candle "virtual".
+- **The button names the action and the price** (`candlePage.cta`, "Light My Candle - {price}"); the price is the
+  owner's setting from the API, never typed into a message. The hero's button is a plain link to `#candle-form`.
+- **Who we are is said plainly:** an independent service run by a local team in Nazareth, not an official body of
+  the city or of the churches. No page of the site may claim to be "official" (the about page did until 2026-10-10).
+- The films section shows nothing until the owner uploads a film; a customer's name or prayer appears in a film
+  only with that customer's permission.
+- From 960 px the answers sit beside the form (sticky when the window is at least 820 px tall); on a phone they
+  follow it.
+
+The prayer text is private and long: the textarea has a visible character limit, keeps what the visitor typed
+when sending fails, and the confirmation page repeats the intention back with gratitude.
 ![Candle](design/site-candle-en.jpg)
 
 #### Donate (`/donate`)

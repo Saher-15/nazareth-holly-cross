@@ -66,15 +66,15 @@ test.describe('reviews page', () => {
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(en.home.voicesTitle);
     await expect(page.getByRole('heading', { name: form.formTitle })).toBeVisible();
 
+    // The wall shows the reviews, or says it cannot be loaded; with no review yet it is not shown at all (an empty
+    // wall costs trust), and the menu has no "Reviews" link (lib/site.ts headerNav): the footer has.
     const wall = page.getByRole('region', { name: form.messagesTitle });
-    await expect(
-      wall
-        .getByRole('listitem')
-        .first()
-        .or(wall.getByText(form.noMessages))
-        .or(wall.getByText(en.communityPage.reviews.unavailableTitle)),
-    ).toBeVisible();
-    await expect(page.locator('header a[aria-current="page"]')).toHaveAttribute('href', '/en/reviews');
+    if (await wall.count()) {
+      await expect(wall.getByRole('listitem').first().or(wall.getByText(en.communityPage.reviews.unavailableTitle))).toBeVisible();
+    }
+    await expect(wall.getByText(form.noMessages)).toHaveCount(0);
+    await expect(page.getByRole('navigation', { name: 'Nazareth Holy Cross' }).getByRole('link', { name: 'Reviews' })).toHaveCount(0);
+    await expect(page.locator('footer').getByRole('link', { name: 'Reviews' })).toHaveAttribute('href', '/en/reviews');
   });
 
   test('renders right-to-left in Hebrew', async ({ page }) => {

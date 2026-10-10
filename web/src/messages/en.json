@@ -37,10 +37,10 @@
     }
   },
   "about": {
-    "title": "Welcome to the official portal of Nazareth",
+    "title": "Welcome to Nazareth Holy Cross",
     "description1": "The heart of Christian faith. We understand that not everyone can physically visit Nazareth, a city where Jesus grew and where spiritual experiences await every visitor. Therefore, we are pleased to offer you the opportunity to bring Nazareth to you.",
     "description2": "Through our website, you can take a virtual tour of the main churches and holy sites of Nazareth, connect to the rich history and religious tradition that characterizes the place. In addition, we offer you a unique opportunity to purchase local souvenirs and even light a candle in memory or honor of your loved ones, as if you were here with us.",
-    "description3": "In our online store, you can find a wide range of products: crosses made from local olive wood, jewelry inspired by Christian symbols, paintings, and mosaics that reflect the rich religious art, and more. Now, you can also buy water from the legendary Nazareth spring, sand from the sands of Nazareth, and local olives – all to feel the greatness of the city of Nazareth and Jesus. You can also choose to light a virtual candle, an act that conveys prayer and remembrance across distances.",
+    "description3": "In our online store, you can find a wide range of products: crosses made from local olive wood, jewelry inspired by Christian symbols, paintings, and mosaics that reflect the rich religious art, and more. Now, you can also buy water from the legendary Nazareth spring, sand from the sands of Nazareth, and local olives – all to feel the greatness of the city of Nazareth and Jesus. You can also have a real candle lit for you in a church in Nazareth, and receive a video of it.",
     "description4": "We invite you to open your hearts and feel the warmth of our community through every product you choose to buy. Every purchase supports the local community and helps preserve the rich heritage of Nazareth for future generations. Visit our website and find your way to connect with Nazareth, anytime and anywhere."
   },
   "whatIsNew": {
@@ -74,17 +74,8 @@
     "reviews": "Reviews"
   },
   "candle": {
-    "howToLightACandle": "How to light a candle?",
-    "itsSimple": "It's simple:",
-    "step1": "Choose a church where you'd like the candle to be lit.",
-    "step2": "Write a prayer or a personal request you'd like to accompany the candle lighting.",
-    "step3": "We will go to the church, light the candle for you, record a video with your name, and send the video directly to you.",
-    "note": "Note: This video is for illustrative purposes only, showcasing the process of lighting a candle at the Greek orthodox church.",
     "lightAPrayCandle": "Light a prayer candle",
     "selectChurch": "Select church to light the candle in:",
-    "toLightACandlePay": "To light a candle, pay 3$",
-    "light": "LIGHT",
-    "emailMatchError": "Emails don't match",
     "inputWarning": "Please select a church.",
     "firstName": "First name",
     "lastName": "Last name",
@@ -631,7 +622,7 @@
       "checkoutTitle": "Checkout",
       "checkoutDescription": "Complete your order of souvenirs from Nazareth and pay securely with PayPal.",
       "candleTitle": "Light a candle in Nazareth",
-      "candleDescription": "Choose a church in Nazareth and write your prayer. We will light a candle for you and send you the video.",
+      "candleDescription": "Choose a church in Nazareth and write your prayer. We light a real candle for you and send your personal video within 48 hours.",
       "donateTitle": "Donate",
       "donateDescription": "Support Nazareth Holy Cross with a donation, paid securely with PayPal."
     },
@@ -639,7 +630,6 @@
       "eyebrow": "Secure checkout",
       "orderTitle": "Complete your order",
       "lead": "Your payment is processed securely by PayPal.",
-      "candleEyebrow": "Prayer candle",
       "donateEyebrow": "Donation",
       "donateTitle": "Support Nazareth Holy Cross",
       "donateLead": "Your gift helps us share the holy places, prayers and crafts of Nazareth with pilgrims everywhere."
@@ -694,7 +684,6 @@
       "text": "Browse rosaries, crosses and keepsakes from Nazareth."
     },
     "candle": {
-      "price": "To light a candle: {price}",
       "secureNext": "Next you will review your details and pay securely with PayPal."
     },
     "donate": {
@@ -1323,7 +1312,7 @@
       "items": {
         "candle": {
           "q": "How does lighting a candle work?",
-          "a": "Choose a church in Nazareth, write your prayer and pay {price}. We light a candle for you, record a short video with your name and send it to your e-mail address."
+          "a": "Choose a church in Nazareth, write your name and prayer and pay {price}. We light a real candle for you in that church, film it with your name and prayer, and send the video to your e-mail address within 48 hours."
         },
         "wall": {
           "q": "Is the prayer wall public?",
@@ -1467,7 +1456,7 @@
           },
           "candles": {
             "title": "Candles",
-            "p1": "A prayer candle costs {price}. We light a candle for your intention in the church you choose and send you a video. It is a service of prayer and remembrance; we cannot promise a particular date or time."
+            "p1": "A prayer candle costs {price}. We light a real candle for your intention in the church you choose, film it and send the video to your e-mail address within 48 hours of your payment. If the video does not arrive in that time, or something in it is wrong, write to us and we will put it right."
           },
           "donations": {
             "title": "Donations",
@@ -1932,5 +1921,34 @@
       "planner": "Open the planner",
       "guide": "Visitor guide"
     }
+  },
+  "candlePage": {
+    "eyebrow": "A real candle, lit for you in Nazareth",
+    "title": "Your Prayer. Your Church. Your Candle.",
+    "lead": "Choose a church in Nazareth and write your name and your prayer. We light a real candle for you inside that church, film it with your name and prayer, and send you your personal video within 48 hours.",
+    "cta": "Light My Candle – {price}",
+    "pReal": "A real candle in a real church, not a virtual one",
+    "pVideo": "Your personal video within 48 hours",
+    "pGuest": "No account needed",
+    "pSecure": "Secure payment with PayPal",
+    "stepsTitle": "How it works",
+    "s1T": "Choose your church",
+    "s1X": "{latin} or {greek}, both in Nazareth.",
+    "s2T": "Write your name and your prayer",
+    "s2X": "In your own words and your own language. We place them on a note beside your candle.",
+    "s3T": "Pay {price} and receive your video",
+    "s3X": "We light your candle, film it, and send your personal video to your e-mail within 48 hours.",
+    "knowTitle": "Good to know",
+    "realQ": "Is it a real candle?",
+    "realA": "Yes. Someone from our team in Nazareth goes to the church you chose and lights a real candle there. Nothing about it is virtual.",
+    "getQ": "What will I receive?",
+    "getA": "A short personal video by e-mail: the church, the note with your name and prayer, and your candle being lit.",
+    "timeQ": "How long does it take?",
+    "timeA": "You receive your video within 48 hours of your payment.",
+    "whoQ": "Who runs this service?",
+    "whoA": "Nazareth Holy Cross is an independent service run by a local team in Nazareth. It is not an official body of the city of Nazareth or of the churches.",
+    "wrongQ": "What if something goes wrong?",
+    "wrongA": "If your video has not arrived within 48 hours (please check your spam folder first), or something in it is wrong, write to us and we will put it right.",
+    "contact": "Contact us"
   }
 }

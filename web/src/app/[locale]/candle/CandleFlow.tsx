@@ -189,10 +189,9 @@ export default function CandleFlow({ priceUsd }: { priceUsd: number }) {
           )}
 
           <div className={styles.pay}>
-            <p className={styles.price}>{t('candle.price', { price })}</p>
-            <button type="submit" className={`ui-btn ui-btn--gold ${shared.btnLg}`}>
+            <button type="submit" className={`ui-btn ui-btn--gold ${shared.btnLg}`} data-testid="candle-submit">
               <Flame size="sm" ink />
-              {tr('candle.light')}
+              {tr('candlePage.cta', { price })}
             </button>
           </div>
           <p className={shared.secure}>

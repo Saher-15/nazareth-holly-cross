@@ -212,7 +212,7 @@ test.describe('about', () => {
   test('shows the welcome and the three ways to connect', async ({ page }) => {
     await page.goto('/en/about');
     await expect(page).toHaveTitle(/About us/);
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Welcome to the official portal of Nazareth');
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Welcome to Nazareth Holy Cross');
     const main = page.locator('main');
     await expect(main.getByRole('heading', { level: 2 })).toHaveText([
       'A pilgrimage from afar',
