@@ -10,7 +10,10 @@ export default function StepIndicator({ current, className = '' }: { current: Fl
   const t = useTranslations('checkoutPage.steps');
   const currentIndex = STEPS.indexOf(current);
 
+  // The wrapper is the container the list measures itself against: too narrow for three labels side by side (a phone
+  // with large text), it lists the steps one under the other (checkout.module.css, "step indicator").
   return (
+    <div className={styles.stepsBox}>
     <ol className={`${styles.steps} ${className}`} aria-label={t('label')}>
       {STEPS.map((step, i) => {
         const state = i < currentIndex ? 'done' : i === currentIndex ? 'current' : 'upcoming';
@@ -24,5 +27,6 @@ export default function StepIndicator({ current, className = '' }: { current: Fl
         );
       })}
     </ol>
+    </div>
   );
 }

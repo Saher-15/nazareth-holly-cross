@@ -13,6 +13,9 @@ const { missing, used } = analyse(english);
 // (The shop's namespaces - cart, shop, shopPage, product, pagination - are the shop's own business and
 // are not checked here.)
 const LEGACY_UNUSED = [
+  // Replaced on 2026-10-07 by checkoutPage.form.errorSummary (names the fields instead of "the highlighted fields").
+  // Left in the message files while fix/content-i18n edits them; delete it from all 14 files after that merge.
+  'checkoutPage.form.fixErrors',
   'site.tagline',
   'live.refresh_note',
   'common.home',

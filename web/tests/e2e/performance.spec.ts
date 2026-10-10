@@ -87,6 +87,26 @@ test('the home page never downloads a hero film', async ({ page }) => {
   await expect(page.locator('#home-hero video')).toHaveCount(0);
 });
 
+// A phone held sideways is wider than 768 px (it used to download 2.8 MB of film in 15 s), and a tablet is a touch
+// screen that is often on mobile data: neither gets the film, only the photo.
+for (const [name, device] of [
+  ['a phone held in landscape (823 x 412)', { viewport: { width: 823, height: 412 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2.6 }],
+  ['a tablet (820 x 1180)', { viewport: { width: 820, height: 1180 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2 }],
+] as const) {
+  test(`${name} never downloads the hero film`, async ({ browser, isMobile }) => {
+    test.skip(isMobile, 'one run is enough (the desktop project)');
+    const context = await browser.newContext(device);
+    const page = await context.newPage();
+    const requested: string[] = [];
+    page.on('request', (r) => /\/videos\//.test(r.url()) && requested.push(r.url()));
+    await page.goto('/en', { waitUntil: 'load' });
+    await page.waitForTimeout(4000);
+    expect(requested).toEqual([]);
+    await expect(page.locator('#home-hero video')).toHaveCount(0);
+    await context.close();
+  });
+}
+
 test('static assets are cached for a long time and the language cookie is not set for anonymous probes', async ({ request }) => {
   for (const file of ['/videos/hero-loop.mp4', '/videos/hero-tour-00.mp4', '/videos/hero-tour-11.mp4']) {
     const film = await request.head(file);

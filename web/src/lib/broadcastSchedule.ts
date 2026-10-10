@@ -2,6 +2,7 @@ import './zodConfig';
 import { z } from 'zod';
 import { ApiError, getJson } from './api';
 import { decodeEntities } from './plainText';
+import { BROADCAST_DURATION_MS } from './time';
 
 // The broadcasts the team schedules in the dashboard, as the Christian calendar of /live shows them
 // (docs/LITURGICAL-CALENDAR.md). The API answers GET /live/schedule (docs/LIVE.md, added by the live-recordings work)
@@ -23,8 +24,8 @@ export type CalendarBroadcast = {
   start: number;
 };
 
-/** How long a broadcast is assumed to last, for "add to calendar" and the structured data (the API does not say). */
-export const BROADCAST_DURATION_MS = 60 * 60 * 1000;
+/** How long a broadcast is assumed to last (defined in lib/time.ts, which the browser can import without zod). */
+export { BROADCAST_DURATION_MS };
 export const MAX_BROADCASTS = 50;
 
 const itemSchema = z.object({

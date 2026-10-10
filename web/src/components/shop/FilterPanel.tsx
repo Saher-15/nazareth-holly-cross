@@ -2,7 +2,7 @@
 
 import { useId, useState, type KeyboardEvent } from 'react';
 import { useFormatter, useTranslations } from 'next-intl';
-import { CATEGORIES, MATERIALS, type Category, type Material } from '@/lib/api';
+import { CATEGORIES, MATERIALS, type Category, type Material } from '@/lib/shop/terms';
 import type { runQuery, ShopQuery } from '@/lib/shop/query';
 import styles from './FilterPanel.module.css';
 

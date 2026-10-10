@@ -6,7 +6,8 @@ import { ChevronEndIcon, ChevronStartIcon } from '@/components/ui/icons';
 import { useToast } from '@/components/ui/Toast';
 import { buildIcs, saveIcsFile } from '@/data/pilgrim/ics';
 import { isRtl } from '@/i18n/routing';
-import { BROADCAST_DURATION_MS, type CalendarBroadcast } from '@/lib/broadcastSchedule';
+import type { CalendarBroadcast } from '@/lib/broadcastSchedule';
+import { BROADCAST_DURATION_MS } from '@/lib/time';
 import {
   addMonths,
   daysBetween,

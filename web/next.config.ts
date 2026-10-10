@@ -56,6 +56,13 @@ const nextConfig: NextConfig = {
     ? { turbopack: { root: path.resolve(process.env.TURBOPACK_ROOT) }, outputFileTracingRoot: path.resolve(process.env.TURBOPACK_ROOT) }
     : {}),
   poweredByHeader: false,
+  // Title, description, canonical, hreflang and Open Graph always in <head>, for every visitor and every crawler.
+  // By default Next streams metadata into <body> when generateMetadata is still busy as the shell is sent, and only
+  // a fixed list of "HTML-limited" bots (not Googlebot) gets it in <head>: the 868 product pages (whose metadata
+  // waits for the catalogue) had it in <body>, where Google ignores rel=canonical and hreflang, and Lighthouse
+  // reported "no meta description". Every generateMetadata here reads cached translations or the same cached
+  // catalogue read the page itself awaits, so blocking on it costs no measurable time (docs/PERFORMANCE.md).
+  htmlLimitedBots: /.*/,
   reactStrictMode: true,
   images: {
     formats: ['image/avif', 'image/webp'],
@@ -71,13 +78,12 @@ const nextConfig: NextConfig = {
     qualities: [75, 85],
     remotePatterns: [{ protocol: 'https', hostname: 'firebasestorage.googleapis.com' }],
   },
-  // Addresses of the previous site keep working (search engines, shared links).
+  // Addresses of the previous site keep working (search engines, shared links). The bare ones (/latin, /product/<id>)
+  // are answered by src/proxy.ts with ONE permanent redirect straight to the page in the visitor's language
+  // (src/lib/legacyPaths.ts); here only the language-prefixed forms (/en/latin), which the proxy leaves alone.
   async redirects() {
     const places = ['latin', 'greek', 'maryswell', 'oldcity', 'city'];
-    // The same rules once more with a language in front: the language proxy may add it first
-    // (/latin -> /en/latin), and on some hosts that happens before these redirects are applied.
     const withLocale = (rule: { source: string; destination: string }) => [
-      { ...rule, permanent: true },
       {
         source: `/:locale(${locales.join('|')})${rule.source}`,
         destination: `/:locale${rule.destination}`,

@@ -181,3 +181,25 @@ rules; site reviews were not searchable by place.
 
 Not verified: real MongoDB data (how many stored reviews, orders or products hold values these rules now refuse:
 the rules only apply to new input), real PayPal, Firefox and Safari.
+
+## 8. Reviews 03 and 05 fixes (2026-10-07, branch `fix/perf-seo-a11y`)
+
+What changed and the numbers: `docs/PERFORMANCE.md` section 10 (performance and SEO) and `docs/ACCESSIBILITY.md` 4.3
+(the public-site accessibility findings). New or changed tests:
+
+- `tests/e2e/shop.spec.ts`: product metadata (title, description, canonical to the English page, Open Graph) in `<head>`
+  for Googlebot and a browser, in en and he; an unknown or malformed product id answers 404; the product name is
+  `lang="en"`.
+- `tests/e2e/payments.spec.ts`: tabbing through the empty checkout flags nothing; a changed field is checked on blur;
+  the first invalid field has `aria-invalid` and its error text at the moment it is focused; the alert names the fields.
+- `tests/e2e/performance.spec.ts`: a phone held sideways (823 x 412) and a tablet (820 x 1180) never fetch the hero film.
+- `tests/e2e/international.spec.ts`, `tests/unit/intl.test.tsx`: products are in the sitemap once, in English, without
+  alternates.
+- Unit: `proxy.test.ts` (one 308 for the old site's addresses), `legacy-redirects.test.ts`, `netlify-config.test.ts`
+  (`http://www` in one hop), `shop-seo.test.ts`, `shop-reviews.test.ts` (the browser's `zod/mini` review schema reads
+  answers like the server's), `perf-assets.test.ts` (font family names of the Hebrew and Arabic stacks).
+- `npm run scan:bundle` fails when the full `zod` library reaches a browser chunk.
+
+Known: `tests/e2e/live-broadcast.spec.ts` (the two tests with the fake clock) failed once in a full parallel run on a busy
+machine and passed when run on their own (8 of 8). This branch changed the live-status parser to `zod/mini` (the same
+checks, covered by the unit tests), not the poller or its timing.

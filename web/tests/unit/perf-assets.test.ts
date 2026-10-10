@@ -1,5 +1,5 @@
 // @vitest-environment node
-import { closeSync, existsSync, openSync, readdirSync, readSync, statSync } from 'node:fs';
+import { closeSync, existsSync, openSync, readdirSync, readFileSync, readSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { LEAN_WIDTHS, getMedia, mediaFile, mediaSrcSet } from '@/data/media';
@@ -71,5 +71,20 @@ describe('videos in the repository', () => {
     expect(HERO_VIDEO[0].type).toMatch(/webm/);
     expect(HERO_VIDEO.at(-1)?.type).toBe('video/mp4');
     expect(contentUrl(LIVE_PRAYER_VIDEO, 'https://example.com')).toBe('https://example.com/videos/live-17-9-24.mp4');
+  });
+});
+
+describe('fonts of the Hebrew and Arabic pages (src/styles/tokens.css)', () => {
+  const read = (file: string) => readFileSync(join(process.cwd(), file), 'utf8');
+  const fonts = read('src/lib/fonts.ts');
+  const tokens = read('src/styles/tokens.css');
+  // next/font/google names a face after its loader: EB_Garamond -> 'EB Garamond'.
+  const family = (name: 'serif' | 'sans') => new RegExp(`export const ${name} = (\\w+)\\(`).exec(fonts)?.[1]?.replace(/_/g, ' ');
+
+  it.each(['he', 'ar'])('%s: the preloaded Latin face first, by its real family name, then the script face', (lang) => {
+    const rule = new RegExp(`:root:lang\\(${lang}\\) \\{([^}]*)\\}`).exec(tokens)?.[1] ?? '';
+    expect(family('sans')).toBe('Inter');
+    expect(rule).toContain(`--sans: '${family('sans')}', var(--font-${lang}-sans), var(--font-sans)`);
+    expect(rule).toContain(`--serif: '${family('serif')}', var(--font-${lang}-serif), var(--font-serif)`);
   });
 });

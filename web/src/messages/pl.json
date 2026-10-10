@@ -582,6 +582,7 @@
     "galleryLabel": "Zdjęcia: {name}",
     "enlarge": "Powiększ zdjęcie: {name}",
     "zoomHint": "Najedź na zdjęcie, aby je powiększyć.",
+    "zoomKeys": "Z klawiatury: Enter lub + powiększa, strzałki przesuwają obraz, Enter lub - pomniejsza.",
     "close": "Zamknij",
     "showImage": "Pokaż zdjęcie {n} z {total}",
     "colour": "Kolor",
@@ -647,6 +648,7 @@
       "continue": "Przejdź do płatności",
       "edit": "Edytuj dane",
       "fixErrors": "Popraw zaznaczone pola.",
+      "errorSummary": "Sprawdź te pola: {fields}.",
       "errors": {
         "required": "To pole jest wymagane.",
         "tooLong": "Użyj najwyżej {max} znaków.",

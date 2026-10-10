@@ -1,8 +1,9 @@
 'use client';
 
 import { useCallback, useRef, useState } from 'react';
-import { z } from 'zod';
 import './zodConfig';
+// zod/mini, not zod: browser code (see zodConfig.ts).
+import * as z from 'zod/mini';
 import { postJson } from './apiClient';
 import { pendingFulfilment } from './pendingFulfilment';
 import { track } from './track';
@@ -23,7 +24,7 @@ export type PaymentErrorCode = 'start' | 'notCompleted' | 'unconfirmed' | 'paypa
 export type PriceChange = { shown: number; charged: number };
 
 // `amount` is the price the API computed and gave to PayPal (server/route/orderRoute.js create_order).
-const createdSchema = z.object({ id: z.string().min(1), amount: z.number().positive().optional() });
+const createdSchema = z.object({ id: z.string().check(z.minLength(1)), amount: z.optional(z.number().check(z.positive())) });
 
 /** Do two USD amounts differ by a cent or more? */
 export const amountsDiffer = (a: number, b: number) => Math.abs(Math.round(a * 100) - Math.round(b * 100)) >= 1;

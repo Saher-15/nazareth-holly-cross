@@ -100,6 +100,36 @@
   }
 }
 
+/* A short window (a laptop at 400% zoom is 320 x 256 CSS px; a phone held sideways): above the button, under the
+   header, the panel was an 84-96 px strip that showed one control at a time, its title and Close scrolled away, for
+   the very visitors who need it most. There it becomes a sheet over the whole window, header included, scrolling
+   inside itself, its title and Close button pinned at the top. (Below 420 px of height the anchored panel would be
+   under about 60% of the window.) The button's lift is a transform, which would trap a fixed child: off while open. */
+@media (max-height: 420px) {
+  .root:has(.panel) {
+    z-index: var(--z-menu);
+    transform: none;
+  }
+  .panel {
+    position: fixed;
+    inset: 0;
+    inline-size: auto;
+    max-block-size: none;
+    padding: 0 max(var(--space-4), env(safe-area-inset-right, 0px)) var(--space-5)
+      max(var(--space-4), env(safe-area-inset-left, 0px));
+    border: 0;
+    border-radius: 0;
+  }
+  .head {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 1;
+    padding-block: var(--space-2);
+    background: var(--night-2);
+    border-block-end: 1px solid var(--glass-line);
+  }
+}
+
 .head {
   display: flex;
   align-items: center;

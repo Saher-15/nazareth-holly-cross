@@ -1,9 +1,10 @@
-import { NextRequest, type NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import createMiddleware from 'next-intl/middleware';
 import { defaultLocale, languageFallbacks, locales, routing } from './i18n/routing';
 import { API_URL } from './lib/config';
 import { buildCsp, generateNonce, isLocalHost, originOf } from './lib/csp';
 import { HSTS_VALUE } from './lib/hsts';
+import { legacyTarget } from './lib/legacyPaths';
 import { isCrawler, withLanguageFallbacks } from './lib/negotiate';
 
 // 1. Sends visitors without a language in the URL to the one they prefer, in this order:
@@ -51,7 +52,28 @@ export default function proxy(request: NextRequest): NextResponse {
     seen = new NextRequest(request, { headers });
   }
 
-  const response = intl(seen);
+  // An address of the previous site (/latin, /product/<id> ...): ask next-intl about its new path instead, so the
+  // visitor's language is chosen exactly as for any bare address, then answer with one permanent redirect. Before,
+  // the language redirect (307 /latin -> /en/latin) came first and next.config.ts's 308 second: two hops, the first
+  // one temporary, so search engines kept the old address.
+  const legacy = safeMethod ? legacyTarget(request.nextUrl.pathname) : null;
+  if (legacy) {
+    const url = seen.nextUrl.clone();
+    url.pathname = legacy;
+    seen = new NextRequest(url, { headers: seen.headers });
+  }
+
+  let response = intl(seen);
+  if (legacy) {
+    const location = response.headers.get('location');
+    if (location) {
+      const permanent = NextResponse.redirect(location, 308);
+      response.headers.forEach((value, key) => {
+        if (key !== 'location') permanent.headers.append(key, value);
+      });
+      response = permanent;
+    }
+  }
   response.headers.set('Content-Security-Policy', csp);
 
   // A crawler has no preference to remember. Neither has a client that sent no Accept-Language and no language

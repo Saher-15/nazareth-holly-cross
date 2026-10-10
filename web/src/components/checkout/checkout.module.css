@@ -35,6 +35,9 @@
 }
 
 /* ---- step indicator ---- */
+.stepsBox {
+  container: steps / inline-size;
+}
 .steps {
   display: flex;
   max-width: 460px;
@@ -111,6 +114,38 @@
 }
 .step[data-state='current'] .stepName {
   color: var(--gold);
+}
+/* Too narrow for three labels side by side (em: measured in the list's own text size, so 200% text on a phone, or a
+   320 px screen at 400% zoom, gets here): one step per line, the dot at the start, no connecting lines. Before, the
+   labels ran into each other ("PAYMENGONFIRM") and the last dot was cut off (WCAG 1.4.10, 1.4.4). */
+@container steps (max-width: 18em) {
+  .steps {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    max-width: none;
+  }
+  .step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-align: start;
+  }
+  .step + .step::before {
+    display: none;
+  }
+  .stepDot {
+    flex: none;
+  }
+  /* Sentence case and no tracking here: in capitals with 0.08em tracking "CONFIRMATION" did not fit a 320 px screen at
+     200% text and broke before its last letter. */
+  .stepName {
+    flex: 1;
+    min-width: 0;
+    letter-spacing: 0;
+    text-transform: none;
+    overflow-wrap: anywhere;
+  }
 }
 
 /* ---- cards ---- */

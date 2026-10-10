@@ -1,9 +1,10 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
 import { useLocale, useTranslations } from 'next-intl';
 import { pendingFulfilment, type PendingPath } from '@/lib/pendingFulfilment';
-import { scrollBehavior } from '@/lib/motion';
+import { moveFocus, scrollBehavior } from '@/lib/motion';
 import { formatUsd } from '@/lib/pricing';
 import { DONATION_MAX, DONATION_MIN, hasErrors, type FieldError, type FormErrors } from './validation';
 
@@ -41,8 +42,10 @@ export function fieldOrder<K extends string>(ids: Record<K, string>): [K, string
   return (Object.keys(ids) as K[]).map((key) => [key, ids[key]]);
 }
 
-// Controlled form state with inline validation: a field shows its error once it has been
-// left (blur) or after the first submit attempt, and the error updates as the visitor types.
+// Controlled form state with inline validation: a field shows its error once the visitor has typed in it and left it
+// (blur), or after the first submit attempt, and the error updates as the visitor types. Only tabbing through an empty
+// form shows nothing: a keyboard or screen-reader user who reads the form first must not hear "required" on every
+// field (it used to flag all ten checkout fields).
 export function useValidatedForm<F extends Record<string, unknown>, K extends string>(
   initial: F,
   validate: (values: F) => FormErrors<K>,
@@ -50,28 +53,38 @@ export function useValidatedForm<F extends Record<string, unknown>, K extends st
   const [values, setValues] = useState(initial);
   const [touched, setTouched] = useState<Partial<Record<K, boolean>>>({});
   const [submitted, setSubmitted] = useState(false);
+  const changed = useRef(new Set<string>());
   const errors = validate(values);
 
   const set = useCallback(<P extends keyof F>(key: P, value: F[P]) => {
+    changed.current.add(String(key));
     setValues((v) => ({ ...v, [key]: value }));
   }, []);
-  const touch = useCallback((key: K) => {
+  /** The field `key` was left. It counts once the value behind it (`source`, the same name unless the form says
+   *  otherwise) has been changed. */
+  const touch = useCallback((key: K, source: string = key) => {
+    if (!changed.current.has(source)) return;
     setTouched((t) => (t[key] ? t : { ...t, [key]: true }));
   }, []);
 
   const shown = (key: K) => (submitted || touched[key] ? errors[key] : undefined);
 
+  /** The fields with an error, in screen order (for the summary that names them). */
+  const invalid = (order: [K, string][]) => (submitted ? order.filter(([key]) => errors[key]).map(([key]) => key) : []);
+
   // Returns true when the form is valid; otherwise reveals every error and focuses the first
   // invalid control (`order` lists the fields in screen order with their element ids).
   const submit = (order: [K, string][]) => {
-    setSubmitted(true);
+    // Rendered first (aria-invalid, the linked error texts and the summary), then focused: a screen reader reads the
+    // field once, when it gets the focus, so its error must already be there (WCAG 3.3.1, 4.1.3).
+    flushSync(() => setSubmitted(true));
     if (!hasErrors(errors)) return true;
     const first = order.find(([key]) => errors[key]);
-    if (first) document.getElementById(first[1])?.focus();
+    if (first) moveFocus(document.getElementById(first[1]));
     return false;
   };
 
-  return { values, set, touch, errors, shown, submitted, submit };
+  return { values, set, touch, errors, shown, submitted, submit, invalid };
 }
 
 // When the step changes: scrolls the flow (marked data-flow, so the step indicator shows)

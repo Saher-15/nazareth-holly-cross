@@ -65,9 +65,12 @@ describe('hreflang and Open Graph', () => {
   });
 
   it('puts every language version of every page in the sitemap, each with reciprocal alternates', async () => {
-    const entries = await sitemap();
-    const urls = entries.map((e) => e.url);
+    const all = await sitemap();
+    const urls = all.map((e) => e.url);
     expect(new Set(urls).size).toBe(urls.length);
+    // Products are the exception: listed once, in English, without alternates (components/shop/seo.ts).
+    const isProduct = (url: string) => /\/shop\/[^/]+$/.test(url);
+    const entries = all.filter((e) => !isProduct(e.url));
     expect(entries.length % locales.length).toBe(0);
     for (const entry of entries) {
       const languages = entry.alternates?.languages as Record<string, string>;
@@ -78,8 +81,11 @@ describe('hreflang and Open Graph', () => {
     // The five holy places are indexed, the cart and checkout are not.
     expect(urls).toContain('https://nazarethholycross.com/he/sites/maryswell');
     expect(urls.some((u) => /\/(cart|checkout)$/.test(u))).toBe(false);
-    // Products of the shop follow the same rule (the catalogue is mocked above).
-    expect(urls).toContain('https://nazarethholycross.com/nl/shop/p1');
+    // Products of the shop (the catalogue is mocked above): only the English page, the one their text is written in.
+    expect(urls).toContain('https://nazarethholycross.com/en/shop/p1');
+    expect(urls).not.toContain('https://nazarethholycross.com/nl/shop/p1');
+    const product = all.find((e) => e.url === 'https://nazarethholycross.com/en/shop/p1');
+    expect(product?.alternates).toBeUndefined();
   });
 });
 

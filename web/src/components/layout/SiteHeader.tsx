@@ -4,10 +4,11 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { openSiteSearch } from '@/components/search/events';
 import { CloseIcon, MenuIcon, SearchIcon } from '@/components/ui/icons';
-import { Link, usePathname } from '@/i18n/navigation';
+import { usePathname } from '@/i18n/navigation';
 import { headerNav } from '@/lib/site';
 import type { LiveSeed } from '@/lib/useLiveStatus';
 import BrandLogo from './BrandLogo';
+import IntentLink from './IntentLink';
 import LanguageSwitcher from './LanguageSwitcher';
 import LiveNavIndicator from './LiveNavIndicator';
 import styles from './SiteHeader.module.css';
@@ -121,13 +122,13 @@ export default function SiteHeader({ live }: { live?: LiveSeed }) {
         {t('skipToContent')}
       </a>
       <div className={`ui-container ${styles.bar}`}>
-        <Link href="/" className={styles.brand}>
+        <IntentLink href="/" className={styles.brand}>
           <BrandLogo className={styles.logo} sizes="(max-width: 480px) 40px, 46px" size={46} />
           {/* The brand is Latin in every language: left to right, so a cut-off name ends in "..." on its own end. */}
           <span className={styles.brandName} dir="ltr">
             {t('name')}
           </span>
-        </Link>
+        </IntentLink>
 
         <nav
           id="main-nav"
@@ -138,7 +139,7 @@ export default function SiteHeader({ live }: { live?: LiveSeed }) {
           <ul>
             {headerNav.map((item) => (
               <li key={item.key}>
-                <Link
+                <IntentLink
                   href={item.href}
                   className={styles.link}
                   aria-current={isActive(item.href) ? 'page' : undefined}
@@ -146,14 +147,14 @@ export default function SiteHeader({ live }: { live?: LiveSeed }) {
                 >
                   {t(`nav.${item.key}`)}
                   {item.key === 'live' ? <LiveNavIndicator seed={live} /> : null}
-                </Link>
+                </IntentLink>
               </li>
             ))}
             {/* The same call to action as in the bar, shown last inside the sheet. */}
             <li className={styles.drawerCta}>
-              <Link href="/donate" className="ui-btn ui-btn--gold" onClick={() => setOpen(false)}>
+              <IntentLink href="/donate" className="ui-btn ui-btn--gold" onClick={() => setOpen(false)}>
                 {t('nav.donate')}
-              </Link>
+              </IntentLink>
             </li>
             {/* Phones have no room for the search button in the bar: the sheet carries it. */}
             <li className={styles.sheetSearch}>
@@ -177,9 +178,9 @@ export default function SiteHeader({ live }: { live?: LiveSeed }) {
             <SearchIcon size={20} />
           </button>
           <LanguageSwitcher />
-          <Link href="/donate" className={`ui-btn ui-btn--gold ui-btn--sm ${styles.donate}`}>
+          <IntentLink href="/donate" className={`ui-btn ui-btn--gold ui-btn--sm ${styles.donate}`}>
             {t('nav.donate')}
-          </Link>
+          </IntentLink>
           <button
             ref={buttonRef}
             type="button"

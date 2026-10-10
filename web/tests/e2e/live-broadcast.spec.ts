@@ -66,7 +66,9 @@ test.describe('live broadcast on /live', () => {
     const problems = cspProblems(page);
     const api = await fakeApi(page, { live: false });
     await page.clock.install();
-    await page.goto('/en/live');
+    // Hydrated (the poller has armed its timer) before the clock jumps: on a busy machine the HTML is visible well
+    // before the scripts run, and a jump made earlier is lost (the first poll then waits 15 real seconds).
+    await page.goto('/en/live', { waitUntil: 'networkidle' });
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
 
     api.status = live('Evening prayer &amp; vespers');
@@ -101,7 +103,9 @@ test.describe('live broadcast on /live', () => {
   test('an address that is not Cloudflare\'s player is never framed', async ({ page }) => {
     const api = await fakeApi(page, { live: false });
     await page.clock.install();
-    await page.goto('/en/live');
+    // Hydrated (the poller has armed its timer) before the clock jumps: on a busy machine the HTML is visible well
+    // before the scripts run, and a jump made earlier is lost (the first poll then waits 15 real seconds).
+    await page.goto('/en/live', { waitUntil: 'networkidle' });
     api.status = { ...(live('Trap') as Extract<Status, { live: true }>), playbackUrl: 'https://evil.example.com/x/iframe' };
     await page.clock.fastForward(16_000);
     await expect.poll(() => api.requests).toBeGreaterThanOrEqual(1);
@@ -112,7 +116,9 @@ test.describe('live broadcast on /live', () => {
     const api = await fakeApi(page, { live: false });
     await page.setViewportSize({ width: 360, height: 740 });
     await page.clock.install();
-    await page.goto('/he/live');
+    // Hydrated (the poller has armed its timer) before the clock jumps: on a busy machine the HTML is visible well
+    // before the scripts run, and a jump made earlier is lost (the first poll then waits 15 real seconds).
+    await page.goto('/he/live', { waitUntil: 'networkidle' });
     api.status = live('תפילת ערב');
     await page.clock.fastForward(16_000);
     await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');

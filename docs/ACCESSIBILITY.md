@@ -158,6 +158,27 @@ top, the floating "Light a candle" pill is left out (the same link is in the her
 shows one church per row and the donation form two amounts per row, photo cards grow with their text on a dark
 panel, and words may break anywhere so nothing is pushed wider than the screen.
 
+### 4.3 Review 03 (2026-10-07): the public-site findings and what changed (branch `fix/perf-seo-a11y`)
+
+The blind, keyboard-only and low-vision review of 2026-10-07 (`review/03-accessibility.md`, outside the repository)
+found no axe violations but these behaviours. The dashboard's findings (orders drawer, sign-in) are handled elsewhere.
+
+| Review finding | WCAG | What changed | Checked by |
+|---|---|---|---|
+| 1. Errors not announced on an empty submit: focus reached the field before `aria-invalid` and the error text existed | 3.3.1, 4.1.3 | Prayers, reviews, contact, product review and the three payment forms render the errors first (`flushSync`), then move the focus, so the field is read with "invalid entry" and its error. Checkout, candle and donate end with one alert that names the fields ("Please check these fields: First name, Email and Country.", `<ErrorSummary>`), instead of "the highlighted fields" | `payments.spec.ts` (aria-invalid and the description recorded at the moment of focus); by script on six forms in en and he |
+| 4. Step indicator overlapping at 320 px with 200% text ("PAYMENGONFIRM") | 1.4.10, 1.4.4 | The steps measure their own box (a container query in `em`): too narrow for three labels side by side, they stand one under the other, dot first | by script: 0 elements outside the screen on candle and donate (en, he) at 320 px and 200% |
+| 5. Accessibility panel an 84-96 px strip at 400% zoom | usability, 1.4.10 | Below 420 px of window height the panel is a sheet over the whole window, its title and Close pinned at the top | by script at 320 x 256 with 200% text (en, he): the panel fills the window, Close stays visible while it scrolls, Escape returns the focus |
+| 6. Planner wider than the screen at 320 px with 200% text | 1.4.10 | The planner's grid, the pace cards and every `.ui-field` are a `minmax(0, 1fr)` column; chips and pace names may break | by script (en, he) |
+| 7. Smooth scrolling left focus off screen | 2.4.11 | Focus moved by code goes through `moveFocus()` (`web/src/lib/motion.ts`): an instant scroll that puts the element mid-screen, then `focus({ preventScroll: true })`, which also stops a smooth scroll still running | by script: the focused field at y = 379-401 of 800 |
+| 8. Focus lost to `<body>` while sending, and after a failed send | 2.4.3 | Submit buttons use `aria-disabled` while sending (a click is ignored by the handler); a refused send moves the focus to its alert (`tabIndex={-1}`) | by script on contact with the API write refused: focus on the alert |
+| 9. Every checkout field flagged just by tabbing through | 3.3, usability | A field shows its error on blur only once the visitor changed it, or after a submit attempt (`useValidatedForm`) | `payments.spec.ts` (11 Tabs: no error; a changed then emptied field: one) |
+| 11. Product zoom only with a pointer | 2.1.1 | The photo in the zoom dialog is a tab stop: Enter, Space or + zoom in on the middle, the arrow keys move the magnified spot, Enter, Space or - zoom out; a keyboard hint is read with it and shown while it has focus (`shopPage.zoomKeys`) | by script |
+| 12. English catalogue text inheriting `lang="he"`/`"ar"` | 3.1.2 | The product name and description on the product page carry `lang="en"` (the catalogue is English only; `docs/PERFORMANCE.md` 10.3) | e2e `shop.spec.ts` |
+| 3. Videos without captions | 1.2.2, 1.2.3 | Unchanged: no caption files exist (searched the repository and the encode folders); still a known gap (section 5) | |
+
+Not changed here (outside this task or the web scope): findings 10 (visible "required" marks), 13 to 20 (pause memory,
+gallery counter, shop toolbar order, raw "EH" country, 404 title, floating buttons at 400% zoom, polish items).
+
 ## 5. Known gaps and limits (also in the public statement)
 
 - **PayPal.** The PayPal buttons (an iframe) and PayPal's own window are excluded from our tests and outside our

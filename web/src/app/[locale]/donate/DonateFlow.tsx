@@ -10,18 +10,17 @@ import Field, { invalidProps } from '@/components/checkout/Field';
 import PayPalPanel from '@/components/checkout/LazyPayPalPanel';
 import StepIndicator, { type FlowStep } from '@/components/checkout/StepIndicator';
 import CurrencyNote from '@/components/intl/CurrencyNote';
+import ErrorSummary from '@/components/checkout/ErrorSummary';
 import { fieldOrder, useErrorText, useStepFocus, useValidatedForm } from '@/components/checkout/hooks';
 import { LockIcon } from '@/components/checkout/icons';
 import {
   DONATION_PRESETS,
   donationAmount,
   emptyDonation,
-  hasErrors,
   LIMITS,
   validateDonation,
 } from '@/components/checkout/validation';
 import shared from '@/components/checkout/checkout.module.css';
-import Notice from '@/components/ui/Notice';
 import styles from './donate.module.css';
 
 // Element ids of the fields, in screen order (the first invalid one gets the focus).
@@ -122,7 +121,7 @@ export default function DonateFlow() {
                 className={`ui-input ${styles.amountInput}`}
                 value={values.custom}
                 onChange={(e) => set('custom', e.target.value)}
-                onBlur={() => touch('amount')}
+                onBlur={() => touch('amount', 'custom')}
                 inputMode="decimal"
                 autoComplete="off"
                 dir="ltr"
@@ -133,9 +132,9 @@ export default function DonateFlow() {
             </Field>
           )}
 
-          {form.submitted && hasErrors(form.errors) && (
-            <Notice role="alert">{t('form.fixErrors')}</Notice>
-          )}
+          <ErrorSummary
+            fields={form.invalid(ORDER).map((key) => (key === 'name' ? t('donate.name') : t('donate.customAmount')))}
+          />
           <div className={shared.actions}>
             <button type="submit" className={`ui-btn ui-btn--gold ${shared.btnLg} ${shared.btnBlock}`}>
               {t('form.continue')}

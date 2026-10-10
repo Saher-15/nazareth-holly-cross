@@ -1,5 +1,6 @@
 import './zodConfig';
-import { z } from 'zod';
+// zod/mini, not zod: this module runs in every page's browser bundle (the header's live dot), see zodConfig.ts.
+import * as z from 'zod/mini';
 import { API_URL } from './config';
 import { decodeEntities } from './plainText';
 
@@ -25,10 +26,10 @@ export const NOT_LIVE: LiveStatus = { live: false };
 
 const liveSchema = z.object({
   live: z.literal(true),
-  id: z.unknown().optional(),
-  title: z.string().min(1).max(400),
-  startedAt: z.string().refine((s) => Number.isFinite(Date.parse(s))),
-  playbackUrl: z.string().regex(PLAYER_URL),
+  id: z.optional(z.unknown()),
+  title: z.string().check(z.minLength(1), z.maxLength(400)),
+  startedAt: z.string().check(z.refine((s) => Number.isFinite(Date.parse(s)))),
+  playbackUrl: z.string().check(z.regex(PLAYER_URL)),
 });
 
 /**
@@ -37,7 +38,7 @@ const liveSchema = z.object({
  * that is not 24 hex is left out (the status still counts; the window then tells broadcasts apart by start and title).
  */
 export function parseLiveStatus(json: unknown): LiveStatus {
-  const parsed = liveSchema.safeParse(json);
+  const parsed = z.safeParse(liveSchema, json);
   if (!parsed.success) return NOT_LIVE;
   const { id, title, startedAt, playbackUrl } = parsed.data;
   return {

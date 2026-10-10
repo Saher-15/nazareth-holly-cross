@@ -1,10 +1,10 @@
 import { getTranslations } from 'next-intl/server';
 import { CrossMark, FacebookIcon, InstagramIcon, MailIcon, PinIcon, YoutubeIcon } from '@/components/ui/icons';
-import { Link } from '@/i18n/navigation';
 import { CONTACT_EMAIL } from '@/lib/config';
 import SearchButton from '@/components/search/SearchButton';
 import { creditsPage, footerNav, legalNav, pilgrimNav, socialLinks } from '@/lib/site';
 import FooterLanguages from './FooterLanguages';
+import IntentLink from './IntentLink';
 import styles from './SiteFooter.module.css';
 
 const SOCIAL_ICONS = { Instagram: InstagramIcon, Facebook: FacebookIcon, YouTube: YoutubeIcon } as const;
@@ -55,9 +55,9 @@ export default async function SiteFooter() {
               .filter((item) => item.key !== 'donate') /* it has its own button below */
               .map((item) => (
               <li key={item.key}>
-                <Link href={item.href} className={styles.link}>
+                <IntentLink href={item.href} className={styles.link}>
                   {t(`nav.${item.key}`)}
-                </Link>
+                </IntentLink>
               </li>
             ))}
           </ul>
@@ -68,9 +68,9 @@ export default async function SiteFooter() {
           <ul className={styles.links}>
             {pilgrimNav.map((item) => (
               <li key={item.key}>
-                <Link href={item.href} className={styles.link}>
+                <IntentLink href={item.href} className={styles.link}>
                   {tp(`nav.${item.key}`)}
-                </Link>
+                </IntentLink>
               </li>
             ))}
           </ul>
@@ -81,15 +81,15 @@ export default async function SiteFooter() {
           <ul className={styles.links}>
             {legalNav.map((item) => (
               <li key={item.key}>
-                <Link href={item.href} className={styles.link}>
+                <IntentLink href={item.href} className={styles.link}>
                   {tp(`nav.${item.key}`)}
-                </Link>
+                </IntentLink>
               </li>
             ))}
             <li>
-              <Link href={creditsPage.href} className={styles.link}>
+              <IntentLink href={creditsPage.href} className={styles.link}>
                 {tm('nav.credits')}
-              </Link>
+              </IntentLink>
             </li>
             <li>
               <SearchButton className={`${styles.link} ${styles.linkButton}`} />
@@ -111,9 +111,9 @@ export default async function SiteFooter() {
               <span>{tx('address')}</span>
             </li>
           </ul>
-          <Link href="/donate" className={`ui-btn ui-btn--ghost ui-btn--sm ${styles.donate}`}>
+          <IntentLink href="/donate" className={`ui-btn ui-btn--ghost ui-btn--sm ${styles.donate}`}>
             {t('nav.donate')}
-          </Link>
+          </IntentLink>
         </section>
 
         <nav aria-label={tx('languages')} className={styles.languagesNav}>

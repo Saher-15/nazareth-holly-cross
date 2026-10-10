@@ -32,14 +32,22 @@
   --on-gold: #1a1405; /* ink on gold surfaces */
 }
 
-/* Hebrew and Arabic get typefaces drawn for their scripts. */
+/* Hebrew and Arabic get typefaces drawn for their scripts. The Latin face comes first on purpose: it has no Hebrew or
+   Arabic letters, so those fall through to the script's own face, while digits, spaces, punctuation and Latin words
+   (the brand name, product names) use the Latin file every page already preloads. With the script face first, a
+   Hebrew page also downloaded that face's own Latin files (74 kB) and an Arabic page four more (68 kB) next to the
+   preloaded ones (docs/PERFORMANCE.md, fonts).
+   The Latin faces are named here by their family names ('Inter', 'EB Garamond', the names next/font gives the faces
+   of web/src/lib/fonts.ts; tests/unit/perf-assets.test.ts checks them against the build), not by var(--font-sans):
+   that variable ends in next/font's size-adjusted fallback face, a local Arial that HAS Hebrew and Arabic letters and
+   would draw them instead of Heebo or IBM Plex Sans Arabic. */
 :root:lang(he) {
-  --serif: var(--font-he-serif), var(--font-serif), serif;
-  --sans: var(--font-he-sans), var(--font-sans), sans-serif;
+  --serif: 'EB Garamond', var(--font-he-serif), var(--font-serif), serif;
+  --sans: 'Inter', var(--font-he-sans), var(--font-sans), sans-serif;
 }
 :root:lang(ar) {
-  --serif: var(--font-ar-serif), var(--font-serif), serif;
-  --sans: var(--font-ar-sans), var(--font-sans), sans-serif;
+  --serif: 'EB Garamond', var(--font-ar-serif), var(--font-serif), serif;
+  --sans: 'Inter', var(--font-ar-sans), var(--font-sans), sans-serif;
 }
 
 /* ---- Design-system scales (additive; the tokens above are unchanged) ---- */

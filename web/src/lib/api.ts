@@ -4,6 +4,7 @@ import { API_URL } from './config';
 import { parseRecordings } from './liveRecordings';
 import { parseSchedule } from './liveSchedule';
 import { decodeEntities } from './plainText';
+import { CATEGORIES, MATERIALS, type Category, type Material } from './shop/terms';
 import { CANDLE_PRICE } from './pricing';
 
 // Every response from the API is validated before the UI touches it, so a bad
@@ -56,19 +57,8 @@ const productPageSchema = z.object({
 
 // --- storefront catalog (server/services/catalog.js) ---
 
-export const CATEGORIES = [
-  'rosaries',
-  'necklaces',
-  'bracelets',
-  'stained-glass',
-  'crosses',
-  'bibles',
-  'holy-land',
-  'gifts',
-] as const;
-export type Category = (typeof CATEGORIES)[number];
-export const MATERIALS = ['gold', 'silver', 'wood', 'glass'] as const;
-export type Material = (typeof MATERIALS)[number];
+// The lists themselves live in a module without zod, for the browser's filter panel.
+export { CATEGORIES, MATERIALS, type Category, type Material } from './shop/terms';
 
 const ratingSchema = z.object({ avg: z.number(), count: z.number() });
 

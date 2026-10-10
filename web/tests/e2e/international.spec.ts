@@ -64,6 +64,12 @@ test('the sitemap lists every language version of every page', async ({ request 
   for (const entry of entries) {
     const loc = entry.match(/<loc>([^<]+)<\/loc>/)?.[1] ?? '';
     const langs = [...entry.matchAll(/hreflang="([^"]+)" href="([^"]+)"/g)];
+    if (/\/shop\/[a-f0-9]{24}$/.test(loc)) {
+      // A product is listed once, in English, its only indexed language (components/shop/seo.ts).
+      expect(loc).toMatch(/\/en\/shop\/[a-f0-9]{24}$/);
+      expect(langs).toEqual([]);
+      continue;
+    }
     expect(langs.map((l) => l[1]).sort()).toEqual([...locales, 'x-default'].sort());
     expect(langs.map((l) => l[2])).toContain(loc);
   }

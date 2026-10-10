@@ -21,6 +21,22 @@ export function localeAlternates(locale: string, path: string): Metadata['altern
 
 export const absoluteUrl = (locale: string, path: string) => `${SITE_URL}/${locale}${path}`;
 
+/**
+ * The one language a product page is indexed in. A product's name and description come from the catalogue in English
+ * only (the dashboard has no per-language fields), so /fr/shop/<id>, /he/shop/<id> ... are the same English text in a
+ * translated frame: 13 duplicates of each product. They stay for visitors (the frame, prices and buttons are in their
+ * language), but each one names the English page as canonical and none of them is in the sitemap or in an hreflang
+ * set, so search engines index one page per product instead of fourteen near-identical ones labelled with the wrong
+ * language. When the catalogue gets translated names and descriptions, go back to localeAlternates() and list every
+ * language in the sitemap (docs/PERFORMANCE.md, "Product pages and languages").
+ */
+export const PRODUCT_CONTENT_LOCALE = 'en';
+
+/** Canonical (the English page) of a product page in any language; no hreflang set (see PRODUCT_CONTENT_LOCALE). */
+export function productAlternates(id: string): Metadata['alternates'] {
+  return { canonical: `/${PRODUCT_CONTENT_LOCALE}/shop/${id}` };
+}
+
 /** Shortens text for a meta description without cutting a word in half. */
 export function summarize(text: string, max = 160) {
   const clean = text.replace(/\s+/g, ' ').trim();
@@ -71,7 +87,8 @@ export function productJsonLd(
   locale: string,
   reviews?: LdReviews,
 ) {
-  const url = absoluteUrl(locale, `/shop/${product._id}`);
+  // The canonical page of the product (PRODUCT_CONTENT_LOCALE), whichever language frames it (`locale`).
+  const url = absoluteUrl(PRODUCT_CONTENT_LOCALE, `/shop/${product._id}`);
   return {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -113,7 +130,7 @@ export function shopJsonLd(
       itemListElement: products.map((p, i) => ({
         '@type': 'ListItem',
         position: i + 1,
-        url: absoluteUrl(locale, `/shop/${p._id}`),
+        url: absoluteUrl(PRODUCT_CONTENT_LOCALE, `/shop/${p._id}`), // the canonical product page
         name: p.name,
       })),
     },

@@ -11,7 +11,7 @@ import ShareButton from '@/components/shop/ShareButton';
 import ShopIcon from '@/components/shop/ShopIcon';
 import StateCard from '@/components/shop/StateCard';
 import WishlistButton from '@/components/shop/WishlistButton';
-import { jsonLdHtml, localeAlternates, productJsonLd, summarize } from '@/components/shop/seo';
+import { jsonLdHtml, PRODUCT_CONTENT_LOCALE, productAlternates, productJsonLd, summarize } from '@/components/shop/seo';
 import Stars from '@/components/ui/Stars';
 import { formatUsd } from '@/lib/pricing';
 import { bestSellerIds, cardItems, toCardItem } from '@/lib/shop/items';
@@ -51,14 +51,16 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/shop/[id
   return {
     title: product.name,
     description,
-    alternates: localeAlternates(locale, `/shop/${product._id}`),
+    // One indexed page per product, the English one: the name and description are English in every language
+    // (PRODUCT_CONTENT_LOCALE in components/shop/seo.ts explains why, and what changes once they are translated).
+    alternates: productAlternates(product._id),
     openGraph: {
       type: 'website',
       siteName: 'Nazareth Holy Cross',
       title: product.name,
       description,
       locale,
-      url: `/${locale}/shop/${product._id}`,
+      url: `/${PRODUCT_CONTENT_LOCALE}/shop/${product._id}`,
       images: [{ url: product.img, alt: product.name }],
     },
     twitter: { card: 'summary_large_image', title: product.name, description, images: [product.img] },
@@ -131,8 +133,10 @@ export default async function ProductPage({ params }: PageProps<'/[locale]/shop/
       ) : (
         <p className="ui-eyebrow">{tHome('shopEyebrow')}</p>
       )}
+      {/* The catalogue's text is English in every language (PRODUCT_CONTENT_LOCALE): say so, so a Hebrew or Arabic
+          voice does not read it with the wrong pronunciation (WCAG 3.1.2). */}
       <h1 className={styles.title}>
-        <bdi>{product.name}</bdi>
+        <bdi lang={PRODUCT_CONTENT_LOCALE}>{product.name}</bdi>
       </h1>
       <p className={styles.ratingLine}>
         {rating && rating.count > 0 ? (
@@ -162,7 +166,7 @@ export default async function ProductPage({ params }: PageProps<'/[locale]/shop/
       )}
       {product.description && (
         <p className={styles.desc}>
-          <bdi>{product.description}</bdi>
+          <bdi lang={PRODUCT_CONTENT_LOCALE}>{product.description}</bdi>
         </p>
       )}
     </>
