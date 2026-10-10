@@ -113,7 +113,7 @@ async function fillContact(page: Page) {
 }
 
 async function fillCandle(page: Page) {
-  await page.getByText('Church of the Annunciation').click();
+  await page.locator('#candle-form').getByText('Church of the Annunciation').click();
   await page.getByLabel('First name').fill('Anna');
   await page.getByLabel('Last name').fill('Smith');
   await page.getByLabel('Your email').fill('anna@example.com');
@@ -277,16 +277,24 @@ test.describe('candle', () => {
     await mockNetwork(page);
     await page.goto('/en/candle');
     await expect(page).toHaveTitle(/Light a candle in Nazareth/);
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText('A flame for every prayer');
-    await expect(page.getByRole('heading', { name: 'How to light a candle?' })).toBeVisible();
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Your Prayer. Your Church. Your Candle.');
+    // The first screen says what it is and has one button with the price, which leads to the form.
+    await expect(page.getByTestId('candle-cta')).toHaveText('Light My Candle – $3.00');
+    await expect(page.getByTestId('candle-cta')).toHaveAttribute('href', '#candle-form');
+    await expect(page.getByText('A real candle in a real church, not a virtual one')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'How it works' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Pay $3.00 and receive your video' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Good to know' })).toBeVisible();
+    await expect(page.getByText('It is not an official body of the city of Nazareth or of the churches.')).toBeVisible();
     await expect(page.getByRole('radio')).toHaveCount(2);
     await expect(page.getByRole('radio', { name: 'Church of the Annunciation' })).toHaveAttribute('name', 'church');
     await expect(page.getByRole('radio', { name: 'Greek Orthodox Church' })).toHaveAttribute('name', 'church');
-    await expect(page.getByText('To light a candle: $3.00')).toBeVisible();
+    await expect(page.getByTestId('candle-submit')).toHaveText('Light My Candle – $3.00');
 
     await page.goto('/he/candle');
     await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
-    await expect(page.getByRole('heading', { name: 'איך מדליקים נר?' })).toBeVisible();
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('התפילה שלכם. הכנסייה שלכם. הנר שלכם.');
+    await expect(page.getByRole('heading', { name: 'איך זה עובד' })).toBeVisible();
     await expect(page.getByRole('radio', { name: 'כנסיית הבשורה' })).toBeVisible();
     expect(errors).toEqual([]);
   });
@@ -294,12 +302,12 @@ test.describe('candle', () => {
   test('asks for a church and every field', async ({ page }) => {
     await mockNetwork(page);
     await page.goto('/en/candle');
-    await page.getByRole('button', { name: 'LIGHT', exact: true }).click();
+    await page.getByTestId('candle-submit').click();
     await expect(page.getByText('Please select a church.')).toBeVisible();
     await expect(page.getByText('This field is required.')).toHaveCount(5);
     await expect(page.getByRole('radio', { name: 'Church of the Annunciation' })).toBeFocused();
 
-    await page.getByText('Greek Orthodox Church').click();
+    await page.locator('#candle-form').getByText('Greek Orthodox Church').click();
     await expect(page.getByText('Please select a church.')).toBeHidden();
     await expect(page.getByRole('radio', { name: 'Greek Orthodox Church' })).toBeChecked();
   });
@@ -308,7 +316,7 @@ test.describe('candle', () => {
     const calls = await mockNetwork(page);
     await page.goto('/en/candle');
     await fillCandle(page);
-    await page.getByRole('button', { name: 'LIGHT', exact: true }).click();
+    await page.getByTestId('candle-submit').click();
 
     await expect(page.getByRole('heading', { name: 'Order summary' })).toBeVisible();
     await expect(page.getByTestId('candle-total')).toHaveText('$3.00');
@@ -324,7 +332,7 @@ test.describe('candle', () => {
     });
     await page.goto('/en/candle');
     await fillCandle(page);
-    await page.getByRole('button', { name: 'LIGHT', exact: true }).click();
+    await page.getByTestId('candle-submit').click();
     await page.getByRole('button', { name: 'Test PayPal' }).click();
 
     // the payment went through; the first save failed: the customer is told, with the reference, nothing is lost
@@ -360,7 +368,7 @@ test.describe('candle', () => {
     const calls = await mockNetwork(page, { paypal: 'fake', replies: { '/candle/lightACandle': replies } });
     await page.goto('/en/candle');
     await fillCandle(page);
-    await page.getByRole('button', { name: 'LIGHT', exact: true }).click();
+    await page.getByTestId('candle-submit').click();
     await page.getByRole('button', { name: 'Test PayPal' }).click();
     const notice = page.locator('main').getByRole('status').filter({ hasText: 'We could not save your details just yet' });
     await expect(notice).toBeVisible();
@@ -377,7 +385,7 @@ test.describe('candle', () => {
     const calls = await mockNetwork(page, { paypal: 'fake', replies: { '/candle/lightACandle': [{ status: 422, body: { error: 'Bad input' } }] } });
     await page.goto('/en/candle');
     await fillCandle(page);
-    await page.getByRole('button', { name: 'LIGHT', exact: true }).click();
+    await page.getByTestId('candle-submit').click();
     await page.getByRole('button', { name: 'Test PayPal' }).click();
     await expect(page.locator('main').getByRole('alert')).toContainText('Your payment went through, but we could not save your details.');
     await expect(page.getByText('Payment reference: TESTORDER00000001')).toBeVisible();
@@ -562,7 +570,7 @@ test.describe('accessibility', () => {
     await mockNetwork(page, { paypal: 'fake' });
     await page.goto('/en/candle');
     await fillCandle(page);
-    await page.getByRole('button', { name: 'LIGHT', exact: true }).click();
+    await page.getByTestId('candle-submit').click();
     await expect(page.getByRole('button', { name: 'Test PayPal' })).toBeVisible();
     await expectNoSeriousA11yIssues(page);
     await page.getByRole('button', { name: 'Test PayPal' }).click();
