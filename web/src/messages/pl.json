@@ -682,7 +682,8 @@
         "start": "Nie udało się rozpocząć płatności. Spróbuj ponownie.",
         "notCompleted": "Płatność nie została ukończona. Nie pobrano żadnej opłaty.",
         "paypal": "PayPal zgłosił błąd. Spróbuj ponownie.",
-        "unconfirmed": "Nie udało się potwierdzić płatności, bo połączenie zostało przerwane. Na razie nie płać ponownie: sprawdź swoje konto PayPal lub napisz do nas."
+        "unconfirmed": "Nie udało się potwierdzić płatności, bo połączenie zostało przerwane. Na razie nie płać ponownie: sprawdź swoje konto PayPal lub napisz do nas.",
+        "priceChanged": "Kwota się zmieniła: wynosi teraz {charged}, a nie {shown}. Nic nie zostało pobrane. Kliknij ponownie przycisk PayPal, aby zapłacić {charged}."
       },
       "reference": "Numer płatności: {id}",
       "saving": "Zapisywanie Twoich danych…",

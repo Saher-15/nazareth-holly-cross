@@ -682,7 +682,8 @@
         "start": "Não foi possível iniciar o pagamento. Tente novamente.",
         "notCompleted": "O pagamento não foi concluído. Nada foi cobrado.",
         "paypal": "O PayPal informou um erro. Tente novamente.",
-        "unconfirmed": "Não conseguimos confirmar seu pagamento porque a conexão falhou. Não pague de novo por enquanto: confira sua conta do PayPal ou escreva para nós."
+        "unconfirmed": "Não conseguimos confirmar seu pagamento porque a conexão falhou. Não pague de novo por enquanto: confira sua conta do PayPal ou escreva para nós.",
+        "priceChanged": "O total mudou: agora é {charged}, e não {shown}. Nada foi cobrado. Clique novamente no botão do PayPal para pagar {charged}."
       },
       "reference": "Referência do pagamento: {id}",
       "saving": "Salvando seus dados…",

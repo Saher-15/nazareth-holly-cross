@@ -682,7 +682,8 @@
         "start": "Non è stato possibile avviare il pagamento. Riprova.",
         "notCompleted": "Il pagamento non è stato completato. Non ti è stato addebitato nulla.",
         "paypal": "PayPal ha segnalato un errore. Riprova.",
-        "unconfirmed": "Non siamo riusciti a confermare il pagamento perché la connessione è caduta. Per ora non pagare di nuovo: controlla il tuo account PayPal oppure scrivici."
+        "unconfirmed": "Non siamo riusciti a confermare il pagamento perché la connessione è caduta. Per ora non pagare di nuovo: controlla il tuo account PayPal oppure scrivici.",
+        "priceChanged": "Il totale è cambiato: ora è {charged}, non {shown}. Non ti è stato addebitato nulla. Premi di nuovo il pulsante PayPal per pagare {charged}."
       },
       "reference": "Riferimento del pagamento: {id}",
       "saving": "Salvataggio dei tuoi dati…",
