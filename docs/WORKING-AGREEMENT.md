@@ -32,7 +32,7 @@ Next.js 16 differs from older versions (Middleware is now `web/src/proxy.ts`): r
 
 - **Local first.** Work and test on your own machine. Nothing is pushed, merged or deployed without the owner's
   explicit approval for that specific change. An earlier approval does not cover a later change.
-- **The owner approves deploys.** Merging to `main` deploys the website (Netlify) and the API (Render)
+- **The owner approves deploys.** Merging to `main` deploys the website (Netlify) and the API (Railway)
   automatically, so a merge **is** a deploy.
 - **Never** connect to the production database, send real e-mail, click a live PayPal pay button, use real customer
   data in a test, or call write routes of the production API.
@@ -129,8 +129,8 @@ curl -sI https://nazareth-holy-cross-api-production.up.railway.app/health | head
 
 Then in a browser: the home page, the shop with products visible, a product page, a holy-site page, the candle form
 and the checkout **up to the PayPal button** (never click pay), in English and Hebrew, on a phone width. If anything
-fails, say so at once and propose the rollback (Netlify: Deploys, "Publish deploy" on the previous one; Render: the
-service, Rollback; then revert the commit on `main` with a pull request: `docs/ENGINEERING.md` section 3). Do not
+fails, say so at once and propose the rollback (Netlify: Deploys, "Publish deploy" on the previous one; Railway: the
+service, Deployments, Redeploy on the previous successful deploy; then revert the commit on `main` with a pull request: `docs/ENGINEERING.md` section 3). Do not
 "fix forward" in production without the owner.
 
 ## 7. Secrets and personal data
@@ -138,7 +138,7 @@ service, Rollback; then revert the commit on `main` with a pull request: `docs/E
 - **Never print a secret**: not in the terminal, a log, a test, a commit, a pull request, a screenshot or a final
   report. That includes the database connection string, JWT secrets, PayPal secrets, API keys and tokens, TOTP
   secrets, admin passwords and session cookies. Refer to them by name (`PAYPAL_SECRET`), never by value.
-- Secrets live only in Render and Netlify settings and in local `.env` files that are git-ignored. Do not copy an
+- Secrets live only in Railway and Netlify settings and in local `.env` files that are git-ignored. Do not copy an
   `.env` into a document.
 - If a secret appears where it should not (a chat, a ticket, a commit), say so and treat it as leaked: it must be
   rotated by the owner. `.github/workflows/security.yml` (gitleaks) and `npm run scan:bundle` are safety nets, not

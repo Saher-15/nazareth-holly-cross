@@ -4,6 +4,23 @@ The goal: the owner hears about a problem **before a visitor tells him**, and ev
 Cheap on purpose: one free uptime monitor, one script after each deploy, one keep-alive job. Infrastructure facts
 (DNS, regions, measurements) are in [INFRASTRUCTURE.md](INFRASTRUCTURE.md).
 
+> **Hosting since 2026-10-07: the API runs on Railway, not Render** (project `divine-spontaneity`, service
+> `nazareth-holy-cross-api`, built from this repository, root `/server`; address
+> `https://nazareth-holy-cross-api-production.up.railway.app`). The Render service is suspended. Where this page
+> still says Render, read it with this table (checked read-only on 2026-10-10):
+>
+> | On Render it was | On Railway it is |
+> |---|---|
+> | Environment -> variables | the service -> **Variables** (same names; a change redeploys) |
+> | Auto-deploy of `main` | the same: Railway deploys `main` (root `/server`) after a merge |
+> | Logs, Events | the service -> **Deployments** -> a deploy -> Logs (`railway logs`) |
+> | Rollback | **Deployments** -> the previous successful deploy -> **Redeploy** |
+> | Free plan sleeps after 15 minutes | it does not sleep unless "Serverless" is switched on in the service settings (not checked from here) |
+> | Oregon, behind Cloudflare | Railway's own edge (`x-railway-edge`), one proxy hop: `TRUST_PROXY` is unset (default 1) |
+> | `render.yaml` | kept for reference only; Railway reads its own service settings |
+>
+> Hermes (the 24/7 watcher, [MONITORING.md](MONITORING.md)) runs on the same Railway project.
+
 ## 1. The three layers
 
 | Layer | What | When | Who is told |

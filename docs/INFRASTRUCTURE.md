@@ -6,12 +6,29 @@ to GoDaddy, Netlify, Render, MongoDB Atlas, Firebase or PayPal** from the audit:
 **owner** and is *not verified*. Watching and recovery: [MONITORING.md](MONITORING.md). Repositories:
 [REPOSITORIES.md](REPOSITORIES.md).
 
+> **Hosting since 2026-10-07: the API runs on Railway, not Render** (project `divine-spontaneity`, service
+> `nazareth-holy-cross-api`, built from this repository, root `/server`; address
+> `https://nazareth-holy-cross-api-production.up.railway.app`). The Render service is suspended. Where this page
+> still says Render, read it with this table (checked read-only on 2026-10-10):
+>
+> | On Render it was | On Railway it is |
+> |---|---|
+> | Environment -> variables | the service -> **Variables** (same names; a change redeploys) |
+> | Auto-deploy of `main` | the same: Railway deploys `main` (root `/server`) after a merge |
+> | Logs, Events | the service -> **Deployments** -> a deploy -> Logs (`railway logs`) |
+> | Rollback | **Deployments** -> the previous successful deploy -> **Redeploy** |
+> | Free plan sleeps after 15 minutes | it does not sleep unless "Serverless" is switched on in the service settings (not checked from here) |
+> | Oregon, behind Cloudflare | Railway's own edge (`x-railway-edge`), one proxy hop: `TRUST_PROXY` is unset (default 1) |
+> | `render.yaml` | kept for reference only; Railway reads its own service settings |
+>
+> Hermes (the 24/7 watcher, [MONITORING.md](MONITORING.md)) runs on the same Railway project.
+
 ```
 GoDaddy  (registrar: owns the name, expires 2027-08-26)
    |  name servers are delegated to ->
 Netlify DNS (NS1: dns1-4.p0x.nsone.net)   <- the DNS records live HERE, not at GoDaddy
    |  nazarethholycross.com, www  ->  Netlify edge (2 AWS Frankfurt addresses)
-Netlify: public site (web/)  -- server-side and browser --> Render: API (Oregon, free plan, behind Cloudflare)
+Netlify: public site (web/)  -- server-side and browser --> Railway: API (was Render, Oregon, until 2026-10-07)
 Netlify: admin site (old)                                          |--> MongoDB Atlas (region: owner)
                                                                    |--> PayPal, Gmail (SMTP)
 Firebase Storage: product photos and videos (served through Netlify's image CDN)
