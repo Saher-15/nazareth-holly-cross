@@ -22,6 +22,8 @@ Checked with `gh repo list`, `netlify api listSites` and `railway status` (read-
   `urbangents` and `siwarafashionadmin`, whose repositories no longer appear publicly.
 - Steps 14 and 15 of the checklist below are done (by deletion instead of archiving); step 7 is replaced by the
   separate `nhc-admin-dashboard` site.
+- Step 9 is done (2026-10-11): `client/` and `client-next/` and the `legacy-client` CI job ("Current site (build)") are
+  removed; the automatic dependency updates for those folders stop with them.
 
 ## 1. Inventory
 
@@ -140,7 +142,7 @@ reversible (Unarchive) and deletes nothing; do not delete any repository until t
        base directory `admin` (docs/ADMIN-RUNBOOK.md section 4; write down the old settings first). Check the deploy
        preview answers 200 on `/login`.
 8. [ ] Netlify, site `nazarethholycross` and Render service: confirm the repository and branch they follow (section 1).
-9. [ ] Delete `client/` and `client-next/` from the monorepo in one pull request (rollback is a revert), and the
+9. [x] Delete `client/` and `client-next/` from the monorepo in one pull request (rollback is a revert), and the
        `legacy-client` job of `ci.yml`. They are 94 MB of history that only costs minutes.
 
 **C. Make the monorepo private**

@@ -13,8 +13,6 @@ One repository (a monorepo) holds everything:
 | [`admin/`](admin/) | The admin dashboard. Next.js; accounts, roles, two-factor sign-in, audit log | Netlify (its own site) | Built, being rolled out; the old admin site is still live |
 | [`docs/`](docs/) | How it is built, secured, measured and operated | - | - |
 | [`ops/`](ops/) | Scripts for operating the live site (post-deploy smoke test) | your PC | - |
-| `client/` | The previous React site, kept for reference until retired | - | Retired |
-| `client-next/` | An abandoned earlier attempt | - | Not deployed |
 
 ```
 visitor -> Netlify (web/) --server-side and browser--> Railway (server/) --> MongoDB Atlas
