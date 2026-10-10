@@ -666,7 +666,7 @@
     "payment": {
       "loading": "Se încarcă PayPal…",
       "unavailable": "PayPal nu a putut fi încărcat. Verificați conexiunea sau dezactivați blocantele de conținut, apoi reîncărcați pagina.",
-      "secured": "Plată sigură prin PayPal. Nu vedem niciodată datele cardului dumneavoastră.",
+      "secured": "Plată sigură prin PayPal sau cu un card de credit sau de debit: nu este nevoie de un cont PayPal. Nu vedem niciodată datele cardului dumneavoastră.",
       "cancelled": "Plata a fost anulată. Nu s-a retras nicio sumă.",
       "errors": {
         "start": "Plata nu a putut fi inițiată. Încercați din nou.",
@@ -684,7 +684,7 @@
       "text": "Descoperiți rozarii, cruci și suveniruri din Nazaret."
     },
     "candle": {
-      "secureNext": "În continuare vă veți verifica datele și veți plăti în siguranță prin PayPal."
+      "secureNext": "În continuare vă veți verifica datele și veți plăti în siguranță prin PayPal sau cu un card de credit sau de debit. Nu aveți nevoie de un cont PayPal."
     },
     "donate": {
       "formTitle": "Faceți o donație",
@@ -1931,7 +1931,7 @@
     "pReal": "O lumânare adevărată într-o biserică adevărată, nu una virtuală",
     "pVideo": "Videoclipul dumneavoastră personal în 48 de ore",
     "pGuest": "Fără crearea unui cont",
-    "pSecure": "Plată sigură cu PayPal",
+    "pSecure": "Plătiți cu PayPal sau cu cardul, fără cont PayPal",
     "stepsTitle": "Cum funcționează",
     "s1T": "Alegeți biserica",
     "s1X": "{latin} sau {greek}, amândouă în Nazaret.",

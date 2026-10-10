@@ -666,7 +666,7 @@
     "payment": {
       "loading": "Carregando o PayPal…",
       "unavailable": "Não foi possível carregar o PayPal. Verifique sua conexão ou desative bloqueadores de conteúdo e recarregue a página.",
-      "secured": "Pagamento seguro com PayPal. Nunca vemos os dados do seu cartão.",
+      "secured": "Pagamento seguro com PayPal ou com cartão de crédito ou débito: não é preciso ter conta PayPal. Nunca vemos os dados do seu cartão.",
       "cancelled": "Pagamento cancelado. Nada foi cobrado.",
       "errors": {
         "start": "Não foi possível iniciar o pagamento. Tente novamente.",
@@ -684,7 +684,7 @@
       "text": "Conheça terços, cruzes e lembranças de Nazaré."
     },
     "candle": {
-      "secureNext": "Em seguida, você vai revisar seus dados e pagar com segurança pelo PayPal."
+      "secureNext": "Em seguida, você vai revisar seus dados e pagar com segurança pelo PayPal ou com cartão de crédito ou débito. Você não precisa de uma conta PayPal."
     },
     "donate": {
       "formTitle": "Faça uma doação",
@@ -1931,7 +1931,7 @@
     "pReal": "Uma vela de verdade em uma igreja de verdade, não virtual",
     "pVideo": "Seu vídeo pessoal em até 48 horas",
     "pGuest": "Sem criar conta",
-    "pSecure": "Pagamento seguro com PayPal",
+    "pSecure": "Pague com PayPal ou cartão, sem conta PayPal",
     "stepsTitle": "Como funciona",
     "s1T": "Escolha a sua igreja",
     "s1X": "{latin} ou {greek}, ambas em Nazaré.",

@@ -666,7 +666,7 @@
     "payment": {
       "loading": "Wczytywanie PayPal…",
       "unavailable": "Nie udało się wczytać PayPal. Sprawdź połączenie lub wyłącz blokowanie treści, a następnie odśwież stronę.",
-      "secured": "Bezpieczna płatność przez PayPal. Nigdy nie widzimy danych Twojej karty.",
+      "secured": "Bezpieczna płatność przez PayPal albo kartą kredytową lub debetową: konto PayPal nie jest potrzebne. Nigdy nie widzimy danych Twojej karty.",
       "cancelled": "Płatność anulowana. Nie pobrano żadnej opłaty.",
       "errors": {
         "start": "Nie udało się rozpocząć płatności. Spróbuj ponownie.",
@@ -684,7 +684,7 @@
       "text": "Zobacz różańce, krzyże i pamiątki z Nazaretu."
     },
     "candle": {
-      "secureNext": "Następnie sprawdzisz swoje dane i bezpiecznie zapłacisz przez PayPal."
+      "secureNext": "Następnie sprawdzisz swoje dane i bezpiecznie zapłacisz przez PayPal albo kartą kredytową lub debetową. Nie potrzebujesz konta PayPal."
     },
     "donate": {
       "formTitle": "Przekaż darowiznę",
@@ -1931,7 +1931,7 @@
     "pReal": "Prawdziwa świeca w prawdziwym kościele, nie wirtualna",
     "pVideo": "Twój osobisty film w ciągu 48 godzin",
     "pGuest": "Bez zakładania konta",
-    "pSecure": "Bezpieczna płatność przez PayPal",
+    "pSecure": "Zapłać przez PayPal lub kartą, bez konta PayPal",
     "stepsTitle": "Jak to działa",
     "s1T": "Wybierz swój kościół",
     "s1X": "{latin} albo {greek}, oba w Nazarecie.",

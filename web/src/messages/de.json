@@ -666,7 +666,7 @@
     "payment": {
       "loading": "PayPal wird geladen…",
       "unavailable": "PayPal konnte nicht geladen werden. Prüfen Sie Ihre Verbindung oder deaktivieren Sie Inhaltsblocker und laden Sie die Seite neu.",
-      "secured": "Sichere Zahlung mit PayPal. Ihre Kartendaten sehen wir nie.",
+      "secured": "Sichere Zahlung mit PayPal oder mit Kredit- oder Debitkarte: kein PayPal-Konto nötig. Ihre Kartendaten sehen wir nie.",
       "cancelled": "Zahlung abgebrochen. Ihnen wurde nichts berechnet.",
       "errors": {
         "start": "Die Zahlung konnte nicht gestartet werden. Bitte versuchen Sie es erneut.",
@@ -684,7 +684,7 @@
       "text": "Entdecken Sie Rosenkränze, Kreuze und Andenken aus Nazareth."
     },
     "candle": {
-      "secureNext": "Als Nächstes prüfen Sie Ihre Angaben und bezahlen sicher mit PayPal."
+      "secureNext": "Als Nächstes prüfen Sie Ihre Angaben und bezahlen sicher mit PayPal oder mit Kredit- oder Debitkarte. Ein PayPal-Konto brauchen Sie nicht."
     },
     "donate": {
       "formTitle": "Spenden",
@@ -1931,7 +1931,7 @@
     "pReal": "Eine echte Kerze in einer echten Kirche, keine virtuelle",
     "pVideo": "Ihr persönliches Video innerhalb von 48 Stunden",
     "pGuest": "Kein Konto nötig",
-    "pSecure": "Sichere Zahlung mit PayPal",
+    "pSecure": "Zahlung mit PayPal oder Karte, ohne PayPal-Konto",
     "stepsTitle": "So funktioniert es",
     "s1T": "Wählen Sie Ihre Kirche",
     "s1X": "{latin} oder {greek}, beide in Nazareth.",
