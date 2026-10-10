@@ -394,6 +394,17 @@ export const en = {
   'users.confirmDeleteTitle': 'Delete this user?',
   'users.confirmDeleteText': '{name} is removed for good and signed out.',
   'users.deletedToast': '{name} deleted.',
+  'users.email': 'Recovery e-mail',
+  'users.emailOptional': 'Recovery e-mail (optional)',
+  'users.emailHint': 'If this person forgets the password, the reset link is sent here. Without it, only an owner can help them back in.',
+  'users.emailNone': 'None',
+  'users.emailEdit': 'Change',
+  'users.emailEditFor': 'Change the recovery e-mail of {name}',
+  'users.emailTitle': 'Recovery e-mail of {name}',
+  'users.emailEmptyHint': 'Leave it empty to remove the address.',
+  'users.errEmail': 'Enter a valid e-mail address, such as name@example.com.',
+  'users.emailToast': 'Recovery e-mail of {name} saved. A notice was sent to that address.',
+  'users.emailRemovedToast': 'Recovery e-mail of {name} removed.',
 
   // audit
   'audit.lead': 'Who did what and when. Entries are kept for 180 days.',
