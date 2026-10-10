@@ -817,6 +817,8 @@ Rules of this page:
   the prayer, the personal video by e-mail **within 48 hours**. The hero, the steps, the answers, the FAQ
   (`pilgrim.faq.items.candle`) and the terms (`pilgrim.legal.terms.sections.candles`) say the same thing in all 14
   languages: change them together, never one alone. Never call the candle "virtual".
+- **When it goes wrong, a full refund** (owner's policy, 2026-10-10): if the video has not arrived within 48 hours or
+  something in it is wrong, the customer writes to us and is refunded in full. The page's answer and the terms say so.
 - **The button names the action and the price** (`candlePage.cta`, "Light My Candle - {price}"); the price is the
   owner's setting from the API, never typed into a message. The hero's button is a plain link to `#candle-form`.
 - **Who we are is said plainly:** an independent service run by a local team in Nazareth, not an official body of

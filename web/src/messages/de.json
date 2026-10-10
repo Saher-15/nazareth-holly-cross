@@ -1457,7 +1457,7 @@
           },
           "candles": {
             "title": "Kerzen",
-            "p1": "Eine Gebetskerze kostet {price}. Wir entzünden in der von Ihnen gewählten Kirche eine echte Kerze für Ihr Anliegen, filmen sie und senden das Video innerhalb von 48 Stunden nach Ihrer Zahlung an Ihre E-Mail-Adresse. Wenn das Video in dieser Zeit nicht ankommt oder etwas darin nicht stimmt, schreiben Sie uns, und wir bringen es in Ordnung."
+            "p1": "Eine Gebetskerze kostet {price}. Wir entzünden in der von Ihnen gewählten Kirche eine echte Kerze für Ihr Anliegen, filmen sie und senden das Video innerhalb von 48 Stunden nach Ihrer Zahlung an Ihre E-Mail-Adresse. Wenn das Video in dieser Zeit nicht ankommt oder etwas darin nicht stimmt, schreiben Sie uns, und wir erstatten Ihnen den vollen Betrag."
           },
           "donations": {
             "title": "Spenden",
@@ -1949,7 +1949,7 @@
     "whoQ": "Wer betreibt diesen Dienst?",
     "whoA": "Nazareth Holy Cross ist ein unabhängiger Dienst, den ein Team vor Ort in Nazareth betreibt. Er ist keine offizielle Einrichtung der Stadt Nazareth oder der Kirchen.",
     "wrongQ": "Und wenn etwas schiefgeht?",
-    "wrongA": "Wenn Ihr Video nach 48 Stunden nicht angekommen ist (bitte prüfen Sie zuerst Ihren Spam-Ordner) oder etwas darin nicht stimmt, schreiben Sie uns, und wir bringen es in Ordnung.",
+    "wrongA": "Wenn Ihr Video nach 48 Stunden nicht angekommen ist (bitte prüfen Sie zuerst Ihren Spam-Ordner) oder etwas darin nicht stimmt, schreiben Sie uns, und wir erstatten Ihnen den vollen Betrag.",
     "contact": "Kontakt aufnehmen"
   }
 }

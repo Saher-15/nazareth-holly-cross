@@ -1457,7 +1457,7 @@
           },
           "candles": {
             "title": "Lumânări",
-            "p1": "O lumânare de rugăciune costă {price}. Aprindem o lumânare adevărată pentru intenția dumneavoastră în biserica pe care o alegeți, o filmăm și trimitem videoclipul la adresa dumneavoastră de e-mail în cel mult 48 de ore de la plată. Dacă videoclipul nu sosește în acest timp sau dacă ceva din el este greșit, scrieți-ne și vom îndrepta lucrurile."
+            "p1": "O lumânare de rugăciune costă {price}. Aprindem o lumânare adevărată pentru intenția dumneavoastră în biserica pe care o alegeți, o filmăm și trimitem videoclipul la adresa dumneavoastră de e-mail în cel mult 48 de ore de la plată. Dacă videoclipul nu sosește în acest timp sau dacă ceva din el este greșit, scrieți-ne și vă vom returna întreaga sumă."
           },
           "donations": {
             "title": "Donații",
@@ -1949,7 +1949,7 @@
     "whoQ": "Cine oferă acest serviciu?",
     "whoA": "Nazareth Holy Cross este un serviciu independent, oferit de o echipă locală din Nazaret. Nu este o instituție oficială a orașului Nazaret sau a bisericilor.",
     "wrongQ": "Și dacă ceva nu merge bine?",
-    "wrongA": "Dacă videoclipul nu a sosit în 48 de ore (verificați mai întâi dosarul de spam) sau dacă ceva din el este greșit, scrieți-ne și vom îndrepta lucrurile.",
+    "wrongA": "Dacă videoclipul nu a sosit în 48 de ore (verificați mai întâi dosarul de spam) sau dacă ceva din el este greșit, scrieți-ne și vă vom returna întreaga sumă.",
     "contact": "Scrieți-ne"
   }
 }

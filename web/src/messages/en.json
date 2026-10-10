@@ -1457,7 +1457,7 @@
           },
           "candles": {
             "title": "Candles",
-            "p1": "A prayer candle costs {price}. We light a real candle for your intention in the church you choose, film it and send the video to your e-mail address within 48 hours of your payment. If the video does not arrive in that time, or something in it is wrong, write to us and we will put it right."
+            "p1": "A prayer candle costs {price}. We light a real candle for your intention in the church you choose, film it and send the video to your e-mail address within 48 hours of your payment. If the video does not arrive in that time, or something in it is wrong, write to us and we will refund you in full."
           },
           "donations": {
             "title": "Donations",
@@ -1949,7 +1949,7 @@
     "whoQ": "Who runs this service?",
     "whoA": "Nazareth Holy Cross is an independent service run by a local team in Nazareth. It is not an official body of the city of Nazareth or of the churches.",
     "wrongQ": "What if something goes wrong?",
-    "wrongA": "If your video has not arrived within 48 hours (please check your spam folder first), or something in it is wrong, write to us and we will put it right.",
+    "wrongA": "If your video has not arrived within 48 hours (please check your spam folder first), or something in it is wrong, write to us and we will refund you in full.",
     "contact": "Contact us"
   }
 }
