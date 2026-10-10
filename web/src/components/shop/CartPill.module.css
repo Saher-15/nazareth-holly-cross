@@ -56,8 +56,8 @@
   }
 }
 
-/* very small phones: icon + count only (the link keeps its full aria-label) */
-@media (max-width: 400px) {
+/* phones: icon + count only, so the shop toolbar's second row fits (the link keeps its full aria-label) */
+@media (max-width: 599px) {
   .pill {
     padding-inline: 14px;
   }

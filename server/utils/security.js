@@ -34,6 +34,10 @@ export const newOrderLimiter = limiter(10, 'Too many orders, please try again la
 // A "like" on a prayer: anonymous and cheap, so it is the easiest thing to inflate with a script.
 export const likeLimiter = limiter(30, 'Too many likes, please slow down.');
 
+// POST /track (route/trackRoute.js): a visitor's whole purchase sends about five; a script inflating the counts is
+// stopped early. The answer is always 204, so a limited caller learns nothing either.
+export const trackLimiter = limiter(60, 'Too many requests, please try again later.');
+
 // ---- Public read-only data (catalogue, product pages, reviews, prayers) ----
 //
 // The website's own server reads these while it builds and refreshes pages, and from a host such as Netlify it

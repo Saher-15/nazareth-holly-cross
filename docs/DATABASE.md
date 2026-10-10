@@ -314,3 +314,7 @@ All of them take the address from `DATABASEURL` (environment or a hidden prompt,
 * The retention periods in section 7 are proposals.
 * The erasure of prayers and product reviews by name was tested on the in-memory fakes and the harness (case-insensitive, anchored, escaped regular
   expressions); MongoDB's case folding of non-Latin letters under the `i` option was not tried on a real database.
+
+## Checkout recovery fields (2026-10-07)
+
+The payment collection now holds `captureVerified` (default false), `lastCheckedAt` (nullable), immutable `orderQuote` (amount and product/name/quantity/colour lines), and `fulfilment` (validated order address or candle request; `select:false`). No new index is required. Existing rows are not backfilled as verified: PayPal must prove their capture. Personal drafts are cleared on successful linking and privacy erasure, including when only fulfilment.email exists. The maintenance repair script removes drafts older than 30 days only after PayPal confirms VOIDED with no captures; uncertain or paid drafts remain until recovery or owner erasure. Financial ids, amounts and quote lines remain as accounting records. Backups follow the existing erasure rotation.

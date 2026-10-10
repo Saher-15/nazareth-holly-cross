@@ -3,6 +3,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { getMedia, mediaDefaultFile } from '@/data/media';
 import { PLACES, TOUR_CARD, placeCards, placeHref } from '@/data/places/places';
+import Activities from '@/components/places/Activities';
 import PlaceCards from '@/components/places/PlaceCards';
 import PlaceHero from '@/components/places/PlaceHero';
 import JsonLd from '@/components/ui/JsonLd';
@@ -107,6 +108,9 @@ export default async function TourPage({ params }: PageProps<'/[locale]/tour'>) 
         </div>
       </section>
 
+      {/* Things to do in the city: real activities, photo cards (components/places/Activities.tsx) */}
+      <Activities id="tour-activities" />
+
       <section className="ui-section" aria-labelledby="tour-places-title">
         <div className="ui-container">
           <Reveal as="header" className={styles.head}>
@@ -117,6 +121,20 @@ export default async function TourPage({ params }: PageProps<'/[locale]/tour'>) 
           </Reveal>
           <PlaceCards cards={placeCards()} />
         </div>
+      </section>
+
+      {/* Plan the visit: the pilgrim planner and the visitor guide, which the tour page did not point to */}
+      <section className={`ui-section ${styles.plan}`} aria-labelledby="tour-plan-title">
+        <Reveal className={`ui-container ${styles.planInner}`}>
+          <div>
+            <h2 id="tour-plan-title" className="ui-h2">{t('tourPage.plan.title')}</h2>
+            <p className={styles.text}>{t('tourPage.plan.lead')}</p>
+          </div>
+          <div className={styles.planActions}>
+            <Link href="/plan" className="ui-btn ui-btn--gold">{t('tourPage.plan.planner')}</Link>
+            <Link href="/visit" className="ui-btn ui-btn--ghost">{t('tourPage.plan.guide')}</Link>
+          </div>
+        </Reveal>
       </section>
     </div>
   );

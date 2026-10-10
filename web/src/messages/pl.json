@@ -37,10 +37,10 @@
     }
   },
   "about": {
-    "title": "Witamy na oficjalnym portalu Nazaretu",
+    "title": "Witamy w Nazareth Holy Cross",
     "description1": "Serce wiary chrześcijańskiej. Rozumiemy, że nie każdy może osobiście odwiedzić Nazaret, miasto, w którym dorastał Jezus i gdzie na każdego odwiedzającego czekają duchowe przeżycia. Dlatego z radością oferujemy Ci możliwość przybliżenia Nazaretu do siebie.",
     "description2": "Dzięki naszej stronie internetowej możesz odbyć wirtualną wycieczkę po głównych kościołach i miejscach świętych Nazaretu oraz zbliżyć się do bogatej historii i tradycji religijnej, które charakteryzują to miejsce. Ponadto oferujemy Ci wyjątkową okazję do zakupu lokalnych pamiątek, a nawet zapalenia świecy w intencji lub ku czci Twoich bliskich, tak jakbyś był tutaj z nami.",
-    "description3": "W naszym sklepie internetowym znajdziesz szeroką gamę produktów: krzyże z lokalnego drewna oliwnego, biżuterię inspirowaną symbolami chrześcijańskimi, obrazy i mozaiki odzwierciedlające bogactwo sztuki religijnej i wiele więcej. Teraz możesz również kupić wodę z legendarnego źródła w Nazarecie, piasek z Nazaretu i lokalne oliwki – wszystko po to, aby poczuć wielkość miasta Nazaret i Jezusa. Możesz też zapalić wirtualną świecę – gest, który przenosi modlitwę i pamięć przez odległości.",
+    "description3": "W naszym sklepie internetowym znajdziesz szeroką gamę produktów: krzyże z lokalnego drewna oliwnego, biżuterię inspirowaną symbolami chrześcijańskimi, obrazy i mozaiki odzwierciedlające bogactwo sztuki religijnej i wiele więcej. Teraz możesz również kupić wodę z legendarnego źródła w Nazarecie, piasek z Nazaretu i lokalne oliwki – wszystko po to, aby poczuć wielkość miasta Nazaret i Jezusa. Możesz też poprosić, abyśmy zapalili dla Ciebie prawdziwą świecę w kościele w Nazarecie, i otrzymać film z tej chwili.",
     "description4": "Zapraszamy do otwarcia serc i poczucia ciepła naszej społeczności poprzez każdy produkt, który zdecydujesz się kupić. Każdy zakup wspiera lokalną społeczność i pomaga zachować bogate dziedzictwo Nazaretu dla przyszłych pokoleń. Odwiedź naszą stronę internetową i znajdź sposób na połączenie się z Nazaretem, kiedykolwiek i gdziekolwiek."
   },
   "whatIsNew": {
@@ -74,23 +74,18 @@
     "reviews": "Recenzje"
   },
   "candle": {
-    "howToLightACandle": "Jak zapalić świecę?",
-    "itsSimple": "To proste:",
-    "step1": "Wybierz kościół, w którym chcesz zapalić świecę.",
-    "step2": "Napisz modlitwę lub osobistą prośbę, którą chcesz dołączyć do zapalenia świecy.",
-    "step3": "Pójdziemy do kościoła, zapalimy świecę w Twojej intencji, nagramy film z Twoim imieniem i prześlemy Ci go bezpośrednio.",
-    "note": "Uwaga: Ten filmik ma charakter poglądowy i przedstawia proces zapalania świecy w greckim kościele prawosławnym.",
     "lightAPrayCandle": "Zapal świecę modlitewną",
     "selectChurch": "Wybierz kościół, w którym zapalisz świeczkę:",
-    "toLightACandlePay": "Aby zapalić świecę, zapłać 3 $",
-    "light": "ZAPAL",
-    "emailMatchError": "Adresy e-mail nie pasują",
     "inputWarning": "Wybierz kościół.",
     "firstName": "Imię",
     "lastName": "Nazwisko",
     "yourEmail": "Twój adres e-mail",
     "confirmEmail": "Potwierdź adres e-mail",
-    "yourPrayer": "Twoja modlitwa"
+    "yourPrayer": "Twoja modlitwa",
+    "videosTitle": "Filmy",
+    "videosLead": "Zobacz, jak zapala się świece w kościołach Nazaretu.",
+    "videoPlay": "Odtwórz film: {title}",
+    "videoPlayerTitle": "Film: {title}"
   },
   "heroSection": {
     "heading": "MIASTO JEZUSA CZEKA NA CIEBIE",
@@ -420,7 +415,11 @@
     "prayersTotal": "Modlitwy na ścianie",
     "prayersCountriesLatest": "{count, plural, one {Kraje w najnowszej modlitwie} few {Kraje w # najnowszych modlitwach} many {Kraje w # najnowszych modlitwach} other {Kraje w # najnowszych modlitwach}}",
     "prayersCountriesAll": "Kraje na ścianie",
-    "prayersAll": "Zobacz ścianę modlitw"
+    "prayersAll": "Zobacz ścianę modlitw",
+    "intro": {
+      "welcome": "Witamy w Nazarecie",
+      "tagline": "Miasto Jezusa"
+    }
   },
   "homePage": {
     "meta": {
@@ -613,14 +612,17 @@
     "shipping": "Wysyłka",
     "total": "Razem",
     "secure": "Bezpieczna płatność przez PayPal",
-    "emptyLead": "Odkryj różańce, krzyże i pamiątki z Nazaretu."
+    "emptyLead": "Odkryj różańce, krzyże i pamiątki z Nazaretu.",
+    "sideCartClose": "Zamknij koszyk",
+    "sideCartView": "Zobacz cały koszyk",
+    "sideCartMove": "Przenieś przycisk koszyka na drugą stronę"
   },
   "checkoutPage": {
     "meta": {
       "checkoutTitle": "Kasa",
       "checkoutDescription": "Dokończ zamówienie pamiątek z Nazaretu i zapłać bezpiecznie przez PayPal.",
       "candleTitle": "Zapal świecę w Nazarecie",
-      "candleDescription": "Wybierz kościół w Nazarecie i napisz swoją modlitwę. Zapalimy za Ciebie świecę i wyślemy Ci nagranie.",
+      "candleDescription": "Wybierz kościół w Nazarecie i napisz swoją modlitwę. Zapalimy dla Ciebie prawdziwą świecę i wyślemy Twój osobisty film w ciągu 48 godzin.",
       "donateTitle": "Przekaż darowiznę",
       "donateDescription": "Wesprzyj Nazareth Holy Cross darowizną, bezpiecznie opłaconą przez PayPal."
     },
@@ -628,7 +630,6 @@
       "eyebrow": "Bezpieczna płatność",
       "orderTitle": "Dokończ zamówienie",
       "lead": "Twoja płatność jest bezpiecznie obsługiwana przez PayPal.",
-      "candleEyebrow": "Świeca modlitewna",
       "donateEyebrow": "Darowizna",
       "donateTitle": "Wesprzyj Nazareth Holy Cross",
       "donateLead": "Twój dar pomaga nam dzielić się świętymi miejscami, modlitwami i rękodziełem Nazaretu z pielgrzymami na całym świecie."
@@ -665,13 +666,14 @@
     "payment": {
       "loading": "Wczytywanie PayPal…",
       "unavailable": "Nie udało się wczytać PayPal. Sprawdź połączenie lub wyłącz blokowanie treści, a następnie odśwież stronę.",
-      "secured": "Bezpieczna płatność przez PayPal. Nigdy nie widzimy danych Twojej karty.",
+      "secured": "Bezpieczna płatność przez PayPal albo kartą kredytową lub debetową: konto PayPal nie jest potrzebne. Nigdy nie widzimy danych Twojej karty.",
       "cancelled": "Płatność anulowana. Nie pobrano żadnej opłaty.",
       "errors": {
         "start": "Nie udało się rozpocząć płatności. Spróbuj ponownie.",
         "notCompleted": "Płatność nie została ukończona. Nie pobrano żadnej opłaty.",
         "paypal": "PayPal zgłosił błąd. Spróbuj ponownie.",
-        "unconfirmed": "Nie udało się potwierdzić płatności, bo połączenie zostało przerwane. Na razie nie płać ponownie: sprawdź swoje konto PayPal lub napisz do nas."
+        "unconfirmed": "Nie udało się potwierdzić płatności, bo połączenie zostało przerwane. Na razie nie płać ponownie: sprawdź swoje konto PayPal lub napisz do nas.",
+        "priceChanged": "Kwota się zmieniła: wynosi teraz {charged}, a nie {shown}. Nic nie zostało pobrane. Kliknij ponownie przycisk PayPal, aby zapłacić {charged}."
       },
       "reference": "Numer płatności: {id}",
       "saving": "Zapisywanie Twoich danych…",
@@ -682,8 +684,7 @@
       "text": "Zobacz różańce, krzyże i pamiątki z Nazaretu."
     },
     "candle": {
-      "price": "Zapalenie świecy: {price}",
-      "secureNext": "Następnie sprawdzisz swoje dane i bezpiecznie zapłacisz przez PayPal."
+      "secureNext": "Następnie sprawdzisz swoje dane i bezpiecznie zapłacisz przez PayPal albo kartą kredytową lub debetową. Nie potrzebujesz konta PayPal."
     },
     "donate": {
       "formTitle": "Przekaż darowiznę",
@@ -1311,7 +1312,7 @@
       "items": {
         "candle": {
           "q": "Jak działa zapalenie świecy?",
-          "a": "Wybierz kościół w Nazarecie, napisz swoją modlitwę i zapłać {price}. Zapalimy dla Ciebie świecę, nagramy krótki film z Twoim imieniem i wyślemy go na Twój adres e-mail."
+          "a": "Wybierz kościół w Nazarecie, napisz swoje imię i modlitwę i zapłać {price}. Zapalimy dla Ciebie prawdziwą świecę w tym kościele, sfilmujemy ją z Twoim imieniem i modlitwą i wyślemy film na Twój adres e-mail w ciągu 48 godzin."
         },
         "wall": {
           "q": "Czy ściana modlitw jest publiczna?",
@@ -1412,7 +1413,8 @@
               "cart": "Koszyk i listę życzeń.",
               "liked": "Modlitwy, przy których powiedziałeś Amen, aby można to było zrobić tylko raz.",
               "language": "Wybrany język."
-            }
+            },
+            "p2": "Liczymy, ile razy otwierane są niektóre strony i ile płatności zostaje zakończonych, w podziale na dni i kampanie reklamowe. To zwykłe sumy: nie używają plików cookie ani identyfikatorów, niczego nie zapisują w Twojej przeglądarce, nie zawierają niczego o Tobie i nie są nikomu przekazywane."
           },
           "keep": {
             "title": "Jak długo je przechowujemy",
@@ -1455,7 +1457,7 @@
           },
           "candles": {
             "title": "Świece",
-            "p1": "Świeca modlitewna kosztuje {price}. Zapalamy świecę w Twojej intencji w wybranym kościele i wysyłamy Ci film. To usługa modlitwy i pamięci; nie możemy obiecać konkretnej daty ani godziny."
+            "p1": "Świeca modlitewna kosztuje {price}. Zapalimy prawdziwą świecę w Twojej intencji w wybranym przez Ciebie kościele, sfilmujemy ją i wyślemy film na Twój adres e-mail w ciągu 48 godzin od płatności. Jeśli film nie dotrze w tym czasie albo coś w nim będzie nie tak, napisz do nas, a zwrócimy Ci całą kwotę."
           },
           "donations": {
             "title": "Darowizny",
@@ -1882,5 +1884,72 @@
       "license": "Licencja",
       "viewOnCommons": "Zobacz w Wikimedia Commons"
     }
+  },
+  "tourPage": {
+    "activities": {
+      "eyebrow": "W Nazarecie",
+      "title": "Co robić",
+      "lead": "Kilka sposobów, by spędzić Twoje dni w mieście, poza jego kościołami.",
+      "more": "Więcej o tym miejscu",
+      "oldcity": {
+        "title": "Przejdź się po Starym Mieście i jego targu",
+        "text": "Wąskie uliczki, sklepione przejścia i stary targ, gdzie przyprawy, słodycze i rękodzieło sprzedaje się obok siebie."
+      },
+      "basilica": {
+        "title": "Pomódl się w Bazylice Zwiastowania",
+        "text": "Usiądź w ciszy w grocie, w której tradycja umieszcza Zwiastowanie, albo weź udział we Mszy w kościele górnym."
+      },
+      "trail": {
+        "title": "Przejdź odcinek Szlaku Jezusa",
+        "text": "Szlak zaczyna się w Nazarecie i prowadzi przez wzgórza Galilei ku Jezioru Galilejskiemu. Już pierwsze kilometry otwierają szerokie widoki."
+      },
+      "precipice": {
+        "title": "Obejrzyj zachód słońca z Góry Strącenia",
+        "text": "Z urwiska nad Doliną Jizreel cała równina leży u Twoich stóp, złota pod koniec dnia."
+      },
+      "food": {
+        "title": "Skosztuj Nazaretu",
+        "text": "Miasto słynie ze słodyczy i domowej kuchni: spróbuj knafeh, podawanego na ciepło."
+      },
+      "christmas": {
+        "title": "Boże Narodzenie w Nazarecie",
+        "text": "W grudniu miasto rozbłyska światłami, z jarmarkiem bożonarodzeniowym i świąteczną paradą w Wigilię."
+      }
+    },
+    "plan": {
+      "title": "Zaplanuj swoje dni w Nazarecie",
+      "lead": "Wybierz, ile masz dni i co lubisz: planer pielgrzyma wyznacza trasę z czasem przejścia. Przewodnik dla odwiedzających zawiera pory roku, sposoby dojazdu i praktyczne rady.",
+      "planner": "Otwórz planer",
+      "guide": "Przewodnik dla odwiedzających"
+    }
+  },
+  "candlePage": {
+    "eyebrow": "Prawdziwa świeca, zapalona dla Ciebie w Nazarecie",
+    "title": "Twoja modlitwa. Twój kościół. Twoja świeca.",
+    "lead": "Wybierz kościół w Nazarecie i napisz swoje imię oraz modlitwę. Zapalimy dla Ciebie prawdziwą świecę w tym kościele, sfilmujemy ją z Twoim imieniem i modlitwą i wyślemy Ci Twój osobisty film w ciągu 48 godzin.",
+    "cta": "Zapal moją świecę – {price}",
+    "pReal": "Prawdziwa świeca w prawdziwym kościele, nie wirtualna",
+    "pVideo": "Twój osobisty film w ciągu 48 godzin",
+    "pGuest": "Bez zakładania konta",
+    "pSecure": "Zapłać przez PayPal lub kartą, bez konta PayPal",
+    "stepsTitle": "Jak to działa",
+    "s1T": "Wybierz swój kościół",
+    "s1X": "{latin} albo {greek}, oba w Nazarecie.",
+    "s2T": "Napisz swoje imię i modlitwę",
+    "s2X": "Własnymi słowami i w swoim języku. Położymy je na kartce obok Twojej świecy.",
+    "s3T": "Zapłać {price} i odbierz swój film",
+    "s3X": "Zapalimy Twoją świecę, sfilmujemy ją i wyślemy Twój osobisty film na Twój adres e-mail w ciągu 48 godzin.",
+    "knowTitle": "Warto wiedzieć",
+    "realQ": "Czy to prawdziwa świeca?",
+    "realA": "Tak. Ktoś z naszego zespołu w Nazarecie idzie do wybranego przez Ciebie kościoła i zapala tam prawdziwą świecę. Nic tu nie jest wirtualne.",
+    "getQ": "Co otrzymam?",
+    "getA": "Krótki osobisty film e-mailem: kościół, kartkę z Twoim imieniem i modlitwą oraz Twoją świecę w chwili zapalania.",
+    "timeQ": "Ile to trwa?",
+    "timeA": "Film otrzymasz w ciągu 48 godzin od płatności.",
+    "whoQ": "Kto prowadzi tę usługę?",
+    "whoA": "Nazareth Holy Cross to niezależna usługa prowadzona przez lokalny zespół w Nazarecie. Nie jest oficjalną instytucją miasta Nazaret ani kościołów.",
+    "wrongQ": "A jeśli coś pójdzie nie tak?",
+    "wrongA": "Jeśli film nie dotrze w ciągu 48 godzin (sprawdź najpierw folder ze spamem) albo coś w nim będzie nie tak, napisz do nas, a zwrócimy Ci całą kwotę.",
+    "contact": "Napisz do nas"
   }
 }

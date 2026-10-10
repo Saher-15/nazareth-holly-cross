@@ -53,3 +53,45 @@
 .copy :global(.ui-btn):focus-visible {
   border-radius: 999px;
 }
+
+/* Plan the visit: a band with the words beside the two buttons (stacked on a phone). */
+.plan {
+  border-block: 1px solid var(--glass-line);
+  background:
+    radial-gradient(ellipse 60% 90% at 85% 50%, color-mix(in srgb, var(--gold) 10%, transparent), transparent 70%),
+    linear-gradient(180deg, var(--night-2), color-mix(in srgb, var(--night-2) 55%, var(--night)));
+}
+:global([dir='rtl']) .plan {
+  background:
+    radial-gradient(ellipse 60% 90% at 15% 50%, color-mix(in srgb, var(--gold) 10%, transparent), transparent 70%),
+    linear-gradient(180deg, var(--night-2), color-mix(in srgb, var(--night-2) 55%, var(--night)));
+}
+.planInner {
+  display: grid;
+  gap: 20px;
+  align-items: center;
+}
+.planInner .text {
+  max-width: 640px;
+  margin: 12px 0 0;
+}
+.planActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.planActions :global(.ui-btn):focus-visible {
+  border-radius: 999px;
+}
+@media (min-width: 900px) {
+  .planInner {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 40px;
+  }
+}
+@media (max-width: 480px) {
+  .planActions :global(.ui-btn) {
+    width: 100%;
+    text-align: center;
+  }
+}
