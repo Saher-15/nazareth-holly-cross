@@ -37,11 +37,19 @@ describe('production mode', () => {
       },
     );
 
-    it('still serves the real sites', async () => {
-      for (const o of ['https://nazarethholycross.com', 'https://www.nazarethholycross.com', 'https://nazaretholycrossadmin.netlify.app']) {
+    it('still serves the real sites and this site\'s deploy previews', async () => {
+      for (const o of ['https://nazarethholycross.com', 'https://www.nazarethholycross.com', 'https://nazarethholycross.netlify.app', 'https://deploy-preview-48--nazarethholycross.netlify.app']) {
         const res = await origin(o);
         expect(res.status).toBe(200);
         expect(res.headers['access-control-allow-origin']).toBe(o);
+      }
+    });
+
+    it('no longer trusts branch deploys or the retired 2024 admin site', async () => {
+      for (const o of ['https://evil--nazarethholycross.netlify.app', 'https://nazaretholycrossadmin.netlify.app', 'https://deploy-preview-3--nazaretholycrossadmin.netlify.app']) {
+        const res = await origin(o);
+        expect(res.status).toBe(403);
+        expect(res.headers['access-control-allow-origin']).toBeUndefined();
       }
     });
 

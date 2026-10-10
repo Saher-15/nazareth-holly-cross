@@ -175,7 +175,7 @@ export default function SitesCarousel({ id, cards }: { id: string; cards: readon
                     className={styles.img}
                     photo={card.cover}
                     alt=""
-                    sizes="(min-width: 1000px) 320px, min(78vw, 340px)"
+                    sizes="(min-width: 1100px) 290px, (min-width: 860px) 33vw, (min-width: 600px) 50vw, 82vw"
                     draggable={false}
                   />
                   <span className={styles.cardShade} aria-hidden="true" />

@@ -8,6 +8,7 @@ import { useI18n } from '@/i18n/client';
 import { isApiError } from '@/lib/api';
 import { proxyCall } from '@/lib/client-api';
 import { isUsername, passwordProblem } from '@/lib/password';
+import { isRecoveryEmail } from '@/lib/password-reset';
 import { ROLES, type Role } from '@/lib/roles';
 
 export function CreateUser() {
@@ -18,6 +19,7 @@ export function CreateUser() {
   const uid = useId();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
   const [role, setRole] = useState<Role>('editor');
   const [show, setShow] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -26,6 +28,7 @@ export function CreateUser() {
   function openDialog() {
     setUsername('');
     setPassword('');
+    setEmail('');
     setRole('editor');
     setError(null);
     setShow(false);
@@ -39,10 +42,12 @@ export function CreateUser() {
     if (!isUsername(clean)) return setError(t('users.errUsername'));
     const problem = passwordProblem(password, clean);
     if (problem) return setError(t(`password.${problem}` as 'password.short'));
+    const address = email.trim().toLowerCase();
+    if (address && !isRecoveryEmail(address)) return setError(t('users.errEmail'));
     setBusy(true);
     setError(null);
     try {
-      await proxyCall({ method: 'POST', path: 'users', body: { username: clean, password, role } });
+      await proxyCall({ method: 'POST', path: 'users', body: { username: clean, password, role, ...(address ? { email: address } : {}) } });
       toast(t('users.createdToast', { name: clean }), 'success');
       dialog.current?.close();
       router.refresh();
@@ -77,6 +82,11 @@ export function CreateUser() {
               </button>
             </div>
             <p id={`${uid}-ph`} className="hint">{t('password.policy')}</p>
+          </div>
+          <div className="field">
+            <label htmlFor={`${uid}-e`}>{t('users.emailOptional')}</label>
+            <input id={`${uid}-e`} className="input" type="email" inputMode="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="off" autoCapitalize="none" spellCheck={false} maxLength={254} aria-describedby={`${uid}-eh`} dir="ltr" data-testid="new-user-email" />
+            <p id={`${uid}-eh`} className="hint">{t('users.emailHint')}</p>
           </div>
           <div className="field">
             <label htmlFor={`${uid}-r`}>{t('users.role')}</label>
@@ -139,6 +149,82 @@ export function RoleSelect({ id, username, role, disabled }: { id: string; usern
           <option key={r} value={r}>{t(`role.${r}`)}</option>
         ))}
       </select>
+    </>
+  );
+}
+
+// The recovery address of one account, with a button that opens a small form to set, change or remove it (audit
+// 2026-10-10, F03: without it, "Forgot password" cannot reach an account whose username is not an e-mail address).
+export function RecoveryEmail({ id, username, email }: { id: string; username: string; email: string }) {
+  const { t } = useI18n();
+  const { toast } = useFeedback();
+  const router = useRouter();
+  const dialog = useRef<HTMLDialogElement>(null);
+  const uid = useId();
+  const [value, setValue] = useState(email);
+  const [error, setError] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+
+  function openDialog() {
+    setValue(email);
+    setError(null);
+    dialog.current?.showModal();
+  }
+
+  async function submit(event: FormEvent) {
+    event.preventDefault();
+    if (busy) return;
+    const address = value.trim().toLowerCase();
+    if (address && !isRecoveryEmail(address)) return setError(t('users.errEmail'));
+    if (address === email) return dialog.current?.close();
+    setBusy(true);
+    setError(null);
+    try {
+      await proxyCall({ method: 'PATCH', path: `users/${id}`, body: { email: address } });
+      toast(t(address ? 'users.emailToast' : 'users.emailRemovedToast', { name: username }), 'success');
+      dialog.current?.close();
+      router.refresh();
+    } catch (e) {
+      if (isApiError(e) && e.unauthorized) return;
+      setError(isApiError(e) && e.status < 500 && e.status !== 429 ? e.message : t('error.generic'));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <>
+      <span className="row-actions">
+        {email ? <bdi dir="ltr">{email}</bdi> : <span className="muted">{t('users.emailNone')}</span>}
+        <button type="button" className="btn btn--ghost btn--sm" onClick={openDialog} aria-label={t('users.emailEditFor', { name: username })} data-testid="edit-user-email">
+          {t('users.emailEdit')}
+        </button>
+      </span>
+      <dialog ref={dialog} className="dialog dialog--form" aria-labelledby={`${uid}-title`} onClick={(e) => { if (e.target === e.currentTarget) dialog.current?.close(); }}>
+        <form className="dialog__body form" onSubmit={submit} noValidate>
+          <h2 id={`${uid}-title`} className="dialog__title">{t('users.emailTitle', { name: username })}</h2>
+          <div className="field">
+            <label htmlFor={`${uid}-e`}>{t('users.email')}</label>
+            <input id={`${uid}-e`} className="input" type="email" inputMode="email" value={value} onChange={(e) => setValue(e.target.value)} autoComplete="off" autoCapitalize="none" spellCheck={false} maxLength={254} aria-describedby={`${uid}-eh`} dir="ltr" />
+            <p id={`${uid}-eh`} className="hint">{t('users.emailHint')} {t('users.emailEmptyHint')}</p>
+          </div>
+          <div className="form__error" role="alert" aria-live="assertive">
+            {error ? (
+              <>
+                <Icon name="alert" size={18} />
+                <span>{error}</span>
+              </>
+            ) : null}
+          </div>
+          <div className="dialog__actions">
+            <button type="button" className="btn btn--ghost" onClick={() => dialog.current?.close()}>{t('common.cancel')}</button>
+            <button type="submit" className="btn btn--gold" disabled={busy} aria-busy={busy || undefined}>
+              {busy ? <span className="spinner" aria-hidden="true" /> : null}
+              <span>{t('common.save')}</span>
+            </button>
+          </div>
+        </form>
+      </dialog>
     </>
   );
 }

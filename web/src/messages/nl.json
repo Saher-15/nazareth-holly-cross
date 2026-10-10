@@ -37,10 +37,10 @@
     }
   },
   "about": {
-    "title": "Welkom op het officiële portaal van Nazareth",
+    "title": "Welkom bij Nazareth Holy Cross",
     "description1": "Het hart van het christelijk geloof. Wij begrijpen dat niet iedereen Nazareth in persoon kan bezoeken, de stad waar Jezus opgroeide en waar elke bezoeker geestelijke ervaringen te wachten staan. Daarom bieden wij u graag de mogelijkheid om Nazareth naar u toe te brengen.",
     "description2": "Via onze website kunt u een virtuele rondleiding maken langs de belangrijkste kerken en heilige plaatsen van Nazareth en kennismaken met de rijke geschiedenis en religieuze traditie die deze plek kenmerken. Daarnaast bieden wij u de unieke kans om lokale souvenirs te kopen en zelfs een kaars aan te steken ter nagedachtenis aan of ter ere van uw dierbaren, alsof u hier bij ons was.",
-    "description3": "In onze webwinkel vindt u een breed assortiment: kruisen van lokaal olijfhout, sieraden geïnspireerd op christelijke symbolen, schilderijen en mozaïeken die de rijkdom van de religieuze kunst weerspiegelen, en nog veel meer. Nu kunt u ook water uit de legendarische bron van Nazareth, zand uit Nazareth en lokale olijven kopen — alles om de grootsheid van de stad Nazareth en van Jezus te voelen. U kunt er ook voor kiezen een virtuele kaars aan te steken, een gebaar dat gebed en herinnering over de afstand heen draagt.",
+    "description3": "In onze webwinkel vindt u een breed assortiment: kruisen van lokaal olijfhout, sieraden geïnspireerd op christelijke symbolen, schilderijen en mozaïeken die de rijkdom van de religieuze kunst weerspiegelen, en nog veel meer. Nu kunt u ook water uit de legendarische bron van Nazareth, zand uit Nazareth en lokale olijven kopen — alles om de grootsheid van de stad Nazareth en van Jezus te voelen. U kunt ons ook vragen een echte kaars voor u aan te steken in een kerk in Nazareth en daarvan een video ontvangen.",
     "description4": "Wij nodigen u uit uw hart te openen en de warmte van onze gemeenschap te voelen in elk product dat u koopt. Elke aankoop steunt de lokale gemeenschap en helpt het rijke erfgoed van Nazareth te bewaren voor toekomstige generaties. Bezoek onze website en vind uw eigen weg naar Nazareth, op elk moment en vanaf elke plek."
   },
   "whatIsNew": {
@@ -74,23 +74,18 @@
     "reviews": "Reviews"
   },
   "candle": {
-    "howToLightACandle": "Hoe steekt u een kaars aan?",
-    "itsSimple": "Het is eenvoudig:",
-    "step1": "Kies de kerk waar u de kaars wilt laten aansteken.",
-    "step2": "Schrijf een gebed of een persoonlijke wens die u bij het aansteken van de kaars wilt meegeven.",
-    "step3": "Wij gaan naar de kerk, steken de kaars voor u aan, nemen een video op met uw naam en sturen die rechtstreeks naar u toe.",
-    "note": "Let op: deze video is slechts ter illustratie en laat zien hoe een kaars wordt aangestoken in de Grieks-orthodoxe kerk.",
     "lightAPrayCandle": "Steek een gebedskaars aan",
     "selectChurch": "Kies de kerk waar de kaars moet worden aangestoken:",
-    "toLightACandlePay": "Om een kaars aan te steken, betaalt u $ 3",
-    "light": "AANSTEKEN",
-    "emailMatchError": "De e-mailadressen komen niet overeen",
     "inputWarning": "Kies een kerk.",
     "firstName": "Voornaam",
     "lastName": "Achternaam",
     "yourEmail": "Uw e-mailadres",
     "confirmEmail": "Bevestig uw e-mailadres",
-    "yourPrayer": "Uw gebed"
+    "yourPrayer": "Uw gebed",
+    "videosTitle": "Video’s",
+    "videosLead": "Bekijk hoe de kaarsen worden aangestoken in de kerken van Nazareth.",
+    "videoPlay": "Video afspelen: {title}",
+    "videoPlayerTitle": "Video: {title}"
   },
   "heroSection": {
     "heading": "DE STAD VAN JEZUS WACHT OP U",
@@ -420,7 +415,11 @@
     "prayersTotal": "Gebeden op de muur",
     "prayersCountriesLatest": "{count, plural, one {Landen in het nieuwste gebed} other {Landen in de # nieuwste gebeden}}",
     "prayersCountriesAll": "Landen op de muur",
-    "prayersAll": "Lees de gebedsmuur"
+    "prayersAll": "Lees de gebedsmuur",
+    "intro": {
+      "welcome": "Welkom in Nazareth",
+      "tagline": "De stad van Jezus"
+    }
   },
   "homePage": {
     "meta": {
@@ -614,14 +613,17 @@
     "shipping": "Verzending",
     "total": "Totaal",
     "secure": "Veilig betalen met PayPal",
-    "emptyLead": "Ontdek rozenkransen, kruisen en aandenkens uit Nazareth."
+    "emptyLead": "Ontdek rozenkransen, kruisen en aandenkens uit Nazareth.",
+    "sideCartClose": "Winkelwagen sluiten",
+    "sideCartView": "Hele winkelwagen bekijken",
+    "sideCartMove": "Winkelwagenknop naar de andere kant"
   },
   "checkoutPage": {
     "meta": {
       "checkoutTitle": "Afrekenen",
       "checkoutDescription": "Rond uw bestelling van souvenirs uit Nazareth af en betaal veilig met PayPal.",
       "candleTitle": "Steek een kaars aan in Nazareth",
-      "candleDescription": "Kies een kerk in Nazareth en schrijf uw gebed. Wij steken een kaars voor u aan en sturen u de video.",
+      "candleDescription": "Kies een kerk in Nazareth en schrijf uw gebed. Wij steken voor u een echte kaars aan en sturen uw persoonlijke video binnen 48 uur.",
       "donateTitle": "Doneren",
       "donateDescription": "Steun Nazareth Holy Cross met een gift, veilig betaald via PayPal."
     },
@@ -629,7 +631,6 @@
       "eyebrow": "Veilig afrekenen",
       "orderTitle": "Rond uw bestelling af",
       "lead": "Uw betaling wordt veilig verwerkt door PayPal.",
-      "candleEyebrow": "Gebedskaars",
       "donateEyebrow": "Gift",
       "donateTitle": "Steun Nazareth Holy Cross",
       "donateLead": "Uw gift helpt ons de heilige plaatsen, gebeden en het ambacht van Nazareth te delen met pelgrims over de hele wereld."
@@ -667,13 +668,14 @@
     "payment": {
       "loading": "PayPal wordt geladen…",
       "unavailable": "PayPal kon niet worden geladen. Controleer uw verbinding of schakel contentblokkers uit en laad de pagina opnieuw.",
-      "secured": "Veilig betalen met PayPal. Wij zien uw kaartgegevens nooit.",
+      "secured": "Veilig betalen met PayPal of met een creditcard of betaalkaart: geen PayPal-account nodig. Wij zien uw kaartgegevens nooit.",
       "cancelled": "Betaling geannuleerd. Er is niets van uw rekening afgeschreven.",
       "errors": {
         "start": "De betaling kon niet worden gestart. Probeer het opnieuw.",
         "notCompleted": "De betaling is niet voltooid. Er is niets van uw rekening afgeschreven.",
         "paypal": "PayPal meldde een fout. Probeer het opnieuw.",
-        "unconfirmed": "We konden uw betaling niet bevestigen omdat de verbinding wegviel. Betaal voorlopig niet opnieuw: controleer uw PayPal-account of schrijf ons."
+        "unconfirmed": "We konden uw betaling niet bevestigen omdat de verbinding wegviel. Betaal voorlopig niet opnieuw: controleer uw PayPal-account of schrijf ons.",
+        "priceChanged": "Het totaal is gewijzigd: het is nu {charged} in plaats van {shown}. Er is niets afgeschreven. Klik opnieuw op de PayPal-knop om {charged} te betalen."
       },
       "reference": "Betalingsreferentie: {id}",
       "saving": "Uw gegevens worden opgeslagen…",
@@ -684,8 +686,7 @@
       "text": "Ontdek rozenkransen, kruisen en souvenirs uit Nazareth."
     },
     "candle": {
-      "price": "Een kaars aansteken: {price}",
-      "secureNext": "Hierna controleert u uw gegevens en betaalt u veilig met PayPal."
+      "secureNext": "Hierna controleert u uw gegevens en betaalt u veilig met PayPal of met een creditcard of betaalkaart. U hebt geen PayPal-account nodig."
     },
     "donate": {
       "formTitle": "Doe een gift",
@@ -1252,7 +1253,7 @@
         "intro": "Alle velden zijn nodig zodat wij kunnen antwoorden.",
         "fullName": "Volledige naam",
         "email": "E-mailadres",
-        "phone": "Telefoonnummer",
+        "phone": "Telefoonnummer (optioneel)",
         "phoneHint": "Vermeld de landcode, bijvoorbeeld +1 555 123 4567.",
         "msg": "Uw bericht",
         "counter": "{count} / {max}",
@@ -1313,7 +1314,7 @@
       "items": {
         "candle": {
           "q": "Hoe werkt het aansteken van een kaars?",
-          "a": "Kies een kerk in Nazareth, schrijf uw gebed en betaal {price}. Wij steken een kaars voor u aan, nemen een korte video op met uw naam en sturen die naar uw e-mailadres."
+          "a": "Kies een kerk in Nazareth, schrijf uw naam en uw gebed en betaal {price}. Wij steken voor u een echte kaars aan in die kerk, filmen die met uw naam en uw gebed en sturen de video binnen 48 uur naar uw e-mailadres."
         },
         "wall": {
           "q": "Is de gebedsmuur openbaar?",
@@ -1414,7 +1415,8 @@
               "cart": "Uw winkelwagen en verlanglijst.",
               "liked": "De gebeden waarbij u Amen hebt gezegd, zodat u dat maar één keer kunt doen.",
               "language": "Uw taalkeuze."
-            }
+            },
+            "p2": "Wij tellen hoe vaak sommige pagina’s worden geopend en hoeveel betalingen worden voltooid, per dag en per advertentiecampagne. Het zijn gewone totalen: ze gebruiken geen cookie en geen kenmerk, slaan niets op in uw browser, bevatten niets over u en worden met niemand gedeeld."
           },
           "keep": {
             "title": "Hoe lang wij het bewaren",
@@ -1457,7 +1459,7 @@
           },
           "candles": {
             "title": "Kaarsen",
-            "p1": "Een gebedskaars kost {price}. Wij steken een kaars aan voor uw intentie in de kerk van uw keuze en sturen u een video. Het is een dienst van gebed en gedachtenis; wij kunnen geen bepaalde datum of tijd beloven."
+            "p1": "Een gebedskaars kost {price}. Wij steken in de kerk die u kiest een echte kaars aan voor uw intentie, filmen die en sturen de video binnen 48 uur na uw betaling naar uw e-mailadres. Als de video in die tijd niet aankomt of als er iets niet klopt, schrijf ons dan en wij betalen u het volledige bedrag terug."
           },
           "donations": {
             "title": "Giften",
@@ -1884,5 +1886,72 @@
       "license": "Licentie",
       "viewOnCommons": "Bekijk op Wikimedia Commons"
     }
+  },
+  "tourPage": {
+    "activities": {
+      "eyebrow": "In Nazareth",
+      "title": "Wat u kunt doen",
+      "lead": "Enkele manieren om uw dagen in de stad door te brengen, naast haar kerken.",
+      "more": "Meer over deze plek",
+      "oldcity": {
+        "title": "Wandel door de Oude Stad en haar markt",
+        "text": "Smalle steegjes, overwelfde doorgangen en de oude markt, waar specerijen, zoetigheden en handwerk naast elkaar worden verkocht."
+      },
+      "basilica": {
+        "title": "Bid in de Annunciatiebasiliek",
+        "text": "Zit in stilte in de grot waar de overlevering de Annunciatie plaatst, of woon een mis bij in de bovenkerk."
+      },
+      "trail": {
+        "title": "Loop een stuk van de Jesus Trail",
+        "text": "Het pad begint in Nazareth en trekt over de heuvels van Galilea naar het Meer van Galilea. De eerste kilometers bieden al wijde uitzichten."
+      },
+      "precipice": {
+        "title": "Bekijk de zonsondergang vanaf de Berg van de Afgrond",
+        "text": "Vanaf de rots boven de Jizreëlvlakte ligt de hele vlakte aan uw voeten, goudkleurig aan het eind van de dag."
+      },
+      "food": {
+        "title": "Proef Nazareth",
+        "text": "De stad staat bekend om haar zoetigheden en haar huiselijke keuken: probeer knafeh, warm geserveerd."
+      },
+      "christmas": {
+        "title": "Kerstmis in Nazareth",
+        "text": "In december licht de stad op, met een kerstmarkt en een feestelijke optocht op kerstavond."
+      }
+    },
+    "plan": {
+      "title": "Plan uw dagen in Nazareth",
+      "lead": "Kies hoeveel dagen u hebt en waar u van houdt: de pelgrimsplanner tekent een route met looptijden. De bezoekersgids bundelt de seizoenen, de reiswegen en praktisch advies.",
+      "planner": "Planner openen",
+      "guide": "Bezoekersgids"
+    }
+  },
+  "candlePage": {
+    "eyebrow": "Een echte kaars, voor u aangestoken in Nazareth",
+    "title": "Uw gebed. Uw kerk. Uw kaars.",
+    "lead": "Kies een kerk in Nazareth en schrijf uw naam en uw gebed. Wij steken voor u een echte kaars aan in die kerk, filmen die met uw naam en uw gebed en sturen u binnen 48 uur uw persoonlijke video.",
+    "cta": "Steek mijn kaars aan – {price}",
+    "pReal": "Een echte kaars in een echte kerk, geen virtuele",
+    "pVideo": "Uw persoonlijke video binnen 48 uur",
+    "pGuest": "Geen account nodig",
+    "pSecure": "Betaal met PayPal of met een kaart, zonder PayPal-account",
+    "stepsTitle": "Zo werkt het",
+    "s1T": "Kies uw kerk",
+    "s1X": "{latin} of {greek}, beide in Nazareth.",
+    "s2T": "Schrijf uw naam en uw gebed",
+    "s2X": "In uw eigen woorden en uw eigen taal. Wij leggen ze op een briefje naast uw kaars.",
+    "s3T": "Betaal {price} en ontvang uw video",
+    "s3X": "Wij steken uw kaars aan, filmen die en sturen uw persoonlijke video binnen 48 uur naar uw e-mailadres.",
+    "knowTitle": "Goed om te weten",
+    "realQ": "Is het een echte kaars?",
+    "realA": "Ja. Iemand van ons team in Nazareth gaat naar de kerk die u hebt gekozen en steekt daar een echte kaars aan. Er is niets virtueels aan.",
+    "getQ": "Wat ontvang ik?",
+    "getA": "Een korte persoonlijke video per e-mail: de kerk, het briefje met uw naam en uw gebed, en uw kaars terwijl die wordt aangestoken.",
+    "timeQ": "Hoe lang duurt het?",
+    "timeA": "U ontvangt uw video binnen 48 uur na uw betaling.",
+    "whoQ": "Wie verzorgt deze dienst?",
+    "whoA": "Nazareth Holy Cross is een onafhankelijke dienst van een lokaal team in Nazareth. Het is geen officiële instantie van de stad Nazareth of van de kerken.",
+    "wrongQ": "En als er iets misgaat?",
+    "wrongA": "Als uw video na 48 uur niet is aangekomen (kijk eerst in uw spammap) of als er iets niet klopt, schrijf ons dan en wij betalen u het volledige bedrag terug.",
+    "contact": "Neem contact op"
   }
 }

@@ -1,7 +1,8 @@
 // Env the routes read at import time; no real services are contacted in tests.
 process.env.NODE_ENV = 'test';
+process.env.REQUIRE_PAYMENT_PROOF = 'false'; // explicit local compatibility fixtures; production cannot opt out
 process.env.JWT_SECRET = 'test-secret-test-secret-test-secret';
-process.env.ADMIN_PASSWORD = 'test-admin-password';
+delete process.env.ADMIN_PASSWORD; // no longer read by the server (the legacy shared-password sign-in was removed)
 process.env.MAIL_FROM = 'test@example.com';
 process.env.MAIL_APP_PASSWORD = 'x';
 process.env.CLIENT_ID = 'test-client-id';
@@ -52,6 +53,20 @@ vi.mock('../model/scheduledBroadcast.js', async (importOriginal) => {
   const { fakeModule } = await import('./helpers/fakes.js');
   const { SCHEDULE_DEFAULTS } = await import('../test-harness/live-defaults.js');
   return { ...(await importOriginal()), ...fakeModule('ScheduledBroadcast', { collection: 'scheduledBroadcast', timestamps: true, defaults: SCHEDULE_DEFAULTS }) };
+});
+// The site settings (model/siteSetting.js, services/siteSettings.js): in memory, so the candle price can be changed in tests.
+vi.mock('../model/siteSetting.js', async (importOriginal) => {
+  const { fakeModule } = await import('./helpers/fakes.js');
+  return { ...(await importOriginal()), ...fakeModule('SiteSetting', { collection: 'siteSetting', timestamps: true, unique: ['key'] }) };
+});
+// The funnel counters (model/metric.js, services/metrics.js): in memory.
+vi.mock('../model/metric.js', async (importOriginal) => {
+  const { fakeModule } = await import('./helpers/fakes.js');
+  return { ...(await importOriginal()), ...fakeModule('Metric', { collection: 'metric', autoCreatedAt: false, defaults: { source: '', medium: '', campaign: '', count: 0 } }) };
+});
+vi.mock('../model/candleVideo.js', async (importOriginal) => {
+  const { fakeModule } = await import('./helpers/fakes.js');
+  return { ...(await importOriginal()), ...fakeModule('CandleVideo', { collection: 'candleVideo', timestamps: true, defaults: { status: 'uploading', published: false, publishedAt: null, failReason: null, customerCode: '', durationSeconds: 0 } }) };
 });
 delete process.env.CF_ACCOUNT_ID;
 delete process.env.CF_STREAM_API_TOKEN;

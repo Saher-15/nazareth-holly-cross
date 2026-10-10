@@ -2,7 +2,7 @@
 const env = process.env;
 
 // Backend API (Render)
-export const API_URL = env.REACT_APP_API_URL || 'https://nazareth-holy-cross-api.onrender.com';
+export const API_URL = env.REACT_APP_API_URL || 'https://nazareth-holy-cross-api-production.up.railway.app';
 
 // PayPal client id (public). Must be from the same PayPal environment as the server's CLIENT_ID.
 export const PAYPAL_CLIENT_ID =

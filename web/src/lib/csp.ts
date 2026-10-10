@@ -5,7 +5,7 @@
 //   - its own scripts/styles/fonts (next/font self-hosts, no Google Fonts)
 //   - the API (browser calls: forms, payments) and PayPal (SDK script, button iframes, XHR, images)
 //   - Firebase Storage for product images (through next/image, and direct in the cart) and the videos
-//   - Cloudflare Stream on /live: its player page in a frame (the live broadcast, a recording once its poster was
+//   - Cloudflare Stream on /live and the candle page: its player page in a frame (the live broadcast, a recording once its poster was
 //     pressed) and the posters of the recordings (frame-src and img-src only)
 //
 // script-src uses a nonce + 'strict-dynamic': Next.js tags its own scripts with the nonce, and the

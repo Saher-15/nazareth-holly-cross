@@ -29,6 +29,7 @@ export default async function PrivacyPage() {
             <li>{t('privacy.ruleMessages')}</li>
             <li>{t('privacy.rulePayments')}</li>
             <li>{t('privacy.ruleNotFound')}</li>
+            <li>{t('privacy.ruleOutside')}</li>
             <li>{t('privacy.ruleAudit')}</li>
           </ul>
         </Panel>

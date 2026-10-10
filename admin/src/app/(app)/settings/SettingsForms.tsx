@@ -111,15 +111,20 @@ export function TotpPanel({ enabled, username }: { enabled: boolean; username: s
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
-  async function start() {
+  // Setting up asks for the current password again (the API refuses without it): a session left open on a shared
+  // computer must not be enough to tie the account to a stranger's authenticator app.
+  async function start(event: FormEvent) {
+    event.preventDefault();
+    if (busy || !password) return;
     setBusy(true);
     setError(null);
     try {
-      setSetup(await proxyCall({ method: 'POST', path: 'auth/totp/setup', schema: totpSetupSchema }));
+      setSetup(await proxyCall({ method: 'POST', path: 'auth/totp/setup', body: { currentPassword: password }, schema: totpSetupSchema }));
+      setPassword('');
       setCode('');
     } catch (e) {
       if (isApiError(e) && e.unauthorized) return;
-      setError(errorText(e, t('error.generic')));
+      setError(errorText(e, t('error.generic'), { 403: t('settings.wrongCurrent') }));
     } finally {
       setBusy(false);
     }
@@ -191,13 +196,17 @@ export function TotpPanel({ enabled, username }: { enabled: boolean; username: s
       <div className="stack">
         <p className="status-line status-line--off"><Icon name="alert" size={18} /> <span>{t('totp.isOff')}</span></p>
         <p className="hint">{t('totp.intro')}</p>
-        <FormError message={error} />
-        <div>
-          <button type="button" className="btn btn--gold" onClick={start} disabled={busy} aria-busy={busy || undefined} data-testid="totp-start">
-            {busy ? <span className="spinner" aria-hidden="true" /> : <Icon name="lock" size={18} />}
-            <span>{t('totp.setup')}</span>
-          </button>
-        </div>
+        <form className="form form--narrow" onSubmit={start} noValidate>
+          <p id={`${uid}-sh`} className="hint">{t('totp.setupHint')}</p>
+          <PasswordInput id={`${uid}-sp`} label={t('settings.currentPassword')} value={password} onChange={setPassword} autoComplete="current-password" describedBy={`${uid}-sh`} />
+          <FormError message={error} />
+          <div>
+            <button type="submit" className="btn btn--gold" disabled={busy || !password} aria-busy={busy || undefined} data-testid="totp-start">
+              {busy ? <span className="spinner" aria-hidden="true" /> : <Icon name="lock" size={18} />}
+              <span>{t('totp.setup')}</span>
+            </button>
+          </div>
+        </form>
       </div>
     );
   }

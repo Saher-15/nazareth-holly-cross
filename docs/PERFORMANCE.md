@@ -3,6 +3,11 @@
 Measured on 2026-10-05 on the local production build (`next build` + `next start`), Microsoft Edge, against the live API.
 What was measured, what was changed, what is left, and how to measure again.
 
+**Home hero update (2026-10-07):** the home page now shows only its existing licensed `city-sunset-glow`
+photo at every width. The film measurements and implementation notes below describe the previous version, not
+the current home page. The encoded tour and loop files remain stored but are not requested by the home hero.
+`web/tests/e2e/hero-film.spec.ts` checks that no video is mounted or fetched on desktop or phone.
+
 ## 1. How to measure
 
 | Tool | What it gives | Command (from `web/`) |
@@ -12,7 +17,7 @@ What was measured, what was changed, what is left, and how to measure again.
 | Smoke test with budgets | fails the build on a regression (see section 7) | `E2E_PORT=3802 PW_CHANNEL=msedge npx playwright test tests/e2e/performance.spec.ts` |
 | Image audit | every older photo: pixels, weight, "soft as a wide picture" flag | `node scripts/media/audit.mjs` |
 
-Run `next build` only while the API's `RateLimit` header (`curl -sI https://nazareth-holy-cross-api.onrender.com/health`)
+Run `next build` only while the API's `RateLimit` header (`curl -sI https://nazareth-holy-cross-api-production.up.railway.app/health`)
 shows plenty of requests left (200 per 15 minutes per address, shared by everything on the machine); a build or test
 that is throttled shows error states.
 
@@ -290,7 +295,7 @@ Proposal, and implemented in `server/utils/security.js` + `server/app.js`, tests
 `tests/e2e/performance.spec.ts` runs in the normal end-to-end suite (`npm run test:e2e`, both the desktop and the Pixel 7
 projects) against the production build, unthrottled, so CI picks it up with no workflow change. Per page (`/en`, a holy
 site, the shop, the candle page, the gallery) it asserts: LCP < 2.5 s, CLS < 0.1, images < 1 MB, JavaScript < 350 kB,
-fonts < 250 kB, the hero film < 3 MB; that a phone never downloads the film; and that photos and videos carry a
+fonts < 250 kB, zero video fetched by the home hero at every width; and that photos and videos carry a
 long `Cache-Control` and that an anonymous request gets no `Set-Cookie`. The limits are the Core Web Vitals "good" values
 and generous byte budgets, chosen so a normal run has a wide margin (LCP is 0.1-0.2 s locally) and only a real
 regression fails: a 2 MB hero photo, the 21 MB film, a font that re-wraps the title. Tighten them when the numbers

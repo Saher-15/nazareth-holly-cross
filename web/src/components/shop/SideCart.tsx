@@ -1,0 +1,218 @@
+'use client';
+
+import { useLocale, useTranslations } from 'next-intl';
+import { useEffect, useId, useRef, useState, type CSSProperties, type PointerEvent } from 'react';
+import { Link, usePathname } from '@/i18n/navigation';
+import { MAX_LINE_QUANTITY, useCart } from '@/lib/cart';
+import { formatUsd } from '@/lib/pricing';
+import { isCssColour } from './catalog';
+import QuantityStepper from './QuantityStepper';
+import ShopIcon from './ShopIcon';
+import styles from './SideCart.module.css';
+
+// The cart on every page (except the cart and the checkout themselves): a tab on the side of the screen with the
+// number of items and the total, which opens the cart in a side panel (a native modal <dialog>: focus stays inside,
+// Escape closes it, focus returns to the tab). Same lines, quantities and totals as the cart page (lib/cart.tsx).
+const HIDDEN_ON = ['/cart', '/checkout'];
+
+// Where the visitor moved the tab: dragged to the left or right edge, at a height (a fraction of the screen). Kept in
+// this browser only, a convenience: without storage (a private window, blocked site data) the tab stays where it starts.
+type Place = { side: 'left' | 'right'; y: number };
+const PLACE_KEY = 'nhc.sideCart.place.v1';
+const DRAG_THRESHOLD = 8; // px: a shorter movement is a click (it opens the cart)
+const clampY = (y: number) => Math.min(0.88, Math.max(0.12, y));
+
+function readPlace(): Place | null {
+  try {
+    const value: unknown = JSON.parse(localStorage.getItem(PLACE_KEY) ?? 'null');
+    const p = value as Partial<Place> | null;
+    if (p && (p.side === 'left' || p.side === 'right') && typeof p.y === 'number' && Number.isFinite(p.y)) return { side: p.side, y: clampY(p.y) };
+  } catch {
+    // no storage, or a damaged value: the default place
+  }
+  return null;
+}
+
+function savePlace(place: Place) {
+  try {
+    localStorage.setItem(PLACE_KEY, JSON.stringify(place));
+  } catch {
+    // not kept: the tab still moves for this visit
+  }
+}
+
+export default function SideCart() {
+  const t = useTranslations('shopPage');
+  const tCart = useTranslations('cart');
+  const locale = useLocale();
+  const pathname = usePathname();
+  const { lines, ready, count, summary, dispatch } = useCart();
+  // The page the panel was opened on: moving to another page (a link inside the panel) closes it.
+  const [openOn, setOpenOn] = useState<string | null>(null);
+  const open = openOn === pathname;
+  const ref = useRef<HTMLDialogElement>(null);
+  const titleId = useId();
+  const money = (amount: number) => formatUsd(amount, locale);
+  // Read once in the browser; the tab is never rendered on the server (the cart is not ready there), so no mismatch.
+  const [place, setPlace] = useState<Place | null>(() => (typeof window === 'undefined' ? null : readPlace()));
+  const [dragAt, setDragAt] = useState<{ x: number; y: number } | null>(null);
+  const drag = useRef<{ x: number; y: number; moved: boolean } | null>(null);
+  const wasDragged = useRef(false);
+
+  const moveTo = (next: Place) => {
+    setPlace(next);
+    savePlace(next);
+  };
+  const onPointerDown = (e: PointerEvent<HTMLButtonElement>) => {
+    if (e.button !== 0) return;
+    drag.current = { x: e.clientX, y: e.clientY, moved: false };
+    e.currentTarget.setPointerCapture?.(e.pointerId);
+  };
+  const onPointerMove = (e: PointerEvent<HTMLButtonElement>) => {
+    const d = drag.current;
+    if (!d) return;
+    if (!d.moved && Math.hypot(e.clientX - d.x, e.clientY - d.y) < DRAG_THRESHOLD) return;
+    d.moved = true;
+    setDragAt({ x: e.clientX, y: e.clientY });
+  };
+  const onPointerUp = (e: PointerEvent<HTMLButtonElement>) => {
+    const d = drag.current;
+    drag.current = null;
+    setDragAt(null);
+    if (!d?.moved) return;
+    wasDragged.current = true; // the click that follows the release must not open the cart
+    moveTo({ side: e.clientX < window.innerWidth / 2 ? 'left' : 'right', y: clampY(e.clientY / window.innerHeight) });
+  };
+  const onPointerCancel = () => {
+    drag.current = null;
+    setDragAt(null);
+  };
+  // The panel's button: the same move without dragging (WCAG 2.5.7). From the default place, the default side is the
+  // end side of the language (right in LTR, left in RTL).
+  const moveToOtherSide = () => {
+    const now = place?.side ?? (document.documentElement.dir === 'rtl' ? 'left' : 'right');
+    moveTo({ side: now === 'left' ? 'right' : 'left', y: place?.y ?? 0.5 });
+  };
+
+  useEffect(() => {
+    const dialog = ref.current;
+    if (!dialog) return;
+    if (open && !dialog.open) dialog.showModal();
+    if (!open && dialog.open) dialog.close();
+  }, [open]);
+
+  const hidden = !ready || count === 0 || HIDDEN_ON.some((p) => pathname === p || pathname.startsWith(`${p}/`));
+  if (hidden && !open) return null;
+
+  const close = () => ref.current?.close();
+  const variantText = (value: string) => (isCssColour(value) ? `${t('colour')}: ${value}` : t('designName', { name: value }));
+
+  return (
+    <>
+      {!hidden && (
+        <button
+          type="button"
+          className={[styles.tab, place && !dragAt ? styles.placed : '', place && !dragAt ? (place.side === 'left' ? styles.placedLeft : styles.placedRight) : '', dragAt ? styles.dragging : ''].filter(Boolean).join(' ')}
+          style={(dragAt ? { '--drag-x': `${dragAt.x}px`, '--drag-y': `${dragAt.y}px` } : place ? { '--tab-y': `${place.y * 100}%` } : undefined) as CSSProperties | undefined}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerUp}
+          onPointerCancel={onPointerCancel}
+          onClick={() => {
+            if (wasDragged.current) {
+              wasDragged.current = false;
+              return;
+            }
+            setOpenOn(pathname);
+          }}
+          aria-label={t('cartAria', { count })}
+          aria-haspopup="dialog"
+          data-testid="side-cart-tab"
+          data-side={place?.side ?? 'default'}
+        >
+          <ShopIcon name="cart" className={styles.tabIcon} />
+          <span key={count} className={styles.count} aria-hidden="true">{count}</span>
+          <span className={styles.tabTotal} aria-hidden="true">{money(summary.total)}</span>
+        </button>
+      )}
+      <dialog
+        ref={ref}
+        className={styles.drawer}
+        aria-labelledby={titleId}
+        onClose={() => setOpenOn(null)}
+        onClick={(e) => e.target === e.currentTarget && close()}
+        data-testid="side-cart"
+      >
+        <div className={styles.panel}>
+          <div className={styles.head}>
+            <h2 id={titleId} className={styles.title}>
+              <ShopIcon name="cart" className={styles.titleIcon} />
+              {t('cartLink')}
+            </h2>
+            <button type="button" className={styles.close} onClick={close} aria-label={t('sideCartClose')}>
+              <ShopIcon name="close" />
+            </button>
+          </div>
+          {open && (
+            <>
+              {lines.length === 0 ? (
+                <p className={styles.empty}>{tCart('emptyCart')}</p>
+              ) : (
+                <ul className={styles.lines}>
+                  {lines.map((line) => (
+                    <li key={`${line._id}-${line.color}`} className={styles.line} data-testid="side-cart-line">
+                      <div className={styles.lineText}>
+                        <Link href={`/shop/${line._id}`} className={styles.name}><bdi>{line.name}</bdi></Link>
+                        {line.color && (
+                          <span className={styles.variant}>
+                            {isCssColour(line.color) && <span className={styles.swatch} style={{ backgroundColor: line.color }} aria-hidden="true" />}
+                            {variantText(line.color)}
+                          </span>
+                        )}
+                        <span className={styles.unit}>{t('unitPrice', { price: money(line.price) })}</span>
+                      </div>
+                      <div className={styles.lineControls}>
+                        <QuantityStepper
+                          value={line.quantity}
+                          label={t('quantityOf', { name: line.name })}
+                          onDecrease={() => dispatch({ type: 'setQuantity', _id: line._id, color: line.color, quantity: line.quantity - 1 })}
+                          onIncrease={() => dispatch({ type: 'setQuantity', _id: line._id, color: line.color, quantity: line.quantity + 1 })}
+                          decreaseDisabled={line.quantity <= 1}
+                          increaseDisabled={line.quantity >= MAX_LINE_QUANTITY}
+                        />
+                        <span className={styles.lineTotal}>{money(line.price * line.quantity)}</span>
+                        <button
+                          type="button"
+                          className={styles.remove}
+                          onClick={() => dispatch({ type: 'remove', _id: line._id, color: line.color })}
+                          aria-label={t('removeItem', { name: line.name })}
+                        >
+                          <ShopIcon name="trash" />
+                        </button>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <div className={styles.foot}>
+                <dl className={styles.sums}>
+                  <div><dt>{t('subtotal')}</dt><dd>{money(summary.subtotal)}</dd></div>
+                  {summary.discount > 0 && <div><dt>{t('discount')}</dt><dd>{money(-summary.discount)}</dd></div>}
+                  <div><dt>{t('shipping')}</dt><dd>{money(summary.shipping)}</dd></div>
+                  <div className={styles.grand}><dt>{t('total')}</dt><dd data-testid="side-cart-total">{money(summary.total)}</dd></div>
+                </dl>
+                {lines.length > 0 && (
+                  <Link href="/checkout" className={`ui-btn ui-btn--gold ${styles.checkout}`}>{tCart('checkout')}</Link>
+                )}
+                <Link href="/cart" className={`ui-btn ui-btn--ghost ${styles.viewCart}`}>{t('sideCartView')}</Link>
+                <button type="button" className={styles.move} onClick={moveToOtherSide} data-testid="side-cart-move">
+                  {t('sideCartMove')}
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      </dialog>
+    </>
+  );
+}

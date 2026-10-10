@@ -9,7 +9,7 @@ One repository (a monorepo) holds everything:
 | Folder | What it is | Runs on | Status |
 |---|---|---|---|
 | [`web/`](web/) | The public website. Next.js 16, TypeScript, next-intl, CSS Modules + design tokens | Netlify (site `nazarethholycross`) | **Live** |
-| [`server/`](server/) | The API. Express + Mongoose: products, orders, PayPal, candles, contact, prayers, reviews, e-mail, admin API | Render (`nazareth-holy-cross-api`) | **Live** |
+| [`server/`](server/) | The API. Express + Mongoose: products, orders, PayPal, candles, contact, prayers, reviews, e-mail, admin API | Railway (project `divine-spontaneity`, service `nazareth-holy-cross-api`; Render is suspended) | **Live** |
 | [`admin/`](admin/) | The admin dashboard. Next.js; accounts, roles, two-factor sign-in, audit log | Netlify (its own site) | Built, being rolled out; the old admin site is still live |
 | [`docs/`](docs/) | How it is built, secured, measured and operated | - | - |
 | [`ops/`](ops/) | Scripts for operating the live site (post-deploy smoke test) | your PC | - |
@@ -17,9 +17,9 @@ One repository (a monorepo) holds everything:
 | `client-next/` | An abandoned earlier attempt | - | Not deployed |
 
 ```
-visitor -> Netlify (web/) --server-side and browser--> Render (server/) --> MongoDB Atlas
+visitor -> Netlify (web/) --server-side and browser--> Railway (server/) --> MongoDB Atlas
                        \--> PayPal (payments)   \--> Firebase Storage (product photos)
-admin   -> Netlify (admin/) --server to server--> Render (server/)
+admin   -> Netlify (admin/) --server to server--> Railway (server/)
 ```
 
 The domain `nazarethholycross.com` is registered at GoDaddy; its DNS is answered by Netlify.
@@ -39,7 +39,7 @@ The domain `nazarethholycross.com` is registered at GoDaddy; its DNS is answered
 
 1. One branch per change, a pull request, green checks, then merge. **`main` is production: merging deploys.**
 2. Work and test locally first; never use the live API or a real PayPal payment for testing.
-3. Secrets live only in Render and Netlify settings, never in the repository.
+3. Secrets live only in Railway and Netlify settings, never in the repository.
 4. After every deploy run `node ops/smoke-live.mjs` (read-only, about two minutes).
 
 ## Checks

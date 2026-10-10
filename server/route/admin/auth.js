@@ -100,9 +100,20 @@ router.post('/login', adminLoginLimiter, adminLoginIpLimiter, asyncHandler(async
   }
 
   const now = new Date();
-  await Admin.updateOne({ _id: admin._id }, {
+  // Consume the step atomically. Concurrent requests must not both use the same code.
+  const loginFilter = { _id: admin._id, disabled: mongoose.trusted({ $ne: true }) };
+  if (usedStep !== null) {
+    loginFilter.totpEnabled = true;
+    loginFilter.totpSecretEnc = admin.totpSecretEnc;
+  }
+  if (usedStep !== null) loginFilter.$or = [
+    { totpLastStep: mongoose.trusted({ $lt: usedStep }) },
+    { totpLastStep: null },
+  ];
+  const consumed = await Admin.updateOne(loginFilter, {
     $set: { failedLogins: 0, lockedUntil: null, lastLoginAt: now, ...(usedStep !== null ? { totpLastStep: usedStep } : {}) },
   });
+  if (!consumed.matchedCount) return res.status(401).json(INVALID);
   const user = publicUser(admin);
   const { sid } = await createSession(admin._id);
   const token = signSessionToken(user, sid);
@@ -187,13 +198,23 @@ router.post('/reset-password', adminResetLimiter, asyncHandler(async (req, res) 
 }));
 
 // ---- Two-factor authentication (TOTP) ----
-// setup -> shows the secret / otpauth URL once; enable -> proves the authenticator app has it; disable needs the
-// password and a current code. Enabling or disabling signs out the account's other sessions.
+// setup { currentPassword } -> shows the secret / otpauth URL once; enable { code } -> proves the authenticator app has
+// it; disable { password, code } needs the password and a current code. Enabling or disabling signs out the account's
+// other sessions.
+//
+// Setting up needs the current password (security review 06, finding 9): a stolen session or an unlocked computer
+// must not be enough to enrol a stranger's authenticator, which would then lock the real owner out. The secret only
+// ever comes from a re-authenticated setup, so enable needs no second password (it cannot succeed without that secret).
 
 const withSecret = (id) => Admin.findById(id).select('+totpSecretEnc');
 
-router.post('/totp/setup', ...adminAccess, asyncHandler(async (req, res) => {
+router.post('/totp/setup', ...adminAccess, adminSensitiveLimiter, asyncHandler(async (req, res) => {
+  const { currentPassword } = parseBody(req.body, { currentPassword: secret() });
   const admin = req.adminDoc;
+  if (!(await comparePasswordTimingSafe(admin, currentPassword))) {
+    await audit(req, 'auth.totp_setup_failed', { type: 'admin', id: req.adminUser.id }, { reason: 'wrong_current_password' });
+    throw new HttpError(403, 'Current password is incorrect');
+  }
   if (admin.totpEnabled === true) throw new HttpError(409, 'TOTP is already enabled; disable it first');
   const secretBase32 = newSecret();
   await Admin.updateOne({ _id: admin._id }, { $set: { totpSecretEnc: encryptSecret(secretBase32), totpEnabled: false } });

@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import Payment from '../model/payment.js';
 import { PAYMENT_GRACE_MS } from '../model/paymentConstants.js';
 import { HttpError } from '../utils/httpError.js';
+import { capturedTotal, verifiedCaptureStatus } from './paymentCapture.js';
 
 // The payment ledger (model/payment.js). Every function here is idempotent: calling it twice with the same input
 // leaves one correct row, never two and never a half-written one. None of them talks to PayPal.
@@ -23,7 +24,7 @@ async function upsert(paypalOrderId, update) {
 
 // create_order: the PayPal order exists and the customer is about to pay. Written before the id is handed to the
 // browser, so every payment that can happen has a row. `$setOnInsert`: calling it again never rewrites the amount.
-export async function recordCreated({ paypalOrderId, type, amount, donorName }) {
+export async function recordCreated({ paypalOrderId, type, amount, donorName, orderQuote, fulfilment }) {
   try {
     return await upsert(paypalOrderId, {
       $setOnInsert: {
@@ -31,6 +32,8 @@ export async function recordCreated({ paypalOrderId, type, amount, donorName }) 
         amount: round2(amount),
         currency: 'USD',
         status: 'created',
+        ...(orderQuote ? { orderQuote } : {}),
+        ...(fulfilment ? { fulfilment } : {}),
         ...(donorName ? { donorName: text(donorName, 100) } : {}),
       },
     });
@@ -58,7 +61,7 @@ export function readCapture(capture) {
 // The ledger row of a payment that is already captured, or null.
 export async function capturedPayment(paypalOrderId) {
   const found = await Payment.findOne({ paypalOrderId });
-  return found?.status === 'captured' ? found : null;
+  return found?.status === 'captured' && found.captureVerified === true ? found : null;
 }
 
 // complete_order: PayPal confirmed the capture. A row that is already captured is left alone (so a second call, a
@@ -66,12 +69,16 @@ export async function capturedPayment(paypalOrderId) {
 // the old API before this ledger existed) is created now, as type 'unknown'.
 export async function recordCaptured(paypalOrderId, capture = {}) {
   const found = await Payment.findOne({ paypalOrderId });
-  if (found?.status === 'captured') return { payment: found, firstTime: false };
+  if (found?.status === 'captured' && found.captureVerified === true) return { payment: found, firstTime: false };
 
-  const { payerEmail, payerName, amount, currency } = readCapture(capture);
+  if (verifiedCaptureStatus(capture, found?.amount) !== 'COMPLETED') throw new HttpError(425, 'Payment is still pending');
+
+  const { payerEmail, payerName, currency } = readCapture(capture);
+  const amount = capturedTotal(capture);
   const payment = await upsert(paypalOrderId, {
     $set: {
       status: 'captured',
+      captureVerified: true,
       capturedAt: new Date(),
       ...(payerEmail ? { payerEmail } : {}),
       ...(payerName ? { payerName } : {}),
@@ -112,7 +119,8 @@ export async function paymentFor(paypalOrderId, kind) {
 export async function linkPayment(paypalOrderId, { kind, id, type = kind, amount }) {
   try {
     await upsert(paypalOrderId, {
-      $set: { status: 'captured', type, linkedTo: { kind, id } },
+      $set: { status: 'captured', captureVerified: true, type, linkedTo: { kind, id } },
+      $unset: { fulfilment: '' },
       $setOnInsert: { amount: round2(amount), currency: 'USD', capturedAt: new Date() },
     });
     // A row created by create_order has no capturedAt yet when complete_order's write was lost.

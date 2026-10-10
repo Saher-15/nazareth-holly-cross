@@ -16,6 +16,8 @@ const contactSchema = new Schema({
     maxlength: [500, 'Email field too long'],
     match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Invalid email format'],
   },
+  // Optional: the contact form asks for it but does not require it (only what is needed to answer is required).
+  // '' = not given.
   phone: {
     type: String,
     trim: true,

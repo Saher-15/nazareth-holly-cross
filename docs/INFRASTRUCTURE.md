@@ -6,12 +6,29 @@ to GoDaddy, Netlify, Render, MongoDB Atlas, Firebase or PayPal** from the audit:
 **owner** and is *not verified*. Watching and recovery: [MONITORING.md](MONITORING.md). Repositories:
 [REPOSITORIES.md](REPOSITORIES.md).
 
+> **Hosting since 2026-10-07: the API runs on Railway, not Render** (project `divine-spontaneity`, service
+> `nazareth-holy-cross-api`, built from this repository, root `/server`; address
+> `https://nazareth-holy-cross-api-production.up.railway.app`). The Render service is suspended. Where this page
+> still says Render, read it with this table (checked read-only on 2026-10-10):
+>
+> | On Render it was | On Railway it is |
+> |---|---|
+> | Environment -> variables | the service -> **Variables** (same names; a change redeploys) |
+> | Auto-deploy of `main` | the same: Railway deploys `main` (root `/server`) after a merge |
+> | Logs, Events | the service -> **Deployments** -> a deploy -> Logs (`railway logs`) |
+> | Rollback | **Deployments** -> the previous successful deploy -> **Redeploy** |
+> | Free plan sleeps after 15 minutes | it does not sleep unless "Serverless" is switched on in the service settings (not checked from here) |
+> | Oregon, behind Cloudflare | Railway's own edge (`x-railway-edge`), one proxy hop: `TRUST_PROXY` is unset (default 1) |
+> | `render.yaml` | kept for reference only; Railway reads its own service settings |
+>
+> Hermes (the 24/7 watcher, [MONITORING.md](MONITORING.md)) runs on the same Railway project.
+
 ```
 GoDaddy  (registrar: owns the name, expires 2027-08-26)
    |  name servers are delegated to ->
 Netlify DNS (NS1: dns1-4.p0x.nsone.net)   <- the DNS records live HERE, not at GoDaddy
    |  nazarethholycross.com, www  ->  Netlify edge (2 AWS Frankfurt addresses)
-Netlify: public site (web/)  -- server-side and browser --> Render: API (Oregon, free plan, behind Cloudflare)
+Netlify: public site (web/)  -- server-side and browser --> Railway: API (was Render, Oregon, until 2026-10-07)
 Netlify: admin site (old)                                          |--> MongoDB Atlas (region: owner)
                                                                    |--> PayPal, Gmail (SMTP)
 Firebase Storage: product photos and videos (served through Netlify's image CDN)
@@ -297,7 +314,7 @@ people. Today's traffic is low enough not to notice; it grows with the site.
 **Fix (code is in; default behaviour unchanged):** the environment variable `TRUST_PROXY_HOPS` (whole number 1-5, default 1)
 now sets `trust proxy`. Procedure for the owner, any quiet time, 10 minutes:
 1. Render -> `nazareth-holy-cross-api` -> Environment -> add `TRUST_PROXY_HOPS` = `2` -> save (the service redeploys).
-2. Test from your own PC: run `curl -s -D - -o /dev/null https://nazareth-holy-cross-api.onrender.com/health | findstr /i ratelimit`
+2. Test from your own PC: run `curl -s -D - -o /dev/null https://nazareth-holy-cross-api-production.up.railway.app/health | findstr /i ratelimit`
    six times. **Good:** `remaining` goes 199, 198, 197... and `reset` is nearly the same in every answer (one bucket).
    **Then** run it with `-H "X-Forwarded-For: 203.0.113.9"`: still the same bucket (a forged header must not matter).
 3. If the numbers are still scattered, or `remaining` jumps, set the variable back to `1` (or delete it) and tell the
@@ -379,7 +396,7 @@ JavaScript at build time**: changing a value changes nothing until a new deploy.
 | Variable | Used by | Default in `web/src/lib/config.ts` | Production today |
 |---|---|---|---|
 | `NEXT_PUBLIC_SITE_URL` | canonical URLs, sitemap, Open Graph | `https://nazarethholycross.com` | relies on the default (correct) |
-| `NEXT_PUBLIC_API_URL` | every API call, CSP `connect-src` | `https://nazareth-holy-cross-api.onrender.com` | relies on the default (correct: the CSP of the live site names it) |
+| `NEXT_PUBLIC_API_URL` | every API call, CSP `connect-src` | `https://nazareth-holy-cross-api-production.up.railway.app` | relies on the default (correct: the CSP of the live site names it) |
 | `NEXT_PUBLIC_PAYPAL_CLIENT_ID` | the PayPal button | **the sandbox client id** | **relies on the default: the live bundle contains the sandbox id** (found by reading the live JavaScript; first 8 characters `AfhOc9To`). The shop's payments are therefore **PayPal sandbox payments, not real money** |
 | `NEXT_PUBLIC_WHATSAPP` | contact page link | empty (link hidden) | not set |
 
@@ -387,11 +404,12 @@ Relying on defaults is dangerous exactly where it matters: a forgotten variable 
 sandbox id. **Set all four explicitly** for the Production scope (Netlify lets a variable apply to "Production" only, so deploy
 previews keep using sandbox and the preview API).
 
-**Render** (`render.yaml`): `DATABASEURL`, `JWT_SECRET` (32+ chars), `ADMIN_PASSWORD`, `MAIL_FROM`, `MAIL_APP_PASSWORD`,
+**Render** (`render.yaml`): `DATABASEURL`, `JWT_SECRET` (32+ chars; never rotate it casually: ADMIN.md 6), `MAIL_FROM`, `MAIL_APP_PASSWORD`,
 `CLIENT_ID`, `CLIENT_SECRET` (PayPal REST), `ENVIRONMENT` (`sandbox` unless `production`), `CLIENT_URL`, `ADMIN_ORIGINS`,
 `REQUIRE_PAYMENT_PROOF`, optional `EXTRA_ORIGINS`, `TRUST_PROXY_HOPS`, and for live broadcasting `CF_ACCOUNT_ID`,
 `CF_STREAM_API_TOKEN` (Cloudflare Stream; LIVE.md section 6). `/health/deep` reports `paypalMode` so the API side can
-be read without a login.
+be read without a login. `ADMIN_PASSWORD` is **no longer used** (the legacy admin sign-in was removed on 2026-10-07):
+delete it on Render.
 
 #### Checklist: switching PayPal to Live safely (owner; an agent never presses a live pay button)
 
@@ -407,7 +425,7 @@ Sandbox**. A mix fails closed (PayPal refuses the order, nobody is charged) but 
        is saved leaves a payment without an order. Either build the webhook first, or accept manual reconciliation: **every
        day, compare PayPal -> Activity with the orders in the dashboard** until it exists.
 4. [ ] Pick a quiet hour. Render: set `ENVIRONMENT=production`, `CLIENT_ID=<Live client id>`, `CLIENT_SECRET=<Live secret>`
-       together, save (redeploy). Check `https://nazareth-holy-cross-api.onrender.com/health/deep` says `"paypalMode":"live"`.
+       together, save (redeploy). Check `https://nazareth-holy-cross-api-production.up.railway.app/health/deep` says `"paypalMode":"live"`.
 5. [ ] Netlify (Production scope): `NEXT_PUBLIC_PAYPAL_CLIENT_ID=<Live client id>`; then **Deploys -> Trigger deploy -> Clear cache
        and deploy site** (the value is read at build time). Do 4 and 5 within a few minutes of each other.
 6. [ ] `node ops/smoke-live.mjs`: the line "API PayPal mode" must be a PASS with `live` (it is a WARN while `sandbox`).
@@ -415,8 +433,8 @@ Sandbox**. A mix fails closed (PayPal refuses the order, nobody is charged) but 
        PayPal -> Activity: the payment, its fee, **refund it**. Check the order record shows `paymentVerified: true` and the
        e-mail arrived. If the order is missing, the payment was captured but `newOrder` failed: read the Render log for the
        PayPal order id.
-8. [ ] `REQUIRE_PAYMENT_PROOF=true` on Render (the old site that did not send `paypalOrderId` is retired): orders
-       without a verified payment are then refused.
+8. [ ] `REQUIRE_PAYMENT_PROOF=true` on Render (the public site always sends `paypalOrderId`, checked 2026-10-07; the old
+       site that did not is retired): orders and candle requests without a verified payment are then refused.
 9. [ ] Watch for a week: PayPal e-mails, the monitors (MONITORING.md), the Render log for `payment` errors.
 10. [ ] **Rollback** (any problem): Render `ENVIRONMENT=sandbox` + the sandbox `CLIENT_ID`/`CLIENT_SECRET`; Netlify variable back
         to the sandbox id (or delete it) and "Clear cache and deploy site". Nobody is charged real money in sandbox.
@@ -499,9 +517,16 @@ The bullets below were written before this check, from outside:
 ### 6.2 Firebase Storage
 
 Holds the product photos and the long videos (bucket `nazareth-holy-cross.appspot.com`). The rules and CORS file lived only
-in the old public client repository; copies are in `ops/firebase/` with their README. The copy says: **anyone reads,
-any signed-in Firebase user writes**. Safe only if **no sign-in method** is enabled in Firebase Authentication (Console ->
-Authentication -> Sign-in method: all disabled, Anonymous too). Otherwise a stranger can create a user and fill the bucket.
-The deployed rules were not seen; compare them with the copy and tighten as `ops/firebase/README.md` describes. Set long
+in the old public client repository; copies are in `ops/firebase/` with their README.
+
+**Rules since 2026-10-07** (`ops/firebase/storage.rules`, deployed with `firebase deploy --only storage`): anyone may
+read a file by its address; nobody may list the bucket; the only anonymous write is **creating a new image** (JPEG, PNG,
+WebP, AVIF or GIF, under 8 MB) under `images/<folder>/<file>`, which is how the admin dashboard uploads product photos
+(it does not sign in: `admin/src/lib/firebase-upload.ts`). Overwriting and deleting are refused through the API; the
+Firebase console still can. The audit of 2026-10-07 found the previous live rules allowed **anonymous upload, overwrite,
+delete and listing** of every file. The rules were checked with the Firebase rules simulator (8 cases). Still to do:
+upload through the API with a server credential, so no anonymous write is needed at all. The bucket keeps deleted and
+overwritten files for 7 days (soft delete): restore one with the Cloud Storage console or
+`POST .../o/<object>/restore?generation=<old generation>`. Set long
 `Cache-Control` metadata on photos (section 3.4). Firebase's free tier has download quotas: watch Usage if the video
 traffic grows (videos over 8 MB are served from here by design).

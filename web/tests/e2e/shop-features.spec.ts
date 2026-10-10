@@ -8,7 +8,7 @@ import en from '../../src/messages/en.json';
 // the review form is tested against mocked answers (page.route) only.
 
 const API = /nazareth-holy-cross-api\.onrender\.com/;
-const API_URL = 'https://nazareth-holy-cross-api.onrender.com';
+const API_URL = 'https://nazareth-holy-cross-api-production.up.railway.app';
 
 const test = base.extend<{ apiGuard: string[] }>({
   apiGuard: [

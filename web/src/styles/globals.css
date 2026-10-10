@@ -126,7 +126,7 @@ h1, h2, h3, .ui-hero__title, .ui-h2, .ui-h3 { hyphens: auto; overflow-wrap: brea
   text-underline-offset: 0.18em;
 }
 
-/* Stop animations: everything jumps to its end state at once (the film is not started, see HeroVideo.tsx). */
+/* Stop animations: everything jumps to its end state at once (the home hero photo zoom is stopped). */
 :root[data-a11y-motion='reduce'] { scroll-behavior: auto; }
 :root[data-a11y-motion='reduce'] *,
 :root[data-a11y-motion='reduce'] *::before,

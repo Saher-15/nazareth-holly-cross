@@ -4,6 +4,23 @@ The goal: the owner hears about a problem **before a visitor tells him**, and ev
 Cheap on purpose: one free uptime monitor, one script after each deploy, one keep-alive job. Infrastructure facts
 (DNS, regions, measurements) are in [INFRASTRUCTURE.md](INFRASTRUCTURE.md).
 
+> **Hosting since 2026-10-07: the API runs on Railway, not Render** (project `divine-spontaneity`, service
+> `nazareth-holy-cross-api`, built from this repository, root `/server`; address
+> `https://nazareth-holy-cross-api-production.up.railway.app`). The Render service is suspended. Where this page
+> still says Render, read it with this table (checked read-only on 2026-10-10):
+>
+> | On Render it was | On Railway it is |
+> |---|---|
+> | Environment -> variables | the service -> **Variables** (same names; a change redeploys) |
+> | Auto-deploy of `main` | the same: Railway deploys `main` (root `/server`) after a merge |
+> | Logs, Events | the service -> **Deployments** -> a deploy -> Logs (`railway logs`) |
+> | Rollback | **Deployments** -> the previous successful deploy -> **Redeploy** |
+> | Free plan sleeps after 15 minutes | it does not sleep unless "Serverless" is switched on in the service settings (not checked from here) |
+> | Oregon, behind Cloudflare | Railway's own edge (`x-railway-edge`), one proxy hop: `TRUST_PROXY` is unset (default 1) |
+> | `render.yaml` | kept for reference only; Railway reads its own service settings |
+>
+> Hermes (the 24/7 watcher, [MONITORING.md](MONITORING.md)) runs on the same Railway project.
+
 ## 1. The three layers
 
 | Layer | What | When | Who is told |
@@ -27,8 +44,8 @@ checks). Alert contact: the owner's e-mail **and** the phone app, so an e-mail i
 | 1 | `https://nazarethholycross.com/en` | HTTPS, status 200, keyword `Nazareth` | the site is up and is not a 404 page | 2 failures in a row (about 10 minutes) |
 | 2 | `https://nazarethholycross.com/en/shop` | HTTPS, 200, keyword `Shop` | the page that needs the API (products) | same |
 | 3 | `https://nazarethholycross.com/sitemap.xml` | HTTPS, 200, keyword `<urlset` | search engines can read the site; also proves the API-backed sitemap works | same |
-| 4 | `https://nazareth-holy-cross-api.onrender.com/health/deep` | HTTPS, 200, keyword `"status":"ok"` | the API answers **and reaches MongoDB**. Answers 503 when Atlas is unreachable | same. The first check after a long sleep may take 30-60 s: set the monitor timeout to 60 s |
-| 5 | `https://nazareth-holy-cross-api.onrender.com/product/catalog` | HTTPS, 200, keyword `products` | the data the shop shows | same |
+| 4 | `https://nazareth-holy-cross-api-production.up.railway.app/health/deep` | HTTPS, 200, keyword `"status":"ok"` | the API answers **and reaches MongoDB**. Answers 503 when Atlas is unreachable | same. The first check after a long sleep may take 30-60 s: set the monitor timeout to 60 s |
+| 5 | `https://nazareth-holy-cross-api-production.up.railway.app/product/catalog` | HTTPS, 200, keyword `products` | the data the shop shows | same |
 | 6 | `https://admin.nazarethholycross.com/login` (the new dashboard; `nazarethholycross.com/admin` forwards there) | HTTPS, 200 | the dashboard is up (a Netlify site without its runtime answers 404 on every page) | same |
 | 7 | the domain `nazarethholycross.com` | Domain expiry (Better Stack) | the registration ends **2027-08-26** (GoDaddy) | 30, 14 and 7 days before |
 | 8 | `nazarethholycross.com` | SSL certificate expiry | Netlify renews automatically about 30 days before the end; an alert below 14 days means renewal is stuck | 14 days |
@@ -109,7 +126,7 @@ network rules, or when Render's outbound addresses change.
 - Tighter: Render -> the service -> **Connect -> Outbound** shows the service's outbound IP ranges: add those ranges
   instead of `0.0.0.0/0`, and check again when Render announces a change.
 No redeploy is needed: the server retries every 10 seconds, and `/health/deep` turns 200 within about 10 s.
-Confirm with `curl https://nazareth-holy-cross-api.onrender.com/health/deep`.
+Confirm with `curl https://nazareth-holy-cross-api-production.up.railway.app/health/deep`.
 
 **Prevention.** Monitor #4 (it goes red on exactly this). Never remove a network entry without checking `/health/deep` after.
 
@@ -164,3 +181,40 @@ Render and Atlas team member) so an alert at night or during a trip is seen by s
   (`docs/ENGINEERING.md` section 8).
 - Failed PayPal captures (no PayPal webhook yet, `docs/SECURITY.md` section 7): the Render log names the PayPal order id.
 - Backups: production is on Atlas M10 with Cloud Backup on (INFRASTRUCTURE.md 6.1); check the cluster's *Backup* tab shows recent snapshots.
+
+## 8. Hermes on Telegram (watchdog and morning report)
+
+Hermes Agent runs 24/7 on Railway (project `divine-spontaneity`, service `hermes`, `HERMES_HOME=/opt/data`, timezone
+Asia/Jerusalem) and delivers to the owner's Telegram. Two script-only cron jobs (no AI model, so no data reaches one):
+
+| Job | Schedule | Script | Sends |
+|---|---|---|---|
+| `nhc-watch` | every 5 minutes | `ops/hermes/nhc_watch.py` | nothing while all is well; an alert after two failures in a row, a reminder every 2 h while it stays down, a "back" message on recovery |
+| `nhc-daily` | 08:00 | `ops/hermes/nhc_summary.py` | always: status of every check, the last 24 h (checks run, uptime, incidents), and **what changed** since the previous report |
+| `nhc-disk` | 04:00 | `ops/hermes/nhc_disk_guard.py` | nothing, unless the Hermes volume is still above 85% after it cleared the download caches (npm, uv, scratch; done only above 80%). A full disk stops Hermes and every alert |
+
+"What changed" reads only public data: merged pull requests (= what was published), the Railway API deploy status
+and failing checks on `main`, open pull requests waiting for review (GitHub API), and the shop compared with the
+previous morning (public `/product/catalog`: new, removed and edited products, price, stock, photos, description, the
+`sold` counter and new reviews). The first report after an install records the shop and reports changes from the next
+day. The state lives in `/opt/data/nhc-watch-state.json`. Every time in a message is Israel time (`NHC_TZ`,
+default `Asia/Jerusalem`): the Railway server itself runs on UTC.
+
+**Sales (yesterday)**, optional: orders, revenue (USD) and candles of the previous Nazareth day and of the last 7
+days, what waits in the dashboard (orders to ship, candles to light, messages to answer), payments that were taken but
+never saved (🔴, the customer paid and got nothing yet), and low stock. Read from `GET /admin/dashboard` with a
+dedicated **viewer** account (read-only, ADMIN.md section 2): sign in, read, sign out, once a day. Only counts and
+amounts reach the message; the dashboard's lists of recent customers are never used. The script refuses any other role
+and never retries a refused sign-in (no lockout). To turn it on: in the dashboard -> Users, create `hermes-report`
+with role **viewer**, a long random password and two-factor sign-in **off** (the script cannot type a code); then set
+`NHC_VIEWER_USER` and `NHC_VIEWER_PASSWORD` as Railway variables of the `hermes` service (or in `/opt/data/.env`).
+To turn it off, disable that account.
+
+If a part of the report reads `⚪ … not available (<reason>)`, that part failed on its own and the rest of the
+report is still valid: the reason in brackets says why (a GitHub or catalog HTTP status, a refused sign-in, or a
+Python error name, which means the script itself has a bug: run it by hand as below and fix it on a branch).
+
+To update the scripts on Hermes after a merge: download both files from `main` into `/opt/data/scripts/` (`railway ssh`
+into the `hermes` service). The script watches Railway only: the API left Render on 2026-10-07 and its Render checks
+were removed; deploy failures show in the report as the Railway status on `main`. Hermes itself runs on Railway: a Railway-wide outage silences it, so keep an outside monitor (section 2)
+and treat a missing 08:00 report as an alert.

@@ -302,8 +302,8 @@ test('a slow navigation shows the branded loading screen, and a fast one does no
   await expect(page.getByTestId('navigation-loading')).toBeHidden();
 
   slow = false;
-  await nav.getByRole('link', { name: 'Reviews' }).click();
-  await expect(page).toHaveURL(/\/en\/reviews$/);
+  await nav.getByRole('link', { name: 'Holy sites' }).click();
+  await expect(page).toHaveURL(/\/en\/sites$/);
   await expect(page.getByTestId('navigation-loading')).toHaveCount(0);
 });
 

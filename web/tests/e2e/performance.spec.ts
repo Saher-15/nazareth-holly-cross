@@ -16,9 +16,7 @@ const BUDGET = {
   imageBytes: 1_000_000, // every photo the page loads before the visitor scrolls
   scriptBytes: 350_000, // all JavaScript the page loads (compressed)
   fontBytes: 250_000, // web fonts: Latin only, the other scripts only when the page shows them
-  // The home hero film on a screen wide enough to get it: what it downloads in its first seconds. The film is the whole
-  // tour (20 MB) in 30-second parts of 1-3 MB, so only the part that plays (and, near its end, the next) is fetched.
-  heroFilmBytes: 3_000_000,
+  heroFilmBytes: 1, // the home hero is photo-only; no video bytes should be downloaded
 };
 
 async function observe(page: Page) {
@@ -52,8 +50,7 @@ for (const path of PAGES) {
       if (filmRequests.has(e.requestId)) filmBytes += e.encodedDataLength;
     });
     await page.goto(path, { waitUntil: 'load' });
-    // The hero film (wide screens) joins after the load event, once the browser is idle (at most 3 s): let it start.
-    await page.waitForTimeout(path === '/en' ? 6000 : 2500);
+    await page.waitForTimeout(2500);
 
     const result = await page.evaluate(() => {
       const perf = (window as unknown as { __perf: { lcp: number; cls: number } }).__perf;
@@ -80,8 +77,7 @@ for (const path of PAGES) {
   });
 }
 
-test('a phone never downloads the hero film', async ({ page, isMobile }) => {
-  test.skip(!isMobile, 'checked on the phone project');
+test('the home page never downloads a hero film', async ({ page }) => {
   await page.goto('/en', { waitUntil: 'load' });
   await page.waitForTimeout(2500);
   const films = await page.evaluate(

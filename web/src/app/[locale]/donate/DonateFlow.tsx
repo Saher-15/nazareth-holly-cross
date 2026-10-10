@@ -164,7 +164,7 @@ export default function DonateFlow() {
           </dl>
           <CurrencyNote amountUsd={amount} />
           <h3 className={shared.payTitle}>{tr('paypalComponent.paymentMethod')}</h3>
-          <PayPalPanel getPayload={getPayload} onPaid={onPaid} />
+          <PayPalPanel getPayload={getPayload} onPaid={onPaid} shownAmount={amount} />
           <div className={shared.actions}>
             <button type="button" className="ui-btn ui-btn--ghost" onClick={() => setStep('details')}>
               {t('form.edit')}
