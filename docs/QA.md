@@ -197,8 +197,7 @@ What changed and the numbers: `docs/PERFORMANCE.md` section 10 (performance and 
   alternates.
 - Unit: `proxy.test.ts` (one 308 for the old site's addresses), `legacy-redirects.test.ts`, `netlify-config.test.ts`
   (`http://www` in one hop), `shop-seo.test.ts`, `shop-reviews.test.ts` (the browser's `zod/mini` review schema reads
-  answers like the server's), `perf-assets.test.ts` (font family names of the Hebrew and Arabic stacks),
-  `home-today.test.tsx` (no film on mobile data).
+  answers like the server's), `perf-assets.test.ts` (font family names of the Hebrew and Arabic stacks).
 - `npm run scan:bundle` fails when the full `zod` library reaches a browser chunk.
 
 Known: `tests/e2e/live-broadcast.spec.ts` (the two tests with the fake clock) failed once in a full parallel run on a busy

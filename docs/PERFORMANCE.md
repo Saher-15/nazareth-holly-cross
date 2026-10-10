@@ -344,8 +344,7 @@ sizes are the files' Brotli size at quality 11, so they compare with each other,
 | Check | Before | After |
 |---|---|---|
 | Empty-cart checkout, CLS, phone (CPU x4, 1.6 Mbit/s) / desktop | 0.135 / 0.053 | **0.019 / 0.009** |
-| Hero film on a phone held sideways (823 x 412) / a tablet (820 x 1180) | 2,805 kB / 2,805 kB in 8 s | **0 / 0** |
-| Hero film on a desktop (1440 x 900) | first part (as designed) | unchanged |
+| Hero film on a phone held sideways (823 x 412) / a tablet (820 x 1180) | 2,805 kB / 2,805 kB in 8 s | **0 / 0** (and 0 on every screen: the home hero film was removed, see finding 6 below) |
 | Product page: title, description, canonical, Open Graph in `<head>` (curl, Googlebot and a browser UA) | in `<body>` whenever the catalogue read was slower than the shell (always on production) | **always in `<head>`** |
 | `/en/shop/000000000000000000000000`, `/en/shop/abc` | 200 (soft 404) | **404** |
 | `/latin`, `/product/<id>`, `/checkoutcandle`, `/checkoutdonation` | 307 then 308 (production) | **one 308** to `/<language>/...` |
@@ -369,11 +368,10 @@ Not re-measured: Lighthouse and the throttled probe against production (they nee
   only when the pointer rests on one, it gets keyboard focus or a finger touches it, so the click still finds the page
   warm; links in the page itself (hero buttons, product cards) keep Next's prefetch on entering the screen. The "same
   route twice" of the review is Next 16's two requests per route (the route tree and the segment), not two menus.
-* **Hero film** (finding 6): `WIDE_QUERY` in `HeroVideo.tsx` is now
-  `(min-width: 768px) and (min-height: 500px) and (hover: hover) and (pointer: fine)`, and `navigator.connection.type`
-  `cellular` (Chrome on Android) also stops it. Decision: **tablets do not get the film** (touch screens, often on mobile
-  data); a laptop with a touch screen still does (its main pointer is the trackpad). Tested in `performance.spec.ts`
-  (phone in landscape, tablet) and `home-today.test.tsx`.
+* **Hero film** (finding 6): superseded. The home hero no longer plays a film on any screen (the owner's choice; the
+  hero is the licensed photograph, `web/tests/e2e/hero-film.spec.ts` asserts 0 bytes of video), so the narrower rule
+  that was written for it here (no film on tablets, on short screens or on mobile data) was dropped with the
+  component. `performance.spec.ts` still loads the phone-in-landscape and tablet sizes and expects no video.
 * **Fonts** (finding 9): Next 16 decides font preloads per route module, not per language, so the two Latin files cannot
   be left out on `/he` and `/ar` without a second layout. Instead they are now **used** there: the Hebrew and Arabic
   stacks put the Latin face first (`tokens.css`), so digits, spaces, punctuation and Latin words come from the
