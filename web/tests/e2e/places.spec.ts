@@ -227,7 +227,7 @@ test.describe('about', () => {
   test('renders in Hebrew', async ({ page }) => {
     await page.goto('/he/about');
     await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText('ברוכים הבאים לפורטל הרשמי של נצרת');
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('ברוכים הבאים ל-Nazareth Holy Cross');
   });
 });
 
