@@ -3,9 +3,30 @@
 Audited on 2026-10-06 with read-only `gh` commands and `git log` (no setting was changed). Items marked **owner** need
 the owner's GitHub, Netlify or Render login: nothing in this document has been executed on GitHub.
 
+## Status on 2026-10-10 (read this first; sections 1 to 4 are the 2026-10-06 audit, kept as history)
+
+Checked with `gh repo list`, `netlify api listSites` and `railway status` (read-only), then `node ops/smoke-live.mjs`
+(75 passed, 0 failed).
+
+- **The project now has one repository: `nazareth-holly-cross` (this monorepo).** The owner deleted
+  `nazareth-holly-cross-client` and `nazareth-holly-cross-server` on 2026-10-10 (GitHub can restore a deleted
+  repository for 90 days: Settings -> Repositories -> Deleted repositories). `nazareth-holy-cross-admin`,
+  `live-nazareth-client` and `live-nazareth-admin` no longer appear on the account either.
+- Nothing was lost: the Firebase files of the old client are in `ops/firebase/` (`storage.rules` there is the newer,
+  create-only version that is deployed); the old server had nothing to carry over.
+- **What deploys from where:** Netlify `nazarethholycross` (public site) and `nhc-admin-dashboard` (new admin) build
+  from this monorepo; the API runs on **Railway** from this monorepo, root `/server` (Render is suspended); Hermes runs
+  on Railway from the `nousresearch/hermes-agent` image.
+- **Left for the owner (Netlify):** the site `nazaretholycrossadmin` (the old admin) is still linked to the repository
+  `nazareth-holy-cross-admin`, which no longer appears; delete the site once nobody uses its address (the new admin is
+  `nhc-admin-dashboard`). Same for the unrelated sites `forma-store`, `urbangents` and `siwarafashionadmin`, whose
+  repositories no longer appear.
+- Steps 14 and 15 of the checklist below are done (by deletion instead of archiving); step 7 is replaced by the
+  separate `nhc-admin-dashboard` site.
+
 ## 1. Inventory
 
-Account `Saher-15` has 20 repositories; six belong to this project.
+Account `Saher-15` had 20 repositories on 2026-10-06; six belonged to this project.
 
 | Repository | Visibility | Last push | What it holds | Superseded by the monorepo? |
 |---|---|---|---|---|
