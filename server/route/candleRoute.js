@@ -5,6 +5,7 @@ import { assertPaid } from '../services/paypalService.js';
 import { getCandlePrice } from '../services/siteSettings.js';
 import { publicCandleVideos } from '../services/candleVideos.js';
 import { linkPayment, paymentFor } from '../services/payments.js';
+import { savedDraft } from '../services/checkoutDraft.js';
 import { asyncHandler } from "../middleware/asyncHandler.js"
 import { config } from '../config/env.js';
 import { HttpError } from '../utils/httpError.js';
@@ -36,7 +37,9 @@ export function candleConfirmation({ email, firstName, candleId, paypalOrderId }
 }
 
 export async function fulfilCandle(body = {}) {
-    const { firstName, lastName, email, prayer, paypalOrderId } = body;
+    // The name, e-mail and prayer saved with the payment win over what this request carries (services/checkoutDraft.js).
+    const { paypalOrderId } = body;
+    const { firstName, lastName, email, prayer } = (await savedDraft(paypalOrderId)) ?? body;
 
     if(!firstName || typeof firstName !== 'string' || firstName.trim() === ''){
         throw new HttpError(422, 'Bad input: firstName is required');

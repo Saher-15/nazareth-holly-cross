@@ -145,7 +145,7 @@ Revoked sessions stay, flagged, until they expire; a TTL index then removes them
 ```
 
 `204` on success; all other sessions end. `403` if the current password is wrong (5 wrong tries per 15 minutes per
-account, then `429`). `400` if the new password breaks the policy: **at least 12 characters, at most 200, not the
+account, then `429`). `400` if the new password breaks the policy: **at least 12 characters, at most 72 bytes of UTF-8 (what bcrypt reads; fewer characters in Hebrew or Arabic), not the
 username (nor the username with a few characters added), not in a list of common passwords, not just repeated
 characters, and not equal to the current one.** Passwords are hashed with bcrypt cost 12 and are never trimmed,
 altered or logged (the HTML sanitizer that cleans other request bodies skips the sign-in, password and user-creation

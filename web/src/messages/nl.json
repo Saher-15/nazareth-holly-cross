@@ -682,7 +682,8 @@
         "start": "De betaling kon niet worden gestart. Probeer het opnieuw.",
         "notCompleted": "De betaling is niet voltooid. Er is niets van uw rekening afgeschreven.",
         "paypal": "PayPal meldde een fout. Probeer het opnieuw.",
-        "unconfirmed": "We konden uw betaling niet bevestigen omdat de verbinding wegviel. Betaal voorlopig niet opnieuw: controleer uw PayPal-account of schrijf ons."
+        "unconfirmed": "We konden uw betaling niet bevestigen omdat de verbinding wegviel. Betaal voorlopig niet opnieuw: controleer uw PayPal-account of schrijf ons.",
+        "priceChanged": "Het totaal is gewijzigd: het is nu {charged} in plaats van {shown}. Er is niets afgeschreven. Klik opnieuw op de PayPal-knop om {charged} te betalen."
       },
       "reference": "Betalingsreferentie: {id}",
       "saving": "Uw gegevens worden opgeslagen…",

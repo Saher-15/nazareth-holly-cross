@@ -169,6 +169,10 @@ describe('password policy', () => {
   it('requires 12 characters, not the username, not a common password', () => {
     expect(passwordProblem('short', 'owner')).toBe('short');
     expect(passwordProblem('a'.repeat(201), 'owner')).toBe('long');
+    // bcrypt reads 72 bytes (audit 2026-10-10, F05): 73 Latin characters, or 40 Hebrew ones, are too long
+    expect(passwordProblem('Correct-horse-'.padEnd(72, 'x7Q'), 'owner')).toBeNull();
+    expect(passwordProblem('Correct-horse-'.padEnd(73, 'x7Q'), 'owner')).toBe('long');
+    expect(passwordProblem('סיסמה ארוכה מאוד '.repeat(3), 'owner')).toBe('long');
     expect(passwordProblem('OwnerOwnerOwner', 'ownerownerowner')).toBe('username');
     expect(passwordProblem('Password1234', 'x')).toBe('common');
     expect(passwordProblem('A-Fine-Passphrase-1', 'owner')).toBeNull();

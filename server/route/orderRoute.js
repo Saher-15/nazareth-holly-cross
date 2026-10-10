@@ -7,7 +7,7 @@ import { priceFor, quoteShopOrder, quoteSignature, takeFromStock } from '../serv
 import { invalidateCatalog } from '../services/catalog.js';
 import Payment from '../model/payment.js';
 import { fulfilCandle } from './candleRoute.js';
-import { validateFulfilment } from '../services/checkoutDraft.js';
+import { savedDraft, validateFulfilment } from '../services/checkoutDraft.js';
 import { asyncHandler } from "../middleware/asyncHandler.js"
 import { config } from '../config/env.js';
 import { HttpError } from '../utils/httpError.js';
@@ -28,9 +28,11 @@ const textField = (value) => {
 
 export async function fulfilOrder(body = {}) {
 
+    // The recipient saved with the payment wins over what this request carries (services/checkoutDraft.js).
+    const details = (await savedDraft(body.paypalOrderId)) ?? body;
     const fields = {};
     for (const field of REQUIRED_ORDER_FIELDS) {
-        fields[field] = textField(body[field]);
+        fields[field] = textField(details[field]);
         if (fields[field] === undefined) {
             throw new HttpError(422, "Bad input");
         }

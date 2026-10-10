@@ -101,8 +101,9 @@ routerProduct.get('/:id/reviews', asyncHandler(async (req, res) => {
         .limit(50)
         .select('name country rating title comment createdAt')
         .lean();
-    const distribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
-    reviews.forEach((r) => { distribution[r.rating] += 1; });
+    // Counted over ALL approved reviews, like the average and the total next to it (the list above is the newest 50).
+    const counts = await Promise.all([1, 2, 3, 4, 5].map((rating) => ProductReview.countDocuments({ product: product._id, approved: true, rating })));
+    const distribution = { 1: counts[0], 2: counts[1], 3: counts[2], 4: counts[3], 5: counts[4] };
     res.json({ summary: { ...product.rating, distribution }, reviews });
 }))
 

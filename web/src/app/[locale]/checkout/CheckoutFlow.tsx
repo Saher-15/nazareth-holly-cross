@@ -321,7 +321,7 @@ export default function CheckoutFlow() {
           {step === 'payment' ? (
             <>
               <h3 className={shared.payTitle}>{tr('paypalComponent.paymentMethod')}</h3>
-              <PayPalPanel getPayload={getPayload} onPaid={onPaid} />
+              <PayPalPanel getPayload={getPayload} onPaid={onPaid} shownAmount={summary.total} />
             </>
           ) : (
             <Notice tone="info">{tr('paypalComponent.pleaseFillAllDetails')}</Notice>

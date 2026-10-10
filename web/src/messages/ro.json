@@ -682,7 +682,8 @@
         "start": "Plata nu a putut fi inițiată. Încercați din nou.",
         "notCompleted": "Plata nu a fost finalizată. Nu s-a retras nicio sumă.",
         "paypal": "PayPal a raportat o eroare. Încercați din nou.",
-        "unconfirmed": "Nu am putut confirma plata deoarece conexiunea a căzut. Nu plătiți din nou deocamdată: verificați contul dumneavoastră PayPal sau scrieți-ne."
+        "unconfirmed": "Nu am putut confirma plata deoarece conexiunea a căzut. Nu plătiți din nou deocamdată: verificați contul dumneavoastră PayPal sau scrieți-ne.",
+        "priceChanged": "Totalul s-a schimbat: acum este {charged}, nu {shown}. Nu ați fost taxat. Apăsați din nou butonul PayPal pentru a plăti {charged}."
       },
       "reference": "Referința plății: {id}",
       "saving": "Se salvează datele dumneavoastră…",
