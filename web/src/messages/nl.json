@@ -1248,7 +1248,7 @@
       },
       "form": {
         "title": "Stuur ons een bericht",
-        "intro": "Alle velden zijn nodig zodat wij kunnen antwoorden.",
+        "intro": "Wij hebben uw naam, e-mailadres en bericht nodig om te kunnen antwoorden. Het telefoonnummer is optioneel.",
         "fullName": "Volledige naam",
         "email": "E-mailadres",
         "phone": "Telefoonnummer (optioneel)",

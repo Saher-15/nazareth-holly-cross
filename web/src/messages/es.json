@@ -1248,7 +1248,7 @@
       },
       "form": {
         "title": "Envíanos un mensaje",
-        "intro": "Todos los campos son necesarios para poder responderte.",
+        "intro": "Necesitamos tu nombre, tu correo electrónico y tu mensaje para poder responderte. El teléfono es opcional.",
         "fullName": "Nombre completo",
         "email": "Correo electrónico",
         "phone": "Número de teléfono (opcional)",
