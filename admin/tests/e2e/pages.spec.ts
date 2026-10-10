@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { expectNoAxeViolations, noHorizontalScroll, stateFile, watchProblems } from './helpers';
+import { expectNoAxeViolations, HARNESS, noHorizontalScroll, stateFile, watchProblems } from './helpers';
 
 // Every page renders for the owner, with no console errors or CSP violations, no accessibility violations
 // (axe, WCAG 2.1 A/AA), and no sideways scrolling, on desktop and on a phone.
@@ -79,6 +79,15 @@ test('campaigns: the funnel, the campaigns and the cost of one paying customer',
   const funnel = page.getByTestId('funnel');
   await expect(funnel.getByRole('listitem')).toHaveCount(5);
   await expect(funnel).toContainText('Page opened');
+  if (HARNESS) {
+    // The real API has counted nothing in this run: the page says so, and the calculator has no customers to divide by.
+    await expect(page.getByTestId('paid-confirmed')).toContainText('0');
+    await expect(page.getByText('Nothing counted yet')).toBeVisible();
+    await page.getByTestId('ad-spend').fill('60');
+    await expect(page.getByTestId('cost-per-customer')).toHaveText('There were no completed payments in this period, so there is no cost per customer yet.');
+    return;
+  }
+  // The mock API's sample numbers (mock-api/server.mjs).
   await expect(funnel).toContainText('250');
   await expect(funnel).toContainText('2% of the openings'); // 5 paid of 250 opened
   await expect(page.getByTestId('paid-confirmed')).toContainText('5');
