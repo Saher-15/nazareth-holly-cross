@@ -1240,7 +1240,7 @@
       },
       "form": {
         "title": "Trimiteți-ne un mesaj",
-        "intro": "Toate câmpurile sunt necesare, pentru ca să vă putem răspunde.",
+        "intro": "Avem nevoie de numele, adresa de e-mail și mesajul dumneavoastră pentru a vă putea răspunde. Numărul de telefon este opțional.",
         "fullName": "Nume complet",
         "email": "Adresă de e-mail",
         "phone": "Număr de telefon (opțional)",

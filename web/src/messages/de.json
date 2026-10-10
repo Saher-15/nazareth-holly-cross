@@ -1240,7 +1240,7 @@
       },
       "form": {
         "title": "Schreiben Sie uns",
-        "intro": "Alle Felder werden benötigt, damit wir antworten können.",
+        "intro": "Wir brauchen Ihren Namen, Ihre E-Mail-Adresse und Ihre Nachricht, um antworten zu können. Die Telefonnummer ist optional.",
         "fullName": "Vollständiger Name",
         "email": "E-Mail-Adresse",
         "phone": "Telefonnummer (optional)",

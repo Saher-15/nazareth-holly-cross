@@ -7,14 +7,15 @@ production, and what keeps it safe. Anyone (person or AI agent) changing the cod
 
 | Part | Folder | Runs on | Notes |
 |---|---|---|---|
-| **New website** | `web/` | Netlify (when it replaces `client/`) | Next.js 16 + TypeScript, next-intl, CSS Modules + design tokens |
-| Current website | `client/` | Netlify, `main` branch | React (CRA). Kept live until `web/` reaches parity, then retired |
+| Website | `web/` | Netlify, `main` branch | Next.js 16 + TypeScript, next-intl, CSS Modules + design tokens |
+| Admin dashboard | `admin/` | Netlify (`nhc-admin-dashboard`), `main` branch | Next.js; talks to the API server to server ([ADMIN.md](ADMIN.md)) |
 | API | `server/` | Railway (project `divine-spontaneity`, service `nazareth-holy-cross-api`; Render is suspended since 2026-10-07) | Express + Mongoose. Owns prices, payments, e-mails |
 | Database | — | MongoDB Atlas | Products, orders, candles, prayers, reviews, the payment ledger. Cluster0 / database `info`, M10 in Frankfurt with Cloud Backup on (INFRASTRUCTURE.md 6.1), plus the independent copy of [BACKUP.md](BACKUP.md); design, indexes, personal data: [DATABASE.md](DATABASE.md) |
 | Product images | — | Firebase Storage | Served through `next/image` (resized, AVIF/WebP) |
 | Payments | — | PayPal | **The server decides every amount.** The browser only says *what* is bought |
 
-`client-next/` is an abandoned earlier attempt and is not deployed.
+The previous React site (`client/`) and an abandoned earlier attempt (`client-next/`) were removed from the repository on
+2026-10-11; both are in the git history.
 
 Domain, DNS (at Netlify, not GoDaddy), regions, the PayPal Live checklist and the owner's action list:
 [INFRASTRUCTURE.md](INFRASTRUCTURE.md). Repositories, branch protection and the plan to make the monorepo private:

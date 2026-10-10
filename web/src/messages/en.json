@@ -1240,7 +1240,7 @@
       },
       "form": {
         "title": "Send us a message",
-        "intro": "All fields are needed so that we can reply.",
+        "intro": "We need your name, e-mail address and message to reply. The phone number is optional.",
         "fullName": "Full name",
         "email": "E-mail address",
         "phone": "Phone number (optional)",

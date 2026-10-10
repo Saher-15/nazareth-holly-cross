@@ -47,7 +47,7 @@ We will not take legal action against anyone who follows this policy in good fai
 
 Out of scope: problems in PayPal, Firebase, Netlify, Render, MongoDB Atlas or Google themselves (report those to
 the vendor); missing "best practice" headers with no demonstrated impact; reports from automated scanners without a
-working proof; the older site in `client/` once it is retired.
+working proof.
 
 ## Supported versions
 
