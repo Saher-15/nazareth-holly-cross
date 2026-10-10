@@ -666,7 +666,7 @@
     "payment": {
       "loading": "PayPal wordt geladen…",
       "unavailable": "PayPal kon niet worden geladen. Controleer uw verbinding of schakel contentblokkers uit en laad de pagina opnieuw.",
-      "secured": "Veilig betalen met PayPal. Wij zien uw kaartgegevens nooit.",
+      "secured": "Veilig betalen met PayPal of met een creditcard of betaalkaart: geen PayPal-account nodig. Wij zien uw kaartgegevens nooit.",
       "cancelled": "Betaling geannuleerd. Er is niets van uw rekening afgeschreven.",
       "errors": {
         "start": "De betaling kon niet worden gestart. Probeer het opnieuw.",
@@ -684,7 +684,7 @@
       "text": "Ontdek rozenkransen, kruisen en souvenirs uit Nazareth."
     },
     "candle": {
-      "secureNext": "Hierna controleert u uw gegevens en betaalt u veilig met PayPal."
+      "secureNext": "Hierna controleert u uw gegevens en betaalt u veilig met PayPal of met een creditcard of betaalkaart. U hebt geen PayPal-account nodig."
     },
     "donate": {
       "formTitle": "Doe een gift",
@@ -1930,7 +1930,7 @@
     "pReal": "Een echte kaars in een echte kerk, geen virtuele",
     "pVideo": "Uw persoonlijke video binnen 48 uur",
     "pGuest": "Geen account nodig",
-    "pSecure": "Veilig betalen met PayPal",
+    "pSecure": "Betaal met PayPal of met een kaart, zonder PayPal-account",
     "stepsTitle": "Zo werkt het",
     "s1T": "Kies uw kerk",
     "s1X": "{latin} of {greek}, beide in Nazareth.",

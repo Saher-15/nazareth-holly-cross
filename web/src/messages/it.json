@@ -666,7 +666,7 @@
     "payment": {
       "loading": "Caricamento di PayPal…",
       "unavailable": "Impossibile caricare PayPal. Controlla la connessione o disattiva i blocchi dei contenuti, poi ricarica la pagina.",
-      "secured": "Pagamento sicuro con PayPal. Non vediamo mai i dati della tua carta.",
+      "secured": "Pagamento sicuro con PayPal o con carta di credito o di debito: non serve un conto PayPal. Non vediamo mai i dati della tua carta.",
       "cancelled": "Pagamento annullato. Non ti è stato addebitato nulla.",
       "errors": {
         "start": "Non è stato possibile avviare il pagamento. Riprova.",
@@ -684,7 +684,7 @@
       "text": "Scopri rosari, croci e ricordi da Nazaret."
     },
     "candle": {
-      "secureNext": "Poi controllerai i tuoi dati e pagherai in sicurezza con PayPal."
+      "secureNext": "Poi controllerai i tuoi dati e pagherai in sicurezza con PayPal o con carta di credito o di debito. Non ti serve un conto PayPal."
     },
     "donate": {
       "formTitle": "Fai una donazione",
@@ -1930,7 +1930,7 @@
     "pReal": "Una candela vera in una chiesa vera, non virtuale",
     "pVideo": "Il tuo video personale entro 48 ore",
     "pGuest": "Senza creare un account",
-    "pSecure": "Pagamento sicuro con PayPal",
+    "pSecure": "Paga con PayPal o con carta, senza conto PayPal",
     "stepsTitle": "Come funziona",
     "s1T": "Scegli la tua chiesa",
     "s1X": "{latin} o {greek}, entrambe a Nazaret.",

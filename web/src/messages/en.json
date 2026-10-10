@@ -666,7 +666,7 @@
     "payment": {
       "loading": "Loading PayPal…",
       "unavailable": "PayPal could not be loaded. Check your connection or turn off content blockers, then reload the page.",
-      "secured": "Secure payment with PayPal. We never see your card details.",
+      "secured": "Secure payment with PayPal or a credit or debit card: no PayPal account needed. We never see your card details.",
       "cancelled": "Payment cancelled. You have not been charged.",
       "errors": {
         "start": "We could not start the payment. Please try again.",
@@ -684,7 +684,7 @@
       "text": "Browse rosaries, crosses and keepsakes from Nazareth."
     },
     "candle": {
-      "secureNext": "Next you will review your details and pay securely with PayPal."
+      "secureNext": "Next you will review your details and pay securely with PayPal or a credit or debit card. You do not need a PayPal account."
     },
     "donate": {
       "formTitle": "Make a donation",
@@ -1930,7 +1930,7 @@
     "pReal": "A real candle in a real church, not a virtual one",
     "pVideo": "Your personal video within 48 hours",
     "pGuest": "No account needed",
-    "pSecure": "Secure payment with PayPal",
+    "pSecure": "Pay with PayPal or a card, no PayPal account needed",
     "stepsTitle": "How it works",
     "s1T": "Choose your church",
     "s1X": "{latin} or {greek}, both in Nazareth.",
