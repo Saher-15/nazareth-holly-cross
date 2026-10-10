@@ -1,6 +1,6 @@
 # The site is the Next.js app in web/ (Netlify's Next.js runtime is detected automatically).
-# The previous React site (client/) stays in the repo for reference; to roll back, revert the
-# merge of this file or use Netlify > Deploys > "Publish deploy" on an earlier deploy.
+# To roll back a deploy: Netlify > Deploys > "Publish deploy" on an earlier one (docs/ENGINEERING.md section 3).
+# The previous React site (client/) was removed from the repository on 2026-10-11; it is in the git history.
 [build]
   base    = "web"
   command = "npm ci && npm run build"
