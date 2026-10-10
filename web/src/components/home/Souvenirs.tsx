@@ -32,16 +32,6 @@ export function SouvenirsView({ id, locale, featured }: ViewProps) {
               <li key={p._id} className={styles.product}>
                 <Link href={`/shop/${p._id}`} className={styles.link}>
                   <span className={styles.imgWrap}>
-                    {/* The whole photo on a blurred copy of itself, like <ProductCard> (same src and sizes: one download). */}
-                    <Image
-                      className={styles.backdrop}
-                      src={p.img}
-                      alt=""
-                      aria-hidden="true"
-                      fill
-                      unoptimized={!isOptimizable(p.img)}
-                      sizes="(min-width: 1180px) 280px, (min-width: 1000px) 24vw, (min-width: 700px) 32vw, 48vw"
-                    />
                     <Image
                       className={styles.img}
                       src={p.img}

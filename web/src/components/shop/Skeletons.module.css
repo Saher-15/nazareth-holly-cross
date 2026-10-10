@@ -68,7 +68,7 @@
 }
 .cardImg {
   display: block;
-  aspect-ratio: 4 / 5; /* the product card's photo frame */
+  aspect-ratio: 1;
   border-radius: var(--radius) var(--radius) 0 0;
 }
 
