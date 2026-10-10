@@ -98,12 +98,16 @@ describe('secretProblems', () => {
     expect(problems.filter((p) => p.fatal)).toHaveLength(1);
   });
 
-  it('warns (not fatal) about a short JWT_SECRET', async () => {
+  // Fatal since the 2026-10-10 audit (H02): production must not start with a key that can be guessed.
+  it('treats a JWT_SECRET shorter than 32 characters as fatal, and 32 as enough', async () => {
     process.env.JWT_SECRET = 'short-secret';
     setAdminPassword(undefined);
     const problems = (await (await load())());
     expect(problems).toHaveLength(1);
-    expect(problems.every((p) => !p.fatal)).toBe(true);
+    expect(problems[0]).toMatchObject({ fatal: true, message: expect.stringMatching(/shorter than 32/) });
+    expect(problems[0].message).not.toContain('short-secret'); // the value is never printed
+    process.env.JWT_SECRET = 'k9'.repeat(16);
+    expect(await (await load())()).toEqual([]);
   });
 
   // The shared-password sign-in was removed (security review 06, finding 1): the variable is no longer required and a

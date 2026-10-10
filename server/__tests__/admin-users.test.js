@@ -313,6 +313,24 @@ describe('the last-owner rule', () => {
     expect(audits('user.delete')).toHaveLength(0);
   });
 
+  // Audit 2026-10-10, H03: the check before the write can be passed by two requests at once. Here it is told "one other
+  // owner" (stale), and the count after the write finds none: the change is taken back.
+  it.each([
+    ['demote', 'patch', { role: 'viewer' }],
+    ['disable', 'patch', { disabled: true }],
+    ['delete', 'delete', undefined],
+  ])('takes back a %s that slipped past the first check and left no enabled owner (409)', async (_name, method, body) => {
+    const t = owner2();
+    const spy = vi.spyOn(fakes.Admin, 'countDocuments').mockResolvedValueOnce(1).mockResolvedValueOnce(0);
+    const res = await call(method, `/admin/users/${t._id}`, me, body);
+    spy.mockRestore();
+    expect(res.status).toBe(409);
+    expect(res.body.error).toMatch(/last owner/);
+    expect(fakes.Admin.byId(t._id)).toMatchObject({ role: 'owner', disabled: false });
+    expect(audits('user.update')).toHaveLength(0);
+    expect(audits('user.delete')).toHaveLength(0);
+  });
+
   it('allows the same changes while another enabled owner exists, and for non-owners always', async () => {
     const t = owner2();
     expect((await call('patch', `/admin/users/${t._id}`, me, { role: 'viewer' })).status).toBe(200);

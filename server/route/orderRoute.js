@@ -3,7 +3,8 @@ import Order from "../model/order.js";
 import { sendMail } from '../services/emailService.js';
 import { createOrder as createPayPalOrder, captureOrder as capturePayPalOrder, getOrder as getPayPalOrder, assertPaid, verifiedCaptureStatus } from '../services/paypalService.js';
 import { capturedPayment, linkPayment, paymentFor, recordCaptured, recordCreated, recordFailed } from '../services/payments.js';
-import { priceFor, quoteShopOrder, quoteSignature } from '../services/pricing.js';
+import { priceFor, quoteShopOrder, quoteSignature, takeFromStock } from '../services/pricing.js';
+import { invalidateCatalog } from '../services/catalog.js';
 import Payment from '../model/payment.js';
 import { fulfilCandle } from './candleRoute.js';
 import { savedDraft, validateFulfilment } from '../services/checkoutDraft.js';
@@ -82,6 +83,18 @@ export async function fulfilOrder(body = {}) {
         done: false,
         ...(paypalOrderId ? { paypalOrderId, paymentVerified: true } : {}),
     });
+
+    // The units leave the stock once, with the order that was just saved (one PayPal payment saves one order: the
+    // unique index on paypalOrderId). A failure here must not fail a paid order: it is logged for the owner.
+    try {
+        const { changed, oversold } = await takeFromStock(lines);
+        if (changed) invalidateCatalog();
+        for (const item of oversold) {
+            console.error(`[${new Date().toISOString()}] [oversold] order ${order._id}: ${item.missing} more of "${item.productName}" (${item.productID}) sold than were in stock`);
+        }
+    } catch (error) {
+        console.error(`[${new Date().toISOString()}] [stock] order ${order._id}: stock was not updated: ${error.message}`);
+    }
 
     if (paypalOrderId) {
         await linkPayment(paypalOrderId, { kind: 'order', id: order._id, amount: totalPrice });

@@ -26,7 +26,9 @@ export function secretProblems() {
   const problems = [];
   const jwt = env.JWT_SECRET || '';
   if (PLACEHOLDERS.has(jwt.toLowerCase())) problems.push({ fatal: true, message: 'JWT_SECRET is a placeholder value' });
-  else if (jwt && jwt.length < 32) problems.push({ fatal: false, message: 'JWT_SECRET is shorter than 32 characters' });
+  // Fatal in production since the 2026-10-10 audit (H02): a short key can be guessed offline from one session token.
+  // (The length is a floor, not a proof of randomness: generate it, e.g. `openssl rand -base64 48`.)
+  else if (jwt && jwt.length < 32) problems.push({ fatal: true, message: 'JWT_SECRET is shorter than 32 characters' });
   // Nothing reads it any more; a leftover value is only a secret lying around (the owner deletes it on Render).
   if (env.ADMIN_PASSWORD) problems.push({ fatal: false, message: 'ADMIN_PASSWORD is set but no longer used: delete it from the environment' });
   return problems;
