@@ -37,10 +37,10 @@
     }
   },
   "about": {
-    "title": "Bienvenue sur le portail officiel de Nazareth",
+    "title": "Bienvenue sur Nazareth Holy Cross",
     "description1": "Le cœur de la foi chrétienne. Nous savons que tout le monde ne peut pas se rendre à Nazareth, la ville où Jésus a grandi et où des expériences spirituelles attendent chaque visiteur. C’est pourquoi nous sommes heureux de vous offrir la possibilité de faire venir Nazareth jusqu’à vous.",
     "description2": "Grâce à notre site, vous pouvez faire une visite virtuelle des principales églises et des lieux saints de Nazareth et vous relier à la riche histoire et à la tradition religieuse qui caractérisent ce lieu. Nous vous offrons aussi une occasion unique d’acheter des souvenirs locaux et même d’allumer une bougie à la mémoire ou en l’honneur de vos proches, comme si vous étiez ici avec nous.",
-    "description3": "Dans notre boutique en ligne, vous trouverez un large choix de produits : des croix en bois d’olivier local, des bijoux inspirés des symboles chrétiens, des peintures et des mosaïques qui reflètent la richesse de l’art religieux, et bien plus encore. Vous pouvez désormais aussi acquérir de l’eau de la légendaire source de Nazareth, du sable de Nazareth et des olives locales – de quoi ressentir la grandeur de la ville de Nazareth et de Jésus. Vous pouvez également choisir d’allumer une bougie virtuelle, un geste qui porte la prière et le souvenir par-delà les distances.",
+    "description3": "Dans notre boutique en ligne, vous trouverez un large choix de produits : des croix en bois d’olivier local, des bijoux inspirés des symboles chrétiens, des peintures et des mosaïques qui reflètent la richesse de l’art religieux, et bien plus encore. Vous pouvez désormais aussi acquérir de l’eau de la légendaire source de Nazareth, du sable de Nazareth et des olives locales – de quoi ressentir la grandeur de la ville de Nazareth et de Jésus. Vous pouvez aussi nous demander d’allumer pour vous une vraie bougie dans une église de Nazareth, et en recevoir la vidéo.",
     "description4": "Nous vous invitons à ouvrir votre cœur et à ressentir la chaleur de notre communauté à travers chaque produit que vous choisissez d’acheter. Chaque achat soutient la communauté locale et aide à préserver le riche patrimoine de Nazareth pour les générations futures. Visitez notre site et trouvez votre façon de vous relier à Nazareth, à tout moment et en tout lieu."
   },
   "whatIsNew": {
@@ -74,23 +74,18 @@
     "reviews": "Avis"
   },
   "candle": {
-    "howToLightACandle": "Comment allumer une bougie ?",
-    "itsSimple": "C’est simple :",
-    "step1": "Choisissez une église où vous aimeriez que la bougie soit allumée.",
-    "step2": "Écrivez une prière ou une demande personnelle que vous souhaitez associer à l’allumage de la bougie.",
-    "step3": "Nous irons à l’église, allumerons la bougie pour vous, enregistrerons une vidéo avec votre nom et vous enverrons la vidéo directement.",
-    "note": "Remarque : cette vidéo est présentée à titre d’illustration uniquement ; elle montre comment une bougie est allumée dans l’église grecque orthodoxe.",
     "lightAPrayCandle": "Allumer une bougie de prière",
     "selectChurch": "Sélectionnez l’église où allumer la bougie :",
-    "toLightACandlePay": "Pour allumer une bougie, payez 3 $",
-    "light": "ALLUMER",
-    "emailMatchError": "Les adresses e-mail ne correspondent pas",
     "inputWarning": "Veuillez sélectionner une église.",
     "firstName": "Prénom",
     "lastName": "Nom de famille",
     "yourEmail": "Votre adresse e-mail",
     "confirmEmail": "Confirmez votre adresse e-mail",
-    "yourPrayer": "Votre prière"
+    "yourPrayer": "Votre prière",
+    "videosTitle": "Vidéos",
+    "videosLead": "Voyez comment les bougies sont allumées dans les églises de Nazareth.",
+    "videoPlay": "Lire la vidéo : {title}",
+    "videoPlayerTitle": "Vidéo : {title}"
   },
   "heroSection": {
     "heading": "LA VILLE DE JÉSUS VOUS ATTEND",
@@ -420,7 +415,11 @@
     "prayersTotal": "Prières sur le mur",
     "prayersCountriesLatest": "{count, plural, one {Pays de la dernière prière} many {Pays des # dernières prières} other {Pays des # dernières prières}}",
     "prayersCountriesAll": "Pays sur le mur",
-    "prayersAll": "Lire le mur de prières"
+    "prayersAll": "Lire le mur de prières",
+    "intro": {
+      "welcome": "Bienvenue à Nazareth",
+      "tagline": "La ville de Jésus"
+    }
   },
   "homePage": {
     "meta": {
@@ -613,14 +612,17 @@
     "shipping": "Livraison",
     "total": "Total",
     "secure": "Paiement sécurisé avec PayPal",
-    "emptyLead": "Découvrez chapelets, croix et souvenirs de Nazareth."
+    "emptyLead": "Découvrez chapelets, croix et souvenirs de Nazareth.",
+    "sideCartClose": "Fermer le panier",
+    "sideCartView": "Voir tout le panier",
+    "sideCartMove": "Déplacer le bouton du panier de l’autre côté"
   },
   "checkoutPage": {
     "meta": {
       "checkoutTitle": "Paiement",
       "checkoutDescription": "Finalisez votre commande de souvenirs de Nazareth et payez en toute sécurité avec PayPal.",
       "candleTitle": "Allumez une bougie à Nazareth",
-      "candleDescription": "Choisissez une église de Nazareth et écrivez votre prière. Nous allumerons une bougie pour vous et vous enverrons la vidéo.",
+      "candleDescription": "Choisissez une église de Nazareth et écrivez votre prière. Nous allumons pour vous une vraie bougie et vous envoyons votre vidéo personnelle sous 48 heures.",
       "donateTitle": "Faire un don",
       "donateDescription": "Soutenez Nazareth Holy Cross par un don, réglé en toute sécurité avec PayPal."
     },
@@ -628,7 +630,6 @@
       "eyebrow": "Paiement sécurisé",
       "orderTitle": "Finalisez votre commande",
       "lead": "Votre paiement est traité en toute sécurité par PayPal.",
-      "candleEyebrow": "Bougie de prière",
       "donateEyebrow": "Don",
       "donateTitle": "Soutenez Nazareth Holy Cross",
       "donateLead": "Votre don nous aide à partager les lieux saints, les prières et l’artisanat de Nazareth avec les pèlerins du monde entier."
@@ -665,13 +666,14 @@
     "payment": {
       "loading": "Chargement de PayPal…",
       "unavailable": "PayPal n’a pas pu être chargé. Vérifiez votre connexion ou désactivez les bloqueurs de contenu, puis rechargez la page.",
-      "secured": "Paiement sécurisé avec PayPal. Nous ne voyons jamais les données de votre carte.",
+      "secured": "Paiement sécurisé avec PayPal ou par carte de crédit ou de débit : aucun compte PayPal n’est nécessaire. Nous ne voyons jamais les données de votre carte.",
       "cancelled": "Paiement annulé. Vous n’avez pas été débité.",
       "errors": {
         "start": "Impossible de lancer le paiement. Veuillez réessayer.",
         "notCompleted": "Le paiement n’a pas abouti. Vous n’avez pas été débité.",
         "paypal": "PayPal a signalé une erreur. Veuillez réessayer.",
-        "unconfirmed": "Nous n’avons pas pu confirmer votre paiement car la connexion a échoué. Ne payez pas à nouveau pour l’instant : vérifiez votre compte PayPal ou écrivez-nous."
+        "unconfirmed": "Nous n’avons pas pu confirmer votre paiement car la connexion a échoué. Ne payez pas à nouveau pour l’instant : vérifiez votre compte PayPal ou écrivez-nous.",
+        "priceChanged": "Le total a changé : il est maintenant de {charged}, et non de {shown}. Vous n’avez pas été débité. Cliquez à nouveau sur le bouton PayPal pour payer {charged}."
       },
       "reference": "Référence du paiement : {id}",
       "saving": "Enregistrement de vos informations…",
@@ -682,8 +684,7 @@
       "text": "Découvrez chapelets, croix et souvenirs de Nazareth."
     },
     "candle": {
-      "price": "Pour allumer une bougie : {price}",
-      "secureNext": "Vous vérifierez ensuite vos informations et paierez en toute sécurité avec PayPal."
+      "secureNext": "Vous vérifierez ensuite vos informations et paierez en toute sécurité avec PayPal ou par carte de crédit ou de débit. Vous n’avez pas besoin d’un compte PayPal."
     },
     "donate": {
       "formTitle": "Faire un don",
@@ -1311,7 +1312,7 @@
       "items": {
         "candle": {
           "q": "Comment fonctionne l’allumage d’un cierge ?",
-          "a": "Choisissez une église de Nazareth, écrivez votre prière et réglez {price}. Nous allumons un cierge pour vous, enregistrons une courte vidéo avec votre nom et l’envoyons à votre adresse e-mail."
+          "a": "Choisissez une église de Nazareth, écrivez votre nom et votre prière et réglez {price}. Nous allumons pour vous une vraie bougie dans cette église, nous la filmons avec votre nom et votre prière, et nous envoyons la vidéo à votre adresse e-mail sous 48 heures."
         },
         "wall": {
           "q": "Le mur de prières est-il public ?",
@@ -1412,7 +1413,8 @@
               "cart": "Votre panier et votre liste d’envies.",
               "liked": "Les prières auxquelles vous avez dit Amen, pour que vous ne puissiez le dire qu’une fois.",
               "language": "Votre choix de langue."
-            }
+            },
+            "p2": "Nous comptons combien de fois certaines pages sont ouvertes et combien de paiements sont effectués, par jour et par campagne publicitaire. Ce sont de simples totaux : ils n’utilisent ni cookie ni identifiant, n’enregistrent rien dans votre navigateur, ne contiennent rien sur vous et ne sont communiqués à personne."
           },
           "keep": {
             "title": "Durée de conservation",
@@ -1455,7 +1457,7 @@
           },
           "candles": {
             "title": "Cierges",
-            "p1": "Un cierge de prière coûte {price}. Nous allumons un cierge pour votre intention dans l’église de votre choix et vous envoyons une vidéo. C’est un service de prière et de mémoire ; nous ne pouvons pas promettre une date ou une heure précise."
+            "p1": "Une bougie de prière coûte {price}. Nous allumons une vraie bougie à votre intention dans l’église que vous choisissez, nous la filmons et nous envoyons la vidéo à votre adresse e-mail dans les 48 heures qui suivent votre paiement. Si la vidéo n’arrive pas dans ce délai ou si quelque chose n’y est pas correct, écrivez-nous et nous vous rembourserons intégralement."
           },
           "donations": {
             "title": "Dons",
@@ -1882,5 +1884,72 @@
       "license": "Licence",
       "viewOnCommons": "Voir sur Wikimedia Commons"
     }
+  },
+  "tourPage": {
+    "activities": {
+      "eyebrow": "À Nazareth",
+      "title": "Que faire",
+      "lead": "Quelques façons de passer vos journées dans la ville, au-delà de ses églises.",
+      "more": "En savoir plus sur ce lieu",
+      "oldcity": {
+        "title": "Parcourez la vieille ville et son marché",
+        "text": "Ruelles étroites, passages voûtés et vieux marché, où épices, douceurs et artisanat se vendent côte à côte."
+      },
+      "basilica": {
+        "title": "Priez dans la basilique de l’Annonciation",
+        "text": "Recueillez-vous en silence dans la grotte où la tradition situe l’Annonciation, ou participez à une messe dans l’église haute."
+      },
+      "trail": {
+        "title": "Marchez une étape du Jesus Trail",
+        "text": "Le sentier part de Nazareth et traverse les collines de Galilée vers le lac de Tibériade. Ses premiers kilomètres ouvrent déjà de larges vues."
+      },
+      "precipice": {
+        "title": "Admirez le coucher de soleil depuis le mont du Précipice",
+        "text": "Depuis la falaise au-dessus de la vallée de Jezreel, toute la plaine s’étend à vos pieds, dorée en fin de journée."
+      },
+      "food": {
+        "title": "Goûtez Nazareth",
+        "text": "La ville est connue pour ses douceurs et sa cuisine familiale : goûtez le knafeh, servi chaud."
+      },
+      "christmas": {
+        "title": "Noël à Nazareth",
+        "text": "En décembre, la ville s’illumine, avec un marché de Noël et un défilé festif la veille de Noël."
+      }
+    },
+    "plan": {
+      "title": "Préparez vos journées à Nazareth",
+      "lead": "Choisissez combien de jours vous avez et ce que vous aimez : le planificateur du pèlerin trace un itinéraire avec les temps de marche. Le guide du visiteur réunit les saisons, les façons de venir et des conseils pratiques.",
+      "planner": "Ouvrir le planificateur",
+      "guide": "Guide du visiteur"
+    }
+  },
+  "candlePage": {
+    "eyebrow": "Une vraie bougie, allumée pour vous à Nazareth",
+    "title": "Votre prière. Votre église. Votre bougie.",
+    "lead": "Choisissez une église de Nazareth et écrivez votre nom et votre prière. Nous allumons pour vous une vraie bougie dans cette église, nous la filmons avec votre nom et votre prière, et nous vous envoyons votre vidéo personnelle sous 48 heures.",
+    "cta": "Allumer ma bougie – {price}",
+    "pReal": "Une vraie bougie dans une vraie église, pas une bougie virtuelle",
+    "pVideo": "Votre vidéo personnelle sous 48 heures",
+    "pGuest": "Sans créer de compte",
+    "pSecure": "Paiement par PayPal ou par carte, sans compte PayPal",
+    "stepsTitle": "Comment ça marche",
+    "s1T": "Choisissez votre église",
+    "s1X": "{latin} ou {greek}, toutes deux à Nazareth.",
+    "s2T": "Écrivez votre nom et votre prière",
+    "s2X": "Avec vos propres mots, dans votre langue. Nous les posons sur un billet à côté de votre bougie.",
+    "s3T": "Réglez {price} et recevez votre vidéo",
+    "s3X": "Nous allumons votre bougie, nous la filmons et nous envoyons votre vidéo personnelle à votre adresse e-mail sous 48 heures.",
+    "knowTitle": "Bon à savoir",
+    "realQ": "Est-ce une vraie bougie ?",
+    "realA": "Oui. Un membre de notre équipe à Nazareth se rend dans l’église que vous avez choisie et y allume une vraie bougie. Rien n’est virtuel.",
+    "getQ": "Que vais-je recevoir ?",
+    "getA": "Une courte vidéo personnelle par e-mail : l’église, le billet avec votre nom et votre prière, et votre bougie au moment où elle est allumée.",
+    "timeQ": "Combien de temps cela prend-il ?",
+    "timeA": "Vous recevez votre vidéo dans les 48 heures qui suivent votre paiement.",
+    "whoQ": "Qui assure ce service ?",
+    "whoA": "Nazareth Holy Cross est un service indépendant assuré par une équipe locale de Nazareth. Ce n’est pas un organisme officiel de la ville de Nazareth ni des églises.",
+    "wrongQ": "Et en cas de problème ?",
+    "wrongA": "Si votre vidéo n’est pas arrivée sous 48 heures (vérifiez d’abord votre dossier de courrier indésirable) ou si quelque chose n’y est pas correct, écrivez-nous et nous vous rembourserons intégralement.",
+    "contact": "Nous écrire"
   }
 }

@@ -1,0 +1,21 @@
+/* The home page's rhythm (docs/DESIGN-GUIDE.md, Home): every other section sits on a full-width band, a step lighter
+   than the page with a hairline above and below, so the page reads as a sequence of places instead of one long strip.
+   The bands never wrap a section that can be left out (the prayer wall, the visitors' voices): an empty band would
+   leave two stray lines. The sections keep their own padding (--section-space). */
+.band {
+  position: relative;
+  border-block: 1px solid var(--glass-line);
+  background: linear-gradient(180deg, var(--night-2), color-mix(in srgb, var(--night-2) 55%, var(--night)));
+}
+
+/* The candle band: the same, with the warm light of a flame on the end side. */
+.bandWarm {
+  background:
+    radial-gradient(ellipse 60% 90% at 78% 50%, color-mix(in srgb, var(--gold) 12%, transparent), transparent 70%),
+    linear-gradient(180deg, var(--night-2), color-mix(in srgb, var(--night-2) 55%, var(--night)));
+}
+:global([dir='rtl']) .bandWarm {
+  background:
+    radial-gradient(ellipse 60% 90% at 22% 50%, color-mix(in srgb, var(--gold) 12%, transparent), transparent 70%),
+    linear-gradient(180deg, var(--night-2), color-mix(in srgb, var(--night-2) 55%, var(--night)));
+}

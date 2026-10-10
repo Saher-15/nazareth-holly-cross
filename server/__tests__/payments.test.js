@@ -25,7 +25,8 @@ function mockPayPal({ orderStatus = 'CREATED', captureStatus = 'COMPLETED', fail
       return { ok: !fail, status: fail ? 401 : 200, json: async () => ({ access_token: 'tok' }) };
     }
     if (String(url).endsWith('/capture')) {
-      return { ok: true, status: 201, json: async () => ({ id: 'ABC', status: captureStatus }) };
+      return { ok: true, status: 201, json: async () => ({ id: 'ABCDEFGHIJ0123456', status: captureStatus,
+        purchase_units: [{ payments: { captures: [{ status: captureStatus, amount: { currency_code: 'USD', value: '23.00' } }] } }] }) };
     }
     return { ok: true, status: 201, json: async () => ({ id: 'ORDER123456789012', status: orderStatus }) };
   });
@@ -111,11 +112,14 @@ describe('create_order pricing', () => {
 });
 
 describe('complete_order', () => {
+  // A real payment always has a ledger row with the server's price: create_order writes it before the PayPal id exists.
+  const priced = () => fakes.Payment.docs.push({ _id: 'p1', paypalOrderId: 'ABCDEFGHIJ0123456', type: 'order', amount: 23, currency: 'USD', status: 'created' });
   it('rejects a malformed order id', async () => {
     expect((await request(app).post('/order/complete_order').send({ order_id: 'x' })).status).toBe(400);
   });
 
   it('confirms a completed capture', async () => {
+    priced();
     mockPayPal({ captureStatus: 'COMPLETED' });
     const res = await request(app).post('/order/complete_order').send({ order_id: 'ABCDEFGHIJ0123456' });
     expect(res.status).toBe(200);
@@ -123,6 +127,7 @@ describe('complete_order', () => {
   });
 
   it('answers 402 when the capture did not complete', async () => {
+    priced();
     mockPayPal({ captureStatus: 'DECLINED' });
     const log = vi.spyOn(console, 'error').mockImplementation(() => {});
     const res = await request(app).post('/order/complete_order').send({ order_id: 'ABCDEFGHIJ0123456' });

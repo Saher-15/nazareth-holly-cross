@@ -1,9 +1,12 @@
-// The password rules for admin accounts (docs/ADMIN.md): at least 12 characters, not the username, not a
+// The password rules for admin accounts (docs/ADMIN.md): at least 12 characters, at most 72 bytes, not the username, not a
 // well-known password. Returns null when the password is acceptable, otherwise a short reason that is safe to
 // show to the person typing it.
 
 export const MIN_PASSWORD_LENGTH = 12;
-export const MAX_PASSWORD_LENGTH = 200; // bcrypt only reads the first 72 bytes; the cap keeps hashing cheap to request
+export const MAX_PASSWORD_LENGTH = 200; // the cap on what a login or reset request may send (keeps hashing cheap to request)
+// bcrypt reads only the first 72 bytes (UTF-8): a longer password would be cut silently, and two passwords with the
+// same first 72 bytes would open the same account. A NEW password must fit; existing hashes are verified as before.
+export const MAX_PASSWORD_BYTES = 72;
 
 // Passwords that appear at the top of every leaked-password list, in the shapes people use to get past a
 // length rule (a long word, a keyboard walk, a year added to a name). Compared case-insensitively and without
@@ -26,7 +29,9 @@ const normalise = (text) => text.toLowerCase().replace(/[\s._-]+/g, '');
 export function checkPasswordPolicy(password, username = '') {
   if (typeof password !== 'string') return 'Password must be text';
   if (password.length < MIN_PASSWORD_LENGTH) return `Password must be at least ${MIN_PASSWORD_LENGTH} characters`;
-  if (password.length > MAX_PASSWORD_LENGTH) return `Password must be at most ${MAX_PASSWORD_LENGTH} characters`;
+  if (password.length > MAX_PASSWORD_LENGTH || Buffer.byteLength(password, 'utf8') > MAX_PASSWORD_BYTES) {
+    return `Password must be at most ${MAX_PASSWORD_BYTES} characters (fewer in Hebrew, Arabic or with emoji)`;
+  }
   const flat = normalise(password);
   const name = normalise(String(username ?? ''));
   // The username itself, or the username with a few characters added ("saher2026!!").

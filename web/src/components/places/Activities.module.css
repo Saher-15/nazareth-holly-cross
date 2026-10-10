@@ -1,0 +1,100 @@
+/* Things to do in Nazareth: photo cards in one, two or three columns (the cards follow --radius, square since
+   2026-10-08). */
+.section {
+  border-block: 1px solid var(--glass-line);
+  background: linear-gradient(180deg, var(--night-2), color-mix(in srgb, var(--night-2) 55%, var(--night)));
+}
+.head {
+  max-width: 720px;
+  margin: 0 auto 32px;
+  text-align: center;
+}
+.lead {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+.grid {
+  display: grid;
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 700px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1040px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.card {
+  display: flex;
+}
+.inner {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--glass-line);
+  border-radius: var(--radius);
+  background: var(--glass);
+}
+.media {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background: var(--night-2);
+}
+.photo {
+  object-fit: cover;
+  transition: scale 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.inner:hover .photo {
+  scale: 1.04;
+}
+@media (prefers-reduced-motion: reduce) {
+  .photo {
+    transition: none;
+  }
+  .inner:hover .photo {
+    scale: none;
+  }
+}
+.body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px 20px 20px;
+}
+.title {
+  margin: 0;
+}
+.text {
+  flex: 1;
+  margin: 0;
+  color: var(--cream);
+}
+.more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  margin-block-start: 6px;
+  color: var(--gold);
+  font-weight: 600;
+  text-decoration: none;
+}
+.more:hover {
+  text-decoration: underline;
+}
+.more:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}

@@ -4,8 +4,10 @@ import { notFound } from 'next/navigation';
 import { hasLocale, NextIntlClientProvider, type AbstractIntlMessages } from 'next-intl';
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
 import PendingFulfilmentRunner from '@/components/checkout/PendingFulfilmentRunner';
+import { CampaignCapture } from '@/components/analytics/Track';
 import A11yPanel from '@/components/layout/A11yPanel';
 import BackToTop from '@/components/layout/BackToTop';
+import SideCart from '@/components/shop/SideCart';
 import LiveAlert from '@/components/layout/LiveAlert';
 import PageTransitions from '@/components/layout/PageTransitions';
 import ReadingProgress from '@/components/layout/ReadingProgress';
@@ -14,6 +16,7 @@ import SiteFooter from '@/components/layout/SiteFooter';
 import SiteHeader from '@/components/layout/SiteHeader';
 import { ToastProvider } from '@/components/ui/Toast';
 import { A11Y_PREPAINT } from '@/lib/a11y';
+import { INTRO_PREPAINT } from '@/lib/intro';
 import { CartProvider } from '@/lib/cart';
 import { CspNonceProvider } from '@/lib/cspNonce';
 import { isRtl, locales, routing } from '@/i18n/routing';
@@ -78,10 +81,11 @@ export default async function LocaleLayout({ children, search, params }: LayoutP
     <html lang={locale} dir={isRtl(locale) ? 'rtl' : 'ltr'} className={fontVariables} suppressHydrationWarning>
       <head>
         {/* The visitor's accessibility settings (lib/a11y.ts), applied before the first paint so large text or high
-            contrast never flashes in after the page appears. Inline, so it carries this response's CSP nonce; it
-            only reads localStorage and sets attributes on <html>. */}
+            contrast never flashes in after the page appears, then whether this visit opens with the door (lib/intro.ts,
+            home page only, once per tab). Inline, so it carries this response's CSP nonce; it only reads
+            localStorage and sessionStorage and sets attributes on <html>. */}
         <script nonce={nonce} suppressHydrationWarning>
-          {A11Y_PREPAINT}
+          {A11Y_PREPAINT + INTRO_PREPAINT}
         </script>
       </head>
       <body>
@@ -100,9 +104,13 @@ export default async function LocaleLayout({ children, search, params }: LayoutP
                 <SiteFooter />
                 {search}
                 <BackToTop />
+                {/* The cart on every page: a tab on the side that opens it in a panel (not on /cart and /checkout). */}
+                <SideCart />
                 <RouteFocus />
                 <PageTransitions />
                 <PendingFulfilmentRunner />
+                {/* Notes the campaign link of the visit, in memory only: no cookie, no storage (lib/track.ts) */}
+                <CampaignCapture />
                 {/* "We are live now": the one pop-up the owner approved (docs/DESIGN-GUIDE.md 1.5) */}
                 <LiveAlert seed={live} />
               </ToastProvider>

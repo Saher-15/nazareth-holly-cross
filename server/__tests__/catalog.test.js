@@ -19,6 +19,7 @@ const PRODUCTS = [
 const orderAggregate = vi.fn();
 const reviewAggregate = vi.fn();
 const reviewFind = vi.fn();
+const reviewCount = vi.fn();
 const reviewCreate = vi.fn();
 
 vi.mock('../model/product.js', () => ({
@@ -33,6 +34,7 @@ vi.mock('../model/productReview.js', () => ({
       return chain;
     },
     create: (...a) => reviewCreate(...a),
+    countDocuments: (...a) => reviewCount(...a),
   },
 }));
 
@@ -49,6 +51,7 @@ beforeEach(() => {
   ]);
   reviewAggregate.mockResolvedValue([{ _id: ID.necklace, avg: 4.666, count: 3 }]);
   reviewFind.mockResolvedValue([]);
+  reviewCount.mockResolvedValue(0);
 });
 
 describe('categorize / materialsOf', () => {
@@ -125,10 +128,13 @@ describe('product reviews', () => {
       { name: 'A', rating: 5, comment: 'Beautiful' },
       { name: 'B', rating: 4, comment: 'Nice' },
     ]);
+    // The bars count ALL approved reviews (audit 2026-10-10, F07), not only the newest 50 in the list.
+    reviewCount.mockImplementation(async ({ rating, approved }) => (approved === true ? { 5: 40, 4: 20, 1: 3 }[rating] ?? 0 : 0));
     const res = await request(app).get(`/product/${ID.necklace}/reviews`);
     expect(res.status).toBe(200);
-    expect(res.body.summary).toMatchObject({ avg: 4.7, count: 3, distribution: { 5: 1, 4: 1 } });
+    expect(res.body.summary).toMatchObject({ avg: 4.7, count: 3, distribution: { 5: 40, 4: 20, 3: 0, 2: 0, 1: 3 } });
     expect(res.body.reviews).toHaveLength(2);
+    expect(reviewCount).toHaveBeenCalledTimes(5);
   });
 
   it('stores a valid review and refreshes the catalog', async () => {

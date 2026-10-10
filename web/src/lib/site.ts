@@ -9,6 +9,11 @@ export const mainNav = [
   { key: 'reviews', href: '/reviews' },
 ] as const;
 
+// The header's menu. "Reviews" is left out while the site has no published reviews (owner's brief, 2026-10-10: an
+// empty reviews page in the main menu costs trust); the page stays reachable from the footer and the site search.
+// Put it back here once real reviews have been published.
+export const headerNav = mainNav.filter((item) => item.key !== 'reviews');
+
 export const footerNav = [
   ...mainNav.filter((item) => item.key !== 'home'),
   { key: 'donate', href: '/donate' },

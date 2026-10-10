@@ -759,6 +759,62 @@ add({
 // --- dashboard
 add({ method: 'GET', path: '/admin/dashboard', min: 'viewer', run: () => dashboard() });
 
+// ------------------------------------------------------------------ candle videos (server/route/admin/candleVideos.js)
+// The mock has no Cloudflare Stream: the list says "not set up" and an upload answers 503, as the API does then.
+add({ method: 'GET', path: '/admin/candle-videos', min: 'viewer', run: () => ({ configured: false, max: 20, maxBytes: 2 * 1024 ** 3, items: [] }) });
+add({
+  method: 'POST', path: '/admin/candle-videos', min: 'editor',
+  run: () => { throw new HttpError(503, 'Video uploads are not set up yet (CF_ACCOUNT_ID and CF_STREAM_API_TOKEN, docs/LIVE.md)'); },
+});
+
+// ------------------------------------------------------------------ settings (server/route/admin/settings.js)
+// The candle price: every admin reads it, an owner changes it (1 to 100 USD, two decimals), audited with old and new.
+const siteSettings = { candlePrice: 3, updatedAt: null, updatedBy: '' };
+const settingsView = () => ({ ...siteSettings, candlePriceMin: 1, candlePriceMax: 100, currency: 'USD' });
+add({ method: 'GET', path: '/admin/settings', min: 'viewer', run: () => settingsView() });
+// ------------------------------------------------------------------ the sales funnel (server/route/admin/metrics.js)
+const FUNNEL_FLOWS = ['candle', 'order', 'donation'];
+add({
+  method: 'GET', path: '/admin/metrics/funnel', min: 'viewer',
+  run: (ctx) => {
+    const flow = ctx.url.searchParams.get('flow') ?? 'candle';
+    if (!FUNNEL_FLOWS.includes(flow)) throw new HttpError(400, 'Unknown flow');
+    const day = (text, fallback) => (/^\d{4}-\d{2}-\d{2}$/.test(text ?? '') ? text : fallback);
+    const to = day(ctx.url.searchParams.get('to'), new Date().toISOString().slice(0, 10));
+    const from = day(ctx.url.searchParams.get('from'), new Date(Date.parse(`${to}T00:00:00Z`) - 29 * 86400000).toISOString().slice(0, 10));
+    if (flow !== 'candle') return { from, to, flow, totals: { view: 0, cta: 0, details: 0, pay_start: 0, paid: 0 }, campaigns: [], days: [], paidConfirmed: flow === 'order' ? 0 : null };
+    return {
+      from, to, flow,
+      totals: { view: 250, cta: 60, details: 22, pay_start: 14, paid: 5 },
+      campaigns: [
+        { source: 'facebook', medium: 'paid', campaign: 'easter', view: 200, cta: 50, details: 18, pay_start: 12, paid: 4 },
+        { source: '', medium: '', campaign: '', view: 50, cta: 10, details: 4, pay_start: 2, paid: 1 },
+      ],
+      days: [
+        { day: from, view: 120, cta: 30, details: 10, pay_start: 6, paid: 2 },
+        { day: to, view: 130, cta: 30, details: 12, pay_start: 8, paid: 3 },
+      ],
+      paidConfirmed: 5,
+    };
+  },
+});
+add({
+  method: 'PUT', path: '/admin/settings/candle-price', min: 'owner',
+  run: (ctx) => {
+    const body = ctx.body !== null && typeof ctx.body === 'object' && !Array.isArray(ctx.body) ? ctx.body : {};
+    const keys = Object.keys(body);
+    const price = body.price;
+    if (keys.length !== 1 || keys[0] !== 'price' || typeof price !== 'number' || !Number.isFinite(price) || price < 1 || price > 100
+      || Math.abs(Math.round(price * 100) - price * 100) > 1e-6) {
+      throw new HttpError(400, 'Invalid price: between 1 and 100 USD, at most two decimals');
+    }
+    const from = siteSettings.candlePrice;
+    Object.assign(siteSettings, { candlePrice: price, updatedAt: new Date().toISOString(), updatedBy: ctx.req.auth.user.username });
+    record(ctx.req, 'settings.candle_price', { type: 'siteSetting', id: 'site' }, { from, to: price });
+    return settingsView();
+  },
+});
+
 // --- orders
 for (const route of collection({
   name: 'orders', type: 'order', label: 'Order', rows: () => db.orders, flag: 'done', deleteRole: 'owner',
@@ -911,6 +967,14 @@ add({
 });
 
 // --- users (owner only), server/route/admin/users.js
+// The recovery address (server/route/admin/users.js): trimmed, lower-cased, '' removes it; one account per address.
+const recoveryEmail = (value, field) => {
+  if (typeof value !== 'string') throw new HttpError(400, `${field} must be text`);
+  const email = value.trim().toLowerCase();
+  if (email !== '' && (email.length > 254 || !/^[^\s@,;<>"]+@[^\s@,;<>"]+\.[^\s@,;<>"]+$/.test(email))) throw new HttpError(400, 'Enter a valid e-mail address');
+  return email;
+};
+const emailTaken = (email, exceptId) => db.users.some((u) => u._id !== exceptId && (String(u.email ?? '').toLowerCase() === email || u.username.toLowerCase() === email));
 const enabledOwners = (exceptId) => db.users.filter((u) => u._id !== exceptId && u.role === 'owner' && !u.disabled).length;
 const isEnabledOwner = (u) => u.role === 'owner' && !u.disabled;
 add({
@@ -927,15 +991,17 @@ add({
 add({
   method: 'POST', path: '/admin/users', min: 'owner',
   run: (ctx) => {
-    const { username, password, role } = parseBody(ctx.body, {
+    const { username, password, role, email = '' } = parseBody(ctx.body, {
       username: str({ min: 3, max: 64, pattern: /^[A-Za-z0-9][A-Za-z0-9._-]*$/, escape: false }),
       password: secret({ max: 200 }),
       role: oneOf(ROLES),
+      email: opt(recoveryEmail),
     });
     const problem = passwordProblem(password, username);
     if (problem) throw new HttpError(400, problem);
     if (db.users.some((u) => u.username.toLowerCase() === username.toLowerCase())) throw new HttpError(409, 'Username already exists');
-    const user = { _id: newId('7'), username, role, disabled: false, ...hashPassword(password), totpSecret: null, totpLastStep: -1, pendingTotp: null, failedLogins: 0, lockedUntil: null, lastLoginAt: null, createdAt: new Date().toISOString() };
+    if (email && emailTaken(email)) throw new HttpError(409, 'This e-mail address is already used by another account');
+    const user = { _id: newId('7'), username, ...(email ? { email } : {}), role, disabled: false, ...hashPassword(password), totpSecret: null, totpLastStep: -1, pendingTotp: null, failedLogins: 0, lockedUntil: null, lastLoginAt: null, createdAt: new Date().toISOString() };
     db.users.push(user);
     record(ctx.req, 'user.create', { type: 'user', id: user._id }, { username, role });
     return { status: 201, body: { item: userItem(user) } };
@@ -945,9 +1011,11 @@ add({
   method: 'PATCH', path: '/admin/users/:id', min: 'owner',
   run: (ctx) => {
     const id = objectId(ctx.params.id);
-    const changes = parseBody(ctx.body, { role: opt(oneOf(ROLES)), disabled: opt(bool()), resetTotp: opt(bool()) });
+    const changes = parseBody(ctx.body, { role: opt(oneOf(ROLES)), disabled: opt(bool()), resetTotp: opt(bool()), email: opt(recoveryEmail) });
     if (Object.keys(changes).length === 0) throw new HttpError(400, 'No fields to update');
     const target = found(byId(db.users, id), 'User');
+    const emailChanged = changes.email !== undefined && changes.email !== String(target.email ?? '').trim().toLowerCase();
+    if (emailChanged && changes.email && emailTaken(changes.email, id)) throw new HttpError(409, 'This e-mail address is already used by another account');
     const self = id === ctx.req.auth.user._id;
     const newRole = changes.role ?? target.role;
     const demoting = newRole !== 'owner' || changes.disabled === true;
@@ -955,6 +1023,7 @@ add({
     if (self && changes.resetTotp === true) throw new HttpError(400, 'Disable your own TOTP from your account settings');
     if (isEnabledOwner(target) && demoting && enabledOwners(id) === 0) throw new HttpError(409, 'The last owner cannot be demoted or disabled');
     const before = { role: target.role };
+    if (emailChanged) Object.assign(target, { email: changes.email, resetTokenHash: null, resetTokenExpires: null });
     if (changes.role !== undefined) target.role = changes.role;
     if (changes.disabled !== undefined) {
       target.disabled = changes.disabled;
