@@ -391,3 +391,34 @@ test('focus is never hidden under the sticky header or a floating button (WCAG 2
     expect(hidden).toEqual([]);
   }
 });
+
+// Audit 2026-10-10, F10: a control focused inside a horizontal product row must be wholly inside the visible part of
+// the row (not cut by its edge), at any width, in both directions.
+test('a focused control in a product row is never cut by the edge of the row', async ({ page, isMobile }) => {
+  test.skip(isMobile, 'keyboard only');
+  test.setTimeout(120_000);
+  for (const [path, width] of [['/en/shop', 1366], ['/en/shop', 1024], ['/en/shop', 820], ['/he/shop', 1024], ['/ar/shop', 700]] as const) {
+    await page.setViewportSize({ width, height: 800 });
+    await page.goto(path);
+    const track = page.locator('[data-testid="product-strip"] [role="region"]').first();
+    await expect(track).toBeVisible();
+    await track.focus();
+    const cut: string[] = [];
+    for (let i = 0; i < 40; i += 1) {
+      await page.keyboard.press('Tab');
+      await page.waitForTimeout(350); // a smooth scroll of the row, if any
+      const state = await page.evaluate(() => {
+        const el = document.activeElement as HTMLElement | null;
+        const row = el?.closest('[data-testid="product-strip"] [role="region"]');
+        if (!el || !row || el === row) return null;
+        const r = el.getBoundingClientRect();
+        const t = row.getBoundingClientRect();
+        const inside = r.left >= t.left - 1 && r.right <= t.right + 1;
+        return { name: (el.getAttribute('aria-label') || el.textContent || '').trim().slice(0, 40), inside, left: Math.round(r.left - t.left), right: Math.round(t.right - r.right) };
+      });
+      if (state === null) break; // left the row
+      if (!state.inside) cut.push(`${path} @${width}: ${state.name} (${state.left} / ${state.right})`);
+    }
+    expect(cut).toEqual([]);
+  }
+});
