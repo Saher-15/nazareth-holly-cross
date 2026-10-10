@@ -75,6 +75,38 @@ export async function quoteShopOrder(items) {
   };
 }
 
+// The units of a saved order leave the stock (audit 2026-10-10, F01: stock was checked when quoting and never
+// changed, so the last unit could be sold again and again). Only products whose stock is tracked (a number) change.
+// Each product is one atomic update that never goes below zero. The order is already paid when this runs, so a
+// product that no longer has enough units (two customers paid for the last one between their quotes and their
+// payments) is set to 0 and returned in `oversold` for the owner to see: it is not refused.
+// lines: [{ productID, quantity }]. Returns { changed, oversold: [{ productID, productName, missing }] }.
+export async function takeFromStock(lines) {
+  const wanted = new Map();
+  for (const line of lines ?? []) {
+    const id = String(line?.productID ?? '');
+    const quantity = Number(line?.quantity);
+    if (!isObjectId(id) || !Number.isInteger(quantity) || quantity < 1) continue;
+    wanted.set(id, (wanted.get(id) ?? 0) + quantity);
+  }
+  let changed = 0;
+  const oversold = [];
+  for (const [id, quantity] of wanted) {
+    const taken = await Product.updateOne({ _id: id, stock: mongoose.trusted({ $gte: quantity }) }, { $inc: { stock: -quantity } });
+    if (taken.modifiedCount) {
+      changed += 1;
+      continue;
+    }
+    // Not enough units, or the stock is not tracked (null): find out which.
+    const product = await Product.findById(id).select('stock name').lean();
+    if (!product || typeof product.stock !== 'number') continue;
+    await Product.updateOne({ _id: id }, { $set: { stock: 0 } });
+    changed += 1;
+    oversold.push({ productID: id, productName: product.name, missing: quantity - product.stock });
+  }
+  return { changed, oversold };
+}
+
 // Price of a shop order (see quoteShopOrder).
 export async function priceShopOrder(items) {
   return (await quoteShopOrder(items)).total;

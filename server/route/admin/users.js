@@ -45,6 +45,11 @@ const present = (admin) => ({
   createdAt: admin.createdAt ?? null,
 });
 
+// The same rule checked AFTER a write (audit 2026-10-10, H03). The check before the write reads, then writes: two
+// owners demoting, disabling or deleting each other at the same moment can both pass it. So after the write the
+// enabled owners are counted again, and a change that left none is taken back and refused.
+const noEnabledOwnerLeft = async () => (await Admin.countDocuments({ $and: [ENABLED, OWNER] })) === 0;
+
 const otherEnabledOwners = (id) =>
   Admin.countDocuments({ $and: [{ _id: mongoose.trusted({ $ne: id }) }, ENABLED, OWNER] });
 
@@ -113,6 +118,10 @@ router.patch('/:id', asyncHandler(async (req, res) => {
   if (changes.resetTotp === true) Object.assign(set, { totpEnabled: false, totpSecretEnc: null, totpLastStep: -1 });
 
   const item = found(await Admin.findByIdAndUpdate(id, { $set: set }, { new: true }).select('-password -totpSecretEnc').lean(), 'User');
+  if (isEnabledOwner(target) && demoting && (await noEnabledOwnerLeft())) {
+    await Admin.updateOne({ _id: id }, { $set: { role: 'owner', disabled: false } });
+    throw new HttpError(409, 'The last owner cannot be demoted or disabled');
+  }
   if (changes.disabled === true || (changes.role !== undefined && changes.role !== roleOf(target)) || changes.resetTotp === true) {
     await revokeAllSessions(id);
   }
@@ -125,6 +134,15 @@ router.delete('/:id', asyncHandler(async (req, res) => {
   if (id === req.adminUser.id) throw new HttpError(400, 'You cannot delete yourself');
   const target = found(await Admin.findById(id), 'User');
   if (isEnabledOwner(target) && (await otherEnabledOwners(id)) === 0) throw new HttpError(409, 'The last owner cannot be deleted');
+  // An enabled owner is disabled first and counted again (see noEnabledOwnerLeft): a disable can be taken back, a
+  // delete cannot.
+  if (isEnabledOwner(target)) {
+    await Admin.updateOne({ _id: id }, { $set: { disabled: true } });
+    if (await noEnabledOwnerLeft()) {
+      await Admin.updateOne({ _id: id }, { $set: { disabled: false } });
+      throw new HttpError(409, 'The last owner cannot be deleted');
+    }
+  }
   await Admin.findByIdAndDelete(id);
   await revokeAllSessions(id);
   await audit(req, 'user.delete', { type: 'user', id }, { username: target.username });
