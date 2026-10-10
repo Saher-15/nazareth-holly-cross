@@ -98,7 +98,9 @@ These come from `docs/DESIGN.md` section 1 and are enforced by tests or review:
 
 - No newsletter box, no cookie banner, no pop-ups, no "sign up for 10% off" overlays. The only cookie is
   `NEXT_LOCALE` (the language the visitor chose). Adding any non-essential cookie or third-party script changes the
-  legal position (`docs/TODO-LEGAL.md`) and needs the owner's decision first.
+  legal position (`docs/TODO-LEGAL.md`) and needs the owner's decision first. The sales funnel is counted without
+  either (`docs/ANALYTICS.md`, owner's decision of 2026-10-10): anonymous totals sent to our own API, no cookie, no
+  browser storage, no visitor identifier, silent for Global Privacy Control and Do Not Track.
 - **The one approved window: "We are live now"** (`<LiveAlert>`, decided by the owner on 2026-10-07). While a
   broadcast is live, a visitor sees a small centred modal with the broadcast's title, "Watch now" (to `/live`) and
   "Not now": only for live broadcasts, once per broadcast per browser (`nhc.liveAlert.v1`), never on `/live` and never

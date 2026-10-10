@@ -1413,7 +1413,8 @@
               "cart": "Ihren Warenkorb und Ihre Merkliste.",
               "liked": "Die Gebete, zu denen Sie Amen gesagt haben, damit Sie es nur einmal sagen können.",
               "language": "Ihre Sprachwahl."
-            }
+            },
+            "p2": "Wir zählen, wie oft einige Seiten geöffnet und wie viele Zahlungen abgeschlossen werden, pro Tag und pro Werbekampagne. Das sind reine Summen: Sie verwenden kein Cookie und keine Kennung, speichern nichts in Ihrem Browser, enthalten nichts über Sie und werden an niemanden weitergegeben."
           },
           "keep": {
             "title": "Wie lange wir sie speichern",

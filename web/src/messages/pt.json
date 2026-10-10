@@ -1413,7 +1413,8 @@
               "cart": "O seu carrinho de compras e a lista de desejos.",
               "liked": "As orações a que disse Ámen, para que o possa dizer uma só vez.",
               "language": "A língua que escolheu."
-            }
+            },
+            "p2": "Contamos quantas vezes algumas páginas são abertas e quantos pagamentos são concluídos, por dia e por campanha de publicidade. São apenas totais: não usam cookies nem identificadores, não guardam nada no seu navegador, não contêm nada sobre você e não são compartilhados com ninguém."
           },
           "keep": {
             "title": "Durante quanto tempo os guardamos",

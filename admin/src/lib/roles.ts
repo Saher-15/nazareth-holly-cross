@@ -33,6 +33,7 @@ export function can(role: Role | null | undefined, capability: Capability): bool
 export type NavId =
   | 'dashboard'
   | 'live'
+  | 'campaigns'
   | 'orders'
   | 'payments'
   | 'candles'
@@ -51,6 +52,7 @@ export type NavId =
 export const NAV: readonly { id: NavId; href: string; needs?: Capability }[] = [
   { id: 'dashboard', href: '/' },
   { id: 'live', href: '/live', needs: 'broadcast' },
+  { id: 'campaigns', href: '/campaigns' },
   { id: 'orders', href: '/orders' },
   { id: 'payments', href: '/payments' },
   { id: 'candles', href: '/candles' },

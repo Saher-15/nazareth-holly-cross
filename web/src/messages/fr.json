@@ -1413,7 +1413,8 @@
               "cart": "Votre panier et votre liste d’envies.",
               "liked": "Les prières auxquelles vous avez dit Amen, pour que vous ne puissiez le dire qu’une fois.",
               "language": "Votre choix de langue."
-            }
+            },
+            "p2": "Nous comptons combien de fois certaines pages sont ouvertes et combien de paiements sont effectués, par jour et par campagne publicitaire. Ce sont de simples totaux : ils n’utilisent ni cookie ni identifiant, n’enregistrent rien dans votre navigateur, ne contiennent rien sur vous et ne sont communiqués à personne."
           },
           "keep": {
             "title": "Durée de conservation",

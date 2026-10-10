@@ -12,6 +12,7 @@ import routerContact from './route/contactRoute.js';
 import routerLive from './route/liveRoute.js';
 import routerAdminApi from './route/admin/index.js';
 import routerPrayer from './route/prayerRoute.js';
+import routerTrack from './route/trackRoute.js';
 import routerReview from './route/reviewRoute.js';
 import { apiLimiter, healthLimiter, publicReadCache } from './utils/security.js';
 import { deepHealth } from './services/health.js';
@@ -124,6 +125,7 @@ export function createApp() {
   app.use('/admin', routerAdminApi);
   app.use('/prayer', routerPrayer);
   app.use('/review', routerReview);
+  app.use('/track', routerTrack); // anonymous funnel counters (services/metrics.js)
 
   app.use(notFoundHandler);
   app.use(errorHandler);

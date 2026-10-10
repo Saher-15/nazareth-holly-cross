@@ -772,6 +772,32 @@ add({
 const siteSettings = { candlePrice: 3, updatedAt: null, updatedBy: '' };
 const settingsView = () => ({ ...siteSettings, candlePriceMin: 1, candlePriceMax: 100, currency: 'USD' });
 add({ method: 'GET', path: '/admin/settings', min: 'viewer', run: () => settingsView() });
+// ------------------------------------------------------------------ the sales funnel (server/route/admin/metrics.js)
+const FUNNEL_FLOWS = ['candle', 'order', 'donation'];
+add({
+  method: 'GET', path: '/admin/metrics/funnel', min: 'viewer',
+  run: (ctx) => {
+    const flow = ctx.url.searchParams.get('flow') ?? 'candle';
+    if (!FUNNEL_FLOWS.includes(flow)) throw new HttpError(400, 'Unknown flow');
+    const day = (text, fallback) => (/^\d{4}-\d{2}-\d{2}$/.test(text ?? '') ? text : fallback);
+    const to = day(ctx.url.searchParams.get('to'), new Date().toISOString().slice(0, 10));
+    const from = day(ctx.url.searchParams.get('from'), new Date(Date.parse(`${to}T00:00:00Z`) - 29 * 86400000).toISOString().slice(0, 10));
+    if (flow !== 'candle') return { from, to, flow, totals: { view: 0, cta: 0, details: 0, pay_start: 0, paid: 0 }, campaigns: [], days: [], paidConfirmed: flow === 'order' ? 0 : null };
+    return {
+      from, to, flow,
+      totals: { view: 250, cta: 60, details: 22, pay_start: 14, paid: 5 },
+      campaigns: [
+        { source: 'facebook', medium: 'paid', campaign: 'easter', view: 200, cta: 50, details: 18, pay_start: 12, paid: 4 },
+        { source: '', medium: '', campaign: '', view: 50, cta: 10, details: 4, pay_start: 2, paid: 1 },
+      ],
+      days: [
+        { day: from, view: 120, cta: 30, details: 10, pay_start: 6, paid: 2 },
+        { day: to, view: 130, cta: 30, details: 12, pay_start: 8, paid: 3 },
+      ],
+      paidConfirmed: 5,
+    };
+  },
+});
 add({
   method: 'PUT', path: '/admin/settings/candle-price', min: 'owner',
   run: (ctx) => {

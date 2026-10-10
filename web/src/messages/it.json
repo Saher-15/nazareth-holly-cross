@@ -1413,7 +1413,8 @@
               "cart": "Il tuo carrello e la lista dei desideri.",
               "liked": "Le preghiere a cui hai detto Amen, così puoi dirlo una sola volta.",
               "language": "La lingua che hai scelto."
-            }
+            },
+            "p2": "Contiamo quante volte vengono aperte alcune pagine e quanti pagamenti vengono completati, per giorno e per campagna pubblicitaria. Sono semplici totali: non usano cookie né identificativi, non salvano nulla nel tuo browser, non contengono nulla su di te e non vengono condivisi con nessuno."
           },
           "keep": {
             "title": "Per quanto tempo li conserviamo",

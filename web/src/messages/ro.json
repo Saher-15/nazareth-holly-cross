@@ -1413,7 +1413,8 @@
               "cart": "Coșul de cumpărături și lista de dorințe.",
               "liked": "Rugăciunile pentru care ați rostit Amin, pentru a-l putea rosti o singură dată.",
               "language": "Limba aleasă."
-            }
+            },
+            "p2": "Numărăm de câte ori sunt deschise unele pagini și câte plăți sunt finalizate, pe zile și pe campanii publicitare. Sunt simple totaluri: nu folosesc cookie-uri și niciun identificator, nu salvează nimic în browserul dumneavoastră, nu conțin nimic despre dumneavoastră și nu sunt transmise nimănui."
           },
           "keep": {
             "title": "Cât timp le păstrăm",

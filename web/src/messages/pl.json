@@ -1413,7 +1413,8 @@
               "cart": "Koszyk i listę życzeń.",
               "liked": "Modlitwy, przy których powiedziałeś Amen, aby można to było zrobić tylko raz.",
               "language": "Wybrany język."
-            }
+            },
+            "p2": "Liczymy, ile razy otwierane są niektóre strony i ile płatności zostaje zakończonych, w podziale na dni i kampanie reklamowe. To zwykłe sumy: nie używają plików cookie ani identyfikatorów, niczego nie zapisują w Twojej przeglądarce, nie zawierają niczego o Tobie i nie są nikomu przekazywane."
           },
           "keep": {
             "title": "Jak długo je przechowujemy",

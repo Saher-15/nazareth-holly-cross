@@ -1413,7 +1413,8 @@
               "cart": "Your shopping cart and wishlist.",
               "liked": "The prayers you said Amen to, so that you can say it once.",
               "language": "Your language choice."
-            }
+            },
+            "p2": "We count how many times some pages are opened and how many payments are completed, per day and per advertising campaign. These are plain totals: they use no cookie and no identifier, store nothing in your browser, hold nothing about you, and are not shared with anyone."
           },
           "keep": {
             "title": "How long we keep it",

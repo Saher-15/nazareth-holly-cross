@@ -1413,7 +1413,8 @@
               "cart": "Uw winkelwagen en verlanglijst.",
               "liked": "De gebeden waarbij u Amen hebt gezegd, zodat u dat maar één keer kunt doen.",
               "language": "Uw taalkeuze."
-            }
+            },
+            "p2": "Wij tellen hoe vaak sommige pagina’s worden geopend en hoeveel betalingen worden voltooid, per dag en per advertentiecampagne. Het zijn gewone totalen: ze gebruiken geen cookie en geen kenmerk, slaan niets op in uw browser, bevatten niets over u en worden met niemand gedeeld."
           },
           "keep": {
             "title": "Hoe lang wij het bewaren",

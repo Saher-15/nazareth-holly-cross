@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { hasLocale, NextIntlClientProvider, type AbstractIntlMessages } from 'next-intl';
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
 import PendingFulfilmentRunner from '@/components/checkout/PendingFulfilmentRunner';
+import { CampaignCapture } from '@/components/analytics/Track';
 import A11yPanel from '@/components/layout/A11yPanel';
 import BackToTop from '@/components/layout/BackToTop';
 import SideCart from '@/components/shop/SideCart';
@@ -108,6 +109,8 @@ export default async function LocaleLayout({ children, search, params }: LayoutP
                 <RouteFocus />
                 <PageTransitions />
                 <PendingFulfilmentRunner />
+                {/* Notes the campaign link of the visit, in memory only: no cookie, no storage (lib/track.ts) */}
+                <CampaignCapture />
                 {/* "We are live now": the one pop-up the owner approved (docs/DESIGN-GUIDE.md 1.5) */}
                 <LiveAlert seed={live} />
               </ToastProvider>
