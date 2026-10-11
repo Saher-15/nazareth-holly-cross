@@ -54,6 +54,13 @@ export default function PayPalPanel({ getPayload, onPaid, shownAmount }: Props) 
       ) : error ? (
         <Notice role="alert">{t(`errors.${error === 'priceChanged' ? 'start' : error}`)}</Notice>
       ) : null}
+      {priceChange && error !== 'priceChanged' ? (
+        <div data-testid="price-now">
+          <Notice tone="info" role="status">
+            {t('priceNow', { shown: formatUsd(priceChange.shown, locale), charged: formatUsd(priceChange.charged, locale) })}
+          </Notice>
+        </div>
+      ) : null}
       {cancelled && !error && (
         <Notice tone="info" role="status">
           {t('cancelled')}

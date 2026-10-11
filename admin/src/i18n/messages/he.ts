@@ -642,6 +642,7 @@ export const he: Partial<Record<MessageKey, string>> = {
   'campaigns.spendLabel': 'הוצאת הפרסום בתקופה הזו (בדולרים)',
   'campaigns.spendHint': 'הקלידו כמה שילמתם על פרסום בתאריכים המוצגים. דבר אינו נשמר.',
   'campaigns.costEmpty': 'הקלידו את הסכום כדי לראות כמה עלה לקוח משלם אחד.',
+  'campaigns.costInvalid': 'זה אינו סכום. הקלידו מספר, למשל 120 או 120.50.',
   'campaigns.costNoCustomers': 'לא היו תשלומים שהושלמו בתקופה הזו, ולכן עדיין אין עלות ללקוח.',
   'campaigns.costResult': 'לקוח משלם אחד עלה {cost} ({n} תשלומים שהושלמו).',
   'campaigns.byCampaign': 'לפי קמפיין',

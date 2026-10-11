@@ -678,7 +678,8 @@
       "reference": "Zahlungsreferenz: {id}",
       "saving": "Ihre Angaben werden gespeichert…",
       "saveFailed": "Ihre Zahlung ist eingegangen, aber wir konnten Ihre Angaben nicht speichern. Bitte versuchen Sie es erneut oder schreiben Sie mit Ihrer Zahlungsreferenz an <mail>{email}</mail>.",
-      "savePending": "Ihre Zahlung ist eingegangen. Wir konnten Ihre Angaben noch nicht speichern und versuchen es deshalb selbstständig weiter, auch beim nächsten Besuch dieser Website auf diesem Gerät. Bitte bewahren Sie Ihre Zahlungsreferenz ({id}) auf. Fragen? Schreiben Sie an <mail>{email}</mail>."
+      "savePending": "Ihre Zahlung ist eingegangen. Wir konnten Ihre Angaben noch nicht speichern und versuchen es deshalb selbstständig weiter, auch beim nächsten Besuch dieser Website auf diesem Gerät. Bitte bewahren Sie Ihre Zahlungsreferenz ({id}) auf. Fragen? Schreiben Sie an <mail>{email}</mail>.",
+      "priceNow": "Der zu zahlende Gesamtbetrag ist {charged}. (Diese Seite zeigte {shown}.)"
     },
     "empty": {
       "text": "Entdecken Sie Rosenkränze, Kreuze und Andenken aus Nazareth."

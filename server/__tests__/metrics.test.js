@@ -160,3 +160,32 @@ describe('GET /admin/metrics/funnel', () => {
     for (const role of ['viewer', 'editor', 'owner']) expect((await get('', role)).status).toBe(200);
   });
 });
+
+// Review of 2026-10-11: two first events of a day at the same moment.
+describe('recordEvent under a race', () => {
+  it('adds to the winner’s row when the unique index refuses the second creation (E11000), instead of losing the count', async () => {
+    fakes.Metric.reset();
+    const real = fakes.Metric.updateOne.bind(fakes.Metric);
+    let upserts = 0;
+    const spy = vi.spyOn(fakes.Metric, 'updateOne').mockImplementation((filter, update, options) => {
+      if (options?.upsert && (upserts += 1) === 1) {
+        // the other request created the row a moment ago
+        fakes.Metric.seed([{ ...filter, count: 1 }]);
+        return Promise.reject(Object.assign(new Error('E11000 duplicate key'), { code: 11000 }));
+      }
+      return real(filter, update, options);
+    });
+    expect(await recordEvent({ flow: 'candle', event: 'view', source: 'race' })).toBe(true);
+    spy.mockRestore();
+    expect(fakes.Metric.docs).toHaveLength(1);
+    expect(fakes.Metric.docs[0].count).toBe(2);
+  });
+
+  it('still reports any other database error', async () => {
+    fakes.Metric.reset();
+    const spy = vi.spyOn(fakes.Metric, 'updateOne').mockImplementation((filter, update, options) =>
+      options?.upsert ? Promise.reject(new Error('connection lost')) : Promise.resolve({ matchedCount: 0, modifiedCount: 0 }));
+    await expect(recordEvent({ flow: 'candle', event: 'view' })).rejects.toThrow('connection lost');
+    spy.mockRestore();
+  });
+});

@@ -678,7 +678,8 @@
       "reference": "Payment reference: {id}",
       "saving": "Saving your details…",
       "saveFailed": "Your payment went through, but we could not save your details. Please try again, or write to <mail>{email}</mail> with your payment reference.",
-      "savePending": "Your payment went through. We could not save your details just yet, so we will keep trying by ourselves, also the next time you open this site on this device. Please keep your payment reference ({id}). Questions? Write to <mail>{email}</mail>."
+      "savePending": "Your payment went through. We could not save your details just yet, so we will keep trying by ourselves, also the next time you open this site on this device. Please keep your payment reference ({id}). Questions? Write to <mail>{email}</mail>.",
+      "priceNow": "The total to pay is {charged}. (This page showed {shown}.)"
     },
     "empty": {
       "text": "Browse rosaries, crosses and keepsakes from Nazareth."

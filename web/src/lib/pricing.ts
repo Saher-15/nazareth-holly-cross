@@ -10,11 +10,16 @@ export type PricedLine = { price: number; quantity: number };
 
 const round2 = (n: number) => Math.round(n * 100) / 100;
 
+// The total is computed in ONE step, exactly as the API does it (round2(items * 0.9 + shipping)): rounding the
+// discount first and subtracting it gave a total one cent away from the charged amount for prices such as $14.95
+// (page $18.46, PayPal $18.45). The discount row is what makes the three rows add up to that total.
 export function orderSummary(lines: PricedLine[]) {
-  const subtotal = round2(lines.reduce((sum, l) => sum + l.price * l.quantity, 0));
-  const discount = round2(subtotal * (1 - ORDER_DISCOUNT));
-  const total = lines.length ? round2(subtotal - discount + SHIPPING_FEE) : 0;
-  return { subtotal, discount, shipping: lines.length ? SHIPPING_FEE : 0, total };
+  const items = lines.reduce((sum, l) => sum + l.price * l.quantity, 0);
+  const subtotal = round2(items);
+  const shipping = lines.length ? SHIPPING_FEE : 0;
+  const total = lines.length ? round2(items * ORDER_DISCOUNT + SHIPPING_FEE) : 0;
+  const discount = lines.length ? round2(subtotal + shipping - total) : 0;
+  return { subtotal, discount, shipping, total };
 }
 
 // Western digits in every language. In Hebrew and Arabic the price is written the English way ("$3.00") and

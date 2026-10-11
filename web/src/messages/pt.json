@@ -678,7 +678,8 @@
       "reference": "Referência do pagamento: {id}",
       "saving": "Salvando seus dados…",
       "saveFailed": "Seu pagamento foi realizado, mas não conseguimos salvar seus dados. Tente novamente ou escreva para <mail>{email}</mail> informando a referência do pagamento.",
-      "savePending": "Seu pagamento foi realizado. Ainda não conseguimos salvar seus dados, então vamos continuar tentando automaticamente, inclusive na próxima vez que você abrir este site neste dispositivo. Guarde a referência do pagamento ({id}). Dúvidas? Escreva para <mail>{email}</mail>."
+      "savePending": "Seu pagamento foi realizado. Ainda não conseguimos salvar seus dados, então vamos continuar tentando automaticamente, inclusive na próxima vez que você abrir este site neste dispositivo. Guarde a referência do pagamento ({id}). Dúvidas? Escreva para <mail>{email}</mail>.",
+      "priceNow": "O total a pagar é {charged}. (Esta página mostrava {shown}.)"
     },
     "empty": {
       "text": "Conheça terços, cruzes e lembranças de Nazaré."

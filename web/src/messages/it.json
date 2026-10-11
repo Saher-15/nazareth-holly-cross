@@ -678,7 +678,8 @@
       "reference": "Riferimento del pagamento: {id}",
       "saving": "Salvataggio dei tuoi dati…",
       "saveFailed": "Il pagamento è andato a buon fine, ma non siamo riusciti a salvare i tuoi dati. Riprova oppure scrivi a <mail>{email}</mail> indicando il riferimento del pagamento.",
-      "savePending": "Il pagamento è andato a buon fine. Non siamo ancora riusciti a salvare i tuoi dati, quindi continueremo a riprovare in automatico, anche la prossima volta che aprirai questo sito da questo dispositivo. Conserva il riferimento del pagamento ({id}). Domande? Scrivi a <mail>{email}</mail>."
+      "savePending": "Il pagamento è andato a buon fine. Non siamo ancora riusciti a salvare i tuoi dati, quindi continueremo a riprovare in automatico, anche la prossima volta che aprirai questo sito da questo dispositivo. Conserva il riferimento del pagamento ({id}). Domande? Scrivi a <mail>{email}</mail>.",
+      "priceNow": "Il totale da pagare è {charged}. (Questa pagina mostrava {shown}.)"
     },
     "empty": {
       "text": "Scopri rosari, croci e ricordi da Nazaret."

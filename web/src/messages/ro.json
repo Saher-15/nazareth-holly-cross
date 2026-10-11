@@ -678,7 +678,8 @@
       "reference": "Referința plății: {id}",
       "saving": "Se salvează datele dumneavoastră…",
       "saveFailed": "Plata a fost efectuată, dar nu am putut salva datele dumneavoastră. Încercați din nou sau scrieți la <mail>{email}</mail>, indicând referința plății.",
-      "savePending": "Plata a fost efectuată. Nu am putut încă să salvăm datele dumneavoastră, așa că vom continua să încercăm automat, inclusiv data viitoare când deschideți acest site de pe acest dispozitiv. Păstrați referința plății ({id}). Întrebări? Scrieți la <mail>{email}</mail>."
+      "savePending": "Plata a fost efectuată. Nu am putut încă să salvăm datele dumneavoastră, așa că vom continua să încercăm automat, inclusiv data viitoare când deschideți acest site de pe acest dispozitiv. Păstrați referința plății ({id}). Întrebări? Scrieți la <mail>{email}</mail>.",
+      "priceNow": "Totalul de plată este {charged}. (Această pagină afișa {shown}.)"
     },
     "empty": {
       "text": "Descoperiți rozarii, cruci și suveniruri din Nazaret."
