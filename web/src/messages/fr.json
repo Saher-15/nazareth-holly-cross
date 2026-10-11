@@ -670,7 +670,8 @@
       "reference": "Référence du paiement : {id}",
       "saving": "Enregistrement de vos informations…",
       "saveFailed": "Votre paiement a bien été effectué, mais nous n’avons pas pu enregistrer vos informations. Veuillez réessayer, ou écrivez à <mail>{email}</mail> en indiquant la référence du paiement.",
-      "savePending": "Votre paiement a bien été effectué. Nous n’avons pas encore pu enregistrer vos informations ; nous continuerons d’essayer automatiquement, y compris la prochaine fois que vous ouvrirez ce site sur cet appareil. Conservez votre référence de paiement ({id}). Une question ? Écrivez à <mail>{email}</mail>."
+      "savePending": "Votre paiement a bien été effectué. Nous n’avons pas encore pu enregistrer vos informations ; nous continuerons d’essayer automatiquement, y compris la prochaine fois que vous ouvrirez ce site sur cet appareil. Conservez votre référence de paiement ({id}). Une question ? Écrivez à <mail>{email}</mail>.",
+      "priceNow": "Le total à payer est de {charged}. (Cette page affichait {shown}.)"
     },
     "empty": {
       "text": "Découvrez chapelets, croix et souvenirs de Nazareth."

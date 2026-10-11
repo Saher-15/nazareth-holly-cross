@@ -49,6 +49,20 @@ describe('orderSummary (must match server/services/pricing.js)', () => {
   it('is zero for an empty cart', () => {
     expect(orderSummary([]).total).toBe(0);
   });
+
+  // Review of 2026-10-11: the page rounded the discount first and came out a cent away from the charged amount.
+  it('gives the same total as the API for every price, to the cent, and rows that add up to it', () => {
+    const server = (items: number) => Math.round((items * 0.9 + 5) * 100) / 100; // server/services/pricing.js quoteShopOrder
+    expect(orderSummary([{ price: 14.95, quantity: 1 }])).toEqual({ subtotal: 14.95, discount: 1.5, shipping: 5, total: 18.45 });
+    for (let cents = 100; cents <= 30000; cents += 5) {
+      for (const quantity of [1, 2, 3]) {
+        const price = cents / 100;
+        const summary = orderSummary([{ price, quantity }]);
+        expect(summary.total, `${price} x ${quantity}`).toBe(server(price * quantity));
+        expect(Math.round((summary.subtotal - summary.discount + summary.shipping) * 100)).toBe(Math.round(summary.total * 100));
+      }
+    }
+  });
 });
 
 describe('parseStoredCart (the stored cart is untrusted input)', () => {

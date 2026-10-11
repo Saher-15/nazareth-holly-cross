@@ -75,6 +75,8 @@ export default function ProductStrip({ id, title, lead, items }: Props) {
   const onFocus = (e: FocusEvent<HTMLDivElement>) => {
     const el = trackRef.current;
     if (!el || e.target === el) return;
+    // keyboard focus only: scrolling on a mouse press would move the row under the pointer before the click lands
+    if (!(e.target as HTMLElement).matches(':focus-visible')) return;
     const card = (e.target as HTMLElement).closest('li');
     if (!card) return;
     const view = el.getBoundingClientRect();

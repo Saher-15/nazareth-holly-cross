@@ -83,7 +83,8 @@ it('stops once when the API will charge another amount than the page shows, then
   // Pressing the button again pays the amount the customer has now been told.
   await act(async () => { expect(await result.current.createOrder()).toBe('SECOND000000000001'); });
   expect(result.current.error).toBeNull();
-  expect(result.current.priceChange).toBeNull();
+  // the accepted change stays, so the page keeps saying what is charged (the summary still shows the old total)
+  expect(result.current.priceChange).toEqual({ shown: 14, charged: 23 });
 });
 
 it('asks again if the amount changes a second time', async () => {

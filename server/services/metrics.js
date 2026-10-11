@@ -50,7 +50,14 @@ export async function recordEvent(input, { now = new Date() } = {}) {
   if ((key.source || key.medium || key.campaign) && (await Metric.countDocuments({ day })) >= MAX_ROWS_PER_DAY) {
     key = { day, flow, event, source: 'other', medium: '', campaign: '' };
   }
-  await Metric.updateOne(key, { $inc: { count: 1 } }, { upsert: true });
+  try {
+    await Metric.updateOne(key, { $inc: { count: 1 } }, { upsert: true });
+  } catch (error) {
+    // Two first events at the same moment both try to create the row: the unique index lets one win (E11000) and the
+    // other simply adds to the row that now exists (the same pattern as services/payments.js).
+    if (error?.code !== 11000) throw error;
+    await Metric.updateOne(key, { $inc: { count: 1 } });
+  }
   return true;
 }
 

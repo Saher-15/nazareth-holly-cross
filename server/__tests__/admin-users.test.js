@@ -331,6 +331,19 @@ describe('the last-owner rule', () => {
     expect(audits('user.delete')).toHaveLength(0);
   });
 
+  // Review of 2026-10-11: the refused request used to keep its other changes (the e-mail, the two-factor reset).
+  it('a demotion that is taken back leaves nothing of the request behind', async () => {
+    const [t] = fakes.Admin.seed([{ username: 'second.owner', password: quickHash('x'.repeat(12)), role: 'owner', email: 'old@example.com', totpEnabled: true, totpSecretEnc: 'secret', resetTokenHash: 'hash' }]);
+    const sessionsBefore = liveSessions(String(t._id)).length;
+    const spy = vi.spyOn(fakes.Admin, 'countDocuments').mockResolvedValueOnce(1).mockResolvedValueOnce(0);
+    const res = await call('patch', `/admin/users/${t._id}`, me, { role: 'viewer', resetTotp: true, email: 'new@example.com' });
+    spy.mockRestore();
+    expect(res.status).toBe(409);
+    expect(fakes.Admin.byId(t._id)).toMatchObject({ role: 'owner', disabled: false, email: 'old@example.com', totpEnabled: true, totpSecretEnc: 'secret', resetTokenHash: 'hash' });
+    expect(liveSessions(String(t._id)).length).toBe(sessionsBefore);
+    expect(audits('user.update')).toHaveLength(0);
+  });
+
   it('allows the same changes while another enabled owner exists, and for non-owners always', async () => {
     const t = owner2();
     expect((await call('patch', `/admin/users/${t._id}`, me, { role: 'viewer' })).status).toBe(200);

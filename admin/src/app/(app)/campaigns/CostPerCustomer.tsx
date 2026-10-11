@@ -3,7 +3,7 @@
 import { useId, useState } from 'react';
 import { useI18n } from '@/i18n/client';
 import { formatMoney } from '@/lib/format';
-import { costPerCustomer } from '@/lib/funnel';
+import { costPerCustomer, parseAmount } from '@/lib/funnel';
 
 // "What did one paying customer cost?": the owner types what was spent on advertising in the period shown and gets
 // the cost per completed purchase. Nothing is saved or sent: it is a calculator next to the numbers.
@@ -11,9 +11,9 @@ export function CostPerCustomer({ customers }: { customers: number }) {
   const { t, locale } = useI18n();
   const id = useId();
   const [text, setText] = useState('');
-  const spend = Number(text.trim().replace(',', '.'));
-  const valid = text.trim() !== '' && Number.isFinite(spend) && spend >= 0;
-  const cost = valid ? costPerCustomer(spend, customers) : null;
+  const empty = text.trim() === '';
+  const spend = empty ? null : parseAmount(text);
+  const cost = spend === null ? null : costPerCustomer(spend, customers);
 
   return (
     <div className="form">
@@ -23,9 +23,11 @@ export function CostPerCustomer({ customers }: { customers: number }) {
         <p id={`${id}-h`} className="hint">{t('campaigns.spendHint')}</p>
       </div>
       <p role="status" aria-live="polite" data-testid="cost-per-customer">
-        {!valid
+        {empty
           ? t('campaigns.costEmpty')
-          : cost === null
+          : spend === null
+            ? t('campaigns.costInvalid')
+            : cost === null
             ? t('campaigns.costNoCustomers')
             : t('campaigns.costResult', { cost: formatMoney(cost, locale), n: customers })}
       </p>

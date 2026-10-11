@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import Product from '../model/product.js';
 import { HttpError } from '../utils/httpError.js';
+import { decodeEntities } from '../utils/schema.js';
 import { clip, isObjectId } from '../utils/validate.js';
 
 // Business rules (mirrors what the cart page shows).
@@ -33,7 +34,10 @@ export function quoteSignature(items) {
 // { total, lines }: the amount to charge and the order lines as the database knows them
 // (product id and name from the database, quantity from the request, colour checked against the product's own list).
 // items: [{ _id | productID, quantity, color? }]
-export async function quoteShopOrder(items) {
+// `afterPayment`: the money has already moved (a payment made by a client that stored no quote): the price is still
+// computed here, but the order is not refused for stock or for a colour that is no longer offered; both are reported in
+// `warnings` for the log instead.
+export async function quoteShopOrder(items, { afterPayment = false } = {}) {
   if (!Array.isArray(items) || items.length === 0 || items.length > 100) {
     throw new HttpError(400, 'Order items are required');
   }
@@ -55,14 +59,18 @@ export async function quoteShopOrder(items) {
   const products = await Product.find({ _id: mongoose.trusted({ $in: [...wanted.keys()] }) }).select('price stock name color');
   if (products.length !== wanted.size) throw new HttpError(400, 'Unknown product in order');
   const byId = new Map(products.map((p) => [String(p._id), p]));
+  const warnings = [];
 
   // The colour (or design) must be one the product offers today: a product with variants needs one of them, a product
   // without variants takes none. The browser's text is never saved as it came.
   for (const { id, color } of requested) {
     const product = byId.get(id);
-    const offered = (product.color ?? []).map((c) => String(c).trim()).filter(Boolean);
-    if (offered.length ? !offered.includes(color) : color !== '') {
-      throw new HttpError(409, `This colour or design is not available for ${product.name}`);
+    // Compared with HTML entities decoded on both sides: the request passes the input sanitiser ("&" arrives as
+    // "&amp;"), and a colour stored before the sanitiser existed may hold the raw character.
+    const offered = (product.color ?? []).map((c) => decodeEntities(String(c)).trim()).filter(Boolean);
+    if (offered.length ? !offered.includes(decodeEntities(color).trim()) : color !== '') {
+      if (!afterPayment) throw new HttpError(409, `This colour or design is not available for ${product.name}`);
+      warnings.push(`colour "${color}" is not offered for ${product.name}`);
     }
   }
 
@@ -70,12 +78,14 @@ export async function quoteShopOrder(items) {
   for (const product of products) {
     const quantity = wanted.get(String(product._id));
     if (product.stock !== null && product.stock !== undefined && quantity > product.stock) {
-      throw new HttpError(409, `Not enough stock for ${product.name}`);
+      if (!afterPayment) throw new HttpError(409, `Not enough stock for ${product.name}`);
+      warnings.push(`${quantity} of ${product.name} ordered, ${product.stock} in stock`);
     }
     subtotal += product.price * quantity;
   }
   return {
     total: round2(subtotal * ORDER_DISCOUNT + SHIPPING_FEE),
+    warnings,
     lines: requested.map(({ id, quantity, color }) => ({
       productID: id,
       productName: byId.get(id).name,
@@ -107,12 +117,13 @@ export async function takeFromStock(lines) {
       changed += 1;
       continue;
     }
-    // Not enough units, or the stock is not tracked (null): find out which.
-    const product = await Product.findById(id).select('stock name').lean();
-    if (!product || typeof product.stock !== 'number') continue;
-    await Product.updateOne({ _id: id }, { $set: { stock: 0 } });
+    // Not enough units, or the stock is not tracked (null). One conditional write empties a tracked stock that is
+    // still too small at this moment (a restock or another order in between is never overwritten); `$lt` matches
+    // numbers only, so an untracked product is left alone.
+    const before = await Product.findOneAndUpdate({ _id: id, stock: mongoose.trusted({ $lt: quantity }) }, { $set: { stock: 0 } }).select('stock name').lean();
+    if (!before || typeof before.stock !== 'number') continue;
     changed += 1;
-    oversold.push({ productID: id, productName: product.name, missing: quantity - product.stock });
+    oversold.push({ productID: id, productName: before.name, missing: quantity - before.stock });
   }
   return { changed, oversold };
 }

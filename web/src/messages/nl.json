@@ -670,7 +670,8 @@
       "reference": "Betalingsreferentie: {id}",
       "saving": "Uw gegevens worden opgeslagen…",
       "saveFailed": "Uw betaling is gelukt, maar wij konden uw gegevens niet opslaan. Probeer het opnieuw of schrijf naar <mail>{email}</mail> onder vermelding van de betalingsreferentie.",
-      "savePending": "Uw betaling is gelukt. We konden uw gegevens nog niet opslaan en blijven het daarom vanzelf proberen, ook de volgende keer dat u deze site op dit apparaat opent. Bewaar uw betalingsreferentie ({id}). Vragen? Schrijf naar <mail>{email}</mail>."
+      "savePending": "Uw betaling is gelukt. We konden uw gegevens nog niet opslaan en blijven het daarom vanzelf proberen, ook de volgende keer dat u deze site op dit apparaat opent. Bewaar uw betalingsreferentie ({id}). Vragen? Schrijf naar <mail>{email}</mail>.",
+      "priceNow": "Het te betalen totaal is {charged}. (Deze pagina toonde {shown}.)"
     },
     "empty": {
       "text": "Ontdek rozenkransen, kruisen en souvenirs uit Nazareth."

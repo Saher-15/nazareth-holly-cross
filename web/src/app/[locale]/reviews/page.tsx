@@ -50,6 +50,10 @@ export default async function ReviewsPage({ params }: PageProps<'/[locale]/revie
     loadReviews(),
   ]);
 
+  // With no review yet the page is the invitation to write one: an empty wall is not shown (it is, when the API
+  // cannot be reached: the wall then says so).
+  const showWall = reviews === null || reviews.length > 0;
+
   const jsonLd = [
     webPageJsonLd(locale, { path: '/reviews', name: meta('metaTitle'), description: meta('metaDescription') }),
     ...(reviews?.length
@@ -77,14 +81,13 @@ export default async function ReviewsPage({ params }: PageProps<'/[locale]/revie
         media={HERO.media}
       />
 
-      <div className={`ui-container ${styles.layout}`}>
+      <div className={`ui-container ${styles.layout} ${showWall ? '' : styles.alone}`}>
         <div className={styles.aside}>
           <Reveal>
             <ReviewForm titleId="review-form-title" />
           </Reveal>
         </div>
-        {/* With no review yet the page is the invitation to write one: an empty wall is not shown. */}
-        {(reviews === null || reviews.length > 0) && <ReviewWall reviews={reviews} titleId="review-wall-title" />}
+        {showWall && <ReviewWall reviews={reviews} titleId="review-wall-title" />}
       </div>
 
       <JsonLd data={jsonLd} />

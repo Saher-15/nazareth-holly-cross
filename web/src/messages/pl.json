@@ -670,7 +670,8 @@
       "reference": "Numer płatności: {id}",
       "saving": "Zapisywanie Twoich danych…",
       "saveFailed": "Płatność została zrealizowana, ale nie udało się zapisać Twoich danych. Spróbuj ponownie lub napisz na adres <mail>{email}</mail>, podając numer płatności.",
-      "savePending": "Płatność została zrealizowana. Nie udało się jeszcze zapisać Twoich danych, dlatego będziemy próbować dalej automatycznie, także przy następnej wizycie na tej stronie na tym urządzeniu. Zachowaj numer płatności ({id}). Pytania? Napisz na adres <mail>{email}</mail>."
+      "savePending": "Płatność została zrealizowana. Nie udało się jeszcze zapisać Twoich danych, dlatego będziemy próbować dalej automatycznie, także przy następnej wizycie na tej stronie na tym urządzeniu. Zachowaj numer płatności ({id}). Pytania? Napisz na adres <mail>{email}</mail>.",
+      "priceNow": "Kwota do zapłaty to {charged}. (Na tej stronie widniało {shown}.)"
     },
     "empty": {
       "text": "Zobacz różańce, krzyże i pamiątki z Nazaretu."

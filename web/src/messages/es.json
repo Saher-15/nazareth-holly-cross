@@ -670,7 +670,8 @@
       "reference": "Referencia del pago: {id}",
       "saving": "Guardando tus datos…",
       "saveFailed": "Tu pago se realizó, pero no pudimos guardar tus datos. Inténtalo de nuevo o escribe a <mail>{email}</mail> indicando la referencia del pago.",
-      "savePending": "Tu pago se realizó correctamente. Todavía no hemos podido guardar tus datos, así que seguiremos intentándolo automáticamente, también la próxima vez que abras este sitio en este dispositivo. Guarda la referencia de tu pago ({id}). ¿Dudas? Escribe a <mail>{email}</mail>."
+      "savePending": "Tu pago se realizó correctamente. Todavía no hemos podido guardar tus datos, así que seguiremos intentándolo automáticamente, también la próxima vez que abras este sitio en este dispositivo. Guarda la referencia de tu pago ({id}). ¿Dudas? Escribe a <mail>{email}</mail>.",
+      "priceNow": "El total a pagar es {charged}. (Esta página mostraba {shown}.)"
     },
     "empty": {
       "text": "Descubre rosarios, cruces y recuerdos de Nazaret."
