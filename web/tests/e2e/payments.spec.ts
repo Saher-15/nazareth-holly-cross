@@ -295,7 +295,7 @@ test.describe('candle', () => {
     await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('התפילה שלכם. הכנסייה שלכם. הנר שלכם.');
     await expect(page.getByRole('heading', { name: 'איך זה עובד' })).toBeVisible();
-    await expect(page.getByRole('radio', { name: 'כנסיית הבשורה' })).toBeVisible();
+    await expect(page.getByRole('radio', { name: /^בזיליקת הבשורה/ })).toBeVisible();
     expect(errors).toEqual([]);
   });
 

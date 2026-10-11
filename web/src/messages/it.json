@@ -1240,7 +1240,7 @@
       },
       "form": {
         "title": "Inviaci un messaggio",
-        "intro": "Per risponderti ci servono il tuo nome, il tuo indirizzo e-mail e il tuo messaggio. Il numero di telefono è facoltativo.",
+        "intro": "Per risponderti ci servono il tuo nome, il tuo indirizzo email e il tuo messaggio. Il numero di telefono è facoltativo.",
         "fullName": "Nome e cognome",
         "email": "Indirizzo email",
         "phone": "Numero di telefono (facoltativo)",
@@ -1304,7 +1304,7 @@
       "items": {
         "candle": {
           "q": "Come funziona l’accensione di una candela?",
-          "a": "Scegli una chiesa di Nazaret, scrivi il tuo nome e la tua preghiera e paga {price}. Accendiamo per te una candela vera in quella chiesa, la filmiamo con il tuo nome e la tua preghiera e inviamo il video al tuo indirizzo e-mail entro 48 ore."
+          "a": "Scegli una chiesa di Nazaret, scrivi il tuo nome e la tua preghiera e paga {price}. Accendiamo per te una candela vera in quella chiesa, la filmiamo con il tuo nome e la tua preghiera e inviamo il video al tuo indirizzo email entro 48 ore."
         },
         "wall": {
           "q": "Il muro delle preghiere è pubblico?",
@@ -1449,7 +1449,7 @@
           },
           "candles": {
             "title": "Candele",
-            "p1": "Una candela di preghiera costa {price}. Accendiamo una candela vera per la tua intenzione nella chiesa che scegli, la filmiamo e inviamo il video al tuo indirizzo e-mail entro 48 ore dal pagamento. Se il video non arriva in questo tempo o qualcosa non è corretto, scrivici e ti rimborseremo per intero."
+            "p1": "Una candela di preghiera costa {price}. Accendiamo una candela vera per la tua intenzione nella chiesa che scegli, la filmiamo e inviamo il video al tuo indirizzo email entro 48 ore dal pagamento. Se il video non arriva in questo tempo o qualcosa non è corretto, scrivici e ti rimborseremo per intero."
           },
           "donations": {
             "title": "Donazioni",
@@ -1931,12 +1931,12 @@
     "s2T": "Scrivi il tuo nome e la tua preghiera",
     "s2X": "Con le tue parole e nella tua lingua. Le mettiamo su un biglietto accanto alla tua candela.",
     "s3T": "Paga {price} e ricevi il tuo video",
-    "s3X": "Accendiamo la tua candela, la filmiamo e inviamo il tuo video personale al tuo indirizzo e-mail entro 48 ore.",
+    "s3X": "Accendiamo la tua candela, la filmiamo e inviamo il tuo video personale al tuo indirizzo email entro 48 ore.",
     "knowTitle": "Buono a sapersi",
     "realQ": "È una candela vera?",
     "realA": "Sì. Una persona del nostro gruppo a Nazaret va nella chiesa che hai scelto e vi accende una candela vera. Non c’è nulla di virtuale.",
     "getQ": "Che cosa riceverò?",
-    "getA": "Un breve video personale via e-mail: la chiesa, il biglietto con il tuo nome e la tua preghiera e la tua candela mentre viene accesa.",
+    "getA": "Un breve video personale via email: la chiesa, il biglietto con il tuo nome e la tua preghiera e la tua candela mentre viene accesa.",
     "timeQ": "Quanto tempo ci vuole?",
     "timeA": "Ricevi il tuo video entro 48 ore dal pagamento.",
     "whoQ": "Chi gestisce questo servizio?",

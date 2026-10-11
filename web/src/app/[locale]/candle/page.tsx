@@ -72,7 +72,7 @@ export default async function CandlePage({ params }: PageProps<'/[locale]/candle
               </span>
               <div>
                 <h3 className={styles.stepTitle}>{t(`candlePage.${key}T`, { price })}</h3>
-                <p>{t(`candlePage.${key}X`, { latin: t('home.siteLatin'), greek: t('home.siteGreek') })}</p>
+                <p>{t(`candlePage.${key}X`, { latin: t('candle.churches.latin.name'), greek: t('candle.churches.greek.name') })}</p>
               </div>
             </li>
           ))}
