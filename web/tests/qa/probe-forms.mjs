@@ -52,11 +52,11 @@ async function ctxWithMocks(posts, { status = 200, delay = 0 } = {}) {
   const page = await ctx.newPage();
   await page.route('https://www.paypal.com/sdk/**', (r) => r.fulfill({ contentType: 'text/javascript', body: '' }));
   await page.goto(BASE + '/en/candle');
-  await page.getByText('Church of the Annunciation').click();
+  await page.getByText('Basilica of the Annunciation', { exact: true }).click();
   await page.getByLabel('First name').fill('Ánna 🌹');
   await page.getByLabel('Last name').fill('O\'Neil-Smith');
   await page.getByLabel('Your email').fill('Anna+test@Example.com');
-  await page.getByLabel('Confirm email').fill('anna+test@example.com');
+  await page.getByLabel('Confirm email address').fill('anna+test@example.com');
   await page.getByLabel('Your prayer').fill('שלום עליכם 🙏\nline two');
   await page.locator('form button[type=submit]').click();
   await page.waitForTimeout(800);

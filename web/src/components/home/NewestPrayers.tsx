@@ -2,7 +2,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import Reveal from '@/components/ui/Reveal';
 import { categoryKey, displayText, isCategory, wallCountry } from '@/data/pilgrim/prayers';
-import { NAZARETH_TIME_ZONE } from '@/lib/time';
+import { dateLocale, NAZARETH_TIME_ZONE } from '@/lib/time';
 import { clip, loadPrayerWall, type PrayerWall } from './data';
 import styles from './NewestPrayers.module.css';
 
@@ -15,7 +15,7 @@ export function NewestPrayersView({ id, wall }: ViewProps) {
   const locale = useLocale();
   if (!wall) return null;
   const number = new Intl.NumberFormat(locale, { numberingSystem: 'latn' });
-  const date = new Intl.DateTimeFormat(locale, { dateStyle: 'medium', timeZone: NAZARETH_TIME_ZONE, numberingSystem: 'latn' });
+  const date = new Intl.DateTimeFormat(dateLocale(locale), { dateStyle: 'medium', timeZone: NAZARETH_TIME_ZONE, numberingSystem: 'latn' });
 
   return (
     <section id={id} className={styles.section} aria-labelledby={`${id}-title`}>

@@ -1,7 +1,7 @@
-import { useFormatter, useLocale, useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import type { Review } from '@/lib/api';
 import { reviewerPlace } from '@/lib/reviews';
-import { NAZARETH_TIME_ZONE } from '@/lib/time';
+import { formatDateTime, NAZARETH_TIME_ZONE } from '@/lib/time';
 import Icon from './Icon';
 import styles from './ReviewWall.module.css';
 
@@ -22,7 +22,6 @@ export function scriptOf(text: string): 'hebrew' | 'arabic' | undefined {
 }
 
 function ReviewCard({ review }: { review: Review }) {
-  const format = useFormatter();
   const locale = useLocale();
   const place = reviewerPlace(review, locale);
   const created = review.createdAt ? new Date(review.createdAt) : null;
@@ -49,12 +48,7 @@ function ReviewCard({ review }: { review: Review }) {
           )}
           {hasDate && (
             <time className={styles.date} dateTime={created.toISOString()}>
-              {format.dateTime(created, {
-                month: 'long',
-                year: 'numeric',
-                timeZone: NAZARETH_TIME_ZONE,
-                numberingSystem: 'latn',
-              })}
+              {formatDateTime(created, locale, { month: 'long', year: 'numeric', timeZone: NAZARETH_TIME_ZONE })}
             </time>
           )}
         </span>

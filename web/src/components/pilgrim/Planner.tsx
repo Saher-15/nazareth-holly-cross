@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { useFormatter, useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { directionsUrl, getPlace, placeHref, type PlaceSlug } from '@/data/places/places';
 import { RouteIcon } from '@/components/ui/icons';
@@ -21,6 +21,7 @@ import {
   type PlanInput,
 } from '@/data/pilgrim/plan';
 import { replaceQueryString, useQueryString } from '@/lib/urlState';
+import { formatDateTime } from '@/lib/time';
 import styles from './Planner.module.css';
 
 const DAY_OPTIONS = Array.from({ length: MAX_DAYS - MIN_DAYS + 1 }, (_, i) => MIN_DAYS + i);
@@ -38,7 +39,7 @@ function tomorrow(): string {
 export default function Planner() {
   const t = useTranslations('pilgrim.plan');
   const tAll = useTranslations();
-  const format = useFormatter();
+  const locale = useLocale();
   const search = useQueryString();
   const plan = useMemo(() => parsePlan(search), [search]);
   const itinerary = useMemo(() => buildItinerary(plan), [plan]);
@@ -53,10 +54,10 @@ export default function Planner() {
     });
 
   const clock = (minutes: number) =>
-    format.dateTime(clockDate(minutes), { hour: 'numeric', minute: '2-digit', timeZone: 'UTC' });
+    formatDateTime(clockDate(minutes), locale, { hour: 'numeric', minute: '2-digit', timeZone: 'UTC' });
   const dayDate = (index: number) =>
     plan.start
-      ? format.dateTime(new Date(`${addDays(plan.start, index)}T12:00:00Z`), { dateStyle: 'full', timeZone: 'UTC' })
+      ? formatDateTime(new Date(`${addDays(plan.start, index)}T12:00:00Z`), locale, { dateStyle: 'full', timeZone: 'UTC' })
       : null;
   const placeName = (slug: PlaceSlug) => tAll(getPlace(slug)!.nameKey);
 

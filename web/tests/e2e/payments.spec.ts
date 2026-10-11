@@ -103,7 +103,7 @@ async function fillContact(page: Page) {
   await page.getByLabel('First name').fill('Maria');
   await page.getByLabel('Last name').fill('Haddad');
   await page.getByLabel('Email', { exact: true }).fill('maria@example.com');
-  await page.getByLabel('Confirmation email').fill('maria@example.com');
+  await page.getByLabel('Confirm email address').fill('maria@example.com');
   await page.getByLabel('Phone').fill('+972 52-123 4567');
   await page.getByLabel('Country').selectOption('IL');
   await page.getByLabel('Street address').fill('1 Paulus VI St');
@@ -113,11 +113,11 @@ async function fillContact(page: Page) {
 }
 
 async function fillCandle(page: Page) {
-  await page.locator('#candle-form').getByText('Church of the Annunciation').click();
+  await page.locator('#candle-form').getByText('Basilica of the Annunciation', { exact: true }).click();
   await page.getByLabel('First name').fill('Anna');
   await page.getByLabel('Last name').fill('Smith');
   await page.getByLabel('Your email').fill('anna@example.com');
-  await page.getByLabel('Confirm email').fill('anna@example.com');
+  await page.getByLabel('Confirm email address').fill('anna@example.com');
   await page.getByLabel('Your prayer').fill('For my family');
 }
 
@@ -167,7 +167,7 @@ test.describe('checkout', () => {
     await expect(page.getByLabel('First name')).toHaveAttribute('aria-invalid', 'true');
 
     await page.getByLabel('Email', { exact: true }).fill('maria@example');
-    await page.getByLabel('Confirmation email').fill('someone@else.com');
+    await page.getByLabel('Confirm email address').fill('someone@else.com');
     await expect(page.getByText('Enter a valid email address, for example name@example.com.')).toBeVisible();
     await expect(page.getByText("Emails don't match")).toBeVisible();
     await page.getByLabel('Phone').fill('call me');
@@ -183,7 +183,7 @@ test.describe('checkout', () => {
     await fillContact(page);
     for (const address of ['maria@exa_mple.com', 'maría@example.com', 'a&b@example.com']) {
       await page.getByLabel('Email', { exact: true }).fill(address);
-      await page.getByLabel('Confirmation email').fill(address);
+      await page.getByLabel('Confirm email address').fill(address);
       await page.getByRole('button', { name: 'Continue to payment' }).click();
       await expect(page.getByText('Enter a valid email address, for example name@example.com.')).toBeVisible();
       await expect(currentStep(page)).toContainText('Your details');
@@ -258,12 +258,12 @@ test.describe('checkout', () => {
     await page.getByLabel('שם פרטי').fill('Maria');
     await page.getByLabel('שם משפחה').fill('Haddad');
     await page.getByLabel('דוא״ל', { exact: true }).fill('maria@example.com');
-    await page.getByLabel('אימות דוא״ל').fill('maria@example.com');
+    await page.getByLabel('אימות כתובת הדוא״ל').fill('maria@example.com');
     await page.getByLabel('טלפון').fill('+972521234567');
     await page.getByLabel('מדינה', { exact: true }).selectOption('IL');
     await page.getByLabel('רחוב ומספר בית').fill('Paulus VI 1');
     await page.getByLabel('עיר').fill('נצרת');
-    await page.getByLabel('מדינה / מחוז').fill('צפון');
+    await page.getByLabel('מחוז / אזור').fill('צפון');
     await page.getByLabel('מיקוד').fill('16000');
     await page.getByRole('button', { name: 'המשך לתשלום' }).click();
     await page.getByRole('button', { name: 'Test PayPal' }).click();
@@ -287,15 +287,15 @@ test.describe('candle', () => {
     await expect(page.getByRole('heading', { name: 'Good to know' })).toBeVisible();
     await expect(page.getByText('It is not an official body of the city of Nazareth or of the churches.')).toBeVisible();
     await expect(page.getByRole('radio')).toHaveCount(2);
-    await expect(page.getByRole('radio', { name: 'Church of the Annunciation' })).toHaveAttribute('name', 'church');
-    await expect(page.getByRole('radio', { name: 'Greek Orthodox Church' })).toHaveAttribute('name', 'church');
+    await expect(page.getByRole('radio', { name: /^Basilica of the Annunciation\s*Catholic$/ })).toHaveAttribute('name', 'church');
+    await expect(page.getByRole('radio', { name: /^Greek Orthodox Church of the Annunciation\s*Orthodox · St Gabriel’s Church$/ })).toHaveAttribute('name', 'church');
     await expect(page.getByTestId('candle-submit')).toHaveText('Light My Candle – $3.00');
 
     await page.goto('/he/candle');
     await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('התפילה שלכם. הכנסייה שלכם. הנר שלכם.');
     await expect(page.getByRole('heading', { name: 'איך זה עובד' })).toBeVisible();
-    await expect(page.getByRole('radio', { name: 'כנסיית הבשורה' })).toBeVisible();
+    await expect(page.getByRole('radio', { name: /^בזיליקת הבשורה/ })).toBeVisible();
     expect(errors).toEqual([]);
   });
 
@@ -305,11 +305,11 @@ test.describe('candle', () => {
     await page.getByTestId('candle-submit').click();
     await expect(page.getByText('Please select a church.')).toBeVisible();
     await expect(page.getByText('This field is required.')).toHaveCount(5);
-    await expect(page.getByRole('radio', { name: 'Church of the Annunciation' })).toBeFocused();
+    await expect(page.getByRole('radio', { name: /^Basilica of the Annunciation\s*Catholic$/ })).toBeFocused();
 
-    await page.locator('#candle-form').getByText('Greek Orthodox Church').click();
+    await page.locator('#candle-form').getByText('Greek Orthodox Church of the Annunciation', { exact: true }).click();
     await expect(page.getByText('Please select a church.')).toBeHidden();
-    await expect(page.getByRole('radio', { name: 'Greek Orthodox Church' })).toBeChecked();
+    await expect(page.getByRole('radio', { name: /^Greek Orthodox Church of the Annunciation\s*Orthodox · St Gabriel’s Church$/ })).toBeChecked();
   });
 
   test('valid details lead to the $3 summary and PayPal', async ({ page }) => {
@@ -337,7 +337,7 @@ test.describe('candle', () => {
 
     // the payment went through; the first save failed: the customer is told, with the reference, nothing is lost
     await expect(page.getByRole('heading', { name: 'Thank You!' })).toBeVisible();
-    const notice = page.locator('main').getByRole('status').filter({ hasText: 'We could not save your details just yet' });
+    const notice = page.locator('main').getByRole('status').filter({ hasText: 'We could not save your details yet' });
     await expect(notice).toBeVisible();
     await expect(notice).toContainText('TESTORDER00000001');
     await expect(page.getByText('Payment reference: TESTORDER00000001')).toBeVisible();
@@ -370,7 +370,7 @@ test.describe('candle', () => {
     await fillCandle(page);
     await page.getByTestId('candle-submit').click();
     await page.getByRole('button', { name: 'Test PayPal' }).click();
-    const notice = page.locator('main').getByRole('status').filter({ hasText: 'We could not save your details just yet' });
+    const notice = page.locator('main').getByRole('status').filter({ hasText: 'We could not save your details yet' });
     await expect(notice).toBeVisible();
     const before = calls.filter((c) => c.path === '/candle/lightACandle').length;
 
@@ -404,7 +404,7 @@ test.describe('checkout: a paid order is never lost', () => {
     await page.getByRole('button', { name: 'Test PayPal' }).click();
   };
   const pending = (page: Page) => page.evaluate(() => localStorage.getItem('nhc.pending-fulfilment.v1'));
-  const waitingNotice = (page: Page) => page.locator('main').getByRole('status').filter({ hasText: 'We could not save your details just yet' });
+  const waitingNotice = (page: Page) => page.locator('main').getByRole('status').filter({ hasText: 'We could not save your details yet' });
 
   test('the API is down after the payment: the order is kept in the browser, the cart is NOT emptied, the customer sees the reference', async ({ page }) => {
     const newOrder: Reply[] = [{ status: 503, body: { error: 'down' } }];

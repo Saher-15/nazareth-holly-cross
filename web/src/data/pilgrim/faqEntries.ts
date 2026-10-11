@@ -1,3 +1,4 @@
+import { locales } from '@/i18n/routing';
 import { CONTACT_EMAIL } from '@/lib/config';
 import { CANDLE_PRICE, formatUsd, ORDER_DISCOUNT, SHIPPING_FEE } from '@/lib/pricing';
 import { FAQ_GROUPS, faqAnchor, type FaqGroup } from './faq';
@@ -12,9 +13,20 @@ export type FaqItem = { anchor: string; group: FaqGroup['id']; id: string; quest
 const DONATION_MIN = 1;
 const DONATION_MAX = 5000;
 
+/**
+ * The site's languages named in `locale`, as one list ("English, French, ... and Arabic"). Built from the routing
+ * locales with the Unicode CLDR names, so the FAQ answer (and its FAQPage structured data) names every language the
+ * site has and can never fall behind again (it named 11 of 14).
+ */
+export function languageList(locale: string): string {
+  const names = new Intl.DisplayNames([locale], { type: 'language' });
+  return new Intl.ListFormat(locale, { type: 'conjunction', style: 'long' }).format(locales.map((code) => names.of(code) ?? code));
+}
+
 /** `candlePrice`: the live price (api.candlePrice()); the built-in default when a caller has none. */
 export function faqValues(locale: string, candlePrice: number = CANDLE_PRICE) {
   return {
+    languages: languageList(locale),
     price: formatUsd(candlePrice, locale),
     shipping: formatUsd(SHIPPING_FEE, locale),
     min: formatUsd(DONATION_MIN, locale),

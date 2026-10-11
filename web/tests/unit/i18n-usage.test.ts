@@ -65,8 +65,7 @@ const SHOP_NAMESPACES = ['cart', 'shop', 'shopPage', 'product', 'pagination'];
 const CHECKED_NAMESPACES = [
   'site', 'about', 'whatIsNew', 'live', 'common', 'candle', 'heroSection', 'cards', 'videos', 'nazarethTour', 'pray',
   'confirmationCandle', 'thankYou', 'footer', 'headerGreek', 'contentGreek', 'headerLatin', 'contentLatin',
-  'headerMary', 'contentMary', 'headerTitleNaz', 'mapButton', 'contentNaz', 'headerTitleOld', 'mapDescriptionOld',
-  'churchDescriptionOld', 'waterSourceOld', 'orderSummary', 'firstName', 'lastName', 'email', 'prayerAt', 'cost',
+  'headerMary', 'contentMary', 'headerTitleNaz', 'mapButton', 'contentNaz', 'headerTitleOld', 'orderSummary', 'firstName', 'lastName', 'email', 'prayerAt', 'cost',
   'confirmDetails', 'confirmed', 'orderCancelled', 'paypalComponent', 'navbar', 'home', 'homePage', 'placesPage',
   'communityPage', 'checkoutPage',
 ];

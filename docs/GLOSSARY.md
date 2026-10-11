@@ -40,20 +40,20 @@ but only a person can check the wording: see `docs/TRANSLATION-REVIEW.md` for wh
 |---|---|---|---|---|---|---|---|
 | Nazareth | Nazareth | Nazareth | Nazaret | Nazareth | Nazaret | Nazaré | Nazaret |
 | Holy Land | Holy Land | Terre sainte | Tierra Santa | Heiliges Land | Terra Santa | Terra Santa | Ziemia Święta |
-| Holy City | Holy City | Ville Sainte | Ciudad Santa | Heilige Stadt | Città Santa | Cidade Santa | Miasto Święte |
+| Holy City (Jerusalem only; never Nazareth: say "Nazareth" or "the city of the Annunciation") | Holy City | Ville Sainte | Ciudad Santa | Heilige Stadt | Città Santa | Cidade Santa | Miasto Święte |
 | Annunciation | Annunciation | Annonciation | Anunciación | Verkündigung | Annunciazione | Anunciação | Zwiastowanie |
 | Basilica of the Annunciation (Latin church) | Basilica of the Annunciation | basilique de l’Annonciation | Basílica de la Anunciación | Verkündigungsbasilika | Basilica dell’Annunciazione | Basílica da Anunciação | Bazylika Zwiastowania |
 | Greek Orthodox church | Greek Orthodox church | église grecque orthodoxe | iglesia ortodoxa griega | griechisch-orthodoxe Kirche | chiesa greco-ortodossa | igreja ortodoxa grega | cerkiew grecko-prawosławna |
-| Mary's Well | Mary's Well | puits de Marie | Pozo de María | Marienbrunnen | Pozzo di Maria | Poço de Maria | Studnia Maryi |
+| Mary's Well (the old well house) | Mary's Well | puits de Marie | Pozo de María | Marienbrunnen | Pozzo di Maria | Poço de Maria | Studnia Maryi |
 | Old City | Old City | vieille ville | Ciudad Vieja | Altstadt | Città Vecchia | Cidade Velha | Stare Miasto |
 | Pilgrim / pilgrimage | pilgrim | pèlerin / pèlerinage | peregrino / peregrinación | Pilger / Pilgerreise | pellegrino / pellegrinaggio | peregrino / peregrinação | pielgrzym / pielgrzymka |
-| Candle (light a candle) | candle | bougie (allumer) | vela (encender) | Kerze (anzünden) | candela (accendere) | vela (acender) | świeca (zapalić) |
+| Candle (light a candle) | candle | cierge (allumer un cierge) | vela (encender) | Kerze (anzünden) | candela (accendere) | vela (acender) | świeca (zapalić) |
 | Rosary | rosary | chapelet | rosario | Rosenkranz | rosario | terço | różaniec |
-| Stained glass | stained glass | vitrail | vitral | Glaskunst¹ | vetrata | vitral | witraż |
-| Souvenir / keepsake | souvenir | souvenir | recuerdo | Andenken | souvenir / ricordo | lembrança | pamiątka |
+| Stained glass | stained glass | vitrail | vitral | Buntglas | vetrata | vitral | witraż |
+| Souvenir / keepsake | souvenir | souvenir | recuerdo | Andenken | souvenir | lembrança | pamiątka |
 | Shop / cart | shop / cart | boutique / panier | tienda / carrito | Shop / Warenkorb | negozio / carrello | loja / carrinho | sklep / koszyk |
 | Donate | donate | faire un don | donar | spenden | donare | doar | wesprzeć / przekazać darowiznę |
-| Live broadcast | live | en direct | en vivo | live | live / in diretta | ao vivo | na żywo |
+| Live broadcast | live | en direct | en vivo | live | in diretta | ao vivo | na żywo |
 | Nazareth time (of a broadcast) | Nazareth time | heure de Nazareth | hora de Nazaret | Uhrzeit in Nazareth | ora di Nazaret | horário de Nazaré | czas w Nazarecie |
 | Recording (of a broadcast) | recording | enregistrement | grabación | Aufzeichnung | registrazione | gravação | nagranie |
 | Review | review | avis | reseña / opinión | Bewertung | recensione | avaliação | opinia |
@@ -80,7 +80,36 @@ but only a person can check the wording: see `docs/TRANSLATION-REVIEW.md` for wh
 | Recording (of a broadcast) | запись | запис | înregistrare | opname | εγγραφή | הקלטה | تسجيل |
 | Review | отзыв | відгук | recenzie | review | κριτική | חוות דעת | رأي / آراء الزوار |
 
-¹ German "Glaskunst" is what the shop copy uses; "Glasmalerei" / "Buntglas" would be the precise word and is on the review list.
+
+
+## The two churches, Mary's Well and the spring (07 review, 2026-10-07)
+
+Three places are easy to confuse, so the facts and the words are fixed (the review found the same church called "Church
+of the Annunciation", "Latin Church" and "Greek Church" on different pages):
+
+- The **Basilica of the Annunciation** is the Catholic church (built 1960-1969, consecrated 1969, over the grotto). Never
+  "Church of the Annunciation" alone, never "the Latin Church".
+- The **Greek Orthodox Church of the Annunciation**, also called **St Gabriel's Church**, stands over the spring where
+  Orthodox tradition places the Annunciation (the angel first greeted Mary as she drew water). The spring rises in its crypt.
+- **Mary's Well** is the old well house about 140 metres away, once fed by that spring; it does not function today. The
+  Annunciation is not placed at the well house itself.
+- The candle picker (`candle.churches.latin|greek.name|tradition`) shows each church in full with its tradition ("Catholic" /
+  "Orthodox · St Gabriel's Church").
+- The Annunciation is on 25 March, and on 7 April at the Greek Orthodox church (Julian calendar).
+
+| Term | fr | es | de | it | pt | pl | ru | uk | ro | nl | el | he | ar |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Basilica of the Annunciation | basilique de l’Annonciation | Basílica de la Anunciación | Verkündigungsbasilika | Basilica dell’Annunciazione | Basílica da Anunciação | Bazylika Zwiastowania | базилика Благовещения | базиліка Благовіщення | Bazilica Buna Vestire | Annunciatiebasiliek | Βασιλική του Ευαγγελισμού | בזיליקת הבשורה | بازيليكا البشارة |
+| Greek Orthodox Church of the Annunciation | église grecque orthodoxe de l’Annonciation | iglesia ortodoxa griega de la Anunciación | griechisch-orthodoxe Verkündigungskirche | chiesa greco-ortodossa dell’Annunciazione | Igreja Ortodoxa Grega da Anunciação (generic: a igreja ortodoxa grega) | cerkiew grecko-prawosławna Zwiastowania | греческая православная церковь Благовещения | грецька православна церква Благовіщення | biserica greco-ortodoxă Buna Vestire | Grieks-orthodoxe Annunciatiekerk (short: Grieks-orthodoxe kerk) | Ελληνορθόδοξος Ναός του Ευαγγελισμού (short: Ελληνορθόδοξος Ναός) | כנסיית הבשורה היוונית־אורתודוקסית (short: הכנסייה היוונית־אורתודוקסית) | كنيسة البشارة للروم الأرثوذكس (short: كنيسة الروم الأرثوذكس) |
+| St Gabriel's Church | église Saint-Gabriel | iglesia de San Gabriel | Gabrielskirche | chiesa di San Gabriele | Igreja de São Gabriel | cerkiew św. Gabriela | церковь Архангела Гавриила | церква Архангела Гавриїла | Biserica Sfântul Arhanghel Gavriil | Sint-Gabriëlkerk | Ναός του Αρχαγγέλου Γαβριήλ | כנסיית גבריאל הקדוש | كنيسة مار جبرائيل |
+| Mary's Well | puits de Marie (also called fontaine de la Vierge) | Pozo de María (also «Fuente de la Virgen» once, as the other name) | Marienbrunnen (also called Jungfrauenbrunnen; the building: Brunnenhaus) | Pozzo di Maria (once «Fontana della Vergine» as the other name) | Poço de Maria (the structure described as 'o antigo chafariz'; alternative name 'Fonte da Virgem' only in contentMary.intro) | Studnia Maryi | колодец Марии (alias in the intro: фонтан Девы Марии) | колодязь Марії (alias in the intro: фонтан Діви Марії) | Fântâna Mariei | Mariabron (the structure: bronhuis / fontein; alias 'Fontein van de Maagd') | Πηγάδι της Παναγίας | מעיין מרים (also known as מעיין הבתולה) | عين العذراء |
+| the spring (in the Greek church) | la source (qui jaillit à l’intérieur / dans la crypte de l’église grecque orthodoxe) | el manantial | die Quelle (entspringt in der Krypta der griechisch-orthodoxen Verkündigungskirche) | la sorgente | a fonte (que brota dentro da Igreja Ortodoxa Grega da Anunciação) | źródło (we wnętrzu / w krypcie cerkwi) | источник | джерело | izvorul | de bron (die in de kerk / in de crypte ontspringt) | η πηγή | המעיין (הנובע בתוך כנסיית הבשורה היוונית־אורתודוקסית / בקריפטה שלה) | النبع (الذي يتدفّق داخل كنيسة البشارة للروم الأرثوذكس / في سردابها) |
+| city of the Annunciation | la ville de l’Annonciation | la ciudad de la Anunciación | die Stadt der Verkündigung | la città dell’Annunciazione | a cidade da Anunciação | miasto Zwiastowania | город Благовещения | місто Благовіщення | orașul Bunei Vestiri | de stad van de Annunciatie | η πόλη του Ευαγγελισμού | עיר הבשורה | مدينة البشارة |
+| candle | cierge | vela | Kerze | candela | vela | świeca | свеча | свічка | lumânare | kaars | κερί | נר (נר תפילה) | شمعة |
+| light a candle | allumer un cierge | encender una vela | eine Kerze anzünden (FAQ and candle question: «das Entzünden einer Kerze») | accendere una candela | acender uma vela | zapalić świecę | зажечь свечу | запалити свічку | Aprindeți o lumânare | een kaars aansteken | Ανάψτε ένα κερί | הדליקו נר (imperative) / הדלקת נר (noun, buttons and titles) | أشعل شمعة (noun إشعال شمعة; never أوقد / أضاء) |
+| Confirm email address | Confirmez votre adresse e-mail | Confirma tu correo electrónico | E-Mail-Adresse bestätigen | Conferma l’indirizzo email | Confirme o e-mail (candle.confirmEmail and paypalComponent.confirmEmail) | Potwierdź adres e-mail | Подтвердите адрес электронной почты | Підтвердіть електронну адресу | Confirmați adresa de e-mail | Bevestig uw e-mailadres | Επιβεβαίωση διεύθυνσης email | אימות כתובת הדוא״ל | تأكيد عنوان البريد الإلكتروني |
+
+The wider choices each language settled (one word per concept, per language) are in `docs/TRANSLATION-REVIEW.md`. Arabic month names written in messages are Levantine (كانون الثاني ... كانون الأول); dates are formatted as `ar-PS` (see "Numbers").
 
 ## Feast names
 
@@ -98,6 +127,7 @@ the Orthodox one where it differs). Use those words anywhere else on the site; t
   (older engines) still shows 0-9. A unit test fails if a message contains an Arabic-Indic digit.
 - Prices are always USD, formatted by `Intl.NumberFormat` for the page language (`$3.00`, `3,00 $`, `US$ 3,00`,
   `‏3.00 ‏$`). Never write `$` by hand next to a number in a message.
+- Dates in Arabic use the **Levantine month names** Nazareth uses (`ar-PS`: "تشرين الأول", not "أكتوبر"), still with Western digits: `formatDateTime` / `dateLocale` in `web/src/lib/time.ts`.
 - Dates and times are shown in **Nazareth time** (`Asia/Jerusalem`) with `Intl.DateTimeFormat` / next-intl,
   whatever the visitor's own time zone. The one addition: an announced live broadcast on `/live` also shows its start
   on the visitor's own clock, labelled ("Your time", with the zone's short name), when that differs from Nazareth's.

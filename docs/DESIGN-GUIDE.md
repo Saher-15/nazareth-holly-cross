@@ -183,8 +183,9 @@ Background" style headings of the holy-site stories). New text is always sentenc
   stays in Latin letters inside Hebrew, Arabic, Cyrillic and Greek text.
 - **Register:** one address form per language, as listed in the glossary (de "Sie", fr "vous", es "tu", ...).
 - **Digits:** Western digits (0-9) in every language, including Hebrew and Arabic. Use `Intl` with
-  `numberingSystem: 'latn'` (`web/src/lib/pricing.ts` for prices, the pattern in
-  `web/src/components/home/VerseOfDay.tsx` for dates). Prices are US dollars; a hint in the visitor's currency is
+  `numberingSystem: 'latn'` (`web/src/lib/pricing.ts` for prices; for dates `formatDateTime` or
+  `new Intl.DateTimeFormat(dateLocale(locale), ...)` from `web/src/lib/time.ts`, which formats Arabic as `ar-PS`, the
+  Levantine month names used in Nazareth: "تشرين الأول", not the Egyptian "أكتوبر"). Prices are US dollars; a hint in the visitor's currency is
   shown only by `<CurrencyNote>` and is always labelled approximate (`web/src/lib/currency.ts`). Dates and times
   of events are in Nazareth time (`Asia/Jerusalem`).
 - **Typography per language:** French uses a no-break space before `: ; ? ! >>` and `%`; quotation marks follow the
@@ -642,8 +643,8 @@ under the header), above them on a phone; the scripture notes as gold-ruled quot
 the serif. Content and order are unchanged.
 
 Rules of the newer home sections (2026-10-07): every figure is real or left out. The band computes sunrise and sunset
-itself (`web/src/lib/sun.ts`, no weather service), names the feast of the day or the next great feast
-(`web/src/components/home/feasts.ts`, a stand-in until the liturgical calendar of the branch feat/christian-calendar lands) and
+itself (`web/src/lib/sun.ts`, no weather service), names the feast of the day or the next feast
+from the site's Christian calendar (`web/src/components/home/feasts.ts` over `web/src/lib/liturgical/`, the same answer as /live) and
 shows a broadcast only when the API says one is live or scheduled (`GET /live/status`, `GET /live/schedule`; a missing
 route hides it). Its clock and countdown change once a minute, never every second. The prayer wall shows the API's
 count of prayers and the number of known countries among the newest 50 (it says so in the label); candles lit are not

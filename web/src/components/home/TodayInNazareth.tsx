@@ -21,6 +21,7 @@ type ViewProps = { id: string; locale: string; now: number; broadcast: Broadcast
 export function TodayView({ id, locale, now, broadcast }: ViewProps) {
   const t = useTranslations('home.today');
   const tLive = useTranslations('communityPage.live.now');
+  const tFeast = useTranslations();
   const today = nazarethDate(new Date(now));
   const sun = sunTimes(today);
   const feast = feastOn(today);
@@ -61,12 +62,12 @@ export function TodayView({ id, locale, now, broadcast }: ViewProps) {
               </div>
             )}
 
-            <div className={styles.item} data-feast={feast.key}>
+            <div className={styles.item} data-feast={feast.id}>
               <dt className={styles.label}>
                 <CrossIcon className={styles.icon} />
                 {feast.today ? t('feastToday') : t('feastNext')}
               </dt>
-              <dd className={styles.value}>{t(`feasts.${feast.key}`)}</dd>
+              <dd className={styles.value}>{tFeast(feast.nameKey)}</dd>
               <dd className={styles.sub}>
                 {feast.today
                   ? dayText

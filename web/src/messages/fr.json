@@ -10,7 +10,7 @@
       "home": "Accueil",
       "sites": "Lieux saints",
       "tour": "Visite",
-      "candle": "Allumer une bougie",
+      "candle": "Allumer un cierge",
       "shop": "Boutique",
       "live": "En direct",
       "reviews": "Avis",
@@ -33,35 +33,35 @@
     },
     "meta": {
       "title": "Nazareth Holy Cross — La ville de Jésus",
-      "description": "Allumez une bougie à Nazareth, découvrez les lieux saints et rapportez chez vous des souvenirs bénis de la ville où Jésus a grandi."
+      "description": "Allumez un cierge à Nazareth, découvrez les lieux saints et rapportez chez vous des souvenirs bénis de la ville où Jésus a grandi."
     }
   },
   "about": {
     "title": "Bienvenue sur Nazareth Holy Cross",
-    "description1": "Le cœur de la foi chrétienne. Nous savons que tout le monde ne peut pas se rendre à Nazareth, la ville où Jésus a grandi et où des expériences spirituelles attendent chaque visiteur. C’est pourquoi nous sommes heureux de vous offrir la possibilité de faire venir Nazareth jusqu’à vous.",
-    "description2": "Grâce à notre site, vous pouvez faire une visite virtuelle des principales églises et des lieux saints de Nazareth et vous relier à la riche histoire et à la tradition religieuse qui caractérisent ce lieu. Nous vous offrons aussi une occasion unique d’acheter des souvenirs locaux et même d’allumer une bougie à la mémoire ou en l’honneur de vos proches, comme si vous étiez ici avec nous.",
-    "description3": "Dans notre boutique en ligne, vous trouverez un large choix de produits : des croix en bois d’olivier local, des bijoux inspirés des symboles chrétiens, des peintures et des mosaïques qui reflètent la richesse de l’art religieux, et bien plus encore. Vous pouvez désormais aussi acquérir de l’eau de la légendaire source de Nazareth, du sable de Nazareth et des olives locales – de quoi ressentir la grandeur de la ville de Nazareth et de Jésus. Vous pouvez aussi nous demander d’allumer pour vous une vraie bougie dans une église de Nazareth, et en recevoir la vidéo.",
+    "description1": "Nazareth est au cœur de la foi chrétienne. Tout le monde ne peut pas se rendre à Nazareth, la ville où Jésus a grandi et où des expériences spirituelles attendent chaque visiteur ; c’est pourquoi nous sommes heureux de faire venir Nazareth jusqu’à vous.",
+    "description2": "Grâce à notre site, vous pouvez faire une visite virtuelle des principales églises et des lieux saints de Nazareth et vous relier à la riche histoire et à la tradition religieuse qui caractérisent ce lieu. Nous vous offrons aussi une occasion unique d’acheter des souvenirs locaux et même d’allumer un cierge à la mémoire ou en l’honneur de vos proches, comme si vous étiez ici avec nous.",
+    "description3": "Dans notre boutique en ligne, vous trouverez des croix en bois d’olivier local, des chapelets, des bijoux inspirés des symboles chrétiens, des vitraux et un coffret souvenir d’eau, de terre, d’olive et d’encens de Nazareth. Vous pouvez aussi nous demander d’allumer pour vous un vrai cierge dans une église de Nazareth, et en recevoir la vidéo.",
     "description4": "Nous vous invitons à ouvrir votre cœur et à ressentir la chaleur de notre communauté à travers chaque produit que vous choisissez d’acheter. Chaque achat soutient la communauté locale et aide à préserver le riche patrimoine de Nazareth pour les générations futures. Visitez notre site et trouvez votre façon de vous relier à Nazareth, à tout moment et en tout lieu."
   },
   "whatIsNew": {
-    "title": "Références bibliques à Nazareth",
+    "title": "Nazareth dans la Bible",
     "scriptureNotes": {
-      "matthew": "Matthieu 2,23 : « Et il vint habiter dans une ville appelée Nazareth, afin que s’accomplisse ce qui avait été dit par les prophètes : Il sera appelé Nazaréen. »",
+      "matthew": "Matthieu 2,23 : « Il vint habiter dans une ville appelée Nazareth, afin que s’accomplisse ce qui avait été dit par les prophètes : Il sera appelé Nazaréen. »",
       "luke1": "Luc 1,26-27 : « Au sixième mois, l’ange Gabriel fut envoyé par Dieu dans une ville de Galilée, appelée Nazareth, à une vierge fiancée à un homme du nom de Joseph, de la maison de David. Le nom de la vierge était Marie. »",
       "john": "Jean 1,46 : « Nathanaël lui dit : De Nazareth peut-il sortir quelque chose de bon ? Philippe lui dit : Viens et vois. »",
-      "luke4": "Luc 4,16 : « Il se rendit à Nazareth, où il avait été élevé. Et, selon sa coutume, il entra dans la synagogue le jour du sabbat et se leva pour lire. »"
+      "luke4": "Luc 4,16 : « Il vint à Nazareth, où il avait été élevé. Le jour du sabbat, il entra dans la synagogue, selon sa coutume, et se leva pour faire la lecture. »"
     },
     "touchingTheSacred": "Toucher le sacré, sentir battre le cœur",
     "introParagraphs": {
-      "part1": "Nazareth, la ville où le miraculeux s’est déroulé, est l’endroit où Jésus a fait ses premiers pas, où la Vierge Marie a embrassé son Fils et a prié pour sa sécurité. Ici, au sein des anciennes églises, à la source sacrée où Marie a nourri Jésus, et dans le marché animé de la vieille ville – vous verrez votre foi renaître.",
-      "part2": "Imaginez-vous marchant à travers les rues étroites, suivant les pas de Jésus vers les églises, partageant des moments de réflexion à la source de Marie, où les yeux de la mère sainte ont rencontré les eaux anciennes. Chaque pierre, chaque ruelle, raconte une histoire de foi indéfectible, d’un voyage spirituel qui transcende le temps.",
-      "part3": "Lorsque vous allumez une bougie dans la basilique de l’Annonciation, vous vous reconnectez avec l’endroit où Jésus a entendu pour la première fois son appel divin. Alors que votre cœur aspire à Nazareth, nos souvenirs portent l’esprit sacré de la ville, vous rappelant votre profonde connexion avec l’endroit où tout a commencé.",
+      "part1": "Nazareth, la ville où s’est accompli le miracle, est le lieu où Jésus a fait ses premiers pas et a grandi dans la maison de Marie et de Joseph. Ici, dans les anciennes églises, à la source où Marie puisait l’eau, et dans le marché animé de la vieille ville, vous sentirez votre foi reprendre vie.",
+      "part2": "Imaginez-vous parcourant les ruelles étroites sur les pas de Jésus jusqu’aux églises, et partageant des moments de recueillement au puits de Marie, là où la sainte Mère puisait l’eau de l’antique source. Chaque pierre, chaque ruelle raconte une histoire de foi indéfectible, celle d’un voyage spirituel qui transcende le temps.",
+      "part3": "Lorsque vous allumez un cierge dans la basilique de l’Annonciation, votre prière rejoint le lieu où Marie a dit oui à Dieu. Et lorsque votre cœur aspire à Nazareth, nos souvenirs portent un peu de sa sainteté et vous rappellent le lien profond qui vous unit au lieu où tout a commencé.",
       "part4": "Permettez-nous de vous apporter Nazareth, directement chez vous. Avec chaque souvenir, vous préservez un lien profond avec Nazareth – la ville où Jésus et Marie ont marché, la ville où la foi est née. Souvenez-vous des moments qui se sont déroulés ici, des cœurs qui se sont ouverts en prière, et des larmes qui sont tombées silencieusement sur les pierres anciennes.",
       "part5": "Nazareth vous attend, vous embrasse de loin et vous apporte sa sainteté. Gardez la flamme allumée dans votre cœur, jusqu’au jour où vous reviendrez vers nous, dans la ville où bat la foi."
     }
   },
   "live": {
-    "no_upcoming_events": "Aucun événement à venir.",
+    "no_upcoming_events": "Aucune diffusion n’est prévue pour le moment.",
     "past_live_events": "Événements en direct passés",
     "refresh_note": "Remarque : veuillez actualiser la page avant d’appuyer sur le bouton « Rejoindre le direct »."
   },
@@ -69,13 +69,23 @@
     "home": "Accueil",
     "live": "En direct",
     "tour": "Visite",
-    "candle": "Bougie",
+    "candle": "Cierge",
     "shop": "Boutique",
     "reviews": "Avis"
   },
   "candle": {
-    "lightAPrayCandle": "Allumer une bougie de prière",
-    "selectChurch": "Sélectionnez l’église où allumer la bougie :",
+    "lightAPrayCandle": "Allumer un cierge de prière",
+    "selectChurch": "Choisissez l’église où votre cierge sera allumé :",
+    "churches": {
+      "latin": {
+        "name": "Basilique de l’Annonciation",
+        "tradition": "Catholique"
+      },
+      "greek": {
+        "name": "Église grecque orthodoxe de l’Annonciation",
+        "tradition": "Orthodoxe · église Saint-Gabriel"
+      }
+    },
     "inputWarning": "Veuillez sélectionner une église.",
     "firstName": "Prénom",
     "lastName": "Nom de famille",
@@ -83,14 +93,14 @@
     "confirmEmail": "Confirmez votre adresse e-mail",
     "yourPrayer": "Votre prière",
     "videosTitle": "Vidéos",
-    "videosLead": "Voyez comment les bougies sont allumées dans les églises de Nazareth.",
+    "videosLead": "Voyez comment les cierges sont allumés dans les églises de Nazareth.",
     "videoPlay": "Lire la vidéo : {title}",
     "videoPlayerTitle": "Vidéo : {title}"
   },
   "heroSection": {
     "heading": "LA VILLE DE JÉSUS VOUS ATTEND",
     "subHeading": "LA GRÂCE À CHAQUE CLIC",
-    "lightCandle": "ALLUMER UNE BOUGIE",
+    "lightCandle": "ALLUMER UN CIERGE",
     "shopButton": "Boutique",
     "tourButton": "VISITE DE NAZARETH",
     "shopIcon": "fa fa-shopping-cart",
@@ -111,8 +121,8 @@
       "description": "Regardez l’interview exclusive diffusée en direct de Nazareth."
     },
     "live_prayer_latin": {
-      "title": "Prière en direct de l’Église latine",
-      "description": "Vivez une diffusion en direct des prières sincères depuis l’Église latine."
+      "title": "Prière en direct de la basilique de l’Annonciation",
+      "description": "Regardez l’enregistrement d’une prière diffusée en direct depuis la basilique de l’Annonciation."
     }
   },
   "nazarethTour": {
@@ -128,9 +138,9 @@
     "placeholderCountry": "D’où venez-vous ?",
     "placeholderMessage": "Parlez-nous de votre expérience avec notre site web",
     "submitButton": "Envoyer",
-    "successMessage": "Message soumis avec succès !",
+    "successMessage": "Message envoyé !",
     "confirmationMessage": "Votre message apparaîtra sur le mur une fois confirmé par l’équipe de Nazareth Holy Cross.",
-    "messagesTitle": "Avis de nos clients",
+    "messagesTitle": "Ce que disent nos visiteurs",
     "messagesDescription": "Voici les avis qui ont été approuvés par notre équipe. Merci de partager vos commentaires avec nous.",
     "noMessages": "Aucun message soumis pour le moment."
   },
@@ -161,52 +171,52 @@
     "copyright": "Droits d’auteur © 2024 – Tous droits réservés, NazarethHolyCross"
   },
   "headerGreek": {
-    "title": "Explorez la beauté de l’église grecque",
+    "title": "Découvrez la beauté de l’église grecque orthodoxe de l’Annonciation",
     "mapButton": "Voir sur Google Maps"
   },
   "contentGreek": {
-    "paragraph1": "L’église grecque orthodoxe de l’Annonciation se dresse au-dessus de la source où, selon les chrétiens orthodoxes, l’Annonciation a eu lieu. Alors que la Vierge Marie allait puiser de l’eau à la source, l’archange Gabriel lui est apparu et lui a annoncé qu’elle concevrait et mettrait au monde un fils qu’elle appellerait Jésus. L’église actuelle date de 1750, lorsque Daher al-Omar, le souverain bédouin de la Galilée, a autorisé la communauté grecque orthodoxe à la construire.",
+    "paragraph1": "L’église grecque orthodoxe de l’Annonciation, également appelée église Saint-Gabriel, se dresse au-dessus de la source où, selon les chrétiens orthodoxes, l’Annonciation a eu lieu. Alors que la Vierge Marie allait puiser de l’eau à la source, l’archange Gabriel lui est apparu et lui a annoncé qu’elle concevrait et mettrait au monde un fils qu’elle appellerait Jésus. L’église actuelle date de 1750, lorsque Daher al-Omar, le souverain de la Galilée, a autorisé la communauté grecque orthodoxe à la construire.",
     "paragraph2": "L’église possède une nef centrale flanquée de deux bas-côtés et abrite une magnifique iconostase en bois offerte par un marchand grec en 1767. Elle a été redécorée par des artistes roumains de 1977 à 1978. Un passage voûté mène à une petite chapelle ornée de carreaux arméniens, d’où sept marches descendent vers la source, que l’on croit aménagée par les croisés au XIIe siècle.",
     "paragraph3": "À environ 140 mètres de l’église se trouve le puits de Marie, autrefois alimenté par la source et qui a servi de point d’eau local pendant plusieurs siècles. La fontaine a été réparée en 1967, puis de nouveau en 2000, mais elle ne fonctionne plus aujourd’hui."
   },
   "headerLatin": {
-    "title": "Découvrez la beauté de l’église latine"
+    "title": "Découvrez la beauté de la basilique de l’Annonciation"
   },
   "contentLatin": {
-    "paragraph1": "L’église latine, également connue sous le nom de basilique de l’Annonciation, est un important site religieux situé à Nazareth, en Israël. C’est l’une des plus grandes églises du Moyen-Orient et elle revêt une profonde signification religieuse pour les chrétiens du monde entier.",
+    "paragraph1": "La basilique de l’Annonciation, l’église catholique au cœur de Nazareth, est l’une des plus grandes églises du Moyen-Orient et revêt une profonde signification religieuse pour les chrétiens du monde entier.",
     "history": {
       "title": "Contexte historique",
       "text": "Selon la tradition, c’est ici que l’ange Gabriel a annoncé à la Vierge Marie qu’elle concevrait et donnerait naissance à Jésus, un événement connu sous le nom d’Annonciation. La basilique a une longue histoire qui remonte aux premiers siècles du christianisme ; des églises successives ont été bâties sur le site au fil du temps."
     },
     "architecture": {
       "title": "Caractéristiques architecturales",
-      "text": "La basilique actuelle, construite entre 1955 et 1969, présente une structure distinctive à deux étages. L’église supérieure est utilisée pour les services de culte, tandis que l’église inférieure abrite la Grotte de l’Annonciation, qui est considérée comme le site réel de l’Annonciation. L’architecture de la basilique allie des styles modernes à des éléments traditionnels, et son intérieur est orné de mosaïques, de fresques et d’œuvres d’art représentant des scènes de la vie du Christ."
+      "text": "La basilique actuelle, construite entre 1960 et 1969, présente une structure distinctive à deux étages. L’église supérieure est utilisée pour les services de culte, tandis que l’église inférieure abrite la grotte de l’Annonciation, qui est considérée comme le site réel de l’Annonciation. L’architecture de la basilique allie des styles modernes à des éléments traditionnels, et son intérieur est orné de mosaïques, de fresques et d’œuvres d’art représentant des scènes de la vie du Christ."
     },
     "visiting": {
       "title": "Visiter la basilique",
-      "text": "La Basilique de l’Annonciation est une destination populaire pour les pèlerins et les touristes visitant Nazareth. Les visiteurs peuvent explorer à la fois les églises supérieure et inférieure, admirer les caractéristiques artistiques et architecturales, et participer à des cérémonies religieuses et des événements qui se déroulent à la basilique. Le site offre une expérience spirituelle profonde et sert de symbole de foi et d’héritage."
+      "text": "La basilique de l’Annonciation est une destination populaire pour les pèlerins et les touristes visitant Nazareth. Les visiteurs peuvent explorer à la fois les églises supérieure et inférieure, admirer les caractéristiques artistiques et architecturales, et participer à des cérémonies religieuses et des événements qui se déroulent à la basilique. Le site offre une expérience spirituelle profonde et sert de symbole de foi et d’héritage."
     }
   },
   "headerMary": {
     "title": "Découvrez la beauté du puits de Marie"
   },
   "contentMary": {
-    "intro": "Le puits de Marie, également connu sous le nom de puits de la Vierge, est un site historique et religieux important situé à Nazareth, en Israël. Selon la tradition, c’est là que l’ange Gabriel a annoncé à la Vierge Marie qu’elle porterait Jésus, un événement connu sous le nom d’Annonciation.",
+    "intro": "Le puits de Marie, également appelé fontaine de la Vierge, est l’ancien point d’eau de Nazareth, alimenté pendant des siècles par la source de la ville. La source elle-même jaillit à environ 140 mètres de là, à l’intérieur de l’église grecque orthodoxe de l’Annonciation (église Saint-Gabriel), où la tradition orthodoxe situe l’Annonciation : c’est là que l’ange Gabriel a d’abord salué Marie, venue puiser de l’eau.",
     "significance": {
       "title": "Signification historique et religieuse",
       "biblical": "Lien biblique",
-      "biblicalText": "Selon la tradition chrétienne, c’est au puits de Marie que Marie puisait de l’eau lorsque l’ange Gabriel lui est apparu et lui a annoncé qu’elle concevrait et donnerait naissance à Jésus-Christ. Cet événement est un élément central du récit chrétien de l’Annonciation.",
+      "biblicalText": "L’Évangile de Luc raconte comment l’ange Gabriel a été envoyé à Marie, à Nazareth. Une tradition ancienne, conservée par l’Église orthodoxe, ajoute que l’ange l’a d’abord saluée alors qu’elle puisait de l’eau à la source. C’est pourquoi la source, et le puits qu’elle alimentait, sont associés à l’Annonciation.",
       "cultural": "Importance culturelle",
       "culturalText": "Pendant des siècles, le puits a été une source d’eau vitale pour la communauté locale. Il servait de lieu de rassemblement pour les habitants de Nazareth, ce qui en faisait une partie intégrante de la vie quotidienne de la ville.",
       "architecture": "Caractéristiques architecturales",
-      "architectureText": "Le puits lui-même fait partie d’un ensemble plus vaste qui comprend l’église grecque orthodoxe de l’Annonciation. L’église actuelle date du XVIIIe siècle, mais le puits et le site ont des racines bien plus anciennes."
+      "architectureText": "Le puits était autrefois alimenté par la source qui jaillit dans la crypte de l’église grecque orthodoxe de l’Annonciation, à environ 140 mètres de là. L’église date du XVIIIe siècle, mais la source et le site ont des racines bien plus anciennes."
     },
     "modern": {
-      "title": "Site moderne",
-      "restoration": "Efforts de restauration",
+      "title": "Le site aujourd’hui",
+      "restoration": "Restauration",
       "restorationText": "La fontaine du puits de Marie a été restaurée à plusieurs reprises au fil des ans, notamment en 1967 et en 2000. Malgré ces efforts, le puits ne fonctionne plus aujourd’hui comme autrefois.",
-      "attraction": "Attraction touristique",
-      "attractionText": "Le puits de Marie est une destination prisée des pèlerins et des touristes. Les visiteurs viennent voir le site historique et vivre le lieu où, selon la tradition, l’Annonciation a eu lieu.",
+      "attraction": "Un lieu de pèlerinage",
+      "attractionText": "Le puits de Marie est une étape prisée des pèlerins et des visiteurs, qui viennent voir l’édifice historique puis poursuivent jusqu’à la source, à l’intérieur de l’église grecque orthodoxe, où, selon la tradition orthodoxe, l’ange a d’abord salué Marie.",
       "surroundings": "Zone environnante",
       "surroundingsText": "Le puits se trouve dans la vieille ville de Nazareth, un quartier riche en monuments historiques et religieux. Parmi les sites proches figurent la basilique de l’Annonciation, l’église grecque orthodoxe de l’Annonciation et divers autres lieux liés à la vie de Jésus et de Marie."
     },
@@ -223,10 +233,10 @@
   "headerTitleNaz": "Explorez la beauté de la ville de Nazareth",
   "mapButton": "Ouvrir la carte",
   "contentNaz": {
-    "introduction": "La vieille ville de Nazareth est surtout célèbre pour son shuk (marché en plein air), qui attire des Israéliens de tout le pays à la recherche de produits arabes traditionnels. C’est une expérience en soi, et un grand contraste avec les centres commerciaux climatisés disséminés dans le pays. Pour ceux qui s’intéressent au christianisme, la vieille ville et ses environs regorgent de sites chrétiens importants, dont la basilique de l’Annonciation.",
+    "introduction": "La vieille ville de Nazareth est surtout connue pour son souk, un marché aux étroites ruelles de pierre où marchands d’épices, boulangers et artisans tiennent encore boutique. Tout autour se trouvent de nombreux sites chrétiens de la ville, dont la basilique de l’Annonciation, l’église grecque orthodoxe de l’Annonciation et l’église de la Synagogue.",
     "historicalSignificance": {
       "title": "Importance historique et religieuse",
-      "text": "Nazareth est mentionnée de manière proéminente dans le Nouveau Testament. Selon la tradition chrétienne, c’est le site où l’ange Gabriel a annoncé à Marie qu’elle allait avoir Jésus, un événement commémoré par la basilique de l’Annonciation. Les preuves archéologiques indiquent que Nazareth était un petit village juif à l’époque de Jésus. Il est continuellement habité depuis l’antiquité."
+      "text": "Nazareth occupe une place importante dans le Nouveau Testament. Selon la tradition chrétienne, c’est là que l’ange Gabriel a annoncé à Marie qu’elle enfanterait Jésus, événement que commémore la basilique de l’Annonciation. Les fouilles archéologiques indiquent que Nazareth était un petit village juif à l’époque de Jésus. Le site est habité sans interruption depuis l’Antiquité."
     },
     "modernNazareth": {
       "title": "Nazareth aujourd’hui",
@@ -238,14 +248,11 @@
     }
   },
   "headerTitleOld": "Découvrez la beauté de la vieille ville de Nazareth",
-  "mapDescriptionOld": "La vieille ville de Nazareth est surtout célèbre pour son shuk (marché en plein air), qui attire des Israéliens de tout le pays à la recherche de produits arabes traditionnels. C’est une expérience en soi, et un grand contraste avec les centres commerciaux climatisés disséminés dans le pays. Pour ceux qui s’intéressent au christianisme, la vieille ville et ses environs regorgent de sites chrétiens importants, dont la basilique de l’Annonciation.",
-  "churchDescriptionOld": "L’église grecque orthodoxe de l’Annonciation se dresse au-dessus de la source où, selon les chrétiens orthodoxes, l’Annonciation a eu lieu. Alors que la Vierge Marie allait puiser de l’eau à la source, l’archange Gabriel lui est apparu et lui a annoncé qu’elle concevrait et mettrait au monde un fils qu’elle appellerait Jésus. L’église actuelle date de 1750, lorsque Daher al-Omar, le souverain bédouin de la Galilée, a autorisé la communauté grecque orthodoxe à la construire.",
-  "waterSourceOld": "À environ 140 mètres de l’église se trouve le puits de Marie, autrefois alimenté par la source et qui a servi de point d’eau local pendant plusieurs siècles. La fontaine a été réparée en 1967, puis de nouveau en 2000, mais elle ne fonctionne plus aujourd’hui.",
   "orderSummary": "Récapitulatif de la commande",
   "firstName": "Prénom :",
   "lastName": "Nom de famille :",
   "email": "E-mail :",
-  "prayerAt": "Prière à :",
+  "prayerAt": "Église :",
   "cost": "Coût :",
   "confirmDetails": "Confirmer les informations et payer",
   "confirmed": "Confirmé",
@@ -255,14 +262,14 @@
     "firstName": "Prénom",
     "lastName": "Nom",
     "email": "E-mail",
-    "confirmEmail": "Confirmation de l’e-mail",
+    "confirmEmail": "Confirmez votre adresse e-mail",
     "emailsDontMatch": "Les adresses e-mail ne correspondent pas",
     "city": "Ville",
     "street": "Adresse",
     "postal": "Code postal",
     "state": "État / Province",
-    "paymentMethod": "Méthode de paiement",
-    "pleaseFillAllDetails": "Veuillez remplir tous les détails pour continuer.",
+    "paymentMethod": "Moyen de paiement",
+    "pleaseFillAllDetails": "Veuillez remplir tous les champs pour continuer.",
     "orderCancelled": "Commande annulée !",
     "thankYou": "Merci pour votre commande !",
     "summary": "Résumé de la commande",
@@ -273,7 +280,7 @@
     "home": "Accueil",
     "live": "En direct",
     "tour": "Visite",
-    "candle": "Bougie",
+    "candle": "Cierge",
     "shop": "Boutique",
     "reviews": "Avis"
   },
@@ -324,21 +331,21 @@
     "currencyNote": {
       "usd": "Les prix sont en dollars américains (USD). Votre carte ou PayPal les convertit à son propre taux de change.",
       "approx": "Environ {amount} à un taux indicatif. Le montant débité par votre banque peut différer.",
-      "shipping": "La livraison est à tarif unique : {fee} par commande."
+      "shipping": "La livraison est à tarif unique : {fee} par commande."
     }
   },
   "home": {
     "eyebrow": "Nazareth · La ville de Jésus",
     "title": "Marchez là où Jésus a marché",
-    "subtitle": "Allumez une bougie, découvrez les lieux saints et rapportez un peu de Nazareth chez vous, où que vous soyez.",
+    "subtitle": "Allumez un cierge, découvrez les lieux saints et rapportez un peu de Nazareth chez vous, où que vous soyez.",
     "scroll": "Défiler",
     "soundToggle": "Activer ou couper le son",
-    "stickyCandle": "Allumer une bougie",
+    "stickyCandle": "Allumer un cierge",
     "candleTitle": "Une flamme pour chaque prière",
-    "candleText": "Allumez une bougie dans la Ville Sainte et nous prierons pour votre intention à Nazareth.",
+    "candleText": "Allumez un cierge et nous prierons pour votre intention ici, à Nazareth, la ville de l’Annonciation.",
     "flameBtn": "Allumer une flamme",
     "flameCount": "Flammes allumées sur cet appareil : {count}",
-    "flameNote": "Une flamme symbolique. Pour faire allumer une vraie bougie à Nazareth, rendez-vous sur notre page des bougies.",
+    "flameNote": "Une flamme symbolique. Pour faire allumer un vrai cierge à Nazareth, rendez-vous sur notre page des cierges.",
     "verseEyebrow": "Verset du jour",
     "verseCaption": "La méditation du jour",
     "v1": "Sois sans crainte, Marie, car tu as trouvé grâce auprès de Dieu.",
@@ -384,21 +391,6 @@
       "feastToday": "Fête du jour",
       "feastNext": "Prochaine fête",
       "feastWhen": "{date}, {inDays}",
-      "feasts": {
-        "epiphany": "L’Épiphanie",
-        "orthodoxChristmas": "Noël (calendrier orthodoxe)",
-        "annunciation": "L’Annonciation",
-        "orthodoxAnnunciation": "L’Annonciation (calendrier orthodoxe)",
-        "palmSunday": "Dimanche des Rameaux",
-        "goodFriday": "Vendredi saint",
-        "easter": "Pâques",
-        "orthodoxEaster": "Pâques (calendrier orthodoxe)",
-        "ascension": "L’Ascension",
-        "pentecost": "La Pentecôte",
-        "assumption": "L’Assomption de Marie",
-        "holyCross": "L’Exaltation de la Sainte-Croix",
-        "christmas": "Noël"
-      },
       "broadcastNext": "Prochaine diffusion en direct",
       "startsIn": "Début dans {duration}",
       "startingSoon": "Début imminent",
@@ -424,7 +416,7 @@
   "homePage": {
     "meta": {
       "title": "Nazareth Holy Cross — Marchez là où Jésus a marché",
-      "description": "Allumez une bougie à Nazareth, parcourez ses lieux saints, lisez le verset du jour et rapportez chez vous des souvenirs bénis de la ville où Jésus a grandi."
+      "description": "Allumez un cierge à Nazareth, parcourez ses lieux saints, lisez le verset du jour et rapportez chez vous des souvenirs bénis de la ville où Jésus a grandi."
     },
     "carouselHint": "Balayez, faites glisser ou utilisez les flèches du clavier pour parcourir les lieux saints."
   },
@@ -435,11 +427,11 @@
       "tourTitle": "Visite virtuelle de Nazareth",
       "tourDescription": "Regardez une visite vidéo de Nazareth, de ses marchés animés à ses églises historiques, puis découvrez chaque lieu saint en photos.",
       "aboutTitle": "À propos de nous",
-      "aboutDescription": "Nazareth Holy Cross vous apporte la ville de Jésus : visites virtuelles de ses lieux saints, souvenirs de Nazareth et bougies allumées à vos intentions."
+      "aboutDescription": "Nazareth Holy Cross vous apporte la ville de Jésus : visites virtuelles de ses lieux saints, souvenirs de Nazareth et cierges allumés à vos intentions."
     },
     "index": {
       "title": "Les lieux saints de Nazareth",
-      "lead": "Cinq lieux où l’histoire de l’Annonciation et de l’enfance de Jésus est toujours vivante. Parcourez-les en photos, trouvez-les sur la carte ou allumez une bougie à distance.",
+      "lead": "Cinq lieux où l’histoire de l’Annonciation et de l’enfance de Jésus est toujours vivante. Parcourez-les en photos, trouvez-les sur la carte ou allumez un cierge à distance.",
       "listEyebrow": "Cinq lieux saints",
       "tourTitle": "Parcourez les rues de Nazareth",
       "tourText": "Regardez notre visite vidéo et découvrez les marchés, les églises et les monuments de la ville où Jésus a grandi."
@@ -462,7 +454,7 @@
     "newTab": "(s’ouvre dans un nouvel onglet)",
     "viewGallery": "Voir les photos",
     "visitEyebrow": "Préparer votre visite",
-    "visitText": "Trouvez ce lieu saint sur la carte, ou allumez une bougie pour votre intention, où que vous soyez.",
+    "visitText": "Trouvez ce lieu saint sur la carte, ou allumez un cierge pour votre intention, où que vous soyez.",
     "directions": "Itinéraire",
     "galleryEyebrow": "Galerie",
     "galleryTitle": "Galerie de photos",
@@ -528,7 +520,7 @@
       "videoFallback": "Votre navigateur ne peut pas lire cette vidéo.",
       "now": {
         "badge": "En direct maintenant",
-        "since": "{minutes, plural, =0 {Commencé à l’instant} one {En direct depuis # minute} other {En direct depuis # minutes}}",
+        "since": "{minutes, plural, =0 {Vient de commencer} one {En direct depuis # minute} other {En direct depuis # minutes}}",
         "playerTitle": "Diffusion en direct : {title}",
         "started": "Une diffusion en direct a commencé : {title}",
         "ended": "La diffusion en direct est terminée.",
@@ -545,7 +537,7 @@
         "startingNow": "La diffusion commence maintenant.",
         "nazarethTime": "Heure de Nazareth",
         "yourTime": "Votre heure",
-        "addToCalendar": "Ajouter au calendrier",
+        "addToCalendar": "Ajouter à l’agenda",
         "moreTitle": "Autres diffusions en direct"
       },
       "recordings": {
@@ -621,8 +613,8 @@
     "meta": {
       "checkoutTitle": "Paiement",
       "checkoutDescription": "Finalisez votre commande de souvenirs de Nazareth et payez en toute sécurité avec PayPal.",
-      "candleTitle": "Allumez une bougie à Nazareth",
-      "candleDescription": "Choisissez une église de Nazareth et écrivez votre prière. Nous allumons pour vous une vraie bougie et vous envoyons votre vidéo personnelle sous 48 heures.",
+      "candleTitle": "Allumez un cierge à Nazareth",
+      "candleDescription": "Choisissez une église de Nazareth et écrivez votre prière. Nous allumons pour vous un vrai cierge et vous envoyons votre vidéo personnelle sous 48 heures.",
       "donateTitle": "Faire un don",
       "donateDescription": "Soutenez Nazareth Holy Cross par un don, réglé en toute sécurité avec PayPal."
     },
@@ -672,13 +664,13 @@
         "start": "Impossible de lancer le paiement. Veuillez réessayer.",
         "notCompleted": "Le paiement n’a pas abouti. Vous n’avez pas été débité.",
         "paypal": "PayPal a signalé une erreur. Veuillez réessayer.",
-        "unconfirmed": "Nous n’avons pas pu confirmer votre paiement car la connexion a échoué. Ne payez pas à nouveau pour l’instant : vérifiez votre compte PayPal ou écrivez-nous.",
+        "unconfirmed": "Nous n’avons pas pu confirmer votre paiement car la connexion a échoué. Ne payez pas à nouveau pour l’instant : vérifiez votre compte PayPal ou écrivez-nous.",
         "priceChanged": "Le total a changé : il est maintenant de {charged}, et non de {shown}. Vous n’avez pas été débité. Cliquez à nouveau sur le bouton PayPal pour payer {charged}."
       },
       "reference": "Référence du paiement : {id}",
       "saving": "Enregistrement de vos informations…",
       "saveFailed": "Votre paiement a bien été effectué, mais nous n’avons pas pu enregistrer vos informations. Veuillez réessayer, ou écrivez à <mail>{email}</mail> en indiquant la référence du paiement.",
-      "savePending": "Votre paiement a bien été effectué. Nous n’avons pas encore pu enregistrer vos informations ; nous continuerons d’essayer automatiquement, y compris la prochaine fois que vous ouvrirez ce site sur cet appareil. Conservez votre référence de paiement ({id}). Une question ? Écrivez à <mail>{email}</mail>.",
+      "savePending": "Votre paiement a bien été effectué. Nous n’avons pas encore pu enregistrer vos informations ; nous continuerons d’essayer automatiquement, y compris la prochaine fois que vous ouvrirez ce site sur cet appareil. Conservez votre référence de paiement ({id}). Une question ? Écrivez à <mail>{email}</mail>.",
       "priceNow": "Le total à payer est de {charged}. (Cette page affichait {shown}.)"
     },
     "empty": {
@@ -700,7 +692,7 @@
       "thanksText": "Votre générosité aide à garder la lumière de Nazareth allumée pour les pèlerins du monde entier."
     },
     "pending": {
-      "recovered": "Bonne nouvelle : votre paiement précédent ({id}) est maintenant enregistré chez nous. Merci !",
+      "recovered": "Bonne nouvelle : votre paiement précédent ({id}) est maintenant enregistré chez nous. Merci !",
       "waiting": "Votre paiement précédent ({id}) attend toujours d’être enregistré chez nous. Nous continuons d’essayer. Si cela dure, écrivez à {email} en indiquant cette référence."
     }
   },
@@ -726,8 +718,8 @@
       "bestselling": "Meilleures ventes",
       "rating": "Mieux notés",
       "newest": "Nouveautés",
-      "priceAsc": "Prix : croissant",
-      "priceDesc": "Prix : décroissant",
+      "priceAsc": "Prix : croissant",
+      "priceDesc": "Prix : décroissant",
       "name": "Nom (A–Z)"
     },
     "allProducts": "Tous les souvenirs",
@@ -738,7 +730,7 @@
       "apply": "Voir {count, plural, one {# produit} other {# produits}}",
       "clearAll": "Tout effacer",
       "active": "Filtres actifs",
-      "remove": "Retirer le filtre : {label}",
+      "remove": "Retirer le filtre : {label}",
       "noneText": "Essayez de retirer un filtre ou de chercher autre chose.",
       "category": "Catégorie",
       "allCategories": "Toutes les catégories",
@@ -751,7 +743,7 @@
       "ratingAtLeast": "{stars, plural, one {# étoile et plus} other {# étoiles et plus}}",
       "availability": "Disponibilité",
       "inStock": "En stock uniquement",
-      "chipSearch": "Recherche : {query}",
+      "chipSearch": "Recherche : {query}",
       "chipPriceRange": "{min} – {max}",
       "chipPriceMin": "À partir de {min}",
       "chipPriceMax": "Jusqu’à {max}"
@@ -777,7 +769,7 @@
       "outOf": "sur 5",
       "basedOn": "D’après {count, plural, one {# avis} other {# avis}}",
       "breakdown": "Répartition des notes",
-      "breakdownRow": "{stars, plural, one {# étoile} other {# étoiles}} : {count, plural, one {# avis} other {# avis}}",
+      "breakdownRow": "{stars, plural, one {# étoile} other {# étoiles}} : {count, plural, one {# avis} other {# avis}}",
       "emptyTitle": "Pas encore d’avis",
       "emptyText": "Soyez le premier à dire aux autres pèlerins ce que vous pensez de ce souvenir.",
       "unavailable": "Les avis ne peuvent pas être chargés pour le moment.",
@@ -800,7 +792,7 @@
         "website": "Site web (laisser vide)",
         "submit": "Publier l’avis",
         "sending": "Publication…",
-        "success": "Merci ! Votre avis a été publié.",
+        "success": "Merci ! Votre avis a été publié.",
         "another": "Écrire un autre avis",
         "errors": {
           "nameRequired": "Veuillez saisir votre nom.",
@@ -822,7 +814,7 @@
       "removed": "{name} a été retiré de vos favoris.",
       "save": "Ajouter aux favoris",
       "link": "Favoris",
-      "linkAria": "Favoris : {count, plural, one {# article enregistré} other {# articles enregistrés}}",
+      "linkAria": "Favoris : {count, plural, one {# article enregistré} other {# articles enregistrés}}",
       "pageTitle": "Vos favoris",
       "pageDescription": "Les souvenirs que vous avez gardés pour plus tard.",
       "savedHeading": "Souvenirs enregistrés",
@@ -871,11 +863,11 @@
       "rights": "Tous droits réservés."
     },
     "notFound": {
-      "suggestions": "Où souhaitez-vous aller ?",
+      "suggestions": "Où souhaitez-vous aller ?",
       "hint": {
         "sites": "Églises, source et vieille ville",
         "tour": "Parcourez Nazareth pas à pas",
-        "candle": "Allumez une bougie pour votre intention"
+        "candle": "Allumez un cierge pour votre intention"
       }
     },
     "error": {
@@ -934,11 +926,11 @@
       "terms": "Conditions d’utilisation",
       "accessibility": "Accessibilité",
       "groupPlan": "Préparer et découvrir",
-      "groupHelp": "Aide et mentions légales"
+      "groupHelp": "Aide et informations légales"
     },
     "common": {
       "moreEyebrow": "Poursuivez le voyage",
-      "moreTitle": "Et ensuite ?",
+      "moreTitle": "Et ensuite ?",
       "open": "Ouvrir"
     },
     "plan": {
@@ -953,9 +945,9 @@
       },
       "form": {
         "title": "Votre pèlerinage",
-        "days": "Combien de jours ?",
+        "days": "Combien de jours ?",
         "dayCount": "{count, plural, one {# jour} other {# jours}}",
-        "interests": "Que recherchez-vous ?",
+        "interests": "Que recherchez-vous ?",
         "interestsHint": "Choisissez-en plusieurs, ou aucun pour un parcours équilibré.",
         "interest": {
           "gospel": "Lieux de l’Évangile",
@@ -985,15 +977,15 @@
       "tips": {
         "latin": "La visite peut être interrompue pendant les messes et les offices, et les horaires changent les jours de fête. Vérifiez les horaires pour votre date.",
         "greek": "Les horaires suivent les offices et peuvent changer sans préavis. Demandez à l’entrée si l’église est ouverte.",
-        "maryswell": "Tout près de l’église grecque orthodoxe : les deux visites vont bien ensemble. Les horaires varient ; vérifiez ce qui est ouvert le jour de votre visite.",
+        "maryswell": "Tout près de l’église grecque orthodoxe : les deux visites vont bien ensemble. Les horaires varient ; vérifiez ce qui est ouvert le jour de votre visite.",
         "oldcity": "Les boutiques fixent leurs propres horaires et certaines ferment le vendredi ou le dimanche. Le matin est le meilleur moment pour voir le marché animé.",
         "city": "Les rues sont les plus animées le matin. Prévoyez le temps de boire un café et de flâner."
       },
       "caveat": {
         "title": "Avant de partir",
         "hours": "Les horaires d’ouverture des églises changent selon les offices, les fêtes et les jours fériés, parfois sans préavis. Vérifiez toujours avant votre voyage.",
-        "dress": "Les églises demandent une tenue décente : épaules et genoux couverts.",
-        "walking": "Les temps de marche sont des estimations entre les sites ; les rues de Nazareth sont pentues par endroits, prévoyez donc une marge."
+        "dress": "Les églises demandent une tenue décente : épaules et genoux couverts.",
+        "walking": "Les temps de marche sont des estimations entre les sites ; les rues de Nazareth sont pentues par endroits, prévoyez donc une marge."
       },
       "actions": {
         "calendar": "Ajouter à l’agenda",
@@ -1016,12 +1008,12 @@
     "visit": {
       "meta": {
         "title": "Guide du visiteur de Nazareth",
-        "description": "Tout pour préparer votre visite à Nazareth : comment venir depuis Haïfa, Tel-Aviv et l’aéroport Ben Gourion, tenue vestimentaire, meilleures saisons, sécurité, argent et météo mois par mois."
+        "description": "Tout pour préparer votre visite à Nazareth : comment venir depuis Haïfa, Tel-Aviv et l’aéroport Ben Gourion, tenue vestimentaire, meilleures saisons, sécurité, argent et météo mois par mois."
       },
       "hero": {
         "eyebrow": "Guide du visiteur",
         "title": "Visiter Nazareth",
-        "lead": "Des réponses pratiques pour les pèlerins et les voyageurs : comment venir, comment s’habiller, quand venir et à quoi s’attendre."
+        "lead": "Des réponses pratiques pour les pèlerins et les voyageurs : comment venir, comment s’habiller, quand venir et à quoi s’attendre."
       },
       "getting": {
         "eyebrow": "Comment venir",
@@ -1031,20 +1023,20 @@
         "routes": {
           "haifa": {
             "title": "Depuis Haïfa",
-            "text": "Le trajet le plus simple : environ 40 minutes en voiture ou en taxi, ou environ une heure en bus."
+            "text": "Le trajet le plus simple : environ 40 minutes en voiture ou en taxi, ou environ une heure en bus."
           },
           "telaviv": {
             "title": "Depuis Tel-Aviv",
-            "text": "Environ deux heures en voiture. Des bus et des trains desservent le nord ; en transports en commun, on rejoint généralement Haïfa ou Afula, puis on prend un bus pour Nazareth."
+            "text": "Environ une heure et demie en voiture, davantage aux heures de pointe. Des bus directs relient Tel-Aviv à Nazareth ; vous pouvez aussi prendre le train jusqu’à Haïfa ou Afula, puis continuer en bus."
           },
           "airport": {
             "title": "Depuis l’aéroport Ben Gourion",
-            "text": "Environ deux heures en voiture ou en taxi. En transports en commun, prenez le train jusqu’à Haïfa ou Tel-Aviv, puis un bus ; une navette réservée à l’avance ou une voiture de location est le plus simple."
+            "text": "Environ deux heures en voiture ou en taxi. En transports en commun, prenez le train jusqu’à Haïfa ou Tel-Aviv, puis un bus ; une navette réservée à l’avance ou une voiture de location est le plus simple."
           }
         },
         "local": {
           "title": "Une fois à Nazareth",
-          "text": "Les lieux saints sont tous à environ 15 minutes à pied les uns des autres : on gare la voiture une fois et on explore à pied. Le stationnement au centre est limité ; arrivez tôt ou utilisez un parking à l’entrée de la vieille ville."
+          "text": "Les lieux saints sont tous à environ 15 minutes à pied les uns des autres : on gare la voiture une fois et on explore à pied. Le stationnement au centre est limité ; arrivez tôt ou utilisez un parking à l’entrée de la vieille ville."
         }
       },
       "essentials": {
@@ -1053,15 +1045,15 @@
         "items": {
           "dress": {
             "title": "Tenue vestimentaire",
-            "text": "Les églises demandent aux visiteurs, femmes et hommes, de couvrir leurs épaules et leurs genoux. Un foulard léger ou un châle dans votre sac suffit. Portez des chaussures confortables : les vieilles ruelles sont pentues et irrégulières."
+            "text": "Les églises demandent aux visiteurs, femmes et hommes, de couvrir leurs épaules et leurs genoux. Un foulard léger ou un châle dans votre sac suffit. Portez des chaussures confortables : les vieilles ruelles sont pentues et irrégulières."
           },
           "etiquette": {
             "title": "Savoir-vivre",
-            "text": "Parlez à voix basse dans les églises et mettez votre téléphone en silencieux. Retirez votre chapeau à l’intérieur. La photographie est généralement permise, mais pas pendant les offices ; demandez avant de photographier des personnes."
+            "text": "Parlez à voix basse dans les églises et mettez votre téléphone en silencieux. Retirez votre chapeau à l’intérieur. La photographie est généralement permise, mais pas pendant les offices ; demandez avant de photographier des personnes."
           },
           "seasons": {
             "title": "Meilleures saisons",
-            "text": "Le printemps (de mars à mai) et l’automne (de fin septembre à novembre) sont doux et les plus agréables pour marcher. L’été est chaud et sec ; l’hiver est frais et pluvieux. Pâques, Noël et la fête de l’Annonciation, le 25 mars, sont les moments les plus fréquentés et les plus émouvants."
+            "text": "Le printemps (de mars à mai) et l’automne (de fin septembre à novembre) sont doux et les plus agréables pour marcher. L’été est chaud et sec ; l’hiver est frais et pluvieux. Pâques, Noël et la fête de l’Annonciation (le 25 mars, et le 7 avril à l’église grecque orthodoxe) sont les moments les plus fréquentés et les plus émouvants."
           },
           "safety": {
             "title": "Sécurité",
@@ -1069,7 +1061,7 @@
           },
           "money": {
             "title": "Argent",
-            "text": "La monnaie est le nouveau shekel israélien (ILS, ₪). Les cartes sont largement acceptées et il y a des distributeurs au centre ; gardez un peu d’espèces pour les étals du marché et les petits cafés. Marchander poliment fait partie des achats au marché."
+            "text": "La monnaie est le nouveau shekel israélien (ILS, ₪). Les cartes sont largement acceptées et il y a des distributeurs au centre ; gardez un peu d’espèces pour les étals du marché et les petits cafés. Marchander poliment fait partie des achats au marché."
           },
           "language": {
             "title": "Langue",
@@ -1080,7 +1072,7 @@
       "climate": {
         "eyebrow": "Météo",
         "title": "Météo mois par mois",
-        "lead": "Conditions habituelles à Nazareth : étés chauds et secs, hivers frais et humides.",
+        "lead": "Conditions habituelles à Nazareth : étés chauds et secs, hivers frais et humides.",
         "caption": "Températures quotidiennes moyennes et précipitations par mois",
         "month": "Mois",
         "high": "Maximale",
@@ -1094,29 +1086,29 @@
           "cool": "Frais"
         },
         "mm": "{mm} mm",
-        "note": "Chiffres arrondis, moyennes sur le long terme, à titre indicatif. La météo varie d’une année à l’autre ; consultez les prévisions avant de partir."
+        "note": "Chiffres arrondis, moyennes sur le long terme, à titre indicatif. La météo varie d’une année à l’autre ; consultez les prévisions avant de partir."
       },
       "faq": {
         "title": "Questions des visiteurs",
         "free": {
-          "q": "L’entrée des églises est-elle gratuite ?",
-          "a": "L’entrée des principales églises est généralement gratuite et les dons sont les bienvenus. Chaque église fixe ses horaires et ses règles : vérifiez avant votre visite."
+          "q": "L’entrée des églises est-elle gratuite ?",
+          "a": "L’entrée des principales églises est généralement gratuite et les dons sont les bienvenus. Chaque église fixe ses horaires et ses règles : vérifiez avant votre visite."
         },
         "dress": {
-          "q": "Comment dois-je m’habiller ?",
+          "q": "Comment dois-je m’habiller ?",
           "a": "Une tenue décente couvrant épaules et genoux, et des chaussures confortables pour les ruelles pentues. Prévoyez une couche légère en hiver et une protection solaire en été."
         },
         "days": {
-          "q": "De combien de jours ai-je besoin ?",
+          "q": "De combien de jours ai-je besoin ?",
           "a": "La plupart des pèlerins voient les principaux lieux saints en une journée complète. Deux ou trois jours permettent de prendre le temps de prier, de visiter le marché de la vieille ville et de faire des excursions en Galilée."
         },
         "safe": {
-          "q": "Nazareth est-elle sûre pour les visiteurs ?",
+          "q": "Nazareth est-elle sûre pour les visiteurs ?",
           "a": "Nazareth est en général calme et accueillante, mais la situation dans la région peut évoluer. Consultez les conseils aux voyageurs de votre gouvernement et l’actualité locale avant et pendant votre séjour."
         },
         "season": {
-          "q": "Quelle est la meilleure période pour visiter ?",
-          "a": "Le printemps et l’automne sont les plus confortables. L’été est chaud et l’hiver pluvieux. Pâques, Noël et le 25 mars (l’Annonciation) sont les moments les plus fréquentés et les plus émouvants."
+          "q": "Quelle est la meilleure période pour visiter ?",
+          "a": "Le printemps et l’automne sont les plus confortables. L’été est chaud et l’hiver pluvieux. Pâques, Noël et l’Annonciation (le 25 mars, et le 7 avril à l’église grecque orthodoxe) sont les moments les plus fréquentés et les plus émouvants."
         }
       }
     },
@@ -1131,14 +1123,14 @@
         "lead": "Huit passages qui nomment Nazareth, dans l’ordre du récit, chacun associé au lieu que l’on peut encore visiter."
       },
       "intro": {
-        "title": "De l’Annonciation à « Viens et vois »",
+        "title": "De l’Annonciation à « Viens et vois »",
         "text": "Dans les Évangiles, Nazareth est la ville de l’Annonciation et des années cachées de Jésus. Lisez un passage, méditez la réflexion, puis suivez le lien vers le lieu saint."
       },
       "visitSite": "Visiter le lieu saint",
-      "note": "Les citations sont données pour la réflexion et peuvent différer légèrement de la traduction de la Bible que vous utilisez. Passages : Luc 1, 2 et 4 ; Matthieu 2 ; Jean 1.",
+      "note": "Les citations sont données pour la réflexion et peuvent différer légèrement de la traduction de la Bible que vous utilisez. Passages : Luc 1, 2 et 4 ; Matthieu 2 ; Jean 1.",
       "p": {
         "luke126": {
-          "quote": "Au sixième mois, l’ange Gabriel fut envoyé par Dieu dans une ville de Galilée appelée Nazareth, auprès d’une vierge fiancée à un homme du nom de Joseph, de la maison de David. Le nom de la vierge était Marie.",
+          "quote": "Au sixième mois, l’ange Gabriel fut envoyé par Dieu dans une ville de Galilée, appelée Nazareth, à une vierge fiancée à un homme du nom de Joseph, de la maison de David. Le nom de la vierge était Marie.",
           "ref": "Luc 1,26-27",
           "text": "Toute l’histoire commence dans une petite ville de colline. Marchez aujourd’hui dans Nazareth et vous marchez là où commence l’Évangile."
         },
@@ -1146,13 +1138,13 @@
           "text": "Sous la basilique de l’Annonciation se trouve la grotte que les chrétiens vénèrent depuis des siècles comme la maison de Marie, où l’on garde la mémoire de la salutation de l’ange."
         },
         "luke138": {
-          "text": "La tradition orthodoxe se souvient que l’ange parla d’abord à Marie alors qu’elle allait puiser de l’eau, à la source qui jouxte l’église grecque orthodoxe de l’Annonciation. Sa réponse est le cœur de la prière de tout pèlerin."
+          "text": "La tradition orthodoxe se souvient que l’ange parla d’abord à Marie alors qu’elle allait puiser de l’eau, à la source qui jaillit à l’intérieur de l’église grecque orthodoxe de l’Annonciation. Sa réponse est le cœur de la prière de tout pèlerin."
         },
         "matthew223": {
-          "text": "Au retour d’Égypte, Joseph s’installa avec sa famille à Nazareth. Dès lors, Jésus fut appelé « Jésus de Nazareth », et le nom de la ville parcourut le monde."
+          "text": "Au retour d’Égypte, Joseph s’installa avec sa famille à Nazareth. Dès lors, Jésus fut appelé « Jésus de Nazareth », et le nom de la ville parcourut le monde."
         },
         "luke240": {
-          "text": "Des années cachées, on nous dit très peu de chose : un enfant qui grandit dans une ville ordinaire. Les ruelles et le marché de la vieille ville aident à imaginer cette vie quotidienne."
+          "text": "Des années cachées, on nous dit très peu de chose : un enfant qui grandit dans une ville ordinaire. Les ruelles et le marché de la vieille ville aident à imaginer cette vie quotidienne."
         },
         "luke251": {
           "quote": "Il descendit avec eux pour aller à Nazareth, et il leur était soumis. Sa mère gardait toutes ces choses dans son cœur.",
@@ -1165,7 +1157,7 @@
           "text": "Jésus revint prêcher dans la ville où il avait grandi. Des lieux de la vieille ville, dont une église traditionnellement située à l’emplacement de la synagogue, rappellent ce jour."
         },
         "john146": {
-          "text": "La réponse de Philippe à Nathanaël est l’invitation de tout pèlerinage : Viens et vois. Nazareth se comprend encore mieux en parcourant ses rues."
+          "text": "La réponse de Philippe à Nathanaël est l’invitation de tout pèlerinage : Viens et vois. Nazareth se comprend encore mieux en parcourant ses rues."
         }
       }
     },
@@ -1208,7 +1200,7 @@
         "title": "Partager une prière",
         "intro": "Écrivez une intention pour la paix, la guérison, l’action de grâce ou votre famille. Elle apparaîtra sur le mur.",
         "name": "Votre nom",
-        "country": "D’où venez-vous ?",
+        "country": "D’où venez-vous ?",
         "countryChoose": "Choisissez votre pays",
         "category": "Catégorie",
         "prayer": "Votre prière",
@@ -1223,7 +1215,7 @@
       "errors": {
         "required": "Veuillez remplir ce champ.",
         "tooShort": "Veuillez écrire au moins {min} caractères.",
-        "tooLong": "Veuillez rester sous {max} caractères.",
+        "tooLong": "Veuillez ne pas dépasser {max} caractères.",
         "noLinks": "Veuillez retirer les liens web, les adresses e-mail et le code.",
         "rateLimited": "Trop de prières ont été envoyées depuis cette connexion. Veuillez attendre quelques minutes avant de réessayer.",
         "invalid": "Nous n’avons pas pu accepter cette prière. Vérifiez ce que vous avez écrit.",
@@ -1245,7 +1237,7 @@
       "hero": {
         "eyebrow": "Prendre contact",
         "title": "Nous contacter",
-        "lead": "Une question sur votre commande, un cierge ou votre pèlerinage ? Écrivez-nous et nous répondrons par e-mail."
+        "lead": "Une question sur votre commande, un cierge ou votre pèlerinage ? Écrivez-nous et nous répondrons par e-mail."
       },
       "form": {
         "title": "Envoyez-nous un message",
@@ -1265,7 +1257,7 @@
       "errors": {
         "required": "Veuillez remplir ce champ.",
         "tooShort": "Veuillez écrire au moins {min} caractères.",
-        "tooLong": "Veuillez rester sous {max} caractères.",
+        "tooLong": "Veuillez ne pas dépasser {max} caractères.",
         "invalidEmail": "Veuillez saisir une adresse e-mail valide.",
         "invalidPhone": "Veuillez saisir un numéro de téléphone valide.",
         "rateLimited": "Trop de messages ont été envoyés depuis cette connexion. Veuillez attendre quelques minutes avant de réessayer.",
@@ -1274,7 +1266,7 @@
         "server": "Un problème est survenu de notre côté. Veuillez réessayer plus tard."
       },
       "direct": {
-        "title": "Vous préférez écrire directement ?",
+        "title": "Vous préférez écrire directement ?",
         "text": "Vous pouvez nous écrire par e-mail ou nous retrouver sur nos réseaux sociaux.",
         "email": "Envoyer un e-mail",
         "whatsapp": "Nous écrire sur WhatsApp",
@@ -1302,7 +1294,7 @@
       },
       "eyebrow": "Aide",
       "title": "Questions fréquentes",
-      "lead": "Des réponses rapides sur la visite, la prière avec nous et la boutique. Vous ne trouvez pas la vôtre ? Écrivez-nous.",
+      "lead": "Des réponses rapides sur la visite, la prière avec nous et la boutique. Vous ne trouvez pas la vôtre ? Écrivez-nous.",
       "groupsLabel": "Groupes de questions",
       "groups": {
         "visiting": "Visiter Nazareth",
@@ -1312,58 +1304,58 @@
       },
       "items": {
         "candle": {
-          "q": "Comment fonctionne l’allumage d’un cierge ?",
-          "a": "Choisissez une église de Nazareth, écrivez votre nom et votre prière et réglez {price}. Nous allumons pour vous une vraie bougie dans cette église, nous la filmons avec votre nom et votre prière, et nous envoyons la vidéo à votre adresse e-mail sous 48 heures."
+          "q": "Comment fonctionne l’allumage d’un cierge ?",
+          "a": "Choisissez une église de Nazareth, écrivez votre nom et votre prière et réglez {price}. Nous allumons pour vous un vrai cierge dans cette église, nous le filmons avec votre nom et votre prière, et nous envoyons la vidéo à votre adresse e-mail sous 48 heures."
         },
         "wall": {
-          "q": "Le mur de prières est-il public ?",
+          "q": "Le mur de prières est-il public ?",
           "a": "Oui. Une prière apparaît sur le mur avec le nom et le pays que vous indiquez. N’indiquez pas de coordonnées, et n’utilisez que votre prénom si vous préférez."
         },
         "live": {
-          "q": "Puis-je prier avec vous en direct ?",
+          "q": "Puis-je prier avec vous en direct ?",
           "a": "Oui. Notre page en direct diffuse des prières et des offices depuis les lieux saints de Nazareth et indique l’heure de la prochaine diffusion."
         },
         "pay": {
-          "q": "Comment payer ?",
-          "a": "Les paiements se font avec PayPal. Les données de votre carte ou de votre compte PayPal vont à PayPal, jamais à nous ; nous ne les voyons ni ne les conservons."
+          "q": "Comment payer ?",
+          "a": "Les paiements se font avec PayPal. Les données de votre carte ou de votre compte PayPal vont à PayPal, jamais à nous ; nous ne les voyons ni ne les conservons."
         },
         "account": {
-          "q": "Ai-je besoin d’un compte ?",
-          "a": "Non. Il n’y a ni compte ni mot de passe. Votre panier et votre liste d’envies restent dans votre propre navigateur."
+          "q": "Ai-je besoin d’un compte ?",
+          "a": "Non. Il n’y a ni compte ni mot de passe. Votre panier et vos favoris restent dans votre propre navigateur."
         },
         "shipping": {
-          "q": "Combien coûte la livraison ?",
+          "q": "Combien coûte la livraison ?",
           "a": "La livraison est à tarif unique de {shipping} par commande, affiché dans votre panier avant le paiement."
         },
         "discount": {
-          "q": "Y a-t-il une réduction ?",
-          "a": "Oui : {discount} de réduction sur les articles de chaque commande, appliquée automatiquement dans votre panier."
+          "q": "Y a-t-il une réduction ?",
+          "a": "Oui : {discount} de réduction sur les articles de chaque commande, appliquée automatiquement dans votre panier."
         },
         "damaged": {
-          "q": "Que faire si ma commande arrive endommagée ?",
+          "q": "Que faire si ma commande arrive endommagée ?",
           "a": "Écrivez-nous avec les détails de votre commande et une photo. Nous vous répondrons et trouverons une solution. Voir Livraison et retours pour les détails."
         },
         "donate": {
-          "q": "Puis-je faire un don ?",
+          "q": "Puis-je faire un don ?",
           "a": "Oui. Les dons de {min} à {max} sont acceptés via PayPal sur la page Faire un don et soutiennent l’action de Nazareth Holy Cross."
         },
         "languages": {
-          "q": "Dans quelles langues le site est-il disponible ?",
-          "a": "Anglais, français, espagnol, allemand, italien, portugais, polonais, russe, grec, hébreu et arabe."
+          "q": "Dans quelles langues le site est-il disponible ?",
+          "a": "Le site est disponible dans les langues suivantes : {languages}."
         },
         "data": {
-          "q": "Quelles données conservez-vous ?",
-          "a": "Seulement ce dont un service a besoin : commandes, demandes de cierge, prières, avis et messages de contact. Lisez la politique de confidentialité pour les détails."
+          "q": "Quelles données conservez-vous ?",
+          "a": "Seulement ce dont un service a besoin : commandes, demandes de cierge, prières, avis et messages de contact. Lisez la politique de confidentialité pour les détails."
         },
         "contact": {
-          "q": "Comment vous contacter ?",
+          "q": "Comment vous contacter ?",
           "a": "Utilisez la page de contact ou écrivez à {email}."
         }
       }
     },
     "legal": {
-      "eyebrow": "Mentions légales",
-      "updated": "Dernière mise à jour : {date}",
+      "eyebrow": "Informations légales",
+      "updated": "Dernière mise à jour : {date}",
       "contents": "Sur cette page",
       "related": "Voir aussi",
       "privacy": {
@@ -1380,14 +1372,14 @@
           },
           "collect": {
             "title": "Ce que nous collectons",
-            "p1": "Nous collectons uniquement ce que vous nous donnez lorsque vous utilisez un service :",
+            "p1": "Nous collectons uniquement ce que vous nous donnez lorsque vous utilisez un service :",
             "items": {
-              "orders": "Commandes : votre nom, votre adresse e-mail, votre numéro de téléphone, votre adresse de livraison, les articles achetés, le total et la date.",
-              "candles": "Demandes de cierge : votre nom, votre adresse e-mail et votre prière.",
-              "prayers": "Le mur de prières : le nom, le pays, la catégorie et la prière que vous écrivez. Ces informations sont affichées publiquement.",
-              "reviews": "Avis : votre nom, votre lieu d’origine et votre message, affichés sur le site une fois approuvés.",
-              "contact": "Messages de contact : votre nom, votre adresse e-mail, votre numéro de téléphone et votre message.",
-              "payments": "Paiements : gérés par PayPal. Nous ne recevons ni ne conservons votre numéro de carte."
+              "orders": "Commandes : votre nom, votre adresse e-mail, votre numéro de téléphone, votre adresse de livraison, les articles achetés, le total et la date.",
+              "candles": "Demandes de cierge : votre nom, votre adresse e-mail et votre prière.",
+              "prayers": "Le mur de prières : le nom, le pays, la catégorie et la prière que vous écrivez. Ces informations sont affichées publiquement.",
+              "reviews": "Avis : votre nom, votre lieu d’origine et votre message, affichés sur le site une fois approuvés.",
+              "contact": "Messages de contact : votre nom, votre adresse e-mail, votre numéro de téléphone et votre message.",
+              "payments": "Paiements : gérés par PayPal. Nous ne recevons ni ne conservons votre numéro de carte."
             }
           },
           "use": {
@@ -1400,7 +1392,7 @@
           },
           "share": {
             "title": "Qui d’autre y a accès",
-            "p1": "Nous ne vendons pas vos données. Quelques services nous aident à faire fonctionner le site et traitent des données pour notre compte :",
+            "p1": "Nous ne vendons pas vos données. Quelques services nous aident à faire fonctionner le site et traitent des données pour notre compte :",
             "items": {
               "paypal": "PayPal traite les paiements selon sa propre politique de confidentialité.",
               "hosting": "Notre site, nos serveurs, notre base de données et notre stockage d’images sont exploités par des hébergeurs, qui peuvent conserver des données en dehors de votre pays.",
@@ -1409,9 +1401,9 @@
           },
           "browser": {
             "title": "Ce qui reste dans votre navigateur",
-            "p1": "Le site n’a pas de comptes et n’utilise pas de cookies publicitaires ni d’analyse d’audience. Votre navigateur conserve :",
+            "p1": "Le site n’a pas de comptes et n’utilise pas de cookies publicitaires ni d’analyse d’audience. Votre navigateur conserve :",
             "items": {
-              "cart": "Votre panier et votre liste d’envies.",
+              "cart": "Votre panier et vos favoris.",
               "liked": "Les prières auxquelles vous avez dit Amen, pour que vous ne puissiez le dire qu’une fois.",
               "language": "Votre choix de langue."
             },
@@ -1458,7 +1450,7 @@
           },
           "candles": {
             "title": "Cierges",
-            "p1": "Une bougie de prière coûte {price}. Nous allumons une vraie bougie à votre intention dans l’église que vous choisissez, nous la filmons et nous envoyons la vidéo à votre adresse e-mail dans les 48 heures qui suivent votre paiement. Si la vidéo n’arrive pas dans ce délai ou si quelque chose n’y est pas correct, écrivez-nous et nous vous rembourserons intégralement."
+            "p1": "Un cierge de prière coûte {price}. Nous allumons un vrai cierge à votre intention dans l’église que vous choisissez, nous le filmons et nous envoyons la vidéo à votre adresse e-mail dans les 48 heures qui suivent votre paiement. Si la vidéo n’arrive pas dans ce délai ou si quelque chose n’y est pas correct, écrivez-nous et nous vous rembourserons intégralement."
           },
           "donations": {
             "title": "Dons",
@@ -1493,7 +1485,7 @@
       "shipping": {
         "meta": {
           "title": "Livraison et retours",
-          "description": "Frais de livraison, délais, douanes et marche à suivre si un article arrive endommagé : tout sur la réception de vos souvenirs de Nazareth."
+          "description": "Frais de livraison, délais, douanes et marche à suivre si un article arrive endommagé : tout sur la réception de vos souvenirs de Nazareth."
         },
         "title": "Livraison et retours",
         "lead": "Ce que vous payez, quand attendre votre commande et que faire en cas de problème.",
@@ -1502,8 +1494,8 @@
             "title": "Coût",
             "p1": "La livraison est à tarif unique par commande, quel que soit le nombre d’articles.",
             "items": {
-              "i1": "Livraison : {shipping} par commande.",
-              "i2": "Réduction : {discount} sur les articles, appliquée automatiquement. Le total est affiché dans votre panier avant le paiement."
+              "i1": "Livraison : {shipping} par commande.",
+              "i2": "Réduction : {discount} sur les articles, appliquée automatiquement. Le total est affiché dans votre panier avant le paiement."
             }
           },
           "delivery": {
@@ -1525,7 +1517,7 @@
           },
           "digital": {
             "title": "Cierges et dons",
-            "p1": "Les demandes de cierge et les dons sont des services, pas des produits : ils ne sont pas expédiés. Si vous en avez fait un par erreur, écrivez-nous."
+            "p1": "Les demandes de cierge et les dons sont des services, pas des produits : ils ne sont pas expédiés. Si vous en avez fait un par erreur, écrivez-nous."
           },
           "contact": {
             "title": "Questions",
@@ -1543,7 +1535,7 @@
         "sections": {
           "commitment": {
             "title": "Notre engagement",
-            "p1": "Nazareth Holy Cross s’adresse aux pèlerins du monde entier, dont beaucoup sont âgés ou lisent sur un téléphone. Nous voulons que chaque visiteur puisse allumer une bougie, découvrir les lieux saints, faire des achats et faire un don, avec un clavier, un lecteur d’écran, une loupe ou un écran tactile."
+            "p1": "Nazareth Holy Cross s’adresse aux pèlerins du monde entier, dont beaucoup sont âgés ou lisent sur un téléphone. Nous voulons que chaque visiteur puisse allumer un cierge, découvrir les lieux saints, faire des achats et faire un don, avec un clavier, un lecteur d’écran, une loupe ou un écran tactile."
           },
           "status": {
             "title": "État de conformité",
@@ -1603,7 +1595,7 @@
     "search": {
       "meta": {
         "title": "Recherche",
-        "description": "Recherchez dans Nazareth Holy Cross : pages, lieux saints, réponses et passages de l’Évangile."
+        "description": "Recherchez dans Nazareth Holy Cross : pages, lieux saints, réponses et passages de l’Évangile."
       },
       "label": "Rechercher sur le site",
       "placeholder": "Rechercher des pages, lieux saints, réponses…",
@@ -1614,7 +1606,7 @@
       "suggested": "Suggestions",
       "results": "Résultats de recherche",
       "count": "{count, plural, one {# résultat} other {# résultats}}",
-      "none": "Aucun résultat pour « {query} ». Essayez un autre mot.",
+      "none": "Aucun résultat pour « {query} ». Essayez un autre mot.",
       "types": {
         "page": "Pages",
         "site": "Lieux saints",
@@ -1681,9 +1673,9 @@
         "badge": "Diffusion en direct"
       },
       "ics": {
-        "add": "Ajouter au calendrier",
-        "addNamed": "Ajouter au calendrier : {name}",
-        "saved": "Le fichier pour « {name} » a été téléchargé. Ouvrez-le pour ajouter la date à votre calendrier.",
+        "add": "Ajouter à l’agenda",
+        "addNamed": "Ajouter à l’agenda : {name}",
+        "saved": "Le fichier d’agenda de « {name} » a été téléchargé. Ouvrez-le pour ajouter la date à votre agenda.",
         "calendarName": "Fêtes à Nazareth",
         "location": "Nazareth"
       },
@@ -1691,7 +1683,7 @@
         "title": "À propos des dates",
         "catholic": "Les dates catholiques suivent le calendrier grégorien, telles que les observent le Patriarcat latin de Jérusalem et la basilique de l’Annonciation. Lorsqu’une solennité tombe pendant la Semaine sainte ou un dimanche de Carême ou de l’Avent, elle est transférée au jour fixé par le calendrier romain.",
         "holyLand": "En Terre sainte, certaines paroisses catholiques, en Galilée et ailleurs, célèbrent Pâques et les fêtes qui en dépendent à la date orthodoxe, et les paroisses célèbrent généralement la fête du Saint-Sacrement le dimanche suivant. Renseignez-vous auprès de votre paroisse sur ses dates.",
-        "orthodox": "Les dates orthodoxes suivent le calendrier julien du Patriarcat grec orthodoxe de Jérusalem : les fêtes fixes tombent 13 jours plus tard dans notre calendrier (Noël le 7 janvier, l’Annonciation le 7 avril, la Croix glorieuse le 27 septembre), et Pâques suit la règle julienne. Les Églises orthodoxes qui suivent le calendrier julien révisé, comme celles de Grèce et de Roumanie, célèbrent les fêtes fixes aux dates catholiques.",
+        "orthodox": "Les dates orthodoxes suivent le calendrier julien du Patriarcat grec orthodoxe de Jérusalem : les fêtes fixes tombent 13 jours plus tard dans notre calendrier (Noël le 7 janvier, l’Annonciation le 7 avril, l’Exaltation de la Sainte-Croix le 27 septembre), et Pâques suit la règle julienne. Les Églises orthodoxes qui suivent le calendrier julien révisé, comme celles de Grèce et de Roumanie, célèbrent les fêtes fixes aux dates catholiques.",
         "computed": "Les dates sont calculées, et non reprises d’un calendrier paroissial. Veuillez vérifier les horaires des offices auprès de l’église."
       },
       "feasts": {
@@ -1728,6 +1720,7 @@
         },
         "palmSunday": {
           "name": "Dimanche des Rameaux",
+          "orthodoxName": "Entrée du Seigneur à Jérusalem",
           "description": "Jésus entre à Jérusalem et la Semaine sainte commence."
         },
         "holyThursday": {
@@ -1747,7 +1740,7 @@
         },
         "easter": {
           "name": "Dimanche de Pâques",
-          "orthodoxName": "Sainte Pâque (Pâques)",
+          "orthodoxName": "Sainte Pâque",
           "description": "La Résurrection du Seigneur, la fête des fêtes."
         },
         "divineMercy": {
@@ -1787,7 +1780,7 @@
         },
         "holyCross": {
           "name": "Croix glorieuse",
-          "orthodoxName": "Exaltation de la Sainte Croix",
+          "orthodoxName": "Exaltation de la Sainte-Croix",
           "description": "La fête de la Croix du Christ, qui donne son nom à Nazareth Holy Cross."
         },
         "allSaints": {
@@ -1828,7 +1821,7 @@
       "creditsTitle": "Crédits photo",
       "creditsDescription": "Qui a pris les photographies de Nazareth et de ses églises présentées sur ce site, sous quelle licence libre, et où trouver les originaux sur Wikimedia Commons.",
       "galleryTitle": "Nazareth en images",
-      "galleryDescription": "Photographies de la basilique de l’Annonciation, de l’église Saint-Joseph, de l’église grecque orthodoxe, du Puits de Marie, du souk de la vieille ville, de l’église de la Synagogue, du mont du Précipice et de la ville de Nazareth."
+      "galleryDescription": "Photographies de la basilique de l’Annonciation, de l’église Saint-Joseph, de l’église grecque orthodoxe, du puits de Marie, du souk de la vieille ville, de l’église de la Synagogue, du mont du Précipice et de la ville de Nazareth."
     },
     "nav": {
       "gallery": "Galerie de photos",
@@ -1863,13 +1856,13 @@
       "hills": "collines",
       "night": "de nuit"
     },
-    "alt": "{topic}: {subject}",
-    "creditLine": "Photo : {author} · {license}",
+    "alt": "{topic} : {subject}",
+    "creditLine": "Photo : {author} · {license}",
     "source": "Source",
     "gallery": {
       "eyebrow": "Galerie de photos",
       "title": "Nazareth en images",
-      "lead": "Huit lieux, une ville : la basilique de l’Annonciation, l’église Saint-Joseph, l’église grecque orthodoxe, le Puits de Marie, le souk de la vieille ville, l’église de la Synagogue, le mont du Précipice et la ville elle-même. Touchez une photo pour l’agrandir ; la visionneuse nomme le photographe.",
+      "lead": "Huit lieux, une ville : la basilique de l’Annonciation, l’église Saint-Joseph, l’église grecque orthodoxe, le puits de Marie, le souk de la vieille ville, l’église de la Synagogue, le mont du Précipice et la ville elle-même. Touchez une photo pour l’agrandir ; la visionneuse nomme le photographe.",
       "creditsLink": "Crédits photo",
       "visitPage": "Découvrir ce lieu"
     },
@@ -1925,11 +1918,11 @@
     }
   },
   "candlePage": {
-    "eyebrow": "Une vraie bougie, allumée pour vous à Nazareth",
-    "title": "Votre prière. Votre église. Votre bougie.",
-    "lead": "Choisissez une église de Nazareth et écrivez votre nom et votre prière. Nous allumons pour vous une vraie bougie dans cette église, nous la filmons avec votre nom et votre prière, et nous vous envoyons votre vidéo personnelle sous 48 heures.",
-    "cta": "Allumer ma bougie – {price}",
-    "pReal": "Une vraie bougie dans une vraie église, pas une bougie virtuelle",
+    "eyebrow": "Un vrai cierge, allumé pour vous à Nazareth",
+    "title": "Votre prière. Votre église. Votre cierge.",
+    "lead": "Choisissez une église de Nazareth et écrivez votre nom et votre prière. Nous allumons pour vous un vrai cierge dans cette église, nous le filmons avec votre nom et votre prière, et nous vous envoyons votre vidéo personnelle sous 48 heures.",
+    "cta": "Allumer mon cierge – {price}",
+    "pReal": "Un vrai cierge dans une vraie église, pas un cierge virtuel",
     "pVideo": "Votre vidéo personnelle sous 48 heures",
     "pGuest": "Sans créer de compte",
     "pSecure": "Paiement par PayPal ou par carte, sans compte PayPal",
@@ -1937,14 +1930,14 @@
     "s1T": "Choisissez votre église",
     "s1X": "{latin} ou {greek}, toutes deux à Nazareth.",
     "s2T": "Écrivez votre nom et votre prière",
-    "s2X": "Avec vos propres mots, dans votre langue. Nous les posons sur un billet à côté de votre bougie.",
+    "s2X": "Avec vos propres mots, dans votre langue. Nous les posons sur un billet à côté de votre cierge.",
     "s3T": "Réglez {price} et recevez votre vidéo",
-    "s3X": "Nous allumons votre bougie, nous la filmons et nous envoyons votre vidéo personnelle à votre adresse e-mail sous 48 heures.",
+    "s3X": "Nous allumons votre cierge, nous le filmons et nous envoyons votre vidéo personnelle à votre adresse e-mail sous 48 heures.",
     "knowTitle": "Bon à savoir",
-    "realQ": "Est-ce une vraie bougie ?",
-    "realA": "Oui. Un membre de notre équipe à Nazareth se rend dans l’église que vous avez choisie et y allume une vraie bougie. Rien n’est virtuel.",
+    "realQ": "Est-ce un vrai cierge ?",
+    "realA": "Oui. Un membre de notre équipe à Nazareth se rend dans l’église que vous avez choisie et y allume un vrai cierge. Rien n’est virtuel.",
     "getQ": "Que vais-je recevoir ?",
-    "getA": "Une courte vidéo personnelle par e-mail : l’église, le billet avec votre nom et votre prière, et votre bougie au moment où elle est allumée.",
+    "getA": "Une courte vidéo personnelle par e-mail : l’église, le billet avec votre nom et votre prière, et votre cierge au moment où il est allumé.",
     "timeQ": "Combien de temps cela prend-il ?",
     "timeA": "Vous recevez votre vidéo dans les 48 heures qui suivent votre paiement.",
     "whoQ": "Qui assure ce service ?",

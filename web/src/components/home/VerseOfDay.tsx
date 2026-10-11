@@ -1,6 +1,6 @@
 import { useTranslations } from 'next-intl';
 import Reveal from '@/components/ui/Reveal';
-import { NAZARETH_TIME_ZONE } from '@/lib/time';
+import { dateLocale, NAZARETH_TIME_ZONE } from '@/lib/time';
 import { nazarethDate, verseNumberFor } from './verse';
 import styles from './VerseOfDay.module.css';
 
@@ -11,7 +11,7 @@ export default function VerseOfDay({ id, locale, now = new Date() }: Props) {
   const t = useTranslations('home');
   const isoDate = nazarethDate(now);
   const n = verseNumberFor(isoDate);
-  const dateLabel = new Intl.DateTimeFormat(locale, {
+  const dateLabel = new Intl.DateTimeFormat(dateLocale(locale), {
     weekday: 'long',
     day: 'numeric',
     month: 'long',

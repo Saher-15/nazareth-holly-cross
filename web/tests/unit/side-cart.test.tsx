@@ -97,7 +97,7 @@ describe('side cart', () => {
     store([line('green', 1)]);
     show('he');
     fireEvent.click(await screen.findByTestId('side-cart-tab'));
-    expect(screen.getByRole('button', { name: 'סגירת העגלה' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'סגירת סל הקניות' })).toBeTruthy();
   });
 });
 

@@ -13,6 +13,7 @@ import FaqList from '@/components/pilgrim/FaqList';
 import NextSteps from '@/components/pilgrim/NextSteps';
 import shared from '@/components/pilgrim/shared.module.css';
 import Reveal from '@/components/ui/Reveal';
+import { formatDateTime } from '@/lib/time';
 import styles from './page.module.css';
 
 // Unit label of the weather table (a unit symbol, not a sentence).
@@ -130,7 +131,7 @@ export default async function VisitPage({ params }: PageProps<'/[locale]/visit'>
               <tbody>
                 {CLIMATE.map((month, i) => (
                   <tr key={i}>
-                    <th scope="row">{format.dateTime(new Date(Date.UTC(2001, i, 15)), { month: 'long', timeZone: 'UTC' })}</th>
+                    <th scope="row">{formatDateTime(new Date(Date.UTC(2001, i, 15)), locale, { month: 'long', timeZone: 'UTC' })}</th>
                     <td>
                       <span className={styles.temp}>
                         <span className={styles.bar} style={{ inlineSize: `${(month.high / 35) * 100}%` }} aria-hidden="true" />

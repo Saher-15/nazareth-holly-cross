@@ -38,30 +38,30 @@
   },
   "about": {
     "title": "Welcome to Nazareth Holy Cross",
-    "description1": "The heart of Christian faith. We understand that not everyone can physically visit Nazareth, a city where Jesus grew and where spiritual experiences await every visitor. Therefore, we are pleased to offer you the opportunity to bring Nazareth to you.",
-    "description2": "Through our website, you can take a virtual tour of the main churches and holy sites of Nazareth, connect to the rich history and religious tradition that characterizes the place. In addition, we offer you a unique opportunity to purchase local souvenirs and even light a candle in memory or honor of your loved ones, as if you were here with us.",
-    "description3": "In our online store, you can find a wide range of products: crosses made from local olive wood, jewelry inspired by Christian symbols, paintings, and mosaics that reflect the rich religious art, and more. Now, you can also buy water from the legendary Nazareth spring, sand from the sands of Nazareth, and local olives – all to feel the greatness of the city of Nazareth and Jesus. You can also have a real candle lit for you in a church in Nazareth, and receive a video of it.",
+    "description1": "Nazareth is at the heart of the Christian faith. Not everyone can travel to Nazareth, the city where Jesus grew up and where spiritual experiences await every visitor, so we are pleased to bring Nazareth to you.",
+    "description2": "Through our website, you can take a virtual tour of the main churches and holy sites of Nazareth, connect to the rich history and religious tradition that characterises the place. In addition, we offer you a unique opportunity to purchase local souvenirs and even light a candle in memory or honor of your loved ones, as if you were here with us.",
+    "description3": "In our online shop you will find crosses of local olive wood, rosaries, jewellery inspired by Christian symbols, stained glass and a keepsake set of water, soil, olive and incense from Nazareth. You can also have a real candle lit for you in a church in Nazareth, and receive a video of it.",
     "description4": "We invite you to open your hearts and feel the warmth of our community through every product you choose to buy. Every purchase supports the local community and helps preserve the rich heritage of Nazareth for future generations. Visit our website and find your way to connect with Nazareth, anytime and anywhere."
   },
   "whatIsNew": {
-    "title": "Biblical References to Nazareth",
+    "title": "Nazareth in the Bible",
     "scriptureNotes": {
       "matthew": "Matthew 2:23: \"And he came and dwelt in a city called Nazareth, that it might be fulfilled which was spoken by the prophets, 'He shall be called a Nazarene.'\"",
-      "luke1": "Luke 1:26-27: \"Now in the sixth month, the angel Gabriel was sent by God to a city of Galilee named Nazareth, to a virgin betrothed to a man whose name was Joseph, of the house of David. The virgin's name was Mary.\"",
+      "luke1": "Luke 1:26-27: \"In the sixth month, the angel Gabriel was sent from God to a city of Galilee named Nazareth, to a virgin pledged to be married to a man named Joseph, of the house of David. The virgin’s name was Mary.\"",
       "john": "John 1:46: \"And Nathanael said to him, 'Can anything good come out of Nazareth?' Philip said to him, 'Come and see.'\"",
-      "luke4": "Luke 4:16: \"So He came to Nazareth, where He had been brought up. And as His custom was, He went into the synagogue on the Sabbath day, and stood up to read.\""
+      "luke4": "Luke 4:16: \"He came to Nazareth, where he had been brought up. On the Sabbath day he went into the synagogue, as was his custom, and stood up to read.\""
     },
-    "touchingTheSacred": "Touching the Sacred, Feeling the Heartbeat",
+    "touchingTheSacred": "Touching the sacred, feeling the heartbeat",
     "introParagraphs": {
-      "part1": "Nazareth, the city where the miraculous unfolded, is the place where Jesus took His first steps, where the Virgin Mary embraced her Son and prayed for His safety. Here, within the ancient churches, at the sacred spring where Mary nourished Jesus, and in the vibrant market of the old city – you will find your faith coming to life once more.",
-      "part2": "Imagine yourself walking through the narrow streets, following in Jesus' footsteps to the churches, sharing moments of reflection at Mary's Spring, where the holy mother's eyes met the ancient waters. Every stone, every alley, tells a story of unwavering faith, of a spiritual journey that transcends time.",
-      "part3": "When you light a candle in the Basilica of the Annunciation, you reconnect with the place where Jesus first heard His divine calling. As your heart longs for Nazareth, our souvenirs carry the holy spirit of the city, reminding you of your deep connection to the place where it all began.",
+      "part1": "Nazareth, the city where the miraculous unfolded, is the place where Jesus took His first steps and grew up in the home of Mary and Joseph. Here, within the ancient churches, at the spring where Mary drew water, and in the vibrant market of the old city, you will find your faith coming to life once more.",
+      "part2": "Imagine yourself walking through the narrow streets, following in Jesus’ footsteps to the churches, sharing moments of reflection at Mary’s Well, where the holy mother drew water from the ancient spring. Every stone, every alley, tells a story of unwavering faith, of a spiritual journey that transcends time.",
+      "part3": "When you light a candle in the Basilica of the Annunciation, you join your prayer to the place where Mary said yes to God. And when your heart longs for Nazareth, our souvenirs carry something of its holiness, reminding you of your deep connection to the place where it all began.",
       "part4": "Allow us to bring Nazareth to you, straight into your home. With every memento, you preserve a deep bond with Nazareth – the city where Jesus and Mary walked, the city where faith was born. Remember the moments that happened here, the hearts that opened in prayer, and the tears that quietly fell upon the ancient stones.",
       "part5": "Nazareth awaits you, embracing you from afar, bringing its holiness to you. Keep the flame burning in your heart, until the day you return to us – to the city where faith beats."
     }
   },
   "live": {
-    "no_upcoming_events": "No upcoming events available.",
+    "no_upcoming_events": "No broadcasts are scheduled right now.",
     "past_live_events": "Past live events",
     "refresh_note": "Note: Please refresh the page before pressing the 'Join Live' button."
   },
@@ -75,12 +75,22 @@
   },
   "candle": {
     "lightAPrayCandle": "Light a prayer candle",
-    "selectChurch": "Select church to light the candle in:",
+    "selectChurch": "Choose the church where your candle will be lit:",
+    "churches": {
+      "latin": {
+        "name": "Basilica of the Annunciation",
+        "tradition": "Catholic"
+      },
+      "greek": {
+        "name": "Greek Orthodox Church of the Annunciation",
+        "tradition": "Orthodox · St Gabriel’s Church"
+      }
+    },
     "inputWarning": "Please select a church.",
     "firstName": "First name",
     "lastName": "Last name",
     "yourEmail": "Your email",
-    "confirmEmail": "Confirm email",
+    "confirmEmail": "Confirm email address",
     "yourPrayer": "Your prayer",
     "videosTitle": "Videos",
     "videosLead": "See how the candles are lit in the churches of Nazareth.",
@@ -107,19 +117,19 @@
   },
   "videos": {
     "interview_nazareth": {
-      "title": "Interview with the Nazareth Community",
+      "title": "Interview with the Nazareth community",
       "description": "Watch the exclusive interview streamed live from Nazareth."
     },
     "live_prayer_latin": {
-      "title": "Live Prayer from the Latin Church",
-      "description": "Experience a live broadcast of heartfelt prayers from the Latin Church."
+      "title": "Live prayer from the Basilica of the Annunciation",
+      "description": "Watch the recording of a prayer broadcast live from the Basilica of the Annunciation."
     }
   },
   "nazarethTour": {
     "pageHeading": "Explore Nazareth",
     "videoMessage": "Let's take a tour in Nazareth, a city brimming with history and culture. Discover vibrant markets, historic churches, and unique landmarks for an unforgettable experience.",
     "videoDescription": "Enjoy the sights and sounds of Nazareth in this immersive video tour. From bustling marketplaces to serene historical sites, get a glimpse of the beauty and charm of this ancient city.",
-    "ctaButton": "Learn More About Nazareth"
+    "ctaButton": "Learn more about Nazareth"
   },
   "pray": {
     "formTitle": "Share your review",
@@ -130,7 +140,7 @@
     "submitButton": "Submit",
     "successMessage": "Message submitted successfully!",
     "confirmationMessage": "Your message will appear on the wall once it is confirmed by the Nazareth Holy Cross team.",
-    "messagesTitle": "Reviewed customers",
+    "messagesTitle": "What our visitors say",
     "messagesDescription": "Here are the reviews that have been approved by our team. Thank you for sharing your feedback with us.",
     "noMessages": "No messages submitted yet."
   },
@@ -161,29 +171,29 @@
     "copyright": "Copyright © 2024 - All rights reserved by NazarethHolyCross"
   },
   "headerGreek": {
-    "title": "Explore the beauty of Greek Church",
+    "title": "Explore the beauty of the Greek Orthodox Church of the Annunciation",
     "mapButton": "View on Google Maps"
   },
   "contentGreek": {
-    "paragraph1": "The Greek Orthodox Church of the Annunciation sits above the spring where Orthodox Christians believe the Annunciation took place. As the Virgin Mary went to draw water from the spring, the Archangel Gabriel appeared and informed her that she would conceive and give birth to a son who she would name Jesus. The current church dates back to 1750, when Daher al-Omar, the Bedouin ruler of the Galilee, gave the Greek Orthodox community permission to build it.",
+    "paragraph1": "The Greek Orthodox Church of the Annunciation, also known as St Gabriel’s Church, sits above the spring where Orthodox Christians believe the Annunciation took place. As the Virgin Mary went to draw water from the spring, the Archangel Gabriel appeared and informed her that she would conceive and give birth to a son who she would name Jesus. The current church dates back to 1750, when Daher al-Omar, the ruler of the Galilee, gave the Greek Orthodox community permission to build it.",
     "paragraph2": "The church has a central nave with two aisles and contains a beautiful wooden iconostasis donated by a Greek merchant in 1767. The church was redecorated by Romanian artists from 1977 to 1978. An arched passageway leads down to a small chapel, which is decorated with Armenian tiles and has seven steps leading to the spring, believed to have been built by the Crusaders in the 12th century.",
-    "paragraph3": "About 140 meters from the church is Mary’s Well, which was once fed by the spring and served as a local source of water for several centuries. The fountain was repaired in 1967 and again in 2000 but does not function today."
+    "paragraph3": "About 140 metres from the church is Mary’s Well, which was once fed by the spring and served as a local source of water for several centuries. The fountain was repaired in 1967 and again in 2000 but does not function today."
   },
   "headerLatin": {
-    "title": "Explore the beauty of the Latin Church"
+    "title": "Explore the beauty of the Basilica of the Annunciation"
   },
   "contentLatin": {
-    "paragraph1": "The Latin Church, also known as the Basilica of the Annunciation, is a significant religious site located in Nazareth, Israel. It stands as one of the largest churches in the Middle East and holds deep religious significance for Christians worldwide.",
+    "paragraph1": "The Basilica of the Annunciation, the Catholic church at the heart of Nazareth, is one of the largest churches in the Middle East and holds deep religious significance for Christians worldwide.",
     "history": {
-      "title": "Historical Background",
+      "title": "Historical background",
       "text": "The site is traditionally believed to be the place where the Angel Gabriel announced to the Virgin Mary that she would conceive and give birth to Jesus, an event known as the Annunciation. The basilica has a long history dating back to the early centuries of Christianity, with successive churches built on the site over time."
     },
     "architecture": {
-      "title": "Architectural Features",
-      "text": "The current basilica, constructed between 1955 and 1969, features a distinctive two-story structure. The upper church is used for worship services, while the lower church encloses the Grotto of the Annunciation, believed to be the actual site of the Annunciation. The basilica's architecture blends modern styles with traditional elements, and its interior is adorned with mosaics, frescoes, and artworks depicting scenes from the life of Christ."
+      "title": "Architectural features",
+      "text": "The current basilica, built between 1960 and 1969, has a distinctive two-storey structure. The upper church is used for worship services, while the lower church encloses the Grotto of the Annunciation, believed to be the actual site of the Annunciation. The basilica's architecture blends modern styles with traditional elements, and its interior is adorned with mosaics, frescoes, and artworks depicting scenes from the life of Christ."
     },
     "visiting": {
-      "title": "Visiting the Basilica",
+      "title": "Visiting the basilica",
       "text": "The Basilica of the Annunciation is a popular destination for pilgrims and tourists visiting Nazareth. Visitors can explore both the upper and lower churches, admire the artistic and architectural features, and participate in religious ceremonies and events held at the basilica. The site offers a profound spiritual experience and serves as a symbol of faith and heritage."
     }
   },
@@ -191,23 +201,23 @@
     "title": "Explore the beauty of Mary's Well"
   },
   "contentMary": {
-    "intro": "Mary's Well, also known as the Well of the Virgin, is a significant historical and religious site located in Nazareth, Israel. It is traditionally believed to be the place where the Angel Gabriel announced to the Virgin Mary that she would bear Jesus, an event known as the Annunciation.",
+    "intro": "Mary’s Well, also known as the Virgin’s Fountain, is the old well house of Nazareth, fed for centuries by the town’s spring. The spring itself rises about 140 metres away, inside the Greek Orthodox Church of the Annunciation (St Gabriel’s Church), where Orthodox tradition places the Annunciation: there the angel Gabriel first greeted Mary as she came to draw water.",
     "significance": {
-      "title": "Historical and Religious Significance",
-      "biblical": "Biblical Connection",
-      "biblicalText": "According to Christian tradition, Mary's Well is where Mary was drawing water when the Angel Gabriel appeared to her and announced that she would conceive and give birth to Jesus Christ. This event is a central part of the Christian story of the Annunciation.",
-      "cultural": "Cultural Importance",
+      "title": "Historical and religious significance",
+      "biblical": "Biblical connection",
+      "biblicalText": "The Gospel of Luke tells how the angel Gabriel was sent to Mary in Nazareth. An ancient tradition, kept by the Orthodox Church, adds that the angel first greeted her as she was drawing water at the spring. That is why the spring, and the well it fed, are linked with the Annunciation.",
+      "cultural": "Cultural importance",
       "culturalText": "The well has been a vital source of water for the local community for centuries. It served as a gathering place for the people of Nazareth, making it an integral part of daily life in the town.",
-      "architecture": "Architectural Features",
-      "architectureText": "The well itself is part of a larger complex that includes the Greek Orthodox Church of the Annunciation. The current structure of the church dates back to the 18th century, but the well and the site have much older roots."
+      "architecture": "Architectural features",
+      "architectureText": "The well house was once fed by the spring that rises in the crypt of the Greek Orthodox Church of the Annunciation, about 140 metres away. The church dates back to the 18th century, but the spring and the site have much older roots."
     },
     "modern": {
-      "title": "Modern-Day Site",
-      "restoration": "Restoration Efforts",
+      "title": "The site today",
+      "restoration": "Restoration",
       "restorationText": "The fountain at Mary's Well has undergone several restorations over the years, notably in 1967 and 2000. Despite these efforts, the well does not function today as it once did.",
-      "attraction": "Tourist Attraction",
-      "attractionText": "Mary's Well is a popular destination for pilgrims and tourists. Visitors come to see the historic site and to experience the place where, according to tradition, the Annunciation took place.",
-      "surroundings": "Surrounding Area",
+      "attraction": "A place of pilgrimage",
+      "attractionText": "Mary’s Well is a popular stop for pilgrims and visitors, who come to see the historic well house and continue to the spring inside the Greek Orthodox church, where by Orthodox tradition the angel first greeted Mary.",
+      "surroundings": "Surrounding area",
       "surroundingsText": "The well is located in Nazareth's Old City, an area rich with historical and religious landmarks. Nearby attractions include the Basilica of the Annunciation, the Greek Orthodox Church of the Annunciation, and various other sites related to the life of Jesus and Mary."
     },
     "visiting": {
@@ -216,16 +226,16 @@
       "locationText": "Mary's Well is situated in the heart of Nazareth, making it easily accessible for visitors exploring the Old City.",
       "accessibility": "Accessibility",
       "accessibilityText": "The site is open to the public and can be visited throughout the year. It is advisable to check local visitor information for any specific visiting hours or guidelines.",
-      "culturalExperience": "Cultural Experience",
+      "culturalExperience": "Cultural experience",
       "culturalExperienceText": "Visiting Mary's Well offers a unique opportunity to connect with the rich religious and cultural heritage of Nazareth. The site provides insight into the daily lives of the people in ancient times and their spiritual practices."
     }
   },
-  "headerTitleNaz": "Explore the beauty of Nazareth City",
+  "headerTitleNaz": "Explore the beauty of the city of Nazareth",
   "mapButton": "Open Map",
   "contentNaz": {
-    "introduction": "Nazareth’s Old City is most famous for its shuk (outdoor market) which attracts Israelis from across the country looking for traditional Arabic produce. This in itself is an experience, and a great contrast to the air-conditioned malls dotted around the country. For those interested in Christianity, the Old City and surrounds are filled with important Christian sites, including the Church of the Annunciation.",
+    "introduction": "Nazareth’s Old City is best known for its souk, a market of narrow stone lanes where spice sellers, bakers and craftsmen still keep their shops. Around it lie many of the city’s Christian sites, among them the Basilica of the Annunciation, the Greek Orthodox Church of the Annunciation and the Synagogue Church.",
     "historicalSignificance": {
-      "title": "Historical and Religious Significance",
+      "title": "Historical and religious significance",
       "text": "Nazareth is prominently mentioned in the New Testament. According to Christian tradition, it is the site where the Angel Gabriel announced to Mary that she would bear Jesus, an event commemorated by the Basilica of the Annunciation. Archaeological evidence indicates that Nazareth was a small Jewish village during the time of Jesus. It has been continuously inhabited since antiquity."
     },
     "modernNazareth": {
@@ -233,14 +243,11 @@
       "text": "The city has a diverse population, predominantly Arab Muslims and Christians. As of recent estimates, Nazareth has around 77,000 residents. Nazareth is a vibrant cultural center with various religious, cultural, and educational institutions. It hosts festivals and events that reflect its rich heritage and diverse community. Tourism is a significant part of Nazareth's economy, driven by its religious sites and historical landmarks. Additionally, the city has a mix of small businesses, shops, and markets contributing to its local economy."
     },
     "accessibility": {
-      "title": "Accessibility and Tourism",
+      "title": "Accessibility and tourism",
       "text": "Nazareth is well-connected by road, with frequent bus services from major cities like Tel Aviv, Haifa, and Jerusalem. The city offers various accommodation options, from hotels to guesthouses, catering to the needs of tourists and pilgrims."
     }
   },
   "headerTitleOld": "Explore the beauty of Nazareth's Old City",
-  "mapDescriptionOld": "Nazareth’s Old City is most famous for its shuk (outdoor market) which attracts Israelis from across the country looking for traditional Arabic produce. This in itself is an experience, and a great contrast to the air-conditioned malls dotted around the country. For those interested in Christianity, the Old City and surrounds are filled with important Christian sites, including the Church of the Annunciation.",
-  "churchDescriptionOld": "The Greek Orthodox Church of the Annunciation sits above the spring where Orthodox Christians believe the Annunciation took place. As the Virgin Mary went to draw water from the spring, the Archangel Gabriel appeared and informed her that she would conceive and give birth to a son who she would name Jesus. The current church dates back to 1750, when Daher al-Omar, the Bedouin ruler of the Galilee, gave the Greek Orthodox community permission to build it.",
-  "waterSourceOld": "About 140 meters from the church is Mary’s Well, which was once fed by the spring and served as a local source of water for several centuries. The fountain was repaired in 1967 and again in 2000 but does not function today.",
   "orderSummary": "Order summary",
   "firstName": "First Name:",
   "lastName": "Last Name:",
@@ -255,7 +262,7 @@
     "firstName": "First name",
     "lastName": "Last name",
     "email": "Email",
-    "confirmEmail": "Confirmation email",
+    "confirmEmail": "Confirm email address",
     "emailsDontMatch": "Emails don't match",
     "city": "City",
     "street": "Street address",
@@ -335,7 +342,7 @@
     "soundToggle": "Turn the sound on or off",
     "stickyCandle": "Light a candle",
     "candleTitle": "A flame for every prayer",
-    "candleText": "Light a candle in the Holy City and we will pray for your intention in Nazareth.",
+    "candleText": "Light a candle and we will pray for your intention here in Nazareth, the city of the Annunciation.",
     "flameBtn": "Light a flame",
     "flameCount": "Flames lit on this device: {count}",
     "flameNote": "A symbolic flame. To have a real candle lit in Nazareth, visit our candle page.",
@@ -345,7 +352,7 @@
     "r1": "Luke 1:30",
     "v2": "Can anything good come out of Nazareth? Come and see.",
     "r2": "John 1:46",
-    "v3": "He went and lived in a town called Nazareth.",
+    "v3": "He came and dwelt in a city called Nazareth.",
     "r3": "Matthew 2:23",
     "v4": "The child grew and became strong; he was filled with wisdom, and the grace of God was on him.",
     "r4": "Luke 2:40",
@@ -359,7 +366,7 @@
     "prev": "Previous",
     "next": "Next",
     "explore": "Explore",
-    "siteLatin": "Church of the Annunciation",
+    "siteLatin": "Basilica of the Annunciation",
     "siteGreek": "Greek Orthodox Church",
     "siteMary": "Mary's Well",
     "siteOld": "The Old City",
@@ -384,21 +391,6 @@
       "feastToday": "Feast today",
       "feastNext": "Next feast",
       "feastWhen": "{date}, {inDays}",
-      "feasts": {
-        "epiphany": "Epiphany",
-        "orthodoxChristmas": "Christmas (Orthodox calendar)",
-        "annunciation": "The Annunciation",
-        "orthodoxAnnunciation": "The Annunciation (Orthodox calendar)",
-        "palmSunday": "Palm Sunday",
-        "goodFriday": "Good Friday",
-        "easter": "Easter",
-        "orthodoxEaster": "Easter (Orthodox calendar)",
-        "ascension": "The Ascension",
-        "pentecost": "Pentecost",
-        "assumption": "The Assumption of Mary",
-        "holyCross": "The Exaltation of the Holy Cross",
-        "christmas": "Christmas"
-      },
       "broadcastNext": "Next live broadcast",
       "startsIn": "Starts in {duration}",
       "startingSoon": "Starting soon",
@@ -447,16 +439,16 @@
     "kind": {
       "latin": "Catholic basilica",
       "greek": "Greek Orthodox church",
-      "maryswell": "Ancient spring",
+      "maryswell": "Historic well house",
       "oldcity": "Historic quarter and market",
       "city": "The city of Jesus"
     },
     "teaser": {
       "latin": "One of the largest churches in the Middle East, built over the grotto where, by tradition, the Angel Gabriel announced to Mary that she would bear Jesus.",
       "greek": "Built in 1750 above the spring where Orthodox tradition places the Annunciation, with a carved wooden iconostasis and a chapel reached by Crusader-era steps.",
-      "maryswell": "The old spring of Nazareth where, by tradition, Mary drew water: for centuries the gathering place of the town.",
+      "maryswell": "The old well house of Nazareth, fed by the spring where, by tradition, Mary drew water: for centuries the gathering place of the town.",
       "oldcity": "Narrow lanes, a lively market and some of the most important Christian sites of Nazareth, all within a short walk.",
-      "city": "The hillside city of Galilee where Jesus grew up, today a vibrant center of faith, culture and hospitality."
+      "city": "The hillside city of Galilee where Jesus grew up, today a vibrant centre of faith, culture and hospitality."
     },
     "allSites": "All holy sites",
     "newTab": "(opens in a new tab)",
@@ -678,7 +670,7 @@
       "reference": "Payment reference: {id}",
       "saving": "Saving your details…",
       "saveFailed": "Your payment went through, but we could not save your details. Please try again, or write to <mail>{email}</mail> with your payment reference.",
-      "savePending": "Your payment went through. We could not save your details just yet, so we will keep trying by ourselves, also the next time you open this site on this device. Please keep your payment reference ({id}). Questions? Write to <mail>{email}</mail>.",
+      "savePending": "Your payment went through. We could not save your details yet, so we will keep trying automatically, including the next time you open this site on this device. Please keep your payment reference ({id}). Questions? Write to <mail>{email}</mail>.",
       "priceNow": "The total to pay is {charged}. (This page showed {shown}.)"
     },
     "empty": {
@@ -1035,7 +1027,7 @@
           },
           "telaviv": {
             "title": "From Tel Aviv",
-            "text": "About two hours by car. Buses and trains run to the north; by public transport the usual way is to travel to Haifa or Afula and change to a bus for Nazareth."
+            "text": "About 1½ hours by car, longer at rush hour. Direct buses run from Tel Aviv to Nazareth; you can also take the train to Haifa or Afula and continue by bus."
           },
           "airport": {
             "title": "From Ben Gurion Airport",
@@ -1061,7 +1053,7 @@
           },
           "seasons": {
             "title": "Best seasons",
-            "text": "Spring (March to May) and autumn (late September to November) are mild and the most pleasant for walking. Summer is hot and dry; winter is cool and rainy. Easter, Christmas and the Feast of the Annunciation on 25 March are the busiest and most moving times."
+            "text": "Spring (March to May) and autumn (late September to November) are mild and the most pleasant for walking. Summer is hot and dry; winter is cool and rainy. Easter, Christmas and the Feast of the Annunciation (25 March, and 7 April at the Greek Orthodox church) are the busiest and most moving times."
           },
           "safety": {
             "title": "Safety",
@@ -1116,7 +1108,7 @@
         },
         "season": {
           "q": "When is the best time to visit?",
-          "a": "Spring and autumn are the most comfortable. Summer is hot and winter is rainy. Easter, Christmas and 25 March (the Annunciation) are the busiest and most moving times."
+          "a": "Spring and autumn are the most comfortable. Summer is hot and winter is rainy. Easter, Christmas and the Annunciation (25 March, and 7 April at the Greek Orthodox church) are the busiest and most moving times."
         }
       }
     },
@@ -1146,7 +1138,7 @@
           "text": "Beneath the Basilica of the Annunciation lies the grotto that Christians have venerated for centuries as the place of Mary's home, where the angel's greeting is remembered."
         },
         "luke138": {
-          "text": "Orthodox tradition remembers the angel first speaking to Mary as she went to draw water, at the spring beside the Greek Orthodox Church of the Annunciation. Her answer is the heart of every pilgrim's prayer."
+          "text": "Orthodox tradition remembers the angel first speaking to Mary as she went to draw water, at the spring that rises inside the Greek Orthodox Church of the Annunciation. Her answer is the heart of every pilgrim's prayer."
         },
         "matthew223": {
           "text": "After the return from Egypt, Joseph settled his family in Nazareth. From then on Jesus was known as “Jesus of Nazareth”, and the name of the town travelled across the world."
@@ -1349,7 +1341,7 @@
         },
         "languages": {
           "q": "Which languages is the site in?",
-          "a": "English, French, Spanish, German, Italian, Portuguese, Polish, Russian, Greek, Hebrew and Arabic."
+          "a": "The site is available in these languages: {languages}."
         },
         "data": {
           "q": "What data do you keep?",
@@ -1728,6 +1720,7 @@
         },
         "palmSunday": {
           "name": "Palm Sunday",
+          "orthodoxName": "Entry of the Lord into Jerusalem",
           "description": "Jesus enters Jerusalem and Holy Week begins."
         },
         "holyThursday": {

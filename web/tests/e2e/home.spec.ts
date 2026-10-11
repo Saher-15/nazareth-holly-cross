@@ -3,6 +3,8 @@ import { expect, test, type Page } from '@playwright/test';
 import en from '../../src/messages/en.json';
 import he from '../../src/messages/he.json';
 import { nazarethDate, verseNumberFor } from '../../src/components/home/verse';
+import { feastOn } from '../../src/components/home/feasts';
+import { nazarethToday } from '../../src/lib/liturgical';
 
 const API = 'https://nazareth-holy-cross-api-production.up.railway.app';
 let apiWrites: string[] = [];
@@ -278,9 +280,11 @@ test.describe('today in Nazareth, the map, the prayer wall and the social links'
     await expect(today.locator('time').first()).toHaveAttribute('datetime', /^\d{2}:\d{2}$/);
     await expect(today).toContainText(/Sunrise \d{1,2}:\d{2}/);
     await expect(today).toContainText(/Sunset \d{1,2}:\d{2}/);
-    const feasts = Object.values(en.home.today.feasts);
-    const feastText = await today.locator('[data-feast] dd').first().textContent();
-    expect(feasts).toContain(feastText);
+    // The same next feast as the calendar on /live (both ask lib/liturgical), named as the calendar names it.
+    const feast = feastOn(nazarethToday());
+    const feastName = feast.nameKey.split('.').reduce<unknown>((node, part) => (node as Record<string, unknown>)[part], en);
+    await expect(today.locator('[data-feast]')).toHaveAttribute('data-feast', feast.id);
+    await expect(today.locator('[data-feast] dd').first()).toHaveText(feastName as string);
     // The broadcast is shown only with real data from the API (live now, or a scheduled one); otherwise it is absent.
     const broadcast = today.locator('[data-broadcast]');
     if (await broadcast.count()) await expect(broadcast.getByRole('link')).toHaveAttribute('href', '/en/live');

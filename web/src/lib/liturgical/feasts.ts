@@ -50,7 +50,7 @@ export const FEASTS = [
   { id: 'ashWednesday', catholic: easter(-46) },
   { id: 'stJoseph', catholic: fixed(3, 19), transfer: 'stJoseph' },
   { id: 'annunciation', catholic: fixed(3, 25), orthodox: fixed(3, 25), nazareth: true, orthodoxName: true, transfer: 'annunciation' },
-  { id: 'palmSunday', catholic: easter(-7), orthodox: easter(-7) },
+  { id: 'palmSunday', catholic: easter(-7), orthodox: easter(-7), orthodoxName: true },
   { id: 'holyThursday', catholic: easter(-3), orthodox: easter(-3), orthodoxName: true },
   { id: 'goodFriday', catholic: easter(-2), orthodox: easter(-2), orthodoxName: true },
   { id: 'holySaturday', catholic: easter(-1), orthodox: easter(-1), orthodoxName: true },
@@ -196,6 +196,11 @@ export function feastsOfYear(year: number): readonly FeastOccurrence[] {
   if (yearCache.size > 64) yearCache.clear();
   yearCache.set(year, list);
   return list;
+}
+
+/** True when only the Orthodox keep the occurrence that day and the feast has an Orthodox name of its own. */
+export function usesOrthodoxName(occurrence: FeastOccurrence): boolean {
+  return occurrence.traditions.length === 1 && occurrence.traditions[0] === 'orthodox' && Boolean(feastDefinition(occurrence.id).orthodoxName);
 }
 
 export function matchesTradition(occurrence: FeastOccurrence, filter: TraditionFilter): boolean {
