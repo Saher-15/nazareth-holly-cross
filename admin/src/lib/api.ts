@@ -227,10 +227,13 @@ export type PrivacyCounts = z.infer<typeof privacyCounts>;
 
 export const userSchema = doc({
   username: z.string(),
-  email: z.string().nullish(), // the recovery address ("Forgot password" mails its link there); '' = none
+  // Where "Forgot your password?" sends the link ('' = none). Older API answers may leave it out.
+  email: z.string().nullish().transform((v) => v ?? ''),
   role: roleSchema,
   disabled: z.boolean().default(false),
   totpEnabled: z.boolean().nullish(),
+  // Set after 5 wrong passwords; the real API returns it even once it has passed (the UI compares with now).
+  lockedUntil: isoDate.nullish(),
   lastLoginAt: isoDate.nullish(),
   createdAt: isoDate.nullish(),
 });
@@ -251,6 +254,8 @@ export const auditSchema = doc({
   ipHash: z.string().nullish(),
   ua: z.string().nullish(),
   userAgent: z.string().nullish(),
+  /** The target in words (a username, a product's name, an order's number), when the API can name it. */
+  targetName: z.string().nullish(),
 }).transform((e) => {
   const { actor, actorName, target, ua, userAgent, ...rest } = e;
   const targetText = typeof target === 'string' ? target : target ? [target.type, target.id].filter((v) => v !== undefined && v !== null && v !== '').map(String).join(':') : '';
@@ -259,6 +264,8 @@ export const auditSchema = doc({
     when: e.at ?? e.createdAt ?? '',
     actorName: actorName || (typeof actor === 'string' ? actor : (actor?.username ?? '')),
     targetText,
+    targetType: target && typeof target === 'object' && typeof target.type === 'string' ? target.type : '',
+    targetId: target && typeof target === 'object' && (typeof target.id === 'string' || typeof target.id === 'number') ? String(target.id) : '',
     userAgent: ua ?? userAgent ?? null,
   };
 });
@@ -289,7 +296,10 @@ export const dashboardSchema = z.looseObject({
   totals: z.looseObject({
     orders: z.number(),
     ordersPending: z.number(),
+    // Verified PayPal payments only (server/services/dashboard.js); the unverified orders apart (absent from older APIs).
     revenue: z.number(),
+    revenueUnverified: z.number().optional(),
+    ordersUnverified: z.number().optional(),
     candles: z.number(),
     candlesPending: z.number(),
     contacts: z.number(),
@@ -417,6 +427,15 @@ export const scheduleListSchema = z.looseObject({ timeZone: z.string(), items: z
 export type ScheduleList = z.infer<typeof scheduleListSchema>;
 export const scheduleItemSchema = z.looseObject({ item: scheduledSchema });
 export const scheduleDeleteSchema = z.looseObject({ deleted: z.boolean() });
+
+/**
+ * A product change answers whether the website was asked to show it at once (server/services/siteRefresh.js):
+ * 'done' (it is on the website now), 'off' (not set up: within 10 minutes) or 'failed' (within 10 minutes). Older APIs
+ * do not say: treated as 'off'.
+ */
+export const siteRefreshSchema = z.enum(['done', 'off', 'failed']).catch('off');
+export const productWriteSchema = z.looseObject({ siteRefresh: siteRefreshSchema.optional() });
+export type SiteRefresh = z.infer<typeof siteRefreshSchema>;
 
 export const errorBodySchema = z.looseObject({ error: z.string() });
 

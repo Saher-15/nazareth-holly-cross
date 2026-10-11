@@ -159,8 +159,8 @@ describe('PATCH /admin/orders/:id { done } (shipping)', () => {
     expect(mail.sendMail).toHaveBeenCalledTimes(1);
     expect(mail.sendMail).toHaveBeenCalledWith({
       to: ['buyer@example.com'],
-      subject: 'Your order was shipped',
-      text: `Your order number ${o._id} was shipped :)`,
+      subject: `Your order #${String(o._id).slice(-8)} was shipped`,
+      text: `Your order #${String(o._id).slice(-8)} was shipped :) (reference ${o._id})`,
     });
     expect(audits('order.update')[0]).toMatchObject({ actorName: 'the-editor', role: 'editor', target: { type: 'order', id: o._id }, meta: { done: true, emailSent: true } });
   });
@@ -295,12 +295,12 @@ describe('candles, contacts, site reviews, product reviews, prayers', () => {
 });
 
 describe('products', () => {
-  const GOOD = { name: 'Olive wood cross', price: 12.5, img: 'https://firebasestorage.example/o/cross.jpg?alt=media&token=abc' };
+  const GOOD = { name: 'Olive wood cross', price: 12.5, img: 'https://firebasestorage.googleapis.com/v0/b/x/o/cross.jpg?alt=media&token=abc' };
   const post = (body, who = editor) => call('post', '/admin/products', who, body);
 
   it('creates a product from whitelisted, validated fields only and audits it', async () => {
     const res = await post({
-      ...GOOD, additionalImageUrls: ['https://example.com/b.jpg'], description: 'Hand carved', uuidv4_: 'abc-1', rate: 3, color: ['brown', 'black'], stock: 4, category: 'crosses',
+      ...GOOD, additionalImageUrls: ['https://firebasestorage.googleapis.com/v0/b/x/o/b.jpg'], description: 'Hand carved', uuidv4_: 'abc-1', rate: 3, color: ['brown', 'black'], stock: 4, category: 'crosses',
     });
     expect(res.status).toBe(201);
     expect(res.body.item).toMatchObject({ name: 'Olive wood cross', price: 12.5, stock: 4, category: 'crosses', rate: 3, color: ['brown', 'black'] });
@@ -309,9 +309,9 @@ describe('products', () => {
   });
 
   it('stores a web address with its "&" intact (the HTML sanitizer writes it as &amp;)', async () => {
-    const res = await post({ ...GOOD, img: 'https://firebasestorage.example/o/cross.jpg?alt=media&amp;token=abc' });
+    const res = await post({ ...GOOD, img: 'https://firebasestorage.googleapis.com/v0/b/x/o/cross.jpg?alt=media&amp;token=abc' });
     expect(res.status).toBe(201);
-    expect(fakes.Product.docs[0].img).toBe('https://firebasestorage.example/o/cross.jpg?alt=media&token=abc');
+    expect(fakes.Product.docs[0].img).toBe('https://firebasestorage.googleapis.com/v0/b/x/o/cross.jpg?alt=media&token=abc');
   });
 
   it.each([
@@ -421,7 +421,7 @@ describe('GET /admin/export/:resource.csv', () => {
     expect(res.headers['cache-control']).toBe('no-store');
     expect(res.headers['x-content-type-options']).toBe('nosniff');
     const lines = res.text.split('\r\n');
-    expect(lines[0]).toBe('﻿id,createdAt,firstName,lastName,email,phone,street,city,state,postal,country,totalPrice,done,paymentVerified,paypalOrderId,products');
+    expect(lines[0]).toBe('﻿id,number,createdAt,firstName,lastName,email,phone,street,city,state,postal,country,totalPrice,done,paymentVerified,paypalOrderId,products');
     expect(lines[1]).toContain('Anna,Cohen,anna@example.com');
     expect(lines[1]).toContain(',40.5,false,true,,Olive cross x2 (brown)');
     expect(audits('export.orders')[0]).toMatchObject({ actorName: 'the-editor', meta: { rows: 1 } });
@@ -483,7 +483,7 @@ describe('GET /admin/dashboard', () => {
   const stubAggregates = () => {
     fakes.Order.aggregateImpl = (pipeline) => {
       const first = pipeline[0];
-      if (first.$group?._id === null) return [{ _id: null, orders: 12, ordersPending: 5, revenue: 1234.567 }];
+      if (first.$group?._id === null) return [{ _id: null, orders: 12, ordersPending: 5, revenue: 1234.567, revenueUnverified: 99.994, ordersUnverified: 2 }];
       if (first.$match?.createdAt) return [{ _id: dayOf(0), orders: 3, revenue: 120.5 }, { _id: dayOf(2), orders: 1, revenue: 10 }, { _id: '1999-01-01', orders: 99, revenue: 99 }];
       if (first.$unwind) return [
         { productId: 'p1'.padEnd(24, '0'), name: 'Olive cross', sold: 9, revenue: 90.126 },
@@ -509,7 +509,7 @@ describe('GET /admin/dashboard', () => {
     expect(res.headers['cache-control']).toBe('no-store');
     expect(Object.keys(res.body).sort()).toEqual(['alerts', 'generatedAt', 'last30Days', 'lowStock', 'recent', 'topProducts', 'totals']);
     expect(res.body.totals).toEqual({
-      orders: 12, ordersPending: 5, revenue: 1234.57, candles: 3, candlesPending: 2, contacts: 2, contactsOpen: 1,
+      orders: 12, ordersPending: 5, revenue: 1234.57, revenueUnverified: 99.99, ordersUnverified: 2, candles: 3, candlesPending: 2, contacts: 2, contactsOpen: 1,
       products: 4, productReviews: 3, prayers: 2, reviews: 1,
     });
 
@@ -541,7 +541,7 @@ describe('GET /admin/dashboard', () => {
 
   it('is correct on an empty shop (zeros, 30 empty days, no products)', async () => {
     const res = await call('get', '/admin/dashboard');
-    expect(res.body.totals).toEqual({ orders: 0, ordersPending: 0, revenue: 0, candles: 0, candlesPending: 0, contacts: 0, contactsOpen: 0, products: 0, productReviews: 0, prayers: 0, reviews: 0 });
+    expect(res.body.totals).toEqual({ orders: 0, ordersPending: 0, revenue: 0, revenueUnverified: 0, ordersUnverified: 0, candles: 0, candlesPending: 0, contacts: 0, contactsOpen: 0, products: 0, productReviews: 0, prayers: 0, reviews: 0 });
     expect(res.body.last30Days).toHaveLength(30);
     expect(res.body.topProducts).toEqual([]);
     expect(res.body.lowStock).toEqual([]);

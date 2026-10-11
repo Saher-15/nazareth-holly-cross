@@ -27,6 +27,11 @@ export function ForgotForm() {
     event.preventDefault();
     if (busy) return;
     const address = email.trim();
+    if (!address) {
+      setError(t('forgot.needEmail'));
+      emailRef.current?.focus();
+      return;
+    }
     if (address.length > 254 || !EMAIL.test(address)) {
       setError(t('forgot.invalidEmail'));
       emailRef.current?.focus();
@@ -115,7 +120,7 @@ export function ForgotForm() {
         ) : null}
       </div>
 
-      <button type="submit" className="btn btn--gold btn--block" disabled={busy || !email.trim()} aria-busy={busy || undefined}>
+      <button type="submit" className="btn btn--gold btn--block" disabled={busy} aria-busy={busy || undefined}>
         {busy ? <span className="spinner" aria-hidden="true" /> : <Icon name="mail" size={18} />}
         <span>{busy ? t('forgot.sending') : t('forgot.submit')}</span>
       </button>

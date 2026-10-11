@@ -48,6 +48,9 @@ cost 12.
 | `ADMIN_APP_URL` | no | Where the dashboard lives; the password-reset e-mail links to `<ADMIN_APP_URL>/reset-password?token=...`. Default `https://admin.nazarethholycross.com`; set it when the dashboard moves to its own domain. A trailing slash is ignored. |
 | `ADMIN_BOOTSTRAP_EMAILS` | no | Comma-separated addresses that may create the **first** owner by a password-reset request while no account exists (1.1). Default `nazarethholycross@gmail.com`; `ADMIN_BOOTSTRAP_EMAILS=` (empty) turns it off. |
 | `MAIL_FROM`, `MAIL_APP_PASSWORD` | yes (already) | The reset e-mails go out through the same mailer as the order mails. |
+| `REVALIDATE_SECRET` | no (**new**) | The website's refresh right after a product change (4.2, "The website after a product change"): a long random value (32 characters or more), **the same** on Render and on Netlify (the site's environment). Without it nothing is called and the website shows product changes within 10 minutes by itself; the dashboard says which. A secret: Render and Netlify only, never logged. |
+| `SITE_URL` | no | Where that refresh is sent: `<SITE_URL>/api/revalidate`. Default `https://nazarethholycross.com`. |
+| `PRODUCT_IMAGE_HOSTS` | no | Comma-separated hosts a product photo may be on. Default `firebasestorage.googleapis.com`, the only host the website shows (its `next/image` `remotePatterns` and CSP `img-src`); add a host there first. |
 | `CF_ACCOUNT_ID`, `CF_STREAM_API_TOKEN` | no (**new**) | Live broadcasting through Cloudflare Stream (section 4.6, [LIVE.md](LIVE.md)). Without both, the Live page says "not set up yet" and `POST /admin/live/start` answers `503`. The token is a secret (Render only, `sync: false`, never logged). |
 
 On Render: set `ADMIN_ORIGINS` in the service's environment (it is listed in `render.yaml` with `sync: false`), then
@@ -116,7 +119,8 @@ expires the dashboard asks for the password again. Send it as `Authorization: Be
 
 **Lockout.** Five consecutive failed attempts (wrong password or wrong code) lock the account for 15 minutes; the
 answer is still `401`, and the right password is refused until the lock ends. A successful sign-in resets the
-count. An owner can lift a lock early by re-enabling the account (`PATCH /admin/users/:id { "disabled": false }`).
+count. An owner can lift a lock early with **Unlock** on the Users page (`PATCH /admin/users/:id { "unlock": true }`), or by
+re-enabling a disabled account (`{ "disabled": false }` lifts a lock too). The Users list shows `lockedUntil`.
 
 **Rate limit.** 5 failed sign-ins per 15 minutes per address *and* username, 30 per address across usernames.
 Successful sign-ins and the `428` prompt do not count.
@@ -126,7 +130,7 @@ Successful sign-ins and the `428` prompt do not count.
 API runs with `trust proxy` 1, i.e. it takes the LAST entry of `X-Forwarded-For`; behind Render's load balancer that is
 the dashboard host, not the visitor. So in production the per-address limits are shared by every visitor of the
 dashboard and the per-account lockout (5 failures, 15 minutes) is the control that tells people apart. That also means
-anyone can lock an account for 15 minutes by guessing wrongly (an owner lifts it by re-enabling the account); see
+anyone can lock an account for 15 minutes by guessing wrongly (an owner lifts it with Unlock); see
 ADMIN-RUNBOOK.md section 9 (open items).
 
 ### 3.2 Sessions: `POST /admin/auth/logout`, `GET /admin/auth/me`
@@ -226,7 +230,7 @@ the password.
 
 | Resource | `status` | `sort` | `q` searches |
 |---|---|---|---|
-| `orders` | `pending`, `shipped`, `unverified` (no PayPal-confirmed payment) | `createdAt`, `totalPrice`, `lastName` | name, e-mail, phone, city, country, PayPal id |
+| `orders` | `pending`, `shipped`, `unverified` (no PayPal-confirmed payment) | `createdAt`, `totalPrice`, `lastName` | name, e-mail, phone, city, country, PayPal id, and the **order number**: `#0000003f` or `0000003f` (6 to 24 last characters of the id, an `$expr` over the id as text) or the full id |
 | `candles` | `pending`, `done` | `createdAt`, `lastName` | name, e-mail, prayer |
 | `contacts` | `open`, `done` | `createdAt`, `fullName` | name, e-mail, phone, message |
 | `site-reviews` | `approved`, `hidden` | `createdAt`, `fullName` | name, place, e-mail (older reviews keep the place there), message |
@@ -237,6 +241,10 @@ the password.
 | `users` | `active` (not disabled), `owner`, `editor`, `viewer`, `disabled` | `createdAt`, `username`, `lastLoginAt` | username, e-mail |
 | `audit` | - (see 5) | `at` | actor, action, target id |
 
+**The order number** people see and quote is `#` and the last 8 characters of the order's id (`server/utils/orderNumber.js`):
+the dashboard's list, drawer and packing slip, the customer's e-mails ("Your order #0000003f was shipped", "Order number
+#0000003f (reference <id>)") and the CSV's `number` column all use it.
+
 ### 4.2 Changes
 
 | Request | Body | Answer |
@@ -246,22 +254,34 @@ the password.
 | `PATCH /admin/candles/:id`, `.../contacts/:id` | `{ "done": boolean }` | `{ item }` |
 | `PATCH /admin/payments/:id` | `{ "resolved": true, "note": "..." }` or `{ "resolved": false }` | `{ item }` (section 4.5) |
 | `PATCH /admin/site-reviews/:id`, `.../product-reviews/:id` | `{ "approved": boolean }` | `{ item }` |
-| `POST /admin/products` | product fields (below) | `201 { item }` |
-| `PATCH` or `PUT /admin/products/:id` | any of the product fields (at least one) | `{ item }` |
-| `DELETE /admin/<resource>/:id` | - | `{ "message": "..." }`, `404` if missing |
+| `POST /admin/products` | product fields (below) | `201 { item, siteRefresh }` |
+| `PATCH` or `PUT /admin/products/:id` | any of the product fields (at least one) | `{ item, siteRefresh }` |
+| `DELETE /admin/<resource>/:id` | - | `{ "message": "..." }`, `404` if missing (a product: `{ message, siteRefresh }`) |
 
 * Ids must be 24 hexadecimal characters (`400 Invalid id`).
 * **Shipping an order** (`done: true`) e-mails the customer ("Your order was shipped", the mail the removed
   `/order/orderSent` used to send) - but **once**: marking an already shipped order again sends nothing (`emailSent: null`). If the
   mail cannot be sent the change is kept and the answer says `emailSent: false`, so the admin can write to the
   customer. Un-shipping sends nothing. `emailSent` is `true`, `false` or `null` (no mail was due).
-* Changing a product, or a product review, refreshes the storefront catalogue cache at once.
-* **Product fields** (anything else is refused): `name` (2-200), `price` (0.01-10000), `img` (http(s) address),
+* Changing a product, or a product review, refreshes the API's catalogue cache at once.
+* **The website after a product change** (`server/services/siteRefresh.js`). The website keeps the catalogue for 10
+  minutes. After a create, change or delete the API calls `POST <SITE_URL>/api/revalidate` (`web/src/app/api/revalidate/route.ts`)
+  with `Authorization: Bearer <REVALIDATE_SECRET>` and `{ scope: "shop", productIds: [id] }` (5 seconds at most); the site drops
+  its cached catalogue (the `catalog` cache tag of every shop read) and the product's pages in every language, so the next
+  visitor sees the change. `siteRefresh` in the answer: `done` (the site confirmed: the dashboard says "on the website now"),
+  `off` (`REVALIDATE_SECRET` unset or shorter than 32 characters: nothing was called) or `failed` (the site refused or did not
+  answer); for both the dashboard says "within 10 minutes". The product change is kept in every case. Without the secret on
+  Netlify the route answers 404; a wrong secret 401.
+* **Product fields** (anything else is refused): `name` (2-200), `price` (0.01-10000, **at most two decimals**), `img` (http(s) address),
   `additionalImageUrls` (up to 20 addresses), `description` (up to 2000), `uuidv4_` (up to 64), `rate` (0-5, the
   featuring weight the storefront ranks by), `color` (up to 20 words), `stock` (whole number >= 0, or `null` = not
   tracked), `category` (one of `stained-glass`, `rosaries`, `necklaces`, `bracelets`, `bibles`, `crosses`,
   `holy-land`, `gifts`, or `null` = infer from the name; an override wins over the name). `name`, `price` and `img`
   are required on create.
+* **Photo hosts.** A new `img` or extra photo must be an `https` address on one of `PRODUCT_IMAGE_HOSTS` (default
+  `firebasestorage.googleapis.com`, the only host the website can show), else `400 "Invalid img: the website shows photos
+  only from ..."`; outside production `http(s)://localhost` and `127.0.0.1` are accepted too (the harness). An address
+  already saved on the product stays accepted on an update (an older product remains editable around it).
 * **Text is stored HTML-escaped.** The API's sanitizer turns a stray `&`, `<`, `>` in body text into `&amp;`, `&lt;`, `&gt;` (see
   SECURITY.md 4.3), removes scripts and event handlers, and keeps a small set of harmless tags (`<b>`, `<i>`, `<a href="https://...">`) as they were typed (checked against the running sanitizer: the dashboard shows them as text, never as HTML); responses return what is stored. **Decode those three entities when putting a value into an
   edit field, send the raw text back, and the API escapes it once.** (Web addresses are the exception: `&amp;` in an
@@ -277,6 +297,7 @@ One request, computed by the database (aggregations and counts, nothing is loade
 {
   "generatedAt": "2026-10-06T10:00:00.000Z",
   "totals": { "orders": 0, "ordersPending": 0, "revenue": 0, "candles": 0, "candlesPending": 0,
+              "revenueUnverified": 0, "ordersUnverified": 0,
               "contacts": 0, "contactsOpen": 0, "products": 0, "productReviews": 0, "prayers": 0, "reviews": 0 },
   "last30Days": [ { "date": "2026-09-07", "orders": 0, "revenue": 0, "candles": 0 }, "... 30 entries, zero-filled" ],
   "topProducts": [ { "productId": "...", "name": "...", "sold": 0, "revenue": 0 } ],
@@ -286,16 +307,19 @@ One request, computed by the database (aggregations and counts, nothing is loade
 }
 ```
 
-Days are Nazareth days (`Asia/Jerusalem`), oldest first, ending today. `revenue` is the sum of order `totalPrice`
-(USD) over **all** orders, including ones saved without a verified PayPal payment (filter `status=unverified` in the
-list to see those). Orders do not store a price per line, so a product's `revenue` is **units sold x the product's
+Days are Nazareth days (`Asia/Jerusalem`), oldest first, ending today. `revenue` (in `totals` and per day) is the sum of
+order `totalPrice` (USD) over the orders whose PayPal payment was **verified** (`paymentVerified`): money that came in.
+`totals.revenueUnverified` and `totals.ordersUnverified` are the orders saved without a verified payment (filter
+`status=unverified` in the list to see them); an API before this change has neither field. Candles and donations are not
+shop revenue (Payments has them). Orders do not store a price per line, so a product's `revenue` is **units sold x the product's
 current price**, an estimate. `lowStock` is tracked stock of 5 or less (at most 20 products, lowest first).
 `alerts.unfulfilledPayments` is the number and the total (USD) of customers who paid but have no saved order or candle request (section 4.5):
 the dashboard shows it as a warning and a figure. An API that predates the payment ledger simply has no `alerts`.
 
 ### 4.4 CSV export: `GET /admin/export/orders.csv` (also `candles.csv`, `contacts.csv`, `payments.csv`)
 
-Editor or owner (it is a bulk copy of personal data). Newest first, at most 10 000 rows, UTF-8 with a byte-order mark so
+Editor or owner (it is a bulk copy of personal data). The orders file has a `number` column (the order number, 4.1)
+after `id`. Newest first, at most 10 000 rows, UTF-8 with a byte-order mark so
 Excel reads Hebrew and Arabic, `Content-Disposition: attachment`. **Formula injection is neutralised:** a text cell
 starting with `=`, `+`, `-`, `@`, a tab or a carriage return gets a leading apostrophe; cells with commas, quotes or
 line breaks are quoted (RFC 4180). Stored `&amp;` etc. are decoded to the characters. Each export is audited.
@@ -332,7 +356,7 @@ endedBy: { id, name } | null, inputDeleted }`. `endReason` is `stopped` (by who 
 |---|---|---|
 | `GET /admin/live` | - | `{ configured, maxMinutes: 360, current: session \| null, history: [10 most recent sessions] }`. A broadcast live for more than 6 hours is ended first. |
 | `POST /admin/live/start` | `{ "title": "...", "scheduleId"?: "<24 hex>" }` (title 1-120 characters, one line; nothing else) | `201 { session, whipUrl }`. `409 { error, current }` while another one is live (also when two start at the same moment: a unique index decides); `503` when `CF_ACCOUNT_ID` / `CF_STREAM_API_TOKEN` are missing; `502` when Cloudflare refuses or cannot be reached (nothing is saved). With `scheduleId` the scheduled broadcast becomes `live` (linked to the session) and `done` when the session ends; an unknown one is `404`, one that is not `scheduled` (live, done, cancelled) `409`, both before Cloudflare is asked. |
-| `POST /admin/live/stop` | `{ "sessionId"?: "<24 hex>", "force"?: true }` | `{ stopped: true, session }`. Nothing live, or `sessionId` names one that already ended: `{ stopped: false, session: null }` (a late "stop" from a closed tab never ends the NEXT broadcast). Someone else's broadcast: an editor gets `403`; an owner gets `409 { error, current }` unless `force: true`. The Cloudflare input is deleted (best effort: a failure is logged with the input id and kept as `inputDeleted: false`). |
+| `POST /admin/live/stop` | `{ "sessionId"?: "<24 hex>", "force"?: true, "failed"?: true }` (`failed`: the camera never reached Cloudflare, sent by the dashboard when WHIP fails; recorded as `endReason: "failed"` for the starter's own session) | `{ stopped: true, session }`. Nothing live, or `sessionId` names one that already ended: `{ stopped: false, session: null }` (a late "stop" from a closed tab never ends the NEXT broadcast). Someone else's broadcast: an editor gets `403`; an owner gets `409 { error, current }` unless `force: true`. The Cloudflare input is deleted (best effort: a failure is logged with the input id and kept as `inputDeleted: false`). |
 
 **`whipUrl` is a secret** (Cloudflare's publish address with the input's broadcast secret in it): it is in exactly one
 answer, the `201` of start, to the admin who started it. It is not stored, not in any other answer, not in the audit log
@@ -394,17 +418,18 @@ Cache-Control and rate limit as the recordings.
 ### 5.1 Users (owner only)
 
 * `GET /admin/users`: `{ items, total, page, size }`; each item `{ _id, username, email, role, disabled, totpEnabled,
-  lockedUntil, lastLoginAt, createdAt }`. Never a hash or secret.
-* `POST /admin/users { username, password, role }`: `201 { item }`. `username`: 3-64 characters, letters, digits and
+  lockedUntil, lastLoginAt, createdAt }` (`lockedUntil` may lie in the past: compare it with now). Never a hash or secret.
+* `POST /admin/users { username, password, role, email? }`: `201 { item }`. `username`: 3-64 characters, letters, digits and
   `. _ -`, starting with a letter or digit; names that differ only by case are the same name (`409`). `role`:
   `owner`, `editor` or `viewer`. Password policy as in 3.3. Optional `email`: the account's **recovery address**
   ("Forgot password" mails its link there; without one, an account whose username is not an e-mail address cannot
   recover its password and needs an owner). Stored lower-cased; one account per address (`409` when it is another
   account's e-mail or username); the address is told by mail that it was set. It is not verified by a link: the owner
   types it, sees it in the users table, and the reset link itself only reaches whoever reads that mailbox.
-* `PATCH /admin/users/:id { role?, disabled?, resetTotp?, email? }` (at least one): set, change or remove (`""`) the
+* `PATCH /admin/users/:id { role?, disabled?, resetTotp?, unlock?, email? }` (at least one): set, change or remove (`""`) the
   recovery address (a pending reset link is cancelled; sessions are untouched), change the role, disable or enable the
-  account (enabling also lifts a lockout), or **reset the account's two-factor sign-in** (recovery for someone who lost
+  account (enabling also lifts a lockout), **unlock** it (`true`: lifts a lockout only; no session ends), or **reset the
+  account's two-factor sign-in** (recovery for someone who lost
   their phone: they sign in with the password alone and set TOTP up again). Disabling, changing the role and resetting
   TOTP end all of the account's sessions.
 * `DELETE /admin/users/:id`: deletes the account and ends its sessions.
@@ -420,7 +445,9 @@ owner reaches these routes, and an owner already has everything.
 Newest first (`sort=at` for oldest first). `actor` is an account name (exact); `action` is exact, or a prefix ending in a
 dot (`auth.` = every sign-in event). `q` searches actor, action and target id.
 
-Each entry: `{ at, actorId, actorName, role, action, target: { type, id }, meta, ipHash, ua }`. `ipHash` is a keyed hash
+Each entry: `{ at, actorId, actorName, role, action, target: { type, id }, meta, ipHash, ua }`, plus `targetName` when the
+target can be named for a person: a user's current username, a product's current name (a deleted one: the name its delete
+entry recorded), an order's number (4.1). Two lookups at most per page. `ipHash` is a keyed hash
 of the address: the same address always gives the same value (repeated attempts are visible), the address cannot be
 read back. `ua` is a short summary such as `Chrome 126 / Windows`. Entries expire after **180 days** (TTL index).
 
@@ -485,8 +512,12 @@ is at least one: a poster button per video, and Cloudflare's player only after a
 
 ## 6. Operations
 
-* **Unlock an account:** an owner re-enables it (`PATCH /admin/users/:id { "disabled": false }`), or wait 15 minutes.
-* **Someone lost their authenticator:** an owner sends `PATCH /admin/users/:id { "resetTotp": true }`. If the **only**
+* **Unlock an account:** an owner presses **Unlock** on the Users page (`PATCH /admin/users/:id { "unlock": true }`), or wait
+  15 minutes.
+* **Someone forgot the password:** "Forgot your password?" works when the account has an e-mail address; an owner sets it
+  on the Users page (**Add e-mail**).
+* **Someone lost their authenticator:** an owner presses **Reset two-factor** on the Users page (confirmed, audited;
+  `PATCH /admin/users/:id { "resetTotp": true }`). If the **only**
   owner lost theirs, remove the three fields by hand in MongoDB
   (`db.admins.updateOne({ username: "..." }, { $set: { totpEnabled: false, totpSecretEnc: null } })`).
 * **Rotating `JWT_SECRET`:** all dashboard tokens stop working (everyone signs in again), and every stored
@@ -579,3 +610,35 @@ script, the models' indexes, and the old admin routes. The database is replaced 
 * **Indexes are built by the server at start-up, in production too** (docs/DATABASE.md section 5; `AUTO_INDEX=false` turns it off). This release adds the unique `payment.paypalOrderId` index. After the deploy, check on Atlas that it exists and that `auditLog` and `adminSession` show the expiry indexes; `node scripts/ensure-indexes.js` (dry run) lists anything missing.
 * No e-mail was sent (the mailer is mocked); the shipped-order mail uses the same `sendMail` as before. The same holds
   for the password-reset mail: the first real one is the owner's first request on production (ADMIN-RUNBOOK.md 2).
+* **The website refresh after a product change** was tested with a mocked `fetch` (API) and with `next/cache` mocked
+  (the site's route): not on Netlify. After setting `REVALIDATE_SECRET` on both, change a product's stock and open its page
+  on the website at once: it must show the new stock (the dashboard's toast says "now"). If it does not, the site still
+  shows it within 10 minutes and the API's log says `[site-refresh] the website answered <status>`.
+* **The order-number search** uses `$expr` with `$regexMatch` over `$toString` of `_id` (MongoDB 4.2+, a scan of the
+  orders): checked against the in-memory fakes and Mongoose's casting, not on Atlas.
+
+## 12. Backlog (from the dashboard review, 2026-10-07)
+
+The review of the dashboard as its real administrators (owner, editor, viewer) found 37 things. The fixes are in the
+sections above and in [ADMIN-UI.md](ADMIN-UI.md). These were left for later, on purpose (bigger features, a decision of
+the owner, or code that another change was rewriting at the same time):
+
+| # | What | Why not now |
+|---|---|---|
+| 29 | E-mail to the shop address for a new order, candle request, message or a payment that was not fulfilled; a low-stock line in the same mail | A new mail flow (daily digest or at once): the owner chooses which and to what address |
+| 31 | Bulk actions (tick several orders or candle requests, one confirmation) | A table selection model on every list, and one API call per row or a bulk route |
+| 32 | Products: hidden / draft / archived instead of only a permanent delete | A new product field the website must respect (catalogue, sitemap, search) |
+| 33 | Enter an order by hand (for a paid but not fulfilled payment) | A new create route with prices and stock rules; until then the runbook's "write to the customer, then Mark resolved" |
+| 34 | Prayers: hide (reversible) and "approve before showing" | A new prayer field and a website change |
+| 35 | Privacy look-up shows and exports the records, not only counts | Personal data on screen and in a file: needs the owner's decision on the format |
+| 36 | "Your candle was lit" e-mail (with a photo) when a candle request is marked done | A new customer mail and a photo upload |
+| 37 | Recurring broadcasts ("every Sunday until ...") | A schedule model change |
+| 15 | CSV export of the current filter only, a local-time column, a real `.xlsx` | The export route takes no filter yet |
+| 14 | Customer e-mails in the customer's language, a tracking number in "Mark shipped" | Templates per language; an order field for the tracking number |
+| 9 | A price per order line saved at checkout (exact product revenue, invoices) | The public checkout writes the order: a change there and a migration; until then "about ... at today's price" |
+| 6 | Two-factor recovery codes at set-up; "Send a password-reset link" for another user; an e-mail field on Profile | `server/route/admin/auth.js` was being changed by the security work at the same time; after it is merged |
+| 7, 19 | "This account is disabled" after a correct password; "This code was just used, wait for the next one" | Same file (sign-in route); after the security work is merged |
+| 20 | Refuse a password that contains the username | The password policy (`server/services/passwordPolicy.js` and `admin/src/lib/password.ts`) together |
+| 8 | A sliding sign-in for someone who is working (instead of 60 minutes fixed); re-authenticate in a dialog | The session model; drafts and `next=` already keep the work (ADMIN-UI.md) |
+| 23, 24, 25, 28 | 24-hour date and time fields in the schedule; "Keep it" / "Call off" wording; a compact order card on phones; search as you type | Polish |
+| - | The privacy erase dialog still closes on a click outside | `PrivacyTool.tsx` was being changed by the security work; the same `closeOnBackdrop` rule applies after it is merged |

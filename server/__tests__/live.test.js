@@ -297,8 +297,18 @@ describe('POST /admin/live/stop', () => {
     expect(everythingStored()).not.toContain(new URL(started.body.whipUrl).pathname.split('/')[1]);
   });
 
+  it('failed: true (the camera never reached Cloudflare) is recorded as "failed"; only its starter can say so', async () => {
+    const started = await start();
+    const res = await call('post', '/admin/live/stop', editor, { sessionId: started.body.session._id, failed: true });
+    expect(res.body.session).toMatchObject({ status: 'ended', endReason: 'failed' });
+    expect(audits('live.stop')[0].meta.reason).toBe('failed');
+    await start(editor);
+    const forced = await call('post', '/admin/live/stop', owner, { force: true, failed: true });
+    expect(forced.body.session.endReason).toBe('forced');
+  });
+
   it('validates the body', async () => {
-    for (const body of [{ sessionId: 'nope' }, { sessionId: 'a'.repeat(25) }, { force: 'yes' }, { other: 1 }, { sessionId: { $gt: '' } }]) {
+    for (const body of [{ sessionId: 'nope' }, { sessionId: 'a'.repeat(25) }, { force: 'yes' }, { failed: 'yes' }, { other: 1 }, { sessionId: { $gt: '' } }]) {
       expect((await call('post', '/admin/live/stop', editor, body)).status, JSON.stringify(body)).toBe(400);
     }
   });

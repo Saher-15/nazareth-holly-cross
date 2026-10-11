@@ -272,7 +272,8 @@ export function LiveRecordings({ initial, timeZone }: Props) {
       )}
 
       {preview?.playbackUrl ? (
-        <div className="rec-preview" data-testid="rec-preview-player">
+        // Escape closes the preview too (review 04 finding 18), as long as the focus is in it (not in Cloudflare's frame).
+        <div className="rec-preview" data-testid="rec-preview-player" onKeyDown={(e) => { if (e.key === 'Escape') setPreview(null); }}>
           <div className="rec-preview__head">
             <h3 ref={previewHeading} tabIndex={-1} className="rec-preview__title" dir="auto">{t('live.rec.previewTitle', { title: preview.title })}</h3>
             <button type="button" className="btn btn--ghost btn--sm" onClick={() => setPreview(null)}>

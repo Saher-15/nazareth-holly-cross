@@ -88,7 +88,10 @@ describe('source guards', () => {
 
   it('only NEXT_PUBLIC_* variables (public by design) and NODE_ENV are read from the environment', () => {
     const used = new Set<string>();
-    for (const { text } of files) for (const m of text.matchAll(/process\.env\.([A-Z0-9_]+)/g)) used.add(m[1]);
+    // The one exception: REVALIDATE_SECRET, read only by the server route handler src/app/api/revalidate/route.ts (never
+    // bundled for the browser: a route handler runs on the server only). docs/SECURITY.md 3.2.
+    const serverOnly = (file: string) => file === 'app/api/revalidate/route.ts';
+    for (const { file, text } of files) for (const m of text.matchAll(/process\.env\.([A-Z0-9_]+)/g)) if (!(serverOnly(file) && m[1] === 'REVALIDATE_SECRET')) used.add(m[1]);
     const secretsLookingOnes = [...used].filter((name) => !name.startsWith('NEXT_PUBLIC_') && name !== 'NODE_ENV' && name !== 'NEXT_PHASE'); // NEXT_PHASE: Next's own build-phase flag
     expect(secretsLookingOnes).toEqual([]);
   });

@@ -111,6 +111,64 @@ test.describe('broadcasting', () => {
     expect(problems).toEqual([]);
   });
 
+  test('opening another dashboard page while live keeps the broadcast on, with a bar to come back or end it', async ({ browser }, testInfo) => {
+    // As `editor`, not `liveeditor`: this walk through several pages would use up the live specs' request budget.
+    const context = await browser.newContext({ storageState: stateFile('editor'), permissions: ['camera', 'microphone'], extraHTTPHeaders: { 'X-Forwarded-For': '10.78.0.2' } });
+    const page = await context.newPage();
+    const problems = watchProblems(page);
+    const cloudflare = await fakeCloudflare(page);
+    await page.goto('/live');
+    await page.getByRole('button', { name: 'Turn on camera and microphone' }).click();
+    await studioTitle(page).fill('Stays on air');
+    await page.getByRole('button', { name: 'Go live' }).click();
+    await expect(page.getByTestId('live-status')).toHaveText(/You are live/, { timeout: 15_000 });
+
+    // The menu: Orders. No reload, no question, the broadcast goes on and a bar shows it.
+    if (testInfo.project.name === 'mobile') await page.getByRole('button', { name: 'Menu' }).click();
+    await page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Orders' }).click();
+    await expect(page.getByRole('heading', { level: 1, name: 'Orders' })).toBeVisible();
+    const bar = page.getByTestId('live-bar');
+    await expect(bar).toBeVisible();
+    await expect(bar).toContainText('Stays on air');
+    await expect(page.getByTestId('live-bar-elapsed')).toHaveText(/^\d+:\d\d$/);
+    await page.waitForTimeout(1500);
+    expect((await publicStatus()).live).toBe(true);
+    expect(cloudflare.deletes).toBe(0);
+    // The recording keeps being fed: its <video> plays inside the bar now.
+    expect(await bar.locator('video').evaluate((v: HTMLVideoElement) => !v.paused && v.videoWidth > 0)).toBe(true);
+    await noHorizontalScroll(page);
+    await expectNoAxeViolations(page);
+
+    // A search on the list navigates inside the tab too.
+    await page.getByRole('searchbox', { name: 'Search orders' }).fill('zzz');
+    await page.getByRole('button', { name: 'Apply' }).click();
+    await expect(page).toHaveURL(/q=zzz/);
+    await expect(bar).toBeVisible();
+
+    // Back to the studio from the bar: still live, the clock still running.
+    await page.getByTestId('live-bar-studio').click();
+    await expect(page.getByRole('heading', { level: 1, name: 'Live broadcast' })).toBeVisible();
+    await expect(page.getByTestId('live-badge')).toBeVisible();
+    await expect(bar).toHaveCount(0);
+    expect(await page.getByTestId('live-preview').evaluate((v: HTMLVideoElement) => !v.paused)).toBe(true);
+
+    // Away once more: signing out asks first (staying keeps the broadcast), then end it from the bar.
+    await page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Products' }).click();
+    await expect(page.getByRole('heading', { level: 1, name: 'Products' })).toBeVisible();
+    await page.getByTestId('sign-out').click();
+    const ask = page.getByRole('dialog', { name: 'You are live. Sign out?' });
+    await ask.getByRole('button', { name: 'Cancel' }).click();
+    expect((await publicStatus()).live).toBe(true);
+    await page.getByTestId('live-bar-stop').click();
+    await page.getByRole('dialog', { name: 'End the broadcast?' }).getByRole('button', { name: 'End broadcast' }).click();
+    await expect.poll(async () => (await publicStatus()).live).toBe(false);
+    expect(cloudflare.deletes).toBe(1);
+    // The camera is off once the broadcast ended away from the studio.
+    await expect.poll(() => page.evaluate(() => [...document.querySelectorAll('video')].some((v) => (v.srcObject as MediaStream | null)?.active))).toBe(false);
+    expect(problems).toEqual([]);
+    await context.close();
+  });
+
   test('closing the page while live ends the broadcast (keepalive stop)', async ({ page }) => {
     await fakeCloudflare(page);
     await page.goto('/live');
@@ -132,6 +190,8 @@ test.describe('broadcasting', () => {
     await expect(page.getByTestId('live-error')).toContainText('The camera could not be connected to Cloudflare.');
     expect((await publicStatus()).live).toBe(false);
     await expect(page.getByRole('button', { name: 'Go live' })).toBeEnabled();
+    // ... and the history says it failed, not that it ended (review 04 finding 16)
+    await expect(page.getByRole('region', { name: 'Recent broadcasts' }).getByRole('row', { name: /Refused/ })).toContainText('Failed');
   });
 
   test('when Cloudflare cannot prepare an input, nothing goes live', async ({ page }) => {

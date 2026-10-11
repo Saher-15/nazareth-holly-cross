@@ -11,6 +11,7 @@ import { savedDraft, validateFulfilment } from '../services/checkoutDraft.js';
 import { asyncHandler } from "../middleware/asyncHandler.js"
 import { config } from '../config/env.js';
 import { HttpError } from '../utils/httpError.js';
+import { orderNumber } from '../utils/orderNumber.js';
 import { paymentLimiter, newOrderLimiter } from '../utils/security.js';
 import { clip, isEmail, isPayPalOrderId } from '../utils/validate.js';
 
@@ -104,7 +105,7 @@ export async function fulfilOrder(body = {}) {
         sendMail({
             to: [fields.email],
             subject: 'We Got Your Order: Thanks for ordering',
-            text: `Order number ${order._id}, we will let you know when your order ships :)`,
+            text: `Order number ${orderNumber(order._id)} (reference ${order._id}), we will let you know when your order ships :)`,
         });
     }
     return order;

@@ -181,3 +181,18 @@ rules; site reviews were not searchable by place.
 
 Not verified: real MongoDB data (how many stored reviews, orders or products hold values these rules now refuse:
 the rules only apply to new input), real PayPal, Firefox and Safari.
+
+## 8. Dashboard review fixes (2026-10-07, branch `fix/admin-review`)
+
+Review 04 (the dashboard as owner, editor and viewer) and the dashboard items of review 03 (accessibility). What was
+fixed is in docs/ADMIN-UI.md ("Since the review of 2026-10-07"); what was left is docs/ADMIN.md section 12.
+
+| Check | Result |
+|---|---|
+| `server` `npm test` | 1178 passed (new: `admin-review-fixes.test.js`: prices, photo hosts, the website refresh, order numbers, verified revenue, account e-mail and unlock, audit names, every new filter through `sanitizeFilter` and casting; `live.test.js`: a failed broadcast) |
+| `admin` unit tests | new `review-fixes.test.ts` (price parser, photo hosts, drafts, the link guard, schemas); parity test extended (order-number search, user e-mail and unlock, photo hosts, `siteRefresh`, a failed broadcast) |
+| `admin` end-to-end | new `review-fixes.spec.ts` (desktop: the per-admin request budget is shared) and two live tests (a broadcast stays on while another page is open and is ended from the bar; sign-out while live asks first) |
+| `web` unit | new `revalidate-route.test.ts` |
+
+Not verified: the website refresh on Netlify (needs `REVALIDATE_SECRET` on both sides), a broadcast that moves between
+pages on a real phone (iPhone Safari, Android Chrome), real screen readers.

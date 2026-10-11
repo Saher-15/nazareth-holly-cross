@@ -28,7 +28,7 @@ const { http, close } = startClient(createApp());
 afterAll(close);
 
 const ID = '64b000000000000000000001';
-const PRODUCT = { name: 'Olive wood cross', price: 12.5, img: 'https://example.com/a.jpg' };
+const PRODUCT = { name: 'Olive wood cross', price: 12.5, img: 'https://firebasestorage.googleapis.com/v0/b/x/o/a.jpg' };
 
 // [method, path, lowest role allowed, body]
 export const ROUTES = [

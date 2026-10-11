@@ -68,6 +68,23 @@ export async function uploadProductImage(file: File, folder: string, name: strin
 }
 
 /**
+ * Hosts the public website can show a product photo from: web/next.config.ts images.remotePatterns and the site's CSP
+ * img-src (web/src/lib/remoteImageHosts.ts). The API refuses others (server PRODUCT_IMAGE_HOSTS, the same default).
+ */
+export const PRODUCT_IMAGE_HOSTS = ['firebasestorage.googleapis.com'] as const;
+
+/**
+ * A photo address the website can really show: https on one of PRODUCT_IMAGE_HOSTS, or a local address (development
+ * and the test API; the real API refuses those in production).
+ */
+export function isShopImageUrl(value: string): boolean {
+  if (!isImageUrl(value)) return false;
+  const url = new URL(value);
+  if (url.hostname === 'localhost' || url.hostname === '127.0.0.1') return true;
+  return url.protocol === 'https:' && (PRODUCT_IMAGE_HOSTS as readonly string[]).includes(url.hostname.toLowerCase());
+}
+
+/**
  * An image address the storefront can use: https anywhere, or http only for localhost (development). Like the API's
  * url() rule (server/utils/schema.js), it has no whitespace, quotes, angle brackets, backtick or backslash: the browser
  * would accept "https://x/a b.jpg", the API refuses it.

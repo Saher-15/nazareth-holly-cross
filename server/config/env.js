@@ -63,6 +63,18 @@ export const config = {
   // While NO admin account exists, a reset request for one of these addresses creates the first owner (with no usable
   // password) and mails it the link to choose one. Only the mailbox owner can finish. ADMIN_BOOTSTRAP_EMAILS="" turns it off.
   adminBootstrapEmails: (env.ADMIN_BOOTSTRAP_EMAILS ?? 'nazarethholycross@gmail.com').split(',').map((e) => e.trim().toLowerCase()).filter(Boolean),
+  // The public website (web/, Netlify). After a product changes the API asks it to refresh its cached shop pages at once
+  // (services/siteRefresh.js -> POST <siteUrl>/api/revalidate with REVALIDATE_SECRET, the same random value on Render
+  // and Netlify). Without the secret nothing is called and the site picks the change up within 10 minutes by itself.
+  site: {
+    url: (env.SITE_URL || 'https://nazarethholycross.com').trim().replace(/\/+$/, ''),
+    revalidateSecret: (env.REVALIDATE_SECRET || '').trim(),
+  },
+  // Hosts a product photo may live on: the ones the website can show (web/next.config.ts images.remotePatterns and the
+  // site's Content-Security-Policy img-src). Comma-separated host names; add one there before adding it here.
+  // '1' = also accept local photo addresses (http://localhost) in production mode: the test harness only.
+  productImageLocal: env.PRODUCT_IMAGE_LOCAL === '1',
+  productImageHosts: (env.PRODUCT_IMAGE_HOSTS || 'firebasestorage.googleapis.com').split(',').map((h) => h.trim().toLowerCase()).filter(Boolean),
   mail: {
     from: env.MAIL_FROM,
     appPassword: env.MAIL_APP_PASSWORD,

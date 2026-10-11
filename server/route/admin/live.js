@@ -15,7 +15,8 @@ import scheduleRouter from './liveSchedule.js';
 //
 //   GET  /admin/live         { configured, maxMinutes, current, history }
 //   POST /admin/live/start   { title, scheduleId? }   -> 201 { session, whipUrl }   (409 while another one is live)
-//   POST /admin/live/stop    { sessionId?, force? }   -> { stopped, session }
+//   POST /admin/live/stop    { sessionId?, force?, failed? }   -> { stopped, session }
+//        failed: true = the camera never reached Cloudflare (the dashboard ends it at once): recorded as endReason 'failed'
 //   /admin/live/recordings   the recordings of past broadcasts (route/admin/liveRecordings.js)
 //   /admin/live/schedule     broadcasts announced ahead (route/admin/liveSchedule.js)
 //
@@ -107,7 +108,7 @@ router.post('/start', asyncHandler(async (req, res) => {
 }));
 
 router.post('/stop', asyncHandler(async (req, res) => {
-  const body = parseBody(req.body ?? {}, { sessionId: opt(str({ min: 24, max: 24, pattern: /^[a-f0-9]{24}$/i })), force: opt(bool()) });
+  const body = parseBody(req.body ?? {}, { sessionId: opt(str({ min: 24, max: 24, pattern: /^[a-f0-9]{24}$/i })), force: opt(bool()), failed: opt(bool()) });
   const current = await LiveSession.findOne({ status: 'live' }).lean();
   // Nothing live, or the caller means a session that already ended (a late "stop" from a closed tab must never end the
   // NEXT broadcast): nothing to do.
@@ -118,7 +119,9 @@ router.post('/stop', asyncHandler(async (req, res) => {
     if (req.adminUser.role !== 'owner') return res.status(403).json({ error: 'Only the person who started this broadcast, or an owner, can end it' });
     if (body.force !== true) return res.status(409).json({ error: 'Someone else started this broadcast. Confirm to end it.', current: adminView(current) });
   }
-  const ended = await endSession(current, { reason: mine ? 'stopped' : 'forced', user: req.adminUser, req });
+  // A broadcast whose camera never connected is "failed", not "ended" (review 04 finding 16); only its starter can say so.
+  const reason = !mine ? 'forced' : body.failed === true ? 'failed' : 'stopped';
+  const ended = await endSession(current, { reason, user: req.adminUser, req });
   return res.json({ stopped: Boolean(ended), session: adminView(ended) });
 }));
 

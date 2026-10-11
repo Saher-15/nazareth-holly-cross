@@ -450,7 +450,8 @@ describe('confirmation mails: only for a paid request, and no visitor text in th
     expect((await post('/order/newOrder', orderBody({ firstName: 'Claim your refund at https://evil.example', paypalOrderId: PAYPAL }))).status).toBe(201);
     await flush();
     expect(sent()).toHaveLength(1);
-    expect(sent()[0].text).toBe(`Order number ${fakes.Order.docs[0]._id}, we will let you know when your order ships :)`);
+    const saved = fakes.Order.docs[0]._id;
+    expect(sent()[0].text).toBe(`Order number #${String(saved).slice(-8)} (reference ${saved}), we will let you know when your order ships :)`);
     expect(sent()[0].html).toBeUndefined();
 
     mail.sendMail.mockClear();

@@ -17,6 +17,7 @@ Code: `server/services/cloudflareStream.js`, `server/services/live.js`, `server/
 `server/services/liveSchedule.js`, `server/route/admin/live.js`, `server/route/admin/liveRecordings.js`,
 `server/route/admin/liveSchedule.js`, `server/route/liveRoute.js`, `server/model/{liveSession,liveRecording,scheduledBroadcast}.js`;
 `admin/src/app/(app)/live/` (`LiveStudio.tsx`, `RecordingUploads.tsx`, `LiveRecordings.tsx`, `LiveSchedule.tsx`),
+`admin/src/components/live/LiveBroadcast.tsx` (the broadcast of the tab, kept by the dashboard's layout) and `LiveBar.tsx`,
 `admin/src/lib/whip.ts`, `admin/src/lib/media.ts`, `admin/src/lib/recorder.ts`, `admin/src/lib/recording-store.ts` (IndexedDB),
 `admin/src/lib/recording-upload.ts`, `admin/src/lib/tus.ts`, `admin/src/lib/schedule.ts`; on the website
 `web/src/lib/liveStatusStore.ts` + `web/src/lib/useLiveStatus.ts` (the shared poller), `web/src/lib/liveStatus.ts`,
@@ -62,7 +63,8 @@ visitor's browser (every page of the website)
 * **Who can end it.** The person who started it; an owner can end anyone's after confirming (`force`). It also ends
   **by itself after 6 hours** (`LIVE_MAX_MS`): on the next status read, and by a timer in `server/index.js` every
   10 minutes. The dashboard sends a keepalive "stop" when the page is closed or reloaded, and ends the session at once
-  if the camera cannot connect to Cloudflare, so the website never shows an empty player for long.
+  if the camera cannot connect to Cloudflare (`failed: true`: the history says **Failed**, not Ended), so the website never
+  shows an empty player for long.
 * **The public status** comes from the API's memory for 5 seconds and carries `Cache-Control: public, max-age=5`. The
   website's server peeks at it (at most every 15 seconds per server, never waiting for it) so the first render of every
   page already has the header's dot right; after that **one shared poller per browser tab** keeps it current (section
@@ -120,7 +122,7 @@ it answers 404 and the calendar shows no broadcasts (it asks again 10 minutes la
 | The Cloudflare API token | `CF_STREAM_API_TOKEN` on Render only (`sync: false`), sent only in the `Authorization` header to `api.cloudflare.com`; error messages carry Cloudflare's status and error codes, never the token or an address it returned. A token with **Stream: Edit** for the one account is enough (it covers live inputs, uploads, videos and the storage figure). |
 | What Cloudflare answers | Checked before use: the WHIP and WHEP addresses must be `https://customer-<code>.cloudflarestream.com/.../webRTC/publish|play`, the input and video ids 32 hex, the upload address on the two upload hosts. The website frames only `https://customer-<code>.cloudflarestream.com/<32 hex>/iframe` and shows only `.../<32 hex>/thumbnails/thumbnail.jpg` (anything else is dropped). |
 | Dashboard CSP | `connect-src https://*.cloudflarestream.com https://upload.videodelivery.net https://upload.cloudflarestream.com`, `frame-src` and `img-src https://*.cloudflarestream.com` **only on `/live`** (`admin/src/proxy.ts`, `admin/src/lib/csp.ts`); `media-src 'none'` stays (the camera preview uses `srcObject`, which is not a URL load). |
-| Camera and microphone | `Permissions-Policy: camera=(self), microphone=(self), autoplay=(self)` **only on `/live`** (`admin/next.config.ts`); every other dashboard page keeps them off. A browser applies the policy of the page it loaded, so the menu opens `/live` with a full page load, and the page explains (with a Reload button) if it was reached another way. |
+| Camera and microphone | `Permissions-Policy: camera=(self), microphone=(self), autoplay=(self)` **only on `/live`** (`admin/next.config.ts`); every other dashboard page keeps them off. A browser applies the policy of the page it loaded, so the menu opens `/live` with a full page load, and the page explains (with a Reload button) if it was reached another way. **While this tab broadcasts or uploads** its document is the `/live` one: the admin may open other dashboard pages without a reload (they keep `/live`'s policy and CSP, which a broadcast needs), and the menu opens Live without a reload then too (a reload would end the broadcast). A tab loaded at any other page can never start one. |
 | Website CSP | `frame-src https://*.cloudflarestream.com` (the live player and the recordings' players) and `img-src https://*.cloudflarestream.com` (the recordings' thumbnails) in `web/src/lib/csp.ts`; `connect-src` and `script-src` unchanged. `Permissions-Policy` lets that origin use full screen, picture-in-picture and autoplay inside the frame. |
 | Roles | Editor and owner on every dashboard route (`requireRole('editor')`), viewer 403 (tested in the role matrix). An editor cannot end someone else's broadcast (an owner must confirm) and cannot upload a recording of someone else's broadcast (an owner can). Any editor may rename, publish, unpublish and delete recordings and scheduled broadcasts. |
 | Abuse of the public status | Its own rate limit (3000 per 15 minutes per address, about 50 viewers behind one address, each polling every 30 seconds on most pages) instead of the general 200; answered from memory. The recordings and the schedule are public reads (1000 per 15 minutes), answered from memory for a minute and half a minute. |
@@ -163,8 +165,16 @@ it answers 404 and the calendar shows no broadcasts (it asks again 10 minutes la
   (live inputs) and 2026-10-07 (uploads).
 * One broadcast at a time; 6 hours at most; 120 characters of title; one recording per broadcast (up to 6 hours,
   30 GB).
-* The admin's browser must stay on the page: leaving it ends the broadcast. On a phone the screen is kept on (Wake
-  Lock) where the browser allows it; a phone call or a locked screen interrupts the camera, and the recording.
+* **The admin's tab must stay open**, not the page: since 2026-10-07 the broadcast belongs to the dashboard's layout
+  (`admin/src/components/live/LiveBroadcast.tsx`: the camera stream, the WHIP connection, the recorder and its mixer, the
+  wake lock and the uploads), so the admin can answer an order or a message during a Mass. Every other dashboard page then
+  shows a bar (`LiveBar.tsx`: Live, the time, the title, the connection state, **Open the studio**, **End broadcast**, and
+  the upload afterwards). The camera's `<video>` that feeds the recorder is moved between the studio's preview and the
+  bar's thumbnail, never taken out of the page (a `<video>` out of the page pauses). Closing or reloading the tab ends the
+  broadcast (the browser asks first; a keepalive "stop" on `pagehide`), **Sign out** asks first and ends it properly, and
+  leaving the dashboard's layout ends it. While the sign-in has ended, links inside the dashboard wait (they would load the
+  sign-in page and end the broadcast): sign in again in a new tab first. On a phone the screen is kept on (Wake Lock)
+  where the browser allows it; a phone call or a locked screen interrupts the camera, and the recording.
 * **The dashboard's sign-out rules give way to a broadcast** (`admin/src/lib/session-hold.ts`): while a broadcast is on
   air or a recording is uploading, 30 minutes without a touch never sign the admin out (that would leave the page and end
   the broadcast; a phone on a tripod is never touched during a Mass). The 60-minute sign-in itself cannot be extended:
@@ -295,8 +305,9 @@ converts it to UTC: the hour that does not exist in spring moves forward by an h
 autumn is the first one), an optional description (up to 500 characters) and a **Publish** switch (a draft until it is
 on). The list shows what is coming (and the last week), with edit, publish or unpublish, cancel or restore, and delete.
 
-When the admin presses Go live, a list offers the scheduled broadcasts that are waiting; the one starting within two
-hours of now is chosen already, and choosing one fills in its title. That broadcast then shows as **live**, and as
+When the admin presses Go live, a list offers the scheduled broadcasts that are waiting **and start within 6 hours of
+now** (a broadcast now cannot fulfil tomorrow's Mass: a test once did, and the announcement left the website as "done");
+the one starting within two hours of now is chosen already, and choosing one fills in its title. That broadcast then shows as **live**, and as
 **done** when the broadcast ends (also when it ends by itself after six hours). The website shows published ones that
 are still to come (or started less than two hours ago), the next one with the countdown of section 8.
 

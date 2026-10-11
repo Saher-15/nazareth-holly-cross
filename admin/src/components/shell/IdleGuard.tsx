@@ -4,7 +4,8 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Icon } from '@/components/ui/Icon';
 import { useI18n } from '@/i18n/client';
 import { formatCountdown } from '@/lib/format';
-import { onSessionHoldChange, sessionHeld } from '@/lib/session-hold';
+import { clearAllDrafts, markLeavingForSignIn } from '@/lib/drafts';
+import { onSessionEnded, onSessionHoldChange, sessionHeld } from '@/lib/session-hold';
 
 // Signs the admin out after 30 minutes without activity, with a warning dialog for the last two minutes.
 // It also leaves when the 60-minute API token ends, so nobody keeps a page open on a dead session.
@@ -38,7 +39,13 @@ export async function signOut(reason: 'idle' | 'expired' | 'manual' = 'manual') 
   } catch {
     // Offline: the cookie is cleared by /api/session/expire on the next request anyway.
   }
-  window.location.assign(reason === 'manual' ? '/login' : `/login?reason=${reason}`);
+  // After an idle or expired sign-out the sign-in page brings the admin back to the same page, where a form finds what
+  // was typed (lib/drafts.ts); a manual sign-out forgets it (the next person on this tab must not see it).
+  if (reason === 'manual') clearAllDrafts();
+  else markLeavingForSignIn();
+  const here = `${window.location.pathname}${window.location.search}`;
+  const next = reason !== 'manual' && here !== '/' ? `&next=${encodeURIComponent(here)}` : '';
+  window.location.assign(reason === 'manual' ? '/login' : `/login?reason=${reason}${next}`);
 }
 
 export function IdleGuard({ expiresAt }: { expiresAt: number | null }) {
@@ -91,11 +98,17 @@ export function IdleGuard({ expiresAt }: { expiresAt: number | null }) {
       if (!sessionHeld()) lastActivity.current = Date.now(); // a fresh 30 minutes after the broadcast or the upload
       check();
     });
+    // The API said 401 while held (a call from the page): the same notice, the page stays (lib/client-api.ts).
+    const stopEnded = onSessionEnded(() => {
+      expiredWhileHeld.current = true;
+      setHeldExpired(true);
+    });
 
     return () => {
       events.forEach((name) => window.removeEventListener(name, touch));
       window.clearInterval(tick);
       stopHold();
+      stopEnded();
     };
   }, [expiresAt]);
 

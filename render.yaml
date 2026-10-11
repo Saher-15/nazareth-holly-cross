@@ -52,7 +52,15 @@ services:
         sync: false
       - key: CF_STREAM_API_TOKEN
         sync: false
-      # Not listed, on purpose (both have working defaults in config/env.js; set them in the Render dashboard only to change them):
+      # The website's refresh right after a product change in the dashboard (docs/ADMIN.md 4.2): a long random value
+      # (at least 32 characters), the SAME on Netlify (site settings > environment variables > REVALIDATE_SECRET).
+      # Without it product changes reach the website within 10 minutes by themselves. A secret: never in the repository.
+      - key: REVALIDATE_SECRET
+        sync: false
+      # Not listed, on purpose (each has a working default in config/env.js; set them in the Render dashboard only to change them):
       #   ADMIN_APP_URL          the dashboard address in the password-reset e-mail (default https://admin.nazarethholycross.com)
       #   ADMIN_BOOTSTRAP_EMAILS who may create the first owner by e-mail while no account exists (default
       #                          nazarethholycross@gmail.com; empty turns it off). docs/ADMIN.md 1.1 and 3.6.
+      #   SITE_URL               the website the refresh above is sent to (default https://nazarethholycross.com)
+      #   PRODUCT_IMAGE_HOSTS    hosts a product photo may live on (default firebasestorage.googleapis.com: the only one
+      #                          the website shows; add a host to web/next.config.ts and the site's CSP first)

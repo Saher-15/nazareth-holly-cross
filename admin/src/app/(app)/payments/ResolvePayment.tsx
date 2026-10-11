@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useId, useRef, useState, type FormEvent } from 'react';
+import { closeOnBackdrop } from '@/components/ui/closeOnBackdrop';
 import { useFeedback } from '@/components/ui/Feedback';
 import { Icon } from '@/components/ui/Icon';
 import { useI18n } from '@/i18n/client';
@@ -57,7 +58,7 @@ export function ResolvePayment({ id }: { id: string }) {
         <Icon name="check" size={16} />
         <span>{t('payments.resolve')}</span>
       </button>
-      <dialog ref={dialog} className="dialog dialog--form" aria-labelledby={`${uid}-title`} onClick={(e) => { if (e.target === e.currentTarget) dialog.current?.close(); }}>
+      <dialog ref={dialog} className="dialog dialog--form" aria-labelledby={`${uid}-title`} onClick={closeOnBackdrop(note.trim() !== '')}>
         <form className="dialog__body form" onSubmit={submit} noValidate>
           <h2 id={`${uid}-title`} className="dialog__title">{t('payments.resolveTitle')}</h2>
           <p className="dialog__text">{t('payments.resolveText')}</p>

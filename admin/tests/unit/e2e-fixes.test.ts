@@ -52,7 +52,7 @@ describe('product category: the API accepts one of eight keys or null, not free 
     expect(isCategory('Candles')).toBe(false);
   });
   it('refuses a made-up category before sending, sends null for "automatic"', () => {
-    const base = { ...EMPTY_PRODUCT, name: 'Olive cross', price: '10', img: 'https://example.com/a.jpg' };
+    const base = { ...EMPTY_PRODUCT, name: 'Olive cross', price: '10', img: 'https://firebasestorage.googleapis.com/v0/b/x/o/a.jpg' };
     expect(validateProduct({ ...base, category: 'Candles' }).category).toBe('category');
     expect(validateProduct({ ...base, category: 'crosses' })).toEqual({});
     expect(toBody({ ...base, category: '' }, 'u').category).toBeNull();

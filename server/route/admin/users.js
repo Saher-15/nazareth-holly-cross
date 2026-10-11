@@ -18,12 +18,13 @@ import { found, objectId, paginate, parseList } from './common.js';
 //
 //   GET    /admin/users
 //   POST   /admin/users              { username, password, role, email? }
-//   PATCH  /admin/users/:id          { role?, disabled?, resetTotp?, email? }   (email: '' removes it)
+//   PATCH  /admin/users/:id          { role?, disabled?, resetTotp?, unlock?, email? }   (email: '' removes it)
 //   DELETE /admin/users/:id
 //
 // Guards: nobody can delete or disable themselves, change their own role or reset their own second factor, and
 // the last enabled owner can never be deleted, disabled or demoted. Disabling, demoting, resetting the second
-// factor and deleting all end the account's sessions at once. Setting disabled: false also lifts a lockout.
+// factor and deleting all end the account's sessions at once. Setting disabled: false also lifts a lockout, and
+// unlock: true lifts only the lockout (5 wrong passwords); no session ends.
 //
 // `email` is the account's RECOVERY address (audit 2026-10-10, F03): "Forgot password" mails its one-time link there
 // (services/passwordReset.js). Without one, an account whose username is not an e-mail address cannot recover its
@@ -133,7 +134,7 @@ router.post('/', asyncHandler(async (req, res) => {
 
 router.patch('/:id', asyncHandler(async (req, res) => {
   const id = objectId(req.params.id);
-  const changes = parseBody(req.body, { role: opt(oneOf(ROLES)), disabled: opt(bool()), resetTotp: opt(bool()), email: opt(recoveryEmail()) });
+  const changes = parseBody(req.body, { role: opt(oneOf(ROLES)), disabled: opt(bool()), resetTotp: opt(bool()), unlock: opt(bool()), email: opt(recoveryEmail()) });
   if (Object.keys(changes).length === 0) throw new HttpError(400, 'No fields to update');
 
   const target = found(await Admin.findById(id), 'User');
@@ -163,6 +164,7 @@ router.patch('/:id', asyncHandler(async (req, res) => {
     if (changes.disabled === false) Object.assign(set, { failedLogins: 0, lockedUntil: null }); // re-enabling unlocks
   }
   if (changes.resetTotp === true) Object.assign(set, { totpEnabled: false, totpSecretEnc: null, totpLastStep: -1 });
+  if (changes.unlock === true) Object.assign(set, { failedLogins: 0, lockedUntil: null });
 
   const item = found(await Admin.findByIdAndUpdate(id, { $set: set }, { new: true }).select('-password -totpSecretEnc').lean(), 'User');
   if (isEnabledOwner(target) && demoting && (await noEnabledOwnerLeft())) {
@@ -172,7 +174,7 @@ router.patch('/:id', asyncHandler(async (req, res) => {
   if (changes.disabled === true || (changes.role !== undefined && changes.role !== roleOf(target)) || changes.resetTotp === true) {
     await revokeAllSessions(id);
   }
-  await audit(req, 'user.update', { type: 'user', id }, { role: changes.role, disabled: changes.disabled, resetTotp: changes.resetTotp, ...(emailChanged ? { email: changes.email ? 'set' : 'removed' } : {}) });
+  await audit(req, 'user.update', { type: 'user', id }, { role: changes.role, disabled: changes.disabled, resetTotp: changes.resetTotp, unlock: changes.unlock, ...(emailChanged ? { email: changes.email ? 'set' : 'removed' } : {}) });
   if (emailChanged && changes.email) notifyRecoveryEmail(changes.email, target.username);
   res.json({ item: present(item) });
 }));

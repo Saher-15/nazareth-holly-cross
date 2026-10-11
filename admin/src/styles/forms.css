@@ -58,6 +58,11 @@ html[dir='rtl'] .input[dir='ltr'] { text-align: end; }
 .product-form__side { position: sticky; top: var(--space-4); min-width: 0; }
 .product-form__bar { grid-column: 1 / -1; position: sticky; inset-block-end: 0; z-index: var(--z-sticky); display: grid; gap: var(--space-2); padding: var(--space-3) var(--space-4); border-radius: var(--radius); background: color-mix(in srgb, var(--night-2) 94%, transparent); border: 1px solid var(--glass-line); backdrop-filter: blur(10px); }
 .product-form__buttons { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
+/* "We restored what you typed" (lib/drafts.ts): across the whole form, above everything. */
+.product-form__restored { grid-column: 1 / -1; }
+/* A viewer's read-only product page: the photo itself, not only its address. */
+.product-photo { display: block; inline-size: 160px; max-inline-size: 100%; aspect-ratio: 1; object-fit: cover; border-radius: var(--radius-sm); border: 1px solid var(--glass-line); margin-block-end: var(--space-2); }
+.product-form__restored .alert__body { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); }
 @media (max-width: 1100px) {
   .product-form { grid-template-columns: minmax(0, 1fr); }
   .product-form__side { position: static; order: 2; }
@@ -93,3 +98,6 @@ html[dir='rtl'] .input[dir='ltr'] { text-align: end; }
 .secret { padding: 10px 14px; border-radius: var(--radius-sm); background: var(--glass); border: 1px solid var(--glass-line); font-size: 1.05rem; letter-spacing: 0.08em; word-break: break-all; }
 .status-line { display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--success); }
 .status-line--off { color: var(--warn); }
+
+/* Long host names in the photo hints (firebasestorage.googleapis.com) must wrap on a 320px phone. */
+.image-field .hint { overflow-wrap: anywhere; }

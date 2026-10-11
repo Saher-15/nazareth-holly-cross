@@ -171,6 +171,26 @@ async function scenario(backend: Backend): Promise<{ steps: Step[]; replies: Rec
   add('list audit action prefix', await O('GET', '/admin/audit?action=auth.&size=1'));
   add('list audit bad action', await O('GET', '/admin/audit?action=.*'));
 
+  // orders found by the number people quote (#last 8 of the id), with or without '#', and by the full id
+  const someOrder = firstId(await O('GET', '/admin/orders?size=1'));
+  for (const q of [`#${someOrder.slice(-8)}`, someOrder.slice(-8), someOrder, `#${someOrder}`]) {
+    const found = add(`list orders q=${q.startsWith('#') ? '#' : ''}${q.length === 24 || q.length === 25 ? 'id' : 'number'}`, await O('GET', `/admin/orders?q=${encodeURIComponent(q)}`));
+    steps.push({ label: `order found by ${q.length > 9 ? 'id' : 'number'} (${q.startsWith('#') ? 'with' : 'without'} #)`, status: 0, shape: (found.json as { items: { _id: string }[] }).items.map((o) => o._id === someOrder) });
+  }
+
+  // users: an e-mail for "Forgot your password?", unlock, reset two-factor (review 04)
+  const staff = add('user create with e-mail', await O('POST', '/admin/users', { username: 'parity.staff', password: 'a long unusual passphrase 1', role: 'editor', email: 'Parity.Staff@Example.com' }));
+  const staffId = (staff.json as { item: { _id: string } }).item._id;
+  add('user create: e-mail already used', await O('POST', '/admin/users', { username: 'parity.other', password: 'a long unusual passphrase 2', role: 'viewer', email: 'parity.staff@example.com' }));
+  add('user create: not an e-mail', await O('POST', '/admin/users', { username: 'parity.bad', password: 'a long unusual passphrase 3', role: 'viewer', email: 'nope' }));
+  add('user e-mail change', await O('PATCH', `/admin/users/${staffId}`, { email: 'parity.new@example.com' }));
+  add('user e-mail removed', await O('PATCH', `/admin/users/${staffId}`, { email: '' }));
+  add('user unlock', await O('PATCH', `/admin/users/${staffId}`, { unlock: true }));
+  add('user reset two-factor', await O('PATCH', `/admin/users/${staffId}`, { resetTotp: true }));
+  add('user unlock: editor', await E('PATCH', `/admin/users/${staffId}`, { unlock: true }));
+  add('user list after the changes', await O('GET', '/admin/users?q=parity'));
+  add('audit names the user', await O('GET', '/admin/audit?action=user.&size=3'));
+
   // changes
   const ship = add('ship order', await E('PATCH', `/admin/orders/${await (async () => firstId(await O('GET', '/admin/orders?status=pending&size=1')))()}`, { done: true }));
   const shippedId = (ship.json as { item: { _id: string } }).item._id;
@@ -197,18 +217,23 @@ async function scenario(backend: Backend): Promise<{ steps: Step[]; replies: Rec
   add('candle delete', await E('DELETE', `/admin/candles/${ids.candles}`));
 
   // products
-  const good = { name: 'Parity & Co <i>', price: 12.5, img: 'https://example.com/a.jpg', stock: 3, category: 'gifts', color: ['red'], description: 'a < b', rate: 2, uuidv4_: 'u-1', additionalImageUrls: ['https://example.com/b.jpg'] };
+  const FIREBASE = 'https://firebasestorage.googleapis.com/v0/b/x/o';
+  const good = { name: 'Parity & Co <i>', price: 12.5, img: `${FIREBASE}/a.jpg?alt=media&token=t`, stock: 3, category: 'gifts', color: ['red'], description: 'a < b', rate: 2, uuidv4_: 'u-1', additionalImageUrls: [`${FIREBASE}/b.jpg`] };
   const created = add('product create', await E('POST', '/admin/products', good));
   const productId = (created.json as { item: { _id: string } }).item._id;
   for (const [label, patch] of Object.entries({
     'name too short': { name: 'a' }, 'price zero': { price: 0 }, 'bad img': { img: 'javascript:alert(1)' }, 'category free text': { category: 'Candles' }, 'stock float': { stock: 1.5 },
     'extra field': { _id: 'x' }, 'rate 6': { rate: 6 }, 'colour not a list': { color: 'red' },
+    // review 04: a price with more than two decimals, a photo on a host the website cannot show
+    'price with three decimals': { price: 24.505 }, 'img on another host': { img: 'https://upload.wikimedia.org/a.jpg' },
+    'extra photo on another host': { additionalImageUrls: ['https://example.com/b.jpg'] },
   })) add(`product create invalid: ${label}`, await E('POST', '/admin/products', { ...good, ...patch }));
   add('product create: viewer', await V('POST', '/admin/products', good));
   add('product create: missing fields', await E('POST', '/admin/products', { name: 'Only a name' }));
   add('product PUT', await E('PUT', `/admin/products/${productId}`, { price: 20, stock: null, category: null }));
   add('product PATCH', await E('PATCH', `/admin/products/${productId}`, { name: 'Renamed & done' }));
   add('product PUT empty', await E('PUT', `/admin/products/${productId}`, {}));
+  add('product PUT: a new photo on another host', await E('PUT', `/admin/products/${productId}`, { img: 'https://example.com/new.jpg' }));
   add('product detail after update', await O('GET', `/admin/products/${productId}`));
   add('product delete', await E('DELETE', `/admin/products/${productId}`));
   add('product delete again', await E('DELETE', `/admin/products/${productId}`));
@@ -291,6 +316,7 @@ async function scenario(backend: Backend): Promise<{ steps: Step[]; replies: Rec
   ];
   steps.push({ label: 'live: no other answer carries the WHIP address', status: 0, shape: afterStart.every((r) => !r.text.includes('webRTC/publish')) });
   add('live force: start as editor, end as owner', (await E('POST', '/admin/live/start', { title: 'Forced' }), await O('POST', '/admin/live/stop', { force: true })));
+  add('live stop: failed (never connected)', (await E('POST', '/admin/live/start', { title: 'Never connected' }), await E('POST', '/admin/live/stop', { failed: true })));
   await backend.live({ failCreate: true });
   add('live start: Cloudflare refuses', await E('POST', '/admin/live/start', { title: 'Outage' }));
   await backend.live({ failCreate: false, configured: false });
@@ -587,6 +613,22 @@ describe.skipIf(!haveServer)('the mock and the real API agree (status codes and 
       return onlyMock.length || onlyReal.length ? [`${s.label}: only mock ${JSON.stringify(onlyMock)} / only real ${JSON.stringify(onlyReal)}`] : [];
     });
     expect(differing).toEqual([]);
+  });
+
+  it('review 04: both find an order by its number and by its id, and the user changes answer the same', () => {
+    for (const run of [a, b]) {
+      const found = (label: string) => run.steps.find((s) => s.label === label)?.shape;
+      expect(found('order found by number (with #)')).toEqual([true]);
+      expect(found('order found by number (without #)')).toEqual([true]);
+      expect(found('order found by id (without #)')).toEqual([true]);
+      expect(found('order found by id (with #)')).toEqual([true]);
+      expect(run.replies['user create: e-mail already used'].status).toBe(409);
+      expect((run.replies['user create with e-mail'].json as { item: { email: string } }).item.email).toBe('parity.staff@example.com');
+      expect((run.replies['product create'].json as { siteRefresh?: string }).siteRefresh).toBe('off');
+      expect(run.replies['product create invalid: img on another host'].status).toBe(400);
+    }
+    expect(usersPage.safeParse(b.replies['user list after the changes'].json).success).toBe(true);
+    expect(auditPage.safeParse(b.replies['audit names the user'].json).success).toBe(true);
   });
 
   it('the dashboard\'s own schemas accept what the REAL API sends', () => {

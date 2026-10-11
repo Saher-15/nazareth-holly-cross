@@ -30,24 +30,27 @@ const escapeRegex = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 // $or over `fields` for a case-insensitive "contains" search. The text is escaped, so it can only ever match
 // literally (no regular-expression syntax reaches the database); mongoose.trusted keeps the $regex operator
-// that sanitizeFilter would otherwise neutralise. A 24-hex text also matches the document id.
-export function searchFilter(q, fields) {
+// that sanitizeFilter would otherwise neutralise. A 24-hex text also matches the document id. `extra(q)` may add one
+// more clause of the resource's own (the order number, orders.js).
+export function searchFilter(q, fields, extra) {
   if (!q) return null;
   const pattern = escapeRegex(q);
   const clauses = fields.map((field) => ({ [field]: mongoose.trusted({ $regex: pattern, $options: 'i' }) }));
   if (isObjectId(q)) clauses.push({ _id: q });
+  const more = extra?.(q);
+  if (more) clauses.push(more);
   return { $or: clauses };
 }
 
 // Reads ?q, ?status, ?sort of a list request against what the resource allows.
 //   statuses: { name: filterObject }   sorts: { 'createdAt': true, 'totalPrice': true }   (leading "-" = descending)
-export function parseList(query, { searchFields = [], statuses = {}, sorts = { createdAt: true }, defaultSort = '-createdAt' }) {
+export function parseList(query, { searchFields = [], searchExtra, statuses = {}, sorts = { createdAt: true }, defaultSort = '-createdAt' }) {
   const { page, size, skip } = pageParams(query);
   const conditions = [];
 
   const q = queryText(query.q);
   if (q && q.length > MAX_Q) throw new HttpError(400, `Invalid q: at most ${MAX_Q} characters`);
-  const search = searchFilter(q, searchFields);
+  const search = searchFilter(q, searchFields, searchExtra);
   if (search) conditions.push(search);
 
   const status = queryText(query.status);

@@ -26,12 +26,14 @@ export type ApiActionProps = {
   confirm?: { title: string; message?: string; confirmLabel?: string; tone?: 'danger' | 'primary' };
   /** Where to go afterwards instead of refreshing in place (e.g. leave a detail drawer after a delete). */
   then?: string;
+  /** An "Undo" button in the success toast for 10 seconds: sends `body` to the same path (e.g. { done: false }). */
+  undo?: { body: unknown; doneText: string };
   iconOnly?: boolean;
   disabled?: boolean;
   testId?: string;
 };
 
-export function ApiAction({ label, ariaLabel, icon, method, path, body, successText, emailResult, tone = 'default', confirm, then, iconOnly, disabled, testId }: ApiActionProps) {
+export function ApiAction({ label, ariaLabel, icon, method, path, body, successText, emailResult, tone = 'default', confirm, then, undo, iconOnly, disabled, testId }: ApiActionProps) {
   const router = useRouter();
   const { toast, confirm: ask } = useFeedback();
   const { t } = useI18n();
@@ -42,9 +44,10 @@ export function ApiAction({ label, ariaLabel, icon, method, path, body, successT
     setBusy(true);
     try {
       const result = await proxyCall<{ emailSent?: boolean | null } | undefined>({ method, path, body });
-      if (emailResult && result?.emailSent === false) toast(emailResult.failed, 'error');
+      const undoAction = undo ? { label: t('common.undo'), run: () => void runUndo(undo) } : undefined;
+      if (emailResult && result?.emailSent === false) toast(emailResult.failed, 'error', { action: undoAction });
       else if (emailResult && result?.emailSent === null) toast(emailResult.none, 'info');
-      else toast(successText, 'success');
+      else toast(successText, 'success', { action: undoAction });
       if (then) router.replace(then);
       router.refresh();
     } catch (error) {
@@ -52,6 +55,17 @@ export function ApiAction({ label, ariaLabel, icon, method, path, body, successT
       toast(isApiError(error) && error.status < 500 && error.status !== 429 ? error.message : t('error.generic'), 'error');
     } finally {
       setBusy(false);
+    }
+  }
+
+  async function runUndo({ body: back, doneText }: NonNullable<ApiActionProps['undo']>) {
+    try {
+      await proxyCall({ method, path, body: back });
+      toast(doneText, 'info');
+      router.refresh();
+    } catch (error) {
+      if (isApiError(error) && error.unauthorized) return;
+      toast(isApiError(error) && error.status < 500 && error.status !== 429 ? error.message : t('error.generic'), 'error');
     }
   }
 

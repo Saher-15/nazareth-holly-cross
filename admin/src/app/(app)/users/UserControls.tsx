@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useId, useRef, useState, type FormEvent } from 'react';
+import { closeOnBackdrop } from '@/components/ui/closeOnBackdrop';
 import { useFeedback } from '@/components/ui/Feedback';
 import { Icon } from '@/components/ui/Icon';
 import { useI18n } from '@/i18n/client';
@@ -10,6 +11,7 @@ import { proxyCall } from '@/lib/client-api';
 import { isUsername, passwordProblem } from '@/lib/password';
 import { isRecoveryEmail } from '@/lib/password-reset';
 import { ROLES, type Role } from '@/lib/roles';
+
 
 export function CreateUser() {
   const { t } = useI18n();
@@ -24,6 +26,7 @@ export function CreateUser() {
   const [show, setShow] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const typed = Boolean(username || password || email);
 
   function openDialog() {
     setUsername('');
@@ -53,7 +56,7 @@ export function CreateUser() {
       router.refresh();
     } catch (e) {
       if (isApiError(e) && e.unauthorized) return;
-      setError(isApiError(e) && e.status < 500 && e.status !== 429 ? e.message : t('error.generic'));
+      setError(isApiError(e) && e.status === 409 && /mail/i.test(e.message) ? t('users.errEmailTaken') : isApiError(e) && e.status < 500 && e.status !== 429 ? e.message : t('error.generic'));
     } finally {
       setBusy(false);
     }
@@ -65,7 +68,7 @@ export function CreateUser() {
         <Icon name="plus" size={18} />
         <span>{t('users.add')}</span>
       </button>
-      <dialog ref={dialog} className="dialog dialog--form" aria-labelledby={`${uid}-title`} onClick={(e) => { if (e.target === e.currentTarget) dialog.current?.close(); }}>
+      <dialog ref={dialog} className="dialog dialog--form" aria-labelledby={`${uid}-title`} onClick={closeOnBackdrop(typed)}>
         <form className="dialog__body form" onSubmit={submit} noValidate>
           <h2 id={`${uid}-title`} className="dialog__title">{t('users.add')}</h2>
           <div className="field">
@@ -186,7 +189,7 @@ export function RecoveryEmail({ id, username, email }: { id: string; username: s
       router.refresh();
     } catch (e) {
       if (isApiError(e) && e.unauthorized) return;
-      setError(isApiError(e) && e.status < 500 && e.status !== 429 ? e.message : t('error.generic'));
+      setError(isApiError(e) && e.status === 409 && /mail/i.test(e.message) ? t('users.errEmailTaken') : isApiError(e) && e.status < 500 && e.status !== 429 ? e.message : t('error.generic'));
     } finally {
       setBusy(false);
     }
@@ -200,7 +203,7 @@ export function RecoveryEmail({ id, username, email }: { id: string; username: s
           {t('users.emailEdit')}
         </button>
       </span>
-      <dialog ref={dialog} className="dialog dialog--form" aria-labelledby={`${uid}-title`} onClick={(e) => { if (e.target === e.currentTarget) dialog.current?.close(); }}>
+      <dialog ref={dialog} className="dialog dialog--form" aria-labelledby={`${uid}-title`} onClick={closeOnBackdrop(value.trim().toLowerCase() !== email)}>
         <form className="dialog__body form" onSubmit={submit} noValidate>
           <h2 id={`${uid}-title`} className="dialog__title">{t('users.emailTitle', { name: username })}</h2>
           <div className="field">

@@ -5,6 +5,14 @@ import type { ReactNode } from 'react';
 
 export type Tone = 'neutral' | 'gold' | 'success' | 'warn' | 'danger' | 'info';
 
+/**
+ * An amount already formatted (lib/format.ts formatMoney), kept in its own left-to-right island: Arabic formats a dollar
+ * amount as "41.50 US$", which a right-to-left line turned into "$US 41.50" (review 04 finding 22).
+ */
+export function Money({ children }: { children: ReactNode }) {
+  return <bdi dir="ltr" className="money">{children}</bdi>;
+}
+
 export function Badge({ tone = 'neutral', children }: { tone?: Tone; children: ReactNode }) {
   return <span className={`badge badge--${tone}`}>{children}</span>;
 }

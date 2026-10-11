@@ -144,7 +144,7 @@ export class ApiError extends Error {
   }
 }
 
-type FetchOptions = { revalidate?: number | false; init?: RequestInit; timeoutMs?: number };
+type FetchOptions = { revalidate?: number | false; tags?: string[]; init?: RequestInit; timeoutMs?: number };
 
 // The API rate-limits (429: 200 requests per 15 minutes per address, shared by every visitor of a shared host
 // such as Netlify) and its host sometimes answers 502-504 while waking up. What reaches a visitor must never be
@@ -184,7 +184,7 @@ function remember(path: string, data: unknown) {
   if (lastGood.size > LAST_GOOD_LIMIT) lastGood.delete(lastGood.keys().next().value as string);
 }
 
-async function fetchJson<T>(path: string, schema: z.ZodType<T>, { revalidate = 300, init, timeoutMs = 10_000 }: FetchOptions) {
+async function fetchJson<T>(path: string, schema: z.ZodType<T>, { revalidate = 300, tags, init, timeoutMs = 10_000 }: FetchOptions) {
   const retries = building() ? MAX_BUILD_RETRIES : MAX_RETRIES;
   const maxWait = building() ? MAX_BUILD_WAIT_MS : MAX_WAIT_MS;
   let res: Response;
@@ -193,7 +193,7 @@ async function fetchJson<T>(path: string, schema: z.ZodType<T>, { revalidate = 3
       ...init,
       headers: { Accept: 'application/json', ...init?.headers },
       signal: init?.signal ?? AbortSignal.timeout(timeoutMs),
-      next: revalidate === false ? undefined : { revalidate },
+      next: revalidate === false ? undefined : { revalidate, ...(tags?.length ? { tags } : {}) },
     });
     // A Cloudflare bot challenge (header cf-mitigated) is not a passing rate limit: asking again only
     // makes the block last longer.
@@ -248,7 +248,10 @@ export async function getJson<T>(path: string, schema: z.ZodType<T>, options: Fe
 
 // The catalogue changes a few times a week, and every refresh is a request against the API's rate limit: ten
 // minutes (and thirty for the "similar products" lists), served stale-while-revalidate by Next's data cache.
+// After a change in the dashboard the API asks for a refresh at once (app/api/revalidate/route.ts drops the
+// CATALOG_TAG data), so a new product or a stock change does not wait the ten minutes.
 const CATALOG_REVALIDATE = 600;
+export const CATALOG_TAG = 'catalog';
 
 const id = (value: string) => encodeURIComponent(value);
 
@@ -271,12 +274,12 @@ export const api = {
       .catch(() => CANDLE_PRICE),
   products: (page = 1, size = 24) =>
     getJson(`/product/getNProducts?page=${page}&size=${size}`, productPageSchema).then((r) => r.data),
-  product: (productId: string) => getJson(`/product/getProduct/${id(productId)}`, productSchema),
-  catalog: () => getJson('/product/catalog', catalogSchema, { revalidate: CATALOG_REVALIDATE }),
+  product: (productId: string) => getJson(`/product/getProduct/${id(productId)}`, productSchema, { tags: [CATALOG_TAG] }),
+  catalog: () => getJson('/product/catalog', catalogSchema, { revalidate: CATALOG_REVALIDATE, tags: [CATALOG_TAG] }),
   bestSellers: (limit = 8) =>
-    getJson(`/product/bestSellers?limit=${limit}`, z.array(catalogProductSchema), { revalidate: CATALOG_REVALIDATE }),
+    getJson(`/product/bestSellers?limit=${limit}`, z.array(catalogProductSchema), { revalidate: CATALOG_REVALIDATE, tags: [CATALOG_TAG] }),
   similar: (productId: string, limit = 4) =>
-    getJson(`/product/${id(productId)}/similar?limit=${limit}`, z.array(catalogProductSchema), { revalidate: CATALOG_REVALIDATE * 3 }),
+    getJson(`/product/${id(productId)}/similar?limit=${limit}`, z.array(catalogProductSchema), { revalidate: CATALOG_REVALIDATE * 3, tags: [CATALOG_TAG] }),
   productReviews: (productId: string) =>
     getJson(`/product/${id(productId)}/reviews`, productReviewsSchema, { revalidate: 60 }),
   reviews: () => getJson('/review/getReviews', z.array(reviewSchema), { revalidate: 120 }),
